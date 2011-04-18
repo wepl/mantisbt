@@ -108,8 +108,8 @@ config_obsolete( 'port', 'hostname' );
 config_obsolete( 'relationship_graph_fontpath', 'system_font_folder' );
 
 # changes in 1.1.0rc1
-config_obsolete( 'show_notices', 'display_errors' );
-config_obsolete( 'show_warnings', 'display_errors' );
+config_obsolete( 'show_notices', 'show_friendly_errors' );
+config_obsolete( 'show_warnings', 'show_friendly_errors' );
 
 # changes in 1.1.0rc2
 config_obsolete( 'wait_time', 'default_redirect_delay' );
@@ -159,3 +159,7 @@ config_obsolete( 'session_key' );
 config_obsolete( 'dhtml_filters', 'use_dynamic_filters' );
 config_obsolete( 'use_iis' );
 config_obsolete( 'use_persistent_connections', 'db_options' );
+
+config_obsolete( 'display_errors', 'show_friendly_errors' );
+config_obsolete( 'stop_on_errors', 'show_friendly_errors' );
+config_obsolete( 'show_detailed_errors', 'show_friendly_errors' );
