@@ -4005,50 +4005,15 @@ $g_debug_email = OFF;
 $g_show_queries_count = OFF;
 
 /**
- * --- detailed error messages -----
- * Shows a list of variables and their values when an error is triggered
- * Only applies to error types configured to 'halt' in $g_display_errors, below
- * WARNING: Potential security hazard.  Only turn this on when you really
- * need it for debugging
- * @global int $g_show_detailed_errors
+ * --- show friendly error messages -----
+ * Toggles between:
+ * i) showing friendly error messages - designed for end users.
+ * OR
+ * ii) Showing users designed for administrators/developers - showing a list of variables and their values 
+ * Only turn this off when you really need it for debugging
+ * @global int $g_show_show_friendly_errors
  */
-$g_show_detailed_errors = OFF;
-
-/**
- * --- error display ---
- * what errors are displayed and how?
- * The options for display are:
- *  'halt' - stop and display traceback
- *  'inline' - display 1 line error and continue
- *  'none' - no error displayed
- * A developer might set this in config_inc.php as:
- *	$g_display_errors = array(
- *		E_WARNING => 'halt',
- *		E_NOTICE => 'halt',
- *		E_USER_ERROR => 'halt',
- *		E_USER_WARNING => 'none',
- *		E_USER_NOTICE => 'none'
- *	);
- * @global array $g_display_errors
- */
-$g_display_errors = array(
-	E_WARNING => 'inline',
-	E_NOTICE => 'none',
-	E_USER_ERROR => 'halt',
-	E_USER_WARNING => 'inline',
-	E_USER_NOTICE => 'none'
-);
-
-/**
- * --- debug messages ---
- * If this option is turned OFF (default) page redirects will continue to
- *  function even if a non-fatal error occurs.  For debugging purposes, you
- *  can set this to ON so that any non-fatal error will prevent page redirection,
- *  allowing you to see the errors.
- * Only turn this option on for debugging
- * @global int $g_stop_on_errors
- */
-$g_stop_on_errors = OFF;
+$g_show_friendly_errors = OFF;
 
 /**
  * --- system logging ---
@@ -4096,23 +4061,35 @@ $g_show_log_threshold = ADMINISTRATOR;
  * @global array $g_global_settings
  */
 $g_global_settings = array(
-	'global_settings', 'admin_checks', 'allow_signup', 'allow_anonymous_login',
-	'anonymous_account', 'compress_html', 'content_expire', 'allow_permanent_cookie',
-	'cookie_time_length', 'cookie_path', 'cookie_domain', 'cookie_version',
-	'cookie_prefix', 'string_cookie', 'project_cookie', 'view_all_cookie',
-	'manage_cookie', 'logout_cookie', 'bug_list_cookie', 'crypto_master_salt',
-	'custom_headers', 'database_name', 'db_username', 'db_password', 'db_schema', 'db_type',
-	'db_table_prefix','db_table_suffix', 'display_errors', 'form_security_validation',
-	'hostname','html_valid_tags', 'html_valid_tags_single_line', 'default_language',
-	'language_auto_map', 'fallback_language', 'login_method', 'plugins_enabled', 'session_handler',
-	'session_save_path', 'session_validation', 'show_detailed_errors', 'show_queries_count',
-	'stop_on_errors',	'use_javascript', 'version_suffix',	'custom_strings_file',
-	'file_upload_ftp_server', 'file_upload_ftp_user', 'file_upload_ftp_pass',
-	'fileinfo_magic_db_file', 'css_include_file', 'css_rtl_include_file', 'meta_include_file',
-	'file_type_icons', 'path', 'icon_path', 'short_path', 'absolute_path', 'core_path',
-	'class_path','library_path', 'language_path', 'absolute_path_default_upload_folder',
-	'ldap_simulation_file_path', 'plugin_path', 'bottom_include_page', 'top_include_page',
-	'default_home_page', 'logout_redirect_page', 'manual_url', 'logo_url', 'wiki_engine_url',
+	'global_settings',
+	'admin_checks',
+	'allow_signup',
+	'anonymous',
+	'compress_html',
+	'content_expire',
+	'allow_permanent_cookie',
+	'cookie',
+	'crypto_master_salt',
+	'custom_headers',
+	'database_name',
+	'^db_',
+	'form_security_',
+	'hostname',
+	'html_valid_tags',
+	'language',
+	'login_method',
+	'plugins_enabled',
+	'plugins_installed',
+	'session_',
+	'show_queries_',
+	'use_javascript',
+	'version_suffix',
+	'[^_]file[(_(?!threshold))$]',
+	'[^_]path[_$]',
+	'_page$',
+	'_table$',
+	'_url$',
+	'show_friendly_errors',
 );
 
 /***************
