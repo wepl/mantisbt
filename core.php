@@ -137,6 +137,17 @@ function __autoload( $className ) {
 	global $g_class_path;
 	global $g_library_path;
 
+	$t_parts = explode( '_', $className );
+	$t_count = sizeof( $t_parts );
+	
+	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
+	$t_require_path = $g_class_path . $t_name . $t_parts[$t_count-1] . '.class.php'; 
+
+	if ( file_exists( $t_require_path ) ) {
+		require_once( $t_require_path );
+		return;
+	}
+	
 	$t_require_path = $g_class_path . $className . '.class.php';
 
 	if ( file_exists( $t_require_path ) ) {
@@ -201,11 +212,7 @@ require_api( 'database_api.php' );
 require_api( 'config_api.php' );
 
 if ( !defined( 'MANTIS_MAINTENANCE_MODE' ) ) {
-	if( OFF == $g_use_persistent_connections ) {
-		db_connect( config_get_global( 'dsn', false ), $g_hostname, $g_db_username, $g_db_password, $g_database_name, config_get_global( 'db_schema' ) );
-	} else {
-		db_connect( config_get_global( 'dsn', false ), $g_hostname, $g_db_username, $g_db_password, $g_database_name, config_get_global( 'db_schema' ), true );
-	}
+	db_connect( config_get_global( 'dsn', false ), $g_hostname, $g_db_username, $g_db_password, $g_database_name, $g_db_options );
 }
 
 # Initialise plugins
@@ -232,6 +239,8 @@ if ( function_exists( 'timezone_identifiers_list' ) ) {
 		// if a default timezone is set in config, set it here, else we use php.ini's value
 		// having a timezone set avoids a php warning
 		date_default_timezone_set( config_get_global( 'default_timezone' ) );
+	} else {
+		config_set_global( 'default_timezone', date_default_timezone_get(), true );
 	}
 
 	require_api( 'authentication_api.php' );
