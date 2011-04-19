@@ -654,12 +654,10 @@ function create_developer_summary() {
 				 FROM $t_bug_table
 				 WHERE handler_id > 0 $specific_where";
 	$result = db_query_bound( $query );
-	$t_total_handled = db_num_rows( $result );
 
 	$t_handler_arr = array();
 	$t_handlers = array();
-	for( $i = 0;$i < $t_total_handled;$i++ ) {
-		$row = db_fetch_array( $result );
+	while( $row = db_fetch_array( $result ) ) {
 		if( !isset( $t_handler_arr[$row['handler_id']] ) ) {
 			$t_handler_arr[$row['handler_id']]['res'] = 0;
 			$t_handler_arr[$row['handler_id']]['open'] = 0;
@@ -710,13 +708,10 @@ function create_reporter_summary() {
 				 FROM $t_bug_table
 				 WHERE $specific_where";
 	$result = db_query_bound( $query );
-	$t_total_reported = db_num_rows( $result );
 
 	$t_reporter_arr = array();
 	$t_reporters = array();
-	for( $i = 0;$i < $t_total_reported;$i++ ) {
-		$row = db_fetch_array( $result );
-
+	while( $row = db_fetch_array( $result ) ) {
 		if( isset( $t_reporter_arr[$row['reporter_id']] ) ) {
 			$t_reporter_arr[$row['reporter_id']]++;
 		} else {
@@ -736,7 +731,6 @@ function create_reporter_summary() {
 	}
 	ksort($t_metrics);
 
-	# end for
 	return $t_metrics;
 }
 
@@ -755,11 +749,9 @@ function create_category_summary() {
 				WHERE $specific_where OR project_id=" . ALL_PROJECTS . "
 				ORDER BY name";
 	$result = db_query_bound( $query );
-	$category_count = db_num_rows( $result );
 
 	$t_metrics = array();
-	for( $i = 0;$i < $category_count;$i++ ) {
-		$row = db_fetch_array( $result );
+	while( $row = db_fetch_array( $result ) ) {
 		$t_cat_name = $row['name'];
 		$t_cat_id = $row['id'];
 		$query = "SELECT COUNT(*)
@@ -774,7 +766,6 @@ function create_category_summary() {
 		}
 	}
 
-	# end for
 	return $t_metrics;
 }
 
@@ -796,11 +787,8 @@ function create_cumulative_bydate() {
 				WHERE $specific_where
 				ORDER BY date_submitted";
 	$result = db_query_bound( $query );
-	$bug_count = db_num_rows( $result );
 
-	for( $i = 0;$i < $bug_count;$i++ ) {
-		$row = db_fetch_array( $result );
-
+	while( $row = db_fetch_array( $result ) ) {
 		# rationalise the timestamp to a day to reduce the amount of data
 		$t_date = $row['date_submitted'];
 		$t_date = (int)( $t_date / SECONDS_PER_DAY );
@@ -824,13 +812,11 @@ function create_cumulative_bydate() {
 						OR $t_history_table.id is NULL )
 			ORDER BY $t_bug_table.id, date_modified ASC";
 	$result = db_query_bound( $query, array() );
-	$bug_count = db_num_rows( $result );
 
 	$t_last_id = 0;
 	$t_last_date = 0;
 
-	for( $i = 0;$i < $bug_count;$i++ ) {
-		$row = db_fetch_array( $result );
+	while( $row = db_fetch_array( $result ) ) {
 		$t_id = $row['id'];
 
 		# if h_last_updated is NULL, there were no appropriate history records
