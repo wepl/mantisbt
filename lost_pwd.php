@@ -79,7 +79,9 @@ $t_user_table = db_get_table( 'user' );
 $query = 'SELECT id FROM ' . $t_user_table . ' WHERE username = ' . db_param() . ' AND email = ' . db_param() . ' AND enabled=' . db_param();
 $result = db_query_bound( $query, array( $f_username, $f_email, true ) );
 
-if ( 0 == db_num_rows( $result ) ) {
+$row = db_fetch_array( $result );
+
+if ( !$row ) {
 	trigger_error( ERROR_LOST_PASSWORD_NOT_MATCHING_DATA, ERROR );
 }
 
@@ -87,7 +89,6 @@ if( is_blank( $f_email ) ) {
 	trigger_error( ERROR_LOST_PASSWORD_NO_EMAIL_SPECIFIED, ERROR );
 }
 
-$row = db_fetch_array( $result );
 $t_user_id = $row['id'];
 
 if( user_is_protected( $t_user_id ) ) {
