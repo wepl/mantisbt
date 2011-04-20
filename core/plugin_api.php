@@ -617,7 +617,7 @@ function plugin_upgrade( $p_plugin ) {
 	$t_schema = $p_plugin->schema();
 
 	global $g_db;
-	$t_dict = NewDataDictionary( $g_db );
+	$t_dict = new MantisDatabaseDict( $g_db );
 
 	$i = $t_schema_version + 1;
 	while( $i < count( $t_schema ) ) {
