@@ -50,6 +50,7 @@ require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
 require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
+require_css( 'status_config.php' );
 
 $t_filter = current_user_get_bug_filter();
 # NOTE: this check might be better placed in current_user_get_bug_filter()
@@ -188,16 +189,13 @@ function write_bug_rows ( $p_rows )
 		if ( ( 0 == $t_row->sticky ) && $t_in_stickies ) {	# demarcate stickies, if any have been shown
 ?>
 		   <tr>
-				   <td class="left" colspan="<?php echo count( $t_columns ); ?>" bgcolor="#999999">&#160;</td>
+				   <td class="left sticky-header" colspan="<?php echo count( $t_columns ); ?>">&#160;</td>
 		   </tr>
 <?php
 			$t_in_stickies = false;
 		}
 
-		# choose color based on status
-		$status_color = get_status_color( $t_row->status );
-
-		echo '<tr bgcolor="', $status_color, '">';
+		echo '<tr class="', MantisEnum::getLabel( config_get('status_enum_string' ), $t_row->status ), '-color">';
 
 		foreach( $t_columns as $t_column ) {
 			$t_column_value_function = 'print_column_value';

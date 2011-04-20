@@ -78,6 +78,7 @@ require_api( 'project_api.php' );
 require_api( 'sponsorship_api.php' );
 require_api( 'string_api.php' );
 require_api( 'version_api.php' );
+require_css( 'status_config.php' );
 
 if ( !config_get( 'enable_sponsorship' ) ) {
 	trigger_error( ERROR_SPONSORSHIP_NOT_ENABLED, ERROR );
@@ -135,7 +136,17 @@ if ( 0 == $t_sponsors ) {
 <br />
 <div>
 <table class="width100" cellspacing="1">
-
+<colgroup>
+	<col style="width:10%" />
+	<col style="width:8%" />
+	<col style="width:7%" />
+	<col style="width:10%" />
+	<col style="width:10%" />
+	<col style="width:30%" />
+	<col style="width:8%" />
+	<col style="width:7%" />
+	<col style="width:10%" />
+</colgroup>
 	<!-- Headings -->
 	<tr>
 		<td class="form-title" colspan="9">
@@ -143,15 +154,15 @@ if ( 0 == $t_sponsors ) {
 		</td>
 	</tr>
 	<tr>
-		<td class="form-title" width="10%"><?php echo lang_get( 'email_bug' ) ?></td>
-		<td class="form-title" width="8%"><?php echo lang_get( 'email_project' ) ?></td>
-		<td class="form-title" width="7%"><?php echo lang_get( 'fixed_in_version' ) ?></td>
-		<td class="form-title" width="10%"><?php echo lang_get( 'email_status' ) ?></td>
-		<td class="form-title" width="10%"><?php echo lang_get( 'email_handler' ) ?></td>
-		<td class="form-title" width="30%"><?php echo lang_get( 'email_summary' ) ?></td>
-		<td class="form-title" width="8%"><?php echo lang_get( 'amount' ) ?></td>
-		<td class="form-title" width="7%"><?php echo lang_get( 'status' ) ?></td>
-		<td class="form-title" width="10%">&#160;</td>
+		<td class="form-title"><?php echo lang_get( 'email_bug' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_project' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'fixed_in_version' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_status' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_handler' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_summary' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'amount' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'status' ) ?></td>
+		<td class="form-title">&#160;</td>
 	</tr>
 <?php
 	$t_total_owing = 0;
@@ -171,7 +182,7 @@ if ( 0 == $t_sponsors ) {
 			$t_released_label = $t_bug->fixed_in_version;
 		}
 
-		echo '<tr bgcolor="' . get_status_color( $t_bug->status ) . '">';
+		echo '<tr class="' . MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status ) . '-color">';
 		echo '<td><a href="' . string_get_bug_view_url( $row['bug'] ) . '">' . bug_format_id( $row['bug'] ) . '</a></td>';
 		echo '<td>' . project_get_field( $t_bug->project_id, 'name' ) . '&#160;</td>';
 		echo '<td class="right">' . $t_released_label . '&#160;</td>';
@@ -244,6 +255,16 @@ if ( 0 == $t_sponsors ) {
 <form method="post" action="account_sponsor_update.php">
 <?php echo form_security_field( 'account_sponsor_update' ) ?>
 <table class="width100" cellspacing="1">
+	<colgroup>
+		<col style="width:10%" />
+		<col style="width:8%" />
+		<col style="width:7%" />
+		<col style="width:10%" />
+		<col style="width:35%" />
+		<col style="width:10%" />
+		<col style="width:10%" />
+		<col style="width:10%" />
+	</colgroup>
 
 	<!-- Headings -->
 	<tr>
@@ -252,14 +273,14 @@ if ( 0 == $t_sponsors ) {
 		</td>
 	</tr>
 	<tr>
-		<td class="form-title" width="10%"><?php echo lang_get( 'email_bug' ) ?></td>
-		<td class="form-title" width="8%"><?php echo lang_get( 'email_project' ) ?></td>
-		<td class="form-title" width="7%"><?php echo lang_get( 'fixed_in_version' ) ?></td>
-		<td class="form-title" width="10%"><?php echo lang_get( 'email_status' ) ?></td>
-		<td class="form-title" width="35%"><?php echo lang_get( 'email_summary' ) ?></td>
-		<td class="form-title" width="10%"><?php echo lang_get( 'sponsor' ) ?></td>
-		<td class="form-title" width="10%"><?php echo lang_get( 'amount' ) ?></td>
-		<td class="form-title" width="10%"><?php echo lang_get( 'status' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_bug' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_project' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'fixed_in_version' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_status' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'email_summary' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'sponsor' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'amount' ) ?></td>
+		<td class="form-title"><?php echo lang_get( 'status' ) ?></td>
 	</tr>
 <?php
 	$t_bug_list = array();
@@ -281,7 +302,7 @@ if ( 0 == $t_sponsors ) {
 			$t_released_label = $t_bug->fixed_in_version;
 		}
 
-		echo '<tr bgcolor="' . get_status_color( $t_bug->status ) . '">';
+		echo '<tr class="' . MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status ) . '-color">';
 		echo '<td><a href="' . string_get_bug_view_url( $row['bug'] ) . '">' . bug_format_id( $row['bug'] ) . '</a></td>';
 		echo '<td>' . project_get_field( $t_bug->project_id, 'name' ) . '&#160;</td>';
 		echo '<td class="right">' . $t_released_label . '&#160;</td>';

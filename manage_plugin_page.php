@@ -81,8 +81,18 @@ if ( 0 < count( $t_plugins_installed ) ) {
 ?>
 <br/>
 <form action="manage_plugin_update.php" method="post">
+<fieldset>
 <?php echo form_security_field( 'manage_plugin_update' ) ?>
+</fieldset>
 <table class="width100" cellspacing="1">
+<colgroup>
+	<col style="width:20%" />
+	<col style="width:35%" />
+	<col style="width:20%" />
+	<col style="width:7%" />
+	<col style="width:8%" />
+	<col style="width:10%" />
+</colgroup>
 
 <!-- Title -->
 <tr>
@@ -94,12 +104,12 @@ if ( 0 < count( $t_plugins_installed ) ) {
 
 <!-- Info -->
 <tr class="row-category">
-	<td width="20%"><?php echo lang_get( 'plugin' ) ?></td>
-	<td width="35%"><?php echo lang_get( 'plugin_description' ) ?></td>
-	<td width="20%"><?php echo lang_get( 'plugin_depends' ) ?></td>
-	<td width="7%"><?php echo lang_get( 'plugin_priority' ) ?></td>
-	<td width="8%"><?php echo lang_get( 'plugin_protected' ) ?></td>
-	<td width="10%"><?php echo lang_get( 'plugin_actions' ) ?></td>
+	<td><?php echo lang_get( 'plugin' ) ?></td>
+	<td><?php echo lang_get( 'plugin_description' ) ?></td>
+	<td><?php echo lang_get( 'plugin_depends' ) ?></td>
+	<td><?php echo lang_get( 'plugin_priority' ) ?></td>
+	<td><?php echo lang_get( 'plugin_protected' ) ?></td>
+	<td><?php echo lang_get( 'plugin_actions' ) ?></td>
 </tr>
 
 <?php
@@ -196,6 +206,13 @@ if ( 0 < count( $t_plugins_available ) ) {
 ?>
 <br/>
 <table class="width100" cellspacing="1">
+<colgroup>
+	<col style="width:25%" />
+	<col style="width:45%" />
+	<col style="width:20%" />
+	<col style="width:10%" />
+
+</colgroup>
 
 <!-- Title -->
 <tr>
@@ -207,10 +224,10 @@ if ( 0 < count( $t_plugins_available ) ) {
 
 <!-- Info -->
 <tr class="row-category">
-	<td width="25%"><?php echo lang_get( 'plugin' ) ?></td>
-	<td width="45%"><?php echo lang_get( 'plugin_description' ) ?></td>
-	<td width="20%"><?php echo lang_get( 'plugin_depends' ) ?></td>
-	<td width="10%"><?php echo lang_get( 'plugin_actions' ) ?></td>
+	<td><?php echo lang_get( 'plugin' ) ?></td>
+	<td><?php echo lang_get( 'plugin_description' ) ?></td>
+	<td><?php echo lang_get( 'plugin_depends' ) ?></td>
+	<td><?php echo lang_get( 'plugin_actions' ) ?></td>
 </tr>
 
 <?php

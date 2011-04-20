@@ -54,11 +54,11 @@ require_api( 'utility_api.php' );
 
 function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p_total ) {
 	printf( '<tr %s>', helper_alternate_class() );
-	printf( '<td width="50%%">%s</td>', string_display_line( $p_label ) );
-	printf( '<td width="12%%" class="right">%s</td>', $p_open );
-	printf( '<td width="12%%" class="right">%s</td>', $p_resolved );
-	printf( '<td width="12%%" class="right">%s</td>', $p_closed );
-	printf( '<td width="12%%" class="right">%s</td>', $p_total );
+	printf( '<td class="width50">%s</td>', string_display_line( $p_label ) );
+	printf( '<td class="width12 right">%s</td>', $p_open );
+	printf( '<td class="width12 right">%s</td>', $p_resolved );
+	printf( '<td class="width12 right">%s</td>', $p_closed );
+	printf( '<td class="width12 right">%s</td>', $p_total );
 	print( '</tr>' );
 }
 
@@ -282,7 +282,7 @@ function summary_print_by_date( $p_date_array ) {
 		$t_new_bugs_link = '<a class="subtle" href="' . config_get( 'bug_count_hyperlink_prefix' ) . '&amp;' . FILTER_PROPERTY_FILTER_BY_DATE . '=on&amp;' . FILTER_PROPERTY_START_YEAR . '=' . date( 'Y', $t_start_date ) . '&amp;' . FILTER_PROPERTY_START_MONTH . '=' . date( 'm', $t_start_date ) . '&amp;' . FILTER_PROPERTY_START_DAY . '=' . date( 'd', $t_start_date ) . '&amp;' . FILTER_PROPERTY_HIDE_STATUS . '=">';
 
 		print( "<tr " . helper_alternate_class() . ">\n" );
-		print( "    <td width=\"50%\">" . $t_days . "</td>\n" );
+		print( "    <td class=\"width50\">" . $t_days . "</td>\n" );
 
 		if( $t_new_count > 0 ) {
 			print( "    <td class=\"right\">$t_new_bugs_link$t_new_count</a></td>\n" );

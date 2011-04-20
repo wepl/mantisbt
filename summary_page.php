@@ -139,7 +139,7 @@ print_summary_submenu(); ?>
 	</td>
 </tr>
 <tr>
-	<td width="50%">
+	<td>
 		<?php # PROJECT #
 			if ( 1 < count( $t_project_ids ) ) { ?>
 		<table class="width100" cellspacing="1">
@@ -198,10 +198,10 @@ print_summary_submenu(); ?>
 			</td>
 		</tr>
 		<tr class="row-1">
-			<td width="50%">
+			<td>
 				<?php echo lang_get( 'longest_open_bug' ) ?>
 			</td>
-			<td width="50%">
+			<td>
 				<?php
 					if ($t_bug_id>0) {
 						print_bug_link( $t_bug_id );
@@ -250,7 +250,7 @@ print_summary_submenu(); ?>
 
 
 
-	<td width="50%">
+	<td>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title"><?php echo lang_get( 'by_date' ); ?></td>
@@ -265,8 +265,8 @@ print_summary_submenu(); ?>
 
 		<table class="width100" cellspacing="1">
 		<tr>
-			<td class="form-title" width="86%"><?php echo lang_get( 'most_active' ); ?></td>
-			<td class="right" width="14%"><?php echo lang_get( 'score' ); ?></td>
+			<td class="form-title"><?php echo lang_get( 'most_active' ); ?></td>
+			<td class="right"><?php echo lang_get( 'score' ); ?></td>
 		</tr>
 		<?php summary_print_by_activity() ?>
 		</table>

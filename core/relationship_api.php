@@ -96,6 +96,7 @@ require_api( 'print_api.php' );
 require_api( 'project_api.php' );
 require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
+require_css( 'status_config.php' );
 
 /**
  * RelationshipData Structure Definition
@@ -699,7 +700,7 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
 	$t_relationship_info_text .= "\n";
 
 	if( $p_html_preview == false ) {
-		$t_relationship_info_html = '<tr bgcolor="' . get_status_color( $t_bug->status ) . '">' . $t_relationship_info_html . '</tr>' . "\n";
+		$t_relationship_info_html = '<tr class="' . MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status ) . '-color">' . $t_relationship_info_html . '</tr>' . "\n";
 	} else {
 		$t_relationship_info_html = '<tr>' . $t_relationship_info_html . '</tr>';
 	}

@@ -25,8 +25,15 @@ print_manage_menu( );
 
 <br/>
 <form action="<?php echo plugin_page( 'config_edit' )?>" method="post">
+<fieldset>
 <?php echo form_security_field( 'plugin_format_config_edit' ) ?>
+</fieldset>
 <table class="width50" cellspacing="1">
+<colgroup>
+	<col style="width:60%;" />
+	<col style="width:20%;" />
+	<col style="width:20%;" />
+</colgroup>
 
 <tr>
 	<td class="form-title" colspan="3">
@@ -35,15 +42,15 @@ print_manage_menu( );
 </tr>
 
 <tr <?php echo helper_alternate_class( )?>>
-	<td class="category" width="60%">
+	<td class="category">
 		<?php echo lang_get( 'plugin_format_process_text' )?>
 		<br /><span class="small"><?php echo lang_get( 'plugin_format_process_text_warning_notice' )?></span>
 	</td>
-	<td class="center" width="20%">
+	<td class="center">
 		<label><input type="radio" name="process_text" value="1" <?php echo( ON == plugin_config_get( 'process_text' ) ) ? 'checked="checked" ' : ''?>/>
 			<?php echo lang_get( 'plugin_format_enabled' )?></label>
 	</td>
-	<td class="center" width="20%">
+	<td class="center">
 		<label><input type="radio" name="process_text" value="0" <?php echo( OFF == plugin_config_get( 'process_text' ) ) ? 'checked="checked" ' : ''?>/>
 			<?php echo lang_get( 'plugin_format_disabled' )?></label>
 	</td>

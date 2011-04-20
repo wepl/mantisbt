@@ -77,6 +77,7 @@ require_api( 'string_api.php' );
 require_api( 'tag_api.php' );
 require_api( 'utility_api.php' );
 require_api( 'version_api.php' );
+require_css( 'status_config.php' );
 
 $f_bug_id = gpc_get_int( 'id' );
 
@@ -473,7 +474,7 @@ if ( $tpl_show_status || $tpl_show_resolution ) {
 	# Status
 	if ( $tpl_show_status ) {
 		echo '<th class="bug-status category">', lang_get( 'status' ), '</th>';
-		echo '<td class="bug-status" bgcolor="', get_status_color( $tpl_bug->status ), '">', $tpl_status, '</td>';
+		echo '<td class="bug-status ', MantisEnum::getLabel( config_get('status_enum_string' ), $tpl_bug->status ), '-color">', $tpl_status, '</td>';
 	} else {
 		$t_spacer += 2;
 	}
