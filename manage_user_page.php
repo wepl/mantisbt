@@ -118,21 +118,21 @@ print_manage_menu( 'manage_user_page.php' );
 # New Accounts Form BEGIN
 
 $days_old = 7 * SECONDS_PER_DAY;
-$query = "SELECT *
+$query = "SELECT count(*)
 	FROM $t_user_table
 	WHERE ".db_helper_compare_days("" . db_now() . "","date_created","<= $days_old")."
 	ORDER BY date_created DESC";
 $result = db_query_bound( $query );
-$new_user_count = db_num_rows( $result);
+$new_user_count = db_result( $result);
 
 # Never Logged In Form BEGIN
 
-$query = "SELECT *
+$query = "SELECT count(*)
 	FROM $t_user_table
 	WHERE ( login_count = 0 ) AND ( date_created = last_visit )
 	ORDER BY date_created DESC";
 $result = db_query_bound( $query );
-$unused_user_count = db_num_rows( $result );
+$unused_user_count = db_result( $result );
 
 # Manage Form BEGIN
 
@@ -238,7 +238,7 @@ if ( 0 == $c_hide ) {
 			ORDER BY $c_sort $c_dir";
 	$result = db_query_bound($query, $t_where_params, $p_per_page, $t_offset );
 }
-$user_count = db_num_rows( $result );
+
 ?>
 <div id="manage-user-div" class="form-container">
 	<h2><?php echo lang_get( 'manage_accounts_title' ) ?></h2> [<?php echo $total_user_count ?>]
@@ -293,9 +293,8 @@ $user_count = db_num_rows( $result );
 		</tr><?php
 	$t_date_format = config_get( 'normal_date_format' );
 	$t_access_level = array();
-	for ($i=0;$i<$user_count;$i++) {
+	while( $row = db_fetch_array($result) ) {
 		# prefix user data with u_
-		$row = db_fetch_array($result);
 		extract( $row, EXTR_PREFIX_ALL, 'u' );
 
 		$u_date_created  = date( $t_date_format, $u_date_created );
