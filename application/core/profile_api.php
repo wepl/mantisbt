@@ -231,7 +231,7 @@ function profile_get_all_rows( $p_user_id, $p_all_users = false ) {
 	$t_result = db_query_bound( $query, $param );
 
 	$t_rows = array();
-	
+
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		array_push( $t_rows, $t_row );
 	}
