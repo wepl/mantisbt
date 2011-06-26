@@ -14,6 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
+use MantisBT\Db\DriverAbstract;
+use MantisBT\Db\Dictionary;
+
 /**
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
@@ -46,7 +49,7 @@ function print_info_row( $p_description, $p_info = null ) {
 # print test result
 function print_test_result( $p_result, $p_hard_fail = true, $p_message = '' ) {
 	global $g_failed;
-	echo '<td ';
+	echo '<td width="50%" ';
 	if( BAD == $p_result ) {
 		if( $p_hard_fail ) {
 			$g_failed = true;
@@ -69,7 +72,7 @@ function print_test_result( $p_result, $p_hard_fail = true, $p_message = '' ) {
 # print test header and result
 function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_message = '' ) {
 
-	echo "\n<tr><td bgcolor=\"#ffffff\">$p_test_description</td>";
+	echo "\n<tr><td width=\"50%\" bgcolor=\"#ffffff\">$p_test_description</td>";
 	print_test_result( $p_result, $p_hard_fail, $p_message );
 	echo "</tr>\n";
 }
@@ -151,7 +154,7 @@ if( 0 == $t_install_state ) {
 <?php
 }
 
-$t_config_filename = $g_absolute_path . 'config_inc.php';
+$t_config_filename = CONFIG_PATH . '/config_inc.php';
 $t_config_exists = file_exists( $t_config_filename );
 $f_hostname = null;
 $f_db_type = null;
@@ -187,14 +190,14 @@ if( $t_config_exists ) {
 		}
 	}
 
-	$g_db = MantisDatabase::get_driver_instance($f_db_type);
+	$g_db = DriverAbstract::getDriverInstance($f_db_type);
 	try {
 		$t_result = $g_db->connect( null, $f_hostname, $f_db_username, $f_db_password, $f_database_name, null );
 	} catch (Exception $ex) {
 		$t_result = false;
 	}
 		
-	if( $g_db->IsConnected() ) {
+	if( $g_db->isConnected() ) {
 		$g_db_connected = true;
 	}
 
@@ -220,7 +223,7 @@ if( $t_config_exists ) {
 		$f_db_password = config_get( 'db_password' );
 	}
 }
-$f_admin_username = gpc_get( 'admin_username', '' );
+$f_admin_username = gpc_get( 'admin_username', 'root' );
 $f_admin_password = gpc_get( 'admin_password', '' );
 $f_log_queries = gpc_get_bool( 'log_queries', false );
 $f_db_exists = gpc_get_bool( 'db_exists', false );
@@ -292,7 +295,7 @@ if( 2 == $t_install_state ) {
 		Setting Admin Password
 	</td>
 	<?php
-		if( '' !== $f_admin_password ) {
+	if( '' !== $f_admin_password ) {
 		print_test_result( GOOD );
 	} else {
 		if( '' != $f_db_password ) {
@@ -313,7 +316,7 @@ if( 2 == $t_install_state ) {
 	<?php
 		$t_db_open = false;
 
-		$g_db = MantisDatabase::get_driver_instance($f_db_type);
+		$g_db = DriverAbstract::getDriverInstance($f_db_type);
 		try {
 			$t_result = $g_db->connect( null, $f_hostname, $f_admin_username, $f_admin_password, null, null );
 		} catch (Exception $ex) {
@@ -323,7 +326,7 @@ if( 2 == $t_install_state ) {
 	if( $t_result ) {
 		# check if db exists for the admin
 		try {
-			$t_result = @$g_db->Connect( null, $f_hostname, $f_admin_username, $f_admin_password, $f_database_name, null );
+			$t_result = $g_db->connect( null, $f_hostname, $f_admin_username, $f_admin_password, $f_database_name, null );
 		} catch (Exception $ex) {
 			$t_result = false;
 		}
@@ -345,7 +348,7 @@ if( 2 == $t_install_state ) {
 		Attempting to connect to database as user
 	</td>
 	<?php
-		$g_db = MantisDatabase::get_driver_instance($f_db_type);
+		$g_db = DriverAbstract::getDriverInstance($f_db_type);
 		try {
 			$t_result = $g_db->connect( null, $f_hostname, $f_db_username, $f_db_password, $f_database_name, null );
 		} catch (Exception $ex) {
@@ -356,7 +359,7 @@ if( 2 == $t_install_state ) {
 			$t_db_open = true;
 				print_test_result( GOOD );
 		} else {
-			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error_msg() . ' )' );
+			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error() . ' )' );
 		}
 		?>
 </tr>
@@ -370,7 +373,7 @@ if( 2 == $t_install_state ) {
 	<td bgcolor="#ffffff">
 		Checking Database Server Version
 		<?php
-		$t_version_info = $g_db->get_server_info();
+		$t_version_info = $g_db->getServerInfo();
 
 		echo '<br /> Running ' . $f_db_type . ' version ' . $t_version_info['version'];
 		?>
@@ -563,11 +566,11 @@ if( 3 == $t_install_state ) {
 		}
 		$t_db_open = false;
 
-		if( $g_db->database_exists( $f_database_name ) === true ) {
+		if( $g_db->databaseExists( $f_database_name ) === true ) {
 			print_test_result( GOOD );
 			$t_db_open = true;
 		} else {
-			$dict = new MantisDatabaseDict( $g_db );
+			$dict = new Dictionary( $g_db );
 
 			$sqlarray = $dict->CreateDatabase( $f_database_name );
 				$ret = $dict->ExecuteSQLarray( $sqlarray );
@@ -575,11 +578,11 @@ if( 3 == $t_install_state ) {
 					print_test_result( GOOD );
 					$t_db_open = true;
 				} else {
-					$t_error = db_error_msg();
+					$t_error = db_error();
 					if( strstr( $t_error, 'atabase exists' ) ) {
-						print_test_result( BAD, false, 'Database already exists? ( ' . db_error_msg() . ' )' );
+						print_test_result( BAD, false, 'Database already exists? ( ' . db_error() . ' )' );
 					} else {
-						print_test_result( BAD, true, 'Does administrative user have access to create the database? ( ' . db_error_msg() . ' )' );
+						print_test_result( BAD, true, 'Does administrative user have access to create the database? ( ' . db_error() . ' )' );
 						$t_install_state--; # db creation failed, allow user to re-enter user/password info
 					}
 				}
@@ -594,7 +597,7 @@ if( 3 == $t_install_state ) {
 	<td bgcolor="#ffffff">
 		Checking Database Server Version
 		<?php
-			$t_version_info = $g_db->get_server_info();
+			$t_version_info = $g_db->getServerInfo();
 			echo '<br /> Running ' . $f_db_type . ' version ' . $t_version_info['version'];
 			?>
 	</td>
@@ -624,7 +627,7 @@ if( 3 == $t_install_state ) {
 		Attempting to connect to database as user
 	</td>
 	<?php
-		$g_db = MantisDatabase::get_driver_instance($f_db_type);
+		$g_db = DriverAbstract::getDriverInstance($f_db_type);
 		try {
 			$t_result = $g_db->connect( null, $f_hostname, $f_db_username, $f_db_password, $f_database_name, null );
 		} catch (Exception $ex) {
@@ -634,7 +637,7 @@ if( 3 == $t_install_state ) {
 		if( $t_result == true ) {
 			print_test_result( GOOD );
 		} else {
-			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error_msg() . ' )' );
+			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error() . ' )' );
 		}
 		//@todo $g_db->Close();
 		?>
@@ -652,7 +655,7 @@ if( 3 == $t_install_state ) {
 		# database_api references this
 		require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'schema.php' );
 
-		$g_db = MantisDatabase::get_driver_instance($f_db_type);
+		$g_db = DriverAbstract::getDriverInstance($f_db_type);
 		try {
 			$t_result = $g_db->connect( null, $f_hostname, $f_admin_username, $f_admin_password, $f_database_name, null );
 		} catch (Exception $ex) {
@@ -677,7 +680,7 @@ if( 3 == $t_install_state ) {
 				echo '<tr><td bgcolor="#ffffff">';
 			}
 
-			$dict = new MantisDatabaseDict( $g_db );
+			$dict = new Dictionary( $g_db );
 			$t_sql = true;
 			$t_target = $upgrade[$i][1][0];
 			if( $upgrade[$i][0] == 'InsertData' ) {
@@ -733,7 +736,7 @@ if( 3 == $t_install_state ) {
 					$all_sql = '';
 					foreach ( $sqlarray as $single_sql )
 						$all_sql .= $single_sql . '<br />';
-					print_test_result( BAD, true, $all_sql  . $g_db->get_last_error() );
+					print_test_result( BAD, true, $all_sql  . $g_db->getLastError() );
 				}
 				echo '</tr>';
 			}
@@ -745,7 +748,7 @@ if( 3 == $t_install_state ) {
 			if( $ret == 2 ) {
 				print_test_result( GOOD );
 			} else {
-				print_test_result( BAD, true, $g_db->get_last_error() );
+				print_test_result( BAD, true, $g_db->getLastError() );
 			}
 		}
 		
@@ -789,7 +792,7 @@ if( 4 == $t_install_state ) {
 
 # all checks have passed, install the database
 if( 5 == $t_install_state ) {
-	$t_config_filename = $g_absolute_path . 'config_inc.php';
+	$t_config_filename = CONFIG_PATH . '/config_inc.php';
 	$t_config_exists = file_exists( $t_config_filename );
 	?>
 <table width="100%" cellpadding="10" cellspacing="1">
@@ -798,9 +801,8 @@ if( 5 == $t_install_state ) {
 		<span class="title">Write Configuration File(s)</span>
 	</td>
 </tr>
-
 <tr>
-	<td bgcolor="#ffffff">
+	<td width="50%" bgcolor="#ffffff">
 		<?php
 			if( !$t_config_exists ) {
 		echo 'Creating Configuration File (config_inc.php)<br />';
@@ -809,7 +811,7 @@ if( 5 == $t_install_state ) {
 		echo 'Updating Configuration File (config_inc.php)<br />';
 	}
 	?>
-	</td>
+    </td>
 	<?php
 	$t_config = '<?php' . "\n";
 	$t_config .= "\t\$g_hostname = '$f_hostname';\n";
@@ -838,13 +840,13 @@ if( 5 == $t_install_state ) {
 	$t_write_failed = true;
 
 	if( !$t_config_exists ) {
-		if( $fd = @fopen( $t_config_filename, 'w' ) ) {
+		if( is_writable( $t_config_filename ) ) {
+		    $fd = fopen( $t_config_filename, 'w' );
 			fwrite( $fd, $t_config );
-			fclose( $fd );
+		    fclose( $fd );
 		}
-
 		if( file_exists( $t_config_filename ) ) {
-			print_test_result( GOOD );
+		    print_test_result( GOOD );
 			$t_write_failed = false;
 		} else {
 			print_test_result( BAD, false, 'cannot write ' . $t_config_filename );
@@ -856,7 +858,7 @@ if( 5 == $t_install_state ) {
 			( $f_database_name != config_get( 'database_name', '') ) ||
 			( $f_db_username != config_get( 'db_username', '' ) ) ||
 			( $f_db_password != config_get( 'db_password', '' ) ) ) {
-			print_test_result( BAD, false, 'file ' . $g_absolute_path . 'config_inc.php' . ' already exists and has different settings' );
+			print_test_result( BAD, false, 'file ' . CONFIG_PATH . '/config_inc.php' . ' already exists and has different settings' );
 		} else {
 			print_test_result( GOOD, false );
 			$t_write_failed = false;
@@ -866,9 +868,9 @@ if( 5 == $t_install_state ) {
 </tr>
 <?php
 	if( true == $t_write_failed ) {
-		echo '<tr><table width="50%" cellpadding="10" cellspacing="1">';
-		echo '<tr><td>Please add the following lines to ' . $g_absolute_path . 'config_inc.php before continuing to the database upgrade check:</td></tr>';
-		echo '<tr><td><pre>' . htmlentities( $t_config ) . '</pre></td></tr></table></tr>';
+		echo '<tr><td colspan="2"><table width="50%" cellpadding="10" cellspacing="1">';
+		echo '<tr><td>Please add the following lines to ' . CONFIG_PATH . '/config_inc.php before continuing to the database upgrade check:</td></tr>';
+		echo '<tr><td><pre>' . htmlentities( $t_config ) . '</pre></td></tr></table></td></tr>';
 	}
 	?>
 
@@ -901,7 +903,7 @@ if( 6 == $t_install_state ) {
 		Attempting to connect to database as user
 	</td>
 	<?php
-	$g_db = MantisDatabase::get_driver_instance($f_db_type);
+	$g_db = DriverAbstract::getDriverInstance($f_db_type);
 	try {
 		$t_result = $g_db->connect( null, $f_hostname, $f_db_username, $f_db_password, $f_database_name, null );
 	} catch (Exception $ex) {
@@ -911,7 +913,7 @@ if( 6 == $t_install_state ) {
 	if( $t_result == true ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error() . ' )' );
 	}
 
 	?>
@@ -923,12 +925,12 @@ if( 6 == $t_install_state ) {
 	<?php
 		$t_mantis_config_table = db_get_table( 'config' );
 	$t_query = "SELECT COUNT(*) FROM $t_mantis_config_table";
-	$t_result = @$g_db->Execute( $t_query );
+	$t_result = @$g_db->execute( $t_query );
 
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have SELECT access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have SELECT access to the database ( ' . db_error() . ' )' );
 	}
 	?>
 </tr>
@@ -938,12 +940,12 @@ if( 6 == $t_install_state ) {
 	</td>
 	<?php
 		$t_query = "INSERT INTO $t_mantis_config_table ( value, type, access_reqd, config_id, project_id, user_id ) VALUES ('test', 1, 90, 'database_test', 20, 0 )";
-	$t_result = @$g_db->Execute( $t_query );
+	$t_result = @$g_db->execute( $t_query );
 
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have INSERT access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have INSERT access to the database ( ' . db_error() . ' )' );
 	}
 	?>
 </tr>
@@ -953,12 +955,12 @@ if( 6 == $t_install_state ) {
 	</td>
 	<?php
 		$t_query = "UPDATE $t_mantis_config_table SET value='test_update' WHERE config_id='database_test'";
-	$t_result = @$g_db->Execute( $t_query );
+	$t_result = @$g_db->execute( $t_query );
 
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have UPDATE access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have UPDATE access to the database ( ' . db_error() . ' )' );
 	}
 	?>
 </tr>
@@ -968,12 +970,12 @@ if( 6 == $t_install_state ) {
 	</td>
 	<?php
 		$t_query = "DELETE FROM $t_mantis_config_table WHERE config_id='database_test'";
-	$t_result = @$g_db->Execute( $t_query );
+	$t_result = @$g_db->execute( $t_query );
 
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have DELETE access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have DELETE access to the database ( ' . db_error() . ' )' );
 	}
 	?>
 </tr>
