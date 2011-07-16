@@ -34,9 +34,8 @@
  * @uses print_api.php
  */
 
-/**
- * MantisBT Core API's
- */
+use MantisBT\Error;
+
 require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'constant_inc.php' );
@@ -98,7 +97,7 @@ if ( $result ) {
     html_operation_successful( $f_redirect_url );
 } else {
     echo '<div class="failure-msg">';
-    print error_string( ERROR_GENERIC ) . '<br />';
+    echo Error::error_string( ERROR_GENERIC ) . '<br />';
     print_bracket_link( $f_redirect_url, lang_get( 'proceed' ) );
     echo '</div>';
 }
