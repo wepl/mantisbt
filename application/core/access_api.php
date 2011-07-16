@@ -39,6 +39,8 @@
  * @uses user_api.php
  */
 
+use MantisBT\Exception\Access\AccessDenied;
+
 require_api( 'authentication_api.php' );
 require_api( 'bug_api.php' );
 require_api( 'bugnote_api.php' );
@@ -71,45 +73,6 @@ $g_cache_access_matrix_project_ids = array();
  * @global array $g_cache_access_matrix_user_ids
  */
 $g_cache_access_matrix_user_ids = array();
-
-/**
- * Function to be called when a user is attempting to access a page that
- * he/she is not authorised to.  This outputs an access denied message then
- * re-directs to the mainpage.
- */
-function access_denied() {
-	if( !auth_is_user_authenticated() ) {
-		if( basename( $_SERVER['SCRIPT_NAME'] ) != 'login_page.php' ) {
-			$t_return_page = $_SERVER['SCRIPT_NAME'];
-			if( isset( $_SERVER['QUERY_STRING'] ) ) {
-				$t_return_page .= '?' . $_SERVER['QUERY_STRING'];
-			}
-			$t_return_page = string_url( string_sanitize_url( $t_return_page ) );
-			print_header_redirect( 'login_page.php' . '?return=' . $t_return_page );
-		}
-	} else {
-		if( current_user_is_anonymous() ) {
-			if( basename( $_SERVER['SCRIPT_NAME'] ) != 'login_page.php' ) {
-				$t_return_page = $_SERVER['SCRIPT_NAME'];
-				if( isset( $_SERVER['QUERY_STRING'] ) ) {
-					$t_return_page .= '?' . $_SERVER['QUERY_STRING'];
-				}
-				$t_return_page = string_url( string_sanitize_url( $t_return_page ) );
-				echo '<p class="center">' . error_string( ERROR_ACCESS_DENIED ) . '</p><p class="center">';
-				print_bracket_link( helper_mantis_url( 'login_page.php' ) . '?return=' . $t_return_page, lang_get( 'click_to_login' ) );
-				echo '</p><p class="center">';
-				print_bracket_link( helper_mantis_url( 'main_page.php' ), lang_get( 'proceed' ) );
-				echo '</p>';
-			}
-		} else {
-			echo '<p class="center">' . error_string( ERROR_ACCESS_DENIED ) . '</p>';
-			echo '<p class="center">';
-			print_bracket_link( helper_mantis_url( 'main_page.php' ), lang_get( 'proceed' ) );
-			echo '</p>';
-		}
-	}
-	exit;
-}
 
 /**
  * retrieves and returns access matrix for a project from cache or caching if required.
@@ -254,7 +217,7 @@ function access_has_global_level( $p_access_level, $p_user_id = null ) {
  */
 function access_ensure_global_level( $p_access_level, $p_user_id = null ) {
 	if( !access_has_global_level( $p_access_level, $p_user_id ) ) {
-		access_denied();
+		throw new AccessDenied();
 	}
 }
 
@@ -351,7 +314,7 @@ function access_has_project_level( $p_access_level, $p_project_id = null, $p_use
  */
 function access_ensure_project_level( $p_access_level, $p_project_id = null, $p_user_id = null ) {
 	if( !access_has_project_level( $p_access_level, $p_project_id, $p_user_id ) ) {
-		access_denied();
+		throw new AccessDenied();
 	}
 }
 
@@ -438,7 +401,7 @@ function access_has_bug_level( $p_access_level, $p_bug_id, $p_user_id = null ) {
  */
 function access_ensure_bug_level( $p_access_level, $p_bug_id, $p_user_id = null ) {
 	if( !access_has_bug_level( $p_access_level, $p_bug_id, $p_user_id ) ) {
-		access_denied();
+		throw new AccessDenied();
 	}
 }
 
@@ -480,7 +443,7 @@ function access_has_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id = 
  */
 function access_ensure_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id = null ) {
 	if( !access_has_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id ) ) {
-		access_denied();
+		throw new AccessDenied();
 	}
 }
 
@@ -524,7 +487,7 @@ function access_can_close_bug( $p_bug, $p_user_id = null ) {
  */
 function access_ensure_can_close_bug( $p_bug, $p_user_id = null ) {
 	if( !access_can_close_bug( $p_bug, $p_user_id ) ) {
-		access_denied();
+		throw new AccessDenied();
 	}
 }
 
@@ -560,7 +523,6 @@ function access_can_reopen_bug( $p_bug, $p_user_id = null ) {
 
 /**
  * Make sure that the user can reopen the specified bug.
- * Calls access_denied if user has no access to terminate script
  * @see access_can_reopen_bug
  * @param BugData $p_bug Bug to check access against
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
@@ -568,7 +530,7 @@ function access_can_reopen_bug( $p_bug, $p_user_id = null ) {
  */
 function access_ensure_can_reopen_bug( $p_bug, $p_user_id = null ) {
 	if( !access_can_reopen_bug( $p_bug, $p_user_id ) ) {
-		access_denied();
+		throw new AccessDenied();
 	}
 }
 

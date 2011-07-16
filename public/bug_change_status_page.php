@@ -40,9 +40,9 @@
  * @uses version_api.php
  */
 
-/**
- * MantisBT Core API's
- */
+
+use MantisBT\Exception\Access\AccessDenied;
+
 require_once( 'core.php' );
 require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
@@ -96,7 +96,7 @@ else if( $f_new_status == $t_closed ) {
 }
 else if ( bug_is_readonly( $f_bug_id )
 	|| !access_has_bug_level( access_get_status_threshold( $f_new_status, $t_bug->project_id ), $f_bug_id, $t_current_user_id ) ) {
-	access_denied();
+	throw new AccessDenied();
 }
 
 $t_can_update_due_date = access_has_bug_level( config_get( 'due_date_update_threshold' ), $f_bug_id );
