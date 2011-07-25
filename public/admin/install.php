@@ -427,27 +427,23 @@ if( 1 == $t_install_state ) {
 	<td>
 		<select name="db_type">
 		<?php
-			// Build selection list of available DB types
-			$t_db_list = array(
-				'mysql'       => 'MySQL (default)',
-				'mysqli'      => 'MySQLi',
-				'mssql'       => 'Microsoft SQL Server',
-				'mssqlnative' => 'Microsoft SQL Server Native Driver',
-				'pgsql'       => 'PostgreSQL',
-				'oci8'        => 'Oracle',
-				'db2'         => 'IBM DB2',
-			);
+			$t_db_types = explode(',',check_get_database_extensions(true));
 
-			// mssql is not supported with PHP >= 5.3
-			if( version_compare( phpversion(), '5.3' ) >= 0 ) {
-				unset( $t_db_list['mssql']);
-			}
+			# These are the extensions that have corresponding PDO drivers
+			# at /application/MantisBT/Db/PDO
+			$t_db_supported_types = array( 'pdo_mysql' );
 
-			foreach( $t_db_list as $t_db => $t_db_descr ) {
-				echo '<option value="' . $t_db . '"' .
-					( $t_db == $f_db_type ? ' selected="selected"' : '' ) . '>' .
-					$t_db_descr . '</option>';
-			}
+			foreach( $t_db_types as $t_type ) {
+				if ( !in_array( $t_type, $t_db_supported_types ) ) {
+					continue;
+				}
+
+				if( $f_db_type == $t_type ) {
+					echo '<option value="' . $t_type . '" selected="selected">' . $t_type . '</option>';
+		} else {
+					echo '<option value="' . $t_type . '">' . $t_type . '</option>';
+		}
+		}
 		?>
 		</select>
 	</td>
