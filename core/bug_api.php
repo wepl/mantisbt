@@ -77,7 +77,7 @@ require_api( 'utility_api.php' );
  * @package MantisBT
  * @subpackage classes
  */
-class BugData {
+class BugData extends MantisCacheable {
 	protected $id;
 	protected $project_id = null;
 	protected $reporter_id = 0;
@@ -121,8 +121,116 @@ class BugData {
 	public $attachment_count = null;
 	public $bugnotes_count = null;
 
+	static $fields = null;	
+	private $_exists = true;
 	private $loading = false;
 
+	function BugData( $p_bug_id=0, $p_get_extended = false ) {
+		if( self::$fields === null ) {
+			self::$fields = getClassProperties('BugData', 'protected');
+		}
+
+		if( $p_bug_id ) {
+			$this->id = intval($p_bug_id);
+			if( $this->isCached() ) {
+				log_event( LOG_FILTERING, 'CACHE HIT' );
+				$cache = $this->getCache();
+				foreach( self::$fields as $t_field=>$t) {
+					$this->{$t_field} = $cache->{$t_field};
+				}				
+			} else {
+				if( $p_get_extended ) {
+					$t_row = $this->bug_get_extended_row( $p_bug_id );
+				} else {
+					$t_row = $this->bug_get_row( $p_bug_id );
+				}
+
+				if ( $t_row === false ) {
+					// bug not found
+					$this->_exists = false;
+				} else {
+					$this->loadrow( $t_row );
+				}
+				$this->putCache(); 
+			}
+		}
+	}
+	
+	public function Exists() {
+		return $this->_exists;
+	}
+	
+	public function getID() {
+		return $this->id;
+	}
+
+	/**
+	 * Returns the extended record of the specified bug, this includes
+	 * the bug text fields
+	 * @todo include reporter name and handler name, the problem is that
+	 *      handler can be 0, in this case no corresponding name will be
+	 *      found.  Use equivalent of (+) in Oracle.
+	 * @param int p_bug_id integer representing bug id
+	 * @return array
+	 * @access public
+	 */
+	function bug_get_extended_row( $p_bug_id ) {
+		$t_base = $this->bug_cache_row( $p_bug_id );
+		$t_text = bug_text_cache_row( $p_bug_id );
+
+		# merge $t_text first so that the 'id' key has the bug id not the bug text id
+		return array_merge( $t_text, $t_base );
+	}
+
+	/**
+	 * Returns the record of the specified bug
+	 * @param int p_bug_id integer representing bug id
+	 * @return array
+	 * @access public
+	 */
+	function bug_get_row( $p_bug_id ) {
+		return $this->bug_cache_row( $p_bug_id );
+	}	
+
+	/**
+	 * Cache a bug row if necessary and return the cached copy
+	 * @param array p_bug_id id of bug to cache from mantis_bug_table
+	 * @param array p_trigger_errors set to true to trigger an error if the bug does not exist.
+	 * @return bool|array returns an array representing the bug row if bug exists or false if bug does not exist
+	 * @access public
+	 * @uses database_api.php
+	 */
+	function bug_cache_row( $p_bug_id, $p_trigger_errors = false ) {
+		global $g_cache_bug;
+
+		if( isset( $g_cache_bug[$p_bug_id] ) ) {
+			return $g_cache_bug[$p_bug_id];
+		}
+
+		$c_bug_id = (int) $p_bug_id;
+		$t_bug_table = db_get_table( 'bug' );
+
+		$query = "SELECT *
+					  FROM $t_bug_table
+					  WHERE id=" . db_param();
+		$result = db_query_bound( $query, array( $c_bug_id ) );
+
+		$row = db_fetch_array( $result );
+		
+		if( !$row ) {
+			$g_cache_bug[$c_bug_id] = false;
+
+			if( $p_trigger_errors ) {
+				error_parameters( $p_bug_id );
+				trigger_error( ERROR_BUG_NOT_FOUND, ERROR );
+			} else {
+				return false;
+			}
+		}
+
+		return bug_add_to_cache( $row );
+	}	
+	
 	/**
 	 * return number of file attachment's linked to current bug
 	 * @return int
@@ -587,44 +695,7 @@ function bug_cache_database_result( $p_bug_database_result, $p_stats = null ) {
 	return bug_add_to_cache( $p_bug_database_result, $p_stats );
 }
 
-/**
- * Cache a bug row if necessary and return the cached copy
- * @param array p_bug_id id of bug to cache from mantis_bug_table
- * @param array p_trigger_errors set to true to trigger an error if the bug does not exist.
- * @return bool|array returns an array representing the bug row if bug exists or false if bug does not exist
- * @access public
- * @uses database_api.php
- */
-function bug_cache_row( $p_bug_id, $p_trigger_errors = true ) {
-	global $g_cache_bug;
 
-	if( isset( $g_cache_bug[$p_bug_id] ) ) {
-		return $g_cache_bug[$p_bug_id];
-	}
-
-	$c_bug_id = (int) $p_bug_id;
-	$t_bug_table = db_get_table( 'bug' );
-
-	$query = "SELECT *
-				  FROM $t_bug_table
-				  WHERE id=" . db_param();
-	$result = db_query_bound( $query, array( $c_bug_id ) );
-
-	$row = db_fetch_array( $result );
-	
-	if( !$row ) {
-		$g_cache_bug[$c_bug_id] = false;
-
-		if( $p_trigger_errors ) {
-			error_parameters( $p_bug_id );
-			trigger_error( ERROR_BUG_NOT_FOUND, ERROR );
-		} else {
-			return false;
-		}
-	}
-
-	return bug_add_to_cache( $row );
-}
 
 /**
  * Cache a set of bugs
@@ -765,7 +836,8 @@ function bug_text_clear_cache( $p_bug_id = null ) {
  * @access public
  */
 function bug_exists( $p_bug_id ) {
-	if( false == bug_cache_row( $p_bug_id, false ) ) {
+	$t_bug_data = new BugData($p_bug_id);
+	if( false == $t_bug_data->exists() ) {
 		return false;
 	} else {
 		return true;
@@ -1209,33 +1281,7 @@ function bug_delete_all( $p_project_id ) {
 	return true;
 }
 
-/**
- * Returns the extended record of the specified bug, this includes
- * the bug text fields
- * @todo include reporter name and handler name, the problem is that
- *      handler can be 0, in this case no corresponding name will be
- *      found.  Use equivalent of (+) in Oracle.
- * @param int p_bug_id integer representing bug id
- * @return array
- * @access public
- */
-function bug_get_extended_row( $p_bug_id ) {
-	$t_base = bug_cache_row( $p_bug_id );
-	$t_text = bug_text_cache_row( $p_bug_id );
 
-	# merge $t_text first so that the 'id' key has the bug id not the bug text id
-	return array_merge( $t_text, $t_base );
-}
-
-/**
- * Returns the record of the specified bug
- * @param int p_bug_id integer representing bug id
- * @return array
- * @access public
- */
-function bug_get_row( $p_bug_id ) {
-	return bug_cache_row( $p_bug_id );
-}
 
 /**
  * Returns an object representing the specified bug
@@ -1245,14 +1291,7 @@ function bug_get_row( $p_bug_id ) {
  * @access public
  */
 function bug_get( $p_bug_id, $p_get_extended = false ) {
-	if( $p_get_extended ) {
-		$row = bug_get_extended_row( $p_bug_id );
-	} else {
-		$row = bug_get_row( $p_bug_id );
-	}
-
-	$t_bug_data = new BugData;
-	$t_bug_data->loadrow( $row );
+	$t_bug_data = new BugData($p_bug_id, $p_get_extended);
 	return $t_bug_data;
 }
 
@@ -1271,10 +1310,10 @@ function bug_row_to_object( $p_row ) {
  * @access public
  */
 function bug_get_field( $p_bug_id, $p_field_name ) {
-	$row = bug_get_row( $p_bug_id );
+	$t_bug_data = new BugData($p_bug_id);
 
-	if( isset( $row[$p_field_name] ) ) {
-		return $row[$p_field_name];
+	if( isset( $t_bug_data->{$p_field_name} ) ) {
+		return $t_bug_data->{$p_field_name};
 	} else {
 		error_parameters( $p_field_name );
 		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );

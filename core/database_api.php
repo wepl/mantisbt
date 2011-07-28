@@ -149,13 +149,14 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 		$s_check_params = ( db_is_pgsql() || config_get_global( 'db_type' ) == 'odbc_mssql' );
 	}
 
+	$t_start = $t_elapsed = microtime(true);
 	if(( $p_limit != -1 ) || ( $p_offset != -1 ) ) {
 		$t_result = $g_db->SelectLimit( $p_query, $p_limit, $p_offset, $arr_parms );
 	} else {
 		$t_result = $g_db->Execute( $p_query, $arr_parms );
 	}
 
-	//$t_elapsed = number_format( microtime(true) - $t_start, 4 );
+	$t_elapsed = number_format( microtime(true) - $t_start, 4 );
 
 	if( ON == $g_db_log_queries ) {
 		$t_db_type = config_get_global( 'db_type' );
@@ -194,7 +195,7 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 				$i++;
 			}
 		}
-		//log_event( LOG_DATABASE, array( $p_query, $t_elapsed), debug_backtrace() );
+		log_event( LOG_DATABASE, array( $p_query, $t_elapsed), debug_backtrace() );
 		//array_push( $g_queries_array, array( $p_query, $t_elapsed ) );
 	} else {
 		//array_push( $g_queries_array, array( '', $t_elapsed ) );
