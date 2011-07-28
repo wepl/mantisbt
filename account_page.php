@@ -87,13 +87,14 @@ current_user_ensure_unprotected();
 # extracts the user information for the currently logged in user
 # and prefixes it with u_
 $row = user_get_row( auth_get_current_user_id() );
+
 extract( $row, EXTR_PREFIX_ALL, 'u' );
 
 $t_ldap = ( LDAP == config_get( 'login_method' ) );
 
 # In case we're using LDAP to get the email address... this will pull out
 #  that version instead of the one in the DB
-$u_email = user_get_email( $u_id, $u_username );
+$u_email = user_get_email( $u_user_id, $u_username );
 
 # note if we are being included by a script of a different name, if so,
 #  this is a mandatory password change request

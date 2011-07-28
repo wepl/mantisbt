@@ -333,7 +333,6 @@ function auth_logout() {
 	global $g_cache_current_user_id, $g_cache_cookie_valid;
 
 	# clear cached userid
-	user_clear_cache( $g_cache_current_user_id );
 	$g_cache_current_user_id = null;
 	$g_cache_cookie_valid = null;
 
@@ -766,7 +765,6 @@ function auth_is_cookie_valid( $p_cookie_string ) {
 	# return true if a matching cookie was found
 	$row = db_fetch_array( $result );
 	if( !db_fetch_array( $result ) ) {
-		user_cache_database_result( $row );
 		return true;
 	} else {
 		return false;
