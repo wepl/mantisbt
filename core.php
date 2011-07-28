@@ -139,9 +139,20 @@ function __autoload( $className ) {
 
 	$t_parts = explode( '_', $className );
 	$t_count = sizeof( $t_parts );
-	
+	$t_class = $t_parts[$t_count-1];
+
 	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
 	$t_require_path = $g_class_path . $t_name . $t_parts[$t_count-1] . '.class.php'; 
+
+	if ( file_exists( $t_require_path ) ) {
+		require_once( $t_require_path );
+		return;
+	}
+
+	unset( $t_parts[$t_count-1] );
+
+	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
+	$t_require_path = $g_class_path . $t_name . $t_class . '.class.php';
 
 	if ( file_exists( $t_require_path ) ) {
 		require_once( $t_require_path );
@@ -238,7 +249,7 @@ if ( function_exists( 'timezone_identifiers_list' ) ) {
 	if ( in_array ( config_get_global( 'default_timezone' ), timezone_identifiers_list() ) ) {
 		// if a default timezone is set in config, set it here, else we use php.ini's value
 		// having a timezone set avoids a php warning
-		date_default_timezone_set( config_get_global( 'default_timezone' ) );
+		date_set_timezone( config_get_global( 'default_timezone' ) );
 	} else {
 		config_set_global( 'default_timezone', date_default_timezone_get(), true );
 	}
@@ -246,7 +257,7 @@ if ( function_exists( 'timezone_identifiers_list' ) ) {
 	require_api( 'authentication_api.php' );
 	if( auth_is_user_authenticated() ) {
 		require_api( 'user_pref_api.php' );
-		date_default_timezone_set( user_pref_get_pref( auth_get_current_user_id(), 'timezone' ) );
+		date_set_timezone( user_pref_get_pref( auth_get_current_user_id(), 'timezone' ) );
 	}
 }
 
