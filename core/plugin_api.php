@@ -897,16 +897,6 @@ function plugin_init( $p_basename ) {
 
 		plugin_push_current( $p_basename );
 
-		# load plugin error strings
-		global $g_lang_strings;
-		$t_lang = lang_get_current();
-		$t_plugin_errors = $t_plugin->errors();
-
-		foreach( $t_plugin_errors as $t_error_name => $t_error_string ) {
-			$t_error_code = "plugin_${p_basename}_${t_error_name}";
-			$g_lang_strings[$t_lang]['MANTIS_ERROR'][$t_error_code] = $t_error_string;
-		}
-
 		# finish initializing the plugin
 		$t_plugin->__init();
 		$g_plugin_cache_init[$p_basename] = true;

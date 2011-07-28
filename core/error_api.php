@@ -22,101 +22,11 @@
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2011  MantisBT Team - mantisbt-dev@lists.sourceforge.net
  * @link http://www.mantisbt.org
- *
- * @uses compress_api.php
- * @uses config_api.php
- * @uses constant_api.php
- * @uses database_api.php
- * @uses html_api.php
- * @uses lang_api.php
  */
-
-require_api( 'compress_api.php' );
-require_api( 'config_api.php' );
-require_api( 'constant_inc.php' );
-require_api( 'database_api.php' );
-require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
-
-$g_error_parameters = array();
-$g_error_proceed_url = null;
-$g_error_send_page_header = true;
 
 set_exception_handler(array('MantisError', 'exception_handler'));
 set_error_handler(array('MantisError', 'error_handler'));
 register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
-
-
-function exception_handler($exception) {
-	global $g_error_parameters, $g_error_handled, $g_error_proceed_url;
-	global $g_lang_overrides;
-	global $g_error_send_page_header;
-
-	$t_lang_pushed = false;
-
-	$t_db_connected = false;
-	if (!$exception instanceof MantisDatabaseException) {
-	if( function_exists( 'db_is_connected' ) ) {
-		if( db_is_connected() ) {
-			$t_db_connected = true;
-		}
-	}
-	}
-
-
-	# flush any language overrides to return to user's natural default
-	if( $t_db_connected ) {
-		lang_push( lang_get_default() );
-		$t_lang_pushed = true;
-	}
-
-		if( $t_lang_pushed ) {
-			lang_pop();
-	}
-
-	$g_error_parameters = array();
-	$g_error_proceed_url = null;
-
-	//??? return false;
-}
-
-
-function error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
-	global $g_error_parameters, $g_error_handled, $g_error_proceed_url;
-	global $g_lang_overrides;
-	global $g_error_send_page_header;
-
-
-
-	$t_lang_pushed = false;
-
-	$t_db_connected = false;
-	if( function_exists( 'db_is_connected' ) ) {
-		if( db_is_connected() ) {
-			$t_db_connected = true;
-	}
-}
-
-	# flush any language overrides to return to user's natural default
-	if( $t_db_connected ) {
-		lang_push( lang_get_default() );
-		$t_lang_pushed = true;
-	}
-
-
-
-
-
-
-		if( $t_lang_pushed ) {
-			lang_pop();
-}
-
-	$g_error_parameters = array();
-	$g_error_proceed_url = null;
-	
-	return false;
-}
 
 /**
  * Check if we have handled an error during this page

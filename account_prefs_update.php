@@ -83,7 +83,7 @@ $t_prefs->refresh_delay		= gpc_get_int( 'refresh_delay' );
 $t_prefs->default_project	= gpc_get_int( 'default_project' );
 
 $t_lang = gpc_get_string( 'language' );
-if ( lang_language_exists( $t_lang ) ) {
+if ( lang_is_valid( $t_lang ) ) {
 	$t_prefs->language = $t_lang;
 }
 

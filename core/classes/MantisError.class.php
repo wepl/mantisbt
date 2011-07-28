@@ -55,56 +55,29 @@ class MantisError
         $errorInfo->file = $ex->getFile();
         $errorInfo->line = $ex->getLine();
         $errorInfo->trace = $ex->getTrace();
-		$errorInfo->context = $ex->getContext();
+		if( method_exists( $ex, 'getContext' ) ) {
+			$errorInfo->context = $ex->getContext();
+		} else {
+			$errorInfo->context = null;
+		}
 
         self::$_allErrors[] = $errorInfo;
 	}
 	
 	public static function error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
-        $errorInfo = new stdClass();
-        $errorInfo->time = time();
-        $errorInfo->type = 'ERROR';
-        $errorInfo->name = isset( self::$_errorConstants[$p_type] ) ? self::$_errorConstants[$p_type] : 'UNKNOWN';
-        $errorInfo->code = $p_type;
-        $errorInfo->message = is_numeric( $p_error ) ? self::error_string( $p_error ) : $p_error;
-        $errorInfo->file = $p_file;
-        $errorInfo->line = $p_line;
-        $errorInfo->context = $p_context;
-		$errorInfo->trace = debug_backtrace();
-
-        self::$_allErrors[] = $errorInfo;
-		
-		if( 0 == error_reporting() ) {
-			return false;
-		}		
-
-		// historically we inline warnings
-		if( $p_type != E_WARNING && $p_type != E_USER_WARNING ) {
-			self::init();
+		if (0 == error_reporting())
+		{
+			return;
 		}
-		
-		if( $p_type == E_WARNING || $p_type == E_USER_WARNING || null !== self::$_proceed_url ) {
-		
-			switch( $p_type ) {
-				case E_WARNING:
-					$t_error_type = 'SYSTEM WARNING';
-					$t_error_description = $p_error;
-					break;
-				case E_USER_WARNING:
-					$t_error_type = "APPLICATION WARNING #$p_error";
-					$t_error_description = self::error_string( $p_error );
-					break;
-			}
-			$t_error_description = nl2br( $t_error_description );
-			echo '<p style="color:red">', $t_error_type, ': ', $t_error_description, '</p>';
-			if ( null !== self::$_proceed_url ) {
-				echo '<a href="', self::$_proceed_url, '">', lang_get( 'proceed' ), '</a>';
-			}
-			
-			return true; // @todo true|false??
+
+		if( substr( $p_error, 0, 7) == 'plugin_' || is_numeric( $p_error ) ) {
+			$t_message = self::error_string( $p_error );
+		} else {
+			$t_message = $p_error;
 		}
-		
-		exit();
+
+		throw new ErrorException($t_message, $p_type, /*severity*/0, $p_file, $p_line);
+		return;
 	}
 	
 	public static function shutdown_error_handler() { 
@@ -351,7 +324,11 @@ class MantisError
 		#  the caller didn't give enough parameters for the error string
 		$t_padding = array_pad( array(), 10, '' );
 
-		$t_error = lang_get( $p_error, null, false );
+		if( is_numeric( $p_error ) ) {
+			$t_error = lang_get( $p_error, null, false );
+		} else {
+			$t_error = lang_get_defaulted( $p_error );
+		}
 
 		if( $t_error == '' ) {
 			return lang_get( 'missing_error_string' ) . $p_error;
