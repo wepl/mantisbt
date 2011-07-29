@@ -130,8 +130,6 @@ if( $f_error || $f_cookie_error ) {
 	echo '</div>';
 }
 ?>
-
-<!-- Login Form BEGIN -->
 <div id="login-div" class="form-container">
 	<form id="login-form" method="post" action="login.php">
 		<fieldset>

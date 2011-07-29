@@ -300,9 +300,9 @@ function html_page_bottom1a( $p_file = null ) {
  * @return null
  */
 function html_begin() {
-	echo '<?xml version="1.0" encoding="utf-8"?>';
-	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-	echo '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >';
+	echo '<?xml version="1.0" encoding="utf-8"?>', "\n";
+	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">', "\n";
+	echo '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >', "\n";
 }
 
 /**
@@ -511,7 +511,7 @@ function html_login_info() {
 	$t_now = date( config_get( 'complete_date_format' ) );
 	$t_realname = current_user_get_field( 'realname' );
 
-	echo '<div id="login-info">';
+	echo '<div id="login-info">' . "\n";
 	if( current_user_is_anonymous() ) {
 		$t_return_page = $_SERVER['SCRIPT_NAME'];
 		if( isset( $_SERVER['QUERY_STRING'] ) ) {
@@ -520,20 +520,20 @@ function html_login_info() {
 
 		$t_return_page = string_url( $t_return_page );
 
-		echo '<span id="logged-anon-label">' . lang_get( 'anonymous' ) . '</span>';
-		echo '<span id="login-link"><a href="' . helper_mantis_url( 'login_page.php?return=' . $t_return_page ) . '">' . lang_get( 'login_link' ) . '</a></span>';
+		echo '	<span id="logged-anon-label">' . lang_get( 'anonymous' ) . '</span>' . "\n";
+		echo '	<span id="login-link"><a href="' . helper_mantis_url( 'login_page.php?return=' . $t_return_page ) . '">' . lang_get( 'login_link' ) . '</a></span>' . "\n";
 		if( config_get_global( 'allow_signup' ) == ON ) {
-			echo '<span id="signup-link"><a href="' . helper_mantis_url( 'signup_page.php' ) . '">' . lang_get( 'signup_link' ) . '</a></span>';
+			echo '	<span id="signup-link"><a href="' . helper_mantis_url( 'signup_page.php' ) . '">' . lang_get( 'signup_link' ) . '</a></span>' . "\n";
 		}
 	} else {
-		echo '<span id="logged-in-label">' . lang_get( 'logged_in_as' ) . '</span>';
-		echo '<span id="logged-in-user">' . string_html_specialchars( $t_username ) . '</span>';
-		echo '<span id="logged-in">';
-		echo !is_blank( $t_realname ) ?  '<span id="logged-in-realname">' . string_html_specialchars( $t_realname ) . '</span>' : '';
-		echo '<span id="logged-in-accesslevel" class="' . $t_access_level . '">' . $t_access_level . '</span>';
-		echo '</span>';
+		echo '	<span id="logged-in-label">' . lang_get( 'logged_in_as' ) . '</span>' . "\n";
+		echo '	<span id="logged-in-user">' . string_html_specialchars( $t_username ) . '</span>' . "\n";
+		echo '	<span id="logged-in">' . "\n";
+		echo !is_blank( $t_realname ) ?  '	<span id="logged-in-realname">' . string_html_specialchars( $t_realname ) . '</span>' . "\n" : ''; 
+		echo '	<span id="logged-in-accesslevel" class="' . $t_access_level . '">' . $t_access_level . '</span>' . "\n";
+		echo '	</span>' . "\n";
 	}
-	echo '</div>';
+	echo '</div>'. "\n";
 
 
 	$t_show_project_selector = true;
