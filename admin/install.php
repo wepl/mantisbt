@@ -339,7 +339,7 @@ if( 2 == $t_install_state ) {
 			$t_db_open = true;
 				print_test_result( GOOD );
 		} else {
-			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error_msg() . ' )' );
+			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . $g_db->get_last_error() . ' )' );
 		}
 		?>
 </tr>
@@ -542,11 +542,11 @@ if( 3 == $t_install_state ) {
 					print_test_result( GOOD );
 					$t_db_open = true;
 				} else {
-					$t_error = db_error_msg();
-					if( strstr( $t_error, 'atabase exists' ) ) {
-						print_test_result( BAD, false, 'Database already exists? ( ' . db_error_msg() . ' )' );
+					$t_error_msg = $g_db->get_last_error();
+					if( strstr( $t_error_msg, 'atabase exists' ) ) {
+						print_test_result( BAD, false, 'Database already exists? ( ' . $t_error_msg . ' )' );
 					} else {
-						print_test_result( BAD, true, 'Does administrative user have access to create the database? ( ' . db_error_msg() . ' )' );
+						print_test_result( BAD, true, 'Does administrative user have access to create the database? ( ' . $t_error_msg . ' )' );
 						$t_install_state--; # db creation failed, allow user to re-enter user/password info
 					}
 				}
@@ -601,7 +601,7 @@ if( 3 == $t_install_state ) {
 		if( $t_result == true ) {
 			print_test_result( GOOD );
 		} else {
-			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error_msg() . ' )' );
+			print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . $g_db->get_last_error() . ' )' );
 		}
 		//@todo $g_db->Close();
 		?>
@@ -854,6 +854,7 @@ if( 6 == $t_install_state ) {
 	</td>
 	<?php
 	$g_db = MantisDatabase::get_driver_instance($f_db_type);
+	$g_db->SetPrefixes( 'mantis_', '_table' );
 	try {
 		$t_result = $g_db->connect( null, $f_hostname, $f_db_username, $f_db_password, $f_database_name, null );
 	} catch (Exception $ex) {
@@ -863,7 +864,7 @@ if( 6 == $t_install_state ) {
 	if( $t_result == true ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, false, 'Database user doesn\'t have access to the database ( ' . $g_db->get_last_error() . ' )' );
 	}
 
 	?>
@@ -879,7 +880,7 @@ if( 6 == $t_install_state ) {
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have SELECT access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have SELECT access to the database ( ' . $g_db->get_last_error() . ' )' );
 	}
 	?>
 </tr>
@@ -894,7 +895,7 @@ if( 6 == $t_install_state ) {
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have INSERT access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have INSERT access to the database ( ' . $g_db->get_last_error() . ' )' );
 	}
 	?>
 </tr>
@@ -903,13 +904,13 @@ if( 6 == $t_install_state ) {
 		checking ability to UPDATE records
 	</td>
 	<?php
-		$t_query = "UPDATE $t_mantis_config_table SET value='test_update' WHERE config_id='database_test'";
+		$t_query = "UPDATE {config} SET value='test_update' WHERE config_id='database_test'";
 	$t_result = @$g_db->Execute( $t_query );
 
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have UPDATE access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have UPDATE access to the database ( ' . $g_db->get_last_error() . ' )' );
 	}
 	?>
 </tr>
@@ -918,13 +919,13 @@ if( 6 == $t_install_state ) {
 		checking ability to DELETE records
 	</td>
 	<?php
-		$t_query = "DELETE FROM $t_mantis_config_table WHERE config_id='database_test'";
+		$t_query = "DELETE FROM {config} WHERE config_id='database_test'";
 	$t_result = @$g_db->Execute( $t_query );
 
 	if( $t_result != false ) {
 		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Database user doesn\'t have DELETE access to the database ( ' . db_error_msg() . ' )' );
+		print_test_result( BAD, true, 'Database user doesn\'t have DELETE access to the database ( ' . $g_db->get_last_error() . ' )' );
 	}
 	?>
 </tr>
