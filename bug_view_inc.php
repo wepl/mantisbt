@@ -94,7 +94,7 @@ access_ensure_bug_level( VIEWER, $f_bug_id );
 
 $f_history = gpc_get_bool( 'history', config_get( 'history_default_visible' ) );
 
-$t_fields = config_get( $tpl_fields_config_option );
+$t_fields = config_get( $tpl_fields_config_option, columns_get_default( 'bug_view_page' ) );
 $t_fields = columns_filter_disabled( $t_fields );
 
 compress_enable();

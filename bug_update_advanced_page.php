@@ -93,7 +93,7 @@ if ( bug_is_readonly( $f_bug_id ) ) {
 
 access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );
 
-$t_fields = config_get( 'bug_update_page_fields' );
+$t_fields = config_get( 'bug_update_page_columns', columns_get_default( 'bug_update_page' ) );
 $t_fields = columns_filter_disabled( $t_fields );
 
 $tpl_bug_id = $f_bug_id;

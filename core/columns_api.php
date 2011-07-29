@@ -160,6 +160,51 @@ function columns_get_standard() {
 	return array_keys($t_columns);
 }
 
+function columns_get_default( $p_type ) {
+	$t_columns = columns_get_standard();
+
+	switch( $p_type ) {
+		case 'view_issues_page':
+			// $g_view_issues_page_columns
+			$t_columns = columns_remove_invalid( array ( 'selection', 'edit', 'priority', 'id', 'sponsorship_total', 'bugnotes_count', 'attachment', 'category_id', 'severity', 'status', 'last_updated', 'summary' ), $t_columns );
+			break;
+		case 'print_issues_page':
+			// $g_print_issues_page_columns
+			$t_columns = columns_remove_invalid( array ( 'selection', 'priority', 'id', 'sponsorship_total', 'bugnotes_count', 'attachment', 'category_id', 'severity', 'status', 'last_updated', 'summary' ), $t_columns );
+			break;
+		case 'csv':
+			// $g_csv_columns
+			$t_columns = columns_remove_invalid( array ( 'id', 'project_id', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'version', 'projection', 'category_id', 'date_submitted', 'eta', 'os', 'os_build', 'platform', 'view_state', 'last_updated', 'summary', 'status', 'resolution', 'fixed_in_version' ), $t_columns );
+			break;		
+		case 'excel':
+			// $g_excel_columns 
+			$t_columns = columns_remove_invalid( array ( 'id', 'project_id', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'version', 'projection', 'category_id', 'date_submitted', 'eta', 'os', 'os_build', 'platform', 'view_state', 'last_updated', 'summary', 'status', 'resolution', 'fixed_in_version' ), $t_columns );
+			break;
+		case 'bug_report_page':
+			// $g_bug_report_page_columns
+			$t_columns = columns_remove_invalid( array( 'category_id', 'view_state', 'handler_id', 'priority', 'severity', 'reproducibility', 'platform', 'os', 'os_build', 'version', 'build', 'target_version', 'summary', 'description', 'additional_info', 'steps_to_reproduce', 'attachments', 'due_date' ), $t_columns );
+			break;
+		case 'bug_view_page':
+			// $g_bug_view_page_columns
+			$t_columns = columns_remove_invalid( array( 'id', 'project_id', 'category_id', 'view_state', 'date_submitted', 'last_updated', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'status', 'resolution', 'projection', 'eta', 'platform', 'os', 'os_build', 'version', 'build', 'target_version', 'fixed_in_version', 'summary', 'description', 'additional_info', 'steps_to_reproduce', 'tags', 'attachments', 'due_date' ), $t_columns );
+			break;
+		case 'bug_print_page':
+			// $g_bug_print_page_columns
+			$t_columns = columns_remove_invalid( array( 'id', 'project_id', 'category_id', 'view_state', 'date_submitted', 'last_updated', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'status', 'resolution', 'projection', 'eta', 'platform', 'os', 'os_build', 'version', 'build', 'target_version', 'fixed_in_version', 'summary', 'description', 'additional_info', 'steps_to_reproduce', 'tags', 'attachments', 'due_date' ), $t_columns );
+			break;
+		case 'bug_update_page':
+			// $g_bug_update_page_columns
+			$t_columns = columns_remove_invalid( array( 'id', 'project_id', 'category_id', 'view_state', 'date_submitted', 'last_updated', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'status', 'resolution', 'projection', 'eta', 'platform', 'os', 'os_build', 'version', 'build', 'target_version', 'fixed_in_version', 'summary', 'description', 'additional_info', 'steps_to_reproduce', 'attachments', 'due_date' ), $t_columns );
+			break;
+		case 'bug_change_status_page':
+			// $g_bug_change_status_page_columns
+			$t_columns = columns_remove_invalid( array( 'id', 'project_id', 'category_id', 'view_state', 'date_submitted', 'last_updated', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'status', 'resolution', 'projection', 'eta', 'platform', 'os', 'os_build', 'version', 'build', 'target_version', 'fixed_in_version', 'summary', 'description', 'additional_info', 'steps_to_reproduce', 'tags', 'attachments', 'due_date' ), $t_columns );
+			break;
+	}
+
+	return $t_columns;
+}
+
 /**
  * Allow plugins to define a set of class-based columns, and register/load
  * them here to be used by columns_api.

@@ -170,7 +170,7 @@ if ( $f_master_bug_id > 0 ) {
 
 $f_report_stay			= gpc_get_bool( 'report_stay', false );
 
-$t_fields = config_get( 'bug_report_page_fields' );
+$t_fields = config_get( 'bug_report_page_columns', columns_get_default( 'bug_report_page' ) );
 $t_fields = columns_filter_disabled( $t_fields );
 
 $tpl_show_category = in_array( 'category_id', $t_fields );
