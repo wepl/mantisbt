@@ -153,7 +153,7 @@ function install_category_migrate() {
 			if ( !isset( $t_inserted[$t_lower_name] ) ) {
 				$query = 'INSERT INTO {category} ( name, project_id, user_id ) VALUES ( %s, %d, %d )';
 				db_query_bound( $query, array( $t_name, $t_project_id, $t_user_id ) );
-				$t_category_id = db_insert_id( $t_category_table );
+				$t_category_id = db_insert_id( '{category}' );
 				$t_inserted[$t_lower_name] = $t_category_id;
 			} else {
 				$t_category_id = $t_inserted[$t_lower_name];
@@ -412,7 +412,7 @@ function install_create_admin_if_not_exist( $p_data ) {
 	db_query_bound( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), 1, 1, 90, 0, $t_cookie_string, '' ) );
 
 	# Create preferences for the user
-	$t_user_id = db_insert_id( $t_user_table );
+	$t_user_id = db_insert_id( '{user}' );
 	
 	if( $t_user_id === 1 ) {
 		return 2;

@@ -110,9 +110,7 @@ if ( $f_page_number < 1 ) {
 }
 
 # Retrive Tags from tag table
-$t_query = "SELECT *
-		FROM $t_tag_table
-		$t_where ORDER BY name";
+$t_query = "SELECT * FROM {tag} $t_where ORDER BY name";
 
 $t_result = db_query_bound( $t_query, $t_where_params, $t_per_page, $t_offset );
 

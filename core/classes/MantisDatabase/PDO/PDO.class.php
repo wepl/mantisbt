@@ -122,6 +122,7 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
      */
 	
 	public function get_insert_id( $p_table ) {
+		// $p_table = $this->PrepareSQLString($p_table);
 		if ($id = $this->pdb->lastInsertId()) {
 			return (int)$id;
 		}
@@ -142,10 +143,10 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
      * @return bool success
      */
     public function execute($sql, array $params=null) {
-        list($sql, $params) = $this->check_sql_parameters($sql, $params);
+        //list($sql, $params) = $this->check_sql_parameters($sql, $params);
 
-		$sql = $this->PrefixTables($sql);
-		
+		$sql = $this->PrepareSQLString($sql);
+		//var_dump($sql);
         $result = true;
         $this->query_start($sql, $params);
 
@@ -153,7 +154,7 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
             $sth = $this->pdb->prepare($sql);
             $sth->execute($params);
         } catch (PDOException $ex) {
-            $this->lastError = $ex->getMessage();
+			$this->lastError = $ex->getMessage();
             $result = false;
         }
 

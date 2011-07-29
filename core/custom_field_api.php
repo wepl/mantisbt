@@ -407,7 +407,7 @@ function custom_field_create( $p_name ) {
 
 	db_query_bound( $query, array( $c_name, '' ) );
 
-	return db_insert_id( $t_custom_field_table );
+	return db_insert_id( '{custom_field}' );
 }
 
 /**
@@ -830,7 +830,7 @@ function custom_field_get_linked_ids( $p_project_id = ALL_PROJECTS ) {
 			#  e.g., all fields in public projects, or private projects where the user is listed
 			#    or private projects where the user is implicitly listed
 			$query = "SELECT DISTINCT cft.id
-                    FROM {custom_field} cft, $t_user_table ut, {project} pt, {custom_field_project} cfpt
+                    FROM {custom_field} cft, {user} ut, {project} pt, {custom_field_project} cfpt
                         LEFT JOIN {project_user_list} pult
                             on cfpt.project_id = pult.project_id and pult.user_id = $t_user_id
                     WHERE cft.id = cfpt.field_id AND cfpt.project_id = pt.id AND ut.id = $t_user_id AND

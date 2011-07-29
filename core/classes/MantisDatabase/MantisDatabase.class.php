@@ -331,8 +331,15 @@ abstract class MantisDatabase {
 		throw new MantisDatabaseException(ERROR_DB_QUERY_FAILED, $a);
     }
 	
-	protected function PrefixTables($sql) {
-		return strtr($sql, array('{' => self::$dbprefix, '}' => self::$dbsuffix));
+	protected function PrepareSQLString($sql) {
+		return strtr($sql, array(
+								'{' => self::$dbprefix, 
+								'}' => self::$dbsuffix,
+								'%s' => '?',
+								'%d' => '?',
+								'%b' => '?',
+								)
+					);
 }
 	
 	

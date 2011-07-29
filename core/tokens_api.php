@@ -198,7 +198,7 @@ function token_create( $p_type, $p_value, $p_expiry = TOKEN_EXPIRY, $p_user_id =
 	$t_query = "INSERT INTO {tokens} ( type, value, timestamp, expiry, owner ) 
 				VALUES ( %d, %s, %d, %d, %d )";
 	db_query_bound( $t_query, array( $c_type, $p_value, $c_timestamp, $c_expiry, $c_user_id ) );
-	return db_insert_id( $t_tokens_table );
+	return db_insert_id( '{tokens}' );
 }
 
 /**
