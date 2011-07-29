@@ -338,7 +338,7 @@ function file_delete_attachments( $p_bug_id ) {
 
 	# Delete files from disk
 	$t_query = "SELECT diskfile, filename FROM {bug_file}
-				WHERE bug_id=" . db_param();
+				WHERE bug_id=%d";
 	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
 
 	$t_files = array();
@@ -373,7 +373,7 @@ function file_delete_attachments( $p_bug_id ) {
 
 	# Delete the corresponding db records
 	$t_query = "DELETE FROM $t_bug_file_table
-				  WHERE bug_id=" . db_param();
+				  WHERE bug_id=%d";
 	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
 
 	# db_query errors on failure so:
@@ -387,9 +387,7 @@ function file_delete_project_files( $p_project_id ) {
 	if ( ( $t_method == DISK ) || ( $t_method == FTP ) ) {
 
 		# Delete files from disk
-		$t_query = "SELECT diskfile, filename
-					FROM {project_file}
-					WHERE project_id=" . db_param();
+		$t_query = 'SELECT diskfile, filename FROM {project_file} WHERE project_id=%d';
 		$t_result = db_query_bound( $t_query, array( (int) $p_project_id ) );
 
 		$t_files = array();
@@ -417,8 +415,7 @@ function file_delete_project_files( $p_project_id ) {
 	}
 
 	# Delete the corresponding db records
-	$t_query = "DELETE FROM {project_file}
-				WHERE project_id=" . db_param();
+	$t_query = 'DELETE FROM {project_file} WHERE project_id=%d';
 	$t_result = db_query_bound( $t_query, array( (int) $p_project_id ) );
 }
 
@@ -476,7 +473,7 @@ function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
 	# get info
 	$query = "SELECT $c_field_name
 				  FROM $t_bug_file_table
-				  WHERE id=" . db_param();
+				  WHERE id=%d";
 	$result = db_query_bound( $query, array( (int) $p_file_id ), 1 );
 
 	return db_result( $result );
@@ -516,7 +513,7 @@ function file_delete( $p_file_id, $p_table = 'bug' ) {
 
 	$t_file_table = db_get_table( $p_table . '_file' );
 	$query = "DELETE FROM $t_file_table
-				WHERE id=" . db_param();
+				WHERE id=%d";
 	db_query_bound( $query, array( $c_file_id ) );
 	return true;
 }
@@ -580,7 +577,7 @@ function file_generate_unique_name( $p_seed, $p_filepath ) {
 function diskfile_is_name_unique( $p_name, $p_filepath ) {
 	$c_name = $p_filepath . $p_name;
 
-	$query = "SELECT COUNT(*) FROM {bug_file} WHERE diskfile=" . db_param();
+	$query = 'SELECT COUNT(*) FROM {bug_file} WHERE diskfile=%s';
 	$result = db_query_bound( $query, array( $c_name ) );
 	$t_count = db_result( $result );
 
@@ -593,8 +590,7 @@ function diskfile_is_name_unique( $p_name, $p_filepath ) {
 
 # Return true if the file name identifier is unique, false otherwise
 function file_is_name_unique( $p_name, $p_bug_id ) {
-	$query = "SELECT COUNT(*) FROM {bug_file}
-				  WHERE filename=" . db_param() . " AND bug_id=" . db_param();
+	$query = "SELECT COUNT(*) FROM {bug_file} WHERE filename=%s AND bug_id=%d";
 	$result = db_query_bound( $query, array( $p_name, $p_bug_id ) );
 	$t_count = db_result( $result );
 
@@ -851,10 +847,10 @@ function file_get_content( $p_file_id, $p_type = 'bug' ) {
 	$query = '';
 	switch ( $p_type ) {
 		case 'bug':
-			$query = "SELECT * FROM {bug_file} WHERE id=" . db_param();
+			$query = "SELECT * FROM {bug_file} WHERE id=%d";
 			break;
 		case 'doc':
-			$query = "SELECT * FROM {project_file} WHERE id=" . db_param();
+			$query = "SELECT * FROM {project_file} WHERE id=%d";
 			break;
 		default:
 			return false;
@@ -969,12 +965,8 @@ function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 	}
 
 	# Initialize the update query to update a single row
-	$t_bug_file_table = db_get_table( 'bug_file' );
 	$c_bug_id = db_prepare_int( $p_bug_id );
-	$query_disk_attachment_update = "UPDATE $t_bug_file_table
-	                                 SET folder=" . db_param() . "
-	                                 WHERE bug_id=" . db_param() . "
-	                                 AND id =" . db_param();
+	$query_disk_attachment_update = "UPDATE {bug_file} SET folder=%s WHERE bug_id=%d AND id =%d";
 
 	$t_attachment_rows = bug_get_attachments( $p_bug_id );
 	$t_attachments_count = count( $t_attachment_rows );

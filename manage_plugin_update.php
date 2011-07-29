@@ -62,8 +62,7 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 	$f_priority = gpc_get_int( 'priority_'.$t_basename, 3 );
 	$f_protected = gpc_get_bool( 'protected_'.$t_basename, 0 );
 
-	$t_query = "UPDATE {plugin} SET priority=" . db_param() . ', protected=' . db_param() .
-		' WHERE basename=' . db_param();
+	$t_query = 'UPDATE {plugin} SET priority=%d, protected=%d WHERE basename=%s';
 
 	db_query_bound( $t_query, array( $f_priority, $f_protected, $t_basename ) );
 }

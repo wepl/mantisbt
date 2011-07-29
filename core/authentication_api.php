@@ -547,8 +547,7 @@ function auth_generate_unique_cookie_string() {
  * @access public
  */
 function auth_is_cookie_string_unique( $p_cookie_string ) {
-	$query = "SELECT COUNT(*) FROM {user}
-				  WHERE cookie_string=" . db_param();
+	$query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=%s";
 	$result = db_query_bound( $query, array( $p_cookie_string ) );
 	$t_count = db_result( $result );
 
@@ -592,7 +591,7 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 				if( function_exists( 'db_is_connected' ) && db_is_connected() ) {
 
 					# get anonymous information if database is available
-					$query = 'SELECT id, cookie_string FROM {user} WHERE username = ' . db_param();
+					$query = 'SELECT id, cookie_string FROM {user} WHERE username = %s';
 					$result = db_query_bound( $query, array( config_get( 'anonymous_account' ) ) );
 
 					if( $row = db_fetch_array( $result ) ) {						
@@ -752,7 +751,7 @@ function auth_is_cookie_valid( $p_cookie_string ) {
 	}
 
 	# look up cookie in the database to see if it is valid
-	$query = 'SELECT * FROM {user} WHERE cookie_string=' . db_param();
+	$query = 'SELECT * FROM {user} WHERE cookie_string=%s';
 	$result = db_query_bound( $query, array( $p_cookie_string ) );
 
 	# return true if a matching cookie was found
@@ -785,7 +784,7 @@ function auth_get_current_user_id() {
 	}
 
 	/** @todo error with an error saying they aren't logged in? Or redirect to the login page maybe? */
-	$query = "SELECT id FROM {user} WHERE cookie_string=" . db_param();
+	$query = 'SELECT id FROM {user} WHERE cookie_string=%s';
 	$result = db_query_bound( $query, array( $t_cookie_string ) );
 
 	$t_user_id = (int) db_result( $result );

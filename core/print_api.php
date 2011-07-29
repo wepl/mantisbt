@@ -358,7 +358,7 @@ function print_news_item_option_list() {
 				ORDER BY date_posted DESC";
 	} else {
 		$query = "SELECT id, headline, announcement, view_state FROM {news}
-				WHERE project_id=" . db_param() . "
+				WHERE project_id=%d
 				ORDER BY date_posted DESC";
 	}
 	$result = db_query_bound( $query, ($t_global == true ? array() : array( $t_project_id ) ) );
@@ -872,8 +872,8 @@ function print_project_user_list_option_list2( $p_user_id ) {
 	$query = "SELECT DISTINCT p.id, p.name
 				FROM {project} p
 				LEFT JOIN {project_user_list} u
-				ON p.id=u.project_id AND u.user_id=" . db_param() . "
-				WHERE p.enabled = " . db_param() . " AND
+				ON p.id=u.project_id AND u.user_id=%d
+				WHERE p.enabled = %d AND
 					u.user_id IS NULL
 				ORDER BY p.name";
 	$result = db_query_bound( $query, array( $c_user_id, true ) );
@@ -1526,7 +1526,7 @@ function print_bug_attachment_preview_text( $p_attachment ) {
 			break;
 		default:
 			$c_attachment_id = db_prepare_int( $p_attachment['id'] );
-			$t_query = "SELECT * FROM {bug_file} WHERE id=" . db_param();
+			$t_query = "SELECT * FROM {bug_file} WHERE id=%d";
 			$t_result = db_query_bound( $t_query, array( $c_attachment_id ) );
 			$t_row = db_fetch_array( $t_result );
 			$t_content = $t_row['content'];

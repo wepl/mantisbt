@@ -103,13 +103,7 @@ function email_queue_add( $p_email_data ) {
 					  body,
 					  submitted,
 					  metadata)
-				  VALUES
-				    ( " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . ",
-					  " . db_param() . ",
-					  " . db_param() . "
-					)";
+				  VALUES ( %s, %s, %s, %d, %s )";
 	db_query_bound( $query, array( $c_email, $c_subject, $c_body, db_now(), $c_metadata ) );
 
 	return db_insert_id( $t_email_table, 'email_id' );
@@ -155,7 +149,7 @@ function email_queue_row_to_object( $p_row ) {
 function email_queue_get( $p_email_id ) {
 	$c_email_id = db_prepare_int( $p_email_id );
 
-	$query = 'SELECT * FROM {email} WHERE email_id=' . db_param();
+	$query = 'SELECT * FROM {email} WHERE email_id=%d';
 	$result = db_query_bound( $query, array( $c_email_id ) );
 
 	$t_row = db_fetch_array( $result );
@@ -171,7 +165,7 @@ function email_queue_get( $p_email_id ) {
 function email_queue_delete( $p_email_id ) {
 	$c_email_id = db_prepare_int( $p_email_id );
 
-	$query = 'DELETE FROM {email} WHERE email_id=' . db_param();
+	$query = 'DELETE FROM {email} WHERE email_id=%d';
 	db_query_bound( $query, array( $c_email_id ) );
 }
 

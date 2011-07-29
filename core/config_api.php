@@ -342,18 +342,13 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 		$c_access = db_prepare_int( $p_access );
 
 		$query = "SELECT COUNT(*) from {config}
-				WHERE config_id = " . db_param() . " AND
-					project_id = " . db_param() . " AND
-					user_id = " . db_param();
+				WHERE config_id = %d AND project_id = %d AND user_id = %d";
 		$result = db_query_bound( $query, array( $c_option, $c_project, $c_user ) );
 
 		$t_params = array();
 		if( 0 < db_result( $result ) ) {
-			$t_set_query = "UPDATE {config}
-					SET value=" . db_param() . ", type=" . db_param() . ", access_reqd=" . db_param() . "
-					WHERE config_id = " . db_param() . " AND
-						project_id = " . db_param() . " AND
-						user_id = " . db_param();
+			$t_set_query = "UPDATE {config} SET value=%s, type=%d, access_reqd=%d
+					WHERE config_id = %d AND project_id = %d AND user_id = %d";
 			$t_params = array(
 				$c_value,
 				$t_type,
@@ -365,8 +360,7 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 		} else {
 			$t_set_query = "INSERT INTO {config}
 					( value, type, access_reqd, config_id, project_id, user_id )
-					VALUES
-					(" . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ',' . db_param() . ' )';
+					VALUES ( %s, %d, %d, %d, %d,%d )";
 			$t_params = array(
 				$c_value,
 				$t_type,
@@ -464,10 +458,7 @@ function config_delete( $p_option, $p_user = ALL_USERS, $p_project = ALL_PROJECT
 
 		$c_user = db_prepare_int( $p_user );
 		$c_project = db_prepare_int( $p_project );
-		$query = "DELETE FROM {config}
-				WHERE config_id = " . db_param() . " AND
-					project_id=" . db_param() . " AND
-					user_id=" . db_param();
+		$query = "DELETE FROM {config} WHERE config_id = %d AND project_id=%d AND user_id=%d";
 
 		$result = @db_query_bound( $query, array( $p_option, $c_project, $c_user ) );
 	}
@@ -488,7 +479,7 @@ function config_delete_for_user( $p_option, $p_user_id ) {
 	$c_user_id = db_prepare_int( $p_user_id );
 
 	# Delete the corresponding bugnote texts
-	$query = 'DELETE FROM {config} WHERE config_id=' . db_param() . " AND user_id=" . db_param();
+	$query = 'DELETE FROM {config} WHERE config_id=%d AND user_id=%d';
 	db_query_bound( $query, array( $p_option, $c_user_id ) );
 }
 
@@ -497,7 +488,7 @@ function config_delete_for_user( $p_option, $p_user_id ) {
 function config_delete_project( $p_project = ALL_PROJECTS ) {
 	global $g_cache_config, $g_cache_config_access;
 	$c_project = db_prepare_int( $p_project );
-	$query = 'DELETE FROM {config} WHERE project_id=' . db_param();
+	$query = 'DELETE FROM {config} WHERE project_id=%d';
 
 	$result = @db_query_bound( $query, array( $c_project ) );
 

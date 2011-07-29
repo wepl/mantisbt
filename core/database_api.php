@@ -213,14 +213,6 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 }
 
 /**
- * Generate a string to insert a parameter into a database query string
- * @return string 'wildcard' matching a paramater in correct ordered format for the current database.
- */
-function db_param() {
-	return '?';
-}
-
-/**
  * Retrieve number of rows affected for a specific database query
  * @param ADORecordSet $p_result Database Query Record Set to retrieve record count for.
  * @return int Record Count
@@ -456,7 +448,7 @@ function db_helper_like( $p_field_name, $p_case_sensitive = false ) {
 		}
 	}
 
-	return "($p_field_name $t_like_keyword " . db_param() . ')';
+	return "($p_field_name $t_like_keyword %s)";
 }
 
 /**
@@ -473,10 +465,10 @@ function db_helper_compare_days( $p_date1_id_or_column, $p_date2_id_or_column, $
 	$p_date1 = $p_date1_id_or_column;
 	$p_date2 = $p_date2_id_or_column;
 	if( is_int( $p_date1_id_or_column ) ) {
-		$p_date1 = db_param();
+		$p_date1 = '%d';
 	}
 	if( is_int( $p_date2_id_or_column ) ) {
-		$p_date2 = db_param();
+		$p_date2 = '%d';
 	}
 
 	return '((' . $p_date1 . ' - ' . $p_date2 .')' . $p_limitstring . ')';

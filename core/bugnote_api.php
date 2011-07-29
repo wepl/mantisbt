@@ -86,7 +86,7 @@ class BugnoteData {
 function bugnote_exists( $p_bugnote_id ) {
 	$c_bugnote_id = db_prepare_int( $p_bugnote_id );
 
-	$query = 'SELECT COUNT(*) FROM {bugnote} WHERE id=' . db_param();
+	$query = 'SELECT COUNT(*) FROM {bugnote} WHERE id=%d';
 	$result = db_query_bound( $query, array( $c_bugnote_id ) );
 
 	if( 0 == db_result( $result ) ) {
@@ -168,7 +168,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 	$t_bugnote_text = event_signal( 'EVENT_BUGNOTE_DATA', $t_bugnote_text, $c_bug_id );
 
 	# insert bugnote text
-	$query = 'INSERT INTO {bugnote_text} ( note ) VALUES ( ' . db_param() . ' )';
+	$query = 'INSERT INTO {bugnote_text} ( note ) VALUES ( %s )';
 	db_query_bound( $query, array( $t_bugnote_text ) );
 
 	# retrieve bugnote text id number
@@ -191,8 +191,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 	# insert bugnote info
 	$query = "INSERT INTO {bugnote}
 				(bug_id, reporter_id, bugnote_text_id, view_state, date_submitted, last_modified, note_type, note_attr, time_tracking )
-			VALUES
-				(" . db_param() . ', ' . db_param() . ',' . db_param() . ', ' . db_param() . ', ' . db_param() . ',' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ' )';
+			VALUES (%d, %d,%d, %d, %d,%d, %d, %s, %d )";
 	db_query_bound( $query, array( $c_bug_id, $c_user_id, $t_bugnote_text_id, $t_view_state, $c_date_submitted, $c_last_modified, $c_type, $p_attr, $c_time_tracking ) );
 
 	# get bugnote id
@@ -229,11 +228,11 @@ function bugnote_delete( $p_bugnote_id ) {
 	$t_bugnote_text_id = bugnote_get_field( $p_bugnote_id, 'bugnote_text_id' );
 
 	# Remove the bugnote
-	$query = 'DELETE FROM {bugnote} WHERE id=' . db_param();
+	$query = 'DELETE FROM {bugnote} WHERE id=%d';
 	db_query_bound( $query, array( $c_bugnote_id ) );
 
 	# Remove the bugnote text
-	$query = 'DELETE FROM {bugnote_text} WHERE id=' . db_param();
+	$query = 'DELETE FROM {bugnote_text} WHERE id=%d';
 	db_query_bound( $query, array( $t_bugnote_text_id ) );
 
 	# log deletion of bug
@@ -252,19 +251,19 @@ function bugnote_delete_all( $p_bug_id ) {
 	$c_bug_id = db_prepare_int( $p_bug_id );
 
 	# Delete the bugnote text items
-	$query = 'SELECT bugnote_text_id FROM {bugnote} WHERE bug_id=' . db_param();
+	$query = 'SELECT bugnote_text_id FROM {bugnote} WHERE bug_id=%d';
 	$result = db_query_bound( $query, array( $c_bug_id ) );
 
 	while( $row = db_fetch_array( $result ) ) {
 		$t_bugnote_text_id = $row['bugnote_text_id'];
 
 		# Delete the corresponding bugnote texts
-		$query = 'DELETE FROM {bugnote_text} WHERE id=' . db_param();
+		$query = 'DELETE FROM {bugnote_text} WHERE id=%d';
 		db_query_bound( $query, array( $t_bugnote_text_id ) );
 	}
 
 	# Delete the corresponding bugnotes
-	$query = 'DELETE FROM {bugnote} WHERE bug_id=' . db_param();
+	$query = 'DELETE FROM {bugnote} WHERE bug_id=%d';
 	$result = db_query_bound( $query, array( $c_bug_id ) );
 
 	# db_query errors on failure so:
@@ -281,7 +280,7 @@ function bugnote_get_text( $p_bugnote_id ) {
 	$t_bugnote_text_id = bugnote_get_field( $p_bugnote_id, 'bugnote_text_id' );
 
 	# grab the bugnote text
-	$query = "SELECT note FROM {bugnote_text} WHERE id=" . db_param();
+	$query = 'SELECT note FROM {bugnote_text} WHERE id=%d';
 	$result = db_query_bound( $query, array( $t_bugnote_text_id ) );
 
 	return db_result( $result );
@@ -311,7 +310,7 @@ function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
 		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
 	}
 
-	$query = "SELECT $p_field_name FROM {bugnote} WHERE id=" . db_param();
+	$query = "SELECT $p_field_name FROM {bugnote} WHERE id=%d";
 	$result = db_query_bound( $query, array( $p_bugnote_id ), 1 );
 
 	return db_result( $result );
@@ -326,8 +325,7 @@ function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
 function bugnote_get_latest_id( $p_bug_id ) {
 	$c_bug_id = db_prepare_int( $p_bug_id );
 
-	$query = "SELECT id FROM {bugnote} WHERE bug_id=" . db_param() . "
-		          	ORDER by last_modified DESC";
+	$query = "SELECT id FROM {bugnote} WHERE bug_id=%d ORDER by last_modified DESC";
 	$result = db_query_bound( $query, array( $c_bug_id ), 1 );
 
 	return (int)db_result( $result );
@@ -417,8 +415,8 @@ function bugnote_get_all_bugnotes( $p_bug_id ) {
 		$t_query = "SELECT b.*, t.note
 			          	FROM      {bugnote} b
 			          	LEFT JOIN {bugnote_text} t ON b.bugnote_text_id = t.id
-						WHERE b.bug_id=" . db_param() . '
-						ORDER BY b.id ASC';
+						WHERE b.bug_id=%d
+						ORDER BY b.id ASC";
 		$t_bugnotes = array();
 
 		# BUILD bugnotes array
@@ -459,8 +457,7 @@ function bugnote_set_time_tracking( $p_bugnote_id, $p_time_tracking ) {
 	$c_bugnote_id = db_prepare_int( $p_bugnote_id );
 	$c_bugnote_time_tracking = helper_duration_to_minutes( $p_time_tracking );
 
-	$query = "UPDATE {bugnote} SET time_tracking = " . db_param() . "
-				WHERE id=" . db_param();
+	$query = "UPDATE {bugnote} SET time_tracking=%d WHERE id=%d";
 	db_query_bound( $query, array( $c_bugnote_time_tracking, $c_bugnote_id ) );
 
 	# db_query errors if there was a problem so:
@@ -476,8 +473,7 @@ function bugnote_set_time_tracking( $p_bugnote_id, $p_time_tracking ) {
 function bugnote_date_update( $p_bugnote_id ) {
 	$c_bugnote_id = db_prepare_int( $p_bugnote_id );
 
-	$query = "UPDATE {bugnote} SET last_modified=" . db_param() . "
-					WHERE id=" . db_param();
+	$query = "UPDATE {bugnote} SET last_modified=%d WHERE id=%d";
 	db_query_bound( $query, array( db_now(), $c_bugnote_id ) );
 
 	# db_query errors if there was a problem so:
@@ -508,7 +504,7 @@ function bugnote_set_text( $p_bugnote_id, $p_bugnote_text ) {
 		bug_revision_add( $t_bug_id, $t_user_id, REV_BUGNOTE, $t_old_text, $p_bugnote_id, $t_timestamp );
 	}
 
-	$query = "UPDATE {bugnote_text} SET note=" . db_param() . " WHERE id=" . db_param();
+	$query = "UPDATE {bugnote_text} SET note=%s WHERE id=%d";
 	db_query_bound( $query, array( $p_bugnote_text, $t_bugnote_text_id ) );
 
 	# updated the last_updated date
@@ -541,8 +537,7 @@ function bugnote_set_view_state( $p_bugnote_id, $p_private ) {
 		$t_view_state = VS_PUBLIC;
 	}
 
-	$query = "UPDATE {bugnote} SET view_state=" . db_param() . "
-		          	WHERE id=" . db_param();
+	$query = "UPDATE {bugnote} SET view_state=%d WHERE id=%d";
 	db_query_bound( $query, array( $t_view_state, $c_bugnote_id ) );
 
 	history_log_event_special( $t_bug_id, BUGNOTE_STATE_CHANGED, $t_view_state, bugnote_format_id( $p_bugnote_id ) );

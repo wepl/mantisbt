@@ -84,10 +84,10 @@ $c_file_id = (integer)$f_file_id;
 $query = '';
 switch ( $f_type ) {
 	case 'bug':
-		$query = "SELECT * FROM {bug_file} WHERE id=" . db_param();
+		$query = "SELECT * FROM {bug_file} WHERE id=%d";
 		break;
 	case 'doc':
-		$query = "SELECT * FROM {project_file} WHERE id=" . db_param();
+		$query = "SELECT * FROM {project_file} WHERE id=%d";
 		break;
 	default:
 		access_denied();

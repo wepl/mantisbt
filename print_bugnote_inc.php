@@ -68,7 +68,7 @@ if ( !access_has_bug_level( config_get( 'private_bugnote_threshold' ), $f_bug_id
 $t_bugnote_order = current_user_get_pref( 'bugnote_order' );
 
 $t_query = "SELECT * FROM {bugnote}
-		WHERE bug_id=" . db_param() . " $t_restriction
+		WHERE bug_id=%d $t_restriction
 		ORDER BY date_submitted $t_bugnote_order";
 $t_result = db_query_bound( $t_query, array( $c_bug_id ) );
 
@@ -106,7 +106,7 @@ $t_note_count = count( $t_notes );
 
 		# grab the bugnote text and id and prefix with v3_
 		$t_query = "SELECT note, id FROM {bugnote_text}
-				WHERE id=" . db_param();
+				WHERE id=%d";
 		$t_result2 = db_query_bound( $t_query, array( $v3_bugnote_text_id ) );
 		$v3_note = db_result( $t_result2, 0, 0 );
 		$v3_bugnote_text_id = db_result( $t_result2, 0, 1 );

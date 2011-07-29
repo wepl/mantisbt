@@ -72,9 +72,7 @@ for ($i=0 ; $i<$field_name_count ; $i++) {
 $t_default = implode('',$t_default_arr) ;
 
 # reset to defaults
-$query = "UPDATE {user_print_pref}
-		SET print_pref=" . db_param() . "
-		WHERE user_id=" . db_param();
+$query = "UPDATE {user_print_pref} SET print_pref=%s WHERE user_id=%d";
 
 $result = db_query_bound( $query, array( $t_default, $t_user_id ) );
 

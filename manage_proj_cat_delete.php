@@ -67,7 +67,7 @@ $t_name = category_full_name( $f_category_id );
 $t_project_id = $t_row['project_id'];
 
 # Get a bug count
-$t_query = "SELECT COUNT(id) FROM {bug} WHERE category_id=" . db_param();
+$t_query = "SELECT COUNT(id) FROM {bug} WHERE category_id=%d";
 $t_bug_count = db_result( db_query_bound( $t_query, array( $f_category_id ) ) );
 
 # Confirm with the user

@@ -255,9 +255,9 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 				ON b.id = h.bug_id
 				AND h.type = " . NORMAL_TYPE . "
 				AND h.field_name = 'status'
-				WHERE b.status >= " . db_param() . "
-				AND h.old_value < " . db_param() . "
-				AND h.new_value >= " . db_param() . "
+				WHERE b.status >= %d
+				AND h.old_value < %s
+				AND h.new_value >= %s
 				AND " . db_helper_compare_days( "" . db_now() . "", "date_modified", "<= $c_time_length" ) . "
 				AND $specific_where";
 	$result = db_query_bound( $query, array( $t_resolved, $t_resolved, $t_resolved ) );
@@ -322,7 +322,7 @@ function summary_print_by_activity() {
 	$query = "SELECT COUNT(h.id) as count, b.id, b.summary, b.view_state
 				FROM {bug} b, {bug_history} h
 				WHERE h.bug_id = b.id
-				AND b.status < " . db_param() . "
+				AND b.status < %d
 				AND $specific_where
 				GROUP BY h.bug_id, b.id, b.summary, b.last_updated, b.view_state
 				ORDER BY count DESC, b.last_updated DESC";

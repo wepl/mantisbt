@@ -158,16 +158,16 @@ if ( ( $f_access_level >= $t_admin_threshold ) && ( !user_is_administrator( $f_u
 $query_params = array();
 if ( $f_protected && $t_old_protected ) {
 	$query = "UPDATE {user}
-			SET username=" . db_param() . ", email=" . db_param() . ",
-				protected=" . db_param() . ", realname=" . db_param() . "
-			WHERE id=" . db_param();
+			SET username=%s, email=%s,
+				protected=%d, realname=%s
+			WHERE id=%d";
 	$query_params = array( $c_username, $c_email, $c_protected, $c_realname, $c_user_id );
 } else {
 	$query = "UPDATE {user}
-			SET username=" . db_param() . ", email=" . db_param() . ",
-				access_level=" . db_param() . ", enabled=" . db_param() . ",
-				protected=" . db_param() . ", realname=" . db_param() . "
-			WHERE id=" . db_param();
+			SET username=%s, email=%s,
+				access_level=%d, enabled=%d,
+				protected=%d, realname=%s
+			WHERE id=%d";
 	$query_params = array( $c_username, $c_email, $c_access_level, $c_enabled, $c_protected, $c_realname, $c_user_id );
 }
 

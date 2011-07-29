@@ -182,8 +182,7 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 		return $g_cache_user_pref[(int)$p_user_id][(int)$p_project_id];
 	}
 
-	$query = "SELECT * FROM {user_pref}
-				  WHERE user_id=" . db_param() . " AND project_id=" . db_param();
+	$query = "SELECT * FROM {user_pref} WHERE user_id=%d AND project_id=%d";
 	$result = db_query_bound( $query, array( (int)$p_user_id, (int)$p_project_id ) );
 
 	$row = db_fetch_array( $result );
@@ -229,7 +228,7 @@ function user_pref_cache_array_rows( $p_user_id_array, $p_project_id = ALL_PROJE
 	}
 
 	$query = "SELECT * FROM {user_pref}
-				  WHERE user_id IN (" . implode( ',', $c_user_id_array ) . ') AND project_id=' . db_param();
+				  WHERE user_id IN (" . implode( ',', $c_user_id_array ) . ') AND project_id=%d';
 
 	$result = db_query_bound( $query, array( (int)$p_project_id ) );
 
@@ -305,12 +304,12 @@ function user_pref_insert( $p_user_id, $p_project_id, $p_prefs ) {
 
 	$t_values = array();
 
-	$t_params[] = db_param(); // user_id
+	$t_params[] = '%d'; // user_id
 	$t_values[] = $c_user_id;
-	$t_params[] = db_param(); // project_id
+	$t_params[] = '%d'; // project_id
 	$t_values[] = $c_project_id;
 	foreach( $t_vars as $var => $val ) {
-		array_push( $t_params, db_param());
+		array_push( $t_params, '%s');
 		array_push( $t_values, $p_prefs->Get( $var ) );
 	}
 
@@ -347,7 +346,7 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	$t_values = array();
 
 	foreach( $t_vars as $var => $val ) {
-		array_push( $t_pairs, "$var = " . db_param() ) ;
+		array_push( $t_pairs, "$var = " . '%s' ) ;
 		array_push( $t_values, $p_prefs->$var );
 	}
 
@@ -355,8 +354,7 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	$t_values[] = $c_user_id;
 	$t_values[] = $c_project_id;
 
-	$query = "UPDATE {user_pref} SET $t_pairs_string
-				  WHERE user_id=" . db_param() . " AND project_id=" . db_param();
+	$query = 'UPDATE {user_pref} SET $t_pairs_string WHERE user_id=%d AND project_id=%d';
 	db_query_bound( $query, $t_values );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
@@ -378,9 +376,7 @@ function user_pref_delete( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 
 	user_ensure_unprotected( $p_user_id );
 
-	$query = "DELETE FROM {user_pref}
-				  WHERE user_id=" . db_param() . " AND
-				  		project_id=" . db_param();
+	$query = 'DELETE FROM {user_pref} WHERE user_id=%d AND project_id=%d';
 	db_query_bound( $query, array( $c_user_id, $c_project_id ) );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
@@ -404,7 +400,7 @@ function user_pref_delete_all( $p_user_id ) {
 
 	user_ensure_unprotected( $p_user_id );
 
-	$query = 'DELETE FROM {user_pref} WHERE user_id=' . db_param();
+	$query = 'DELETE FROM {user_pref} WHERE user_id=%d';
 	db_query_bound( $query, array( $c_user_id ) );
 
 	user_pref_clear_cache( $p_user_id );
@@ -426,7 +422,7 @@ function user_pref_delete_all( $p_user_id ) {
 function user_pref_delete_project( $p_project_id ) {
 	$c_project_id = db_prepare_int( $p_project_id );
 
-	$query = 'DELETE FROM {user_pref} WHERE project_id=' . db_param();
+	$query = 'DELETE FROM {user_pref} WHERE project_id=%d';
 	db_query_bound( $query, array( $c_project_id ) );
 
 	# db_query errors on failure so:

@@ -148,7 +148,7 @@ function user_ensure_exists( $p_user_id ) {
  * with that username
  */
 function user_is_name_unique( $p_username ) {
-	$query = "SELECT username FROM {user} WHERE username=" . db_param();
+	$query = 'SELECT username FROM {user} WHERE username=%s';
 	$result = db_query_bound( $query, array( $p_username ), 1 );
 
 	if( db_result( $result ) ) {
@@ -192,7 +192,7 @@ function user_is_realname_unique( $p_username, $p_realname ) {
 		}
 
 		# check to see if the realname is unique
-		$t_query = "SELECT id FROM {user} WHERE realname=" . db_param();
+		$t_query = 'SELECT id FROM {user} WHERE realname=%s';
 		$t_result = db_query_bound( $t_query, array( $p_realname ) );
 
 		$t_users = array();
@@ -263,8 +263,7 @@ function user_ensure_name_valid( $p_username ) {
  * return whether user is monitoring bug for the user id and bug id
  */
 function user_is_monitoring_bug( $p_user_id, $p_bug_id ) {
-	$query = "SELECT COUNT(*) FROM {bug_monitor}
-				  WHERE user_id=" . db_param() . " AND bug_id=" . db_param();
+	$query = 'SELECT COUNT(*) FROM {bug_monitor} WHERE user_id=%d AND bug_id=%d';
 
 	$result = db_query_bound( $query, array( (int)$p_user_id, (int)$p_bug_id ) );
 
@@ -346,7 +345,7 @@ function user_is_enabled( $p_user_id ) {
  * count the number of users at or greater than a specific level
  */
 function user_count_level( $p_level = ANYBODY ) {
-	$query = "SELECT COUNT(id) FROM {user} WHERE access_level>=" . db_param();
+	$query = 'SELECT COUNT(id) FROM {user} WHERE access_level>=%d';
 	$result = db_query_bound( $query, array( (int)$p_level ) );
 
 	# Get the list of connected users
@@ -384,8 +383,8 @@ function user_create( $p_username, $p_password, $p_email = '',
 				    ( username, email, password, date_created, last_visit,
 				     enabled, access_level, login_count, cookie_string, realname )
 				  VALUES
-				    ( " . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param() . ', ' . db_param()  . ",
-				     " . db_param() . ',' . db_param() . ',' . db_param() . ',' . db_param() . ', ' . db_param() . ')';
+				    ( %s, %s, %s, %d, %d,
+				     %d,%d,%d,%s, %s)";
 	db_query_bound( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), $c_enabled, $c_access_level, 0, $t_cookie_string, $p_realname ) );
 
 	# Create preferences for the user
@@ -434,7 +433,7 @@ function user_signup( $p_username, $p_email = null ) {
 function user_delete_project_specific_access_levels( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
 
-	$query = 'DELETE FROM {project_user_list} WHERE user_id=' . db_param();
+	$query = 'DELETE FROM {project_user_list} WHERE user_id=%d';
 	db_query_bound( $query, array( (int)$p_user_id ) );
 
 	return true;
@@ -448,7 +447,7 @@ function user_delete_profiles( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
 
 	# Remove associated profiles
-	$query = 'DELETE FROM {user_profile} WHERE user_id=' . db_param();
+	$query = 'DELETE FROM {user_profile} WHERE user_id=%d';
 	db_query_bound( $query, array( (int)$p_user_id ) );
 
 	return true;
@@ -475,8 +474,7 @@ function user_delete( $p_user_id ) {
 	# unset non-unique realname flags if necessary
 	if ( config_get( 'differentiate_duplicates' ) ) {
 		$c_realname = user_get_field( $p_user_id, 'realname' );
-		$t_query = "SELECT id FROM {user}
-					WHERE realname=" . db_param();
+		$t_query = "SELECT id FROM {user} WHERE realname=%s";
 		$t_result = db_query_bound( $t_query, array( $c_realname ) );
 
 		$t_users = array();
@@ -498,7 +496,7 @@ function user_delete( $p_user_id ) {
 	user_clear_cache( $p_user_id );
 
 	# Remove account
-	$t_query = "DELETE FROM {user} WHERE id=" . db_param();
+	$t_query = "DELETE FROM {user} WHERE id=%d";
 	db_query_bound( $t_query, array( $c_user_id ) );
 
 	return true;
@@ -509,7 +507,7 @@ function user_delete( $p_user_id ) {
  * return false if the username does not exist
  */
 function user_get_id_by_name( $p_username ) {
-	$query = "SELECT * FROM {user} WHERE username=" . db_param();
+	$query = 'SELECT * FROM {user} WHERE username=%s';
 	$result = db_query_bound( $query, array( $p_username ) );
 
 	$row = db_fetch_array( $result );
@@ -523,7 +521,7 @@ function user_get_id_by_name( $p_username ) {
  * Get a user id from an email address
  */
 function user_get_id_by_email( $p_email ) {
-	$query = "SELECT * FROM {user} WHERE email=" . db_param();
+	$query = "SELECT * FROM {user} WHERE email=%s";
 	$result = db_query_bound( $query, array( $p_email ) );
 
 	$row = db_fetch_array( $result );
@@ -541,7 +539,7 @@ function user_get_id_by_email( $p_email ) {
 function user_get_id_by_realname( $p_realname ) {
 	global $g_cache_user;
 
-	$query = "SELECT * FROM {user} WHERE realname=" . db_param();
+	$query = 'SELECT * FROM {user} WHERE realname=%d';
 	$result = db_query_bound( $query, array( $p_realname ) );
 
 	$row = db_fetch_array( $result );
@@ -734,14 +732,14 @@ function user_get_accessible_projects( $p_user_id, $p_show_disabled = false ) {
 		$query = "SELECT p.id, p.name, ph.parent_id
 						  FROM {project} p
 						  LEFT JOIN {project_user_list} u
-						    ON p.id=u.project_id AND u.user_id=" . db_param() . "
+						    ON p.id=u.project_id AND u.user_id=%d
 						  LEFT JOIN {project_hierarchy} ph
 						    ON ph.child_id = p.id
-						  WHERE " . ( $p_show_disabled ? '' : ( 'p.enabled = ' . db_param() . ' AND ' ) ) . "
-							( p.view_state=" . db_param() . "
-							    OR (p.view_state=" . db_param() . "
+						  WHERE " . ( $p_show_disabled ? '' : ( 'p.enabled = %d AND ' ) ) . "
+							( p.view_state=%d
+							    OR (p.view_state=%d
 								    AND
-							        u.user_id=" . db_param() . " )
+							        u.user_id=%d )
 							) 
 						  ORDER BY p.name";
 		$result = db_query_bound( $query, ( $p_show_disabled ? array( $p_user_id, $t_public, $t_private, $p_user_id ) : array( $p_user_id, true, $t_public, $t_private, $p_user_id ) ) );
@@ -793,7 +791,7 @@ function user_get_accessible_subprojects( $p_user_id, $p_project_id, $p_show_dis
 	$t_private = VS_PRIVATE;
 
 	if( access_has_global_level( config_get( 'private_project_threshold' ), $p_user_id ) ) {
-		$t_enabled_clause = $p_show_disabled ? '' : 'p.enabled = ' . db_param() . ' AND';
+		$t_enabled_clause = $p_show_disabled ? '' : 'p.enabled = %d AND';
 		$query = "SELECT DISTINCT p.id, p.name, ph.parent_id
 					  FROM {project} p
 					  LEFT JOIN {project_hierarchy} ph
@@ -806,15 +804,15 @@ function user_get_accessible_subprojects( $p_user_id, $p_project_id, $p_show_dis
 		$query = "SELECT DISTINCT p.id, p.name, ph.parent_id
 					  FROM {project} p
 					  LEFT JOIN {project_user_list} u
-					    ON p.id = u.project_id AND u.user_id=" . db_param() . "
+					    ON p.id = u.project_id AND u.user_id=%d
 					  LEFT JOIN {project_hierarchy} ph
 					    ON ph.child_id = p.id
-					  WHERE " . ( $p_show_disabled ? '' : ( 'p.enabled = ' . db_param() . ' AND ' ) ) . '
+					  WHERE " . ( $p_show_disabled ? '' : ( 'p.enabled = %d AND ' ) ) . '
 					  	ph.parent_id IS NOT NULL AND
-						( p.view_state=' . db_param() . '
-						    OR (p.view_state=' . db_param() . '
+						( p.view_state=%d
+						    OR (p.view_state=%d
 							    AND
-						        u.user_id=' . db_param() . ' )
+						        u.user_id=%d )
 						)
 					  ORDER BY p.name';
 		$result = db_query_bound( $query, ( $p_show_disabled ? array( $p_user_id, $t_public, $t_private, $p_user_id ) : array( $p_user_id, 1, $t_public, $t_private, $p_user_id ) ) );
@@ -894,7 +892,7 @@ function user_get_assigned_projects( $p_user_id ) {
                 LEFT JOIN {project_user_list} u
                 ON p.id=u.project_id
                 WHERE p.enabled = '1' AND
-                    u.user_id=" . db_param() . "
+                    u.user_id=%d
                 ORDER BY p.name";
 	$t_result = db_query_bound( $t_query, array( $p_user_id ) );
 
@@ -922,9 +920,9 @@ function user_get_unassigned_by_project_id( $p_project_id = null ) {
     $t_query = "SELECT DISTINCT u.id, u.username, u.realname
                 FROM {user} u
                 LEFT JOIN {project_user_list} p
-                ON p.user_id=u.id AND p.project_id=" . db_param() . "
-                WHERE u.access_level<" . db_param() . " AND
-                    u.enabled = " . db_param() . " AND
+                ON p.user_id=u.id AND p.project_id=%d
+                WHERE u.access_level<%d AND
+                    u.enabled = %d AND
                     p.user_id IS NULL
                 ORDER BY u.realname, u.username";
     $t_result = db_query_bound( $t_query, array( $p_project_id, $t_adm, true ) );
@@ -969,7 +967,7 @@ function user_get_assigned_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
 
 	$query = "SELECT COUNT(*) FROM {bug} WHERE $t_where_prj
 				  		status<'$t_resolved' AND
-				  		handler_id=" . db_param();
+				  		handler_id=%d";
 	$result = db_query_bound( $query, array( $p_user_id ) );
 
 	return db_result( $result );
@@ -985,7 +983,7 @@ function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
 
 	$query = "SELECT COUNT(*) FROM {bug} WHERE $t_where_prj
 						  status<'$t_resolved' AND
-						  reporter_id=" . db_param();
+						  reporter_id=%d";
 	$result = db_query_bound( $query, array( $p_user_id ) );
 
 	return db_result( $result );
@@ -998,9 +996,7 @@ function user_get_profile_row( $p_user_id, $p_profile_id ) {
 	$c_user_id = db_prepare_int( $p_user_id );
 	$c_profile_id = db_prepare_int( $p_profile_id );
 
-	$query = "SELECT * FROM {user_profile}
-				  WHERE id=" . db_param() . " AND
-				  		user_id=" . db_param();
+	$query = "SELECT * FROM {user_profile} WHERE id=%d AND user_id=%d";
 	$result = db_query_bound( $query, array( $c_profile_id, $c_user_id ) );
 
 	$row = db_fetch_array( $result );
@@ -1064,8 +1060,7 @@ function user_update_last_visit( $p_user_id ) {
 	$c_user_id = db_prepare_int( $p_user_id );
 	$c_value = db_now();
 
-	$query = "UPDATE {user} SET last_visit= " . db_param() . "
-				  WHERE id=" . db_param();
+	$query = "UPDATE {user} SET last_visit=%d WHERE id=%d";
 
 	db_query_bound( $query, array( $c_value, $c_user_id ) );
 
@@ -1081,7 +1076,7 @@ function user_update_last_visit( $p_user_id ) {
 function user_increment_login_count( $p_user_id ) {
 	$query = "UPDATE {user}
 				SET login_count=login_count+1
-				WHERE id=" . db_param();
+				WHERE id=%d";
 
 	db_query_bound( $query, array( $p_user_id ) );
 
@@ -1096,7 +1091,7 @@ function user_increment_login_count( $p_user_id ) {
  */
 function user_reset_failed_login_count_to_zero( $p_user_id ) {
 	$query = "UPDATE {user} SET failed_login_count=0
-				WHERE id=" . db_param();
+				WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
@@ -1109,7 +1104,7 @@ function user_reset_failed_login_count_to_zero( $p_user_id ) {
  */
 function user_increment_failed_login_count( $p_user_id ) {
 	$query = "UPDATE {user} SET failed_login_count=failed_login_count+1
-				WHERE id=" . db_param();
+				WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
@@ -1122,7 +1117,7 @@ function user_increment_failed_login_count( $p_user_id ) {
  */
 function user_reset_lost_password_in_progress_count_to_zero( $p_user_id ) {
 	$query = "UPDATE {user} SET lost_password_request_count=0
-				WHERE id=" . db_param();
+				WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
@@ -1135,7 +1130,7 @@ function user_reset_lost_password_in_progress_count_to_zero( $p_user_id ) {
  */
 function user_increment_lost_password_in_progress_count( $p_user_id ) {
 	$query = "UPDATE {user} SET lost_password_request_count=lost_password_request_count+1
-				WHERE id=" . db_param();
+				WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
@@ -1154,8 +1149,7 @@ function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
 		user_ensure_unprotected( $p_user_id );
 	}
 
-	$query = 'UPDATE {user} SET ' . $c_field_name . '=' . db_param() .
-			 ' WHERE id=' . db_param();
+	$query = 'UPDATE {user} SET ' . $c_field_name . '=%s WHERE id=%d';
 
 	db_query_bound( $query, array( $p_field_value, $c_user_id ) );
 
@@ -1191,10 +1185,7 @@ function user_set_password( $p_user_id, $p_password, $p_allow_protected = false 
 	$c_user_id = db_prepare_int( $p_user_id );
 	$c_password = auth_process_plain_password( $p_password );
 
-	$query = "UPDATE {user}
-				  SET password=" . db_param() . ",
-				  cookie_string=" . db_param() . "
-				  WHERE id=" . db_param();
+	$query = 'UPDATE {user} SET password=%s, cookie_string=%s WHERE id=%d';
 	db_query_bound( $query, array( $c_password, $c_cookie_string, $c_user_id ) );
 
 	# db_query errors on failure so:

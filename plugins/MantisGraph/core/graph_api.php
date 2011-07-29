@@ -736,8 +736,7 @@ function create_category_summary() {
 	while( $row = db_fetch_array( $result ) ) {
 		$t_cat_name = $row['name'];
 		$t_cat_id = $row['id'];
-		$query = "SELECT COUNT(*) FROM {bug}
-					WHERE category_id=" . db_param() . " AND $specific_where";
+		$query = "SELECT COUNT(*) FROM {bug} WHERE category_id=%d AND $specific_where";
 		$result2 = db_query_bound( $query, array( $t_cat_id ) );
 		if ( isset($t_metrics[$t_cat_name]) ) {
 			$t_metrics[$t_cat_name] = $t_metrics[$t_cat_name] + db_result( $result2 );

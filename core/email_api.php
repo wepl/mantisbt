@@ -249,7 +249,7 @@ function email_collect_recipients( $p_bug_id, $p_notify_type, $p_extra_user_ids_
 	# add users monitoring the bug
 	if( ON == email_notify_flag( $p_notify_type, 'monitor' ) ) {
 		$query = "SELECT DISTINCT user_id FROM {bug_monitor}
-					  WHERE bug_id=" . db_param();
+					  WHERE bug_id=%d";
 		$result = db_query_bound( $query, array( $c_bug_id ) );
 		
 		while( $t_user_id = db_result( $result ) ) {
@@ -266,8 +266,7 @@ function email_collect_recipients( $p_bug_id, $p_notify_type, $p_extra_user_ids_
 	$t_bug_date = $t_bug->last_updated;
 
 	if( ON == email_notify_flag( $p_notify_type, 'bugnotes' ) ) {
-		$query = "SELECT DISTINCT reporter_id FROM {bugnote}
-					  WHERE bug_id = " . db_param();
+		$query = 'SELECT DISTINCT reporter_id FROM {bugnote} WHERE bug_id = %d';
 		$result = db_query_bound( $query, array( $c_bug_id ) );
 
 		while( $t_user_id = db_result( $result ) ) {

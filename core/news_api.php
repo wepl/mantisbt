@@ -71,15 +71,7 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 	    		  ( project_id, poster_id, date_posted, last_modified,
 	    		    view_state, announcement, headline, body )
 				VALUES
-				    ( " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . ",
-				      " . db_param() . "
-					)";
+				    ( %d, %d, %d, %d, %d, %d, %s, %s )";
 	db_query_bound( $query, array( $c_project_id, $c_poster_id, db_now(), db_now(), $c_view_state, $c_announcement, $p_headline, $p_body ) );
 
 	$t_news_id = db_insert_id( $t_news_table );
@@ -94,7 +86,7 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 function news_delete( $p_news_id ) {
 	$c_news_id = db_prepare_int( $p_news_id );
 
-	$query = "DELETE FROM {news} WHERE id=" . db_param();
+	$query = "DELETE FROM {news} WHERE id=%d";
 
 	db_query_bound( $query, array( $c_news_id ) );
 
@@ -107,7 +99,7 @@ function news_delete( $p_news_id ) {
 function news_delete_all( $p_project_id ) {
 	$c_project_id = db_prepare_int( $p_project_id );
 
-	$query = "DELETE FROM {news} WHERE project_id=" . db_param();
+	$query = 'DELETE FROM {news} WHERE project_id=%d';
 
 	db_query_bound( $query, array( $c_project_id ) );
 
@@ -115,7 +107,6 @@ function news_delete_all( $p_project_id ) {
 	return true;
 }
 
-# --------------------
 # Update news item
 function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
 	$c_news_id = db_prepare_int( $p_news_id );
@@ -135,13 +126,13 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 
 	# Update entry
 	$query = "UPDATE {news}
-				  SET view_state=" . db_param() . ",
-					announcement=" . db_param() . ",
-					headline=" . db_param() . ",
-					body=" . db_param() . ",
-					project_id=" . db_param() . ",
-					last_modified= " . db_param() . "
-				  WHERE id=" . db_param();
+				  SET view_state=%d
+					announcement=%s,
+					headline=%s,
+					body=%s,
+					project_id=%d,
+					last_modified=%d
+				  WHERE id=%d";
 
 	db_query_bound( $query, array( $c_view_state, $c_announcement, $p_headline, $p_body, $c_project_id, db_now(), $c_news_id ) );
 
@@ -154,7 +145,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 function news_get_row( $p_news_id ) {
 	$c_news_id = db_prepare_int( $p_news_id );
 
-	$query = "SELECT * FROM {news} WHERE id=" . db_param();
+	$query = "SELECT * FROM {news} WHERE id=%d";
 	$result = db_query_bound( $query, array( $c_news_id ) );
 
 	$row = db_fetch_array( $result );
@@ -267,14 +258,14 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 			$query = "SELECT *
 						FROM {news} WHERE
 						( " . db_helper_compare_days( 0, 'date_posted', "< $t_news_view_limit_days" ) . "
-						 OR announcement = " . db_param() . " ) ";
+						 OR announcement = %s ) ";
 			$t_params = array(
 				db_now(),
 				1,
 			);
 			if( 1 == count( $t_projects ) ) {
 				$c_project_id = $t_projects[0];
-				$query .= " AND project_id=" . db_param();
+				$query .= ' AND project_id=%d';
 				$t_params[] = $c_project_id;
 			} else {
 				$query .= ' AND project_id IN (' . join( $t_projects, ',' ) . ')';

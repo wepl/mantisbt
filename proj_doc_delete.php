@@ -63,7 +63,7 @@ $t_project_id = file_get_field( $f_file_id, 'project_id', 'project' );
 
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ), $t_project_id );
 
-$query = "SELECT title FROM {project_file} WHERE id=" . db_param();
+$query = "SELECT title FROM {project_file} WHERE id=%d";
 $result = db_query_bound( $query, array( $f_file_id ) );
 $t_title = db_result( $result );
 
