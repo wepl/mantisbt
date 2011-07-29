@@ -1688,33 +1688,64 @@ $g_hr_width = 50;
 
 /**
  *
- * @global string $g_ldap_server
+ * @global array $g_ldap_server
  */
-$g_ldap_server = 'ldaps://ldap.example.com.au/';
+$g_ldap_server			= array( 'ldaps://ldap.example.com.au/', 
+								 'ldaps://ldap2.example.com.au/' );
 
 /**
+ * See http://www.php.net/manual/en/function.ldap-set-option.php for current list of valid values.
  *
- * @global string $g_ldap_root_dn
+ * Valid Domain Values for LDAP Options:
+ *
+ * LDAP_OPT_DEREF (integer)
+ * LDAP_OPT_SIZELIMIT (integer)
+ * LDAP_OPT_TIMELIMIT (integer)
+ * LDAP_OPT_NETWORK_TIMEOUT	(integer - exists since PHP 5.3.0)
+ * LDAP_OPT_PROTOCOL_VERSION (integer)
+ * LDAP_OPT_ERROR_NUMBER (integer)
+ * LDAP_OPT_REFERRALS (bool)
+ * LDAP_OPT_RESTART (bool)
+ * LDAP_OPT_HOST_NAME (string)
+ * LDAP_OPT_ERROR_STRING (string)
+ * LDAP_OPT_MATCHED_DN (string)
+ * LDAP_OPT_SERVER_CONTROLS (array)
+ * LDAP_OPT_CLIENT_CONTROLS (array)
+ * 
+ * @global array $g_ldap_options
  */
-$g_ldap_root_dn = 'dc=example,dc=com,dc=au';
+$g_ldap_options			= array( LDAP_OPT_PROTOCOL_VERSION => 3 );
+
+/**
+ * 
+ * @global array $g_ldap_contexts
+ */
+$g_ldap_contexts		= array( 'dc=example,dc=com,dc=au' => true,
+								 'dc=example2,dc=com,dc=au' => false );
 
 /**
  * e.g. '(organizationname=*Traffic)'
  * @global string $g_ldap_organization
  */
-$g_ldap_organization = '';
+$g_ldap_organization	= '';
 
 /**
  * Use 'sAMAccountName' for Active Directory
  * @global string $g_ldap_uid_field
  */
-$g_ldap_uid_field = 'uid';
+$g_ldap_uid_field		= 'uid';
 
 /**
- * The LDAP field for real name (i.e. common name).
+ * The LDAP field for real name (i.e. displayName).
+ * @global string $g_ldap_realname_field
+ */
+$g_ldap_realname_field  = 'displayName';
+
+/**
+ * The LDAP field for email name (i.e. email).
  * @global string $g_ldap_uid_field
  */
-$g_ldap_realname_field = 'cn';
+$g_ldap_email_field  = 'mail';
 
 /**
  * The distinguished of the user account to use for binding to the LDAP server.
@@ -1722,53 +1753,28 @@ $g_ldap_realname_field = 'cn';
  *
  * @global string $g_ldap_bind_dn
  */
-$g_ldap_bind_dn = '';
+$g_ldap_bind_dn			= '';
 
 /**
  * The password for the service account to be used for connecting to the LDAP server.
  *
  * @global string $g_ldap_bind_passwd
  */
-$g_ldap_bind_passwd = '';
+$g_ldap_bind_passwd		= '';
 
 /**
  * Should we send to the LDAP email address or what MySql tells us
  * @global int $g_use_ldap_email
  */
-$g_use_ldap_email = OFF;
+$g_use_ldap_email		= OFF;
 
 /**
  * Whether or not to pull the real name from LDAP.
  * ON from LDAP, OFF from database.
  * @global int $g_use_ldap_realname
  */
-$g_use_ldap_realname = OFF;
-
-/**
- * The LDAP Protocol Version, if 0, then the protocol version is not set.  For
- * Active Directory use version 3.
- *
- * @global int $g_ldap_protocol_version
- */
-$g_ldap_protocol_version = 0;
-
-/**
- * Determines whether the LDAP library automatically follows referrals returned
- * by LDAP servers or not. This maps to LDAP_OPT_REFERRALS ldap library option.
- * For Active Directory, this should be set to OFF.
- *
- * @global int $g_ldap_follow_referrals
- */
-$g_ldap_follow_referrals = ON;
-
-/**
- * For development purposes, this is a configuration option that allows
- * replacing the LDAP communication with a comma separated text file.  The text
- * file has a line per user. Each line includes: user name, user real name,
- * email, password.  For production systems this option should be set to ''.
- */
-$g_ldap_simulation_file_path = '';
-
+$g_use_ldap_realname	= OFF;
+ 
 /*******************
  * Status Settings *
  *******************/

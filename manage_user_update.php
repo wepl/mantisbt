@@ -108,7 +108,7 @@ user_ensure_name_valid( $f_username );
 $t_ldap = ( LDAP == config_get( 'login_method' ) );
 
 if ( $t_ldap && config_get( 'use_ldap_realname' ) ) {
-	$t_realname = ldap_realname_from_username( $f_username );
+	$t_realname = ldap_realname( $f_user_id );
 } else {
 	# strip extra space from real name
 	$t_realname = string_normalize( $f_realname );

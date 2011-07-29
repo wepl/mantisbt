@@ -176,7 +176,7 @@ if ( $t_force_pw_reset ) {
 					echo '<span class="display-label"><span>' . lang_get( 'realname' ) . '</span></span>';
 					echo '<span class="input">';
 					echo '<span class="field-value">';
-					echo string_display_line( ldap_realname_from_username( $u_username ) );
+					echo string_display_line( ldap_realname( $u_user_id ) );
 					echo '</span>';
 					echo '</span>';
 				} else {

@@ -163,3 +163,8 @@ config_obsolete( 'use_persistent_connections', 'db_options' );
 config_obsolete( 'display_errors', 'show_friendly_errors' );
 config_obsolete( 'stop_on_errors', 'show_friendly_errors' );
 config_obsolete( 'show_detailed_errors', 'show_friendly_errors' );
+
+config_obsolete( 'ldap_protocol_version', 'ldap_options' );
+config_obsolete( 'ldap_follow_referrals', 'ldap_options' );
+config_obsolete( 'ldap_root_dn', 'ldap_contexts' );
+config_obsolete( 'ldap_simulation_file_path', '' );
