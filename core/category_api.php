@@ -61,10 +61,8 @@ function category_exists( $p_category_id ) {
 		return true;
 	}
 
-	$c_category_id = db_prepare_int( $p_category_id );
-
 	$query = "SELECT COUNT(*) FROM {category} WHERE id=%d";
-	$count = db_result( db_query_bound( $query, array( $c_category_id ) ) );
+	$count = db_result( db_query_bound( $query, array( (int)$p_category_id ) ) );
 
 	if( 0 < $count ) {
 		return true;

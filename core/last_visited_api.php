@@ -62,11 +62,9 @@ function last_visited_issue( $p_issue_id, $p_user_id = null ) {
 		return;
 	}
 
-	$c_issue_id = db_prepare_int( $p_issue_id );
-
 	$t_value = token_get_value( TOKEN_LAST_VISITED, $p_user_id );
 	if( is_null( $t_value ) ) {
-		$t_value = $c_issue_id;
+		$t_value = $p_issue_id;
 	} else {
 		$t_ids = explode( ',', $p_issue_id . ',' . $t_value );
 		$t_ids = array_unique( $t_ids );

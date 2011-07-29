@@ -50,9 +50,6 @@ require_api( 'utility_api.php' );
 # --------------------
 # Add a news item
 function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-	$c_poster_id = db_prepare_int( $p_poster_id );
-	$c_view_state = db_prepare_int( $p_view_state );
 	$c_announcement = db_prepare_bool( $p_announcement );
 
 	if( is_blank( $p_headline ) ) {
@@ -72,7 +69,7 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 	    		    view_state, announcement, headline, body )
 				VALUES
 				    ( %d, %d, %d, %d, %d, %d, %s, %s )";
-	db_query_bound( $query, array( $c_project_id, $c_poster_id, db_now(), db_now(), $c_view_state, $c_announcement, $p_headline, $p_body ) );
+	db_query_bound( $query, array( (int)$p_project_id, (int)$p_poster_id, db_now(), db_now(), (int)$p_view_state, $c_announcement, $p_headline, $p_body ) );
 
 	$t_news_id = db_insert_id( '{news}' );
 
@@ -84,11 +81,9 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 # --------------------
 # Delete the news entry
 function news_delete( $p_news_id ) {
-	$c_news_id = db_prepare_int( $p_news_id );
-
 	$query = "DELETE FROM {news} WHERE id=%d";
 
-	db_query_bound( $query, array( $c_news_id ) );
+	db_query_bound( $query, array( (int)$p_news_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -97,11 +92,9 @@ function news_delete( $p_news_id ) {
 # --------------------
 # Delete the news entry
 function news_delete_all( $p_project_id ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-
 	$query = 'DELETE FROM {news} WHERE project_id=%d';
 
-	db_query_bound( $query, array( $c_project_id ) );
+	db_query_bound( $query, array( (int)$p_project_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -140,7 +133,6 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 	return true;
 }
 
-# --------------------
 # Selects the news item associated with the specified id
 function news_get_row( $p_news_id ) {
 	$c_news_id = db_prepare_int( $p_news_id );
@@ -157,7 +149,6 @@ function news_get_row( $p_news_id ) {
 	}
 }
 
-# --------------------
 # get news count (selected project plus sitewide posts)
 function news_get_count( $p_project_id, $p_sitewide = true ) {
 	$c_project_id = db_prepare_int( $p_project_id );
@@ -175,7 +166,6 @@ function news_get_count( $p_project_id, $p_sitewide = true ) {
 	return db_result( $result, 0 );
 }
 
-# --------------------
 # get news items (selected project plus sitewide posts)
 function news_get_rows( $p_project_id, $p_sitewide = true ) {
 	$t_projects = current_user_get_all_accessible_subprojects( $p_project_id );

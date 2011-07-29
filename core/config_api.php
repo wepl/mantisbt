@@ -337,13 +337,10 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 
 	if( config_can_set_in_database( $p_option ) ) {
 		$c_option = $p_option;
-		$c_user = db_prepare_int( $p_user );
-		$c_project = db_prepare_int( $p_project );
-		$c_access = db_prepare_int( $p_access );
 
 		$query = "SELECT COUNT(*) from {config}
 				WHERE config_id = %d AND project_id = %d AND user_id = %d";
-		$result = db_query_bound( $query, array( $c_option, $c_project, $c_user ) );
+		$result = db_query_bound( $query, array( (int)$p_option, (int)$p_project, (int)$p_user ) );
 
 		$t_params = array();
 		if( 0 < db_result( $result ) ) {

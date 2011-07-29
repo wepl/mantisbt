@@ -84,10 +84,8 @@ class BugnoteData {
  * @access public
  */
 function bugnote_exists( $p_bugnote_id ) {
-	$c_bugnote_id = db_prepare_int( $p_bugnote_id );
-
 	$query = 'SELECT COUNT(*) FROM {bugnote} WHERE id=%d';
-	$result = db_query_bound( $query, array( $c_bugnote_id ) );
+	$result = db_query_bound( $query, array( (int)$p_bugnote_id ) );
 
 	if( 0 == db_result( $result ) ) {
 		return false;
@@ -248,11 +246,9 @@ function bugnote_delete( $p_bugnote_id ) {
  * @access public
  */
 function bugnote_delete_all( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
-
 	# Delete the bugnote text items
 	$query = 'SELECT bugnote_text_id FROM {bugnote} WHERE bug_id=%d';
-	$result = db_query_bound( $query, array( $c_bug_id ) );
+	$result = db_query_bound( $query, array( (int)$p_bug_id ) );
 
 	while( $row = db_fetch_array( $result ) ) {
 		$t_bugnote_text_id = $row['bugnote_text_id'];
