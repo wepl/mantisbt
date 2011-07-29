@@ -61,11 +61,7 @@ class MantisUser extends MantisCacheable {
 	#  if the user can't be found.  If the second parameter is
 	#  false, return false if the user can't be found.
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
-		$t_user_table = db_get_table( 'user' );
-
-		$query = "SELECT *
-					  FROM $t_user_table
-					  WHERE id=" . db_param();
+		$query = "SELECT * FROM {user} WHERE id=" . db_param();
 		$result = db_query_bound( $query, array( $p_user_id ) );
 
 		$row = db_fetch_array( $result );

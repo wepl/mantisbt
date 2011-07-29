@@ -51,6 +51,15 @@ abstract class MantisDatabase {
 	 * string - db dsn
 	 */
     protected $dbdsn;
+
+    /** 
+	 * string - db table prefix
+	 */
+    protected static $dbprefix;	
+    /** 
+	 * string - db table suffix
+	 */
+    protected static $dbsuffix;
 	
     /** @var array Database or driver specific options, such as sockets or TCPIP db connections */
     protected $dboptions;
@@ -74,6 +83,11 @@ abstract class MantisDatabase {
         $this->dispose();
     }
 
+	public function SetPrefixes( $p_prefix, $p_suffix ) {
+		self::$dbprefix = $p_prefix;
+		self::$dbsuffix = $p_suffix;
+	}
+	
     /**
      * Detects if all needed PHP stuff installed.
      * Note: can be used before connect()
@@ -316,6 +330,11 @@ abstract class MantisDatabase {
 		$a->params = $params;
 		throw new MantisDatabaseException(ERROR_DB_QUERY_FAILED, $a);
     }
+	
+	protected function PrefixTables($sql) {
+		return strtr($sql, array('{' => self::$dbprefix, '}' => self::$dbsuffix));
+}
+	
 	
 	/* legacy functions */
 	public function legacy_null_date() {

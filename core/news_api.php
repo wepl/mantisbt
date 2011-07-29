@@ -65,12 +65,9 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 		trigger_error( ERROR_EMPTY_FIELD, ERROR );
 	}
 
-	$t_news_table = db_get_table( 'news' );
-
 	# Add item
-
 	$query = "INSERT
-				INTO $t_news_table
+				INTO {news}
 	    		  ( project_id, poster_id, date_posted, last_modified,
 	    		    view_state, announcement, headline, body )
 				VALUES
@@ -97,10 +94,7 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 function news_delete( $p_news_id ) {
 	$c_news_id = db_prepare_int( $p_news_id );
 
-	$t_news_table = db_get_table( 'news' );
-
-	$query = "DELETE FROM $t_news_table
-	    		  WHERE id=" . db_param();
+	$query = "DELETE FROM {news} WHERE id=" . db_param();
 
 	db_query_bound( $query, array( $c_news_id ) );
 
@@ -113,10 +107,7 @@ function news_delete( $p_news_id ) {
 function news_delete_all( $p_project_id ) {
 	$c_project_id = db_prepare_int( $p_project_id );
 
-	$t_news_table = db_get_table( 'news' );
-
-	$query = "DELETE FROM $t_news_table
-	    		  WHERE project_id=" . db_param();
+	$query = "DELETE FROM {news} WHERE project_id=" . db_param();
 
 	db_query_bound( $query, array( $c_project_id ) );
 
@@ -142,10 +133,8 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 		trigger_error( ERROR_EMPTY_FIELD, ERROR );
 	}
 
-	$t_news_table = db_get_table( 'news' );
-
 	# Update entry
-	$query = "UPDATE $t_news_table
+	$query = "UPDATE {news}
 				  SET view_state=" . db_param() . ",
 					announcement=" . db_param() . ",
 					headline=" . db_param() . ",
@@ -165,11 +154,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 function news_get_row( $p_news_id ) {
 	$c_news_id = db_prepare_int( $p_news_id );
 
-	$t_news_table = db_get_table( 'news' );
-
-	$query = "SELECT *
-				  FROM $t_news_table
-				  WHERE id=" . db_param();
+	$query = "SELECT * FROM {news} WHERE id=" . db_param();
 	$result = db_query_bound( $query, array( $c_news_id ) );
 
 	$row = db_fetch_array( $result );
@@ -186,12 +171,9 @@ function news_get_row( $p_news_id ) {
 function news_get_count( $p_project_id, $p_sitewide = true ) {
 	$c_project_id = db_prepare_int( $p_project_id );
 
-	$t_news_table = db_get_table( 'news' );
 	$t_project_where = helper_project_specific_where( $p_project_id );
 
-	$query = "SELECT COUNT(*)
-				  FROM $t_news_table
-				  WHERE $t_project_where";
+	$query = "SELECT COUNT(*) FROM {news} WHERE $t_project_where";
 
 	if( $p_sitewide ) {
 		$query .= ' OR project_id=' . ALL_PROJECTS;
@@ -205,8 +187,6 @@ function news_get_count( $p_project_id, $p_sitewide = true ) {
 # --------------------
 # get news items (selected project plus sitewide posts)
 function news_get_rows( $p_project_id, $p_sitewide = true ) {
-	$t_news_table = db_get_table( 'news' );
-
 	$t_projects = current_user_get_all_accessible_subprojects( $p_project_id );
 	$t_projects[] = (int)$p_project_id;
 
@@ -214,8 +194,7 @@ function news_get_rows( $p_project_id, $p_sitewide = true ) {
 		$t_projects[] = ALL_PROJECTS;
 	}
 
-	$query = "SELECT *
-				  FROM $t_news_table";
+	$query = 'SELECT * FROM {news}';
 
 	if( 1 == count( $t_projects ) ) {
 		$c_project_id = $t_projects[0];
@@ -237,20 +216,17 @@ function news_get_rows( $p_project_id, $p_sitewide = true ) {
 	return $t_rows;
 }
 
-# --------------------
 # Check if the specified news item is private
 function news_get_field( $p_news_id, $p_field_name ) {
 	$t_row = news_get_row( $p_news_id );
 	return( $t_row[$p_field_name] );
 }
 
-# --------------------
 # Check if the specified news item is private
 function news_is_private( $p_news_id ) {
 	return( news_get_field( $p_news_id, 'view_state' ) == VS_PRIVATE );
 }
 
-# --------------------
 # Gets a limited set of news rows to be viewed on one page based on the criteria
 # defined in the configuration file.
 function news_get_limited_rows( $p_offset, $p_project_id = null ) {
@@ -266,7 +242,6 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 		$t_projects[] = ALL_PROJECTS;
 	}
 
-	$t_news_table = db_get_table( 'news' );
 	$t_news_view_limit = config_get( 'news_view_limit' );
 	$t_news_view_limit_days = config_get( 'news_view_limit_days' ) * SECONDS_PER_DAY;
 
@@ -274,8 +249,7 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 		case 0:
 
 			# BY_LIMIT - Select the news posts
-			$query = "SELECT *
-						FROM $t_news_table";
+			$query = 'SELECT * FROM {news}';
 
 			if( 1 == count( $t_projects ) ) {
 				$c_project_id = $t_projects[0];
@@ -291,7 +265,7 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 
 			# BY_DATE - Select the news posts
 			$query = "SELECT *
-						FROM $t_news_table WHERE
+						FROM {news} WHERE
 						( " . db_helper_compare_days( 0, 'date_posted', "< $t_news_view_limit_days" ) . "
 						 OR announcement = " . db_param() . " ) ";
 			$t_params = array(

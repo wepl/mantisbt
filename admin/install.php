@@ -644,6 +644,7 @@ if( 3 == $t_install_state ) {
 				echo '<tr><td bgcolor="#ffffff">';
 			}
 
+			$g_db->SetPrefixes( 'mantis_', '_table' );
 			$dict = new MantisDatabaseDict( $g_db );
 			$t_sql = true;
 			$t_target = $upgrade[$i][1][0];
@@ -718,7 +719,7 @@ if( 3 == $t_install_state ) {
 		
 		if( $f_log_queries ) {
 			# add a query to set the database version
-			echo 'INSERT INTO ' . db_get_table( 'config' ) . ' ( value, type, access_reqd, config_id, project_id, user_id ) VALUES (\'' . $lastid . '\', 1, 90, \'database_version\', 0, 0 );' . "\r\n";
+			echo 'INSERT INTO {config} ( value, type, access_reqd, config_id, project_id, user_id ) VALUES (\'' . $lastid . '\', 1, 90, \'database_version\', 0, 0 );' . "\r\n";
 			echo '</pre><br /><p style="color:red">Your database has not been created yet. Please create the database, then install the tables and data using the information above before proceeding.</p></td></tr>';
 		}
 	}
@@ -872,8 +873,7 @@ if( 6 == $t_install_state ) {
 		checking ability to SELECT records
 	</td>
 	<?php
-		$t_mantis_config_table = db_get_table( 'config' );
-	$t_query = "SELECT COUNT(*) FROM $t_mantis_config_table";
+	$t_query = 'SELECT COUNT(*) FROM {config}';
 	$t_result = @$g_db->Execute( $t_query );
 
 	if( $t_result != false ) {
@@ -888,7 +888,7 @@ if( 6 == $t_install_state ) {
 		checking ability to INSERT records
 	</td>
 	<?php
-		$t_query = "INSERT INTO $t_mantis_config_table ( value, type, access_reqd, config_id, project_id, user_id ) VALUES ('test', 1, 90, 'database_test', 20, 0 )";
+		$t_query = "INSERT INTO {config} ( value, type, access_reqd, config_id, project_id, user_id ) VALUES ('test', 1, 90, 'database_test', 20, 0 )";
 	$t_result = @$g_db->Execute( $t_query );
 
 	if( $t_result != false ) {
