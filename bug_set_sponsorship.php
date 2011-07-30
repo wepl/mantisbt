@@ -60,7 +60,7 @@ form_security_validate( 'bug_set_sponsorship' );
 
 # anonymous users are not allowed to sponsor issues
 if ( current_user_is_anonymous() ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 $f_bug_id	= gpc_get_int( 'bug_id' );

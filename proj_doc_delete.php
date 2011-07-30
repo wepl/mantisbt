@@ -54,7 +54,7 @@ form_security_validate( 'proj_doc_delete' );
 
 # Check if project documentation feature is enabled.
 if ( OFF == config_get( 'enable_project_documentation' ) ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 $f_file_id = gpc_get_int( 'file_id' );

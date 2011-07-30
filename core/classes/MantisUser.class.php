@@ -5,58 +5,58 @@ class MantisUser extends MantisCacheable {
 	protected $realname;
 	protected $email;
 	protected $password;
-	protected $enabled;
-	protected $protected;
+	protected $enabled = true;
+	protected $protected = false;
 	protected $access_level;
-	protected $login_count;
-	protected $lost_password_request_count;
-	protected $failed_login_count;
+	protected $login_count = 0;
+	protected $lost_password_request_count = 0;
+	protected $failed_login_count = 0;
 	protected $cookie_string;
 	protected $last_visit;
 	protected $date_created;
 
 	static $fields = null;
-	private $_exists = true;
 	private $loading = false;
 	
-	function MantisUser( $p_user_id=0 ) {
+	function MantisUser( $p_username = null, $p_password = null, $p_email = null ) {
 		if( self::$fields === null ) {
 			self::$fields = getClassProperties('MantisUser', 'protected');
 		}
-		if( $p_user_id ) {
-			$this->user_id = intval($p_user_id);
-			if( $this->isCached() ) {
-				log_event( LOG_FILTERING, 'CACHE HIT' );
-				
-				$cache = $this->getCache();
-				foreach( self::$fields as $t_field=>$t) {
-					$this->{$t_field} = $cache->{$t_field};
-				}
-				return;
-			} else {
-				$t_row = $this->user_cache_row( $p_user_id );
-
-				if ( $t_row === false ) {
-					// user not found
-					$this->_exists = false;
-				} else {
-					$this->loadrow( $t_row );
-				}
-				$this->putCache(); 
-			}
+		
+		if( $p_username !== null ) {
+			$this->username = $p_username;
 		}
+		if( $p_password !== null ) {
+			$this->password = $p_password;
+		}
+		if( $p_email !== null ) {
+			$this->email = $p_email;
+		}		
 	}
-	
-	public function Exists() {
-		return $this->_exists;
-	}
-	
+		
 	public function getID() {
 		return $this->user_id;
 	}
+
+	public static function getByArray($p_field, $p_values ) {
+		if( empty( $p_values ) ) {
+			return array();
+		}
+		
+		$t_rows = self::GetFromDatabase( $p_field, $p_values );
+
+		$t_users = array();
+		foreach( $t_rows as $t_row ) {
+			$t_user = new MantisUser();
+			$t_user->loadrow( $t_row );
+			$t_users[] = $t_user;			
+		}
+		
+		return $t_users;
+	}
 	
 	public static function getByUserName($p_name) {
-		$t_row = GetFromDatabase( 'username', $p_name );
+		$t_row = self::GetFromDatabase( 'username', $p_name );
 		if ( $t_row === null ) {
 			throw new MantisBT\Exception\User_By_UserName_Not_Found( $p_name );
 		}
@@ -67,6 +67,18 @@ class MantisUser extends MantisCacheable {
 		return $t_user;
 	}
 
+	public static function getByCookieString($p_cookie) {
+		$t_row = self::GetFromDatabase( 'cookie_string', $p_cookie );
+		if ( $t_row === null ) {
+			throw new MantisBT\Exception\User_By_Cookie_Not_Found( $p_cookie );
+		}
+		
+		$t_user = new MantisUser();
+		$t_user->loadrow( $t_row );
+		
+		return $t_user;
+	}
+	
 	public static function getByUserID($p_user_id) {
 		$t_row = self::GetFromDatabase( 'id', $p_user_id );
 		if ( $t_row === null ) {
@@ -91,20 +103,31 @@ class MantisUser extends MantisCacheable {
 			case 'username':
 			case 'realname':
 			case 'email':
+			case 'cookie_string':
 				$t_type = '%s';
 				break;
 			default:
 				throw new MantisBT\Exception\Generic();
 		}
-		$query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
-		$result = db_query_bound( $query, array( $p_value ) );
-
-		$row = db_fetch_array( $result );
 		
-		if ( $row ) {
-			return $row;	
+		if( is_array( $p_value ) ) {
+			$query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
+			$result = db_query_bound( $query );
+			$t_rows = array();
+			while( $row = db_fetch_array( $result ) ) {
+				$t_rows[] = $row;
+			}
+			return $t_rows;
 		} else {
-			return null;
+			$query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
+			$result = db_query_bound( $query, array( $p_value ) );
+			$row = db_fetch_array( $result );
+			
+			if ( $row ) {
+				return $row;	
+			} else {
+				return null;
+			}
 		}
 	}	
 	
@@ -145,7 +168,6 @@ class MantisUser extends MantisCacheable {
 
 	public function ToArray( ) {
 		$d =  get_object_vars($this);
-		unset( $d['_exists'] );
 		unset( $d['loading'] );
 		return $d;
 	}
@@ -154,14 +176,30 @@ class MantisUser extends MantisCacheable {
 	/**
 	 * @private
 	 */
-	public function __set($name, $value) {
+	public function __set($name, $p_value) {
 		if( in_array( $name, self::$fields) ){
 			switch ($name) {
 				case 'id':
-					$value = (int)$value;
+					$this->user_id = (int)$p_value;
+					break;
+				case 'username':
+					//if( self::validate_username($p_value ) ) {
+						$this->{$name} = $p_value;
+					//} else {
+					//	throw new MantisBT\Exception\User_Name_Invalid();
+					//}
+					break;
+				case 'email':
+					$p_value = trim($p_value);
+					//if( self::validate_email($p_value ) ) {
+						$this->{$name} = $p_value;
+					//}
+					break;
+				case 'password':
+					$this->{$name} = auth_process_plain_password( $p_value );
 					break;
 				default:
-					$this->{$name} = $value;
+					$this->{$name} = $p_value;
 					break;
 			}			
 		}
@@ -173,6 +211,18 @@ class MantisUser extends MantisCacheable {
 	 * @param bool $p_update_extended
 	 */
 	function validate() {
+		// Generate a password if not valid
+		if( $this->password == '' ) {
+			$this->password = auth_generate_random_password( $this->email . $this->username );
+		}
+		
+		if( null === $this->access_level ) {
+			$this->access_level = config_get( 'default_new_account_access_level' );
+		}
+		
+		if( null === $this->cookie_string ) {
+			$this->cookie_string = auth_generate_unique_cookie_string( $this->email . $this->username );
+		}
 	}
 
 	/**
@@ -183,6 +233,16 @@ class MantisUser extends MantisCacheable {
 	function create() {
 		self::validate( true );
 
+		$query = "INSERT INTO {user}
+						( username, email, password, date_created, last_visit,
+						 enabled, access_level, login_count, cookie_string, realname )
+					  VALUES
+						( %s, %s, %s, %d, %d,
+						 %d,%d,%d,%s, %s)";
+		db_query_bound( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), $c_enabled, $c_access_level, 0, $t_cookie_string, $p_realname ) );
+
+		$t_user_id = db_insert_id( '{user}' );		
+		
 		return $this->getID();
 	}
 
@@ -195,6 +255,54 @@ class MantisUser extends MantisCacheable {
 		self::validate();
 
 		return true;
-	}	
+	}
+
+	/**
+	 * Delete a user
+	 * @return bool (always true)
+	 * @access public
+	 */
+	function delete() {
+		return true;
+	}
+	
+	/** 
+	 * Check if the username is a valid username.
+	 * Return true if it is, false otherwise
+	 */
+	private function validate_username($p_username) {
+		# The DB field is hard-coded. USERLEN should not be modified.
+		if( utf8_strlen( $p_username ) > USERLEN ) {
+			return false;
+		}
+
+		# username must consist of at least one character
+		if( is_blank( $p_username ) ) {
+			return false;
+		}
+
+		# Only allow a basic set of characters
+		if( 0 == preg_match( config_get( 'user_login_valid_regex' ), $p_username ) ) {
+			return false;
+		}
+		
+		$query = 'SELECT username FROM {user} WHERE username=%s';
+		$result = db_query_bound( $query, array( $p_username ), 1 );
+
+		if( db_result( $result ) ) {
+			throw new MantisBT\Exception\User_Name_Not_Unique();
+			return false;
+		} else {
+			return true;
+		}
+		
+		return true;
+	}
+	
+	private function validate_email( $p_email ) {
+		email_ensure_valid( $p_email );
+
+		return true;
+	}
 	
 }

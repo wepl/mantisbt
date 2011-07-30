@@ -87,7 +87,7 @@ if( ON == config_get( 'signup_use_captcha' ) && get_gd_version() > 0 	&&
 email_ensure_not_disposable( $f_email );
 
 # notify the selected group a new user has signed-up
-if( user_signup( $f_username, $f_email ) ) {
+if( user_create( $f_username, /*blank password = auto generate*/ '', $f_email ) ) {
 	email_notify_new_account( $f_username, $f_email );
 }
 

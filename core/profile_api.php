@@ -107,6 +107,20 @@ function profile_delete( $p_user_id, $p_profile_id ) {
 }
 
 /**
+ * delete profiles for the specified user
+ * returns true when successfully deleted
+ */
+function profile_delete_all( $p_user_id ) {
+	user_ensure_unprotected( $p_user_id );
+
+	# Remove associated profiles
+	$query = 'DELETE FROM {user_profile} WHERE user_id=%d';
+	db_query_bound( $query, array( (int)$p_user_id ) );
+
+	return true;
+}
+
+/**
  * Update a profile for the user
  * @param int $p_user_id
  * @param int $p_profile_id

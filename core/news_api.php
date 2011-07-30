@@ -280,6 +280,6 @@ function news_is_enabled() {
 # Ensures that the news feature is enabled, otherwise generates an access denied error.
 function news_ensure_enabled() {
 	if ( !news_is_enabled() ) {
-		access_denied();
+		throw new MantisBT\Exception\Access_Denied();
 	}
 }

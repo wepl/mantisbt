@@ -68,7 +68,7 @@ if ( $f_copy_from ) {
 
 # only admins can set global defaults.for ALL_PROJECT
 if ( $f_manage_page && $t_dst_project_id == ALL_PROJECTS && !current_user_is_administrator() ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 # only MANAGERS can set global defaults.for a project

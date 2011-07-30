@@ -68,7 +68,7 @@ foreach ( $t_revert_vars as $t_revert ) {
 }
 
 if ( !$t_access ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 if ( '' != $f_revert ) {

@@ -90,7 +90,7 @@ switch ( $f_type ) {
 		$query = "SELECT * FROM {project_file} WHERE id=%d";
 		break;
 	default:
-		access_denied();
+		throw new MantisBT\Exception\Access_Denied();
 }
 $result = db_query_bound( $query, array( $c_file_id ) );
 $row = db_fetch_array( $result );
@@ -106,13 +106,13 @@ if ( $f_type == 'bug' ) {
 switch ( $f_type ) {
 	case 'bug':
 		if ( !file_can_download_bug_attachments( $v_bug_id, (int)$v_user_id ) ) {
-			access_denied();
+			throw new MantisBT\Exception\Access_Denied();
 		}
 		break;
 	case 'doc':
 		# Check if project documentation feature is enabled.
 		if ( OFF == config_get( 'enable_project_documentation' ) ) {
-			access_denied();
+			throw new MantisBT\Exception\Access_Denied();
 		}
 
 		access_ensure_project_level( config_get( 'view_proj_doc_threshold' ), $v_project_id );

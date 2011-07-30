@@ -42,7 +42,7 @@ require_api( 'workflow_api.php' );
 auth_ensure_user_authenticated();
 
 if ( !config_get( 'relationship_graph_enable' ) ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 compress_enable();

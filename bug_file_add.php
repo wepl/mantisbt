@@ -72,7 +72,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 }
 
 if ( !file_allow_bug_upload( $f_bug_id ) ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 access_ensure_bug_level( config_get( 'upload_bug_file_threshold' ), $f_bug_id );

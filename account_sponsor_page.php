@@ -86,7 +86,7 @@ if ( !config_get( 'enable_sponsorship' ) ) {
 
 # anonymous users are not allowed to sponsor issues
 if ( current_user_is_anonymous() ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 $t_show_all = gpc_get_bool( 'show_all', false );

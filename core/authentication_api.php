@@ -746,10 +746,6 @@ function auth_is_cookie_valid( $p_cookie_string ) {
 		return true;
 	}
 
-	if( user_search_cache( 'cookie_string', $p_cookie_string ) ) {
-		return true;
-	}
-
 	# look up cookie in the database to see if it is valid
 	$query = 'SELECT * FROM {user} WHERE cookie_string=%s';
 	$result = db_query_bound( $query, array( $p_cookie_string ) );
@@ -777,23 +773,13 @@ function auth_get_current_user_id() {
 
 	$t_cookie_string = auth_get_current_user_cookie();
 
-	if( $t_result = user_search_cache( 'cookie_string', $t_cookie_string ) ) {
-		$t_user_id = (int) $t_result['id'];
-		$g_cache_current_user_id = $t_user_id;
-		return $t_user_id;
-	}
+	$t_user_id = MantisUser::getByCookieString( $t_cookie_string )->GetID();
 
-	/** @todo error with an error saying they aren't logged in? Or redirect to the login page maybe? */
-	$query = 'SELECT id FROM {user} WHERE cookie_string=%s';
-	$result = db_query_bound( $query, array( $t_cookie_string ) );
-
-	$t_user_id = (int) db_result( $result );
-	
 	# The cookie was invalid. Clear the cookie (to allow people to log in again)
 	# and give them an Access Denied message.
 	if( !$t_user_id ) {
 		auth_clear_cookies();
-		access_denied();
+		throw new MantisBT\Exception\Access_Denied();
 		exit();
 	}
 

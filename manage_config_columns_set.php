@@ -68,7 +68,7 @@ $f_form_page = gpc_get_string( 'form_page' );
 
 # only admins can set global defaults.for ALL_PROJECT
 if ( $f_update_columns_as_global_default && $f_project_id == ALL_PROJECTS && !current_user_is_administrator() ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 # only MANAGERS can set global defaults.for a project

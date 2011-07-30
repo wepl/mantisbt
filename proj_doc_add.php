@@ -54,7 +54,7 @@ form_security_validate( 'proj_doc_add' );
 
 # Check if project documentation feature is enabled.
 if ( OFF == config_get( 'enable_project_documentation' ) ) {
-	access_denied();
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ) );

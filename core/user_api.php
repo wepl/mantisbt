@@ -59,60 +59,7 @@ require_api( 'user_pref_api.php' );
 require_api( 'utility_api.php' );
 
 function user_cache_array_rows( $p_user_id_array ) {
-	global $g_cache_user;
-	$c_user_id_array = array();
-
-	foreach( $p_user_id_array as $t_user_id ) {
-		if( !isset( $g_cache_user[(int) $t_user_id] ) ) {
-			$c_user_id_array[] = (int) $t_user_id;
-		}
-	}
-
-	if( empty( $c_user_id_array ) ) {
-		return;
-	}
-
-	$query = "SELECT * FROM {user} WHERE id IN (" . implode( ',', $c_user_id_array ) . ')';
-	$result = db_query_bound( $query );
-
-	while( $row = db_fetch_array( $result ) ) {
-		$g_cache_user[(int) $row['id']] = $row;
-	}
-	return;
-}
-
-# --------------------
-# Clear the user cache (or just the given id if specified)
-function user_clear_cache( $p_user_id = null ) {
-	global $g_cache_user;
-
-	if( null === $p_user_id ) {
-		$g_cache_user = array();
-	} else {
-		unset( $g_cache_user[$p_user_id] );
-	}
-
-	return true;
-}
-
-function user_update_cache( $p_user_id, $p_field, $p_value ) {
-	global $g_cache_user;
-
-	if( isset( $g_cache_user[$p_user_id] ) && isset( $g_cache_user[$p_user_id][$p_field] ) ) {
-		$g_cache_user[$p_user_id][$p_field] = $p_value;
-	}
-}
-
-function user_search_cache( $p_field, $p_value ) {
-	global $g_cache_user;
-	if( isset( $g_cache_user ) ) {
-		foreach( $g_cache_user as $t_user ) {
-			if( $t_user[$p_field] == $p_value ) {
-				return $t_user;
-			}
-		}
-	}
-	return false;
+	return MantisUser::getByArray( 'id', $p_user_id_array);
 }
 
 /**
@@ -123,11 +70,10 @@ function user_search_cache( $p_field, $p_value ) {
  * and because if the user does exist the data may well be wanted
  */
 function user_exists( $p_user_id ) {
-	$t_user = MantisUser::getByUserID( $p_user_id );
-	if( false == $t_user->exists() ) {
+	try {
+		$t_user = MantisUser::getByUserID( $p_user_id );
+	} catch ( MantisBT\Exception\User_By_UserID_Not_Found $e ) {
 		return false;
-	} else {
-		return true;
 	}
 }
 
@@ -139,30 +85,6 @@ function user_exists( $p_user_id ) {
 function user_ensure_exists( $p_user_id ) {
 	if ( !user_exists( $p_user_id ) ) {
 		throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
-	}
-}
-
-/**
- * return true if the username is unique, false if there is already a user
- * with that username
- */
-function user_is_name_unique( $p_username ) {
-	$query = 'SELECT username FROM {user} WHERE username=%s';
-	$result = db_query_bound( $query, array( $p_username ), 1 );
-
-	if( db_result( $result ) ) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
-/** 
- * Check if the username is unique and trigger an ERROR if it isn't
- */
-function user_ensure_name_unique( $p_username ) {
-	if( !user_is_name_unique( $p_username ) ) {
-		throw new MantisBT\Exception\User_Name_Not_Unique();
 	}
 }
 
@@ -220,41 +142,6 @@ function user_is_realname_unique( $p_username, $p_realname ) {
 function user_ensure_realname_unique( $p_username, $p_realname ) {
 	if( 1 > user_is_realname_unique( $p_username, $p_realname ) ) {
 		throw new MantisBT\Exception\User_Real_Match_User();
-	}
-}
-
-/** 
- * Check if the username is a valid username (does not account for uniqueness) realname can match
- * Return true if it is, false otherwise
- */
-function user_is_name_valid( $p_username ) {
-
-	# The DB field is hard-coded. USERLEN should not be modified.
-	if( utf8_strlen( $p_username ) > USERLEN ) {
-		return false;
-	}
-
-	# username must consist of at least one character
-	if( is_blank( $p_username ) ) {
-		return false;
-	}
-
-	# Only allow a basic set of characters
-	if( 0 == preg_match( config_get( 'user_login_valid_regex' ), $p_username ) ) {
-		return false;
-	}
-
-	# We have a valid username
-	return true;
-}
-
-/**
- * Check if the username is a valid username (does not account for uniqueness)
- * Trigger an error if the username is not valid
- */
-function user_ensure_name_valid( $p_username ) {
-	if( !user_is_name_valid( $p_username ) ) {
-		throw new MantisBT\Exception\User_Name_Invalid();
 	}
 }
 
@@ -357,37 +244,8 @@ function user_count_level( $p_level = ANYBODY ) {
  * Create a user.
  * returns false if error, the generated cookie string if ok
  */
-function user_create( $p_username, $p_password, $p_email = '',
-	$p_access_level = null, $p_protected = false, $p_enabled = true,
-	$p_realname = '', $p_admin_name = '' ) {
-	if( null === $p_access_level ) {
-		$p_access_level = config_get( 'default_new_account_access_level' );
-	}
-
-	$t_password = auth_process_plain_password( $p_password );
-
-	$c_access_level = db_prepare_int( $p_access_level );
-	$c_protected = db_prepare_bool( $p_protected );
-	$c_enabled = db_prepare_bool( $p_enabled );
-
-	user_ensure_name_valid( $p_username );
-	user_ensure_name_unique( $p_username );
+function user_create( $p_username, $p_password = '', $p_email = '' ) {
 	user_ensure_realname_unique( $p_username, $p_realname );
-	email_ensure_valid( $p_email );
-
-	$t_seed = $p_email . $p_username;
-	$t_cookie_string = auth_generate_unique_cookie_string( $t_seed );
-
-	$query = "INSERT INTO {user}
-				    ( username, email, password, date_created, last_visit,
-				     enabled, access_level, login_count, cookie_string, realname )
-				  VALUES
-				    ( %s, %s, %s, %d, %d,
-				     %d,%d,%d,%s, %s)";
-	db_query_bound( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), $c_enabled, $c_access_level, 0, $t_cookie_string, $p_realname ) );
-
-	# Create preferences for the user
-	$t_user_id = db_insert_id( '{user}' );
 
 	# Users are added with protected set to FALSE in order to be able to update
 	# preferences.  Now set the real value of protected.
@@ -405,27 +263,6 @@ function user_create( $p_username, $p_password, $p_email = '',
 }
 
 /**
- * Signup a user.
- * If the use_ldap_email config option is on then tries to find email using
- * ldap. $p_email may be empty, but the user wont get any emails.
- * returns false if error, the generated cookie string if ok
- */
-function user_signup( $p_username, $p_email = null ) {
-	if( null === $p_email ) {
-		$p_email = '';
-	}
-
-	$p_email = trim( $p_email );
-
-	$t_seed = $p_email . $p_username;
-
-	# Create random password
-	$t_password = auth_generate_random_password( $t_seed );
-
-	return user_create( $p_username, $t_password, $p_email );
-}
-
-/**
  * delete project-specific user access levels.
  * returns true when successfully deleted
  */
@@ -433,20 +270,6 @@ function user_delete_project_specific_access_levels( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
 
 	$query = 'DELETE FROM {project_user_list} WHERE user_id=%d';
-	db_query_bound( $query, array( (int)$p_user_id ) );
-
-	return true;
-}
-
-/**
- * delete profiles for the specified user
- * returns true when successfully deleted
- */
-function user_delete_profiles( $p_user_id ) {
-	user_ensure_unprotected( $p_user_id );
-
-	# Remove associated profiles
-	$query = 'DELETE FROM {user_profile} WHERE user_id=%d';
 	db_query_bound( $query, array( (int)$p_user_id ) );
 
 	return true;
@@ -462,7 +285,7 @@ function user_delete( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
 
 	# Remove associated profiles
-	user_delete_profiles( $p_user_id );
+	profile_delete_all( $p_user_id );
 
 	# Remove associated preferences
 	user_pref_delete_all( $p_user_id );
@@ -492,8 +315,6 @@ function user_delete( $p_user_id ) {
 		}
 	}
 
-	user_clear_cache( $p_user_id );
-
 	# Remove account
 	$t_query = "DELETE FROM {user} WHERE id=%d";
 	db_query_bound( $t_query, array( $c_user_id ) );
@@ -516,21 +337,6 @@ function user_get_id_by_name( $p_username ) {
 	return false;
 }
 
-/**
- * Get a user id from an email address
- */
-function user_get_id_by_email( $p_email ) {
-	$query = "SELECT * FROM {user} WHERE email=%s";
-	$result = db_query_bound( $query, array( $p_email ) );
-
-	$row = db_fetch_array( $result );
-	
-	if( !$row ) {
-		return false;
-	} else {
-		return $row['id'];
-	}
-}
 
 /**
  * Get a user id from their real name
@@ -548,22 +354,6 @@ function user_get_id_by_realname( $p_realname ) {
 	} else {
 		return $row['id'];
 	}
-}
-
-/**
- * return all data associated with a particular user name
- * return false if the username does not exist
- */
-function user_get_row_by_name( $p_username ) {
-	$t_user_id = user_get_id_by_name( $p_username );
-
-	if( false === $t_user_id ) {
-		return false;
-	}
-
-	$row = user_get_row( $t_user_id );
-
-	return $row;
 }
 
 /**
@@ -1059,8 +849,6 @@ function user_update_last_visit( $p_user_id ) {
 
 	db_query_bound( $query, array( $c_value, $c_user_id ) );
 
-	user_update_cache( $p_user_id, 'last_visit', $c_value );
-
 	return true;
 }
 
@@ -1073,8 +861,6 @@ function user_increment_login_count( $p_user_id ) {
 
 	db_query_bound( $query, array( $p_user_id ) );
 
-	user_clear_cache( $p_user_id );
-
 	# db_query errors on failure so:
 	return true;
 }
@@ -1086,8 +872,6 @@ function user_reset_failed_login_count_to_zero( $p_user_id ) {
 	$query = "UPDATE {user} SET failed_login_count=0 WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
-	user_clear_cache( $p_user_id );
-
 	return true;
 }
 
@@ -1097,8 +881,6 @@ function user_reset_failed_login_count_to_zero( $p_user_id ) {
 function user_increment_failed_login_count( $p_user_id ) {
 	$query = "UPDATE {user} SET failed_login_count=failed_login_count+1 WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
-
-	user_clear_cache( $p_user_id );
 
 	return true;
 }
@@ -1110,8 +892,6 @@ function user_reset_lost_password_in_progress_count_to_zero( $p_user_id ) {
 	$query = "UPDATE {user} SET lost_password_request_count=0 WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
-	user_clear_cache( $p_user_id );
-
 	return true;
 }
 
@@ -1122,8 +902,6 @@ function user_increment_lost_password_in_progress_count( $p_user_id ) {
 	$query = "UPDATE {user} SET lost_password_request_count=lost_password_request_count+1
 				WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
-
-	user_clear_cache( $p_user_id );
 
 	return true;
 }
@@ -1142,8 +920,6 @@ function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
 	$query = 'UPDATE {user} SET ' . $c_field_name . '=%s WHERE id=%d';
 
 	db_query_bound( $query, array( $p_field_value, $c_user_id ) );
-
-	user_clear_cache( $p_user_id );
 
 	# db_query errors on failure so:
 	return true;
@@ -1180,32 +956,6 @@ function user_set_password( $p_user_id, $p_password, $p_allow_protected = false 
 
 	# db_query errors on failure so:
 	return true;
-}
-
-/**
- * Set the user's email to the given string after checking that it is a valid email
- */
-function user_set_email( $p_user_id, $p_email ) {
-	email_ensure_valid( $p_email );
-
-	return user_set_field( $p_user_id, 'email', $p_email );
-}
-
-/**
- * Set the user's realname to the given string after checking validity
- */
-function user_set_realname( $p_user_id, $p_realname ) {
-	return user_set_field( $p_user_id, 'realname', $p_realname );
-}
-
-/**
- * Set the user's username to the given string after checking that it is valid
- */
-function user_set_name( $p_user_id, $p_username ) {
-	user_ensure_name_valid( $p_username );
-	user_ensure_name_unique( $p_username );
-
-	return user_set_field( $p_user_id, 'username', $p_username );
 }
 
 /**
