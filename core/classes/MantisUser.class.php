@@ -54,7 +54,60 @@ class MantisUser extends MantisCacheable {
 	public function getID() {
 		return $this->user_id;
 	}
+	
+	public static function getByUserName($p_name) {
+		$t_row = GetFromDatabase( 'username', $p_name );
+		if ( $t_row === null ) {
+			throw new MantisBT\Exception\User_By_UserName_Not_Found( $p_name );
+		}
+		
+		$t_user = new MantisUser();
+		$t_user->loadrow( $t_row );
+		
+		return $t_user;
+	}
 
+	public static function getByUserID($p_user_id) {
+		$t_row = self::GetFromDatabase( 'id', $p_user_id );
+		if ( $t_row === null ) {
+			throw new MantisBT\Exception\User_By_UserID_Not_Found( $p_user_id );
+		}
+		
+		$t_user = new MantisUser();
+		$t_user->loadrow( $t_row );
+		
+		return $t_user;
+	}
+	
+	# Cache a user row if necessary and return the cached copy
+	#  If the second parameter is true (default), trigger an error
+	#  if the user can't be found.  If the second parameter is
+	#  false, return false if the user can't be found.
+	private static function GetFromDatabase( $p_field, $p_value ) {
+		switch( $p_field ) {
+			case 'id':
+				$t_type = '%d';
+				break;
+			case 'username':
+			case 'realname':
+			case 'email':
+				$t_type = '%s';
+				break;
+			default:
+				throw new MantisBT\Exception\Generic();
+		}
+		$query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
+		$result = db_query_bound( $query, array( $p_value ) );
+
+		$row = db_fetch_array( $result );
+		
+		if ( $row ) {
+			return $row;	
+		} else {
+			return null;
+		}
+	}	
+	
 	# --------------------
 	# Cache a user row if necessary and return the cached copy
 	#  If the second parameter is true (default), trigger an error

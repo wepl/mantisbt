@@ -123,7 +123,7 @@ function user_search_cache( $p_field, $p_value ) {
  * and because if the user does exist the data may well be wanted
  */
 function user_exists( $p_user_id ) {
-	$t_user = new MantisUser($p_user_id);
+	$t_user = MantisUser::getByUserID( $p_user_id );
 	if( false == $t_user->exists() ) {
 		return false;
 	} else {
@@ -570,7 +570,7 @@ function user_get_row_by_name( $p_username ) {
  * return a user row
  */
 function user_get_row( $p_user_id ) {
-	$t_user = new MantisUser($p_user_id);
+	$t_user = MantisUser::getByUserID( $p_user_id );
 	return $t_user->ToArray();
 }
 
@@ -583,7 +583,7 @@ function user_get_field( $p_user_id, $p_field_name ) {
 		return '@null@';
 	}
 
-	$t_user = new MantisUser($p_user_id);
+	$t_user = MantisUser::getByUserID( $p_user_id );
 	$row = $t_user->ToArray();
 	
 	if( isset( $row[$p_field_name] ) ) {
@@ -630,7 +630,7 @@ function user_get_realname( $p_user_id ) {
  * if show_realname is set and real name is not empty, return it instead
  */
 function user_get_name( $p_user_id ) {
-	$t_user = new MantisUser($p_user_id);
+	$t_user = MantisUser::getByUserID( $p_user_id );
 	$row = $t_user->user_cache_row( $p_user_id );
 	
 	if( false == $row ) {
@@ -1069,9 +1069,7 @@ function user_update_last_visit( $p_user_id ) {
  * This function is only called from the login.php script
  */
 function user_increment_login_count( $p_user_id ) {
-	$query = "UPDATE {user}
-				SET login_count=login_count+1
-				WHERE id=%d";
+	$query = "UPDATE {user} SET login_count=login_count+1 WHERE id=%d";
 
 	db_query_bound( $query, array( $p_user_id ) );
 
@@ -1085,8 +1083,7 @@ function user_increment_login_count( $p_user_id ) {
  * Reset to zero the failed login attempts
  */
 function user_reset_failed_login_count_to_zero( $p_user_id ) {
-	$query = "UPDATE {user} SET failed_login_count=0
-				WHERE id=%d";
+	$query = "UPDATE {user} SET failed_login_count=0 WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
@@ -1098,8 +1095,7 @@ function user_reset_failed_login_count_to_zero( $p_user_id ) {
  * Increment the failed login count by 1
  */
 function user_increment_failed_login_count( $p_user_id ) {
-	$query = "UPDATE {user} SET failed_login_count=failed_login_count+1
-				WHERE id=%d";
+	$query = "UPDATE {user} SET failed_login_count=failed_login_count+1 WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
@@ -1111,8 +1107,7 @@ function user_increment_failed_login_count( $p_user_id ) {
  * Reset to zero the 'lost password' in progress attempts
  */
 function user_reset_lost_password_in_progress_count_to_zero( $p_user_id ) {
-	$query = "UPDATE {user} SET lost_password_request_count=0
-				WHERE id=%d";
+	$query = "UPDATE {user} SET lost_password_request_count=0 WHERE id=%d";
 	db_query_bound( $query, array( $p_user_id ) );
 
 	user_clear_cache( $p_user_id );
