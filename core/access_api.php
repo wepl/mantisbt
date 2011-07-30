@@ -73,45 +73,6 @@ $g_cache_access_matrix_project_ids = array();
 $g_cache_access_matrix_user_ids = array();
 
 /**
- * Function to be called when a user is attempting to access a page that
- * he/she is not authorised to.  This outputs an access denied message then
- * re-directs to the mainpage.
- */
-function access_denied() {
-	if( !auth_is_user_authenticated() ) {
-		if( basename( $_SERVER['SCRIPT_NAME'] ) != 'login_page.php' ) {
-			$t_return_page = $_SERVER['SCRIPT_NAME'];
-			if( isset( $_SERVER['QUERY_STRING'] ) ) {
-				$t_return_page .= '?' . $_SERVER['QUERY_STRING'];
-			}
-			$t_return_page = string_url( string_sanitize_url( $t_return_page ) );
-			print_header_redirect( 'login_page.php' . '?return=' . $t_return_page );
-		}
-	} else {
-		if( current_user_is_anonymous() ) {
-			if( basename( $_SERVER['SCRIPT_NAME'] ) != 'login_page.php' ) {
-				$t_return_page = $_SERVER['SCRIPT_NAME'];
-				if( isset( $_SERVER['QUERY_STRING'] ) ) {
-					$t_return_page .= '?' . $_SERVER['QUERY_STRING'];
-				}
-				$t_return_page = string_url( string_sanitize_url( $t_return_page ) );
-				echo '<p class="center">' . error_string( ERROR_ACCESS_DENIED ) . '</p><p class="center">';
-				print_bracket_link( helper_mantis_url( 'login_page.php' ) . '?return=' . $t_return_page, lang_get( 'click_to_login' ) );
-				echo '</p><p class="center">';
-				print_bracket_link( helper_mantis_url( 'main_page.php' ), lang_get( 'proceed' ) );
-				echo '</p>';
-			}
-		} else {
-			echo '<p class="center">' . error_string( ERROR_ACCESS_DENIED ) . '</p>';
-			echo '<p class="center">';
-			print_bracket_link( helper_mantis_url( 'main_page.php' ), lang_get( 'proceed' ) );
-			echo '</p>';
-		}
-	}
-	exit;
-}
-
-/**
  * retrieves and returns access matrix for a project from cache or caching if required.
  * @param int $p_project_id integer representing project id
  * @return  array returns an array of users->accesslevel for the given user
