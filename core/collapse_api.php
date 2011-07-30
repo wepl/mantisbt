@@ -73,7 +73,7 @@ function collapse_open( $p_name, $p_section = '' ) {
 
 	# make sure no other collapse section is started
 	if( $g_current_collapse_section !== null ) {
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 	}
 
 	$g_open_collapse_section = true;
@@ -98,7 +98,7 @@ function collapse_closed( $p_name, $p_section = '' ) {
 
 	# Make sure a section is opened, and it is the same section.
 	if( $t_block !== $g_current_collapse_section ) {
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 	}
 
 	echo '</div>';
@@ -155,7 +155,7 @@ function collapse_end( $p_name, $p_section = '' ) {
 	# Make sure a section is opened, and it is the same section.
 	if( $t_block !== $g_current_collapse_section ) {
 		ob_end_clean();
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 	}
 
 	echo '</div>';

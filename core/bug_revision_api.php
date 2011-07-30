@@ -106,7 +106,7 @@ function bug_revision_get( $p_revision_id ) {
 
 	$t_row = db_fetch_array( $t_result );
 	if ( !$t_row ) {
-		trigger_error( ERROR_BUG_REVISION_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Bug_Revision_Not_Found();
 	}
 
 	return $t_row;
@@ -299,7 +299,7 @@ function bug_revision_like( $p_rev_id ) {
 	$t_row = db_fetch_array( $t_result );
 	
 	if ( !$t_row ) {
-		trigger_error( ERROR_BUG_REVISION_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Bug_Revision_Not_Found();
 	}
 
 	$t_bug_id = $t_row['bug_id'];

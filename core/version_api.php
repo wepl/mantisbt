@@ -71,7 +71,7 @@ class VersionData {
 					}  else {
 						$value = strtotime( $value );
 						if ( $value === false ) {
-							trigger_error( ERROR_INVALID_DATE_FORMAT, ERROR );
+							throw new MantisBT\Exception\Invalid_Date_Format();
 						}
 					}
 				}
@@ -118,7 +118,7 @@ function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 
 		if( $p_trigger_errors ) {
 			error_parameters( $p_version_id );
-			trigger_error( ERROR_VERSION_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\Version_Not_Found();
 		} else {
 			return false;
 		}
@@ -159,7 +159,7 @@ function version_is_unique( $p_version, $p_project_id = null ) {
 function version_ensure_exists( $p_version_id ) {
 	if( !version_exists( $p_version_id ) ) {
 		error_parameters( $p_version_id );
-		trigger_error( ERROR_VERSION_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Version_Not_Found();
 	}
 }
 
@@ -171,7 +171,7 @@ function version_ensure_exists( $p_version_id ) {
  */
 function version_ensure_unique( $p_version, $p_project_id = null ) {
 	if( !version_is_unique( $p_version, $p_project_id ) ) {
-		trigger_error( ERROR_VERSION_DUPLICATE, ERROR );
+		throw new MantisBT\Exception\Version_Duplicate();
 	}
 }
 
@@ -220,7 +220,7 @@ function version_update( $p_version_info ) {
 
 	# check for duplicates
 	if(( utf8_strtolower( $t_old_version_name ) != utf8_strtolower( $p_version_info->version ) ) && !version_is_unique( $p_version_info->version, $p_version_info->project_id ) ) {
-		trigger_error( ERROR_VERSION_DUPLICATE, ERROR );
+		throw new MantisBT\Exception\Version_Duplicate();
 	}
 
 	$c_version_id = db_prepare_int( $p_version_info->id );
@@ -530,8 +530,7 @@ function version_get_field( $p_version_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name);
 		return '';
 	}
 }

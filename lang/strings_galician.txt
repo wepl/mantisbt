@@ -1137,14 +1137,8 @@ Ao visitar a ligazón que lle foi enviada activarase a súa conta.',
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Ocorreu un erro durante o transcurso desta acción. Quizais queira informar deste erro ao seu administrador local.';
-$MANTIS_ERROR[ERROR_SQL] = 'Detectouse un erro SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Houbo un erro no informe.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Non se especificou ningún ficheiro.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'O tipo de ficheiro non está permitido.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'O directorio non existe. Por favor, comprobe as características do proxecto.';
+'exception_generic' = 'Ocorreu un erro durante o transcurso desta acción. Quizais queira informar deste erro ao seu administrador local.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Este é o duplicado dun ficheiro. Por favor, borre primeiro o ficheiro.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Xa existe un proxecto con ese nome.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'O campo necesario "%1$s" estaba baleiro. Por favor, comprobe o texto de entrada.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Esta conta está protexida. Non ten permiso para acceder a ela ata que a protección da conta sexa retirada.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Acceso rexeitado.';
@@ -1196,7 +1190,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Non se atopou o rexistro de usuario 
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'Non se cargou a extensión LDAP.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Fallou a conexión coa base de datos. O erro recibido desde a base de datos foi #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Fallou a pescuda na base de datos. O erro recibido desde a base de datos foi #%1$d: %2$s para a pescuda: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Fallou a selección da base de datos. O erro recibido desde a base de datos foi #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Xa existe unha categoría con ese nome.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Non se especificou ningunha acción de copiado.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Non se atopou a categoría.';
@@ -1204,7 +1197,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Non se atopou a categorí
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Xa existe unha versión con ese nome.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Non se atopou a versión "%1$s".';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'O nome de usuario é inválido. Os nomes de usuario só poden conter letras latinas, números, espazos, guións, puntos, signos máis e guións baixos.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'O nome real do usuario é inválido.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'O usuario non ten o nivel de acceso requirido.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'O "Nome real" elixido coincide co nome de rexistro doutro usuario. Por favor, escolla outro.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'O soporte do patrocinio non esta activado.';
@@ -1249,7 +1241,6 @@ $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'A súa sesión foi invalidada.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Token de seguridade do formulario inválido. Enviou o formulario dúas veces por accidente?';
 $MANTIS_ERROR[ERROR_CRYPTO_MASTER_SALT_INVALID] = 'Por razóns de seguridade MantisBT non funcionará cando $g_crypto_master_salt non estea especificado correctamente en config_inc.php.';
 $MANTIS_ERROR[ERROR_CRYPTO_CAN_NOT_GENERATE_STRONG_RANDOMNESS] = 'Non se puido atopar unha fonte fortemente aleatoria para fins criptográficos.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Non se pode acceder a esta páxina usando este método.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Tipo de campo inválido.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Formato de data inválido.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Non se puido actualizar o fuso horario.';

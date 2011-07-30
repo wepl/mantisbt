@@ -71,7 +71,7 @@ class MantisUser extends MantisCacheable {
 		} else {
 			if( $p_trigger_errors ) {
 				error_parameters( (integer)$p_user_id );
-				trigger_error( ERROR_USER_BY_ID_NOT_FOUND, ERROR );
+				throw new MantisBT\Exception\User_By_ID_Not_Found();
 			}
 
 			return false;

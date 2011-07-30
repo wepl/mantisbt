@@ -1122,14 +1122,8 @@ Kui sa soovisid seda uuendust, siis külasta järgmist URL-i, et vahetada oma pa
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Tegevuse käigus toimus viga.  Võiksid sellest veast teatada oma süsteemihaldurile.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL viga avastatud.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Teate loomisel esines viga.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Fail pole määratletud';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Failitüüp pole lubatud';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Kataloogi pole olemas. Palun kontrolli projekti seadeid.';
+'exception_generic' = 'Tegevuse käigus toimus viga.  Võiksid sellest veast teatada oma süsteemihaldurile.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'See on korduv fail.  Palun kustuta kõigepealt varasem fail.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Sellise nimega projekt on juba olemas.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Vajalik väli "%1$s" oli tühi.  Palun kontrolli oma sisestust.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'See kasutajakonto on kaitstud.  Saad selle poole pöörduda alles peale kaitse eemaldamist.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Pöördumine keelatud.';
@@ -1181,7 +1175,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'LDAP kasutaja kirjet ei leitud.';
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'LDAP laiendus pole laetud.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Andmebaasi ühendus ebaõnnestus. Andmebaasist tagastatud viga #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Andmebaasi päring ebaõnnestus. Andmebaasist tagastatud viga #%1$d: %2$s päringule: %3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Andmebaasi valik ebaõnnestus.  Andmebaasist tagastatud viga #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Sellise nimega kategooria juba eksisteerib.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Kopeerimistoimingut pole määratletud.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategooriat ei leitud.';
@@ -1189,7 +1182,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Kategooriat "%1$s" ei lei
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Selle nimega versioon juba eksisteerib.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Versiooni "%1$s" ei leitud.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Kasutajanimi on vigane. Kasutajanimi võib sisaldada ainult ladina tähti, numbreid, tühikuid, sidekriipsu, punkte, plussmärke ja allkriipse.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Kasutaja tegelik nimi on vigane.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Kasutaja ei oma vajalikku kasutajaõiguste taset';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Valitud "Tegelik Nimi" langeb kokku teise kasutaja LOGIN nimega. Palun vali mõni teine.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Sponsorluse tugi pole lubatud.';
@@ -1232,7 +1224,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Vigane sessiooni järgija.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Sessiooni muutujat "%1$s" ei leitud.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Sinu sessioon on loetud vigaseks.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Vigane vormi turvalisuse märk. Kas saatsid vormi ekslikult korduvalt?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Leheküljele ei saa pöörduda kasutades seda meetodit.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Vigane sorteerimise väli.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Vigane kuupäeva vorming.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Ei saa uuendada ajatsooni.';

@@ -596,7 +596,7 @@ function helper_duration_to_minutes( $p_hhmm ) {
 	// time can be composed of max 3 parts (hh:mm:ss)
 	if( count( $t_a ) > 3 ) {
 		error_parameters( 'p_hhmm', $p_hhmm );
-		trigger_error( ERROR_CONFIG_OPT_INVALID, ERROR );
+		throw new MantisBT\Exception\Config_Opt_Invalid();
 	}
 
 	$t_count = count( $t_a );
@@ -604,13 +604,13 @@ function helper_duration_to_minutes( $p_hhmm ) {
 		// all time parts should be integers and non-negative.
 		if( !is_numeric( $t_a[$i] ) || ( (integer) $t_a[$i] < 0 ) ) {
 			error_parameters( 'p_hhmm', $p_hhmm );
-			trigger_error( ERROR_CONFIG_OPT_INVALID, ERROR );
+			throw new MantisBT\Exception\Config_Opt_Invalid();
 		}
 
 		// minutes and seconds are not allowed to exceed 59.
 		if(( $i > 0 ) && ( $t_a[$i] > 59 ) ) {
 			error_parameters( 'p_hhmm', $p_hhmm );
-			trigger_error( ERROR_CONFIG_OPT_INVALID, ERROR );
+			throw new MantisBT\Exception\Config_Opt_Invalid();
 		}
 	}
 

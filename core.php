@@ -141,6 +141,18 @@ function __autoload( $className ) {
 	$t_count = sizeof( $t_parts );
 	$t_class = $t_parts[$t_count-1];
 
+	if( strstr( $className, 'MantisBT\Exception' ) ) {
+		$name = str_replace( 'MantisBT\Exception\\', '', $className );
+		// @TODO - if this stays, check $name is only ascii+underscore
+		eval('namespace MantisBT\Exception; class ' . $name . ' extends \ErrorException{ 
+			    public function __construct($parameters = null, Exception $previous = null)
+				{
+					parent::__construct(\'exception_' . strtolower($name) . '\', $parameters, $previous);
+				}
+			};');
+		return;
+	}
+	
 	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
 	$t_require_path = $g_class_path . $t_name . $t_parts[$t_count-1] . '.class.php'; 
 

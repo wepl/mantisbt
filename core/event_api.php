@@ -82,8 +82,7 @@ function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
 	global $g_event_cache;
 
 	if( !isset( $g_event_cache[$p_name] ) ) {
-		error_parameters( $p_name );
-		trigger_error( ERROR_EVENT_UNDECLARED, WARNING );
+		throw new MantisBT\Exception\Event_Undeclared( $p_name );
 		return null;
 	}
 
@@ -138,8 +137,7 @@ function event_signal( $p_name, $p_params = null, $p_params_dynamic = null, $p_t
 	global $g_event_cache;
 
 	if( !isset( $g_event_cache[$p_name] ) ) {
-		error_parameters( $p_name );
-		trigger_error( ERROR_EVENT_UNDECLARED, WARNING );
+		throw new MantisBT\Exception\Event_Undeclared( $p_name );
 		return null;
 	}
 

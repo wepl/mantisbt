@@ -74,7 +74,7 @@ if ( $t_user_id == $t_reporter_id ) {
 $t_bug_id = bugnote_get_field( $f_bugnote_id, 'bug_id' );
 if ( bug_is_readonly( $t_bug_id ) ) {
 	error_parameters( $t_bug_id );
-	trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 }
 
 $f_bugnote_text = trim( $f_bugnote_text ) . "\n\n";

@@ -437,14 +437,8 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Pöl ejenon dü dun at. Nunolös, begö! pöli at guvane topik ola.';
-$MANTIS_ERROR[ERROR_SQL] = 'Pöl-SQL petuvon.';
-$MANTIS_ERROR[ERROR_REPORT] = 'In nunod oli ädabinon pöl.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Ragiv nonik pegivon.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Ragivatip no pedälon.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Ragiviär no dabinon. Kontrololös parametemi proyega.';
+'exception_generic' = 'Pöl ejenon dü dun at. Nunolös, begö! pöli at guvane topik ola.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Atos binon ragiv petelüköl. Büo moükolös ragivi.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Proyeg labü nem at ya dabinon.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Fel zesüdik: „$1$s“ ävagon. Kontrololös utosi, kelosi epenol.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Kal at pejelon. No dalol gebön ani jüs kalijel ponosükon.';
 $MANTIS_ERROR[ERROR_UPLOAD_FAILURE] = 'Ragivilöpükam no eplöpon. Ragiv at no binon reidovik ele MantisBT. Kontrololös parametemi proyega.';
@@ -475,7 +469,6 @@ $MANTIS_ERROR[ERROR_CUSTOM_FIELD_INVALID_VALUE] = 'Völad no lonöföl pro %1$s.
 $MANTIS_ERROR[ERROR_CUSTOM_FIELD_INVALID_DEFINITION] = 'Miedet fela pelönedüköl no lonöfon.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Yümam ad nünodem no eplöpon. Pöl se nünodem pedagetöl äbinon: #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Nünödemaseivid no eplöpon. Pöl pedagetöl se nünödem äbinon #%1$d: %2$s tefü seivid: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Väl nünodema no eplöpon. Pöl se nünodem pedagetöl äbinon: #%1$d: %2%2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Klad labü nem at ya dabinon.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'No kopiedadun pebegon.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Klad no petuvon.';
@@ -483,7 +476,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Klad: „%1$s“ no petuv
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Fomam labü nem at ya dabinon.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Fomam: „%1$s“ no petuvon.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Gebananem no lonöfon. Gebananems dalons binädon teiko me tonats latinik, numats, spads, e malats: „-“ e „_“.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Nem jenöfik gebana no lonöfon.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Geban no labon dälanivodi zesüdik.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = '„Nem jenöfik“ pevälöl leigon ko nunädamanem gebana votik. Valolös votiki.';
 $MANTIS_ERROR[ERROR_SIGNUP_NOT_MATCHING_CAPTCHA] = 'Fümedasaedot no leigon. Steifülolös dönu.';
@@ -494,5 +486,4 @@ $MANTIS_ERROR[ERROR_LOST_PASSWORD_CONFIRM_HASH_INVALID] = 'El URL fümedama no l
 $MANTIS_ERROR[ERROR_USER_CHANGE_LAST_ADMIN] = 'No kanol votükön dälanivodi GUVANA teik sita.';
 $MANTIS_ERROR[ERROR_COLUMNS_DUPLICATE] = 'Fel: „%1$s“ keninükon padüli petelüköl: „%2$s“.';
 $MANTIS_ERROR[ERROR_COLUMNS_INVALID] = 'Fel: „%1$s“ keninükon feli no lonöföli: „%2$s“.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Pad at no binon lügolovik me metod at.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Leodükamafel no lonöföl.';

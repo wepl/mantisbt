@@ -59,7 +59,7 @@ form_security_validate( 'lost_pwd' );
 if( OFF == config_get( 'lost_password_feature' ) ||
 	OFF == config_get( 'send_reset_password' ) ||
 	OFF == config_get( 'enable_email_notification' ) ) {
-	trigger_error( ERROR_LOST_PASSWORD_NOT_ENABLED, ERROR );
+		throw new MantisBT\Exception\Lost_Password_Not_Enabled();
 }
 
 # force logout on the current user if already authenticated
@@ -80,21 +80,21 @@ $result = db_query_bound( $query, array( $f_username, $f_email, true ) );
 $row = db_fetch_array( $result );
 
 if ( !$row ) {
-	trigger_error( ERROR_LOST_PASSWORD_NOT_MATCHING_DATA, ERROR );
+	throw new MantisBT\Exception\Lost_Password_Not_Matching_Data();
 }
 
 if( is_blank( $f_email ) ) {
-	trigger_error( ERROR_LOST_PASSWORD_NO_EMAIL_SPECIFIED, ERROR );
+	throw new MantisBT\Exception\Lost_Password_No_Email_Specified();
 }
 
 $t_user_id = $row['id'];
 
 if( user_is_protected( $t_user_id ) ) {
-	trigger_error( ERROR_PROTECTED_ACCOUNT, ERROR );
+	throw new MantisBT\Exception\Protected_Account();
 }
 
 if( !user_is_lost_password_request_allowed( $t_user_id ) ) {
-	trigger_error( ERROR_LOST_PASSWORD_MAX_IN_PROGRESS_ATTEMPTS_REACHED, ERROR );
+	throw new MantisBT\Exception\Lost_Password_Max_In_Progress_Attempts_Reached();
 }
 
 $t_confirm_hash = auth_generate_confirm_hash( $t_user_id );

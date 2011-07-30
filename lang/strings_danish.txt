@@ -801,14 +801,8 @@ Hvis du bad om denne verifikation, så besøg denne URL for at ændre din adgang
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Der opstod en uventet fejl. Du bedes kontakte din lokale administrator.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL fejl opstået.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Din rapportering indeholder fejl.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Der er ikke valgt en fil';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Denne filtype er ikke tilladt';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Denne mappe findes ikke. Undersøg venligst projektets indstillinger.';
+'exception_generic' = 'Der opstod en uventet fejl. Du bedes kontakte din lokale administrator.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Denne fil findes allerede. Slet den gamle fil først.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Der findes allerede et projekt med dette navn.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Et påkrævet felt er ikke udfyldt. Ret venligst dette.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Denne konto er beskyttet. Du har ikke adgang før kontoens beskyttelse er ophævet.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Adgang nægtet.';
@@ -850,7 +844,6 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = 'LDAP Record Update mislykkedes.';
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'LDAP User Record ikke fundet.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Database-forbindelse mislykkedes.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Database-forespørgsel mislykkedes.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Database-valg mislykkedes.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Denne kategori findes allerede.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Ingen kopi-handling specificeret.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategori ikke fundet.';

@@ -48,7 +48,7 @@ require_api( 'user_api.php' );
 if ( OFF == config_get( 'allow_signup' ) &&
 	OFF == config_get( 'lost_password_feature' ) &&
 	OFF == config_get( 'send_reset_password' ) ) {
-	trigger_error( ERROR_LOST_PASSWORD_NOT_ENABLED, ERROR );
+	throw new MantisBT\Exception\Lost_Password_Not_Enabled();
 }
 
 $f_user_id = gpc_get_string('id');
@@ -65,7 +65,7 @@ if( auth_is_user_authenticated() ) {
 $t_calculated_confirm_hash = auth_generate_confirm_hash( $f_user_id );
 
 if ( $f_confirm_hash != $t_calculated_confirm_hash ) {
-	trigger_error( ERROR_LOST_PASSWORD_CONFIRM_HASH_INVALID, ERROR );
+	throw new MantisBT\Exception\Lost_Password_Confirm_Hash_Invalid();
 }
 
 # set a temporary cookie so the login information is passed between pages.

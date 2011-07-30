@@ -63,7 +63,7 @@ function twitter_enabled() {
 	}
 
 	if( $g_twitter_enabled && !function_exists( 'curl_init' ) ) {
-		trigger_error( ERROR_TWITTER_NO_CURL_EXT, ERROR );
+		throw new MantisBT\Exception\Twitter_No_Curl_Ext();
 	}
 
 	return $g_twitter_enabled;

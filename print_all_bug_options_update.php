@@ -96,7 +96,7 @@ echo '<br /><div>';
 if ( $result ) {
 	print lang_get( 'operation_successful' );
 } else {
-	print error_string( ERROR_GENERIC );
+	throw new MantisBT\Exception\Generic();
 }
 
 echo '<br />';

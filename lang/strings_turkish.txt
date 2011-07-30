@@ -392,12 +392,7 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Bu işlemi gerçekleştirmeye çalışırken bir hata meydana geldi. Bu hatayı yerel yöneticinize bildirebilirsiniz.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL hatası belirlendi.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Raporunuzda bir hata tespit edildi.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Dosya adı belirtilmedi.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Bu dosya türüne izin verilmemektedir';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Dizin bulunamadı. Lütfen proje ayarlarınızı kontrol ediniz.';
+'exception_generic' = 'Bu işlemi gerçekleştirmeye çalışırken bir hata meydana geldi. Bu hatayı yerel yöneticinize bildirebilirsiniz.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Bu daha önce girilmiş bir dosya adı. Lütfen önce dosyayı siliniz.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Gerekli bir girdi alanı boş bırakıldı. Lütfen girdilerinizi kontrol ediniz.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Bu kullanıcı hesabı koruma altında. Koruma kaldırılana kadar erişime izin verilmeyecektir.';

@@ -94,7 +94,7 @@ function sponsorship_cache_row( $p_sponsorship_id, $p_trigger_errors = true ) {
 
 		if( $p_trigger_errors ) {
 			error_parameters( $p_sponsorship_id );
-			trigger_error( ERROR_SPONSORSHIP_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\Sponsorship_Not_Found();
 		} else {
 			return false;
 		}
@@ -275,7 +275,7 @@ function sponsorship_set( $p_sponsorship ) {
 	$t_min_sponsorship = config_get( 'minimum_sponsorship_amount' );
 	if( $p_sponsorship->amount < $t_min_sponsorship ) {
 		error_parameters( $p_sponsorship->amount, $t_min_sponsorship );
-		trigger_error( ERROR_SPONSORSHIP_AMOUNT_TOO_LOW, ERROR );
+		throw new MantisBT\Exception\Sponsorship_Amount_Too_Low();
 	}
 
 	# if id == 0, check if the specified user is already sponsoring the bug, if so, overwrite

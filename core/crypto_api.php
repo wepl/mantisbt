@@ -44,7 +44,7 @@ require_api( 'utility_api.php' );
 function crypto_init() {
 	if ( !defined( 'MANTIS_MAINTENANCE_MODE' ) ) {
 		if ( strlen( config_get_global( 'crypto_master_salt' ) ) < 16 ) {
-			trigger_error( ERROR_CRYPTO_MASTER_SALT_INVALID, ERROR );
+			throw new MantisBT\Exception\Crypto_Master_Salt_Invalid();
 		}
 	}
 	return;
@@ -149,7 +149,7 @@ function crypto_generate_random_string( $p_bytes, $p_require_strong_generator = 
 function crypto_generate_strong_random_string( $p_bytes ) {
 	$t_random_string = crypto_generate_random_string( $p_bytes, true );
 	if ( $t_random_string === null ) {
-		trigger_error( ERROR_CRYPTO_CAN_NOT_GENERATE_STRONG_RANDOMNESS, ERROR );
+		throw new MantisBT\Exception\Crypto_Can_Not_Generate_Strong_Randomness();
 	}
 	return $t_random_string;
 }

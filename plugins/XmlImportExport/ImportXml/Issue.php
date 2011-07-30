@@ -208,8 +208,7 @@ class ImportXml_Issue implements ImportXml_Interface {
 					custom_field_set_value( $t_custom_field->id, $this->new_id_, $t_custom_field->value );
 				}
 				else {
-					error_parameters( $t_custom_field->name, $t_custom_field_id );
-					trigger_error( ERROR_CUSTOM_FIELD_NOT_LINKED_TO_PROJECT, ERROR );
+					throw new MantisBT\Exception\Custom_Field_Not_Linked_To_Project( $t_custom_field->name, $t_custom_field_id );
 				}
 			}
 		}

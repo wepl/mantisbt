@@ -312,7 +312,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 
 	case 'CUSTOM':
 		if ( 0 === $f_custom_field_id ) {
-			trigger_error( ERROR_GENERIC, ERROR );
+			throw new MantisBT\Exception\Generic();
 		}
 
 		/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
@@ -323,7 +323,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 		break;
 
 	default:
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 	}
 
 	// Bug Action Event

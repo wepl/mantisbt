@@ -98,8 +98,7 @@ function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 		$g_cache_project_missing[(int) $p_project_id] = true;
 
 		if( $p_trigger_errors ) {
-			error_parameters( $p_project_id );
-			trigger_error( ERROR_PROJECT_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\Project_Not_Found( $p_project_id );
 		} else {
 			return false;
 		}
@@ -205,8 +204,7 @@ function project_exists( $p_project_id ) {
 #  otherwise let execution continue undisturbed
 function project_ensure_exists( $p_project_id ) {
 	if( !project_exists( $p_project_id ) ) {
-		error_parameters( $p_project_id );
-		trigger_error( ERROR_PROJECT_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Project_Not_Found( $p_project_id );
 	}
 }
 
@@ -227,7 +225,7 @@ function project_is_name_unique( $p_name ) {
 #  otherwise let execution continue undisturbed
 function project_ensure_name_unique( $p_name ) {
 	if( !project_is_name_unique( $p_name ) ) {
-		trigger_error( ERROR_PROJECT_NAME_NOT_UNIQUE, ERROR );
+		throw new MantisBT\Exception\Project_Name_Not_Unique();
 	}
 }
 
@@ -254,7 +252,7 @@ function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_
 	$c_inherit_global = db_prepare_bool( $p_inherit_global );
 
 	if( is_blank( $p_name ) ) {
-		trigger_error( ERROR_PROJECT_NAME_INVALID, ERROR );
+		throw new MantisBT\Exception\Project_Name_Invalid();
 	}
 
 	project_ensure_name_unique( $p_name );
@@ -337,7 +335,7 @@ function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_v
 	$c_inherit_global = db_prepare_bool( $p_inherit_global );
 
 	if( is_blank( $p_name ) ) {
-		trigger_error( ERROR_PROJECT_NAME_INVALID, ERROR );
+		throw new MantisBT\Exception\Project_Name_Invalid();
 	}
 
 	$t_old_name = project_get_field( $p_project_id, 'name' );
@@ -413,8 +411,7 @@ function project_get_field( $p_project_id, $p_field_name, $p_trigger_errors = tr
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else if ( $p_trigger_errors ) {
-		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 	}
 
 	return '';

@@ -154,7 +154,7 @@ function email_is_valid( $p_email ) {
  */
 function email_ensure_valid( $p_email ) {
 	if( !email_is_valid( $p_email ) ) {
-		trigger_error( ERROR_EMAIL_INVALID, ERROR );
+		throw new MantisBT\Exception\Email_Invalid();
 	}
 }
 
@@ -179,7 +179,7 @@ function email_is_disposable( $p_email ) {
  */
 function email_ensure_not_disposable( $p_email ) {
 	if( email_is_disposable( $p_email ) ) {
-		trigger_error( ERROR_EMAIL_DISPOSABLE, ERROR );
+		throw new MantisBT\Exception\Email_Disposable();
 	}
 }
 
@@ -621,7 +621,7 @@ function email_relationship_added( $p_bug_id, $p_related_bug_id, $p_rel_type ) {
 	$t_opt[] = bug_format_id( $p_related_bug_id );
 	global $g_relationships;
 	if( !isset( $g_relationships[$p_rel_type] ) ) {
-		trigger_error( ERROR_RELATIONSHIP_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Relationship_Not_Found();
 	}
 	email_generic( $p_bug_id, 'relation', $g_relationships[$p_rel_type]['#notify_added'], $t_opt );
 }
@@ -640,7 +640,7 @@ function email_relationship_deleted( $p_bug_id, $p_related_bug_id, $p_rel_type )
 	$t_opt[] = bug_format_id( $p_related_bug_id );
 	global $g_relationships;
 	if( !isset( $g_relationships[$p_rel_type] ) ) {
-		trigger_error( ERROR_RELATIONSHIP_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Relationship_Not_Found();
 	}
 	email_generic( $p_bug_id, 'relation', $g_relationships[$p_rel_type]['#notify_deleted'], $t_opt );
 }

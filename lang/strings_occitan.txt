@@ -1070,14 +1070,8 @@ S\'avètz demandat aquesta verificacion, visitatz l\'URL seguenta per cambiar v�
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Una error s\'es producha.  Mercés de contactar vòstre administrator.';
-$MANTIS_ERROR[ERROR_SQL] = 'Error SQL detectada.';
-$MANTIS_ERROR[ERROR_REPORT] = 'I aviá una error dins vòstre rapòrt.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Pas cap de fichièr especificat';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Tipe de fichièr interdich';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Lo repertòri existís pas. Mercés de verificar los paramètres del projècte.';
+'exception_generic' = 'Una error s\'es producha.  Mercés de contactar vòstre administrator.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Fichièr duplicat.  Suprimir d\'en primièr lo primièr.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Un projècte amb aqueste nom existís ja.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Un camp obligatòri "%1$s" es pas entresenhat.  Mercés de verificar vòstra picada.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Aqueste compte es protegit.  Sètz pas autorizat(ada) a i accedir tant que la proteccion existís.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Accès interdich.';
@@ -1129,7 +1123,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Enregistrament d\'utilizaire LDAP in
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'L\'extension LDAP es pas cargada.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Fracàs de connexion a la banca de donadas. L\'error renviada èra #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Fracàs de la requèsta de banca de donadas. L\'error renviada per la banca de donadas èra #%1$d: %2$s per la requèsta : %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Fracàs de la seleccion de la banca de donadas. L\'error renviada per la banca de donadas èra #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Categoria duplicada.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Cap de còpia pas especificada.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Categoria introbabla.';
@@ -1137,7 +1130,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Categoria « %1$s » intr
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Version duplicada.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Version "%1$s" introbabla.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Nom d\'utilizaire invalid. Lo nom d\'utilizaire pòt pas conténer que las letras latinas, nombres, espacis, junhents, punts, signes mai e traches de soslinhament.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Nom vertadièr invalid.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'L\'utilizaire a pas lo nivèl d\'accès requerit';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Lo nom vertadièr picat correspond al còde d\'un autre utilizaire. Causissètz-ne un autre.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Supòrt de comanditari pas activat.';
@@ -1180,7 +1172,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Gestionari de sesilha invalid.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'La variabla de sesilha « %1$s » es pas estada trobada.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Vòstra sesilha es estada invalidada.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Geton de seguretat del formulari invalid. Avètz somes dos còps lo formulari per accident ?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Impossible d\'afichar aquesta pagina amb aquesta foncion.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Camp de triada invalid.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Format de data invalid.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Impossible de metre a jorn la zòna orària.';

@@ -100,7 +100,7 @@ access_ensure_global_level( $t_user['access_level'] );
 # check that the username is unique
 if ( 0 != strcasecmp( $t_old_username, $f_username )
 	&& false == user_is_name_unique( $f_username ) ) {
-	trigger_error( ERROR_USER_NAME_NOT_UNIQUE, ERROR );
+	throw new MantisBT\Exception\User_Name_Not_Unique();
 }
 
 user_ensure_name_valid( $f_username );
@@ -142,7 +142,7 @@ $t_admin_threshold = config_get_global( 'admin_site_threshold' );
 if ( user_is_administrator( $f_user_id ) &&
 	 $f_access_level < $t_admin_threshold &&
 	 user_count_level( $t_admin_threshold ) <= 1 ) {
-	trigger_error( ERROR_USER_CHANGE_LAST_ADMIN, ERROR );
+	throw new MantisBT\Exception\User_Change_Last_Admin();
 }
 
 # Project specific access rights override global levels, hence, for users who are changed

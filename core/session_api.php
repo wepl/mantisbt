@@ -148,8 +148,8 @@ class MantisPHPSession extends MantisSession {
 			return $p_default;
 		}
 
-		error_parameters( $p_name );
-		trigger_error( ERROR_SESSION_VAR_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Session_Var_Not_Found( $p_name );
+
 	}
 
 	/**
@@ -200,7 +200,7 @@ function session_init( $p_session_id=null ) {
 
 			# Not yet implemented
 		default:
-			trigger_error( ERROR_SESSION_HANDLER_INVALID, ERROR );
+			throw new MantisBT\Exception\Session_Handler_Invalid();
 			break;
 	}
 

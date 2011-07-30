@@ -79,7 +79,7 @@ function category_exists( $p_category_id ) {
  */
  function category_ensure_exists( $p_category_id ) {
 	if( !category_exists( $p_category_id ) ) {
-		trigger_error( ERROR_CATEGORY_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Category_Not_Found();
 	}
 }
 
@@ -113,7 +113,7 @@ function category_exists( $p_category_id ) {
  */
  function category_ensure_unique( $p_project_id, $p_name ) {
 	if( !category_is_unique( $p_project_id, $p_name ) ) {
-		trigger_error( ERROR_CATEGORY_DUPLICATE, ERROR );
+		throw new MantisBT\Exception\Category_Duplicate();
 	}
 }
 
@@ -129,7 +129,7 @@ function category_exists( $p_category_id ) {
 
 	if( is_blank( $p_name ) ) {
 		error_parameters( lang_get( 'category' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	category_ensure_unique( $p_project_id, $p_name );
@@ -152,7 +152,7 @@ function category_exists( $p_category_id ) {
  function category_update( $p_category_id, $p_name, $p_assigned_to ) {
 	if( is_blank( $p_name ) ) {
 		error_parameters( lang_get( 'category' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	$t_old_category = category_get_row( $p_category_id );
@@ -284,7 +284,7 @@ function category_exists( $p_category_id ) {
 	$result = db_query_bound( $query, array( $c_category_id ) );
 	$row = db_fetch_array( $result );
 	if( !$row ) {
-		trigger_error( ERROR_CATEGORY_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Category_Not_Found();
 	}
 
 	$g_category_cache[$p_category_id] = $row;
@@ -550,8 +550,7 @@ function category_get_field( $p_category_id, $p_field_name ) {
 	$t_id = db_result( $t_result );
 	if( $t_id ) {
 		if( $p_trigger_errors ) {
-			error_parameters( $p_category_name, $t_project_name );
-			trigger_error( ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT, ERROR );
+			throw new MantisBT\Exception\Category_Not_Found_For_Project( $p_category_name, $t_project_name );
 		} else {
 			return false;
 		}

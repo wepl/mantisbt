@@ -220,7 +220,7 @@ class BugData extends MantisCacheable {
 
 			if( $p_trigger_errors ) {
 				error_parameters( $p_bug_id );
-				trigger_error( ERROR_BUG_NOT_FOUND, ERROR );
+				throw new MantisBT\Exception\Bug_Not_Found();
 			} else {
 				return false;
 			}
@@ -279,7 +279,7 @@ class BugData extends MantisCacheable {
 				if ( !$this->loading ) {
 					# Only set target_version if user has access to do so
 					if( !access_has_project_level( config_get( 'roadmap_update_threshold' ) ) ) {
-						trigger_error( ERROR_ACCESS_DENIED, ERROR );
+						throw new MantisBT\Exception\Access_Denied();
 					}
 				}
 				break;
@@ -378,25 +378,25 @@ class BugData extends MantisCacheable {
 		# Summary cannot be blank
 		if( is_blank( $this->summary ) ) {
 			error_parameters( lang_get( 'summary' ) );
-			trigger_error( ERROR_EMPTY_FIELD, ERROR );
+			throw new MantisBT\Exception\Empty_Field();
 		}
 
 		if( $p_update_extended ) {
 			# Description field cannot be empty
 			if( is_blank( $this->description ) ) {
 				error_parameters( lang_get( 'description' ) );
-				trigger_error( ERROR_EMPTY_FIELD, ERROR );
+				throw new MantisBT\Exception\Empty_Field();
 			}
 		}
 
 		# Make sure a category is set
 		if( 0 == $this->category_id && !config_get( 'allow_no_category' ) ) {
 			error_parameters( lang_get( 'category' ) );
-			trigger_error( ERROR_EMPTY_FIELD, ERROR );
+			throw new MantisBT\Exception\Empty_Field();
 		}
 
 		if( !is_blank( $this->duplicate_id ) && ( $this->duplicate_id != 0 ) && ( $this->id == $this->duplicate_id ) ) {
-			trigger_error( ERROR_BUG_DUPLICATE_SELF, ERROR );
+			throw new MantisBT\Exception\Bug_Duplicate_Self();
 			# never returns
 		}
 	}
@@ -782,7 +782,7 @@ function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
 
 		if( $p_trigger_errors ) {
 			error_parameters( $p_bug_id );
-			trigger_error( ERROR_BUG_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\Bug_Not_Found();
 		} else {
 			return false;
 		}
@@ -835,7 +835,7 @@ function bug_exists( $p_bug_id ) {
 function bug_ensure_exists( $p_bug_id ) {
 	if( !bug_exists( $p_bug_id ) ) {
 		error_parameters( $p_bug_id );
-		trigger_error( ERROR_BUG_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Bug_Not_Found();
 	}
 }
 
@@ -1258,7 +1258,7 @@ function bug_get_field( $p_bug_id, $p_field_name ) {
 		return $t_bug_data->{$p_field_name};
 	} else {
 		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found();
 		return '';
 	}
 }
@@ -1278,7 +1278,7 @@ function bug_get_text_field( $p_bug_id, $p_field_name ) {
 		return $row[$p_field_name];
 	} else {
 		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found();
 		return '';
 	}
 }
@@ -1440,13 +1440,13 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 		case 'date_submitted':
 		case 'due_date':
 			if ( !is_numeric( $p_value ) ) {
-				trigger_error( ERROR_GENERIC, ERROR );
+				throw new MantisBT\Exception\Generic();
 			}
 			$c_value = $p_value;
 			break;
 
 		default:
-			trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+			throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 			break;
 	}
 
@@ -1495,7 +1495,7 @@ function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_pri
 	$c_user_id = db_prepare_int( $p_user_id );
 
 	if(( $c_user_id != NO_USER ) && !access_has_bug_level( config_get( 'handle_bug_threshold' ), $p_bug_id, $p_user_id ) ) {
-		trigger_error( ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS );
+		throw new MantisBT\Exception\User_Does_Not_Have_Req_Access();
 	}
 
 	# extract current information into history variables
@@ -1575,7 +1575,7 @@ function bug_resolve( $p_bug_id, $p_resolution, $p_fixed_in_version = '', $p_bug
 	$t_duplicate = !is_blank( $p_duplicate_id ) && ( $p_duplicate_id != 0 );
 	if( $t_duplicate ) {
 		if( $p_bug_id == $p_duplicate_id ) {
-			trigger_error( ERROR_BUG_DUPLICATE_SELF, ERROR );
+			throw new MantisBT\Exception\Bug_Duplicate_Self();
 
 			# never returns
 		}

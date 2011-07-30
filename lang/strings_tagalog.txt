@@ -1033,14 +1033,8 @@ Kung hiniling ang pagpapatotoong ito, dalawin ang sumusunod na URL upang mabago 
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Naganap ang isang kamalian habang isinasagawa ang galaw na ito. Maaaring naisin mong iulat ang kamaliang ito sa iyong pampook na tagapangasiwa.';
-$MANTIS_ERROR[ERROR_SQL] = 'Napansin ang kamaliang pang-SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'May isang kamalian sa loob ng iyong ulat.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Walang tinukoy na talaksan.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Hindi pinapahintulutan ang uri ng talaksan.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Hindi umiiral ang direktoryo. Pakisuri lamang ang mga pagtatakdang pamproyekto.';
+'exception_generic' = 'Naganap ang isang kamalian habang isinasagawa ang galaw na ito. Maaaring naisin mong iulat ang kamaliang ito sa iyong pampook na tagapangasiwa.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Isa itong sipi/kopya (kakambal) ng talaksan. Pakibura muna ang talaksan.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Umiiral na ang proyektong may ganyang pangalan.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Walang laman ang isang kinakailangang kahanayang "%1$s". Pakisuri lamang muli ang mga ipinasok mo.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Nakasanggalang ang kuwentang ito.  Hindi ka pinapahintulutang mapuntahan ito hangga\'t hindi inaalis ang proteksyon ng akawnt.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Ipinagkait/Tinanggihan ang Pagpasok (akseso).';
@@ -1092,7 +1086,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Hindi natagpuan ang Rekord ng Tagaga
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'Hindi Naikarga ang Karugtong na pang-LDAP.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Nabigo ang pagkakaugnay sa kalipunan ng dato.  Ang kamaliang natanggap mula sa kalipunan ng dato ay #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Nabigo ang katanungang pangkalipunan ng dato.  Ang natanggap na kamalian mula sa kalipunan ng dato ay #%1$d: %2$s para sa katanungang: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Nabigo ang pagpili na pang-kalipunan ng dato.  Ang kamaliang natanggap mula sa kalipunan ng dato ay #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Umiiral na ang isang kauriang may ganyang pangalan.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Walang tinukoy na galaw para sa pagsipi.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Hindi natagpuan ang kaurian.';
@@ -1100,7 +1093,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Hindi natagpuan ang kauri
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Umiiral na ang isang bersyong may ganyang pangalan.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Hindi natagpuan ang bersyong "%1$s".';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Hindi tanggap ang pangalan ng tagagamit.  Maaaring maglaman lamang ang mga pangalan ng tagagamit ng mga titik na pang-Latin, mga bilang, mga patlang, mga gitling, at mga salungguhit.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Hindi tanggap ang tunay na pangalan ng tagagamit.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Hindi nagkaroon ng kinakailangang kaantasan ng pagpasok ang tagagamit.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Ang napiling "Tunay na Pangalan" ay tumutugma sa pangalang panlagda ng ibang tagagamit. Pumili lamang po ng iba pa.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Hindi pinapagana ang suporta para sa Pagtataguyod.';
@@ -1143,5 +1135,4 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Hindi tanggap na tagahawak ng in
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Hindi natagpuan ang pabagu-bagong halagang "%1$s" ng pinaglaanang panahon.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Naging hindi katanggap-tanggap ang inilaang panahon para sa iyo.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Hindi tanggap na pormularyo ng panandang pangseguridad.  Hindi mo ba sinasadyang ipadala ng dalawang ulit ang pormularyo?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Hindi mapupuntahan ang pahinang ito na ginagamitan ng ganitong paraan.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Hindi tanggap na hanay ng pagsasaayos.';

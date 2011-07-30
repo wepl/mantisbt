@@ -165,8 +165,7 @@ function multi_sort( $p_array, $p_key, $p_direction = ASCENDING ) {
 		return $p_array;
 	}
 	if( !is_array( current($p_array ) ) ) {
-		error_parameters( 'tried to multisort an invalid multi-dimensional array' );
-		trigger_error(ERROR_GENERIC, ERROR);
+		throw new MantisBT\Exception\Generic( 'tried to multisort an invalid multi-dimensional array' );
 	}
 
 	// Security measure: see http://www.mantisbt.org/bugs/view.php?id=9704 for details
@@ -174,7 +173,7 @@ function multi_sort( $p_array, $p_key, $p_direction = ASCENDING ) {
 		$t_function = create_function( '$a, $b', "return $t_factor * strnatcasecmp( \$a['" . $p_key . "'], \$b['" . $p_key . "'] );" );
 		uasort( $p_array, $t_function );
 	} else {
-		trigger_error(ERROR_INVALID_SORT_FIELD, ERROR);
+		throw new MantisBT\Exception\Invalid_Sort_Field();
 	}
 	return $p_array;
 }

@@ -1064,14 +1064,8 @@ Pokud jste si skutečnš přáli tuto změnu, navštivte Nasledujúci stránku a
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Počas tejto operácie sa vyskytla chyba. Túto chybu môžete oznámiť svojmu lokálnemu správcovi.';
-$MANTIS_ERROR[ERROR_SQL] = 'Zistená chyba SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Vo vašej správe bola chyba.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Žiadny súbor nebol určený.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Tento typ súboru nie je povolený.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Adresár neexistuje. Prosím skontrolujte nastavenia projektu.';
+'exception_generic' = 'Počas tejto operácie sa vyskytla chyba. Túto chybu môžete oznámiť svojmu lokálnemu správcovi.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Toto je duplikátny súbor. Prosím, najprv súbor zmažte.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Projekt s takým názvom už existuje.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Potrebné pole „%1$s“ nebolo vyplnené. Prosím, znova skontrolujte údaje, ktoré ste zadali.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Toto konto je chránené. Nemáte povolený vstup dokiaľ nebude ochrana odstránená.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Prístup zakázaný.';
@@ -1123,7 +1117,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'LDAP Záznam užívateľa sa nenaši
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'LDAP Rozšírenie nie je načítané.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Zlyhalo pripojenie k databáze. Chyba databázy #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Požiadavka do databázy zlyhala. Chyba databázy #%1$d: %2$s pri požiadavke: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Zlyhal výber databázy. Chyba databázy #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Kategória s týmyo menom už existuje.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Žiadna akcia kopírovania nebola špecifikovaná.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategória nenájdená.';
@@ -1131,7 +1124,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Kategória \'%1$s\' pre p
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Verzia s týmyo menom už existuje.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Verzia „%1$s“ nenájdená.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Používateľské meno je neplatné.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Neplatné skutočné meno užívateľa.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Užívateľ nemá potrebnú prístupovú úroveň';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Zvolené "Skutočné meno" sa zhoduje s prihlasovacím menom iného užívateľa. Zvoľte si prosím, iné.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Sponzoring nie je aktivovaný.';
@@ -1174,7 +1166,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Neplatný radič sedení.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Premenná sedenia "%1$s" nebola nájdená.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Sedenie je neplatné.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Neplatný zabezpečujúci token formulára. Neodoslali ste neúmyselne formulár dvakrát?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Táto stránka nie je touto metódou prístupná.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Neplatné radiace pole.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Neplatný formát dátumu.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Časová zóna sa nedá aktualizovať.';

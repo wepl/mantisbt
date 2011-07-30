@@ -158,8 +158,7 @@ class MantisLanguage {
 			// Step 5 - string didn't exist, try fall back to english:
 			if( $t_lang == 'english' ) {
 				if( $p_error ) {
-					error_parameters( $p_string );
-					trigger_error( ERROR_LANG_STRING_NOT_FOUND, WARNING );
+					throw new MantisBT\Exception\Lang_String_Not_Found( $p_string );
 				}
 				return '';
 			} else {

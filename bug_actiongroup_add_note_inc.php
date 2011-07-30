@@ -100,7 +100,7 @@ function action_add_note_validate( $p_bug_id ) {
 
 	if ( is_blank( $f_bugnote_text ) ) {
 		error_parameters( lang_get( 'bugnote' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	$t_add_bugnote_threshold = config_get( 'add_bugnote_threshold' );

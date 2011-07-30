@@ -801,14 +801,8 @@ Priešingu atveju aplankykite puslapį šiuo adresu:',
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Klaida atliekant šį veiksmą. Susisiekite su administratoriumi.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL klaida.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Jūsų pranešime yra klaida.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Nenurodėte failo';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Neleistinas failo tipas';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Šis katalogas neegzistuoja. Prašome patikrinti projekto nustatymus.';
+'exception_generic' = 'Klaida atliekant šį veiksmą. Susisiekite su administratoriumi.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Toks failas jau yra.  Prašome pirmiau ištrinti seną failą.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Projektas tokiu pavadinimu jau yra.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Privalomas laukas \'%1$s\' tuščias.  Prašome užpildyti iki galo.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Šis vartotojas apsaugotas.  Jūs neturite teisių prie jo prieiti, kol apsauga nebus išjungta.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Priėjimas uždraustas.';
@@ -855,7 +849,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'LDAP vartotojo įrašas nerastas.';
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'LDAP išplėtimas nepakrautas.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Prisijungti prie duomenų bazės nepavyko. Duomenų bazės klaida #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Nepavyko įvykdyti užklausos.  Duomenų bazės klaida #%1$d: %2$s užklausai: %3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Pasirinkti duomenų bazės nepavyko.  Duomenų bazės klaida #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Kategorija tokiu pavadinimu jau egzisuotja.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Nepasirinktas kopijavimo veiksmas.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategorija nerasta.';
@@ -863,7 +856,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Kategorija "%1$s" nerasta
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Versija tokiu pavadinimu jau egzistuoja.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Versija nerasta.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Vartotojo vardas neteisingas. Vartotojo varde gali būti tik raidės, skaičiai, tarpai, brūkšneliai ir pabraukimai.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Tikras vardas neteisingas.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Vartotojas neturi reikalingo priėjimo lygio';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Pasirinktas "Tikras vardas" sutampa su kito vartotojo prisijungimo vardu. Pasirinkite kitą.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Rėmimai išjungti.';
@@ -902,4 +894,3 @@ $MANTIS_ERROR[ERROR_COLUMNS_DUPLICATE] = 'Laukas "%1$s" turi dubliuotą stulpel�
 $MANTIS_ERROR[ERROR_COLUMNS_INVALID] = 'Laukas "%1$s" turi neleidžiamą lauką "%2$s".';
 $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Neteisinga sesija.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Sesijos kintamasis "%1$s" nerastas.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Šis puslapis negali būti pasiekiamas naudojantis šiuo metodu.';

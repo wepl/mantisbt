@@ -1081,14 +1081,8 @@ Ha Ön kérte ezt a megerősítést, látogassa meg a következő címet a jelsz
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Hiba lépett fel a művelet végrehajtása közben. Értesítse a helyi rendszergazdát.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL hiba.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Hiba volt a jelentésében.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Nincs fájl megadva';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'A fájltípus nem megengedett';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'A könyvtár nem létezik. Ellenőrizze a projekt beállításait.';
+'exception_generic' = 'Hiba lépett fel a művelet végrehajtása közben. Értesítse a helyi rendszergazdát.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Ez a fájl már létezik, először törölnie kell.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Már létezik ilyen nevű projekt.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Egy kötelező \'%1$s\' mező üres. Ellenőrizze a megadott adatokat.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Ez egy védett felhasználó. Hozzáférés a felhasználó-védelem megszüntetetéséig megtagadva.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Hozzáférés megtagadva.';
@@ -1140,7 +1134,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Az LDAP felhasználói mező nem tal
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'Az LDAP kiterjesztés nincs betöltve.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Sikertelen adatbázis-kapcsolódás. Az adatbázis hibaüzenete: #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Sikertelen adatbázis-lekérdezés. Az adatbázis hibaüzenete: #%1$d: %2$s a következő lekérdezéshez: %3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Sikertelen adatbázis-kiválasztás. Az adatbázis hibaüzenete: #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Már létezik ilyen nevű kategória.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Nem adott meg másolási műveletet.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Nincs ilyen kategória.';
@@ -1148,7 +1141,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'A(z) „%1$s” kategóri
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Már létezik ilyen nevű verzió.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'A(z) \'%1$s\' verzió nem található.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Hibás felhasználónév. A felhasználónevek csak latin betűket, számokat, szóközöket, kötőjeleket, pontokat, pluszjeleket és aláhúzásokat tartalmazhatnak.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Hibás valódi név.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'A felhasználónak nincs elegendő jogosultsága';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'A megadott "Teljes név" már egy másik felhasználóhoz tartozik. Válasszon másikat.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Támogatás kikapcsolva.';
@@ -1191,7 +1183,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Érvénytelen munkamenet-kezelő
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'A(z) „%1$s” munkamenet változó nem található.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'A munkameneted érvénytelenítetté vált.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Érvénytelen biztonsági token. Nem küldted el véletlenül kétszer az űrlapot?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Ez a lap nem elérhető ezzel a módszerrel.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Érvénytelen rendezési mező.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Érvénytelen dátumformátum.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Nem sikerült frissíteni az időzónát.';

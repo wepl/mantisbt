@@ -152,6 +152,6 @@ if ( function_exists( $t_function_name ) ) {
 	if ( !$t_found ) {
 		# error - no function to populate the target (e.g., print_filter_foo)
 		error_parameters( $f_filter_target );
-		trigger_error( ERROR_FILTER_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Filter_Not_Found();
 	}
 }

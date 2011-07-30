@@ -80,7 +80,7 @@ if( ON == config_get( 'signup_use_captcha' ) && get_gd_version() > 0 	&&
 	$t_private_key = substr( hash( 'whirlpool', 'captcha' . config_get_global( 'crypto_master_salt' ) . $f_public_key, false ), 0, 5 );
 
 	if ( $t_private_key != $f_captcha ) {
-		trigger_error( ERROR_SIGNUP_NOT_MATCHING_CAPTCHA, ERROR );
+		throw new MantisBT\Exception\SignUp_Not_Matching_Captcha();
 	}
 }
 

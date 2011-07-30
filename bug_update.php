@@ -84,7 +84,7 @@ access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );
 # permission to update read-only bugs.
 if ( bug_is_readonly( $f_bug_id ) ) {
 	error_parameters( $f_bug_id );
-	trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 }
 
 $t_updated_bug = clone $t_existing_bug;
@@ -149,15 +149,14 @@ if ( $t_existing_bug->status < $t_resolved_status &&
 # If resolving or closing, ensure that all dependant issues have been resolved.
 if ( ( $t_resolve_issue || $t_close_issue ) &&
      !relationship_can_resolve_bug( $f_bug_id ) ) {
-	trigger_error( ERROR_BUG_RESOLVE_DEPENDANTS_BLOCKING, ERROR );
+	throw new MantisBT\Exception\Bug_Resolve_Dependants_Blocking();
 }
 
 # Validate any change to the status of the issue.
 if ( $t_existing_bug->status !== $t_updated_bug->status ) {
 	access_ensure_bug_level( config_get( 'update_bug_status_threshold' ), $f_bug_id );
 	if ( !bug_check_workflow( $t_existing_bug->status, $t_updated_bug->status ) ) {
-		error_parameters( lang_get( 'status' ) );
-		trigger_error( ERROR_CUSTOM_FIELD_INVALID_VALUE, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get( 'status' ) );
 	}
 	if ( !access_has_bug_level( access_get_status_threshold( $t_updated_bug->status, $t_updated_bug->project_id ), $f_bug_id ) ) {
 		# The reporter may be allowed to close or reopen the issue regardless.
@@ -174,7 +173,7 @@ if ( $t_existing_bug->status !== $t_updated_bug->status ) {
 			$t_can_bypass_status_access_thresholds = true;
 		}
 		if ( !$t_can_bypass_status_access_thresholds ) {
-			trigger_error( ERROR_ACCESS_DENIED, ERROR );
+			throw new MantisBT\Exception\Access_Denied();
 		}
 	}
 	if( $t_reopen_issue ) {
@@ -188,14 +187,14 @@ $t_issue_is_sponsored = sponsorship_get_amount( sponsorship_get_all_ids( $f_bug_
 if ( $t_existing_bug->handler_id !== $t_updated_bug->handler_id ) {
 	access_ensure_bug_level( config_get( 'update_bug_assign_threshold' ), $f_bug_id );
 	if ( $t_issue_is_sponsored && !access_has_bug_level( config_get( 'handle_sponsored_bugs_threshold' ), $f_bug_id ) ) {
-		trigger_error( ERROR_SPONSORSHIP_HANDLER_ACCESS_LEVEL_TOO_LOW, ERROR );
+		throw new MantisBT\Exception\Sponsorship_Handler_Access_Level_Too_Low();
 	}
 	if ( $t_updated_bug->handler_id !== NO_USER ) {
 		if ( !access_has_bug_level( config_get( 'handle_bug_threshold' ), $f_bug_id, $t_updated_bug->handler_id ) ) {
-			trigger_error( ERROR_HANDLER_ACCESS_TOO_LOW, ERROR );
+			throw new MantisBT\Exception\Handler_Access_Too_Low();
 		}
 		if ( $t_issue_is_sponsored && !access_has_bug_level( config_get( 'assign_sponsored_bugs_threshold' ), $f_bug_id ) ) {
-			trigger_error( ERROR_SPONSORSHIP_ASSIGNER_ACCESS_LEVEL_TOO_LOW, ERROR );
+			throw new MantisBT\Exception\Sponsorship_Assigner_Access_Level_Too_Low();
 		}
 	}
 }
@@ -205,7 +204,7 @@ if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 	if ( $t_updated_bug->category_id === 0 &&
 	     !config_get( 'allow_no_category' ) ) {
 		error_parameters( lang_get( 'category' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 }
 
@@ -214,8 +213,7 @@ if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 if ( $t_existing_bug->resolution !== $t_updated_bug->resolution &&
      $t_updated_bug->resolution >= config_get( 'bug_resolution_fixed_threshold' ) &&
      $t_updated_bug->status < $t_resolved_status ) {
-	error_parameters( lang_get( 'resolution' ) );
-	trigger_error( ERROR_CUSTOM_FIELD_INVALID_VALUE, ERROR );
+	throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get( 'resolution' ) );
 }
 
 # Ensure that the user has permission to change the target version of the issue.
@@ -248,7 +246,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 			# A value for the custom field was expected however
 			# no value was given by the user.
 			error_parameters( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
-			trigger_error( ERROR_EMPTY_FIELD, ERROR );
+			throw new MantisBT\Exception\Empty_Field();
 		} else {
 			# The custom field isn't compulsory and the user did
 			# not supply a value. Therefore we can just ignore this
@@ -259,7 +257,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 	}
 
 	if( !custom_field_has_write_access( $t_cf_id, $f_bug_id ) ) {
-		trigger_error( ERROR_ACCESS_DENIED, ERROR );
+		throw new MantisBT\Exception\Access_Denied();
 	}
 
 	$t_new_custom_field_value = gpc_get_custom_field( "custom_field_$t_cf_id", $t_cf_def['type'], null );
@@ -270,8 +268,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 	# modified such that old values that were once OK are now considered
 	# invalid.
 	if ( !custom_field_validate( $t_cf_id, $t_new_custom_field_value ) ) {
-		error_parameters( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
-		trigger_error( ERROR_CUSTOM_FIELD_INVALID_VALUE, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
 	}
 
 	# Remember the new custom field values so we can set them when updating
@@ -283,14 +280,14 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 # Perform validation of the duplicate ID of the bug.
 if ( $t_updated_bug->duplicate_id !== 0 ) {
 	if ( $t_updated_bug->duplicate_id === $f_bug_id ) {
-		trigger_error( ERROR_BUG_DUPLICATE_SELF, ERROR );
+		throw new MantisBT\Exception\Bug_Duplicate_Self();
 	}
 	bug_ensure_exists( $t_updated_bug->duplicate_id );
 	if ( !access_has_bug_level( config_get( 'update_bug_threshold' ), $t_updated_bug->duplicate_id ) ) {
-		trigger_error( ERROR_RELATIONSHIP_ACCESS_LEVEL_TO_DEST_BUG_TOO_LOW, ERROR );
+		throw new MantisBT\Exception\Relationship_Access_Level_To_Dest_Bug_Too_Low();
 	}
 	if ( relationship_exists( $f_bug_id, $t_updated_bug->duplicate_id ) ) {
-		trigger_error( ERROR_RELATIONSHIP_ALREADY_EXISTS, ERROR );
+		throw new MantisBT\Exception\Relationship_Already_Exists();
 	}
 }
 
@@ -302,7 +299,7 @@ if ( $t_bug_note->note ||
 	if ( !$t_bug_note->note &&
 	     !config_get( 'time_tracking_without_note' ) ) {
 		error_parameters( lang_get( 'bugnote' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 	if ( $t_bug_note->view_state !== config_get( 'default_bugnote_view_status' ) ) {
 		access_ensure_bug_level( config_get( 'set_view_status_threshold' ), $f_bug_id );

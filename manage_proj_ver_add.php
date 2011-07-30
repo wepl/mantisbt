@@ -63,7 +63,7 @@ $f_add_and_edit = gpc_get_bool( 'add_and_edit_version' );
 access_ensure_project_level( config_get( 'manage_project_threshold' ), $f_project_id );
 
 if ( is_blank( $f_version ) ) {
-	trigger_error( ERROR_EMPTY_FIELD, ERROR );
+	throw new MantisBT\Exception\Empty_Field();
 }
 
 # We reverse the array so that if the user enters multiple versions
@@ -89,7 +89,7 @@ foreach ( $t_versions as $t_version ) {
 		#  ones we can.  The others already exist so it isn't really
 		#  an error.
 
-		trigger_error( ERROR_VERSION_DUPLICATE, ERROR );
+		throw new MantisBT\Exception\Version_Duplicate();
 	}
 }
 

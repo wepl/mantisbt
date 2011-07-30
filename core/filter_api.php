@@ -893,8 +893,7 @@ function filter_get_field( $p_filter_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 		return '';
 	}
 }
@@ -4299,7 +4298,7 @@ function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 	if( !$row ) {
 		if( $p_trigger_errors ) {
 			error_parameters( $p_filter_id );
-			trigger_error( ERROR_FILTER_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\Filter_Not_Found();
 		} else {
 			return false;
 		}

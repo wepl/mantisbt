@@ -38,7 +38,7 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
 
         if ($driverstatus !== true) {
 			error_parameters( 0, 'PHP Support for database is not enabled' );
-			trigger_error( ERROR_DB_CONNECT_FAILED, ERROR );
+			throw new MantisBT\Exception\DB_Connect_Failed();
 
             //throw new MantisDatabaseException('DatabaseDriverProblem', $driverstatus);
         }

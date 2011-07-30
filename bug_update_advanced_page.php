@@ -88,7 +88,7 @@ if ( $tpl_bug->project_id != helper_get_current_project() ) {
 
 if ( bug_is_readonly( $f_bug_id ) ) {
 	error_parameters( $f_bug_id );
-	trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 }
 
 access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );

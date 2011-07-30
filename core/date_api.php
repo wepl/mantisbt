@@ -77,7 +77,7 @@ function date_set_timezone( $p_timezone ) {
 
 	if( !date_default_timezone_set( $p_timezone ) ) {
 		// unable to set timezone
-		trigger_error( ERROR_UPDATING_TIMEZONE, WARNING );
+		throw new MantisBT\Exception\Updating_Timezone();
 	}
 }
 
@@ -97,7 +97,7 @@ function date_restore_timezone( ) {
 
 	if( !date_default_timezone_set( $t_timezone ) ) {
 		// unable to set timezone
-		trigger_error( ERROR_UPDATING_TIMEZONE, WARNING );
+		throw new MantisBT\Exception\Updating_Timezone();
 	}
 }
 

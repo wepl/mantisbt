@@ -67,7 +67,7 @@ access_ensure_global_level( $t_user['access_level'] );
 $t_admin_threshold = config_get_global( 'admin_site_threshold' );
 if ( user_is_administrator( $f_user_id ) &&
 	 user_count_level( $t_admin_threshold ) <= 1 ) {
-	trigger_error( ERROR_USER_CHANGE_LAST_ADMIN, ERROR );
+	throw new MantisBT\Exception\User_Change_Last_Admin();
 }
 
 # If an administrator is trying to delete their own account, use

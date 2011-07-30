@@ -47,7 +47,7 @@ $g_cache_ldap_field = array();
 function ldap_connect_bind( $p_binddn = '', $p_password = '' ) {
 	if( !extension_loaded( 'ldap' ) ) {
 		log_event( LOG_LDAP, "Error: LDAP extension missing in php" );
-		trigger_error( ERROR_LDAP_EXTENSION_NOT_LOADED, ERROR );
+		throw new MantisBT\Exception\LDAP_Extension_Not_Loaded();
 	}
 
 	$t_ldap_server_cfg = config_get( 'ldap_server' );
@@ -96,7 +96,7 @@ function ldap_connect_bind( $p_binddn = '', $p_password = '' ) {
 	}
 
 	log_event( LOG_LDAP, "Connection to ldap server failed" );
-	trigger_error( ERROR_LDAP_SERVER_CONNECT_FAILED, ERROR );
+	throw new MantisBT\Exception\LDAP_Server_Connect_Failed();
 }
 
 /**
@@ -205,7 +205,7 @@ function ldap_get_field_from_username( $p_username, $p_field ) {
 		}
 		if( $t_sr === false ) {
 			ldap_unbind( $t_ds );
-			trigger_error( ERROR_LDAP_SEARCH_FAILED, ERROR );			
+			throw new MantisBT\Exception\LDAP_Search_Failed();
 			return null;
 		}
 	
@@ -213,7 +213,7 @@ function ldap_get_field_from_username( $p_username, $p_field ) {
 		$t_info = ldap_get_entries( $t_ds, $t_sr );
 		if( $t_info === false ) {
 			ldap_unbind( $t_ds );
-			trigger_error( ERROR_LDAP_SEARCH_FAILED, ERROR );		
+			throw new MantisBT\Exception\LDAP_Search_Failed();
 			return null;
 		}
 		

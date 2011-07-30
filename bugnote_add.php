@@ -68,7 +68,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 
 if ( bug_is_readonly( $t_bug->id ) ) {
 	error_parameters( $t_bug->id );
-	trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 }
 
 access_ensure_bug_level( config_get( 'add_bugnote_threshold' ), $t_bug->id );
@@ -82,7 +82,7 @@ if ( $f_private ) {
 $t_bugnote_id = bugnote_add( $t_bug->id, $f_bugnote_text, $f_time_tracking, $f_private, BUGNOTE );
 if ( !$t_bugnote_id ) {
 	error_parameters( lang_get( 'bugnote' ) );
-	trigger_error( ERROR_EMPTY_FIELD, ERROR );
+	throw new MantisBT\Exception\Empty_Field();
 }
 
 # Handle the reassign on feedback feature. Note that this feature generally

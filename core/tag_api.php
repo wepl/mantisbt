@@ -74,7 +74,7 @@ function tag_exists( $p_tag_id ) {
 function tag_ensure_exists( $p_tag_id ) {
 	if( !tag_exists( $p_tag_id ) ) {
 		error_parameters( $p_tag_id );
-		trigger_error( ERROR_TAG_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Tag_Not_Found();
 	}
 }
 
@@ -102,7 +102,7 @@ function tag_is_unique( $p_name ) {
  */
 function tag_ensure_unique( $p_name ) {
 	if( !tag_is_unique( $p_name ) ) {
-		trigger_error( ERROR_TAG_DUPLICATE, ERROR );
+		throw new MantisBT\Exception\Tag_Duplicate();
 	}
 }
 
@@ -133,7 +133,7 @@ function tag_name_is_valid( $p_name, &$p_matches, $p_prefix = '' ) {
 function tag_ensure_name_is_valid( $p_name ) {
 	$t_matches = array();
 	if( !tag_name_is_valid( $p_name, $t_matches ) ) {
-		trigger_error( ERROR_TAG_NAME_INVALID, ERROR );
+		throw new MantisBT\Exception\Tag_Name_Invalid();
 	}
 }
 
@@ -282,8 +282,7 @@ function tag_get_field( $p_tag_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 		return '';
 	}
 }
@@ -475,7 +474,7 @@ function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
 
 	$t_row = db_fetch_array( $result );
 	if( !$t_row ) {
-		trigger_error( TAG_NOT_ATTACHED, ERROR );
+		throw new MantisBT\Exception\Tag_Not_Attached();
 	}
 	return $t_row;
 }
@@ -535,7 +534,7 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 	tag_ensure_exists( $p_tag_id );
 
 	if( tag_bug_is_attached( $p_tag_id, $p_bug_id ) ) {
-		trigger_error( TAG_ALREADY_ATTACHED, ERROR );
+		throw new MantisBT\Exception\Tag_Already_Attached();
 	}
 
 	if( null == $p_user_id ) {
@@ -582,7 +581,7 @@ function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id
 	}
 
 	if( !tag_bug_is_attached( $p_tag_id, $p_bug_id ) ) {
-		trigger_error( TAG_NOT_ATTACHED, ERROR );
+		throw new MantisBT\Exception\Tag_Not_Attached();
 	}
 
 	$t_tag_row = tag_bug_get_row( $p_tag_id, $p_bug_id);

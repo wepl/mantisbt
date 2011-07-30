@@ -79,7 +79,7 @@ access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );
 # bug is not read-only...
 if ( bug_is_readonly( $f_bug_id ) ) {
 	error_parameters( $f_bug_id );
-	trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 }
 
 # retrieve the destination bug of the relationship
@@ -88,8 +88,7 @@ $t_dest_bug_id = relationship_get_linked_bug_id( $f_rel_id, $f_bug_id );
 # user can access to the related bug at least as viewer, if it's exist...
 if ( bug_exists( $t_dest_bug_id )) {
 	if ( !access_has_bug_level( VIEWER, $t_dest_bug_id ) ) {
-		error_parameters( $t_dest_bug_id );
-		trigger_error( ERROR_RELATIONSHIP_ACCESS_LEVEL_TO_DEST_BUG_TOO_LOW, ERROR );
+		throw new MantisBT\Exception\Relationship_Access_Level_To_Dest_Bug_Too_Low( $t_dest_bug_id );
 	}
 }
 

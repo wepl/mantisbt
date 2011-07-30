@@ -39,7 +39,7 @@ require_api( 'html_api.php' );
 require_api( 'lang_api.php' );
 
 if ( !config_get( 'time_tracking_enabled' ) )
-	trigger_error( ERROR_ACCESS_DENIED, ERROR );
+	throw new MantisBT\Exception\Access_Denied();
 
 access_ensure_global_level( config_get( 'time_tracking_reporting_threshold' ) );
 

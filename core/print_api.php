@@ -121,7 +121,7 @@ function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_a
 		header( 'Content-Type: text/html; charset=utf-8' );
 		header( "Location: $t_url" );
 	} else {
-		trigger_error( ERROR_PAGE_REDIRECTION, ERROR );
+		throw new MantisBT\Exception\Page_Redirection();
 		return false;
 	}
 

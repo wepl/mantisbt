@@ -139,7 +139,7 @@ function user_exists( $p_user_id ) {
 function user_ensure_exists( $p_user_id ) {
 	if ( !user_exists( $p_user_id ) ) {
 		error_parameters( $p_user_id );
-		trigger_error( ERROR_USER_BY_ID_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\User_By_ID_Not_Found();
 	}
 }
 
@@ -163,7 +163,7 @@ function user_is_name_unique( $p_username ) {
  */
 function user_ensure_name_unique( $p_username ) {
 	if( !user_is_name_unique( $p_username ) ) {
-		trigger_error( ERROR_USER_NAME_NOT_UNIQUE, ERROR );
+		throw new MantisBT\Exception\User_Name_Not_Unique();
 	}
 }
 
@@ -220,7 +220,7 @@ function user_is_realname_unique( $p_username, $p_realname ) {
  */
 function user_ensure_realname_unique( $p_username, $p_realname ) {
 	if( 1 > user_is_realname_unique( $p_username, $p_realname ) ) {
-		trigger_error( ERROR_USER_REAL_MATCH_USER, ERROR );
+		throw new MantisBT\Exception\User_Real_Match_User();
 	}
 }
 
@@ -255,7 +255,7 @@ function user_is_name_valid( $p_username ) {
  */
 function user_ensure_name_valid( $p_username ) {
 	if( !user_is_name_valid( $p_username ) ) {
-		trigger_error( ERROR_USER_NAME_INVALID, ERROR );
+		throw new MantisBT\Exception\User_Name_Invalid();
 	}
 }
 
@@ -326,7 +326,7 @@ function user_is_anonymous( $p_user_id ) {
  */
 function user_ensure_unprotected( $p_user_id ) {
 	if( user_is_protected( $p_user_id ) ) {
-		trigger_error( ERROR_PROTECTED_ACCOUNT, ERROR );
+		throw new MantisBT\Exception\Protected_Account();
 	}
 }
 
@@ -590,8 +590,7 @@ function user_get_field( $p_user_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name);
 		return '';
 	}
 }
@@ -1001,7 +1000,7 @@ function user_get_profile_row( $p_user_id, $p_profile_id ) {
 
 	$row = db_fetch_array( $result );
 	if( !$row ) {
-		trigger_error( ERROR_USER_PROFILE_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\User_Profile_Not_Found();
 	}
 
 	return $row;

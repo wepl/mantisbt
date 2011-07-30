@@ -94,7 +94,7 @@ if ( $t_user_id == $t_reporter_id ) {
 # Check if the bug is readonly
 if ( bug_is_readonly( $t_bug_id ) ) {
 	error_parameters( $t_bug_id );
-	trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 }
 
 $t_bugnote_text = string_textarea( bugnote_get_text( $f_bugnote_id ) );

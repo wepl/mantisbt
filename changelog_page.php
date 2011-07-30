@@ -118,7 +118,7 @@ if ( is_blank( $f_project ) ) {
 	$f_project_id = project_get_id_by_name( $f_project );
 
 	if ( $f_project_id === 0 ) {
-		trigger_error( ERROR_PROJECT_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Project_Not_Found();
 	}
 }
 
@@ -148,7 +148,7 @@ if ( is_blank( $f_version ) ) {
 
 	if ( $f_version_id === false ) {
 		error_parameters( $f_version );
-		trigger_error( ERROR_VERSION_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Version_Not_Found();
 	}
 }
 

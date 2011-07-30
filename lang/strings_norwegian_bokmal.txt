@@ -1133,14 +1133,8 @@ Hvis du ba om denne bekreftelsen, gå til følgende URL for å forandre passorde
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Det oppstod en en feil. Du kan rapportere feilen til din administrator.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL-feil.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Det var en feil i rapporten din.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Ingen fil spesifisert';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Ulovlig filtype';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Mappen eksisterer ikke. Vennligst sjekk prosjektinnstillingene.';
+'exception_generic' = 'Det oppstod en en feil. Du kan rapportere feilen til din administrator.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Filen eksisterer fra før. Vennligst slett filen først.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Det eksisterer et prosjekt med et likt navn.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Det påkrevde feltet «%1$s» var tomt. Vennligst kontroller feltene.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Denne kontoen er beskyttet. Du kan ikke bruke kontoen før beskyttelsen er fjernet.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Du har ikke tilgang.';
@@ -1192,7 +1186,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'LDAP-bruker ikke funnet.';
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'Finner ikke LDAP-utvidelse';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Feil ved tilkobling til database. Feilmelding mottatt fra database var #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Databaseforespørsel feilet. Feilmeldingen var databasen var #%1$d: %2$s for forespørselen: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Feil ved valg av database. Feilmelding fra database-server: #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Kategorien eksisterer fra før.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Ingen handling for kopiering er spesifisert.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Finner ikke kategorien.';
@@ -1200,7 +1193,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Kategori «%1$s» ikke fu
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Versjonen eksisterer fra før.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Versjon «%1$s» ikke funnet.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Brukernavnet er ugyldig. Brukernavn kan kun inneholde latinske bokstaver, tall, mellomrom, bindestreker, punktum, plusstegn og understrek.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Brukerens ekte navn er ugyldig.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Brukeren har ikke påkrevd tilgangsnivå';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Angitt navn er identisk med en annen brukers brukernavn. Vennligst angi nytt navn.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Support for sponsing er ikke aktivert.';
@@ -1245,7 +1237,6 @@ $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Din brukersesjon er ikke lenger gyldig
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Ugyldig sikkerhetselement i skjema. Kanskje du har sendt inn skjemaet to ganger ved en tilfeldighet?';
 $MANTIS_ERROR[ERROR_CRYPTO_MASTER_SALT_INVALID] = 'Av sikkerhetsårsaker vil ikke MantisBT kjøre når $g_crypto_master_salt ikke er oppgitt korrekt i config_inc.php';
 $MANTIS_ERROR[ERROR_CRYPTO_CAN_NOT_GENERATE_STRONG_RANDOMNESS] = 'Kunne ikke finne en kilde til sterk tilfeldighet for kryptografiske formål.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Siden kan ikke åpnes med denne metoden';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Ugyldig sorteringsfelt';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Ugyldig datoformat.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Klarte ikke å oppdatere tidssone.';

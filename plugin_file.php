@@ -41,7 +41,7 @@ $f_file = gpc_get_string( 'file' );
 $t_matches = array();
 
 if ( !preg_match( '/^([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+[\/a-zA-Z0-9_-]*\.?[a-zA-Z0-9_-]*)/', $f_file, $t_matches ) ) {
-	trigger_error( ERROR_GENERIC, ERROR );
+	throw new MantisBT\Exception\Generic();
 }
 
 $t_basename = $t_matches[1];
@@ -49,7 +49,7 @@ $t_file = $t_matches[2];
 
 global $g_plugin_cache;
 if ( !isset( $g_plugin_cache[$t_basename] ) ) {
-	trigger_error( ERROR_PLUGIN_NOT_REGISTERED, ERROR );
+	throw new MantisBT\Exception\Plugin_Not_Registered();
 }
 
 plugin_file_include( $t_file, $t_basename );

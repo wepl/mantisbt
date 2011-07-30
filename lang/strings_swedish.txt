@@ -1046,14 +1046,8 @@ Om du begärde denna verifikation, gå till följande webbadress för att ändra
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Ett fel uppstod.  Du kan rapportera detta fel till din lokala administratör.';
-$MANTIS_ERROR[ERROR_SQL] = 'Ett SQL-fel uppstod.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Det fanns ett fel i din rapport.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Ingen fil angiven';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Filtypen är inte tillåten';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Katalogen finns inte. Var god kontrollera projektinställningarna.';
+'exception_generic' = 'Ett fel uppstod.  Du kan rapportera detta fel till din lokala administratör.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Filen finns redan.  Var god ta bort den andra filen först.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Ett projekt med det namnet finns redan.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Det obligatoriska fältet "%1$s" var tomt. Var god kontrollera din inmatning.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Detta konto är skyddat.  Du har inte tillgång till det innan skyddet är borttaget.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Åtkomst nekas.';
@@ -1105,7 +1099,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Användarens LDAP-post kunde inte hi
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'LDAP har inte laddats.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Kan inte ansluta till databasen. Felmeddelandet som erhölls från databasen var #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Databasfråga misslyckades. Felmeddelandet som erhölls från databasen var #%1$d: %2$s för frågan: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Databasurval misslyckades. Felmeddelandet som erhölls från databasen var #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Kategorin finns redan.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Ingen kopieringsändring angiven.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategorin finns inte.';
@@ -1113,7 +1106,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Kategori "%1$s" hittades 
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Versionen finns redan.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Versionen "%1$s" hittas inte.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Användarnamnet är ogiltigt. Användarnamn får enbart innehålla latinska bokstäver, siffror, mellanslag, bindestreck och understreck.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Användarens namn är ogiltigt.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Användaren har inte tillräcklig behörighet.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Det "Riktiga Namnet" är detsamma som en annan användares inloggningsnamn. Vänligen välj ett annat.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Sponsorstöd är ej påslaget.';
@@ -1156,7 +1148,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Ogiltig sessionshanterare.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Sessionsvariabel "%1$s" hittades inte.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Din session är inte längre giltig.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Ogiltigt säkerhetselement.  Sände du in formuläret två gånger av misstag?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Denna sida kan inte besökas med den här metoden.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Ogiltigt sorteringsfält.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Ogiltigt datumformat.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Klarar inte att uppdatera tidszon.';

@@ -121,7 +121,7 @@ function custom_field_cache_row( $p_field_id, $p_trigger_errors = true ) {
 	if( !$row ) {
 		if( $p_trigger_errors ) {
 			error_parameters( 'Custom ' . $p_field_id );
-			trigger_error( ERROR_CUSTOM_FIELD_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\Custom_Field_Not_Found();
 		} else {
 			return false;
 		}
@@ -260,7 +260,7 @@ function custom_field_ensure_exists( $p_field_id ) {
 		return true;
 	} else {
 		error_parameters( 'Custom ' . $p_field_id );
-		trigger_error( ERROR_CUSTOM_FIELD_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Not_Found();
 	}
 }
 
@@ -301,7 +301,7 @@ function custom_field_ensure_name_unique( $p_name ) {
 	if( custom_field_is_name_unique( $p_name ) ) {
 		return true;
 	} else {
-		trigger_error( ERROR_CUSTOM_FIELD_NAME_NOT_UNIQUE, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Name_Not_Unique();
 	}
 }
 
@@ -398,7 +398,7 @@ function custom_field_create( $p_name ) {
 
 	if( is_blank( $c_name ) ) {
 		error_parameters( 'name' );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	custom_field_ensure_name_unique( $c_name );
@@ -441,15 +441,15 @@ function custom_field_update( $p_field_id, $p_def_array ) {
 
 	if( is_blank( $c_name ) ) {
 		error_parameters( 'name' );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	if(( $c_access_level_rw < $c_access_level_r ) || ( $c_length_min < 0 ) || (( $c_length_max != 0 ) && ( $c_length_min > $c_length_max ) ) ) {
-		trigger_error( ERROR_CUSTOM_FIELD_INVALID_DEFINITION, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Invalid_Definition();
 	}
 
 	if( !custom_field_is_name_unique( $c_name, $c_field_id ) ) {
-		trigger_error( ERROR_CUSTOM_FIELD_NAME_NOT_UNIQUE, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Name_Not_Unique();
 	}
 
 	$t_update_something = false;
@@ -940,8 +940,7 @@ function custom_field_get_field( $p_field_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		error_parameters( $p_field_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 		return '';
 	}
 }
@@ -1382,7 +1381,7 @@ function print_custom_field_input( $p_field_def, $p_bug_id = null ) {
 	if( isset( $g_custom_field_type_definition[$p_field_def['type']]['#function_print_input'] ) ) {
 		call_user_func( $g_custom_field_type_definition[$p_field_def['type']]['#function_print_input'], $p_field_def, $t_custom_field_value );
 	} else {
-		trigger_error( ERROR_CUSTOM_FIELD_INVALID_DEFINITION, ERROR );
+		throw new MantisBT\Exception\Custom_Field_Invalid_Definition();
 	}
 }
 

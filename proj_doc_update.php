@@ -71,7 +71,7 @@ $t_project_id = file_get_field( $f_file_id, 'project_id', 'project' );
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ), $t_project_id );
 
 if ( is_blank( $f_title ) ) {
-	trigger_error( ERROR_EMPTY_FIELD, ERROR );
+	throw new MantisBT\Exception\Empty_Field();
 }
 
 $c_file_id = db_prepare_int( $f_file_id );
@@ -98,7 +98,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 	$t_file_size = filesize( $v_tmp_name );
 	$t_max_file_size = (int)min( ini_get_number( 'upload_max_filesize' ), ini_get_number( 'post_max_size' ), config_get( 'max_file_size' ) );
 	if ( $t_file_size > $t_max_file_size ) {
-		trigger_error( ERROR_FILE_TOO_BIG, ERROR );
+		throw new MantisBT\Exception\File_Too_Big();
 	}
 	$c_file_size = db_prepare_int( $t_file_size );
 
@@ -118,7 +118,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 				file_delete_local( $t_disk_file_name );
 			}
 			if ( !move_uploaded_file( $v_tmp_name, $t_disk_file_name ) ) {
-				trigger_error( ERROR_FILE_MOVE_FAILED, ERROR );
+				throw new MantisBT\Exception\File_Move_Failed();
 			}
 			chmod( $t_disk_file_name, config_get( 'attachments_file_permissions' ) );
 
@@ -129,7 +129,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 			break;
 		default:
 			/** @todo Such errors should be checked in the admin checks */
-			trigger_error( ERROR_GENERIC, ERROR );
+			throw new MantisBT\Exception\Generic();
 	}
 	$query = "UPDATE {project_file}
 		SET title=%s, description=%s, date_added=%d,
@@ -142,7 +142,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 }
 
 if ( !$result ) {
-	trigger_error( ERROR_GENERIC, ERROR  );
+	throw new MantisBT\Exception\Generic();
 }
 
 form_security_purge( 'proj_doc_update' );

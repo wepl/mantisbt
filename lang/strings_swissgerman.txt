@@ -1137,14 +1137,8 @@ Wänn Du die Bstetigung aagforderet hesch, no gang uf die URL go Dyy Passwort ä
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'S het e Fähler gee, derwylscht die Aktion uusgfiert woren isch. Du chasch des im zueständige Amman schrybe.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL-Fähler gfunde.';
-$MANTIS_ERROR[ERROR_REPORT] = 'In Dyynem Report het s e Fähler din.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Kei Datei aagee.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Dää Dateityp isch nit erlaubt.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'S Verzeichnis git s nit. Iberprief d Yystellige.';
+'exception_generic' = 'S het e Fähler gee, derwylscht die Aktion uusgfiert woren isch. Du chasch des im zueständige Amman schrybe.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Des isch e doppleti Datei. Lesch zerscht säli Datei.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'S het scho ne Projäkt mit däm Name.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'E notwändig Fäld „%1$s“ isch läär gsi. Iberprief Dyyni Yygabe.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Des Konto isch gschitzt. Du chasch nit druf zuegryfe, voreb dr Schutz ufghoben isch.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Zuegang verweigeret.';
@@ -1196,7 +1190,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'LDAP-Benutzeryytrag nit gfunde.';
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'LDAP-Erwyterig nit glade.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Verbindig zue dr Datebank fähl gschlaa. D Fählermäldig lutet #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Datebankabfrog fähl gschlaa. D Fählermäldig lutet #%1$d: %2$s fir d Abfrog: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Datebankuuswahl fähl gschlaa. D Fählermäldig vu dr Datebank lutet #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'E Kategorii mit däm Name git s scho.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Kei Kopiervorgang aagee.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategorii nit gfunde.';
@@ -1204,7 +1197,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'D Kategorii „%1$s“ is
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'E Version mit däm Name git s scho.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Version „%1$s“ nit gfunde.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Dr Benutzername isch nit giltig. Erlaubt sin nume Buechstabe, Zahle, Läärzeiche, Pluszeiche, Pinkt, Binde- un Unterstrich.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Dr „Vollständig Name“ isch nit giltig.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Benutzer het nit d Zuegriffsberächtigung, wu s brucht.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Dr „Vollständig Name“, wu yygee woren sich, isch dr Benutzername vun eme andere Benutzer. Bitte wehl e andere.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Sponsor-Unterstitzig nit aktiviert.';
@@ -1249,7 +1241,6 @@ $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Dyy Sitzig isch uugiltig wore.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Nit giltig Formular Sicherheits-Token. Hesch s Formular us Versäh zweimol abgeschickt?';
 $MANTIS_ERROR[ERROR_CRYPTO_MASTER_SALT_INVALID] = 'Us Sicherheitsgrind stoht MantisBT nit z Verfiegig, wänn $g_crypto_master_salt in config_inc.php nit korräkt gsetzt isch.';
 $MANTIS_ERROR[ERROR_CRYPTO_CAN_NOT_GENERATE_STRONG_RANDOMNESS] = 'S isch kei Quälle fir sicheri Zuefallszahle gfunde wore fir d Verschlisslig.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Uf die Syte cha nit mit däre Methode zuegriffe wäre.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Nit giltig Sortierfäld.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Nit giltig Dateformat';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Zytzone cha nit aktualisiert wäre.';

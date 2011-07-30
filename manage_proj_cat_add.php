@@ -61,7 +61,7 @@ access_ensure_project_level( config_get( 'manage_project_threshold' ), $f_projec
 
 if ( is_blank( $f_name ) ) {
 	error_parameters( lang_get( 'category' ) );
-	trigger_error( ERROR_EMPTY_FIELD, ERROR );
+	throw new MantisBT\Exception\Empty_Field();
 }
 
 $t_names = explode( '|', $f_name );
@@ -81,7 +81,7 @@ foreach ( $t_names as $t_name ) {
 		#  ones we can.  The others already exist so it isn't really
 		#  an error.
 
-		trigger_error( ERROR_CATEGORY_DUPLICATE, ERROR );
+		throw new MantisBT\Exception\Category_Duplicate();
 	}
 }
 

@@ -542,13 +542,8 @@ Caso você tenha solicitado esta verificação, visite o seguinte URL para alter
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Ocorreu um erro durante a execução desta ação. Você pode querer comunicar este erro ao seu administrador local';
-$MANTIS_ERROR[ERROR_SQL] = 'Erro de SQL detetado';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Nenhum ficheiro especificado';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'O tipo de ficheiro está bloqueado.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'A pasta não existe. Por favor verifique as definições do projeto.';
+'exception_generic' = 'Ocorreu um erro durante a execução desta ação. Você pode querer comunicar este erro ao seu administrador local';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Este ficheiro é um duplicado. Por favor apague o ficheiro antes.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Já existe um projeto com esse nome.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Esta conta está protegida. Você não tem permissão para aceder a isto até que a proteção seja removida.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Acesso Negado.';
 $MANTIS_ERROR[ERROR_UPLOAD_FAILURE] = 'Carregamento de ficheiro mal-sucedido. Ficheiro não é legível pelo MantisBT. Por favor verifique as definições do projeto.';
@@ -590,7 +585,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Registro de Utilizador LDAP Não Enc
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'Extensão LDAP Não Carregada.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Conexão à base de dados falhou. Erro recebido da base de dados foi #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Pesquisa na base de dados falhou. Erro recebido da base de dados foi #%1$d: %2$s para a pesquisa: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Seleção na base de dados falhou. Erro recebido da base de dados foi #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Já existe uma categoria com esse nome.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Nenhuma ação de cópia foi especificada.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Categoria não encontrada.';
@@ -598,7 +592,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Categoria "%1$s" não enc
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Já existe uma versão com esse nome.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Versão "%1$s" não encontrada.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'O nome de utilizador é inválido. Nomes de utilizador só podem conter caracteres latinos, números, espaços, hífens (-), pontos (.), sinais de mais (+) e sublinhados (_).';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'O nome verdadeiro do utilizador é inválido.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'O utilizador não tem o nível de acesso exigido.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'O "Name Real" escolhido coincide com o nome de login de outro usuário. Por favor escolha outro.';
 $MANTIS_ERROR[ERROR_CONFIG_OPT_INVALID] = 'Opção de configuração "%1$s" tem o valor inválido "%2$s".';
@@ -628,5 +621,4 @@ $MANTIS_ERROR[ERROR_COLUMNS_INVALID] = 'Campo "%1$s" contém campo inválido "%2
 $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Manipulador de sessão inválido.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Variável de sessão "%1$s" não encontrada.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'A sua sessão tornou-se inválida.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Esta página não pode ser acedida por este método.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Campo de ordenação inválido.';

@@ -74,7 +74,7 @@ function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password
 
 	if( !$t_result ) {
 		db_error();
-		trigger_error( ERROR_DB_CONNECT_FAILED, ERROR );
+		throw new MantisBT\Exception\DB_Connect_Failed();
 		return false;
 	}
 	$g_db_connected = true;
@@ -205,7 +205,7 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 
 	if( !$t_result ) {
 		db_error( $p_query );
-		trigger_error( ERROR_DB_QUERY_FAILED, ERROR );
+		throw new MantisBT\Exception\DB_Query_Failed();
 		return false;
 	} else {
 		return $t_result;

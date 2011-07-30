@@ -894,15 +894,8 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'یہ کام کرتے ھوے ایک خرابی آ گی ھے.  آپ اپنی انتضامیہ کو اس کے بارے میں آگاہ کر سکتے ہیں۔ .';
-$MANTIS_ERROR[ERROR_SQL] = ' کی خرابی آ گی ھے اس کے بارے میں اگ ہ کر یںSQL';
-$MANTIS_ERROR[ERROR_REPORT] = 'آپ کی معلومات مین خرابی تھی.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'کوی فاہل بتای نہی گی';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'اس قسم کی فاہل کی اجازت نہی';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'لسٹ دستیاب نہی ھے.
-Please check the project settings.';
+'exception_generic' = 'یہ کام کرتے ھوے ایک خرابی آ گی ھے.  آپ اپنی انتضامیہ کو اس کے بارے میں آگاہ کر سکتے ہیں۔ .';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'یہ نقل والی فاہل ھےمہربانی کر کے پہلے اسے خارج کریں.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'اس نام کا منصو بہ پہلے ہی موجود ھے.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'اپنی اندراج والی قیمت دیکھیں ایک بہت ہی خاص اندراج نہی ھے \'%1$s\'';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'یہ کھاتہ مھفوظ ھے آپ اسے استہمال نہی کر سکتے جب تک اسے غیر  مہفوظ نہ بنایا جاے۔.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = ' حق حاصل نہی ھے.';
@@ -949,14 +942,12 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = ' LDAP       کے ریکارڈ نہے 
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = ' کے استہمال کرنے والوں کے نام نہیں ملے LDAP      .';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'ڈیٹا بیس سے رابطہ فیل ھو گیا ھے. خرابی ڈیٹا بیس سے حاصل ھوی ھے #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = ' ڈیٹا بیس کی کیوری فیل ھو گی ھے  کیوری کیلیے %s #%1$d: %s خرابی جو ڈیٹا بیس سے حاصل ھوی ھے';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = ' ڈیٹا بیس سے رابطہ ختم ھو گیا ھے #%1$d: %2$s خرابی جو ڈیٹا بیس سے حاصل ھوی ھے.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'اسی قسم کی جماعت کا نام پہلے ہی موجود ھے.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'کوی نقل کا کام نہی ملا.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = ' جماعت نہی ملی .';
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'ایک نیا ایژیشن اسی نام کا موجود ھے.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = '  ایژیشن نہی ملا\'%1$s\'.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'استہمال کرنے والے کا نام ٹھیک نہی ھے۔ استہمال کرنے والے کا نام صرف لاطینی لفظ،نمبرز،سپیس،^،اور _ پر مشتمل ھو سکتا ھے.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'استہمال کرنے والے کا نام ٹھیک نھی ھے.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'استہمال کرنے والے کا اصلی نام ٹھیک نہی ھے';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'آپ نے جو نام منتخب کیا ھےوہ کسی اور کے نام سے مل رھا ھے مہربانی کر کے کوی دوسرا نام استہمال کریں.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'سپانسرشپ کی سپورٹ ٹھیک نہیں ھے.';

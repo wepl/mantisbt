@@ -108,18 +108,18 @@ if ( config_get( 'bug_assigned_status' ) == $f_new_status ) {
 	$t_bug_sponsored = sponsorship_get_amount( sponsorship_get_all_ids( $f_bug_id ) ) > 0;
 	if ( $t_bug_sponsored ) {
 		if ( !access_has_bug_level( config_get( 'assign_sponsored_bugs_threshold' ), $f_bug_id ) ) {
-			trigger_error( ERROR_SPONSORSHIP_ASSIGNER_ACCESS_LEVEL_TOO_LOW, ERROR );
+			throw new MantisBT\Exception\Sponsorship_Assigner_Access_Level_Too_Low();
 		}
 	}
 
 	if ( $f_handler_id != NO_USER ) {
 		if ( !access_has_bug_level( config_get( 'handle_bug_threshold' ), $f_bug_id, $f_handler_id ) ) {
-			trigger_error( ERROR_HANDLER_ACCESS_TOO_LOW, ERROR );
+			throw new MantisBT\Exception\Handler_Access_Too_Low();
 		}
 
 		if ( $t_bug_sponsored ) {
 			if ( !access_has_bug_level( config_get( 'handle_sponsored_bugs_threshold' ), $f_bug_id, $f_handler_id ) ) {
-				trigger_error( ERROR_SPONSORSHIP_HANDLER_ACCESS_LEVEL_TOO_LOW, ERROR );
+				throw new MantisBT\Exception\Sponsorship_Handler_Access_Level_Too_Low();
 			}
 		}
 	}

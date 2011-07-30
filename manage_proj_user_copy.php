@@ -61,7 +61,7 @@ if ( $f_copy_from ) {
 	$t_dst_project_id = $f_other_project_id;
 } else {
 	/** @todo Should this become a separate error? */
-	trigger_error( ERROR_CATEGORY_NO_ACTION, ERROR );
+	throw new MantisBT\Exception\Category_No_Action();
 }
 
 # We should check both since we are in the project section and an

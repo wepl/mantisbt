@@ -76,7 +76,7 @@ function gpc_get( $p_var_name, $p_default = null ) {
 		$t_result = $p_default;
 	} else {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_VAR_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\GPC_Var_Not_Found();
 		$t_result = null;
 	}
 
@@ -116,7 +116,7 @@ function gpc_get_string( $p_var_name, $p_default = null ) {
 
 	if( is_array( $t_result ) ) {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_ARRAY_UNEXPECTED, ERROR );
+		throw new MantisBT\Exception\GPC_Array_Unexpected();
 	}
 
 	return $t_result;
@@ -138,12 +138,12 @@ function gpc_get_int( $p_var_name, $p_default = null ) {
 
 	if( is_array( $t_result ) ) {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_ARRAY_UNEXPECTED, ERROR );
+		throw new MantisBT\Exception\GPC_Array_Unexpected();
 	}
 	$t_val = str_replace( ' ', '', trim( $t_result ) );
 	if( !preg_match( "/^-?([0-9])*$/", $t_val ) ) {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_NOT_NUMBER, ERROR );
+		throw new MantisBT\Exception\GPC_Not_Number();
 	}
 
 	return (int) $t_val;
@@ -164,7 +164,7 @@ function gpc_get_bool( $p_var_name, $p_default = false ) {
 	} else {
 		if( is_array( $t_result ) ) {
 			error_parameters( $p_var_name );
-			trigger_error( ERROR_GPC_ARRAY_UNEXPECTED, ERROR );
+			throw new MantisBT\Exception\GPC_Array_Unexpected();
 		}
 
 		return gpc_string_to_bool( $t_result );
@@ -261,7 +261,7 @@ function gpc_get_string_array( $p_var_name, $p_default = null ) {
 	# If we the result isn't the default we were given or an array, error
 	if( !((( 1 < func_num_args() ) && ( $t_result === $p_default ) ) || is_array( $t_result ) ) ) {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_ARRAY_EXPECTED, ERROR );
+		throw new MantisBT\Exception\GPC_Array_Expected();
 	}
 
 	return $t_result;
@@ -284,7 +284,7 @@ function gpc_get_int_array( $p_var_name, $p_default = null ) {
 	# If we the result isn't the default we were given or an array, error
 	if( !((( 1 < func_num_args() ) && ( $t_result === $p_default ) ) || is_array( $t_result ) ) ) {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_ARRAY_EXPECTED, ERROR );
+		throw new MantisBT\Exception\GPC_Array_Expected();
 	}
 
 	$t_count = count( $t_result );
@@ -311,7 +311,7 @@ function gpc_get_bool_array( $p_var_name, $p_default = null ) {
 	# If we the result isn't the default we were given or an array, error
 	if( !((( 1 < func_num_args() ) && ( $t_result === $p_default ) ) || is_array( $t_result ) ) ) {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_ARRAY_EXPECTED, ERROR );
+		throw new MantisBT\Exception\GPC_Array_Expected();
 	}
 
 	$t_count = count( $t_result );
@@ -339,7 +339,7 @@ function gpc_get_cookie( $p_var_name, $p_default = null ) {
 		$t_result = $p_default;
 	} else {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_VAR_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\GPC_Var_Not_Found();
 	}
 
 	return $t_result;
@@ -436,7 +436,7 @@ function gpc_get_file( $p_var_name, $p_default = null ) {
 		$t_result = $p_default;
 	} else {
 		error_parameters( $p_var_name );
-		trigger_error( ERROR_GPC_VAR_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\GPC_Var_Not_Found();
 	}
 
 	return $t_result;

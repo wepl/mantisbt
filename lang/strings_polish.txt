@@ -1065,14 +1065,8 @@ Jeśli prosiłeś o to, odwiedź poniższy adres aby zmienić hasło:',
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Wystąpił błąd podczas wykonywanej operacji. Możesz zgłosić błąd administratorowi.';
-$MANTIS_ERROR[ERROR_SQL] = 'Wykryto błąd SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Wystąpił błąd w zgłoszeniu.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Żaden plik nie został wybrany.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Typ przesyłanego pliku nie jest dozwolony.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Podany katalog nie istnieje. Sprawdź ustawienia projektu.';
+'exception_generic' = 'Wystąpił błąd podczas wykonywanej operacji. Możesz zgłosić błąd administratorowi.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Plik o podanej nazwie już istnieje. Usuń najpierw istniejący plik.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Istnieje już projekt o takiej nazwie.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Wymagane pole „%1$s” nie zostało wypełnione. Sprawdź wprowadzone dane.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Konto jest zabezpieczone. Nie masz uprawnień dostępu do tego konta dopóki zabezpieczenie jest aktywne.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Brak dostępu.';
@@ -1124,7 +1118,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Rekord użytkownika LDAP nie znalezi
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'Rozszerzenie LDAP nie zostało załadowane';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Błąd połączenia z bazą danych %1$d – %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Błąd wykonania zapytania w bazie danych %1$d – %2$s dla zapytania %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Błąd bazy danych %1$d – %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Podana kategoria już istnieje.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Nie zdefiniowano możliwości kopiowania.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Nie znaleziono kategorii.';
@@ -1132,7 +1125,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Brak kategorii „%1$s”
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Podana wersja już istnieje.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Nie znaleziono wersji „%1$s”.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Nieprawidłowa nazwa użytkownika. Nazwa użytkownika może zawierać tyko litery alfabetu łacińskiego, liczby, spacje, myślniki, kropki, znaki dodawania i podkreślenia.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = '„Imię i nazwisko” użytkownika jest nieprawidłowe.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Użytkownik nie posiada wymaganego poziomu dostępu';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Wybrane „Imię i nazwisko” jest już używane przez innego użytkownika. Proszę wybrać inne.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Sponsorowanie nie zostało uruchmione.';
@@ -1175,7 +1167,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Nieprawidłowy handler sesji.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'Zmienna sesyjna „%1$s” nie została znaleziona.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Twoja sesja została unieważniona.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Nieprawidłowy znacznik bezpieczeństwa formularza. Czy przez przypadek nie złożyłeś formularza dwa razy?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Tej strony nie moża uzyskać za pomocą tej metody.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Nieprawidłowe pole sortowania.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Nieprawidłowy format daty.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Nie można zaktualizować strefy czasowej.';

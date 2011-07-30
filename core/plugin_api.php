@@ -146,7 +146,7 @@ function plugin_file_include( $p_filename, $p_basename = null ) {
 
 	$t_file_path = plugin_file_path( $p_filename, $t_current );
 	if( false === $t_file_path ) {
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 	}
 
 	readfile( $t_file_path );
@@ -552,7 +552,7 @@ function plugin_install( $p_plugin ) {
 	access_ensure_global_level( config_get_global( 'manage_plugin_threshold' ) );
 
 	if( plugin_is_installed( $p_plugin->basename ) ) {
-		trigger_error( ERROR_PLUGIN_ALREADY_INSTALLED, WARNING );
+		throw new MantisBT\Exception\Plugin_Already_Installed();
 		return null;
 	}
 
@@ -650,8 +650,7 @@ function plugin_upgrade( $p_plugin ) {
 		if( 2 == $t_status ) {
 			plugin_config_set( 'schema', $i );
 		} else {
-			error_parameters( $i );
-			trigger_error( ERROR_PLUGIN_UPGRADE_FAILED, ERROR );
+			throw new MantisBT\Exception\Plugin_Upgrade_Failed( $i );
 			return null;
 		}
 

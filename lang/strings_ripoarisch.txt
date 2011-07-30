@@ -558,15 +558,9 @@ Doh kanns De repareeere, wat jraadt verkeht woor, udder en annder Akßjuhn nämm
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Bei dä Akßjuhn es ene Fähler opjetrodde.
+'exception_generic' = 'Bei dä Akßjuhn es ene Fähler opjetrodde.
 Dä künnß De aan Dinge Administrator heh wigger jävve.';
-$MANTIS_ERROR[ERROR_SQL] = 'Ene SQL-Fähler es opjefalle.';
-$MANTIS_ERROR[ERROR_REPORT] = 'En Dingem Bereesch es ene Fähler opjetrodde.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Kein Dattei aanjejovve.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Di Zoot Dattei es nit zohjelohße.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Dat Verzeijshneß jidd_et nit. Loor donoh en de Enshtellunge för et Projäk.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Dat es en dubbelte Datei. Donn eets de eezte dovun fottschmiiße.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'E Projäk met däm Name jidd_et ald.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'De nüüdejje Aanjab „%1$s“ es nit jemaat. Donn ens Ding Enjaabe nohloore.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Heh dä Zohjang es extra jeschöz. Do kanns De nix met maache, bes dat dä Schoz wider opjehovve es.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Zohjreff afjeleehnt.';
@@ -609,7 +603,6 @@ $MANTIS_ERROR[ERROR_CUSTOM_FIELD_INVALID_DEFINITION] = 'En onjöltijje Faßlää
 $MANTIS_ERROR[ERROR_LDAP_AUTH_FAILED] = 'De Zohjangspröövung per <i lang="en">LDAP</i> es donevve jejange.';
 $MANTIS_ERROR[ERROR_LDAP_SERVER_CONNECT_FAILED] = 'De Verbendung zom <i lang="en">LDAP</i> ßööver hät nit jeklapp.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Dä Metmaacher-Name es nit jöltesch. Zohjelohße sen bloß lateinesche Bochstabe, de Zeffere, Zweschreräum, dä Bendeshtresh, der Pungk, et „plus“-Zeijsche, un dä Ungershtresh.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Dä „reschtejje Name“ es onjöltesch udder Kappes.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'Dä Metmaacher hät nit et nüüdeje Zohjangsrääsch.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'De Öngershtözung för Schponsore es nit ennjeschalldt.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_FOUND] = 'Schponsorschaff %1$d nit jefonge.';

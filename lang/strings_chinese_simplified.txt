@@ -910,14 +910,8 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = '执行该操作时发生错误，你可能需要将此问题报告给你的系统管理员。';
-$MANTIS_ERROR[ERROR_SQL] = '发生SQL错误；';
-$MANTIS_ERROR[ERROR_REPORT] = '在你的报表中发现错误。';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = '没有指定文件';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = '此类型的文件不允许上传';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = '目录不存在；请检查项目设置。';
+'exception_generic' = '执行该操作时发生错误，你可能需要将此问题报告给你的系统管理员。';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = '已经有一个同名文件存在；请先删除该文件。';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = '已经存在一个同名的项目。';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = '字段“%1$s”是必须填写的，不能为空白，请重新填写。';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = '该帐号设置为被保护状态，解除保护前你不能使用该账号。';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = '无权限存取。';
@@ -966,14 +960,12 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = '更新 LDAP 记录失败。';
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = '没有找到 LDAP 帐号记录。';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = '数据库连接失败。数据库返回的错误信息是：#%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = '数据库查询失败。数据库返回的错误信息是：#%1$d: %2$s 查询语句：%3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = '数据库选择失败。数据库返回的错误信息是：#%1$d: %2$s。';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = '已存在同名类别。';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = '没有指定的复制操作。';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = '没有找到类别。';
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = '已存在同名版本。';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = '没有找到版本“%1$s” 。';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = '帐号名称无效；帐号名称只能由字串、数字、空格、“-”或“_”组成。';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = '用户真实姓名无效。';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = '用户没有足够的存取权限';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = '选定的“真实姓名”与另一个帐号的登录帐号名称相同；请重新选择。';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = '资助尚未启用。';

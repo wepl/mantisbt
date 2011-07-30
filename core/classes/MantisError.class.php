@@ -107,12 +107,21 @@ class MantisError
 		if ( function_exists( 'event_clear_callbacks' ) ) {
 			event_clear_callbacks();
 		}
-			
+
 		$t_oblen = ob_get_length();
 		if( error_handled() && $t_oblen > 0 ) {
 			$t_old_contents = ob_get_contents();
 		}
 
+		$t_last = error_get_last();
+		$t_fatal = false;
+		
+		if( isset($t_last['type']) && ( $t_last['type'] == E_PARSE ) ) {
+			// FATAL error state - we'll try and get through this as quickly as possible
+			$t_fatal = true;
+		}
+
+		
 		# We need to ensure compression is off - otherwise the compression headers are output.
 		compress_disable();	
 
@@ -130,9 +139,14 @@ class MantisError
 		echo '<hr />';
 
 		echo '<div align="center">';
-		echo lang_get( 'error_no_proceed' );
+		if ( !$t_fatal ) {
+			try {
+				echo lang_get( 'error_no_proceed' );
+			} catch (Exception $e) {
+			}
+		}
 		echo '<br />';
-		
+
 		foreach ( self::$_allErrors as $key => $errorInfo ) {
 			self::display_error( $errorInfo );
 
@@ -158,7 +172,7 @@ class MantisError
 	public static function display_error( $p_error) {
 		echo '<br /><div><table class="width70" cellspacing="1">';
 		echo '<tr><td class="form-title">' . $p_error->name . '</td></tr>';
-		echo '<tr><td><p class="center" style="color:red">' . nl2br( $p_error->message ) . '</p></td></tr>';
+		echo '<tr><td><p class="center" style="color:red">' . nl2br( lang_get_defaulted( $p_error->message ) ) . '</p></td></tr>';
 		echo '<tr><td>';
 		self::error_print_details( basename( $p_error->file ), $p_error->line, $p_error->context );
 		echo '</td></tr>';

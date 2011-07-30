@@ -408,8 +408,7 @@ function columns_ensure_valid( $p_field_name, $p_columns_to_validate, $p_columns
 	# Check for invalid fields
 	foreach( $p_columns_to_validate as $t_column ) {
 		if( !in_array( utf8_strtolower( $t_column ), $t_columns_all_lower ) ) {
-			error_parameters( $p_field_name, $t_column );
-			trigger_error( ERROR_COLUMNS_INVALID, ERROR );
+			throw new MantisBT\Exception\Columns_Invalid( $p_field_name, $t_column );
 			return false;
 		}
 	}
@@ -419,8 +418,7 @@ function columns_ensure_valid( $p_field_name, $p_columns_to_validate, $p_columns
 	foreach( $p_columns_to_validate as $t_column ) {
 		$t_column_lower = utf8_strtolower( $t_column );
 		if( in_array( $t_column, $t_columns_no_duplicates ) ) {
-			error_parameters( $p_field_name, $t_column );
-			trigger_error( ERROR_COLUMNS_DUPLICATE, ERROR );
+			throw new MantisBT\Exception\Columns_Duplicate( $p_field_name, $t_column );
 		} else {
 			$t_columns_no_duplicates[] = $t_column_lower;
 		}

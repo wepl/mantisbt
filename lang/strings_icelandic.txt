@@ -824,14 +824,8 @@ Ef þú óskaðir eftir þessari staðfestingu, heimsóttu eftirfarandi veffang 
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Villa hefur orðið við þessa aðgerð. Þú ættir að tilkynna það til verkefnisstjóra.';
-$MANTIS_ERROR[ERROR_SQL] = 'SQL villa hefur orðið.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Það var villa í tilkynningunni.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Engin skrá valin';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Þessi tegund skráar er ekki leyfð';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Þessi mappa er ekki til. Athugaðu verkefna stillinguna.';
+'exception_generic' = 'Villa hefur orðið við þessa aðgerð. Þú ættir að tilkynna það til verkefnisstjóra.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Þetta er afrit. Eyddu skránni fyrst.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Verkefni með sama nafni er til.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Nauðsynlegt svæði \'%1$s\' var autt. Athugaðu betur ílagsgögnin.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Þessi aðgangur er lokaður. Þú hefur ekki aðgang þar til læsingu hefur verið aflétt.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Aðgangur óheimill.';
@@ -878,7 +872,6 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = 'Uppfærsla gagna á LDAP mistókst.';
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Upplýsingar um LDAP notenda fundust ekki.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Tenging við gagnagrunn mistókst. Villa móttekin frá gagnagrunni var #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Fyrirspurn á gagnagrunni mistókst. Villa móttekin frá gagnagrunni vegna fyrirspurnar um #%1$d: %2$s var %3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Gagnagrunnsval mistókst. Villa móttekinn frá gagnagrunni var #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Verkþáttur með þessu nafni er til staðar.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Enginn afritun var tilgreind.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Verkþáttur fannst ekki.';

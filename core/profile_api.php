@@ -61,19 +61,19 @@ function profile_create( $p_user_id, $p_platform, $p_os, $p_os_build, $p_descrip
 	# platform cannot be blank
 	if( is_blank( $p_platform ) ) {
 		error_parameters( lang_get( 'platform' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# os cannot be blank
 	if( is_blank( $p_os ) ) {
 		error_parameters( lang_get( 'operating_system' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# os_build cannot be blank
 	if( is_blank( $p_os_build ) ) {
 		error_parameters( lang_get( 'version' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# Add profile
@@ -133,19 +133,19 @@ function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_bu
 	# platform cannot be blank
 	if( is_blank( $p_platform ) ) {
 		error_parameters( lang_get( 'platform' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# os cannot be blank
 	if( is_blank( $p_os ) ) {
 		error_parameters( lang_get( 'operating_system' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# os_build cannot be blank
 	if( is_blank( $p_os_build ) ) {
 		error_parameters( lang_get( 'version' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# Add item
@@ -248,7 +248,7 @@ function profile_get_field_all_for_user( $p_field, $p_user_id = null ) {
 			$c_field = $p_field;
 			break;
 		default:
-			trigger_error( ERROR_GENERIC, ERROR );
+			throw new MantisBT\Exception\Generic();
 	}
 
 	$query = "SELECT DISTINCT $c_field FROM {user_profile}

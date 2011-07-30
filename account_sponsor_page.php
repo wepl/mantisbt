@@ -81,7 +81,7 @@ require_api( 'version_api.php' );
 require_css( 'status_config.php' );
 
 if ( !config_get( 'enable_sponsorship' ) ) {
-	trigger_error( ERROR_SPONSORSHIP_NOT_ENABLED, ERROR );
+	throw new MantisBT\Exception\Sponsorship_Not_Enabled();
 }
 
 # anonymous users are not allowed to sponsor issues

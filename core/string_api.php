@@ -561,7 +561,7 @@ function string_get_bug_page( $p_action, $p_user_id = null ) {
 		return 'bug_report_page.php';
 	}
 
-	trigger_error( ERROR_GENERIC, ERROR );
+	throw new MantisBT\Exception\Generic();
 }
 
 /**

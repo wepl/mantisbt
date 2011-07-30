@@ -54,7 +54,7 @@ require_api( 'print_api.php' );
 require_api( 'profile_api.php' );
 
 if ( !config_get( 'enable_profiles' ) ) {
-	trigger_error( ERROR_ACCESS_DENIED, ERROR );
+	throw new MantisBT\Exception\Access_Denied();
 }
 
 if ( isset( $g_global_profiles ) ) {

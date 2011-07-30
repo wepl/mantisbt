@@ -1140,14 +1140,8 @@ Si vous avez demandé cette vérification, visitez l\'URL suivante pour changer 
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Une erreur s\'est produite.  Merci de contacter votre administrateur.';
-$MANTIS_ERROR[ERROR_SQL] = 'Erreur SQL détectée.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Il y avait une erreur dans votre rapport.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Aucun fichier spécifié';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Type de fichier interdit';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Le répertoire n\'existe pas. Merci de vérifier les paramètres du projet.';
+'exception_generic' = 'Une erreur s\'est produite.  Merci de contacter votre administrateur.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Fichier dupliqué.  Supprimer d\'abord le premier.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Un projet ayant ce nom existe déjà.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Le champ obligatoire « %1$s » n\'est pas renseigné.  Merci de vérifier votre saisie.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Ce compte est protégé.  Vous n\'êtes pas autorisés à y accéder tant que la protection existe.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Accès interdit.';
@@ -1199,7 +1193,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Enregistrement d\'utilisateur LDAP i
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'L\'extension LDAP n\'est pas chargé.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Échec de connexion à la base de données. L\'erreur renvoyée était #%1$d : %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Échec de la requête de base de données. L\'erreur renvoyée par la base de données était #%1$d : %2$s pour la requête : %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Échec de la sélection de la base de données. L\'erreur renvoyée par la base de données était #%1$d : %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Catégorie dupliquée.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Aucune copie spécifiée.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Catégorie introuvable.';
@@ -1207,7 +1200,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Catégorie « %1$s » int
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Version dupliquée.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'Version « %1$s » introuvable.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'Nom d\'utilisateur non valide. Le nom d\'utilisateur ne peut contenir que les lettres latines, nombres, espaces, traits d\'union, points, signes plus et traits de soulignement.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'Nom réel non valide.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'L\'utilisateur n\'a pas le niveau d\'accès requis';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'Le nom réel saisi correspond au code d\'un autre utilisateur. Veuillez en choisir un autre.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Support de commanditaire non activé.';
@@ -1252,7 +1244,6 @@ $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'Votre session a été invalidée.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Jeton de sécurité du formulaire invalide. Avez-vous soumis deux fois le formulaire par accident ?';
 $MANTIS_ERROR[ERROR_CRYPTO_MASTER_SALT_INVALID] = 'Pour des raisons de sécurité MantisBT ne fonctionne pas quand $g_crypto_master_salt n\'est pas spécifié correctement dans config_inc.php.';
 $MANTIS_ERROR[ERROR_CRYPTO_CAN_NOT_GENERATE_STRONG_RANDOMNESS] = 'Impossible de trouver une source fortement aléatoire à des fins cryptographiques.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Impossible d\'afficher cette page avec cette fonction.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'Champ de tri invalide.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Format de date invalide.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Impossible de mettre à jour la zone horaire.';

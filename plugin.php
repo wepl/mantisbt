@@ -41,7 +41,7 @@ $f_page= gpc_get_string( 'page' );
 $t_matches = array();
 
 if ( !preg_match( '/^([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+[\/a-zA-Z0-9_-]*)/', $f_page, $t_matches ) ) {
-	trigger_error( ERROR_GENERIC, ERROR );
+	throw new MantisBT\Exception\Generic();
 }
 
 $t_basename = $t_matches[1];
@@ -49,14 +49,14 @@ $t_action = $t_matches[2];
 
 global $g_plugin_cache;
 if ( !isset( $g_plugin_cache[$t_basename] ) ) {
-	trigger_error( ERROR_PLUGIN_NOT_REGISTERED, ERROR );
+	throw new MantisBT\Exception\Plugin_Not_Registered();
 }
 
 $t_page = $t_plugin_path.$t_basename.DIRECTORY_SEPARATOR.
 		'pages'.DIRECTORY_SEPARATOR.$t_action.'.php';
 
 if ( !is_file( $t_page ) ) {
-		trigger_error( ERROR_PLUGIN_PAGE_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Plugin_Page_Not_Found();
 }
 
 plugin_push_current( $t_basename );

@@ -94,7 +94,7 @@ if ( $f_master_bug_id > 0 ) {
 	# master bug is not read-only...
 	if ( bug_is_readonly( $f_master_bug_id ) ) {
 		error_parameters( $f_master_bug_id );
-		trigger_error( ERROR_BUG_READ_ONLY_ACTION_DENIED, ERROR );
+		throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
 	}
 
 	$t_bug = bug_get( $f_master_bug_id, true );

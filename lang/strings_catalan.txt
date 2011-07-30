@@ -1127,14 +1127,8 @@ Si va sol·licitar aquest canvi, visiti aquesta URL per a canviar la contrasenya
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Hi ha hagut un error durant aquesta acció. Informi d\'aquest error al seu administrador local.';
-$MANTIS_ERROR[ERROR_SQL] = 'Error SQL detectat.';
-$MANTIS_ERROR[ERROR_REPORT] = 'S\'ha trobat un error en la seva incidència.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Arxiu no especificat';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Aquest tipus d\'arxiu no està permès';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'El directori no existeix. Si us plau revisi la configuració del projecte.';
+'exception_generic' = 'Hi ha hagut un error durant aquesta acció. Informi d\'aquest error al seu administrador local.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Aquest és un arxiu duplicat. Si us plau esborri l\'arxiu primer.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Ja existeix un projecte amb aquest nom.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'El camp requerit "%1$s" està buit. Si us plau, comprovi les dades.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Aquest compte està protegit. No hi té accés fins que la protecció del compte hagi estat retirada.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Accés Denegat.';
@@ -1186,7 +1180,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'No s\'ha trobat el registre LDAP de 
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'No està carregada l\'extensió LDAP.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Ha fallat la connexió a la base de dades. L\'error rebut de la base de dades és: #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Ha fallat la consulta a la base de dades. L\'error rebut de la base de dades és #%1$d: %2$s per la consulta: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Ha fallat la selecció de la base de dades. L\'error rebut de la base de dades és: #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Aquesta és una categoria duplicada.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'No s\'ha especificat cap acció de còpia.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Categoria no trobada.';
@@ -1194,7 +1187,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'Category "%1$s" no trobad
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'Aquesta és una versió duplicada.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'No s\'ha trobat la versió "%1$s".';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'El nom d\'usuari és invàlid. Els noms d\'usuari només poden tenir lletres llatines, números, espais, guions, punts, el signe més i subrallats.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'El nom real de l\'usuari no és vàlid.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'L\'usuari no té el nivell d\'accés requerit';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = 'El "Nom Real" coincideix amb el nom d\'un altre usuari. Si us plau seleccioni\'n un altre.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'Patrocini no disponible.';
@@ -1237,7 +1229,6 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'Gestor de sessió invàlid.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'No s\'ha trobat la variable de sessió "%1$s".';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'La vostra sessió ha esdevingut invàlida.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'Token de seguretat del formulari invàlid. Ha enviat el formulari dos vegades accidentalment?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'No es pot accedir a aquesta pàgina usant aquest mètode.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'El camp d\'ordre és invàlid.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Format de la data invàlid.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'No es pot actualitzar el fus horari.';

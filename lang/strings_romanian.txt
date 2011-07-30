@@ -873,14 +873,8 @@ Dacă aţi fost dumneavoastră vizitaţi adresa următoare pentru a vă modifica
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'EROARE: A apărut o eroare în timpul aceste acţiuni. Semnalaţi acest lucru administratorului.';
-$MANTIS_ERROR[ERROR_SQL] = 'A fost detectată o eroare SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'EROARE: Aţi omis un detaliu obligatoriu din raport.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'EROARE: Nu aţi specificat un fişier.';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'ERROR: Acest tip de fişier nu este acceptat.';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'EROARE: Calea specificată nu există. Verificaţi configuraţia proiectului.';
+'exception_generic' = 'EROARE: A apărut o eroare în timpul aceste acţiuni. Semnalaţi acest lucru administratorului.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'ERROR: Acest fişier există deja. Ştergeţi vechiul fişier.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'ERROR: Există deja un proiect cu acest nume.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Un câmp necesar "%1$s" a fost vid. Reverificaţi datele de intrare.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'ERROR: Acest cont este protejat şi nu poate fi accesat până când protecţia nu este ridicată.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'ERROR: Acces interzis.';
@@ -929,7 +923,6 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = 'EROARE: Actualizarea înregistrării 
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Înregistrarea utilizatorului LDAP nu este găsită.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'EROARE: Conexiunea la baza de date a eşuat.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'EROARE: Interogarea bazei de date a eşuat.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'EROARE: Selectarea bazei de date a eşuat.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'EROARE: Această categorie există deja.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'EROARE: Nu a fost specificată o acţiune de copiere.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'EROARE: Categoria nu este găsită.';
@@ -959,6 +952,5 @@ $MANTIS_ERROR[ERROR_LOST_PASSWORD_MAX_IN_PROGRESS_ATTEMPTS_REACHED] = 'Numărul 
 $MANTIS_ERROR[ERROR_PROJECT_RECURSIVE_HIERARCHY] = 'Acea operaţie ar crea o buclă în ierarhia subproiectelor.';
 $MANTIS_ERROR[ERROR_USER_CHANGE_LAST_ADMIN] = 'Nu puteţi schimba nivelul de acces al unicului ADMINISTRATOR din sistem.';
 $MANTIS_ERROR[ERROR_PAGE_REDIRECTION] = 'Eroare de redirectare a paginii, asiguraţi-vă că nu sunt spaţii în afara blocului PHP (&lt;?php ?&gt;) în fişierele config_inc.php sau custom_*.php.';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'Această pagină nu poate fi accesată folosind această metodă.';
 $MANTIS_ERROR[ERROR_INVALID_DATE_FORMAT] = 'Format de dată incorect.';
 $MANTIS_ERROR[ERROR_UPDATING_TIMEZONE] = 'Imposibil de reactualizat fusul orar.';

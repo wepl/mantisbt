@@ -102,7 +102,7 @@ function bugnote_exists( $p_bugnote_id ) {
  */
 function bugnote_ensure_exists( $p_bugnote_id ) {
 	if( !bugnote_exists( $p_bugnote_id ) ) {
-		trigger_error( ERROR_BUGNOTE_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\BugNote_Not_Found();
 	}
 }
 
@@ -153,7 +153,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 	if( ON == $t_time_tracking_enabled && $c_time_tracking > 0 ) {
 		if( is_blank( $p_bugnote_text ) && OFF == $t_time_tracking_without_note ) {
 			error_parameters( lang_get( 'bugnote' ) );
-			trigger_error( ERROR_EMPTY_FIELD, ERROR );
+			throw new MantisBT\Exception\Empty_Field();
 		}
 		$c_type = TIME_TRACKING;
 	} else if( is_blank( $p_bugnote_text ) ) {
@@ -302,8 +302,7 @@ function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
 	}
 
 	if( !array_key_exists( $p_field_name, $t_vars ) ) {
-		error_parameters($p_field_name);
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 	}
 
 	$query = "SELECT $p_field_name FROM {bugnote} WHERE id=%d";
@@ -613,7 +612,7 @@ function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost
 
 	if ( $c_to === false || $c_from === false ) {
 		error_parameters( array( $p_form, $p_to ) );
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 	}
 
 	if( !is_blank( $c_from ) ) {

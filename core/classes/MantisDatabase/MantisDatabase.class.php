@@ -351,7 +351,7 @@ abstract class MantisDatabase {
 	public function legacy_timestamp( $p_date ) {
 		$p_timestamp = strtotime( $p_date );
 		if ( $p_timestamp == false ) {
-			trigger_error( ERROR_GENERIC, ERROR );
+			throw new MantisBT\Exception\Generic();
 		}
 		return $p_timestamp;
 	}

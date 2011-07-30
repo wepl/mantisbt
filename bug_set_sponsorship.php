@@ -74,7 +74,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 }
 
 if ( config_get( 'enable_sponsorship' ) == OFF ) {
-	trigger_error( ERROR_SPONSORSHIP_NOT_ENABLED, ERROR );
+	throw new MantisBT\Exception\Sponsorship_Not_Enabled();
 }
 
 access_ensure_bug_level( config_get( 'sponsor_threshold' ), $f_bug_id );
@@ -93,7 +93,7 @@ if ( $f_amount == 0 ) {
 	# add sponsorship
 	$t_user = auth_get_current_user_id();
 	if ( is_blank( user_get_email( $t_user ) ) ) {
-		trigger_error( ERROR_SPONSORSHIP_SPONSOR_NO_EMAIL, ERROR );
+		throw new MantisBT\Exception\Sponsorship_Sponsor_No_Email();
 	} else {
 		$sponsorship = new SponsorshipData;
 		$sponsorship->bug_id = $f_bug_id;

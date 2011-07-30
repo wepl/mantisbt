@@ -63,7 +63,7 @@ if ( $f_copy_from ) {
 	$t_src_project_id = $f_project_id;
 	$t_dst_project_id = $f_other_project_id;
 } else {
-	trigger_error( ERROR_CATEGORY_NO_ACTION, ERROR );
+	throw new MantisBT\Exception\Category_No_Action();
 }
 
 project_copy_custom_fields( $t_dst_project_id, $t_src_project_id );

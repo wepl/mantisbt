@@ -73,7 +73,7 @@ $f_enabled         = gpc_get_bool( 'enabled' );
 # check for empty username
 $f_username = trim( $f_username );
 if ( is_blank( $f_username ) ) {
-	trigger_error( ERROR_EMPTY_FIELD, ERROR );
+	throw new MantisBT\Exception\Empty_Field();
 }
 
 # Check the name for validity here so we do it before promting to use a
@@ -85,7 +85,7 @@ user_ensure_name_valid( $f_username );
 user_ensure_realname_unique( $f_username, $f_realname );
 
 if ( $f_password != $f_password_verify ) {
-	trigger_error( ERROR_USER_CREATE_PASSWORD_MISMATCH, ERROR );
+	throw new MantisBT\Exception\User_Create_Password_Mismatch();
 }
 
 $f_email = email_append_domain( $f_email );

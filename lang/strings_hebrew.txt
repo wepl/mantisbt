@@ -1030,14 +1030,8 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'אירעה תקלה בפעולה זו. מומלץ להודיע למנהל המערכת.';
-$MANTIS_ERROR[ERROR_SQL] = 'התגלתה שגיאה בשאילתת ה־SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'נמצאה שגיאה בדו"ח שלך.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'לא צוין קובץ';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'סוג הקובץ אסור';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'המחיצה אינה קיימת - יש לבדוק את הגדרות הפרויקט.';
+'exception_generic' = 'אירעה תקלה בפעולה זו. מומלץ להודיע למנהל המערכת.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'קובץ זה כבר קיים. יש למחוק את הקובץ הקודם.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'קיים פרויקט בשם זה.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'שדה חובה \'%1$s\' הושאר ריק.  עליך לבדוק את הנתונים שקלטת.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'חשבון זה מוגן. אין אפשרות לגשת לחשבון זה אלא לאחר הסרת ההגנה.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'גישה חסומה.';
@@ -1088,7 +1082,6 @@ $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'רשומת LDAP למשתמש לא נ
 $MANTIS_ERROR[ERROR_LDAP_EXTENSION_NOT_LOADED] = 'הרחבת LDAP לא נטענה.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'קישור למסד הנתונים נכשל. התקבלה שגיאה ממסד הנתונים: #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'שאילתת מסד נתונים נכשלה. התקבלה שגיאה ממסד הנתונים: #%1$d: %2$s עבור השאילתה: %3$s.';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'בחירת מסד נתונים נכשלה. התקבלה שגיאה ממסד הנתונים: #%1$d: %2$s.';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'קטגוריה בשם הזה כבר קיימת.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'פעולת העתקה לא הוגדרה.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'קטגוריה לא נמצאה.';
@@ -1096,7 +1089,6 @@ $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND_FOR_PROJECT] = 'קטגוריה "%1$s" ל�
 $MANTIS_ERROR[ERROR_VERSION_DUPLICATE] = 'כבר קיימת גרסה בשם הזה.';
 $MANTIS_ERROR[ERROR_VERSION_NOT_FOUND] = 'גרסה "%1$s" לא נמצאה.';
 $MANTIS_ERROR[ERROR_USER_NAME_INVALID] = 'שם המשתמש אינו תקין. שמות משתמש יכולים להכיל רק אותיות, מספרים, רווחים, קווים מפרידים וקווים תחתיים.';
-$MANTIS_ERROR[ERROR_USER_REAL_NAME_INVALID] = 'השם האמתי של המשתמש אינו תקין.';
 $MANTIS_ERROR[ERROR_USER_DOES_NOT_HAVE_REQ_ACCESS] = 'למשתמש אין רמת גישה נדרשת.';
 $MANTIS_ERROR[ERROR_USER_REAL_MATCH_USER] = '"שם אמתי" שנבחר תואם לשם החשבון של משתמש אחר. נא לבחור שם אחר.';
 $MANTIS_ERROR[ERROR_SPONSORSHIP_NOT_ENABLED] = 'תמיכה בחסות לא מופעלת.';
@@ -1139,5 +1131,4 @@ $MANTIS_ERROR[ERROR_SESSION_HANDLER_INVALID] = 'מזהה שיח לא תקין.';
 $MANTIS_ERROR[ERROR_SESSION_VAR_NOT_FOUND] = 'משנתה שיח "%1$s" לא נמצא.';
 $MANTIS_ERROR[ERROR_SESSION_NOT_VALID] = 'השיח שלך איבד את תקינותו.';
 $MANTIS_ERROR[ERROR_FORM_TOKEN_INVALID] = 'אסימון שליחת טופס לא תקין. האם שלחת את הטופס פעמיים בטעות?';
-$MANTIS_ERROR[ERROR_INVALID_REQUEST_METHOD] = 'לא ניתן לגשת לדף הזה בשיטה הזאת.';
 $MANTIS_ERROR[ERROR_INVALID_SORT_FIELD] = 'שדה מיון לא תקין.';

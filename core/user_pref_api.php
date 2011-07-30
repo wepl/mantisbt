@@ -189,7 +189,7 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 	
 	if( !$row ) {
 		if( $p_trigger_errors ) {
-			trigger_error( ERROR_USER_PREFS_NOT_FOUND, ERROR );
+			throw new MantisBT\Exception\User_Prefs_Not_Found();
 		} else {
 			$g_cache_user_pref[(int)$p_user_id][(int)$p_project_id] = false;
 			return false;
@@ -505,8 +505,7 @@ function user_pref_get_pref( $p_user_id, $p_pref_name, $p_project_id = ALL_PROJE
 	if( in_array( $p_pref_name, array_keys( $t_vars ), true ) ) {
 		return $t_prefs->Get( $p_pref_name );
 	} else {
-		error_parameters( $p_pref_name );
-		trigger_error( ERROR_DB_FIELD_NOT_FOUND, WARNING );
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_pref_name );
 		return '';
 	}
 }

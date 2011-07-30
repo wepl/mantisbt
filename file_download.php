@@ -70,7 +70,7 @@ if ( $f_show_inline ) {
 	# makes the assumption that they've been sent already).
 	if ( !@form_security_validate( 'file_show_inline' ) ) {
 		http_all_headers();
-		trigger_error( ERROR_FORM_TOKEN_INVALID, ERROR );
+		throw new MantisBT\Exception\Form_Token_Invalid();
 	}
 }
 

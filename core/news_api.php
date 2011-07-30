@@ -54,12 +54,12 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 
 	if( is_blank( $p_headline ) ) {
 		error_parameters( lang_get( 'headline' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	if( is_blank( $p_body ) ) {
 		error_parameters( lang_get( 'body' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# Add item
@@ -109,12 +109,12 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 
 	if( is_blank( $p_headline ) ) {
 		error_parameters( lang_get( 'headline' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	if( is_blank( $p_body ) ) {
 		error_parameters( lang_get( 'body' ) );
-		trigger_error( ERROR_EMPTY_FIELD, ERROR );
+		throw new MantisBT\Exception\Empty_Field();
 	}
 
 	# Update entry
@@ -143,7 +143,7 @@ function news_get_row( $p_news_id ) {
 	$row = db_fetch_array( $result );
 	
 	if( !$row ) {
-		trigger_error( ERROR_NEWS_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\News_Not_Found();
 	} else {
 		return $row;
 	}

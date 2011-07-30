@@ -135,8 +135,7 @@ function form_security_validate( $p_form_name ) {
 
 	# Short-circuit if we don't have any tokens for the given form name
 	if( !isset( $t_tokens[$p_form_name] ) || !is_array( $t_tokens[$p_form_name] ) || count( $t_tokens[$p_form_name] ) < 1 ) {
-
-		trigger_error( ERROR_FORM_TOKEN_INVALID, ERROR );
+		throw new MantisBT\Exception\Form_Token_Invalid();
 		return false;
 	}
 
@@ -146,7 +145,7 @@ function form_security_validate( $p_form_name ) {
 
 	# No form input
 	if( '' == $t_input ) {
-		trigger_error( ERROR_FORM_TOKEN_INVALID, ERROR );
+		throw new MantisBT\Exception\Form_Token_Invalid();
 		return false;
 	}
 
@@ -159,7 +158,7 @@ function form_security_validate( $p_form_name ) {
 	}
 
 	# Token does not exist
-	trigger_error( ERROR_FORM_TOKEN_INVALID, ERROR );
+	throw new MantisBT\Exception\Form_Token_Invalid();
 	return false;
 }
 

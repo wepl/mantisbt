@@ -221,7 +221,7 @@ switch ( $f_action )  {
 		break;
 
 	default:
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\Generic();
 }
 
 bug_group_action_print_top();

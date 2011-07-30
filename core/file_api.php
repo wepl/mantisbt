@@ -429,7 +429,7 @@ function file_ftp_connect() {
 	$login_result = ftp_login( $conn_id, config_get( 'file_upload_ftp_user' ), config_get( 'file_upload_ftp_pass' ) );
 
 	if(( !$conn_id ) || ( !$login_result ) ) {
-		trigger_error( ERROR_FTP_CONNECT_ERROR, ERROR );
+		throw new MantisBT\Exception\FTP_Connect_Error();
 	}
 
 	return $conn_id;
@@ -621,11 +621,11 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	$c_date_added = $p_date_added <= 0 ? db_now() : db_prepare_int( $p_date_added );
 
 	if( !file_type_check( $t_file_name ) ) {
-		trigger_error( ERROR_FILE_NOT_ALLOWED, ERROR );
+		throw new MantisBT\Exception\File_Not_Allowed();
 	}
 
 	if( !file_is_name_unique( $t_file_name, $p_bug_id ) ) {
-		trigger_error( ERROR_DUPLICATE_FILE, ERROR );
+		throw new MantisBT\Exception\Duplicate_File();
 	}
 
 	if( 'bug' == $p_table ) {
@@ -667,11 +667,11 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 
 	$t_file_size = filesize( $t_tmp_file );
 	if( 0 == $t_file_size ) {
-		trigger_error( ERROR_FILE_NO_UPLOAD_FAILURE, ERROR );
+		throw new MantisBT\Exception\No_Upload_Failure();
 	}
 	$t_max_file_size = (int) min( ini_get_number( 'upload_max_filesize' ), ini_get_number( 'post_max_size' ), config_get( 'max_file_size' ) );
 	if( $t_file_size > $t_max_file_size ) {
-		trigger_error( ERROR_FILE_TOO_BIG, ERROR );
+		throw new MantisBT\Exception\File_Too_Big();
 	}
 	$c_file_size = db_prepare_int( $t_file_size );
 
@@ -690,21 +690,21 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 				}
 
 				if( !move_uploaded_file( $t_tmp_file, $t_disk_file_name ) ) {
-					trigger_error( ERROR_FILE_MOVE_FAILED, ERROR );
+					throw new MantisBT\Exception\File_Move_Failed();
 				}
 
 				chmod( $t_disk_file_name, config_get( 'attachments_file_permissions' ) );
 
 				$c_content = "''";
 			} else {
-				trigger_error( ERROR_FILE_DUPLICATE, ERROR );
+				throw new MantisBT\Exception\File_Duplicate();
 			}
 			break;
 		case DATABASE:
 			$c_content = db_prepare_binary_string( fread( fopen( $t_tmp_file, 'rb' ), $t_file_size ) );
 			break;
 		default:
-			trigger_error( ERROR_GENERIC, ERROR );
+			throw new MantisBT\Exception\Generic();
 	}
 
 	$t_file_table = db_get_table( $p_table . '_file' );
@@ -800,7 +800,7 @@ function file_allow_bug_upload( $p_bug_id = null, $p_user_id = null ) {
 # checks whether the specified upload path exists and is writable
 function file_ensure_valid_upload_path( $p_upload_path ) {
 	if( !file_exists( $p_upload_path ) || !is_dir( $p_upload_path ) || !is_writable( $p_upload_path ) || !is_readable( $p_upload_path ) ) {
-		trigger_error( ERROR_FILE_INVALID_UPLOAD_PATH, ERROR );
+		throw new MantisBT\Exception\File_Invalid_Upload_Path();
 	}
 }
 
@@ -816,21 +816,21 @@ function file_ensure_uploaded( $p_file ) {
 	switch( $p_file['error'] ) {
 		case UPLOAD_ERR_INI_SIZE:
 		case UPLOAD_ERR_FORM_SIZE:
-			trigger_error( ERROR_FILE_TOO_BIG, ERROR );
+			throw new MantisBT\Exception\File_Too_Big();
 			break;
 		case UPLOAD_ERR_PARTIAL:
 		case UPLOAD_ERR_NO_FILE:
-			trigger_error( ERROR_FILE_NO_UPLOAD_FAILURE, ERROR );
+			throw new MantisBT\Exception\No_Upload_Failure();
 			break;
 		default:
 			break;
 	}
 
 	if(( '' == $p_file['tmp_name'] ) || ( '' == $p_file['name'] ) ) {
-		trigger_error( ERROR_FILE_NO_UPLOAD_FAILURE, ERROR );
+		throw new MantisBT\Exception\No_Upload_Failure();
 	}
 	if( !is_readable( $p_file['tmp_name'] ) ) {
-		trigger_error( ERROR_UPLOAD_FAILURE, ERROR );
+		throw new MantisBT\Exception\Upload_Failure();
 	}
 }
 
@@ -981,14 +981,14 @@ function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 			chmod( $t_disk_file_name_from, 0775 );
 			if ( !rename( $t_disk_file_name_from, $t_disk_file_name_to ) ) {
 				if ( !copy( $t_disk_file_name_from, $t_disk_file_name_to ) ) {
-					trigger_error( FILE_MOVE_FAILED, ERROR );
+					throw new MantisBT\Exception\File_Move_Failed();
 				}
 				file_delete_local( $t_disk_file_name_from );
 			}
 			chmod( $t_disk_file_name_to, config_get( 'attachments_file_permissions' ) );
 			db_query_bound( $query_disk_attachment_update, array( db_prepare_string( $t_path_to ), $c_bug_id, db_prepare_int( $t_row['id'] ) ) );
 		} else {
-			trigger_error( ERROR_FILE_DUPLICATE, ERROR );
+			throw new MantisBT\Exception\File_Duplicate();
 		}
 	}
 }

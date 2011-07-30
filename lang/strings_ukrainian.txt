@@ -705,14 +705,8 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'В процесі виконання виникла помилка.  Повідомте про неї локального адміністратора.';
-$MANTIS_ERROR[ERROR_SQL] = 'Виникла помилка SQL.';
-$MANTIS_ERROR[ERROR_REPORT] = 'Десь у вашому звіті є помилка.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Не вказаний файл';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Недозволений тип файлів';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Папка не існує. Перевірте параметри проекту.';
+'exception_generic' = 'В процесі виконання виникла помилка.  Повідомте про неї локального адміністратора.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Це дублікат файлу. Спочатку видаліть попередній файл.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Проект з такою назвою вже існує.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Не заповнене обов\'язкове поле \'%1$s\'.  Перевірте заповнені поля.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Цей запис захищений.  Ви не зможете переглядати його доки ввімкнений захист.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Доступ заборонений.';
@@ -754,7 +748,6 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = 'Не вдалось оновити р
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Не вдалось знайти користувача в LDAP-базі.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Помилка з\'єднання з базою даних. Отримана відповідь #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Помилка в запиті до бази даних. Відповідь містила #%1$d: %2$s на запит: %3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Помилка виборки з бази даних.  Отримана відповідь #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Така категорія вже існує.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Не ваказана операція копіювання.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Не вдалось знайти таку категорію.';

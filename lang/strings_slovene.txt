@@ -600,14 +600,8 @@ $s_messages = array(
 );
 
 
-$MANTIS_ERROR[ERROR_GENERIC] = 'Med potekom operacije je prišlo do napake. Napako lahko prijavite vašemu lokalnemu operaterju.';
-$MANTIS_ERROR[ERROR_SQL] = 'Odkrita je bila SQL napaka.';
-$MANTIS_ERROR[ERROR_REPORT] = 'V vašem poročilu je bila napaka.';
-$MANTIS_ERROR[ERROR_NO_FILE_SPECIFIED] = 'Nobena datoteka ni bila določena';
-$MANTIS_ERROR[ERROR_FILE_DISALLOWED] = 'Vrsta datoteke ni odobrena';
-$MANTIS_ERROR[ERROR_NO_DIRECTORY] = 'Direktorij ne obstaja. Preverite nastavitve projekta.';
+'exception_generic' = 'Med potekom operacije je prišlo do napake. Napako lahko prijavite vašemu lokalnemu operaterju.';
 $MANTIS_ERROR[ERROR_DUPLICATE_FILE] = 'Datoteka je dvojnik.  Najprej izbrišite datoteko.';
-$MANTIS_ERROR[ERROR_DUPLICATE_PROJECT] = 'Projekt s tem imenom že obstaja.';
 $MANTIS_ERROR[ERROR_EMPTY_FIELD] = 'Polje \'%1$s\' je  bilo prazno.  Ponovno preverite vnose.';
 $MANTIS_ERROR[ERROR_PROTECTED_ACCOUNT] = 'Uporabniški račun je zaščiten. Dostop je onemogočen, dokler se zaščita računa ne odpravi.';
 $MANTIS_ERROR[ERROR_ACCESS_DENIED] = 'Dostop zavrnjen.';
@@ -645,7 +639,6 @@ $MANTIS_ERROR[ERROR_LDAP_UPDATE_FAILED] = 'Posodobitev LDAP zapisa je bila neusp
 $MANTIS_ERROR[ERROR_LDAP_USER_NOT_FOUND] = 'Zapis uporabnika LDAP ni bil najden.';
 $MANTIS_ERROR[ERROR_DB_CONNECT_FAILED] = 'Povezava s podatkovno bazo je spodletela. Napaka iz podatkovne baze #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_DB_QUERY_FAILED] = 'Poizvedba v podatkovni bazi je spodletela. Napaka iz podatkovne baze #%1$d: %2$s za poizvedbo: %3$s';
-$MANTIS_ERROR[ERROR_DB_SELECT_FAILED] = 'Izbira podatkovne baze je spodletela.  Napaka iz podatkovne baze #%1$d: %2$s';
 $MANTIS_ERROR[ERROR_CATEGORY_DUPLICATE] = 'Kategorija s tem imenom že obstaja.';
 $MANTIS_ERROR[ERROR_CATEGORY_NO_ACTION] = 'Operacija kopiranja ni bila specificirana.';
 $MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Kategorija ni bila najdena.';

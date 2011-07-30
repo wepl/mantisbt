@@ -434,7 +434,7 @@ if ( !is_blank( $t_view_all_cookie ) ) {
 		if ( !in_array( $f_type, array( 0, 1, 3 ) ) ) {
 			gpc_clear_cookie( 'view_all_cookie' );
 			error_proceed_url( 'view_all_set.php?type=0' );
-			trigger_error( ERROR_FILTER_TOO_OLD, ERROR );
+			throw new MantisBT\Exception\Filter_Too_Old();
 			exit; # stop here
 		}
 	}
@@ -523,7 +523,7 @@ switch ( $f_type ) {
 				# couldn't deserialize, if we were trying to use the filter, clear it and reload
 				gpc_clear_cookie( 'view_all_cookie' );
 				error_proceed_url( 'view_all_set.php?type=0' );
-				trigger_error( ERROR_FILTER_TOO_OLD, ERROR );
+				throw new MantisBT\Exception\Filter_Too_Old();
 				exit; # stop here
 			}
 			# Store the source query id to select the correct filter in the drop down.

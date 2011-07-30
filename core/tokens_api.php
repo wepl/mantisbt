@@ -63,7 +63,7 @@ function token_exists( $p_token_id ) {
  */
 function token_ensure_exists( $p_token_id ) {
 	if( !token_exists( $p_token_id ) ) {
-		trigger_error( ERROR_TOKEN_NOT_FOUND, ERROR );
+		throw new MantisBT\Exception\Token_Not_Found();
 	}
 
 	return true;

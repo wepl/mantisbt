@@ -53,7 +53,7 @@ require_api( 'print_api.php' );
 require_api( 'sponsorship_api.php' );
 
 if ( !config_get( 'enable_sponsorship' ) ) {
-	trigger_error( ERROR_SPONSORSHIP_NOT_ENABLED, ERROR );
+	throw new MantisBT\Exception\Sponsorship_Not_Enabled();
 }
 
 form_security_validate( 'account_sponsor_update' );

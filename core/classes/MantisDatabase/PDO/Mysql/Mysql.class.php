@@ -81,7 +81,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 		try {
 			$t_result = $this->execute( $sql, array( $p_name ) );
 		} catch (PDOException $ex) {
-			throw new MantisDatabaseException(ERROR_DB_QUERY_FAILED, $ex->getMessage());
+			throw new MantisBT\Exception\DatabaseException(ERROR_DB_QUERY_FAILED, $ex->getMessage());
 			return false;
 		}
 		if ($t_result) {
