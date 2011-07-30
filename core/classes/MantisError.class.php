@@ -33,6 +33,8 @@ class MantisError
 	private static $_parameters = array();
 	
 	private static $_proceed_url = null;
+	
+	private static $_fatal = false;
 									
 	public static function init(){
 		if( self::$_handled === false ) {
@@ -118,7 +120,7 @@ class MantisError
 		
 		if( isset($t_last['type']) && ( $t_last['type'] == E_PARSE ) ) {
 			// FATAL error state - we'll try and get through this as quickly as possible
-			$t_fatal = true;
+			self::$_fatal = true;
 		}
 
 		
@@ -139,7 +141,7 @@ class MantisError
 		echo '<hr />';
 
 		echo '<div align="center">';
-		if ( !$t_fatal ) {
+		if ( !self::$_fatal ) {
 			try {
 				echo lang_get( 'error_no_proceed' );
 			} catch (Exception $e) {
@@ -172,7 +174,11 @@ class MantisError
 	public static function display_error( $p_error) {
 		echo '<br /><div><table class="width70" cellspacing="1">';
 		echo '<tr><td class="form-title">' . $p_error->name . '</td></tr>';
-		echo '<tr><td><p class="center" style="color:red">' . nl2br( lang_get_defaulted( $p_error->message ) ) . '</p></td></tr>';
+		if ( !self::$_fatal ) {
+			echo '<tr><td><p class="center" style="color:red">' . nl2br( lang_get_defaulted( $p_error->message ) ) . '</p></td></tr>';
+		} else {
+			echo '<tr><td><p class="center" style="color:red">' . nl2br( $p_error->message ) . '</p></td></tr>';
+		}
 		echo '<tr><td>';
 		self::error_print_details( basename( $p_error->file ), $p_error->line, $p_error->context );
 		echo '</td></tr>';
