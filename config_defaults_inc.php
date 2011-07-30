@@ -1641,7 +1641,7 @@ $g_html_make_links = ON;
  * do NOT include tags that require attributes
  * @global string $g_html_valid_tags
  */
-$g_html_valid_tags = 'p, li, ul, ol, br, pre, i, b, u, em';
+$g_html_valid_tags = 'p, li, ul, ol, br, pre, i, b, u, em, strong';
 
 /**
  * These are the valid html tags for single line fields (e.g. issue summary).
