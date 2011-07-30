@@ -148,7 +148,6 @@ function category_exists( $p_category_id ) {
  */
  function category_update( $p_category_id, $p_name, $p_assigned_to ) {
 	if( is_blank( $p_name ) ) {
-		error_parameters(  );
 		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
 	}
 

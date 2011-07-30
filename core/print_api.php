@@ -95,7 +95,7 @@ require_api( 'version_api.php' );
 # @param boolean apply string_sanitize_url to passed url
 # @return boolean
 function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_absolute = false ) {
-	if( error_handled() ) {
+	if( MantisError::error_handled() ) {
 		return false;
 	}
 
