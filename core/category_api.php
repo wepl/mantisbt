@@ -91,10 +91,8 @@ function category_exists( $p_category_id ) {
  * @access public
  */
  function category_is_unique( $p_project_id, $p_name ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-
 	$query = "SELECT COUNT(*) FROM {category} WHERE project_id=%d AND " . db_helper_like( 'name' );
-	$count = db_result( db_query_bound( $query, array( $c_project_id, $p_name ) ) );
+	$count = db_result( db_query_bound( $query, array( $p_project_id, $p_name ) ) );
 
 	if( 0 < $count ) {
 		return false;
@@ -157,16 +155,13 @@ function category_exists( $p_category_id ) {
 
 	$t_old_category = category_get_row( $p_category_id );
 
-	$c_category_id = db_prepare_int( $p_category_id );
-	$c_assigned_to = db_prepare_int( $p_assigned_to );
-
 	$query = 'UPDATE {category} SET name=%s, user_id=%d WHERE id=%d';
-	db_query_bound( $query, array( $p_name, $c_assigned_to, $c_category_id ) );
+	db_query_bound( $query, array( $p_name, $p_assigned_to, $p_category_id ) );
 
 	# Add bug history entries if we update the category's name
 	if( $t_old_category['name'] != $p_name ) {
 		$query = "SELECT id FROM {bug} WHERE category_id=%d";
-		$t_result = db_query_bound( $query, array( $c_category_id ) );
+		$t_result = db_query_bound( $query, array( $p_category_id ) );
 
 		while( $t_bug_row = db_fetch_array( $t_result ) ) {
 			history_log_event_direct( $t_bug_row['id'], 'category', $t_old_category['name'], $p_name );

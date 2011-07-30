@@ -1368,11 +1368,9 @@ function bug_get_bugnote_stats( $p_bug_id ) {
  * @uses file_api.php
  */
 function bug_get_attachments( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
-
 	$query = "SELECT id, title, diskfile, filename, filesize, file_type, date_added, user_id
 				FROM {bug_file} WHERE bug_id=%d ORDER BY date_added";
-	$db_result = db_query_bound( $query, array( $c_bug_id ) );
+	$db_result = db_query_bound( $query, array( $p_bug_id ) );
 
 	$t_result = array();
 
@@ -1491,10 +1489,7 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
  * @uses database_api.php
  */
 function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_private = false ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
-	$c_user_id = db_prepare_int( $p_user_id );
-
-	if(( $c_user_id != NO_USER ) && !access_has_bug_level( config_get( 'handle_bug_threshold' ), $p_bug_id, $p_user_id ) ) {
+	if(( $p_user_id != NO_USER ) && !access_has_bug_level( config_get( 'handle_bug_threshold' ), $p_bug_id, $p_user_id ) ) {
 		throw new MantisBT\Exception\User_Does_Not_Have_Req_Access();
 	}
 
@@ -1509,10 +1504,9 @@ function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_pri
 	}
 
 	if(( $t_ass_val != $h_status ) || ( $p_user_id != $h_handler_id ) ) {
-
 		# get user id
 		$query = "UPDATE {bug} SET handler_id=%d, status=%d WHERE id=%d";
-		db_query_bound( $query, array( $c_user_id, $t_ass_val, $c_bug_id ) );
+		db_query_bound( $query, array( $p_user_id, $t_ass_val, $p_bug_id ) );
 
 		# log changes
 		history_log_event_direct( $c_bug_id, 'status', $h_status, $t_ass_val );

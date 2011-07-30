@@ -328,7 +328,7 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 		$c_value = (float) $p_value;
 	} else if( is_int( $p_value ) || is_numeric( $p_value ) ) {
 		$t_type = CONFIG_TYPE_INT;
-		$c_value = db_prepare_int( $p_value );
+		$c_value = (int) $p_value;
 	} else {
 		$t_type = CONFIG_TYPE_STRING;
 		$c_value = $p_value;
@@ -452,11 +452,9 @@ function config_delete( $p_option, $p_user = ALL_USERS, $p_project = ALL_PROJECT
 		# @@ debug @@ echo "lu table=" . ( db_table_exists( $t_config_table ) ? "yes" : "no" );
 		# @@ debug @@ error_print_stack_trace();
 
-		$c_user = db_prepare_int( $p_user );
-		$c_project = db_prepare_int( $p_project );
 		$query = "DELETE FROM {config} WHERE config_id = %d AND project_id=%d AND user_id=%d";
 
-		$result = @db_query_bound( $query, array( $p_option, $c_project, $c_user ) );
+		$result = @db_query_bound( $query, array( $p_option, $p_project, $p_user ) );
 	}
 
 	config_flush_cache( $p_option, $p_user, $p_project );
@@ -472,27 +470,22 @@ function config_delete_for_user( $p_option, $p_user_id ) {
 		return;
 	}
 
-	$c_user_id = db_prepare_int( $p_user_id );
-
 	# Delete the corresponding bugnote texts
 	$query = 'DELETE FROM {config} WHERE config_id=%d AND user_id=%d';
-	db_query_bound( $query, array( $p_option, $c_user_id ) );
+	db_query_bound( $query, array( $p_option, $p_user_id ) );
 }
 
-# ------------------
 # delete the config entry
 function config_delete_project( $p_project = ALL_PROJECTS ) {
 	global $g_cache_config, $g_cache_config_access;
-	$c_project = db_prepare_int( $p_project );
-	$query = 'DELETE FROM {config} WHERE project_id=%d';
 
-	$result = @db_query_bound( $query, array( $c_project ) );
+	$query = 'DELETE FROM {config} WHERE project_id=%d';
+	$result = @db_query_bound( $query, array( $p_project ) );
 
 	# flush cache here in case some of the deleted configs are in use.
 	config_flush_cache();
 }
 
-# ------------------
 # delete the config entry from the cache
 # @@@ to be used sparingly
 function config_flush_cache( $p_option = '', $p_user = ALL_USERS, $p_project = ALL_PROJECTS ) {

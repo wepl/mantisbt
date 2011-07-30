@@ -82,15 +82,12 @@ function history_log_event_direct( $p_bug_id, $p_field_name, $p_old_value, $p_ne
 		$c_field_name = $p_field_name;
 		$c_old_value = ( is_null( $p_old_value ) ? '' : $p_old_value );
 		$c_new_value = ( is_null( $p_new_value ) ? '' : $p_new_value );
-		$c_bug_id = db_prepare_int( $p_bug_id );
-		$c_user_id = db_prepare_int( $p_user_id );
-		$c_type = db_prepare_int( $p_type );
 
 		$query = "INSERT INTO {bug_history}
 						( user_id, bug_id, date_modified, field_name, old_value, new_value, type )
 					VALUES
 						( %d, %d, %d, %s, %s, %s, %d )";
-		$result = db_query_bound( $query, array( $c_user_id, $c_bug_id, db_now(), $c_field_name, $c_old_value, $c_new_value, $c_type ) );
+		$result = db_query_bound( $query, array( $p_user_id, $p_bug_id, db_now(), $c_field_name, $c_old_value, $c_new_value, $p_type ) );
 	}
 }
 

@@ -176,7 +176,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 	if( $p_user_id === null ) {
 		$c_user_id = auth_get_current_user_id();
 	} else {
-		$c_user_id = db_prepare_int( $p_user_id );
+		$c_user_id = $p_user_id;
 	}
 
 	# Check for private bugnotes.
@@ -318,10 +318,8 @@ function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
  * @access public
  */
 function bugnote_get_latest_id( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
-
 	$query = "SELECT id FROM {bugnote} WHERE bug_id=%d ORDER by last_modified DESC";
-	$result = db_query_bound( $query, array( $c_bug_id ), 1 );
+	$result = db_query_bound( $query, array( $p_bug_id ), 1 );
 
 	return (int)db_result( $result );
 }
@@ -449,11 +447,10 @@ function bugnote_get_all_bugnotes( $p_bug_id ) {
  * @access public
  */
 function bugnote_set_time_tracking( $p_bugnote_id, $p_time_tracking ) {
-	$c_bugnote_id = db_prepare_int( $p_bugnote_id );
 	$c_bugnote_time_tracking = helper_duration_to_minutes( $p_time_tracking );
 
 	$query = "UPDATE {bugnote} SET time_tracking=%d WHERE id=%d";
-	db_query_bound( $query, array( $c_bugnote_time_tracking, $c_bugnote_id ) );
+	db_query_bound( $query, array( $c_bugnote_time_tracking, $p_bugnote_id ) );
 
 	# db_query errors if there was a problem so:
 	return true;
@@ -466,10 +463,8 @@ function bugnote_set_time_tracking( $p_bugnote_id, $p_time_tracking ) {
  * @access public
  */
 function bugnote_date_update( $p_bugnote_id ) {
-	$c_bugnote_id = db_prepare_int( $p_bugnote_id );
-
 	$query = "UPDATE {bugnote} SET last_modified=%d WHERE id=%d";
-	db_query_bound( $query, array( db_now(), $c_bugnote_id ) );
+	db_query_bound( $query, array( db_now(), $p_bugnote_id ) );
 
 	# db_query errors if there was a problem so:
 	return true;

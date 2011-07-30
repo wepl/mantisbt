@@ -992,11 +992,8 @@ function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
  * return a profile row
  */
 function user_get_profile_row( $p_user_id, $p_profile_id ) {
-	$c_user_id = db_prepare_int( $p_user_id );
-	$c_profile_id = db_prepare_int( $p_profile_id );
-
 	$query = "SELECT * FROM {user_profile} WHERE id=%d AND user_id=%d";
-	$result = db_query_bound( $query, array( $c_profile_id, $c_user_id ) );
+	$result = db_query_bound( $query, array( $p_profile_id, $p_user_id ) );
 
 	$row = db_fetch_array( $result );
 	if( !$row ) {

@@ -102,9 +102,6 @@ function news_delete_all( $p_project_id ) {
 
 # Update news item
 function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
-	$c_news_id = db_prepare_int( $p_news_id );
-	$c_project_id = db_prepare_int( $p_project_id );
-	$c_view_state = db_prepare_int( $p_view_state );
 	$c_announcement = db_prepare_bool( $p_announcement );
 
 	if( is_blank( $p_headline ) ) {
@@ -127,7 +124,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 					last_modified=%d
 				  WHERE id=%d";
 
-	db_query_bound( $query, array( $c_view_state, $c_announcement, $p_headline, $p_body, $c_project_id, db_now(), $c_news_id ) );
+	db_query_bound( $query, array( $p_view_state, $c_announcement, $p_headline, $p_body, $p_project_id, db_now(), $p_news_id ) );
 
 	# db_query errors on failure so:
 	return true;

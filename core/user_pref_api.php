@@ -333,8 +333,6 @@ function user_pref_insert( $p_user_id, $p_project_id, $p_prefs ) {
  */
 function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	static $t_vars;
-	$c_user_id = db_prepare_int( $p_user_id );
-	$c_project_id = db_prepare_int( $p_project_id );
 
 	user_ensure_unprotected( $p_user_id );
 
@@ -351,8 +349,8 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	}
 
 	$t_pairs_string = implode( ', ', $t_pairs );
-	$t_values[] = $c_user_id;
-	$t_values[] = $c_project_id;
+	$t_values[] = $p_user_id;
+	$t_values[] = $p_project_id;
 
 	$query = 'UPDATE {user_pref} SET $t_pairs_string WHERE user_id=%d AND project_id=%d';
 	db_query_bound( $query, $t_values );

@@ -188,13 +188,13 @@ function relationship_get_complementary_type( $p_relationship_type ) {
 function relationship_add( $p_src_bug_id, $p_dest_bug_id, $p_relationship_type ) {
 	global $g_relationships;
 	if( $g_relationships[$p_relationship_type]['#forward'] === FALSE ) {
-		$c_src_bug_id = db_prepare_int( $p_dest_bug_id );
-		$c_dest_bug_id = db_prepare_int( $p_src_bug_id );
-		$c_relationship_type = db_prepare_int( relationship_get_complementary_type( $p_relationship_type ) );
+		$c_src_bug_id = $p_dest_bug_id;
+		$c_dest_bug_id = $p_src_bug_id;
+		$c_relationship_type = relationship_get_complementary_type( $p_relationship_type );
 	} else {
-		$c_src_bug_id = db_prepare_int( $p_src_bug_id );
-		$c_dest_bug_id = db_prepare_int( $p_dest_bug_id );
-		$c_relationship_type = db_prepare_int( $p_relationship_type );
+		$c_src_bug_id = $p_src_bug_id;
+		$c_dest_bug_id = $p_dest_bug_id;
+		$c_relationship_type = $p_relationship_type;
 	}
 
 	$query = "INSERT INTO {bug_relationship}

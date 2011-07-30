@@ -78,8 +78,6 @@ function file_get_display_name( $p_filename ) {
 function file_bug_attachment_count( $p_bug_id ) {
 	global $g_cache_file_count;
 
-	$c_bug_id = db_prepare_int( $p_bug_id );
-
 	# First check if we have a cache hit
 	if( isset( $g_cache_file_count[$p_bug_id] ) ) {
 		return $g_cache_file_count[$p_bug_id];

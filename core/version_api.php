@@ -223,14 +223,14 @@ function version_update( $p_version_info ) {
 		throw new MantisBT\Exception\Version_Duplicate();
 	}
 
-	$c_version_id = db_prepare_int( $p_version_info->id );
+	$c_version_id = $p_version_info->id;
 	$c_version_name = $p_version_info->version;
 	$c_old_version_name = $t_old_version_name;
 	$c_description = $p_version_info->description;
-	$c_released = db_prepare_int( $p_version_info->released );
+	$c_released = $p_version_info->released;
 	$c_obsolete = db_prepare_bool( $p_version_info->obsolete );
 	$c_date_order = $p_version_info->date_order;
-	$c_project_id = db_prepare_int( $p_version_info->project_id );
+	$c_project_id = $p_version_info->project_id;
 
 	$query = "UPDATE {project_version}
 				  SET version=%s,

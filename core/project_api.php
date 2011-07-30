@@ -281,8 +281,6 @@ function project_delete( $p_project_id ) {
 	# temporarily disable all notifications
 	config_set_cache( 'enable_email_notification', OFF, CONFIG_TYPE_INT );
 
-	$c_project_id = db_prepare_int( $p_project_id );
-
 	# Delete the bugs
 	bug_delete_all( $p_project_id );
 
@@ -316,7 +314,7 @@ function project_delete( $p_project_id ) {
 	# Delete the project entry
 	$query = "DELETE FROM {project} WHERE id=%d";
 
-	db_query_bound( $query, array( $c_project_id ) );
+	db_query_bound( $query, array( $p_project_id ) );
 
 	config_set_cache( 'enable_email_notification', $t_email_notifications, CONFIG_TYPE_INT );
 
@@ -578,12 +576,7 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 
 # add user with the specified access level to a project
 function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-	$c_user_id = db_prepare_int( $p_user_id );
-	$c_access_level = db_prepare_int( $p_access_level );
-
 	if( DEFAULT_ACCESS_LEVEL == $p_access_level ) {
-
 		# Default access level for this user
 		$c_access_level = db_prepare_int( user_get_access_level( $p_user_id ) );
 	}
@@ -593,7 +586,7 @@ function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 				  VALUES
 				    ( %d, %d, %d)";
 
-	db_query_bound( $query, array( $c_project_id, $c_user_id, $c_access_level ) );
+	db_query_bound( $query, array( $p_project_id, $p_user_id, $p_access_level ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -602,13 +595,9 @@ function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 # update entry
 # must make sure entry exists beforehand
 function project_update_user_access( $p_project_id, $p_user_id, $p_access_level ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-	$c_user_id = db_prepare_int( $p_user_id );
-	$c_access_level = db_prepare_int( $p_access_level );
-
 	$query = 'UPDATE {project_user_list} SET access_level=%d WHERE project_id=%d AND user_id=%d';
 
-	db_query_bound( $query, array( $c_access_level, $c_project_id, $c_user_id ) );
+	db_query_bound( $query, array( $p_access_level, $p_project_id, $p_user_id ) );
 
 	# db_query errors on failure so:
 	return true;

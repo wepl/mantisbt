@@ -59,10 +59,8 @@ require_api( 'utility_api.php' );
  * @return boolean True if tag exists
  */
 function tag_exists( $p_tag_id ) {
-	$c_tag_id = db_prepare_int( $p_tag_id );
-
 	$query = 'SELECT id FROM {tag} WHERE id=%d';
-	$result = db_query_bound( $query, array( $c_tag_id ) );
+	$result = db_query_bound( $query, array( $p_tag_id ) );
 
 	return db_result( $result ) > 0;
 }
@@ -307,7 +305,6 @@ function tag_create( $p_name, $p_user_id = null, $p_description = '' ) {
 		user_ensure_exists( $p_user_id );
 	}
 
-	$c_user_id = db_prepare_int( $p_user_id );
 	$c_date_created = db_now();
 
 	$query = "INSERT INTO {tag}
@@ -320,7 +317,7 @@ function tag_create( $p_name, $p_user_id = null, $p_description = '' ) {
 				VALUES
 				( %d, %s, %s, %d, %d )";
 
-	db_query_bound( $query, array( $c_user_id, trim( $p_name ), trim( $p_description ), $c_date_created, $c_date_created ) );
+	db_query_bound( $query, array( $p_user_id, trim( $p_name ), trim( $p_description ), $c_date_created, $c_date_created ) );
 	return db_insert_id( '{tag}' );
 }
 
@@ -593,11 +590,8 @@ function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id
 
 	access_ensure_bug_level( $t_detach_level, $p_bug_id, $t_user_id );
 
-	$c_tag_id = db_prepare_int( $p_tag_id );
-	$c_bug_id = db_prepare_int( $p_bug_id );
-
 	$query = 'DELETE FROM {bug_tag} WHERE tag_id=%d AND bug_id=%d';
-	db_query_bound( $query, array( $c_tag_id, $c_bug_id ) );
+	db_query_bound( $query, array( $p_tag_id, $p_bug_id ) );
 
 	if( $p_add_history ) {
 		$t_tag_name = tag_get_field( $p_tag_id, 'name' );

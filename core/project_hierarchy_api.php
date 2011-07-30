@@ -47,16 +47,12 @@ function project_hierarchy_add( $p_child_id, $p_parent_id, $p_inherit_parent = t
 		throw new MantisBT\Exception\Project_Recursive_Hierarchy();
 	}
 
-	$c_child_id = db_prepare_int( $p_child_id );
-	$c_parent_id = db_prepare_int( $p_parent_id );
-	$c_inherit_parent = db_prepare_bool( $p_inherit_parent );
-
 	$query = "INSERT INTO {project_hierarchy}
 		                ( child_id, parent_id, inherit_parent )
 						VALUES
 						( %d, %d, %d )";
 
-	db_query_bound( $query, array( $c_child_id, $c_parent_id, $c_inherit_parent ) );
+	db_query_bound( $query, array( $p_child_id, $p_parent_id, $p_inherit_parent ) );
 }
 
 /**
@@ -67,12 +63,8 @@ function project_hierarchy_add( $p_child_id, $p_parent_id, $p_inherit_parent = t
  * @return null
  */
 function project_hierarchy_update( $p_child_id, $p_parent_id, $p_inherit_parent = true ) {
-	$c_child_id = db_prepare_int( $p_child_id );
-	$c_parent_id = db_prepare_int( $p_parent_id );
-	$c_inherit_parent = db_prepare_bool( $p_inherit_parent );
-
 	$query = "UPDATE {project_hierarchy} SET inherit_parent=%d WHERE child_id=%d AND parent_id=%d";
-	db_query_bound( $query, array( $c_inherit_parent, $c_child_id, $c_parent_id ) );
+	db_query_bound( $query, array( $p_inherit_parent, $p_child_id, $p_parent_id ) );
 }
 
 /**
@@ -82,12 +74,9 @@ function project_hierarchy_update( $p_child_id, $p_parent_id, $p_inherit_parent 
  * @return null
  */
 function project_hierarchy_remove( $p_child_id, $p_parent_id ) {
-	$c_child_id = db_prepare_int( $p_child_id );
-	$c_parent_id = db_prepare_int( $p_parent_id );
-
 	$query = "DELETE FROM {project_hierarchy} WHERE child_id = %d AND parent_id = %d";
 
-	db_query_bound( $query, array( $c_child_id, $c_parent_id ) );
+	db_query_bound( $query, array( $p_child_id, $p_parent_id ) );
 }
 
 /**
@@ -96,11 +85,9 @@ function project_hierarchy_remove( $p_child_id, $p_parent_id ) {
  * @return null
  */
 function project_hierarchy_remove_all( $p_project_id ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-
 	$query = "DELETE FROM {project_hierarchy} WHERE child_id = %d OR parent_id = %d";
 
-	db_query_bound( $query, array( $c_project_id, $c_project_id ) );
+	db_query_bound( $query, array( $p_project_id, $p_project_id ) );
 }
 
 /**
