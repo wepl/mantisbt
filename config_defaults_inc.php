@@ -1714,7 +1714,8 @@ $g_ldap_server			= array( 'ldaps://ldap.example.com.au/',
  * 
  * @global array $g_ldap_options
  */
-$g_ldap_options			= array( LDAP_OPT_PROTOCOL_VERSION => 3 );
+//$g_ldap_options			= array( LDAP_OPT_PROTOCOL_VERSION => 3 );
+$g_ldap_options = array();
 
 /**
  * 

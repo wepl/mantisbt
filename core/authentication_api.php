@@ -445,7 +445,7 @@ function auth_does_password_match( $p_user_id, $p_test_password ) {
 			break;
 	}
 
-	# cut this off to PASSLEN cahracters which the largest possible string in the database
+	# cut this off to PASSLEN characters which the largest possible string in the database
 	return utf8_substr( $t_processed_password, 0, PASSLEN );
 }
 

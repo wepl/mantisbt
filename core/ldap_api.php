@@ -133,7 +133,7 @@ function ldap_realname( $p_user_id ) {
 	}
 
 	return $t_realname;
-}}
+}
 
 /**
  * Escapes the LDAP string to disallow injection.
