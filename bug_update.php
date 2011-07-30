@@ -83,8 +83,7 @@ access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );
 # Check if the bug is in a read-only state and whether the current user has
 # permission to update read-only bugs.
 if ( bug_is_readonly( $f_bug_id ) ) {
-	error_parameters( $f_bug_id );
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $f_bug_id );
 }
 
 $t_updated_bug = clone $t_existing_bug;
@@ -203,8 +202,7 @@ if ( $t_existing_bug->handler_id !== $t_updated_bug->handler_id ) {
 if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 	if ( $t_updated_bug->category_id === 0 &&
 	     !config_get( 'allow_no_category' ) ) {
-		error_parameters( lang_get( 'category' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
 	}
 }
 
@@ -245,8 +243,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 		if ( $t_cf_def[$t_cf_require_check] ) {
 			# A value for the custom field was expected however
 			# no value was given by the user.
-			error_parameters( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
-			throw new MantisBT\Exception\Empty_Field();
+			throw new MantisBT\Exception\Empty_Field( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
 		} else {
 			# The custom field isn't compulsory and the user did
 			# not supply a value. Therefore we can just ignore this
@@ -298,8 +295,7 @@ if ( $t_bug_note->note ||
 	access_ensure_bug_level( config_get( 'add_bugnote_threshold' ), $f_bug_id );
 	if ( !$t_bug_note->note &&
 	     !config_get( 'time_tracking_without_note' ) ) {
-		error_parameters( lang_get( 'bugnote' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
 	}
 	if ( $t_bug_note->view_state !== config_get( 'default_bugnote_view_status' ) ) {
 		access_ensure_bug_level( config_get( 'set_view_status_threshold' ), $f_bug_id );

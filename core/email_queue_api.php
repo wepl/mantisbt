@@ -76,20 +76,17 @@ function email_queue_add( $p_email_data ) {
 
 	# email cannot be blank
 	if( is_blank( $t_email_data->email ) ) {
-		error_parameters( lang_get( 'email' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'email' ) );
 	}
 
 	# subject cannot be blank
 	if( is_blank( $t_email_data->subject ) ) {
-		error_parameters( lang_get( 'subject' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'subject' ) );
 	}
 
 	# body cannot be blank
 	if( is_blank( $t_email_data->body ) ) {
-		error_parameters( lang_get( 'body' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'body' ) );
 	}
 
 	$c_email = $t_email_data->email;

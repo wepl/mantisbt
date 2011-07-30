@@ -126,8 +126,7 @@ function category_exists( $p_category_id ) {
 	$c_project_id = db_prepare_int( $p_project_id );
 
 	if( is_blank( $p_name ) ) {
-		error_parameters( lang_get( 'category' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
 	}
 
 	category_ensure_unique( $p_project_id, $p_name );
@@ -149,8 +148,8 @@ function category_exists( $p_category_id ) {
  */
  function category_update( $p_category_id, $p_name, $p_assigned_to ) {
 	if( is_blank( $p_name ) ) {
-		error_parameters( lang_get( 'category' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		error_parameters(  );
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
 	}
 
 	$t_old_category = category_get_row( $p_category_id );

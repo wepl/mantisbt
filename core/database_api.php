@@ -73,7 +73,6 @@ function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password
 	$t_result = $g_db->connect( $p_dsn, $p_hostname, $p_username, $p_password, $p_database_name, $p_db_options );
 
 	if( !$t_result ) {
-		db_error();
 		throw new MantisBT\Exception\DB_Connect_Failed();
 		return false;
 	}
@@ -204,7 +203,6 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 	}
 
 	if( !$t_result ) {
-		db_error( $p_query );
 		throw new MantisBT\Exception\DB_Query_Failed();
 		return false;
 	} else {
@@ -326,19 +324,6 @@ function db_field_names( $p_table_name ) {
 	global $g_db;
 	$columns = $g_db->get_columns( $p_table_name );
 	return is_array( $columns ) ? $columns : array();
-}
-
-/**
- * send both the error number and error message and query (optional) as paramaters for a triggered error
- * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final
- */
-function db_error( $p_query = null ) {
-	global $g_db;
-	if( null !== $p_query ) {
-		error_parameters( /* $g_db->ErrorNo(), */ $g_db->get_last_error(), $p_query );
-	} else {
-		error_parameters( /* $g_db->ErrorNo(), */ $g_db->get_last_error() );
-	}
 }
 
 /**

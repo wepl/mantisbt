@@ -67,8 +67,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 }
 
 if ( bug_is_readonly( $t_bug->id ) ) {
-	error_parameters( $t_bug->id );
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $t_bug->id );
 }
 
 access_ensure_bug_level( config_get( 'add_bugnote_threshold' ), $t_bug->id );
@@ -81,8 +80,7 @@ if ( $f_private ) {
 // if $f_time_tracking is not 0 and the time tracking feature is enabled.
 $t_bugnote_id = bugnote_add( $t_bug->id, $f_bugnote_text, $f_time_tracking, $f_private, BUGNOTE );
 if ( !$t_bugnote_id ) {
-	error_parameters( lang_get( 'bugnote' ) );
-	throw new MantisBT\Exception\Empty_Field();
+	throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
 }
 
 # Handle the reassign on feedback feature. Note that this feature generally

@@ -117,8 +117,7 @@ function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 		$g_cache_versions[$c_version_id] = false;
 
 		if( $p_trigger_errors ) {
-			error_parameters( $p_version_id );
-			throw new MantisBT\Exception\Version_Not_Found();
+			throw new MantisBT\Exception\Version_Not_Found( $p_version_id );
 		} else {
 			return false;
 		}
@@ -158,8 +157,7 @@ function version_is_unique( $p_version, $p_project_id = null ) {
  */
 function version_ensure_exists( $p_version_id ) {
 	if( !version_exists( $p_version_id ) ) {
-		error_parameters( $p_version_id );
-		throw new MantisBT\Exception\Version_Not_Found();
+		throw new MantisBT\Exception\Version_Not_Found( $p_version_id );
 	}
 }
 

@@ -4297,8 +4297,7 @@ function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 	
 	if( !$row ) {
 		if( $p_trigger_errors ) {
-			error_parameters( $p_filter_id );
-			throw new MantisBT\Exception\Filter_Not_Found();
+			throw new MantisBT\Exception\Filter_Not_Found( $p_filter_id );
 		} else {
 			return false;
 		}

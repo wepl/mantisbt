@@ -76,8 +76,7 @@ function summary_print_by_enum( $p_enum ) {
 	
 	$t_vars = getClassProperties( 'BugData', 'protected');
 	if( !array_key_exists( $p_enum, $t_vars ) ) {
-		error_parameters($p_enum);
-		throw new MantisBT\Exception\DB_Field_Not_Found();
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_enum );
 	}
 	
 	$t_filter_prefix = config_get( 'bug_count_hyperlink_prefix' );

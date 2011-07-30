@@ -29,29 +29,6 @@ set_error_handler(array('MantisError', 'error_handler'));
 register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
 
 /**
- * Check if we have handled an error during this page
- * Return true if an error has been handled, false otherwise
- * @return bool
- */
-function error_handled() {
-	return MantisError::error_handled();
-}
-
-/**
- * Set additional info parameters to be used when displaying the next error
- * This function takes a variable number of parameters
- *
- * When writing internationalized error strings, note that you can change the
- *  order of parameters in the string.  See the PHP manual page for the
- *  sprintf() function for more details.
- * @access public
- * @return null
- */
-function error_parameters() {
-	MantisError::error_parameters( func_get_args() );
-}
-
-/**
  * Set a url to give to the user to proceed after viewing the error
  * @access public
  * @param string p_url url given to user after viewing the error

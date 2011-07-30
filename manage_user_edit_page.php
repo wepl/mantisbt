@@ -67,8 +67,7 @@ if ( is_blank( $f_username ) ) {
 } else {
 	$t_user_id = user_get_id_by_name( $f_username );
 	if ( $t_user_id === false ) {
-		error_parameters( $f_username );
-		throw new MantisBT\Exception\User_By_Name_Not_Found();
+		throw new MantisBT\Exception\User_By_Name_Not_Found( $f_username );
 	}
 }
 

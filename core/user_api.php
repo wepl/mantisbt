@@ -138,8 +138,7 @@ function user_exists( $p_user_id ) {
  */
 function user_ensure_exists( $p_user_id ) {
 	if ( !user_exists( $p_user_id ) ) {
-		error_parameters( $p_user_id );
-		throw new MantisBT\Exception\User_By_ID_Not_Found();
+		throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
 	}
 }
 

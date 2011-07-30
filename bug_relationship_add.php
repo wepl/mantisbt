@@ -81,8 +81,7 @@ foreach( $f_dest_bug_id_array as $f_dest_bug_id ) {
 
 	# bug is not read-only...
 	if ( bug_is_readonly( $f_src_bug_id ) ) {
-		error_parameters( $f_src_bug_id );
-		throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
+		throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $f_src_bug_id );
 	}
 
 	# user can access to the related bug at least as viewer...

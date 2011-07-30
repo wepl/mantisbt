@@ -147,8 +147,7 @@ if ( is_blank( $f_version ) ) {
 	$f_version_id = version_get_id( $f_version, $t_project_id );
 
 	if ( $f_version_id === false ) {
-		error_parameters( $f_version );
-		throw new MantisBT\Exception\Version_Not_Found();
+		throw new MantisBT\Exception\Version_Not_Found( $f_version );
 	}
 }
 

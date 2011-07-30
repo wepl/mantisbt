@@ -118,8 +118,7 @@ function custom_field_cache_row( $p_field_id, $p_trigger_errors = true ) {
 	
 	if( !$row ) {
 		if( $p_trigger_errors ) {
-			error_parameters( 'Custom ' . $p_field_id );
-			throw new MantisBT\Exception\Custom_Field_Not_Found();
+			throw new MantisBT\Exception\Custom_Field_Not_Found( 'Custom ' . $p_field_id );
 		} else {
 			return false;
 		}
@@ -253,8 +252,7 @@ function custom_field_ensure_exists( $p_field_id ) {
 	if( custom_field_exists( $p_field_id ) ) {
 		return true;
 	} else {
-		error_parameters( 'Custom ' . $p_field_id );
-		throw new MantisBT\Exception\Custom_Field_Not_Found();
+		throw new MantisBT\Exception\Custom_Field_Not_Found( 'Custom ' . $p_field_id );
 	}
 }
 
@@ -391,8 +389,7 @@ function custom_field_create( $p_name ) {
 	$c_name = trim( $p_name );
 
 	if( is_blank( $c_name ) ) {
-		error_parameters( 'name' );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( 'name' );
 	}
 
 	custom_field_ensure_name_unique( $c_name );
@@ -434,8 +431,7 @@ function custom_field_update( $p_field_id, $p_def_array ) {
 	$c_require_closed = db_prepare_bool( $p_def_array['require_closed'] );
 
 	if( is_blank( $c_name ) ) {
-		error_parameters( 'name' );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( 'name' );
 	}
 
 	if(( $c_access_level_rw < $c_access_level_r ) || ( $c_length_min < 0 ) || (( $c_length_max != 0 ) && ( $c_length_min > $c_length_max ) ) ) {

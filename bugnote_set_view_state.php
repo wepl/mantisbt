@@ -71,8 +71,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 # Check if the bug is readonly
 $t_bug_id = bugnote_get_field( $f_bugnote_id, 'bug_id' );
 if ( bug_is_readonly( $t_bug_id ) ) {
-	error_parameters( $t_bug_id );
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied();
+	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $t_bug_id );
 }
 
 # Check if the current user is allowed to change the view state of this bugnote

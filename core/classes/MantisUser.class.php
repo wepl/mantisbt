@@ -70,8 +70,7 @@ class MantisUser extends MantisCacheable {
 			return $row;	
 		} else {
 			if( $p_trigger_errors ) {
-				error_parameters( (integer)$p_user_id );
-				throw new MantisBT\Exception\User_By_ID_Not_Found();
+				throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
 			}
 
 			return false;

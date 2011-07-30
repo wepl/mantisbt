@@ -595,22 +595,19 @@ function helper_duration_to_minutes( $p_hhmm ) {
 
 	// time can be composed of max 3 parts (hh:mm:ss)
 	if( count( $t_a ) > 3 ) {
-		error_parameters( 'p_hhmm', $p_hhmm );
-		throw new MantisBT\Exception\Config_Opt_Invalid();
+		throw new MantisBT\Exception\Config_Opt_Invalid( 'p_hhmm', $p_hhmm );
 	}
 
 	$t_count = count( $t_a );
 	for( $i = 0;$i < $t_count;$i++ ) {
 		// all time parts should be integers and non-negative.
 		if( !is_numeric( $t_a[$i] ) || ( (integer) $t_a[$i] < 0 ) ) {
-			error_parameters( 'p_hhmm', $p_hhmm );
-			throw new MantisBT\Exception\Config_Opt_Invalid();
+			throw new MantisBT\Exception\Config_Opt_Invalid( 'p_hhmm', $p_hhmm );
 		}
 
 		// minutes and seconds are not allowed to exceed 59.
 		if(( $i > 0 ) && ( $t_a[$i] > 59 ) ) {
-			error_parameters( 'p_hhmm', $p_hhmm );
-			throw new MantisBT\Exception\Config_Opt_Invalid();
+			throw new MantisBT\Exception\Config_Opt_Invalid( 'p_hhmm', $p_hhmm );
 		}
 	}
 

@@ -219,8 +219,7 @@ class BugData extends MantisCacheable {
 			$g_cache_bug[$c_bug_id] = false;
 
 			if( $p_trigger_errors ) {
-				error_parameters( $p_bug_id );
-				throw new MantisBT\Exception\Bug_Not_Found();
+				throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
 			} else {
 				return false;
 			}
@@ -377,22 +376,19 @@ class BugData extends MantisCacheable {
 	function validate( $p_update_extended =  true) {
 		# Summary cannot be blank
 		if( is_blank( $this->summary ) ) {
-			error_parameters( lang_get( 'summary' ) );
-			throw new MantisBT\Exception\Empty_Field();
+			throw new MantisBT\Exception\Empty_Field( lang_get( 'summary' ) );
 		}
 
 		if( $p_update_extended ) {
 			# Description field cannot be empty
 			if( is_blank( $this->description ) ) {
-				error_parameters( lang_get( 'description' ) );
-				throw new MantisBT\Exception\Empty_Field();
+				throw new MantisBT\Exception\Empty_Field( lang_get( 'description' ) );
 			}
 		}
 
 		# Make sure a category is set
 		if( 0 == $this->category_id && !config_get( 'allow_no_category' ) ) {
-			error_parameters( lang_get( 'category' ) );
-			throw new MantisBT\Exception\Empty_Field();
+			throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
 		}
 
 		if( !is_blank( $this->duplicate_id ) && ( $this->duplicate_id != 0 ) && ( $this->id == $this->duplicate_id ) ) {
@@ -781,8 +777,7 @@ function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
 		$g_cache_bug_text[$c_bug_id] = false;
 
 		if( $p_trigger_errors ) {
-			error_parameters( $p_bug_id );
-			throw new MantisBT\Exception\Bug_Not_Found();
+			throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
 		} else {
 			return false;
 		}
@@ -834,8 +829,7 @@ function bug_exists( $p_bug_id ) {
  */
 function bug_ensure_exists( $p_bug_id ) {
 	if( !bug_exists( $p_bug_id ) ) {
-		error_parameters( $p_bug_id );
-		throw new MantisBT\Exception\Bug_Not_Found();
+		throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
 	}
 }
 
@@ -1257,8 +1251,7 @@ function bug_get_field( $p_bug_id, $p_field_name ) {
 	if( isset( $t_bug_data->{$p_field_name} ) ) {
 		return $t_bug_data->{$p_field_name};
 	} else {
-		error_parameters( $p_field_name );
-		throw new MantisBT\Exception\DB_Field_Not_Found();
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 		return '';
 	}
 }
@@ -1277,8 +1270,7 @@ function bug_get_text_field( $p_bug_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		error_parameters( $p_field_name );
-		throw new MantisBT\Exception\DB_Field_Not_Found();
+		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 		return '';
 	}
 }

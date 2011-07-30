@@ -57,8 +57,7 @@ $f_type = gpc_get_string( 'type' );
 $f_value = gpc_get_string( 'value' );
 
 if ( is_blank( $f_config_option ) ) {
-	error_parameters( 'config_option' );
-	throw new MantisBT\Exception\Empty_Field();
+	throw new MantisBT\Exception\Empty_Field( 'config_option' );
 }
 
 access_ensure_global_level( config_get( 'set_configuration_threshold' ) );
@@ -70,14 +69,12 @@ if ( $f_project_id != ALL_PROJECTS ) {
 # make sure that configuration option specified is a valid one.
 $t_not_found_value = '***CONFIG OPTION NOT FOUND***';
 if ( config_get_global( $f_config_option, $t_not_found_value ) === $t_not_found_value ) {
-	error_parameters( $f_config_option );
-	throw new MantisBT\Exception\Config_Opt_Not_Found();
+	throw new MantisBT\Exception\Config_Opt_Not_Found( $f_config_option );
 }
 
 # make sure that configuration option specified can be stored in the database
 if ( !config_can_set_in_database( $f_config_option ) ) {
-	error_parameters( $f_config_option );
-	throw new MantisBT\Exception\Config_Opt_Cant_Be_Set_In_Db();
+	throw new MantisBT\Exception\Config_Opt_Cant_Be_Set_In_Db( $f_config_option );
 }
 
 if ( $f_type === 'default' ) {

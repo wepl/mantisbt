@@ -109,7 +109,7 @@ class MantisError
 		}
 
 		$t_oblen = ob_get_length();
-		if( error_handled() && $t_oblen > 0 ) {
+		if( self::error_handled() && $t_oblen > 0 ) {
 			$t_old_contents = ob_get_contents();
 		}
 
@@ -368,7 +368,17 @@ class MantisError
 			return 'class="row-2"';
 		}
 	}
-	
+
+	/**
+	 * Set additional info parameters to be used when displaying the next error
+	 * This function takes a variable number of parameters
+	 *
+	 * When writing internationalized error strings, note that you can change the
+	 *  order of parameters in the string.  See the PHP manual page for the
+	 *  sprintf() function for more details.
+	 * @access public
+	 * @return null
+	 */	
 	public static function error_parameters( $p_args ) {
 		self::$_parameters = $p_args;
 	}
@@ -376,7 +386,12 @@ class MantisError
 	public static function error_proceed_url( $p_url ) {
 		self::$_proceed_url = $p_url();
 	}
-	
+
+	/**
+	 * Check if we have handled an error during this page
+	 * Return true if an error has been handled, false otherwise
+	 * @return bool
+	 */	
 	public static function error_handled() {
 		return self::$_handled;
 	}

@@ -53,13 +53,11 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 	$c_announcement = db_prepare_bool( $p_announcement );
 
 	if( is_blank( $p_headline ) ) {
-		error_parameters( lang_get( 'headline' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'headline' ) );
 	}
 
 	if( is_blank( $p_body ) ) {
-		error_parameters( lang_get( 'body' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'body' ) );
 	}
 
 	# Add item
@@ -105,13 +103,11 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 	$c_announcement = db_prepare_bool( $p_announcement );
 
 	if( is_blank( $p_headline ) ) {
-		error_parameters( lang_get( 'headline' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'headline' ) );
 	}
 
 	if( is_blank( $p_body ) ) {
-		error_parameters( lang_get( 'body' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'body' ) );
 	}
 
 	# Update entry

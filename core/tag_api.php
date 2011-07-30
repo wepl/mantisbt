@@ -71,8 +71,7 @@ function tag_exists( $p_tag_id ) {
  */
 function tag_ensure_exists( $p_tag_id ) {
 	if( !tag_exists( $p_tag_id ) ) {
-		error_parameters( $p_tag_id );
-		throw new MantisBT\Exception\Tag_Not_Found();
+		throw new MantisBT\Exception\Tag_Not_Found( $p_tag_id );
 	}
 }
 

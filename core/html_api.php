@@ -386,7 +386,7 @@ function html_css_link( $p_filename ) {
  * @return boolean
  */
 function html_meta_redirect( $p_url, $p_time = null, $p_sanitize = true ) {
-	if( error_handled() ) {
+	if( MantisError::error_handled() ) {
 		return false;
 	}
 

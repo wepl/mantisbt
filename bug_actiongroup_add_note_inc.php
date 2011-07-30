@@ -99,8 +99,7 @@ function action_add_note_validate( $p_bug_id ) {
 	$f_bugnote_text = gpc_get_string( 'bugnote_text' );
 
 	if ( is_blank( $f_bugnote_text ) ) {
-		error_parameters( lang_get( 'bugnote' ) );
-		throw new MantisBT\Exception\Empty_Field();
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
 	}
 
 	$t_add_bugnote_threshold = config_get( 'add_bugnote_threshold' );

@@ -152,8 +152,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 
 	if( ON == $t_time_tracking_enabled && $c_time_tracking > 0 ) {
 		if( is_blank( $p_bugnote_text ) && OFF == $t_time_tracking_without_note ) {
-			error_parameters( lang_get( 'bugnote' ) );
-			throw new MantisBT\Exception\Empty_Field();
+			throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
 		}
 		$c_type = TIME_TRACKING;
 	} else if( is_blank( $p_bugnote_text ) ) {
@@ -606,8 +605,7 @@ function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost
 	$c_from = strtotime( $p_from );
 
 	if ( $c_to === false || $c_from === false ) {
-		error_parameters( array( $p_form, $p_to ) );
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\Generic( array( $p_form, $p_to ) );
 	}
 
 	if( !is_blank( $c_from ) ) {
