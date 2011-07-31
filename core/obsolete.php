@@ -168,3 +168,7 @@ config_obsolete( 'ldap_protocol_version', 'ldap_options' );
 config_obsolete( 'ldap_follow_referrals', 'ldap_options' );
 config_obsolete( 'ldap_root_dn', 'ldap_contexts' );
 config_obsolete( 'ldap_simulation_file_path', '' );
+
+config_obsolete( 'email_set_category', '' );
+config_obsolete( 'hr_size', '' );
+config_obsolete( 'hr_width', '' );

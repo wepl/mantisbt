@@ -587,15 +587,6 @@ $g_smtp_port = 25;
 $g_email_send_using_cronjob = OFF;
 
 /**
- * Specify whether e-mails should be sent with the category set or not. This
- * is tested with Microsoft Outlook.  More testing for this feature + other
- * formats will be added in the future.
- * OFF, EMAIL_CATEGORY_PROJECT_CATEGORY (format: [Project] Category)
- * @global int $g_email_set_category
- */
-$g_email_set_category = OFF;
-
-/**
  * email separator and padding
  * @global string $g_email_separator1
  */
@@ -1666,22 +1657,6 @@ $g_max_dropdown_length = 40;
  */
 $g_wrap_in_preformatted_text = ON;
 
-/************************
- * MantisBT HR Settings *
- ************************/
-
-/**
- * Horizontal Rule Size
- * @global int $g_hr_size
- */
-$g_hr_size = 1;
-
-/**
- * Horizontal Rule Width
- * @global int $g_hr_width
- */
-$g_hr_width = 50;
-
 /**************************
  * MantisBT LDAP Settings *
  **************************/
@@ -1690,8 +1665,8 @@ $g_hr_width = 50;
  *
  * @global array $g_ldap_server
  */
-$g_ldap_server			= array( 'ldaps://ldap.example.com.au/', 
-								 'ldaps://ldap2.example.com.au/' );
+$g_ldap_server	= array( 'ldaps://ldap.example.com/', 
+						 'ldaps://ldap2.example.com/' );
 
 /**
  * See http://www.php.net/manual/en/function.ldap-set-option.php for current list of valid values.
@@ -1721,8 +1696,8 @@ $g_ldap_options = array();
  * 
  * @global array $g_ldap_contexts
  */
-$g_ldap_contexts		= array( 'dc=example,dc=com,dc=au' => true,
-								 'dc=example2,dc=com,dc=au' => false );
+$g_ldap_contexts	= array( 'dc=example,dc=com' => true,
+							 'dc=example2,dc=com' => false );
 
 /**
  * e.g. '(organizationname=*Traffic)'
@@ -3588,7 +3563,6 @@ $g_show_log_threshold = ADMINISTRATOR;
  */
 $g_global_settings = array(
 	'global_settings',
-	'admin_checks',
 	'allow_signup',
 	'anonymous',
 	'compress_html',
