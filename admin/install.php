@@ -29,7 +29,7 @@ error_reporting( E_ALL );
 # and plugins will not be loaded.
 define( 'MANTIS_MAINTENANCE_MODE', true );
 
-@require_once( dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core.php' );
+@require_once( dirname( dirname( __FILE__ ) ) . '/core.php' );
 require_api( 'install_helper_functions_api.php' );
 
 
@@ -76,8 +76,8 @@ function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_mes
 # --------
 # create an SQLArray to insert data
 function InsertData( $p_table, $p_data ) {
-	$query = "INSERT INTO " . $p_table . $p_data;
-	return array( $query );
+	$t_query = "INSERT INTO " . $p_table . $p_data;
+	return array( $t_query );
 }
 
 # install_state
@@ -617,7 +617,7 @@ if( 3 == $t_install_state ) {
 		$GLOBALS['g_db_type'] = $f_db_type;
 
 		# database_api references this
-		require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'schema.php' );
+		require_once( dirname( __FILE__ ) . '/schema.php' );
 
 		$g_db = MantisDatabase::get_driver_instance($f_db_type);
 		try {

@@ -209,13 +209,12 @@ class BugData extends MantisCacheable {
 
 		$c_bug_id = (int) $p_bug_id;
 
-		$query = "SELECT * FROM {bug}
-					  WHERE id=%d";
-		$result = db_query_bound( $query, array( $c_bug_id ) );
+		$t_query = "SELECT * FROM {bug} WHERE id=%d";
+		$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
 
-		$row = db_fetch_array( $result );
+		$t_row = db_fetch_array( $t_result );
 		
-		if( !$row ) {
+		if( !$t_row ) {
 			$g_cache_bug[$c_bug_id] = false;
 
 			if( $p_trigger_errors ) {
@@ -225,7 +224,7 @@ class BugData extends MantisCacheable {
 			}
 		}
 
-		return bug_add_to_cache( $row );
+		return bug_add_to_cache( $t_row );
 	}	
 	
 	/**
@@ -362,10 +361,10 @@ class BugData extends MantisCacheable {
 			$t_restriction = '';
 		}
 
-		$query = "SELECT COUNT(*) FROM {bugnote} WHERE bug_id=%d $t_restriction";
-		$result = db_query_bound( $query, array( $this->bug_id ) );
+		$t_query = "SELECT COUNT(*) FROM {bugnote} WHERE bug_id=%d $t_restriction";
+		$t_result = db_query_bound( $t_query, array( $this->bug_id ) );
 
-		return db_result( $result );
+		return db_result( $t_result );
 	}
 
 	/**
@@ -420,11 +419,11 @@ class BugData extends MantisCacheable {
 		}
 
 		# Insert text information
-		$query = "INSERT INTO {bug_text}
+		$t_query = "INSERT INTO {bug_text}
 					    ( description, steps_to_reproduce, additional_information )
 					  VALUES
 					    (%s,%s,%s)";
-		db_query_bound( $query, array( $this->description, $this->steps_to_reproduce, $this->additional_information ) );
+		db_query_bound( $t_query, array( $this->description, $this->steps_to_reproduce, $this->additional_information ) );
 
 		# Get the id of the text information we just inserted
 		# NOTE: this is guarranteed to be the correct one.
@@ -457,7 +456,7 @@ class BugData extends MantisCacheable {
 		}
 
 		# Insert the rest of the data
-		$query = "INSERT INTO {bug}
+		$t_query = "INSERT INTO {bug}
 					    ( project_id,reporter_id, handler_id,duplicate_id,
 					      priority,severity, reproducibility,status,
 					      resolution,projection, category_id,date_submitted,
@@ -475,7 +474,7 @@ class BugData extends MantisCacheable {
 					      %d,%s,%d,%d,
 					      %d,%d,%s,%d)";
 
-		db_query_bound( $query, array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, $this->date_submitted, $this->last_updated, $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
+		db_query_bound( $t_query, array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, $this->date_submitted, $this->last_updated, $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
 
 		$this->id = db_insert_id( '{bug}' );
 
@@ -500,8 +499,6 @@ class BugData extends MantisCacheable {
 	function update( $p_update_extended = false, $p_bypass_mail = false ) {
 		self::validate( $p_update_extended );
 
-		$c_bug_id = $this->id;
-
 		if( is_blank( $this->due_date ) ) {
 			$this->due_date = date_get_null();
 		}
@@ -513,7 +510,7 @@ class BugData extends MantisCacheable {
 		#  as unix timestamps which could confuse the history log and they
 		#  shouldn't get updated like this anyway.  If you really need to change
 		#  them use bug_set_field()
-		$query = "UPDATE {bug}
+		$t_query = "UPDATE {bug}
 					SET project_id=%d, reporter_id=%d,
 						handler_id=%d, duplicate_id=%d,
 						priority=%d, severity=%d,
@@ -537,13 +534,13 @@ class BugData extends MantisCacheable {
 		);
 		$t_roadmap_updated = false;
 		if( access_has_project_level( config_get( 'roadmap_update_threshold' ) ) ) {
-			$query .= "
+			$t_query .= "
 						target_version=%s,";
 			$t_fields[] = $this->target_version;
 			$t_roadmap_updated = true;
 		}
 
-		$query .= "
+		$t_query .= "
 						view_state=%d,
 						summary=%s,
 						sponsorship_total=%d,
@@ -557,41 +554,41 @@ class BugData extends MantisCacheable {
 		$t_fields[] = $this->due_date;
 		$t_fields[] = $this->id;
 
-		db_query_bound( $query, $t_fields );
+		db_query_bound( $t_query, $t_fields );
 
 		bug_clear_cache( $this->id );
 
 		# log changes
-		history_log_event_direct( $c_bug_id, 'project_id', $t_old_data->project_id, $this->project_id );
-		history_log_event_direct( $c_bug_id, 'reporter_id', $t_old_data->reporter_id, $this->reporter_id );
-		history_log_event_direct( $c_bug_id, 'handler_id', $t_old_data->handler_id, $this->handler_id );
-		history_log_event_direct( $c_bug_id, 'priority', $t_old_data->priority, $this->priority );
-		history_log_event_direct( $c_bug_id, 'severity', $t_old_data->severity, $this->severity );
-		history_log_event_direct( $c_bug_id, 'reproducibility', $t_old_data->reproducibility, $this->reproducibility );
-		history_log_event_direct( $c_bug_id, 'status', $t_old_data->status, $this->status );
-		history_log_event_direct( $c_bug_id, 'resolution', $t_old_data->resolution, $this->resolution );
-		history_log_event_direct( $c_bug_id, 'projection', $t_old_data->projection, $this->projection );
-		history_log_event_direct( $c_bug_id, 'category', category_full_name( $t_old_data->category_id, false ), category_full_name( $this->category_id, false ) );
-		history_log_event_direct( $c_bug_id, 'eta', $t_old_data->eta, $this->eta );
-		history_log_event_direct( $c_bug_id, 'os', $t_old_data->os, $this->os );
-		history_log_event_direct( $c_bug_id, 'os_build', $t_old_data->os_build, $this->os_build );
-		history_log_event_direct( $c_bug_id, 'platform', $t_old_data->platform, $this->platform );
-		history_log_event_direct( $c_bug_id, 'version', $t_old_data->version, $this->version );
-		history_log_event_direct( $c_bug_id, 'build', $t_old_data->build, $this->build );
-		history_log_event_direct( $c_bug_id, 'fixed_in_version', $t_old_data->fixed_in_version, $this->fixed_in_version );
+		history_log_event_direct( $this->id, 'project_id', $t_old_data->project_id, $this->project_id );
+		history_log_event_direct( $this->id, 'reporter_id', $t_old_data->reporter_id, $this->reporter_id );
+		history_log_event_direct( $this->id, 'handler_id', $t_old_data->handler_id, $this->handler_id );
+		history_log_event_direct( $this->id, 'priority', $t_old_data->priority, $this->priority );
+		history_log_event_direct( $this->id, 'severity', $t_old_data->severity, $this->severity );
+		history_log_event_direct( $this->id, 'reproducibility', $t_old_data->reproducibility, $this->reproducibility );
+		history_log_event_direct( $this->id, 'status', $t_old_data->status, $this->status );
+		history_log_event_direct( $this->id, 'resolution', $t_old_data->resolution, $this->resolution );
+		history_log_event_direct( $this->id, 'projection', $t_old_data->projection, $this->projection );
+		history_log_event_direct( $this->id, 'category', category_full_name( $t_old_data->category_id, false ), category_full_name( $this->category_id, false ) );
+		history_log_event_direct( $this->id, 'eta', $t_old_data->eta, $this->eta );
+		history_log_event_direct( $this->id, 'os', $t_old_data->os, $this->os );
+		history_log_event_direct( $this->id, 'os_build', $t_old_data->os_build, $this->os_build );
+		history_log_event_direct( $this->id, 'platform', $t_old_data->platform, $this->platform );
+		history_log_event_direct( $this->id, 'version', $t_old_data->version, $this->version );
+		history_log_event_direct( $this->id, 'build', $t_old_data->build, $this->build );
+		history_log_event_direct( $this->id, 'fixed_in_version', $t_old_data->fixed_in_version, $this->fixed_in_version );
 		if( $t_roadmap_updated ) {
-			history_log_event_direct( $c_bug_id, 'target_version', $t_old_data->target_version, $this->target_version );
+			history_log_event_direct( $this->id, 'target_version', $t_old_data->target_version, $this->target_version );
 		}
-		history_log_event_direct( $c_bug_id, 'view_state', $t_old_data->view_state, $this->view_state );
-		history_log_event_direct( $c_bug_id, 'summary', $t_old_data->summary, $this->summary );
-		history_log_event_direct( $c_bug_id, 'sponsorship_total', $t_old_data->sponsorship_total, $this->sponsorship_total );
-		history_log_event_direct( $c_bug_id, 'sticky', $t_old_data->sticky, $this->sticky );
+		history_log_event_direct( $this->id, 'view_state', $t_old_data->view_state, $this->view_state );
+		history_log_event_direct( $this->id, 'summary', $t_old_data->summary, $this->summary );
+		history_log_event_direct( $this->id, 'sponsorship_total', $t_old_data->sponsorship_total, $this->sponsorship_total );
+		history_log_event_direct( $this->id, 'sticky', $t_old_data->sticky, $this->sticky );
 
-		history_log_event_direct( $c_bug_id, 'due_date', ( $t_old_data->due_date != date_get_null() ) ? $t_old_data->due_date : null, ( $this->due_date != date_get_null() ) ? $this->due_date : null );
+		history_log_event_direct( $this->id, 'due_date', ( $t_old_data->due_date != date_get_null() ) ? $t_old_data->due_date : null, ( $this->due_date != date_get_null() ) ? $this->due_date : null );
 
 		# Update extended info if requested
 		if( $p_update_extended ) {
-			$t_bug_text_id = bug_get_field( $c_bug_id, 'bug_text_id' );
+			$t_bug_text_id = bug_get_field( $this->id, 'bug_text_id' );
 
 			$query = "UPDATE {bug_text}
 							SET description=%s,
@@ -600,43 +597,43 @@ class BugData extends MantisCacheable {
 							WHERE id=%d";
 			db_query_bound( $query, array( $this->description, $this->steps_to_reproduce, $this->additional_information, $t_bug_text_id ) );
 
-			bug_text_clear_cache( $c_bug_id );
+			bug_text_clear_cache( $this->id );
 
 			$t_current_user = auth_get_current_user_id();
 
 			if( $t_old_data->description != $this->description ) {
-				if ( bug_revision_count( $c_bug_id, REV_DESCRIPTION ) < 1 ) {
-					$t_revision_id = bug_revision_add( $c_bug_id, $t_current_user, REV_DESCRIPTION, $t_old_data->description, 0, $t_old_data->last_updated );
+				if ( bug_revision_count( $this->id, REV_DESCRIPTION ) < 1 ) {
+					$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_DESCRIPTION, $t_old_data->description, 0, $t_old_data->last_updated );
 				}
-				$t_revision_id = bug_revision_add( $c_bug_id, $t_current_user, REV_DESCRIPTION, $this->description );
-				history_log_event_special( $c_bug_id, DESCRIPTION_UPDATED, $t_revision_id );
+				$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_DESCRIPTION, $this->description );
+				history_log_event_special( $this->id, DESCRIPTION_UPDATED, $t_revision_id );
 			}
 
 			if( $t_old_data->steps_to_reproduce != $this->steps_to_reproduce ) {
-				if ( bug_revision_count( $c_bug_id, REV_STEPS_TO_REPRODUCE ) < 1 ) {
-					$t_revision_id = bug_revision_add( $c_bug_id, $t_current_user, REV_STEPS_TO_REPRODUCE, $t_old_data->steps_to_reproduce, 0, $t_old_data->last_updated );
+				if ( bug_revision_count( $this->id, REV_STEPS_TO_REPRODUCE ) < 1 ) {
+					$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_STEPS_TO_REPRODUCE, $t_old_data->steps_to_reproduce, 0, $t_old_data->last_updated );
 				}
-				$t_revision_id = bug_revision_add( $c_bug_id, $t_current_user, REV_STEPS_TO_REPRODUCE, $this->steps_to_reproduce );
-				history_log_event_special( $c_bug_id, STEP_TO_REPRODUCE_UPDATED, $t_revision_id );
+				$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_STEPS_TO_REPRODUCE, $this->steps_to_reproduce );
+				history_log_event_special( $this->id, STEP_TO_REPRODUCE_UPDATED, $t_revision_id );
 			}
 
 			if( $t_old_data->additional_information != $this->additional_information ) {
-				if ( bug_revision_count( $c_bug_id, REV_ADDITIONAL_INFO ) < 1 ) {
-					$t_revision_id = bug_revision_add( $c_bug_id, $t_current_user, REV_ADDITIONAL_INFO, $t_old_data->additional_information, 0, $t_old_data->last_updated );
+				if ( bug_revision_count( $this->id, REV_ADDITIONAL_INFO ) < 1 ) {
+					$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_ADDITIONAL_INFO, $t_old_data->additional_information, 0, $t_old_data->last_updated );
 				}
-				$t_revision_id = bug_revision_add( $c_bug_id, $t_current_user, REV_ADDITIONAL_INFO, $this->additional_information );
-				history_log_event_special( $c_bug_id, ADDITIONAL_INFO_UPDATED, $t_revision_id );
+				$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_ADDITIONAL_INFO, $this->additional_information );
+				history_log_event_special( $this->id, ADDITIONAL_INFO_UPDATED, $t_revision_id );
 			}
 		}
 
 		# Update the last update date
-		bug_update_date( $c_bug_id );
+		bug_update_date( $this->id );
 
 		# allow bypass if user is sending mail separately
 		if( false == $p_bypass_mail ) {
 			# bug assigned
 			if( $t_old_data->handler_id != $this->handler_id ) {
-				email_generic( $c_bug_id, 'owner', 'email_notification_title_for_action_bug_assigned' );
+				email_generic( $this->id, 'owner', 'email_notification_title_for_action_bug_assigned' );
 				return true;
 			}
 
@@ -644,13 +641,13 @@ class BugData extends MantisCacheable {
 			if( $t_old_data->status != $this->status ) {
 				$t_status = MantisEnum::getLabel( config_get( 'status_enum_string' ), $this->status );
 				$t_status = str_replace( ' ', '_', $t_status );
-				email_generic( $c_bug_id, $t_status, 'email_notification_title_for_status_bug_' . $t_status );
+				email_generic( $this->id, $t_status, 'email_notification_title_for_status_bug_' . $t_status );
 				return true;
 			}
 
 			# @todo handle priority change if it requires special handling
 			# generic update notification
-			email_generic( $c_bug_id, 'updated', 'email_notification_title_for_action_bug_updated' );
+			email_generic( $this->id, 'updated', 'email_notification_title_for_action_bug_updated' );
 		}
 
 		return true;
@@ -700,13 +697,12 @@ function bug_cache_array_rows( $p_bug_id_array ) {
 		return;
 	}
 
-	$query = "SELECT *
-				  FROM {bug}
+	$t_query = "SELECT * FROM {bug}
 				  WHERE id IN (" . implode( ',', $c_bug_id_array ) . ')';
-	$result = db_query_bound( $query );
+	$t_result = db_query_bound( $t_query );
 
-	while( $row = db_fetch_array( $result ) ) {
-		bug_add_to_cache( $row );
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		bug_add_to_cache( $t_row );
 	}
 	return;
 }
@@ -765,13 +761,13 @@ function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
 		return $g_cache_bug_text[$c_bug_id];
 	}
 
-	$query = "SELECT bt.*
+	$t_query = "SELECT bt.*
 				  FROM {bug_text} bt, {bug} b
 				  WHERE b.id=%d AND
 				  		b.bug_text_id = bt.id";
-	$result = db_query_bound( $query, array( $c_bug_id ) );
+	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
 
-	$row = db_fetch_array( $result );
+	$row = db_fetch_array( $t_result );
 	
 	if( !$row ) {
 		$g_cache_bug_text[$c_bug_id] = false;
@@ -1028,30 +1024,30 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 		while( $t_bug_note = db_fetch_array( $result ) ) {
 			$t_bugnote_text_id = $t_bug_note['bugnote_text_id'];
 
-			$query2 = 'SELECT * FROM {bugnote_text} WHERE id=%d';
-			$result2 = db_query_bound( $query2, array( $t_bugnote_text_id ) );
+			$t_query2 = 'SELECT * FROM {bugnote_text} WHERE id=%d';
+			$t_result2 = db_query_bound( $t_query2, array( $t_bugnote_text_id ) );
 
 			$t_bugnote_text_insert_id = -1;
-			if( $t_bugnote_text = db_fetch_array( $result2 ) ) {
-				$query2 = 'INSERT INTO {bugnote_text} ( note ) VALUES ( %s )';
-				db_query_bound( $query2, array( $t_bugnote_text['note'] ) );
+			if( $t_bugnote_text = db_fetch_array( $t_result2 ) ) {
+				$t_query2 = 'INSERT INTO {bugnote_text} ( note ) VALUES ( %s )';
+				db_query_bound( $t_query2, array( $t_bugnote_text['note'] ) );
 				$t_bugnote_text_insert_id = db_insert_id( '{bugnote_text}' );
 			}
 
-			$query2 = "INSERT INTO {bugnote}
+			$t_query2 = "INSERT INTO {bugnote}
 						   ( bug_id, reporter_id, bugnote_text_id, view_state, date_submitted, last_modified )
 						   VALUES ( %d, %d, %d, %d, %d, %d)";
-			db_query_bound( $query2, array( $t_new_bug_id, $t_bug_note['reporter_id'], $t_bugnote_text_insert_id, $t_bug_note['view_state'], $t_bug_note['date_submitted'], $t_bug_note['last_modified'] ) );
+			db_query_bound( $t_query2, array( $t_new_bug_id, $t_bug_note['reporter_id'], $t_bugnote_text_insert_id, $t_bug_note['view_state'], $t_bug_note['date_submitted'], $t_bug_note['last_modified'] ) );
 		}
 	}
 
 	# Copy attachments
 	if( $p_copy_attachments ) {
-		$query = 'SELECT * FROM {bug_file} WHERE bug_id=%d';
-		$result = db_query_bound( $query, array( $t_bug_id ) );
+		$t_query = 'SELECT * FROM {bug_file} WHERE bug_id=%d';
+		$t_result = db_query_bound( $t_query, array( $t_bug_id ) );
 
 		$t_bug_file = array();
-		while( $t_bug_file = db_fetch_array( $result ) ) {
+		while( $t_bug_file = db_fetch_array( $t_result ) ) {
 
 			# prepare the new diskfile name and then copy the file
 			$t_file_path = dirname( $t_bug_file['folder'] );
@@ -1062,10 +1058,10 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 				chmod( $t_new_diskfile_name, config_get( 'attachments_file_permissions' ) );
 			}
 
-			$query = "INSERT INTO {bug_file}
+			$t_query = "INSERT INTO {bug_file}
 						( bug_id, title, description, diskfile, filename, folder, filesize, file_type, date_added, content )
 						VALUES ( %d, %s, %s, %s, %s, %s, %d, %s, %d, %d)";
-			db_query_bound( $query, array( $t_new_bug_id, $t_bug_file['title'], $t_bug_file['description'], $t_new_diskfile_name, $t_new_file_name, $t_bug_file['folder'], $t_bug_file['filesize'], $t_bug_file['file_type'], $t_bug_file['date_added'], $t_bug_file['content'] ) );
+			db_query_bound( $t_query, array( $t_new_bug_id, $t_bug_file['title'], $t_bug_file['description'], $t_new_diskfile_name, $t_new_file_name, $t_bug_file['folder'], $t_bug_file['filesize'], $t_bug_file['file_type'], $t_bug_file['date_added'], $t_bug_file['content'] ) );
 		}
 	}
 
@@ -1179,12 +1175,12 @@ function bug_delete( $p_bug_id ) {
 	# Delete the bugnote text
 	$t_bug_text_id = bug_get_field( $p_bug_id, 'bug_text_id' );
 
-	$query = "DELETE FROM {bug_text} WHERE id=%d";
-	db_query_bound( $query, array( $t_bug_text_id ) );
+	$t_query = "DELETE FROM {bug_text} WHERE id=%d";
+	db_query_bound( $t_query, array( $t_bug_text_id ) );
 
 	# Delete the bug entry
-	$query = "DELETE FROM {bug} WHERE id=%d";
-	db_query_bound( $query, array( $c_bug_id ) );
+	$t_query = "DELETE FROM {bug} WHERE id=%d";
+	db_query_bound( $t_query, array( $c_bug_id ) );
 
 	bug_clear_cache( $p_bug_id );
 	bug_text_clear_cache( $p_bug_id );
@@ -1201,13 +1197,11 @@ function bug_delete( $p_bug_id ) {
  * @uses database_api.php
  */
 function bug_delete_all( $p_project_id ) {
-	$c_project_id = (int) $p_project_id;
+	$t_query = 'SELECT id FROM {bug} WHERE project_id=%d';
+	$t_result = db_query_bound( $t_query, array( $p_project_id ) );
 
-	$query = 'SELECT id FROM {bug} WHERE project_id=%d';
-	$result = db_query_bound( $query, array( $c_project_id ) );
-
-	while( $row = db_fetch_array( $result ) ) {
-		bug_delete( $row['id'] );
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		bug_delete( $t_row['id'] );
 	}
 
 	# @todo should we check the return value of each bug_delete() and
@@ -1664,12 +1658,10 @@ function bug_reopen( $p_bug_id, $p_bugnote_text = '', $p_time_tracking = '0:00',
  * @uses database_api.php
  */
 function bug_update_date( $p_bug_id ) {
-	$c_bug_id = (int) $p_bug_id;
+	$t_query = 'UPDATE {bug} SET last_updated= %d WHERE id=%d';
+	db_query_bound( $t_query, array( db_now(), $p_bug_id ) );
 
-	$query = 'UPDATE {bug} SET last_updated= %d WHERE id=%d';
-	db_query_bound( $query, array( db_now(), $c_bug_id ) );
-
-	bug_clear_cache( $c_bug_id );
+	bug_clear_cache( $p_bug_id );
 
 	return true;
 }

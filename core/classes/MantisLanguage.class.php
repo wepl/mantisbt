@@ -142,14 +142,14 @@ class MantisLanguage {
 			if( !is_null( $t_plugin_current ) ) {
 				// Step 3 - Plugin exists: load language file
 				if( $t_lang != 'english' ) {
-					MantisLanguage::Load( $t_lang, config_get( 'plugin_path' ) . $t_plugin_current . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR );
+					MantisLanguage::Load( $t_lang, config_get( 'plugin_path' ) . $t_plugin_current . '/lang/' );
 					if( MantisLanguage::StringExists( $p_string, $t_lang ) ) {
 						return self::$s_lang_strings[$t_lang][$p_string];
 					}
 				}
 				
 				// Step 4 - Localised language entry didn't exist - fallback to english for plugin
-				MantisLanguage::Load( 'english', config_get( 'plugin_path' ) . $t_plugin_current . DIRECTORY_SEPARATOR . 'lang' . DIRECTORY_SEPARATOR );
+				MantisLanguage::Load( 'english', config_get( 'plugin_path' ) . $t_plugin_current . '/lang/' );
 				if( MantisLanguage::StringExists( $p_string, $t_lang ) ) {
 					return self::$s_lang_strings[$t_lang][$p_string];
 				}			

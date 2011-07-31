@@ -183,10 +183,10 @@ function profile_get_row( $p_user_id, $p_profile_id ) {
  * @todo relationship of this function to profile_get_row?
  */
 function profile_get_row_direct( $p_profile_id ) {
-	$query = "SELECT * FROM {user_profile} WHERE id=%d";
-	$result = db_query_bound( $query, array( $p_profile_id ) );
+	$t_query = "SELECT * FROM {user_profile} WHERE id=%d";
+	$t_result = db_query_bound( $t_query, array( $p_profile_id ) );
 
-	return db_fetch_array( $result );
+	return db_fetch_array( $t_result );
 }
 
 /**
@@ -195,8 +195,8 @@ function profile_get_row_direct( $p_profile_id ) {
  * @return array
  */
 function profile_get_all_rows( $p_user_id ) {
-	$query = "SELECT * FROM {user_profile} WHERE user_id=%d ORDER BY platform, os, os_build";
-	$t_result = db_query_bound( $query, array( $p_user_id ) );
+	$t_query = "SELECT * FROM {user_profile} WHERE user_id=%d ORDER BY platform, os, os_build";
+	$t_result = db_query_bound( $t_query, array( $p_user_id ) );
 
 	$t_rows = array();
 	
@@ -246,10 +246,10 @@ function profile_get_field_all_for_user( $p_field, $p_user_id = null ) {
 			throw new MantisBT\Exception\Generic();
 	}
 
-	$query = "SELECT DISTINCT $c_field FROM {user_profile}
+	$t_query = "SELECT DISTINCT $c_field FROM {user_profile}
 				  WHERE ( user_id=%d ) OR ( user_id = 0 )
 				  ORDER BY $c_field";
-	$result = db_query_bound( $query, array( $c_user_id ) );
+	$t_result = db_query_bound( $t_query, array( $c_user_id ) );
 
 	$t_rows = array();
 
@@ -269,12 +269,12 @@ function profile_get_all_for_project( $p_project_id ) {
 	$t_project_where = helper_project_specific_where( $p_project_id );
 
 	# using up.* causes an SQL error on MS SQL since up.description is of type text
-	$query = "SELECT DISTINCT(up.id), up.user_id, up.platform, up.os, up.os_build
+	$t_query = "SELECT DISTINCT(up.id), up.user_id, up.platform, up.os, up.os_build
 				  FROM {user_profile} up, {bug} b
 				  WHERE $t_project_where
 				  AND up.id = b.profile_id
 				  ORDER BY up.platform, up.os, up.os_build";
-	$t_result = db_query_bound( $query );
+	$t_result = db_query_bound( $t_query );
 
 	$t_rows = array();
 

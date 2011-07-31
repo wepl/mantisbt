@@ -94,14 +94,14 @@ function email_queue_add( $p_email_data ) {
 	$c_body = $t_email_data->body;
 	$c_metadata = serialize( $t_email_data->metadata );
 
-	$query = "INSERT INTO {email}
+	$t_query = "INSERT INTO {email}
 				    ( email,
 				      subject,
 					  body,
 					  submitted,
 					  metadata)
 				  VALUES ( %s, %s, %s, %d, %s )";
-	db_query_bound( $query, array( $c_email, $c_subject, $c_body, db_now(), $c_metadata ) );
+	db_query_bound( $t_query, array( $c_email, $c_subject, $c_body, db_now(), $c_metadata ) );
 
 	return db_insert_id( '{email}', 'email_id' );
 }
@@ -144,12 +144,10 @@ function email_queue_row_to_object( $p_row ) {
  * @return bool|EmailData
  */
 function email_queue_get( $p_email_id ) {
-	$c_email_id = db_prepare_int( $p_email_id );
+	$t_query = 'SELECT * FROM {email} WHERE email_id=%d';
+	$t_result = db_query_bound( $t_query, array( $p_email_id ) );
 
-	$query = 'SELECT * FROM {email} WHERE email_id=%d';
-	$result = db_query_bound( $query, array( $c_email_id ) );
-
-	$t_row = db_fetch_array( $result );
+	$t_row = db_fetch_array( $t_result );
 
 	return email_queue_row_to_object( $t_row );
 }
@@ -160,10 +158,8 @@ function email_queue_get( $p_email_id ) {
  * @return null
  */
 function email_queue_delete( $p_email_id ) {
-	$c_email_id = db_prepare_int( $p_email_id );
-
-	$query = 'DELETE FROM {email} WHERE email_id=%d';
-	db_query_bound( $query, array( $c_email_id ) );
+	$t_query = 'DELETE FROM {email} WHERE email_id=%d';
+	db_query_bound( $t_query, array( $p_email_id ) );
 }
 
 /**
@@ -171,11 +167,11 @@ function email_queue_delete( $p_email_id ) {
  * @return array
  */
 function email_queue_get_ids() {
-	$query = 'SELECT email_id FROM {email} ORDER BY email_id DESC';
-	$result = db_query_bound( $query );
+	$t_query = 'SELECT email_id FROM {email} ORDER BY email_id DESC';
+	$t_result = db_query_bound( $t_query );
 
 	$t_ids = array();
-	while(( $t_row = db_fetch_array( $result ) ) !== false ) {
+	while(( $t_row = db_fetch_array( $t_result ) ) !== false ) {
 		$t_ids[] = $t_row['email_id'];
 	}
 

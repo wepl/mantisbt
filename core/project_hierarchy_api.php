@@ -47,12 +47,12 @@ function project_hierarchy_add( $p_child_id, $p_parent_id, $p_inherit_parent = t
 		throw new MantisBT\Exception\Project_Recursive_Hierarchy();
 	}
 
-	$query = "INSERT INTO {project_hierarchy}
+	$t_query = "INSERT INTO {project_hierarchy}
 		                ( child_id, parent_id, inherit_parent )
 						VALUES
 						( %d, %d, %d )";
 
-	db_query_bound( $query, array( $p_child_id, $p_parent_id, $p_inherit_parent ) );
+	db_query_bound( $t_query, array( $p_child_id, $p_parent_id, $p_inherit_parent ) );
 }
 
 /**
@@ -63,8 +63,8 @@ function project_hierarchy_add( $p_child_id, $p_parent_id, $p_inherit_parent = t
  * @return null
  */
 function project_hierarchy_update( $p_child_id, $p_parent_id, $p_inherit_parent = true ) {
-	$query = "UPDATE {project_hierarchy} SET inherit_parent=%d WHERE child_id=%d AND parent_id=%d";
-	db_query_bound( $query, array( $p_inherit_parent, $p_child_id, $p_parent_id ) );
+	$t_query = "UPDATE {project_hierarchy} SET inherit_parent=%d WHERE child_id=%d AND parent_id=%d";
+	db_query_bound( $t_query, array( $p_inherit_parent, $p_child_id, $p_parent_id ) );
 }
 
 /**
@@ -74,9 +74,9 @@ function project_hierarchy_update( $p_child_id, $p_parent_id, $p_inherit_parent 
  * @return null
  */
 function project_hierarchy_remove( $p_child_id, $p_parent_id ) {
-	$query = "DELETE FROM {project_hierarchy} WHERE child_id = %d AND parent_id = %d";
+	$t_query = "DELETE FROM {project_hierarchy} WHERE child_id = %d AND parent_id = %d";
 
-	db_query_bound( $query, array( $p_child_id, $p_parent_id ) );
+	db_query_bound( $t_query, array( $p_child_id, $p_parent_id ) );
 }
 
 /**

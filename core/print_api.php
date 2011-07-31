@@ -354,17 +354,14 @@ function print_news_item_option_list() {
 
 	$t_global = access_has_global_level( config_get_global( 'admin_site_threshold' ) );
 	if( $t_global ) {
-		$query = "SELECT id, headline, announcement, view_state FROM {news}
-				ORDER BY date_posted DESC";
+		$t_query = "SELECT id, headline, announcement, view_state FROM {news} ORDER BY date_posted DESC";
 	} else {
-		$query = "SELECT id, headline, announcement, view_state FROM {news}
-				WHERE project_id=%d
-				ORDER BY date_posted DESC";
+		$t_query = "SELECT id, headline, announcement, view_state FROM {news}
+				WHERE project_id=%d ORDER BY date_posted DESC";
 	}
-	$result = db_query_bound( $query, ($t_global == true ? array() : array( $t_project_id ) ) );
+	$t_result = db_query_bound( $t_query, ($t_global == true ? array() : array( $t_project_id ) ) );
 
-	while( $row = db_fetch_array( $result ) ) {
-
+	while( $row = db_fetch_array( $t_result ) ) {
 		$t_headline = string_display( $row['headline'] );
 		$t_announcement = $row['announcement'];
 		$t_view_state = $row['view_state'];
@@ -389,8 +386,9 @@ function print_news_item_option_list() {
 	}
 }
 
-# ---------------
-# Constructs the string for one news entry given the row retrieved from the news table.
+/**
+ * Constructs the string for one news entry given the row retrieved from the news table.
+ */
 function print_news_entry( $p_headline, $p_body, $p_poster_id, $p_view_state, $p_announcement, $p_date_posted ) {
 	$t_headline = string_display_links( $p_headline );
 	$t_body = string_display_links( $p_body );
@@ -419,8 +417,9 @@ function print_news_entry( $p_headline, $p_body, $p_poster_id, $p_view_state, $p
 	</div><?php
 }
 
-# --------------------
-# print a news item given a row in the news table.
+/**
+ * print a news item given a row in the news table.
+ */
 function print_news_entry_from_row( $p_news_row ) {
 	$t_headline = $p_news_row['headline'];
 	$t_body = $p_news_row['body'];
@@ -432,8 +431,9 @@ function print_news_entry_from_row( $p_news_row ) {
 	print_news_entry( $t_headline, $t_body, $t_poster_id, $t_view_state, $t_announcement, $t_date_posted );
 }
 
-# --------------------
-# print a news item
+/**
+ * print a news item
+ */
 function print_news_string_by_news_id( $p_news_id ) {
 	$row = news_get_row( $p_news_id );
 
@@ -445,9 +445,10 @@ function print_news_string_by_news_id( $p_news_id ) {
 	print_news_entry_from_row( $row );
 }
 
-# --------------------
+/**
+ *
+ */
 function print_assign_to_option_list( $p_user_id = '', $p_project_id = null, $p_threshold = null ) {
-
 	if( null === $p_threshold ) {
 		$p_threshold = config_get( 'handle_bug_threshold' );
 	}
@@ -486,8 +487,9 @@ function print_project_option_list( $p_project_id = null, $p_include_all_project
 	}
 }
 
-# --------------------
-# List projects that the current user has access to
+/**
+ * List projects that the current user has access to
+ */
 function print_subproject_option_list( $p_parent_id, $p_project_id = null, $p_filter_project_id = null, $p_trace = false, $p_parents = array() ) {
 	array_push( $p_parents, $p_parent_id );
 	$t_project_ids = current_user_get_accessible_subprojects( $p_parent_id );
@@ -507,8 +509,9 @@ function print_subproject_option_list( $p_parent_id, $p_project_id = null, $p_fi
 	}
 }
 
-# --------------------
-# prints the profiles given the user id
+/**
+ * prints the profiles given the user id
+ */
 function print_profile_option_list( $p_user_id, $p_select_id = '', $p_profiles = null ) {
 	if( '' === $p_select_id ) {
 		$p_select_id = profile_get_default( $p_user_id );
@@ -521,8 +524,9 @@ function print_profile_option_list( $p_user_id, $p_select_id = '', $p_profiles =
 	print_profile_option_list_from_profiles( $t_profiles, $p_select_id );
 }
 
-# --------------------
-# prints the profiles used in a certain project
+/**
+ * prints the profiles used in a certain project
+ */
 function print_profile_option_list_for_project( $p_project_id, $p_select_id = '', $p_profiles = null ) {
 	if( '' === $p_select_id ) {
 		$p_select_id = profile_get_default( auth_get_current_user_id() );
@@ -535,8 +539,9 @@ function print_profile_option_list_for_project( $p_project_id, $p_select_id = ''
 	print_profile_option_list_from_profiles( $t_profiles, $p_select_id );
 }
 
-# --------------------
-# print the profile option list from profiles array
+/**
+ * print the profile option list from profiles array
+ */
 function print_profile_option_list_from_profiles( $p_profiles, $p_select_id ) {
 	echo '<option value=""></option>';
 	foreach( $p_profiles as $t_profile ) {
@@ -552,10 +557,11 @@ function print_profile_option_list_from_profiles( $p_profiles, $p_select_id ) {
 	}
 }
 
-# --------------------
-# Since categories can be orphaned we need to grab all unique instances of category
-# We check in the project category table and in the bug table
-# We put them all in one array and make sure the entries are unique
+/** 
+ * Since categories can be orphaned we need to grab all unique instances of category
+ * We check in the project category table and in the bug table
+ * We put them all in one array and make sure the entries are unique
+ */
 function print_category_option_list( $p_category_id = 0, $p_project_id = null ) {
 	if( null === $p_project_id ) {
 		$t_project_id = helper_get_current_project();
@@ -601,8 +607,9 @@ function print_category_filter_option_list( $p_category_name = '', $p_project_id
 	}
 }
 
-# --------------------
-# Print the option list for platforms accessible for the specified user.
+/**
+ * Print the option list for platforms accessible for the specified user.
+ */
 function print_platform_option_list( $p_platform, $p_user_id = null ) {
 	$t_platforms_array = profile_get_field_all_for_user( 'platform', $p_user_id );
 
@@ -614,8 +621,9 @@ function print_platform_option_list( $p_platform, $p_user_id = null ) {
 	}
 }
 
-# --------------------
-# Print the option list for OSes accessible for the specified user.
+/**
+ * Print the option list for OSes accessible for the specified user.
+ */
 function print_os_option_list( $p_os, $p_user_id = null ) {
 	$t_os_array = profile_get_field_all_for_user( 'os', $p_user_id );
 
@@ -627,7 +635,9 @@ function print_os_option_list( $p_os, $p_user_id = null ) {
 	}
 }
 
-# Print the option list for os_build accessible for the specified user.
+/**
+ * Print the option list for os_build accessible for the specified user.
+ */
 function print_os_build_option_list( $p_os_build, $p_user_id = null ) {
 	$t_os_build_array = profile_get_field_all_for_user( 'os_build', $p_user_id );
 
@@ -639,12 +649,14 @@ function print_os_build_option_list( $p_os_build, $p_user_id = null ) {
 	}
 }
 
-# Print the option list for versions
-# $p_version = currently selected version.
-# $p_project_id = project id, otherwise current project will be used.
-# $p_released = null to get all, 1: only released, 0: only future versions
-# $p_leading_black = allow selection of no version
-# $p_with_subs = include subprojects
+/**
+ * Print the option list for versions
+ * $p_version = currently selected version.
+ * $p_project_id = project id, otherwise current project will be used.
+ * $p_released = null to get all, 1: only released, 0: only future versions
+ * $p_leading_black = allow selection of no version
+ * $p_with_subs = include subprojects
+ */
 function print_version_option_list( $p_version = '', $p_project_id = null, $p_released = null, $p_leading_blank = true, $p_with_subs = false ) {
 	if( null === $p_project_id ) {
 		$c_project_id = helper_get_current_project();
@@ -702,10 +714,8 @@ function print_build_option_list( $p_build = '' ) {
 	$t_project_where = helper_project_specific_where( $t_project_id );
 
 	# Get the "found in" build list
-	$query = "SELECT DISTINCT build FROM {bug}
-				WHERE $t_project_where
-				ORDER BY build DESC";
-	$t_result = db_query_bound( $query );
+	$t_query = "SELECT DISTINCT build FROM {bug} WHERE $t_project_where ORDER BY build DESC";
+	$t_result = db_query_bound( $t_query );
 	
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$t_overall_build_arr[] = $t_row['build'];
@@ -721,9 +731,11 @@ function print_build_option_list( $p_build = '' ) {
 	}
 }
 
-# select the proper enum values based on the input parameter
-# $p_enum_name - name of enumeration (eg: status)
-# $p_val: current value
+/**
+ * select the proper enum values based on the input parameter
+ * $p_enum_name - name of enumeration (eg: status)
+ * $p_val: current value
+ */
 function print_enum_string_option_list( $p_enum_name, $p_val = 0 ) {
 	$t_config_var_name = $p_enum_name . '_enum_string';
 	$t_config_var_value = config_get( $t_config_var_name );
@@ -739,10 +751,12 @@ function print_enum_string_option_list( $p_enum_name, $p_val = 0 ) {
 	}
 }
 
-# Select the proper enum values for status based on workflow
-# or the input parameter if workflows are not used
-# $p_enum_name : name of enumeration (eg: status)
-# $p_current_value : current value
+/**
+ * Select the proper enum values for status based on workflow
+ * or the input parameter if workflows are not used
+ * $p_enum_name : name of enumeration (eg: status)
+ * $p_current_value : current value
+ */
 function get_status_option_list( $p_user_auth = 0, $p_current_value = 0, $p_show_current = true, $p_add_close = false, $p_project_id = ALL_PROJECTS ) {
 	$t_config_var_value = config_get( 'status_enum_string', null, null, $p_project_id );
 	$t_enum_workflow = config_get( 'status_enum_workflow', null, null, $p_project_id );
@@ -781,7 +795,9 @@ function get_status_option_list( $p_user_auth = 0, $p_current_value = 0, $p_show
 	return $t_enum_list;
 }
 
-# print the status option list for the bug_update pages
+/**
+ * print the status option list for the bug_update pages
+ */
 function print_status_option_list( $p_select_label, $p_current_value = 0, $p_allow_close = false, $p_project_id = ALL_PROJECTS ) {
 	$t_current_auth = access_get_project_level( $p_project_id );
 
@@ -806,14 +822,18 @@ function print_status_option_list( $p_select_label, $p_current_value = 0, $p_all
 	}
 }
 
-# prints the list of a project's users
-# if no project is specified uses the current project
+/**
+ * prints the list of a project's users
+ * if no project is specified uses the current project
+ */
 function print_project_user_option_list( $p_project_id = null ) {
 	print_user_option_list( 0, $p_project_id );
 }
 
-# prints the list of access levels that are less than or equal to the access level of the
-# logged in user.  This is used when adding users to projects
+/**
+ * prints the list of access levels that are less than or equal to the access level of the
+ * logged in user.  This is used when adding users to projects
+ */
 function print_project_access_levels_option_list( $p_val, $p_project_id = null ) {
 	$t_current_user_access_level = access_get_project_level( $p_project_id );
 	$t_access_levels_enum_string = config_get( 'access_levels_enum_string' );
@@ -854,10 +874,11 @@ function print_all_bug_action_option_list( $p_project_ids = null ) {
 	}
 }
 
-# --------------------
-# list of users that are NOT in the specified project and that are enabled
-# if no project is specified use the current project
-# also exclude any administrators
+/**
+ * list of users that are NOT in the specified project and that are enabled
+ * if no project is specified use the current project
+ * also exclude any administrators
+ */
 function print_project_user_list_option_list( $p_project_id = null ) {
 	$t_users = user_get_unassigned_by_project_id( $p_project_id );
 	foreach( $t_users AS $t_id=>$t_name ) {
@@ -865,27 +886,29 @@ function print_project_user_list_option_list( $p_project_id = null ) {
 	}
 }
 
-# list of projects that a user is NOT in
+/**
+ * list of projects that a user is NOT in
+ */
 function print_project_user_list_option_list2( $p_user_id ) {
-	$c_user_id = db_prepare_int( $p_user_id );
-
-	$query = "SELECT DISTINCT p.id, p.name
+	$t_query = "SELECT DISTINCT p.id, p.name
 				FROM {project} p
 				LEFT JOIN {project_user_list} u
 				ON p.id=u.project_id AND u.user_id=%d
 				WHERE p.enabled = %d AND
 					u.user_id IS NULL
 				ORDER BY p.name";
-	$result = db_query_bound( $query, array( $c_user_id, true ) );
+	$t_result = db_query_bound( $t_query, array( $p_user_id, true ) );
 
-	while( $row = db_fetch_array( $result ) ) {
-		$t_project_name = string_attribute( $row['name'] );
-		$t_user_id = $row['id'];
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$t_project_name = string_attribute( $t_row['name'] );
+		$t_user_id = $t_row['id'];
 		echo "<option value=\"$t_user_id\">$t_project_name</option>";
 	}
 }
 
-# list of projects that a user is in
+/**
+ * list of projects that a user is in
+ */
 function print_project_user_list( $p_user_id, $p_include_remove_link = true ) {
 	$t_projects = user_get_assigned_projects( $p_user_id );
 
@@ -904,12 +927,14 @@ function print_project_user_list( $p_user_id, $p_include_remove_link = true ) {
 	}
 }
 
-# List of projects with which the specified field id is linked.
-# For every project, the project name is listed and then the list of custom
-# fields linked in order with their sequence numbers.  The specified field
-# is always highlighted in italics and project names in bold.
-#
-# $p_field_id - The field to list the projects associated with.
+/**
+ * List of projects with which the specified field id is linked.
+ * For every project, the project name is listed and then the list of custom
+ * fields linked in order with their sequence numbers.  The specified field
+ * is always highlighted in italics and project names in bold.
+ *
+ * $p_field_id - The field to list the projects associated with.
+ */
 function print_custom_field_projects_list( $p_field_id ) {
 	$c_field_id = (integer) $p_field_id;
 	$t_project_ids = custom_field_get_project_ids( $p_field_id );
@@ -965,18 +990,18 @@ function print_plugin_priority_list( $p_priority ) {
 	}
 }
 
-# ##########################################################################
-# String printing API
-# ##########################################################################
-
-# prints a link to VIEW a bug given an ID
-#  account for the user preference and site override
+/** 
+ * prints a link to VIEW a bug given an ID
+ *  account for the user preference and site override
+ */
 function print_bug_link( $p_bug_id, $p_detail_info = true ) {
 	echo string_get_bug_view_link( $p_bug_id, null, $p_detail_info );
 }
 
-# formats the priority given the status
-# shows the priority in BOLD if the bug is NOT closed and is of significant priority
+/**
+ * formats the priority given the status
+ * shows the priority in BOLD if the bug is NOT closed and is of significant priority
+ */
 function print_formatted_priority_string( $p_status, $p_priority ) {
 	$t_pri_str = get_enum_element( 'priority', $p_priority );
 	$t_priority_threshold = config_get( 'priority_significant_threshold' );
@@ -990,8 +1015,10 @@ function print_formatted_priority_string( $p_status, $p_priority ) {
 	}
 }
 
-# formats the severity given the status
-# shows the severity in BOLD if the bug is NOT closed and is of significant severity
+/**
+ * formats the severity given the status
+ * shows the severity in BOLD if the bug is NOT closed and is of significant severity
+ */
 function print_formatted_severity_string( $p_status, $p_severity ) {
 	$t_sev_str = get_enum_element( 'severity', $p_severity );
 	$t_severity_threshold = config_get( 'severity_significant_threshold' );
@@ -1005,11 +1032,9 @@ function print_formatted_severity_string( $p_status, $p_severity ) {
 	}
 }
 
-# ##########################################################################
-# Link Printing API
-# ##########################################################################
-
-# $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+/**
+ * $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ */
 function print_view_bug_sort_link( $p_string, $p_sort_field, $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	if( $p_columns_target == COLUMNS_TARGET_PRINT_PAGE ) {
 		if( $p_sort_field == $p_sort ) {
@@ -1084,10 +1109,12 @@ function print_manage_project_sort_link( $p_page, $p_string, $p_field, $p_dir, $
 	print_link( "$p_page?sort=$t_field&dir=$t_dir", $p_string );
 }
 
-# print a button which presents a standalone form.
-# $p_action_page - The action page
-# $p_label - The button label
-# $p_args_to_post - An associative array with key => value to be posted, can be null.
+/**
+ * print a button which presents a standalone form.
+ * $p_action_page - The action page
+ * $p_label - The button label
+ * $p_args_to_post - An associative array with key => value to be posted, can be null.
+ */
 function print_button( $p_action_page, $p_label, $p_args_to_post = null ) {
 	$t_form_name = explode( '.php', $p_action_page, 2 );
 	# TODO: ensure all uses of print_button supply arguments via $p_args_to_post (POST)
@@ -1108,14 +1135,18 @@ function print_button( $p_action_page, $p_label, $p_args_to_post = null ) {
 	echo '</form>';
 }
 
-# print brackets around a pre-prepared link (i.e. '<a href' html tag).
+/**
+ * print brackets around a pre-prepared link (i.e. '<a href' html tag).
+ */
 function print_bracket_link_prepared( $p_link ) {
 	echo '<span class="bracket-link">[&#160;' . $p_link . '&#160;]</span> ';
 }
 
-# print the bracketed links used near the top
-# if the $p_link is blank then the text is printed but no link is created
-# if $p_new_window is true, link will open in a new window, default false.
+/**
+ * print the bracketed links used near the top
+ * if the $p_link is blank then the text is printed but no link is created
+ * if $p_new_window is true, link will open in a new window, default false.
+ */
 function print_bracket_link( $p_link, $p_url_text, $p_new_window = false, $p_class = '' ) {
 	echo '<span class="bracket-link';
 	if ($p_class !== '') {
@@ -1126,7 +1157,9 @@ function print_bracket_link( $p_link, $p_url_text, $p_new_window = false, $p_cla
 	echo '&#160;]</span> ';
 }
 
-# print a HTML link
+/**
+ * print a HTML link
+ */
 function print_link( $p_link, $p_url_text, $p_new_window = false, $p_class = '' ) {
 	if( is_blank( $p_link ) ) {
 		echo $p_url_text;
@@ -1144,7 +1177,9 @@ function print_link( $p_link, $p_url_text, $p_new_window = false, $p_class = '' 
 	}
 }
 
-# print a HTML page link
+/**
+ * print a HTML page link
+ */
 function print_page_link( $p_page_url, $p_text = '', $p_page_no = 0, $p_page_cur = 0, $p_temp_filter_id = 0 ) {
 	if( is_blank( $p_text ) ) {
 		$p_text = $p_page_no;
@@ -1162,7 +1197,9 @@ function print_page_link( $p_page_url, $p_text = '', $p_page_no = 0, $p_page_cur
 	}
 }
 
-# print a list of page number links (eg [1 2 3])
+/**
+ * print a list of page number links (eg [1 2 3])
+ */
 function print_page_links( $p_page, $p_start, $p_end, $p_current, $p_temp_filter_id = 0 ) {
 	$t_items = array();
 	$t_link = '';
@@ -1234,24 +1271,32 @@ function print_page_links( $p_page, $p_start, $p_end, $p_current, $p_temp_filter
 	print( ' ]' );
 }
 
-# print a mailto: href link
+/**
+ * print a mailto: href link
+ */
 function print_email_link( $p_email, $p_text ) {
 	echo get_email_link( $p_email, $p_text );
 }
 
-# return the mailto: href string link instead of printing it
+/**
+ * return the mailto: href string link instead of printing it
+ */
 function get_email_link( $p_email, $p_text ) {
 	return prepare_email_link( $p_email, $p_text );
 }
 
-# print a mailto: href link with subject
+/**
+ * print a mailto: href link with subject
+ */
 function print_email_link_with_subject( $p_email, $p_text, $p_bug_id ) {
 	$t_subject = email_build_subject( $p_bug_id );
 	echo get_email_link_with_subject( $p_email, $p_text, $t_subject );
 }
 
-# return the mailto: href string link instead of printing it
-# add subject line
+/**
+ * return the mailto: href string link instead of printing it
+ * add subject line
+ */
 function get_email_link_with_subject( $p_email, $p_text, $p_summary ) {
 	if( !access_has_project_level( config_get( 'show_user_email_threshold' ) ) ) {
 		return $p_text;
@@ -1269,11 +1314,13 @@ function get_email_link_with_subject( $p_email, $p_text, $p_summary ) {
 	return "<a href=\"$t_mailto\">$t_text</a>";
 }
 
-# Print a hidden input for each name=>value pair in the array
-#
-# If a value is an array an input will be created for each item with a name
-#  that ends with []
-# The names and values are passed through htmlspecialchars() before being displayed
+/**
+ * Print a hidden input for each name=>value pair in the array
+ *
+ * If a value is an array an input will be created for each item with a name
+ *  that ends with []
+ * The names and values are passed through htmlspecialchars() before being displayed
+ */
 function print_hidden_inputs( $p_assoc_array ) {
 	foreach( $p_assoc_array as $t_key => $t_val ) {
 		print_hidden_input( $t_key, $t_val );
@@ -1296,44 +1343,6 @@ function print_hidden_input( $p_field_key, $p_field_val ) {
 		$t_key = string_html_entities( $p_field_key );
 		$t_val = string_html_entities( $p_field_val );
 		echo "<input type=\"hidden\" name=\"$t_key\" value=\"$t_val\" />\n";
-	}
-}
-
-# =============================
-# Functions that used to be in html_api
-# =============================
-
-# This prints the little [?] link for user help
-# The $p_a_name is a link into the documentation.html file
-function print_documentation_link( $p_a_name = '' ) {
-	echo lang_get( $p_a_name ) . "\n";
-	# @@@ Disable documentation links for now.  May be re-enabled if linked to new manual.
-	# echo "<a href=\"doc/documentation.html#$p_a_name\" target=\"_info\">[?]</a>";
-}
-
-# prints the signup link
-function print_signup_link() {
-	if ( ( ON == config_get_global( 'allow_signup' ) ) &&
-	     ( LDAP != config_get_global( 'login_method' ) ) &&
-	     ( ON == config_get( 'enable_email_notification' ) )
-	   ) {
-		print_bracket_link( 'signup_page.php', lang_get( 'signup_link' ) );
-	}
-}
-
-# prints the login link
-function print_login_link() {
-	print_bracket_link( 'login_page.php', lang_get( 'login_title' ) );
-}
-
-# prints the lost pwd link
-function print_lost_password_link() {
-	# lost password feature disabled or reset password via email disabled -> stop here!
-	if ( ( LDAP != config_get_global( 'login_method' ) ) &&
-	     ( ON == config_get( 'lost_password_feature' ) ) &&
-	     ( ON == config_get( 'send_reset_password' ) ) &&
-	     ( ON == config_get( 'enable_email_notification' ) ) ) {
-		print_bracket_link( 'lost_pwd_page.php', lang_get( 'lost_password_link' ) );
 	}
 }
 
@@ -1560,8 +1569,9 @@ function print_bug_attachment_preview_image( $p_attachment ) {
 	echo '</a></div>';
 }
 
-# --------------------
-# Print the option list for timezones
+/**
+ * Print the option list for timezones
+ */
 function print_timezone_option_list( $p_timezone ) {
 	if ( !function_exists( 'timezone_identifiers_list' ) ) {
 		echo "\t<option value=\"$p_timezone\" selected=\"selected\">$p_timezone</option>\n";

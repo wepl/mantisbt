@@ -118,8 +118,8 @@ function log_event( $p_level, $p_msg, $p_backtrace = null ) {
 			break;
 		case 'firebug':
 			if( !class_exists( 'FirePHP' ) ) {
-				if( file_exists( config_get_global( 'library_path' ) . 'FirePHPCore' . DIRECTORY_SEPARATOR . 'FirePHP.class.php' ) ) {
-					require_lib( 'FirePHPCore' . DIRECTORY_SEPARATOR . 'FirePHP.class.php' );
+				if( file_exists( config_get_global( 'library_path' ) . 'FirePHPCore/FirePHP.class.php' ) ) {
+					require_lib( 'FirePHPCore/FirePHP.class.php' );
 				}
 			}
 			if( class_exists( 'FirePHP' ) ) {

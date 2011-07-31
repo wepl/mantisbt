@@ -228,7 +228,7 @@ print_recently_visited();
 			<?php
 			echo config_get( 'allow_no_category' ) ? '' : '<span class="required">*</span>';
 			echo '<label for="category_id">';
-			print_documentation_link( 'category' );
+			lang_get( 'category' );
 			echo '</label>';
 			?>
 		</th>
@@ -250,7 +250,7 @@ print_recently_visited();
 
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<label for="reproducibility"><?php print_documentation_link( 'reproducibility' ) ?></label>
+			<label for="reproducibility"><?php lang_get( 'reproducibility' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="reproducibility" name="reproducibility">
@@ -265,7 +265,7 @@ print_recently_visited();
 ?>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<label for="severity"><?php print_documentation_link( 'severity' ) ?></label>
+			<label for="severity"><?php lang_get( 'severity' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="severity" name="severity">
@@ -280,7 +280,7 @@ print_recently_visited();
 ?>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<label for="priority"><?php print_documentation_link( 'priority' ) ?></label>
+			<label for="priority"><?php lang_get( 'priority' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="priority" name="priority">
@@ -300,7 +300,7 @@ print_recently_visited();
 ?>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<label for="due_date"><?php print_documentation_link( 'due_date' ) ?></label>
+			<label for="due_date"><?php lang_get( 'due_date' ) ?></label>
 		</th>
 		<td>
 			<?php echo "<input " . helper_get_tab_index() . " type=\"text\" id=\"due_date\" name=\"due_date\" class=\"datetime\" size=\"20\" maxlength=\"16\" value=\"" . $t_date_to_display . "\" />" ?>
@@ -452,7 +452,7 @@ print_recently_visited();
 <?php event_signal( 'EVENT_REPORT_BUG_FORM', array( $t_project_id ) ) ?>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<span class="required">*</span><label for="summary"><?php print_documentation_link( 'summary' ) ?></label>
+			<span class="required">*</span><label for="summary"><?php lang_get( 'summary' ) ?></label>
 		</th>
 		<td>
 			<input <?php echo helper_get_tab_index() ?> type="text" id="summary" name="summary" size="105" maxlength="128" value="<?php echo string_attribute( $f_summary ) ?>" />
@@ -460,7 +460,7 @@ print_recently_visited();
 	</tr>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<span class="required">*</span><label for="description"><?php print_documentation_link( 'description' ) ?></label>
+			<span class="required">*</span><label for="description"><?php lang_get( 'description' ) ?></label>
 		</th>
 		<td>
 			<textarea <?php echo helper_get_tab_index() ?> id="description" name="description" cols="80" rows="10"><?php echo string_textarea( $f_description ) ?></textarea>
@@ -470,7 +470,7 @@ print_recently_visited();
 <?php if ( $tpl_show_steps_to_reproduce ) { ?>
 		<tr <?php echo helper_alternate_class() ?>>
 			<th class="category">
-				<label for="steps_to_reproduce"><?php print_documentation_link( 'steps_to_reproduce' ) ?></label>
+				<label for="steps_to_reproduce"><?php lang_get( 'steps_to_reproduce' ) ?></label>
 			</th>
 			<td>
 				<textarea <?php echo helper_get_tab_index() ?> id="steps_to_reproduce" name="steps_to_reproduce" cols="80" rows="10"><?php echo string_textarea( $f_steps_to_reproduce ) ?></textarea>
@@ -481,7 +481,7 @@ print_recently_visited();
 <?php if ( $tpl_show_additional_info ) { ?>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<label for="additional_info"><?php print_documentation_link( 'additional_information' ) ?></label>
+			<label for="additional_info"><?php lang_get( 'additional_information' ) ?></label>
 		</th>
 		<td>
 			<textarea <?php echo helper_get_tab_index() ?> id="additional_info" name="additional_info" cols="80" rows="10"><?php echo string_textarea( $f_additional_info ) ?></textarea>
@@ -559,7 +559,7 @@ print_recently_visited();
 ?>
 	<tr <?php echo helper_alternate_class() ?>>
 		<th class="category">
-			<?php print_documentation_link( 'report_stay' ) ?>
+			<?php lang_get( 'report_stay' ) ?>
 		</th>
 		<td>
 			<label><input <?php echo helper_get_tab_index() ?> type="checkbox" id="report_stay" name="report_stay" <?php check_checked( $f_report_stay ) ?> /> <?php echo lang_get( 'check_report_more_bugs' ) ?></label>

@@ -4284,18 +4284,16 @@ $g_cache_filter_db_filters = array();
 function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 	global $g_cache_filter;
 
-	$c_filter_id = db_prepare_int( $p_filter_id );
-
-	if( isset( $g_cache_filter[$c_filter_id] ) ) {
-		return $g_cache_filter[$c_filter_id];
+	if( isset( $g_cache_filter[$p_filter_id] ) ) {
+		return $g_cache_filter[$p_filter_id];
 	}
 
-	$query = 'SELECT * FROM {filters} WHERE id=%d';
-	$result = db_query_bound( $query, array( $c_filter_id ) );
+	$t_query = 'SELECT * FROM {filters} WHERE id=%d';
+	$t_result = db_query_bound( $t_query, array( $p_filter_id ) );
 
-	$row = db_fetch_array( $result );
+	$t_row = db_fetch_array( $t_result );
 	
-	if( !$row ) {
+	if( !$t_row ) {
 		if( $p_trigger_errors ) {
 			throw new MantisBT\Exception\Filter_Not_Found( $p_filter_id );
 		} else {
@@ -4303,9 +4301,9 @@ function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 		}
 	}
 
-	$g_cache_filter[$c_filter_id] = $row;
+	$g_cache_filter[$p_filter_id] = $t_row;
 
-	return $row;
+	return $t_row;
 }
 
 /**
@@ -4319,16 +4317,12 @@ function filter_clear_cache( $p_filter_id = null ) {
 	if( null === $p_filter_id ) {
 		$g_cache_filter = array();
 	} else {
-		$c_filter_id = db_prepare_int( $p_filter_id );
-		unset( $g_cache_filter[$c_filter_id] );
+		unset( $g_cache_filter[$p_filter_id] );
 	}
 
 	return true;
 }
 
-# ==========================================================================
-# FILTER DB FUNCTIONS
-# ==========================================================================
 /**
  *  Add a filter to the database for the current user
  * @param int $p_project_id
@@ -4353,32 +4347,30 @@ function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $
 	}
 
 	# Do I need to update or insert this value?
-	$query = 'SELECT id FROM {filters} WHERE user_id=%d AND project_id=%d AND name=%s';
-	$result = db_query_bound( $query, array( $t_user_id, $c_project_id, $p_name ) );
+	$t_query = 'SELECT id FROM {filters} WHERE user_id=%d AND project_id=%d AND name=%s';
+	$t_result = db_query_bound( $t_query, array( $t_user_id, $c_project_id, $p_name ) );
 
-	$t_row = db_fetch_array( $result );
+	$t_row = db_fetch_array( $t_result );
 	if( $t_row ) {
-		$query = "UPDATE {filters}
-					  SET is_public=%d, filter_string=%s
-					  WHERE id=%d";
-		db_query_bound( $query, array( $c_is_public, $p_filter_string, $t_row['id'] ) );
+		$t_query = "UPDATE {filters} SET is_public=%d, filter_string=%s WHERE id=%d";
+		db_query_bound( $t_query, array( $c_is_public, $p_filter_string, $t_row['id'] ) );
 
 		return $t_row['id'];
 	} else {
-		$query = "INSERT INTO {filters}
+		$t_query = "INSERT INTO {filters}
 						( user_id, project_id, is_public, name, filter_string )
 					  VALUES
 						( %d, %d, %d, %s, %s )";
-		db_query_bound( $query, array( $t_user_id, $c_project_id, $c_is_public, $p_name, $p_filter_string ) );
+		db_query_bound( $t_query, array( $t_user_id, $c_project_id, $c_is_public, $p_name, $p_filter_string ) );
 
 		# Recall the query, we want the filter ID
-		$query = "SELECT id FROM {filters}
+		$t_query = "SELECT id FROM {filters}
 						WHERE user_id=%d
 						AND project_id=%d
 						AND name=%s";
-		$result = db_query_bound( $query, array( $t_user_id, $c_project_id, $p_name ) );
+		$t_result = db_query_bound( $t_query, array( $t_user_id, $c_project_id, $p_name ) );
 
-		if( $t_row = db_fetch_array( $result ) ) {
+		if( $t_row = db_fetch_array( $t_result ) ) {
 			return $t_row['id'];
 		}
 

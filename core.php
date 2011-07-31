@@ -68,21 +68,21 @@ $g_request_time = microtime( true );
 ob_start();
 
 # Load supplied constants
-require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'constant_inc.php' );
+require_once( dirname( __FILE__ ) . '/core/constant_inc.php' );
 
 # Load user-defined constants (if required)
-if ( file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'custom_constants_inc.php' ) ) {
-	require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'custom_constants_inc.php' );
+if ( file_exists( dirname( __FILE__ ) . '/custom_constants_inc.php' ) ) {
+	require_once( dirname( __FILE__ ) . '/custom_constants_inc.php' );
 }
 
 $t_config_inc_found = false;
 
 # Include default configuration settings
-require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'config_defaults_inc.php' );
+require_once( dirname( __FILE__ ) . '/config_defaults_inc.php' );
 
 # config_inc may not be present if this is a new install
-if ( file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'config_inc.php' ) ) {
-	require_once( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'config_inc.php' );
+if ( file_exists( dirname( __FILE__ ) . '/config_inc.php' ) ) {
+	require_once( dirname( __FILE__ ) . '/config_inc.php' );
 	$t_config_inc_found = true;
 }
 

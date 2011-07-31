@@ -111,44 +111,44 @@ class MantisUser extends MantisCacheable {
 		}
 		
 		if( is_array( $p_value ) ) {
-			$query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
-			$result = db_query_bound( $query );
+			$r_query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
+			$r_result = db_query_bound( $t_query );
 			$t_rows = array();
-			while( $row = db_fetch_array( $result ) ) {
-				$t_rows[] = $row;
+			while( $t_row = db_fetch_array( $t_result ) ) {
+				$t_rows[] = $t_row;
 			}
 			return $t_rows;
 		} else {
-			$query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
-			$result = db_query_bound( $query, array( $p_value ) );
-			$row = db_fetch_array( $result );
+			$t_query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
+			$t_result = db_query_bound( $t_query, array( $p_value ) );
+			$t_row = db_fetch_array( $t_result );
 			
-			if ( $row ) {
-				return $row;	
+			if ( $t_row ) {
+				return $t_row;	
 			} else {
 				return null;
 			}
 		}
 	}	
 	
-	# --------------------
-	# Cache a user row if necessary and return the cached copy
-	#  If the second parameter is true (default), trigger an error
-	#  if the user can't be found.  If the second parameter is
-	#  false, return false if the user can't be found.
+	/**
+	 * Cache a user row if necessary and return the cached copy
+	 *  If the second parameter is true (default), trigger an error
+	 *  if the user can't be found.  If the second parameter is
+	 *  false, return false if the user can't be found.
+	 */
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
-		$query = "SELECT * FROM {user} WHERE id=%d";
-		$result = db_query_bound( $query, array( $p_user_id ) );
+		$t_query = "SELECT * FROM {user} WHERE id=%d";
+		$t_result = db_query_bound( $t_query, array( $p_user_id ) );
 
-		$row = db_fetch_array( $result );
+		$t_row = db_fetch_array( $t_result );
 		
-		if ( $row ) {
-			return $row;	
+		if ( $t_row ) {
+			return $t_row;	
 		} else {
 			if( $p_trigger_errors ) {
 				throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
 			}
-
 			return false;
 		}
 	}
@@ -286,10 +286,10 @@ class MantisUser extends MantisCacheable {
 			return false;
 		}
 		
-		$query = 'SELECT username FROM {user} WHERE username=%s';
-		$result = db_query_bound( $query, array( $p_username ), 1 );
+		$t_query = 'SELECT username FROM {user} WHERE username=%s';
+		$t_result = db_query_bound( $t_query, array( $p_username ), 1 );
 
-		if( db_result( $result ) ) {
+		if( db_result( $t_result ) ) {
 			throw new MantisBT\Exception\User_Name_Not_Unique();
 			return false;
 		} else {

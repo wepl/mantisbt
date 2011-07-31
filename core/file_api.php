@@ -92,15 +92,14 @@ function file_bug_attachment_count( $p_bug_id ) {
 
 	# Otherwise build the cache and return the attachment count
 	#   for the given bug (if any).
-	$query = "SELECT bug_id, COUNT(bug_id) AS attachments FROM {bug_file}
-				GROUP BY bug_id";
-	$result = db_query_bound( $query );
+	$t_query = "SELECT bug_id, COUNT(bug_id) AS attachments FROM {bug_file} GROUP BY bug_id";
+	$t_result = db_query_bound( $t_query );
 
 	$t_file_count = 0;
-	while( $row = db_fetch_array( $result ) ) {
-		$g_cache_file_count[$row['bug_id']] = $row['attachments'];
-		if( $p_bug_id == $row['bug_id'] ) {
-			$t_file_count = $row['attachments'];
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$g_cache_file_count[$t_row['bug_id']] = $t_row['attachments'];
+		if( $p_bug_id == $t_row['bug_id'] ) {
+			$t_file_count = $t_row['attachments'];
 		}
 	}
 
@@ -113,7 +112,9 @@ function file_bug_attachment_count( $p_bug_id ) {
 	return $t_file_count;
 }
 
-# Check if a specific bug has attachments
+/**
+ * Check if a specific bug has attachments
+ */
 function file_bug_has_attachments( $p_bug_id ) {
 	if( file_bug_attachment_count( $p_bug_id ) > 0 ) {
 		return true;
@@ -122,7 +123,9 @@ function file_bug_has_attachments( $p_bug_id ) {
 	}
 }
 
-# Check if the current user can view attachments for the specified bug.
+/**
+ * Check if the current user can view attachments for the specified bug.
+ */
 function file_can_view_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
 	$t_uploaded_by_me = auth_get_current_user_id() === $p_uploader_user_id;
 	$t_can_view = access_has_bug_level( config_get( 'view_attachments_threshold' ), $p_bug_id );
@@ -130,7 +133,9 @@ function file_can_view_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) 
 	return $t_can_view;
 }
 
-# Check if the current user can download attachments for the specified bug.
+/**
+ * Check if the current user can download attachments for the specified bug.
+ */
 function file_can_download_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
 	$t_uploaded_by_me = auth_get_current_user_id() === $p_uploader_user_id;
 	$t_can_download = access_has_bug_level( config_get( 'download_attachments_threshold' ), $p_bug_id );
@@ -138,7 +143,9 @@ function file_can_download_bug_attachments( $p_bug_id, $p_uploader_user_id = nul
 	return $t_can_download;
 }
 
-# Check if the current user can delete attachments from the specified bug.
+/**
+ * Check if the current user can delete attachments from the specified bug.
+ */
 function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
 	if( bug_is_readonly( $p_bug_id ) ) {
 		return false;
@@ -149,8 +156,10 @@ function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null 
 	return $t_can_delete;
 }
 
-# Get icon corresponding to the specified filename
-# returns an associative array with "url" and "alt" text.
+/**
+ * Get icon corresponding to the specified filename
+ * returns an associative array with "url" and "alt" text.
+ */
 function file_get_icon_url( $p_display_filename ) {
 	$t_file_type_icons = config_get( 'file_type_icons' );
 
@@ -174,7 +183,7 @@ function file_get_icon_url( $p_display_filename ) {
 function file_path_combine( $p_path, $p_filename ) {
 	$t_path = $p_path;
 	if ( utf8_substr( $t_path, -1 ) != '/' && utf8_substr( $t_path, -1 ) != '\\' ) {
-		$t_path .= DIRECTORY_SEPARATOR;
+		$t_path .= '/';
 	}
 
 	$t_path .= $p_filename;
@@ -232,7 +241,7 @@ function file_normalize_attachment_path( $p_diskfile, $p_project_id ) {
 	}
 
 	// if diskfile doesn't include a path, then use the expected filename.
-	if ( ( strstr( $p_diskfile, DIRECTORY_SEPARATOR ) === false ||
+	if ( ( strstr( $p_diskfile, '/' ) === false ||
 	       strstr( $p_diskfile, '\\' ) === false ) &&
 	     !is_blank( $t_expected_file_path ) ) {
 	    return $t_expected_file_path;
@@ -510,9 +519,8 @@ function file_delete( $p_file_id, $p_table = 'bug' ) {
 	}
 
 	$t_file_table = db_get_table( $p_table . '_file' );
-	$query = "DELETE FROM $t_file_table
-				WHERE id=%d";
-	db_query_bound( $query, array( $c_file_id ) );
+	$t_query = "DELETE FROM $t_file_table WHERE id=%d";
+	db_query_bound( $t_query, array( $c_file_id ) );
 	return true;
 }
 

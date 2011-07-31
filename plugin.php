@@ -52,8 +52,7 @@ if ( !isset( $g_plugin_cache[$t_basename] ) ) {
 	throw new MantisBT\Exception\Plugin_Not_Registered();
 }
 
-$t_page = $t_plugin_path.$t_basename.DIRECTORY_SEPARATOR.
-		'pages'.DIRECTORY_SEPARATOR.$t_action.'.php';
+$t_page = $t_plugin_path.$t_basename.'/pages/'.$t_action.'.php';
 
 if ( !is_file( $t_page ) ) {
 		throw new MantisBT\Exception\Plugin_Page_Not_Found();

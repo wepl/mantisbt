@@ -165,7 +165,7 @@ function email_ensure_valid( $p_email ) {
  */
 function email_is_disposable( $p_email ) {
 	if( !class_exists( 'DisposableEmailChecker' ) ) {
-		require_lib( 'disposable' . DIRECTORY_SEPARATOR . 'disposable.php' );
+		require_lib( 'disposable/disposable.php' );
 	}
 
 	return DisposableEmailChecker::is_disposable_email( $p_email );
@@ -246,11 +246,10 @@ function email_collect_recipients( $p_bug_id, $p_notify_type, $p_extra_user_ids_
 
 	# add users monitoring the bug
 	if( ON == email_notify_flag( $p_notify_type, 'monitor' ) ) {
-		$query = "SELECT DISTINCT user_id FROM {bug_monitor}
-					  WHERE bug_id=%d";
-		$result = db_query_bound( $query, array( $p_bug_id ) );
+		$t_query = "SELECT DISTINCT user_id FROM {bug_monitor} WHERE bug_id=%d";
+		$t_result = db_query_bound( $t_query, array( $p_bug_id ) );
 		
-		while( $t_user_id = db_result( $result ) ) {
+		while( $t_user_id = db_result( $t_result ) ) {
 			$t_recipients[$t_user_id] = true;
 			log_event( LOG_EMAIL_RECIPIENT, sprintf( 'Issue = #%d, add Monitor = @U%d', $p_bug_id, $t_user_id ) );
 		}
@@ -264,10 +263,10 @@ function email_collect_recipients( $p_bug_id, $p_notify_type, $p_extra_user_ids_
 	$t_bug_date = $t_bug->last_updated;
 
 	if( ON == email_notify_flag( $p_notify_type, 'bugnotes' ) ) {
-		$query = 'SELECT DISTINCT reporter_id FROM {bugnote} WHERE bug_id = %d';
-		$result = db_query_bound( $query, array( $p_bug_id ) );
+		$t_query = 'SELECT DISTINCT reporter_id FROM {bugnote} WHERE bug_id = %d';
+		$t_result = db_query_bound( $t_query, array( $p_bug_id ) );
 
-		while( $t_user_id = db_result( $result ) ) {
+		while( $t_user_id = db_result( $t_result ) ) {
 			$t_recipients[$t_user_id] = true;
 			log_event( LOG_EMAIL_RECIPIENT, sprintf( 'Issue = #%d, add Note Author = @U%d', $p_bug_id, $t_user_id ) );
 		}
@@ -890,7 +889,7 @@ function email_send( $p_email_data ) {
 		if ( $t_mailer_method == PHPMAILER_METHOD_SMTP )
 			register_shutdown_function( 'email_smtp_close' );
 		if( !class_exists( 'PHPMailer' ) ) {
-			require_lib( 'phpmailer' . DIRECTORY_SEPARATOR . 'class.phpmailer.php' );
+			require_lib( 'phpmailer/class.phpmailer.php' );
 		}
 		$mail = new PHPMailer(true);
 	} else {

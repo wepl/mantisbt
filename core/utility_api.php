@@ -56,13 +56,13 @@ function trans_bool( $p_num ) {
 }
 
 /**
- * Add a trailing DIRECTORY_SEPARATOR to a string if it isn't present
+ * Add a trailing / to a string if it isn't present
  * @param string $p_path
  * @return string
  * @access public
  */
 function terminate_directory_path( $p_path ) {
-	return rtrim( $p_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
+	return rtrim( $p_path, '/' ) . '/';
 }
 
 /**

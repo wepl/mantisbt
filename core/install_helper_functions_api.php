@@ -159,8 +159,8 @@ function install_category_migrate() {
 				$t_category_id = $t_inserted[$t_lower_name];
 			}
 
-			$query = "UPDATE {bug} SET category_id=%d WHERE project_id=%d AND category=%s";
-			db_query_bound( $query, array( $t_category_id, $t_project_id, $t_name ) );
+			$t_query = "UPDATE {bug} SET category_id=%d WHERE project_id=%d AND category=%s";
+			db_query_bound( $t_query, array( $t_category_id, $t_project_id, $t_name ) );
 		}
 	}
 
@@ -197,7 +197,7 @@ function install_date_migrate( $p_data) {
 			array_push( $t_pairs, "$var=%s" ) ;
 		}
 		$t_new_column = implode( ',', $t_pairs );
-		$query = "SELECT $t_id_column, $t_old_column FROM $t_table";
+		$t_query = "SELECT $t_id_column, $t_old_column FROM $t_table";
 	} else {
 		$t_old_column = $p_data[2];
 		$t_new_column = $p_data[3] . '=%d';
@@ -206,10 +206,10 @@ function install_date_migrate( $p_data) {
 		# The check for timestamp being = 1 is to make sure the field wasn't upgraded
 		# already in a previous run - see bug #12601 for more details.
 		$t_new_column_name = $p_data[3];
-		$query = "SELECT $t_id_column, $t_old_column FROM $t_table WHERE $t_new_column_name = 1";
+		$t_query = "SELECT $t_id_column, $t_old_column FROM $t_table WHERE $t_new_column_name = 1";
 	}
 
-	$t_result = db_query_bound( $query );
+	$t_result = db_query_bound( $t_query );
 
 	while( $row = db_fetch_array( $t_result ) ) {
 		$t_id = (int)$row[$t_id_column];

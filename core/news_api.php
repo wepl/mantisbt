@@ -61,13 +61,13 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 	}
 
 	# Add item
-	$query = "INSERT
+	$t_query = "INSERT
 				INTO {news}
 	    		  ( project_id, poster_id, date_posted, last_modified,
 	    		    view_state, announcement, headline, body )
 				VALUES
 				    ( %d, %d, %d, %d, %d, %d, %s, %s )";
-	db_query_bound( $query, array( (int)$p_project_id, (int)$p_poster_id, db_now(), db_now(), (int)$p_view_state, $c_announcement, $p_headline, $p_body ) );
+	db_query_bound( $t_query, array( (int)$p_project_id, (int)$p_poster_id, db_now(), db_now(), (int)$p_view_state, $c_announcement, $p_headline, $p_body ) );
 
 	$t_news_id = db_insert_id( '{news}' );
 
@@ -79,9 +79,9 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 # --------------------
 # Delete the news entry
 function news_delete( $p_news_id ) {
-	$query = "DELETE FROM {news} WHERE id=%d";
+	$t_query = "DELETE FROM {news} WHERE id=%d";
 
-	db_query_bound( $query, array( (int)$p_news_id ) );
+	db_query_bound( $t_query, array( (int)$p_news_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -90,9 +90,9 @@ function news_delete( $p_news_id ) {
 # --------------------
 # Delete the news entry
 function news_delete_all( $p_project_id ) {
-	$query = 'DELETE FROM {news} WHERE project_id=%d';
+	$t_query = 'DELETE FROM {news} WHERE project_id=%d';
 
-	db_query_bound( $query, array( (int)$p_project_id ) );
+	db_query_bound( $t_query, array( (int)$p_project_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -111,7 +111,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 	}
 
 	# Update entry
-	$query = "UPDATE {news}
+	$t_query = "UPDATE {news}
 				  SET view_state=%d
 					announcement=%s,
 					headline=%s,
@@ -120,7 +120,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 					last_modified=%d
 				  WHERE id=%d";
 
-	db_query_bound( $query, array( $p_view_state, $c_announcement, $p_headline, $p_body, $p_project_id, db_now(), $p_news_id ) );
+	db_query_bound( $t_query, array( $p_view_state, $c_announcement, $p_headline, $p_body, $p_project_id, db_now(), $p_news_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -130,8 +130,8 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 function news_get_row( $p_news_id ) {
 	$c_news_id = db_prepare_int( $p_news_id );
 
-	$query = "SELECT * FROM {news} WHERE id=%d";
-	$result = db_query_bound( $query, array( $c_news_id ) );
+	$t_query = "SELECT * FROM {news} WHERE id=%d";
+	$result = db_query_bound( $t_query, array( $c_news_id ) );
 
 	$row = db_fetch_array( $result );
 	
@@ -148,13 +148,13 @@ function news_get_count( $p_project_id, $p_sitewide = true ) {
 
 	$t_project_where = helper_project_specific_where( $p_project_id );
 
-	$query = "SELECT COUNT(*) FROM {news} WHERE $t_project_where";
+	$t_query = "SELECT COUNT(*) FROM {news} WHERE $t_project_where";
 
 	if( $p_sitewide ) {
-		$query .= ' OR project_id=' . ALL_PROJECTS;
+		$t_query .= ' OR project_id=' . ALL_PROJECTS;
 	}
 
-	$result = db_query_bound( $query );
+	$result = db_query_bound( $t_query );
 
 	return db_result( $result, 0 );
 }
@@ -168,18 +168,18 @@ function news_get_rows( $p_project_id, $p_sitewide = true ) {
 		$t_projects[] = ALL_PROJECTS;
 	}
 
-	$query = 'SELECT * FROM {news}';
+	$t_query = 'SELECT * FROM {news}';
 
 	if( 1 == count( $t_projects ) ) {
 		$c_project_id = $t_projects[0];
-		$query .= " WHERE project_id='$c_project_id'";
+		$t_query .= " WHERE project_id='$c_project_id'";
 	} else {
-		$query .= ' WHERE project_id IN (' . join( $t_projects, ',' ) . ')';
+		$t_query .= ' WHERE project_id IN (' . join( $t_projects, ',' ) . ')';
 	}
 
-	$query .= " ORDER BY date_posted DESC";
+	$t_query .= " ORDER BY date_posted DESC";
 
-	$result = db_query_bound( $query, array() );
+	$result = db_query_bound( $t_query, array() );
 
 	$t_rows = array();
 
@@ -223,22 +223,22 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 		case 0:
 
 			# BY_LIMIT - Select the news posts
-			$query = 'SELECT * FROM {news}';
+			$t_query = 'SELECT * FROM {news}';
 
 			if( 1 == count( $t_projects ) ) {
 				$c_project_id = $t_projects[0];
-				$query .= " WHERE project_id='$c_project_id'";
+				$t_query .= " WHERE project_id='$c_project_id'";
 			} else {
-				$query .= ' WHERE project_id IN (' . join( $t_projects, ',' ) . ')';
+				$t_query .= ' WHERE project_id IN (' . join( $t_projects, ',' ) . ')';
 			}
 
-			$query .= ' ORDER BY announcement DESC, id DESC';
-			$result = db_query_bound( $query, null, $t_news_view_limit, $c_offset );
+			$t_query .= ' ORDER BY announcement DESC, id DESC';
+			$result = db_query_bound( $t_query, null, $t_news_view_limit, $c_offset );
 			break;
 		case 1:
 
 			# BY_DATE - Select the news posts
-			$query = "SELECT *
+			$t_query = "SELECT *
 						FROM {news} WHERE
 						( " . db_helper_compare_days( 0, 'date_posted', "< $t_news_view_limit_days" ) . "
 						 OR announcement = %s ) ";
@@ -248,13 +248,13 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 			);
 			if( 1 == count( $t_projects ) ) {
 				$c_project_id = $t_projects[0];
-				$query .= ' AND project_id=%d';
+				$t_query .= ' AND project_id=%d';
 				$t_params[] = $c_project_id;
 			} else {
-				$query .= ' AND project_id IN (' . join( $t_projects, ',' ) . ')';
+				$t_query .= ' AND project_id IN (' . join( $t_projects, ',' ) . ')';
 			}
-			$query .= " ORDER BY announcement DESC, id DESC";
-			$result = db_query_bound( $query, $t_params, $t_news_view_limit, $c_offset );
+			$t_query .= " ORDER BY announcement DESC, id DESC";
+			$result = db_query_bound( $t_query, $t_params, $t_news_view_limit, $c_offset );
 			break;
 	}
 
@@ -269,15 +269,17 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 	return $t_rows;
 }
 
-# --------------------
-# Checks if the news feature is enabled or not.
-# true: enabled, otherwise false.
+/** 
+ * Checks if the news feature is enabled or not.
+ * true: enabled, otherwise false.
+ */
 function news_is_enabled() {
 	return config_get( 'news_enabled' ) == ON;
 }
 
-# --------------------
-# Ensures that the news feature is enabled, otherwise generates an access denied error.
+/**
+ * Ensures that the news feature is enabled, otherwise generates an access denied error.
+ */
 function news_ensure_enabled() {
 	if ( !news_is_enabled() ) {
 		throw new MantisBT\Exception\Access_Denied();

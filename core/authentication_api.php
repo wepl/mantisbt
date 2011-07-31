@@ -547,9 +547,9 @@ function auth_generate_unique_cookie_string() {
  * @access public
  */
 function auth_is_cookie_string_unique( $p_cookie_string ) {
-	$query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=%s";
-	$result = db_query_bound( $query, array( $p_cookie_string ) );
-	$t_count = db_result( $result );
+	$t_query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=%s";
+	$t_result = db_query_bound( $t_query, array( $p_cookie_string ) );
+	$t_count = db_result( $t_result );
 
 	if( $t_count > 0 ) {
 		return false;
@@ -591,14 +591,14 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 				if( function_exists( 'db_is_connected' ) && db_is_connected() ) {
 
 					# get anonymous information if database is available
-					$query = 'SELECT id, cookie_string FROM {user} WHERE username = %s';
-					$result = db_query_bound( $query, array( config_get( 'anonymous_account' ) ) );
+					$t_query = 'SELECT id, cookie_string FROM {user} WHERE username = %s';
+					$t_result = db_query_bound( $t_query, array( config_get( 'anonymous_account' ) ) );
 
-					if( $row = db_fetch_array( $result ) ) {						
-						$t_cookie = $row['cookie_string'];
+					if( $t_row = db_fetch_array( $t_result ) ) {						
+						$t_cookie = $t_row['cookie_string'];
 
 						$g_cache_anonymous_user_cookie_string = $t_cookie;
-						$g_cache_current_user_id = $row['id'];
+						$g_cache_current_user_id = $t_row['id'];
 					}
 				}
 			} else {
@@ -747,12 +747,12 @@ function auth_is_cookie_valid( $p_cookie_string ) {
 	}
 
 	# look up cookie in the database to see if it is valid
-	$query = 'SELECT * FROM {user} WHERE cookie_string=%s';
-	$result = db_query_bound( $query, array( $p_cookie_string ) );
+	$t_query = 'SELECT * FROM {user} WHERE cookie_string=%s';
+	$t_result = db_query_bound( $t_query, array( $p_cookie_string ) );
 
 	# return true if a matching cookie was found
-	$row = db_fetch_array( $result );
-	if( !db_fetch_array( $result ) ) {
+	$row = db_fetch_array( $t_result );
+	if( !db_fetch_array( $t_result ) ) {
 		return true;
 	} else {
 		return false;

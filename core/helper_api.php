@@ -148,14 +148,12 @@ function get_percentage_by_status() {
 	# checking if it's a per project statistic or all projects
 	$t_specific_where = helper_project_specific_where( $t_project_id, $t_user_id );
 
-	$query = "SELECT status, COUNT(*) AS number
-				FROM {bug}
-				WHERE $t_specific_where";
+	$t_query = "SELECT status, COUNT(*) AS number FROM {bug} WHERE $t_specific_where";
 	if ( !access_has_project_level( config_get( 'private_bug_threshold' ) ) ) {
-		$query .= ' AND view_state < ' . VS_PRIVATE;
+		$t_query .= ' AND view_state < ' . VS_PRIVATE;
 	}
-	$query .= ' GROUP BY status';
-	$result = db_query_bound( $query );
+	$t_query .= ' GROUP BY status';
+	$result = db_query_bound( $t_query );
 
 	$t_bug_count = 0;
 	$t_status_count_array = array();

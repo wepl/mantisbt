@@ -182,12 +182,12 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 		return $g_cache_user_pref[(int)$p_user_id][(int)$p_project_id];
 	}
 
-	$query = "SELECT * FROM {user_pref} WHERE user_id=%d AND project_id=%d";
-	$result = db_query_bound( $query, array( (int)$p_user_id, (int)$p_project_id ) );
+	$t_query = "SELECT * FROM {user_pref} WHERE user_id=%d AND project_id=%d";
+	$t_result = db_query_bound( $t_query, array( (int)$p_user_id, (int)$p_project_id ) );
 
-	$row = db_fetch_array( $result );
+	$t_row = db_fetch_array( $t_result );
 	
-	if( !$row ) {
+	if( !$t_row ) {
 		if( $p_trigger_errors ) {
 			throw new MantisBT\Exception\User_Prefs_Not_Found();
 		} else {
@@ -369,13 +369,10 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
  * @return true
  */
 function user_pref_delete( $p_user_id, $p_project_id = ALL_PROJECTS ) {
-	$c_user_id = db_prepare_int( $p_user_id );
-	$c_project_id = db_prepare_int( $p_project_id );
-
 	user_ensure_unprotected( $p_user_id );
 
-	$query = 'DELETE FROM {user_pref} WHERE user_id=%d AND project_id=%d';
-	db_query_bound( $query, array( $c_user_id, $c_project_id ) );
+	$t_query = 'DELETE FROM {user_pref} WHERE user_id=%d AND project_id=%d';
+	db_query_bound( $t_query, array( $p_user_id, $p_project_id ) );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
 
@@ -394,12 +391,10 @@ function user_pref_delete( $p_user_id, $p_project_id = ALL_PROJECTS ) {
  * @return true
  */
 function user_pref_delete_all( $p_user_id ) {
-	$c_user_id = db_prepare_int( $p_user_id );
-
 	user_ensure_unprotected( $p_user_id );
 
-	$query = 'DELETE FROM {user_pref} WHERE user_id=%d';
-	db_query_bound( $query, array( $c_user_id ) );
+	$t_query = 'DELETE FROM {user_pref} WHERE user_id=%d';
+	db_query_bound( $t_query, array( $p_user_id ) );
 
 	user_pref_clear_cache( $p_user_id );
 
@@ -418,10 +413,8 @@ function user_pref_delete_all( $p_user_id ) {
  * @return true
  */
 function user_pref_delete_project( $p_project_id ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-
-	$query = 'DELETE FROM {user_pref} WHERE project_id=%d';
-	db_query_bound( $query, array( $c_project_id ) );
+	$t_query = 'DELETE FROM {user_pref} WHERE project_id=%d';
+	db_query_bound( $t_query, array( $p_project_id ) );
 
 	# db_query errors on failure so:
 	return true;

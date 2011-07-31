@@ -62,9 +62,11 @@ function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p
 	print( '</tr>' );
 }
 
-# Used in summary reports
-# this function prints out the summary for the given enum setting
-# The enum field name is passed in through $p_enum
+/**
+ * Used in summary reports
+ * this function prints out the summary for the given enum setting
+ * The enum field name is passed in through $p_enum
+ */
 function summary_print_by_enum( $p_enum ) {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -82,12 +84,12 @@ function summary_print_by_enum( $p_enum ) {
 	$t_filter_prefix = config_get( 'bug_count_hyperlink_prefix' );
 
 	$t_status_query = ( 'status' == $p_enum ) ? '' : ' ,status ';
-	$query = "SELECT COUNT(id) as bugcount, $p_enum $t_status_query
+	$t_query = "SELECT COUNT(id) as bugcount, $p_enum $t_status_query
 				FROM {bug}
 				WHERE $t_project_filter
 				GROUP BY $p_enum $t_status_query
 				ORDER BY $p_enum $t_status_query";
-	$result = db_query_bound( $query );
+	$result = db_query_bound( $t_query );
 
 	$t_last_value = -1;
 	$t_bugs_open = 0;
@@ -214,8 +216,10 @@ function summary_print_by_enum( $p_enum ) {
 	}
 }
 
-# prints the bugs submitted in the last X days (default is 1 day) for the
-# current project
+/**
+ * prints the bugs submitted in the last X days (default is 1 day) for the
+ * current project
+ */
 function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 	$c_time_length = (int) $p_time_length * SECONDS_PER_DAY;
 
@@ -227,14 +231,16 @@ function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 		return;
 	}
 
-	$query = "SELECT COUNT(*) FROM {bug}
+	$t_query = "SELECT COUNT(*) FROM {bug}
 				WHERE " . db_helper_compare_days( "" . db_now() . "", "date_submitted", "<= $c_time_length" ) . " AND $specific_where";
-	$result = db_query_bound( $query );
-	return db_result( $result );
+	$t_result = db_query_bound( $t_query );
+	return db_result( $t_result );
 }
 
-# returns the number of bugs resolved in the last X days (default is 1 day) for the
-# current project
+/**
+ * returns the number of bugs resolved in the last X days (default is 1 day) for the
+ * current project
+ */
 function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );
 
@@ -248,7 +254,7 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 		return;
 	}
 
-	$query = "SELECT COUNT(DISTINCT(b.id))
+	$t_query = "SELECT COUNT(DISTINCT(b.id))
 				FROM {bug} b
 				LEFT JOIN {bug_history} h
 				ON b.id = h.bug_id
@@ -259,12 +265,14 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 				AND h.new_value >= %s
 				AND " . db_helper_compare_days( "" . db_now() . "", "date_modified", "<= $c_time_length" ) . "
 				AND $specific_where";
-	$result = db_query_bound( $query, array( $t_resolved, $t_resolved, $t_resolved ) );
-	return db_result( $result );
+	$t_result = db_query_bound( $t_query, array( $t_resolved, $t_resolved, $t_resolved ) );
+	return db_result( $t_result );
 }
 
-# This function shows the number of bugs submitted in the last X days
-# An array of integers representing days is passed in
+/**
+ * This function shows the number of bugs submitted in the last X days
+ * An array of integers representing days is passed in
+ */
 function summary_print_by_date( $p_date_array ) {
 	$arr_count = count( $p_date_array );
 	foreach( $p_date_array as $t_days ) {
@@ -306,9 +314,11 @@ function summary_print_by_date( $p_date_array ) {
 	# end foreach
 }
 
-# Print list of open bugs with the highest activity score
-# the score is calculated assigning one "point" for each history event
-# associated with the bug
+/**
+ * Print list of open bugs with the highest activity score
+ * the score is calculated assigning one "point" for each history event
+ * associated with the bug
+ */
 function summary_print_by_activity() {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -318,20 +328,20 @@ function summary_print_by_activity() {
 	if( ' 1<>1' == $specific_where ) {
 		return;
 	}
-	$query = "SELECT COUNT(h.id) as count, b.id, b.summary, b.view_state
+	$t_query = "SELECT COUNT(h.id) as count, b.id, b.summary, b.view_state
 				FROM {bug} b, {bug_history} h
 				WHERE h.bug_id = b.id
 				AND b.status < %d
 				AND $specific_where
 				GROUP BY h.bug_id, b.id, b.summary, b.last_updated, b.view_state
 				ORDER BY count DESC, b.last_updated DESC";
-	$result = db_query_bound( $query, array( $t_resolved ) );
+	$t_result = db_query_bound( $t_query, array( $t_resolved ) );
 
 	$t_count = 0;
 	$t_private_bug_threshold = config_get( 'private_bug_threshold' );
 	$t_summarydata = array();
 	$t_summarybugs = array();
-	while( $row = db_fetch_array( $result ) ) {
+	while( $row = db_fetch_array( $t_result ) ) {
 
 		// Skip private bugs unless user has proper permissions
 		if(( VS_PRIVATE == $row['view_state'] ) && ( false == access_has_bug_level( $t_private_bug_threshold, $row['id'] ) ) ) {

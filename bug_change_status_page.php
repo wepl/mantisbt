@@ -68,7 +68,7 @@ $f_bug_id = gpc_get_int( 'id' );
 $t_bug = bug_get( $f_bug_id );
 
 $tpl_file = __FILE__;
-$tpl_mantis_dir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR;
+$tpl_mantis_dir = dirname( __FILE__ ) . '/';
 $tpl_show_page_header = false;
 $tpl_force_readonly = true;
 $tpl_fields_config_option = 'bug_change_status_page_columns';
@@ -234,7 +234,7 @@ if ( access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get
 ?>
 <tr <?php echo helper_alternate_class() ?>>
 	<th class="category">
-		<?php print_documentation_link( 'due_date' ) ?>
+		<?php lang_get( 'due_date' ) ?>
 	</th>
 	<td>
 		<?php echo "<input " . helper_get_tab_index() . " type=\"text\" id=\"due_date\" name=\"due_date\" class=\"datetime\" size=\"20\" maxlength=\"16\" value=\"" . $t_date_to_display . "\" />" ?>
@@ -385,4 +385,4 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 <br />
 <?php
 define( 'BUG_VIEW_INC_ALLOW', true );
-include( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'bug_view_inc.php' );
+include( dirname( __FILE__ ) . '/bug_view_inc.php' );
