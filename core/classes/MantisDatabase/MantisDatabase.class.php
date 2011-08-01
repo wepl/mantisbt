@@ -297,50 +297,17 @@ abstract class MantisDatabase {
      * @return bool
      */	
     public abstract function IsConnected();
-	
-	
-	/**
-     * Verify sql parameters
-     * @param string $sql query or part of it
-     * @param array $params query parameters
-     * @return array (sql, params, type of params)
-     */
-    protected function check_sql_parameters($sql, array $params=null) {
-        $params = (array)$params; // make null array if needed
-
-        // cast booleans to 1/0 int
-        foreach ($params as $key => $value) {
-            $params[$key] = is_bool($value) ? (int)$value : $value;
-        }
-
-        $t_count = substr_count($sql, '?');
-
-        if (!$t_count) {
-			return array($sql, array() );
-        }
-
-		if ($t_count == count($params)) {
-			return array($sql, array_values($params));
-		}
-
-		$a = new stdClass;
-		$a->expected = $t_count;
-		$a->actual = count($params);
-		$a->sql = $sql;
-		$a->params = $params;
-		throw new MantisDatabaseException(ERROR_DB_QUERY_FAILED, $a);
-    }
-	
+		
 	protected function PrepareSQLString($sql) {
 		return strtr($sql, array(
-								'{' => self::$dbprefix, 
-								'}' => self::$dbsuffix,
-								'%s' => '?',
-								'%d' => '?',
-								'%b' => '?',
-								)
+							'{' => self::$dbprefix, 
+							'}' => self::$dbsuffix,
+							'%s' => '?',
+							'%d' => '?',
+							'%b' => '?',
+							)
 					);
-}
+	}
 	
 	
 	/* legacy functions */
