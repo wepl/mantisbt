@@ -910,16 +910,17 @@ function user_increment_lost_password_in_progress_count( $p_user_id ) {
  * Set a user field
  */
 function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
-	$c_user_id = db_prepare_int( $p_user_id );
-	$c_field_name = db_prepare_string( $p_field_name );
+	if( !db_field_exists( $p_field_name, '{user}' ) ) {
+		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+	}
 
 	if( $p_field_name != 'protected' ) {
 		user_ensure_unprotected( $p_user_id );
 	}
 
-	$query = 'UPDATE {user} SET ' . $c_field_name . '=%s WHERE id=%d';
+	$query = 'UPDATE {user} SET ' . $p_field_name . '=%s WHERE id=%d';
 
-	db_query_bound( $query, array( $p_field_value, $c_user_id ) );
+	db_query_bound( $query, array( $p_field_value, $p_user_id ) );
 
 	# db_query errors on failure so:
 	return true;

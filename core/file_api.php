@@ -474,11 +474,13 @@ function file_delete_local( $p_filename ) {
 
 # Return the specified field value
 function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
-	$c_field_name = db_prepare_string( $p_field_name );
+	if( !db_field_exists( $p_field_name, $p_table ) ) {
+		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+	}
 	$t_bug_file_table = db_get_table( $p_table . '_file' );
 
 	# get info
-	$query = "SELECT $c_field_name
+	$query = "SELECT $p_field_name
 				  FROM $t_bug_file_table
 				  WHERE id=%d";
 	$result = db_query_bound( $query, array( (int) $p_file_id ), 1 );
@@ -651,9 +653,9 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	# prepare variables for insertion
 	$c_bug_id = db_prepare_int( $p_bug_id );
 	$c_project_id = db_prepare_int( $t_project_id );
-	$c_file_type = db_prepare_string( $p_file['type'] );
-	$c_title = db_prepare_string( $p_title );
-	$c_desc = db_prepare_string( $p_desc );
+	$c_file_type = $p_file['type'];
+	$c_title = $p_title;
+	$c_desc = $p_desc;
 
 	if( $t_project_id == ALL_PROJECTS ) {
 		$t_file_path = config_get( 'absolute_path_default_upload_folder' );
@@ -663,13 +665,13 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 			$t_file_path = config_get( 'absolute_path_default_upload_folder' );
 		}
 	}
-	$c_file_path = db_prepare_string( $t_file_path );
-	$c_new_file_name = db_prepare_string( $t_file_name );
+	$c_file_path = $t_file_path;
+	$c_new_file_name = $t_file_name;
 
 	$t_file_hash = ( 'bug' == $p_table ) ? $t_bug_id : config_get( 'document_files_prefix' ) . '-' . $t_project_id;
 	$t_unique_name = file_generate_unique_name( $t_file_hash . '-' . $t_file_name, $t_file_path );
 	$t_disk_file_name = $t_file_path . $t_unique_name;
-	$c_unique_name = db_prepare_string( $t_unique_name );
+	$c_unique_name = $t_unique_name;
 
 	$t_file_size = filesize( $t_tmp_file );
 	if( 0 == $t_file_size ) {
@@ -992,7 +994,7 @@ function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 				file_delete_local( $t_disk_file_name_from );
 			}
 			chmod( $t_disk_file_name_to, config_get( 'attachments_file_permissions' ) );
-			db_query_bound( $query_disk_attachment_update, array( db_prepare_string( $t_path_to ), $c_bug_id, db_prepare_int( $t_row['id'] ) ) );
+			db_query_bound( $query_disk_attachment_update, array( $t_path_to, $c_bug_id, $t_row['id'] ) );
 		} else {
 			throw new MantisBT\Exception\File_Duplicate();
 		}

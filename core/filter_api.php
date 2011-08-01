@@ -706,10 +706,10 @@ function filter_ensure_valid_filter( $p_filter_arr ) {
 					$t_filter_value = META_FILTER_NONE;
 				}
 				if( 'string' == $t_multi_field_type ) {
-					$t_checked_array[] = db_prepare_string( $t_filter_value );
+					$t_checked_array[] =  $t_filter_value;
 				}
 				else if( 'int' == $t_multi_field_type ) {
-					$t_checked_array[] = db_prepare_int( $t_filter_value );
+					$t_checked_array[] = (int)$t_filter_value;
 				}
 				else if( 'array' == $t_multi_field_type ) {
 					$t_checked_array[] = $t_filter_value;
@@ -737,7 +737,7 @@ function filter_ensure_valid_filter( $p_filter_arr ) {
 					if(( $t_filter_value === 'any' ) || ( $t_filter_value === '[any]' ) ) {
 						$t_filter_value = META_FILTER_ANY;
 					}
-					$t_checked_array[] = db_prepare_string( $t_filter_value );
+					$t_checked_array[] = $t_filter_value;
 				}
 				$p_filter_arr['custom_fields'][$t_cfid] = $t_checked_array;
 			}
@@ -926,7 +926,7 @@ function filter_get_query_sort_data( &$p_filter, $p_show_sticky, $p_query_clause
 
 	$t_count = count( $t_sort_fields );
 	for( $i = 0;$i < $t_count;$i++ ) {
-		$c_sort = db_prepare_string( $t_sort_fields[$i] );
+		$c_sort = $t_sort_fields[$i];
 		$c_dir = 'DESC' == $t_dir_fields[$i] ? 'DESC' : 'ASC';
 
 		if( !in_array( $t_sort_fields[$i], array_slice( $t_sort_fields, $i + 1 ) ) ) {
@@ -1461,7 +1461,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_show_build = db_prepare_string( $t_filter_member );
+				$c_show_build = $t_filter_member;
 				array_push( $t_clauses, $c_show_build );
 			}
 		}
@@ -1487,7 +1487,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_show_version = db_prepare_string( $t_filter_member );
+				$c_show_version = $t_filter_member;
 				array_push( $t_clauses, $c_show_version );
 			}
 		}
@@ -1540,7 +1540,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_platform = db_prepare_string( $t_filter_member );
+				$c_platform = $t_filter_member;
 				array_push( $t_clauses, $c_platform );
 			}
 		}
@@ -1567,7 +1567,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_os = db_prepare_string( $t_filter_member );
+				$c_os = $t_filter_member;
 				array_push( $t_clauses, $c_os );
 			}
 		}
@@ -1594,7 +1594,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_os_build = db_prepare_string( $t_filter_member );
+				$c_os_build = $t_filter_member;
 				array_push( $t_clauses, $c_os_build );
 			}
 		}
@@ -1632,7 +1632,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_fixed_in_version = db_prepare_string( $t_filter_member );
+				$c_fixed_in_version = $t_filter_member;
 				array_push( $t_clauses, $c_fixed_in_version );
 			}
 		}
@@ -1658,7 +1658,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, '' );
 			} else {
-				$c_target_version = db_prepare_string( $t_filter_member );
+				$c_target_version = $t_filter_member;
 				array_push( $t_clauses, $c_target_version );
 			}
 		}

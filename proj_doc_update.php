@@ -75,8 +75,8 @@ if ( is_blank( $f_title ) ) {
 }
 
 $c_file_id = db_prepare_int( $f_file_id );
-$c_title = db_prepare_string( $f_title );
-$c_description = db_prepare_string( $f_description );
+$c_title = $f_title;
+$c_description = $f_description;
 
 /** @todo (thraxisp) this code should probably be integrated into file_api to share methods used to store files */
 
@@ -93,8 +93,8 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 	$t_file_path = dirname( $t_disk_file_name );
 
 	# prepare variables for insertion
-	$c_file_name = db_prepare_string( $v_name );
-	$c_file_type = db_prepare_string( $v_type );
+	$c_file_name = $v_name;
+	$c_file_type = $v_type;
 	$t_file_size = filesize( $v_tmp_name );
 	$t_max_file_size = (int)min( ini_get_number( 'upload_max_filesize' ), ini_get_number( 'post_max_size' ), config_get( 'max_file_size' ) );
 	if ( $t_file_size > $t_max_file_size ) {

@@ -76,6 +76,11 @@ function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password
 		throw new MantisBT\Exception\DB_Connect_Failed();
 		return false;
 	}
+
+	$t_prefix = config_get_global( 'db_table_prefix' ) . '_';
+	$t_suffix = config_get_global( 'db_table_suffix' );
+	
+	$g_db->SetPrefixes( $t_prefix, $t_suffix );
 	$g_db_connected = true;
 	return true;
 }
@@ -120,15 +125,6 @@ function db_is_mssql() {
 }
 
 /**
- * Checks if the database driver is DB2
- * @return bool true if db2
- */
-function db_is_db2() {
-	global $g_db;
-	return ($g_db->get_dbtype() == 'db2');
-}
-
-/**
  * execute query, requires connection to be opened
  * An error will be triggered if there is a problem executing the query.
  * @global array of previous executed queries for profiling
@@ -147,8 +143,6 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 	if( $s_check_params === null ) {
 		$s_check_params = ( db_is_pgsql() || config_get_global( 'db_type' ) == 'odbc_mssql' );
 	}
-
-	$p_query = db_prefix_tables( $p_query );
 	
 	$t_start = $t_elapsed = microtime(true);
 	if(( $p_limit != -1 ) || ( $p_offset != -1 ) ) {
@@ -208,17 +202,6 @@ function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset =
 	} else {
 		return $t_result;
 	}
-}
-
-/**
- * Retrieve number of rows affected for a specific database query
- * @param ADORecordSet $p_result Database Query Record Set to retrieve record count for.
- * @return int Record Count
- */
-function db_affected_rows( $p_result ) {
-	global $g_db;
-
-	return $p_result->rowCount();
 }
 
 /**
@@ -336,15 +319,6 @@ function db_close() {
 	$t_result = $g_db->Close();
 }
 
-/**
- * prepare a string before DB insertion
- * @param string $p_string unprepared string
- * @return string prepared database query string
- * @deprecated db_query_bound should be used in preference to this function. This function may be removed in 1.2.0 final
- */
-function db_prepare_string( $p_string ) {
-	return $p_string;
-}
 
 /**
  * prepare a binary string before DB insertion
@@ -370,7 +344,7 @@ function db_prepare_binary_string( $p_string ) {
 			return '\'' . pg_escape_bytea( $p_string ) . '\'';
 			break;
 		default:
-			return '\'' . db_prepare_string( $p_string ) . '\'';
+			return '\'' .  $p_string . '\'';
 			break;
 	}
 }
@@ -525,10 +499,4 @@ function db_get_table( $p_option ) {
 function db_get_table_list() {
 	global $g_db;
 	return $g_db->get_tables();
-}
-
-function db_prefix_tables($sql) {
-	$t_prefix = config_get_global( 'db_table_prefix' ) . '_';
-	$t_suffix = config_get_global( 'db_table_suffix' );
-    return strtr($sql, array('{' => $t_prefix, '}' => $t_suffix));
 }

@@ -409,11 +409,11 @@ function custom_field_create( $p_name ) {
  */
 function custom_field_update( $p_field_id, $p_def_array ) {
 	$c_field_id = db_prepare_int( $p_field_id );
-	$c_name = db_prepare_string( trim( $p_def_array['name'] ) );
+	$c_name = trim( $p_def_array['name'] );
 	$c_type = db_prepare_int( $p_def_array['type'] );
-	$c_possible_values = db_prepare_string( $p_def_array['possible_values'] );
-	$c_default_value = db_prepare_string( $p_def_array['default_value'] );
-	$c_valid_regexp = db_prepare_string( $p_def_array['valid_regexp'] );
+	$c_possible_values = $p_def_array['possible_values'];
+	$c_default_value = $p_def_array['default_value'];
+	$c_valid_regexp = $p_def_array['valid_regexp'];
 	$c_access_level_r = db_prepare_int( $p_def_array['access_level_r'] );
 	$c_access_level_rw = db_prepare_int( $p_def_array['access_level_rw'] );
 	$c_length_min = db_prepare_int( $p_def_array['length_min'] );
@@ -745,19 +745,17 @@ function custom_field_get_id_from_name( $p_field_name, $p_truncated_length = nul
 		return $g_cache_name_to_id_map[$p_field_name];
 	}
 
-	$c_field_name = db_prepare_string( $p_field_name );
-
 	if(( null === $p_truncated_length ) || ( utf8_strlen( $c_field_name ) != $p_truncated_length ) ) {
-		$t_query = "SELECT id FROM {custom_field} WHERE name = '$c_field_name'";
+		$t_query = "SELECT id FROM {custom_field} WHERE name = %s";
 	} else {
 		/** @todo This is to handle the case where we only have a truncated part of the name.  This happens in the case where
 		 * we are getting the custom field name from the history logs, since history is 32 and custom field name is 64.
 		 * This fix will handle entries already in the database, future entries should be handled by making the field name max lengths match.
 		 */
-		$t_query = "SELECT id FROM {custom_field} WHERE name LIKE '$c_field_name%'";
+		$t_query = "SELECT id FROM {custom_field} WHERE name LIKE %s";
 	}
 
-	$t_result = db_query_bound( $t_query, array() );
+	$t_result = db_query_bound( $t_query, array( $p_field_name ) );
 
 	$t_row = db_fetch_array( $t_result );
 	

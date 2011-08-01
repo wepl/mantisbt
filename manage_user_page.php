@@ -180,7 +180,7 @@ if ( $f_filter === 'ALL' ) {
 } else if ( $f_filter === 'NEW' ) {
 	$t_where = db_helper_compare_days("" . db_now() . "","date_created","<= $t_days_old");
 } else {
-	$c_prefix = db_prepare_string($f_filter);
+	$c_prefix = $f_filter;
 	$t_where = "(UPPER(username) LIKE '$c_prefix%')";
 }
 
