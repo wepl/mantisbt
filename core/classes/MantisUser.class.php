@@ -178,6 +178,17 @@ class MantisUser extends MantisCacheable {
 	 */
 	public function __set($name, $p_value) {
 		if( in_array( $name, self::$fields) ){
+			if( $this->loading ) {
+				switch ($name) {
+					case 'id':
+						$this->user_id = (int)$p_value;
+						break;
+					default:
+						$this->{$name} = $p_value;
+				}
+				return;
+			}
+
 			switch ($name) {
 				case 'id':
 					$this->user_id = (int)$p_value;
