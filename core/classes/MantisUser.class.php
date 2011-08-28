@@ -111,8 +111,8 @@ class MantisUser extends MantisCacheable {
 		}
 		
 		if( is_array( $p_value ) ) {
-			$r_query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
-			$r_result = db_query_bound( $t_query );
+			$t_query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
+			$t_result = db_query_bound( $t_query );
 			$t_rows = array();
 			while( $t_row = db_fetch_array( $t_result ) ) {
 				$t_rows[] = $t_row;
