@@ -352,10 +352,10 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 			$t_params = array(
 				$c_value,
 				$t_type,
-				$c_access,
-				$c_option,
-				$c_project,
-				$c_user,
+				(int)$p_access,
+				(int)$p_option,
+				(int)$p_project,
+				(int)$p_user,
 			);
 		} else {
 			$t_set_query = "INSERT INTO {config}
@@ -364,10 +364,10 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 			$t_params = array(
 				$c_value,
 				$t_type,
-				$c_access,
-				$c_option,
-				$c_project,
-				$c_user,
+				(int)$p_access,
+				(int)$p_option,
+				(int)$p_project,
+				(int)$p_user,
 			);
 		}
 
