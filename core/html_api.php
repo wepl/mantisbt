@@ -156,7 +156,7 @@ function html_rss_link() {
  * @return null
  */
 function html_javascript_link( $p_filename) {
-	echo "\t", '<script type="text/javascript" src="', helper_mantis_url( 'javascript/' . $p_filename ), '"></script>' . "\n";
+	echo "\t", '<script type="text/javascript" src="', helper_mantis_url( 'static/javascript/' . $p_filename ), '"></script>' . "\n";
 }
 
 /**
@@ -551,7 +551,7 @@ function html_login_info() {
 		echo '<div id="rss-feed">';
 		# Link to RSS issues feed for the selected project, including authentication details.
 		echo '<a href="' . htmlspecialchars( rss_get_issues_feed_url() ) . '">';
-		echo '<img src="' . helper_mantis_url( 'images/rss.png' ) . '" alt="' . lang_get( 'rss' ) . '" title="' . lang_get( 'rss' ) . '" />';
+		echo '<img src="' . helper_mantis_url( 'static/images/rss.png' ) . '" alt="' . lang_get( 'rss' ) . '" title="' . lang_get( 'rss' ) . '" />';
 		echo '</a>';
 		echo '</div>';
 	}
@@ -608,7 +608,7 @@ function html_footer( $p_file = null ) {
 	echo "<div id=\"footer\">\n";
 	echo "\t<hr />\n";
 	echo "\t<div id=\"powered-by-mantisbt-logo\">\n";
-	$t_mantisbt_logo_url = helper_mantis_url( 'images/mantis_logo_button.gif' );
+	$t_mantisbt_logo_url = helper_mantis_url( 'static/images/mantis_logo_button.gif' );
 	echo "\t\t<a href=\"http://www.mantisbt.org\" title=\"Mantis Bug Tracker: a free and open source web based bug tracking system.\"><img src=\"$t_mantisbt_logo_url\" width=\"88\" height=\"35\" alt=\"Powered by Mantis Bug Tracker: a free and open source web based bug tracking system.\" /></a>\n";
 	echo "\t</div>\n";
 

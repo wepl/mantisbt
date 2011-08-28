@@ -152,7 +152,7 @@ $g_path	= isset( $t_url ) ? $t_url : 'http://localhost/mantisbt/';
  * requires trailing /
  * @global string $g_icon_path
  */
-$g_icon_path = '%path%images/';
+$g_icon_path = '%path%static/images/';
 
 /**
  * Short web path without the domain name
@@ -769,13 +769,13 @@ $g_page_title = '';
  * Favicon image
  * @global string $g_favicon_image
  */
-$g_favicon_image = 'images/favicon.ico';
+$g_favicon_image = 'static/images/favicon.ico';
 
 /**
  * Logo
  * @global string $g_logo_image
  */
-$g_logo_image = 'images/mantis_logo.gif';
+$g_logo_image = 'static/images/mantis_logo.gif';
 
 /**
  * Logo URL link
