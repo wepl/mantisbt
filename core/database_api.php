@@ -28,7 +28,6 @@
  * @uses error_api.php
  * @uses logging_api.php
  * @uses utility_api.php
- * @uses adodb/adodb.inc.php
  */
 
 require_api( 'config_api.php' );
@@ -128,7 +127,7 @@ function db_is_mssql() {
  * execute query, requires connection to be opened
  * An error will be triggered if there is a problem executing the query.
  * @global array of previous executed queries for profiling
- * @global adodb database connection object
+ * @global database connection object
  * @global boolean indicating whether queries array is populated
  * @param string $p_query Parameterlised Query string to execute
  * @param array $arr_parms Array of parameters matching $p_query
@@ -416,7 +415,6 @@ function db_helper_like( $p_field_name, $p_case_sensitive = false ) {
  * @param $p_date2_id_or_column
  * @param $p_limitstring
  * @return string returns database query component to compare dates
- * @todo Check if there is a way to do that using ADODB rather than implementing it here.
  */
 function db_helper_compare_days( $p_date1_id_or_column, $p_date2_id_or_column, $p_limitstring ) {
 	$t_db_type = config_get_global( 'db_type' );

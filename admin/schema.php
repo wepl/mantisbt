@@ -16,7 +16,7 @@
 
 # Each entry below defines the schema. The upgrade array consists of
 #  two elements
-# The first is the function to generate SQL statements (see adodb schema doc for more details)
+# The first is the function to generate SQL statements
 #  e.g., CreateTableSQL, DropTableSQL, ChangeTableSQL, RenameTableSQL, RenameColumnSQL,
 #  DropTableSQL, ChangeTableSQL, RenameTableSQL, RenameColumnSQL, AlterColumnSQL, DropColumnSQL
 #  A local function "InsertData" has been provided to add data to the db
