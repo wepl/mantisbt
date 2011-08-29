@@ -96,5 +96,5 @@ class MantisGraphPlugin extends MantisPlugin  {
 
 }
 
-function mantisgraph_autoload() {
-}
+//function mantisgraph_autoload() {
+//}
