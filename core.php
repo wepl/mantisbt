@@ -177,13 +177,6 @@ function __autoload( $className ) {
 		require_once( $t_require_path );
 		return;
 	}
-
-	$t_require_path = $g_library_path . 'rssbuilder' . DIRECTORY_SEPARATOR . 'class.' . $className . '.inc.php';
-
-	if ( file_exists( $t_require_path ) ) {
-		require_once( $t_require_path );
-		return;
-	}
 }
 
 # Register the autoload function to make it effective immediately

@@ -62,6 +62,7 @@ require_api( 'rss_api.php' );
 require_api( 'string_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
+require_lib( 'ezc/Base/src/base.php' );
 
 $f_project_id = gpc_get_int( 'project_id', ALL_PROJECTS );
 $f_filter_id = gpc_get_int( 'filter_id', 0 );
@@ -121,46 +122,14 @@ if ( $f_filter_id !== 0 ) {
 	$title .= ' (' . filter_get_field( $f_filter_id, 'name' ) . ')';
 }
 
-$description = $title;
+$feed = new ezcFeed();
 
-# in minutes (only rss 2.0)
-$cache = '10';
+$feed->title = $title;
+$feed->description = $title;
+$feed->generator = 'Mantis Bug Tracker';
 
-$rssfile = new RSSBuilder(	$encoding, $about, $title, $description,
-				$image_link, $category, $cache);
-
-# person, an organization, or a service
-$publisher = '';
-
-# person, an organization, or a service
-$creator = '';
-
-$date = (string) date( 'r' );
-$language = lang_get( 'phpmailer_language' );
-$rights = '';
-
-# spatial location , temporal period or jurisdiction
-$coverage = (string) '';
-
-# person, an organization, or a service
-$contributor = (string) '';
-
-$rssfile->addDCdata( $publisher, $creator, $date, $language, $rights, $coverage, $contributor );
-
-# hourly / daily / weekly / ...
-$period = (string) 'hourly';
-
-# every X hours/days/...
-$frequency = (int) 1;
-
-$base = (string) date( 'Y-m-d\TH:i:sO' );
-
-# add missing : in the O part of the date.  PHP 5 supports a 'c' format which will output the format
-# exactly as we want it.
-# // 2002-10-02T10:00:00-0500 -> // 2002-10-02T10:00:00-05:00
-$base = utf8_substr( $base, 0, 22 ) . ':' . utf8_substr( $base, -2 );
-
-$rssfile->addSYdata( $period, $frequency, $base );
+$link = $feed->add( 'link' );
+$link->href = $about;
 
 $t_page_number = 1;
 $t_issues_per_page = 25;
@@ -195,7 +164,7 @@ $t_issues_count = count( $t_issues );
 for ( $i = 0; $i < $t_issues_count; $i++ ) {
 	$t_bug = $t_issues[$i];
 
-	$about = $link = $t_path . "view.php?id=" . $t_bug->id;
+	$about = $url = $t_path . "view.php?id=" . $t_bug->id;
 	$title = bug_format_id( $t_bug->id ) . ': ' . $t_bug->summary;
 
 	if ( $t_bug->view_state == VS_PRIVATE ) {
@@ -226,17 +195,21 @@ for ( $i = 0; $i < $t_issues_count; $i++ ) {
 	}
 
 	# $comments = 'http://www.example.com/sometext.php?somevariable=somevalue&comments=1';	# url to comment page rss 2.0 value
-	$comments = $t_path . 'view.php?id=' . $t_bug->id . '#bugnotes';
+	#$comments = $t_path . 'view.php?id=' . $t_bug->id . '#bugnotes';
 
 	# optional mod_im value for dispaying a different pic for every item
 	$image = '';
 
-	$rssfile->addRSSItem( $about, $title, $link, $description, $subject, $date,
-						$author, $comments, $image );
+	$item = $feed->add( 'item' );
+	$item->title = $title;
+	$item->description = $description;
+	$item->published = $date;
+
+	$lauthor = $item->add( 'author' );	
+	$lauthor->name = $author;
+
+	$link = $item->add( 'link' );
+	$link->href = $url;
 }
 
-/** @todo consider making this a configuration option - 0.91 / 1.0 / 2.0 */
-$version = '2.0';
-
-$rssfile->outputRSS( $version );
-
+echo $feed->generate( 'rss2' );

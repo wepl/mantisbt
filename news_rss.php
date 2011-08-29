@@ -32,7 +32,6 @@
  * @uses string_api.php
  * @uses user_api.php
  * @uses utility_api.php
- * @uses rssbuilder/class.RSSBuilder.inc.php
  */
 
 /**
@@ -50,7 +49,7 @@ require_api( 'rss_api.php' );
 require_api( 'string_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
-require_lib( 'rssbuilder/class.RSSBuilder.inc.php' );
+require_lib( 'ezc/Base/src/base.php' );
 
 $f_username = gpc_get_string( 'username', null );
 $f_key = gpc_get_string( 'key', null );
@@ -80,8 +79,6 @@ if ( $f_project_id != ALL_PROJECTS ) {
 }
 
 # construct rss file
-
-$encoding = 'utf-8';
 $about = config_get( 'path' );
 $title = string_rss_links( config_get( 'window_title' ) . ' - ' . lang_get( 'news' ) );
 
@@ -96,43 +93,32 @@ $image_link = config_get( 'path' ) . 'images/mantis_logo_button.gif';
 $category = string_rss_links( project_get_name( $f_project_id ) );
 
 # in minutes (only rss 2.0)
-$cache = '60';
+#$cache = '60';
 
-$rssfile = new RSSBuilder(	$encoding, $about, $title, $description,
-				$image_link, $category, $cache);
+$feed = new ezcFeed();
+$feed->title = $title;
+$feed->description = $description;
+$feed->generator = 'Mantis Bug Tracker';
 
-# person, an organization, or a service
-$publisher = '';
+$rsscat = $feed->add( 'category' );
+$rsscat->term = $category;
 
-# person, an organization, or a service
-$creator = '';
+$link = $feed->add( 'link' );
+$link->href = $about;
 
 $date = (string) date( 'r' );
-$language = lang_get( 'phpmailer_language' );
-$rights = '';
-
-# spatial location , temporal period or jurisdiction
-$coverage = (string) '';
-
-# person, an organization, or a service
-$contributor = (string) '';
-
-$rssfile->addDCdata( $publisher, $creator, $date, $language, $rights, $coverage, $contributor );
-
+#$language = lang_get( 'phpmailer_language' );
 # hourly / daily / weekly / ...
-$period = (string) 'daily';
-
+#$period = (string) 'daily';
 # every X hours/days/...
-$frequency = (int) 1;
+#$frequency = (int) 1;
 
-$base = (string) date('Y-m-d\TH:i:sO');
+#$base = (string) date('Y-m-d\TH:i:sO');
 
 # add missing : in the O part of the date.  PHP 5 supports a 'c' format which will output the format
 # exactly as we want it.
 # // 2002-10-02T10:00:00-0500 -> // 2002-10-02T10:00:00-05:00
-$base = utf8_substr( $base, 0, 22 ) . ':' . utf8_substr( $base, -2 );
-
-$rssfile->addSYdata( $period, $frequency, $base );
+#$base = utf8_substr( $base, 0, 22 ) . ':' . utf8_substr( $base, -2 );
 
 $news_rows = news_get_limited_rows( 0 /* offset */, $f_project_id );
 $t_news_count = count( $news_rows );
@@ -151,42 +137,30 @@ for ( $i = 0; $i < $t_news_count; $i++ ) {
 	$v_headline 	= string_rss_links( $v_headline );
 	$v_body 	= string_rss_links( $v_body );
 
-	$about = $link = config_get( 'path' ) . "news_view_page.php?news_id=$v_id";
+	$about = $url = config_get( 'path' ) . "news_view_page.php?news_id=$v_id";
 	$title = $v_headline;
 	$description = $v_body;
 
-	# optional DC value
-	$subject = $title;
+	$item = $feed->add( 'item' );
+	$item->title = $title;
+	$item->description = $description;
+	$item->published = $v_date_posted;
 
-	# optional DC value
-	$date = $v_date_posted;
-
-	# author of item
-	$author = '';
+	# author of item	
+	$t_author_name = string_rss_links( user_get_name( $v_poster_id ) );
+	
+	$lauthor = $item->add( 'author' );	
+	$lauthor->name = $t_author_name;	
 	if ( access_has_global_level( config_get( 'show_user_email_threshold' ) ) ) {
-		$t_author_name = string_rss_links( user_get_name( $v_poster_id ) );
 		$t_author_email = user_get_field( $v_poster_id, 'email' );
 
 		if ( !is_blank( $t_author_email ) ) {
-			if ( !is_blank( $t_author_name ) ) {
-				$author = $t_author_name . ' &lt;' . $t_author_email . '&gt;';
-			} else {
-				$author = $t_author_email;
-			}
+			$lauthor->name = $t_author_name . ' &lt;' . $t_author_email . '&gt;';
 		}
 	}
 
-	# $comments = 'http://www.example.com/sometext.php?somevariable=somevalue&comments=1';	# url to comment page rss 2.0 value
-	$comments = '';
-
-	# optional mod_im value for dispaying a different pic for every item
-	$image = '';
-
-	$rssfile->addRSSItem( $about, $title, $link, $description, $subject, $date,
-				$author, $comments, $image);
+	$link = $item->add( 'link' );
+	$link->href = $url;
 }
 
-/** @todo consider making this a configuration option - 0.91 / 1.0 / 2.0 */
-$version = '2.0';
-
-$rssfile->outputRSS( $version );
+echo $feed->generate( 'rss2' );
