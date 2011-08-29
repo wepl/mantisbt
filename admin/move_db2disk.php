@@ -181,7 +181,7 @@ if( $f_move_type == 'attachment' ) {
 <html>
 <head>
 <title>MantisBT Administration - Move <?php echo $t_type?> to Disk</title>
-<link rel="stylesheet" type="text/css" href="admin.css" />
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
 </head>
 <body>
 

@@ -120,7 +120,7 @@ if( $t_finfo_exists ) {
 
 $t_file_type_icons = config_get( 'file_type_icons' );
 foreach( $t_file_type_icons as $t_ext => $t_filename ) {
-	$t_file_path = dirname( dirname( dirname( __FILE__ ) ) ) . '/images/fileicons/' . $t_filename;
+	$t_file_path = dirname( dirname( dirname( __FILE__ ) ) ) . '/static/images/fileicons/' . $t_filename;
 
 	check_print_test_row( "Testing icon for extension '$t_ext'...", file_exists( $t_file_path ), array( false => 'File not found: ' . $t_file_path ) );
 }

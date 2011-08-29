@@ -38,7 +38,7 @@ $f_advanced = gpc_get_bool( 'advanced', false );
 <html>
 <head>
 <title>MantisBT Administration - Check Installation </title>
-<link rel="stylesheet" type="text/css" href="admin.css" />
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
 </head>
 <body>
 

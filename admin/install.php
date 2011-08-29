@@ -97,7 +97,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>';
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >
 <head>
 <title> MantisBT Administration - Installation  </title>
-<link rel="stylesheet" type="text/css" href="admin.css" />
+<link rel="stylesheet" type="text/css" href="../css/admin.css" />
 </head>
 <body>
 <table width="100%" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
