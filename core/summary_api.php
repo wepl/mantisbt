@@ -76,7 +76,7 @@ function summary_print_by_enum( $p_enum ) {
 		return;
 	}
 	
-	$t_vars = getClassProperties( 'BugData', 'protected');
+	$t_vars = getClassProperties( 'MantisBug', 'protected');
 	if( !array_key_exists( $p_enum, $t_vars ) ) {
 		throw new MantisBT\Exception\DB_Field_Not_Found( $p_enum );
 	}

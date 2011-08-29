@@ -30,7 +30,7 @@ class ImportXml_Issue implements ImportXml_Interface {
 	private $defaultCategory_;
 
 	public function __construct( $keepCategory, $defaultCategory ) {
-		$this->newbug_ = new BugData;
+		$this->newbug_ = new MantisBug;
 		$this->keepCategory_ = $keepCategory;
 		$this->defaultCategory_ = $defaultCategory;
 	}

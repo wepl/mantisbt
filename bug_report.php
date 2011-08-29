@@ -82,7 +82,7 @@ form_security_validate( 'bug_report' );
 
 access_ensure_project_level( config_get('report_bug_threshold' ) );
 
-$t_bug_data = new BugData;
+$t_bug_data = new MantisBug;
 $t_bug_data->build				= gpc_get_string( 'build', '' );
 $t_bug_data->platform				= gpc_get_string( 'platform', '' );
 $t_bug_data->os					= gpc_get_string( 'os', '' );

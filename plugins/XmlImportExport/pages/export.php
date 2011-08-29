@@ -74,7 +74,7 @@ $t_ignore = array(
 );
 
 /* properties that we want to export are 'protected' */
-$t_columns = array_keys( getClassProperties('BugData', 'protected') );
+$t_columns = array_keys( getClassProperties('MantisBug', 'protected') );
 
 # export the rows
 foreach( $t_result as $t_row ) {

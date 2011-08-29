@@ -160,7 +160,7 @@ function custom_function_default_format_issue_summary( $p_issue_id, $p_context =
 # to change the status.
 # In case of invalid data, this function should call trigger_error()
 # p_issue_id is the issue number that can be used to get the existing state
-# p_new_issue_data is an object (BugData) with the appropriate fields updated
+# p_new_issue_data is an object (MantisBug) with the appropriate fields updated
 function custom_function_default_issue_update_validate( $p_issue_id, $p_new_issue_data, $p_bugnote_text ) {
 }
 
@@ -173,7 +173,7 @@ function custom_function_default_issue_update_notify( $p_issue_id ) {
 # Hook to validate field settings before creating an issue
 # Verify that the proper fields are set before proceeding to create an issue
 # In case of errors, this function should call trigger_error()
-# p_new_issue_data is an object (BugData) with the appropriate fields updated
+# p_new_issue_data is an object (MantisBug) with the appropriate fields updated
 function custom_function_default_issue_create_validate( $p_new_issue_data ) {
 }
 
@@ -192,7 +192,7 @@ function custom_function_default_issue_delete_validate( $p_issue_id ) {
 }
 
 # Hook to notify after an issue has been deleted.
-# p_issue_data is the issue data (BugData) that reflects the last status of the
+# p_issue_data is the issue data (MantisBug) that reflects the last status of the
 # issue before it was deleted.
 function custom_function_default_issue_delete_notify( $p_issue_data ) {
 }

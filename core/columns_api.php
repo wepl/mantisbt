@@ -117,7 +117,7 @@ function columns_filter_disabled( $p_columns ) {
  * Get a list of standard columns.
  */
 function columns_get_standard() {
-	$t_reflection = new ReflectionClass('BugData');
+	$t_reflection = new ReflectionClass('MantisBug');
 	$t_columns = $t_reflection->getDefaultProperties();
 
 	$t_columns['selection'] = null;
@@ -921,7 +921,7 @@ function print_column_title_overdue( $p_sort, $p_dir, $p_columns_target = COLUMN
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -974,7 +974,7 @@ function print_column_title_plugin( $p_column, $p_column_object, $p_sort, $p_dir
 /**
  * Print custom column content for a specific bug.
  * @param object Column object
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @access public
  */
@@ -1014,7 +1014,7 @@ function print_column_edit( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1031,7 +1031,7 @@ function print_column_priority( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1044,7 +1044,7 @@ function print_column_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE )
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1062,7 +1062,7 @@ function print_column_sponsorship_total( $p_bug, $p_columns_target = COLUMNS_TAR
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1098,7 +1098,7 @@ function print_column_bugnotes_count( $p_bug, $p_columns_target = COLUMNS_TARGET
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1134,7 +1134,7 @@ function print_column_attachment_count( $p_bug, $p_columns_target = COLUMNS_TARG
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1161,7 +1161,7 @@ function print_column_category_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VI
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1174,7 +1174,7 @@ function print_column_severity( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1185,7 +1185,7 @@ function print_column_eta( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE 
 
 /**
  *
- * @param BugData $p_bug bug object
+ * @param MantisBug $p_bug bug object
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1196,7 +1196,7 @@ function print_column_projection( $p_bug, $p_columns_target = COLUMNS_TARGET_VIE
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1207,7 +1207,7 @@ function print_column_reproducibility( $p_bug, $p_columns_target = COLUMNS_TARGE
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1218,7 +1218,7 @@ function print_column_resolution( $p_bug, $p_columns_target = COLUMNS_TARGET_VIE
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1236,7 +1236,7 @@ function print_column_status( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PA
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1255,7 +1255,7 @@ function print_column_handler_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VIE
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1268,7 +1268,7 @@ function print_column_reporter_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VI
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1281,7 +1281,7 @@ function print_column_project_id( $p_bug, $p_columns_target = COLUMNS_TARGET_VIE
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1302,7 +1302,7 @@ function print_column_last_updated( $p_bug, $p_columns_target = COLUMNS_TARGET_V
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1315,7 +1315,7 @@ function print_column_date_submitted( $p_bug, $p_columns_target = COLUMNS_TARGET
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1332,7 +1332,7 @@ function print_column_summary( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_P
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1345,7 +1345,7 @@ function print_column_description( $p_bug, $p_columns_target = COLUMNS_TARGET_VI
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1358,7 +1358,7 @@ function print_column_steps_to_reproduce( $p_bug, $p_columns_target = COLUMNS_TA
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1371,7 +1371,7 @@ function print_column_additional_information( $p_bug, $p_columns_target = COLUMN
 
 /**
  *
- * @param BugData $p_bug bug obect
+ * @param MantisBug $p_bug bug obect
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1390,7 +1390,7 @@ function print_column_target_version( $p_bug, $p_columns_target = COLUMNS_TARGET
 
 /**
  *
- * @param BugData $p_bug bug object
+ * @param MantisBug $p_bug bug object
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1412,7 +1412,7 @@ function print_column_view_state( $p_bug, $p_columns_target = COLUMNS_TARGET_VIE
 
 /**
  *
- * @param BugData $p_bug bug object
+ * @param MantisBug $p_bug bug object
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
@@ -1437,7 +1437,7 @@ function print_column_due_date( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_
 
 /**
  *
- * @param BugData $p_bug bug object
+ * @param MantisBug $p_bug bug object
  * @param int $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
  * @return null
  * @access public
