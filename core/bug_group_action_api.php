@@ -42,6 +42,27 @@ require_api( 'string_api.php' );
 require_css( 'status_config.php' );
 
 /**
+ * Initialise bug action group api
+ */
+function bug_group_action_init( $p_action ) {
+	$t_valid_actions = bug_group_action_get_commands( current_user_get_accessible_projects() );
+	$t_action = strtoupper($p_action);
+
+	if( !isset( $t_valid_actions[$t_action] ) &&
+		!isset( $t_valid_actions['EXT_' . $t_action] )
+		) {
+		trigger_error( ERROR_GENERIC, ERROR );
+	}
+
+	$t_include_file = config_get_global( 'absolute_path' ) . 'bug_actiongroup_' . $p_action . '_inc.php';
+	if( !file_exists( $t_include_file ) ) {
+		trigger_error( ERROR_GENERIC, ERROR );
+	} else {
+		require_once( $t_include_file );
+	}
+}
+
+/**
  * Print the top part for the bug action group page.
  */
 function bug_group_action_print_top() {
@@ -112,11 +133,6 @@ function bug_group_action_print_hidden_fields( $p_bug_ids_array ) {
  * @param $p_action   The custom action name without the "EXT_" prefix.
  */
 function bug_group_action_print_action_fields( $p_action ) {
-	$t_include_definition = strtoupper( 'bug_actiongroup_' . $p_action . '_inc_allow' );
-	if( !defined( $t_include_definition ) ) {
-		define( $t_include_definition, true );
-	}
-	require_once( config_get_global( 'absolute_path' ) . 'bug_actiongroup_' . $p_action . '_inc.php' );
 	$t_function_name = 'action_' . $p_action . '_print_fields';
 	$t_function_name();
 }
@@ -128,11 +144,6 @@ function bug_group_action_print_action_fields( $p_action ) {
  * @param $p_action   The custom action name without the "EXT_" prefix.
  */
 function bug_group_action_print_title( $p_action ) {
-	$t_include_definition = strtoupper( 'bug_actiongroup_' . $p_action . '_inc_allow' );
-	if( !defined( $t_include_definition ) ) {
-		define( $t_include_definition, true );
-	}
-	require_once( config_get_global( 'absolute_path' ) . 'bug_actiongroup_' . $p_action . '_inc.php' );
 	$t_function_name = 'action_' . $p_action . '_print_title';
 	$t_function_name();
 }
@@ -147,15 +158,9 @@ function bug_group_action_print_title( $p_action ) {
  * @returns true|array true if action can be applied or array of ( bug_id => reason for failure to validate )
  */
 function bug_group_action_validate( $p_action, $p_bug_id ) {
-	$t_include_definition = strtoupper( 'bug_actiongroup_' . $p_action . '_inc_allow' );
-	if( !defined( $t_include_definition ) ) {
-		define( $t_include_definition, true );
-	}
-	require_once( config_get_global( 'absolute_path' ) . 'bug_actiongroup_' . $p_action . '_inc.php' );
 	$t_function_name = 'action_' . $p_action . '_validate';
 	return $t_function_name( $p_bug_id );
 }
-
 
 /**
  * Executes an action on a bug.  This ends up calling
@@ -166,11 +171,6 @@ function bug_group_action_validate( $p_action, $p_bug_id ) {
  * @returns true|array Action can be applied., ( bug_id => reason for failure to process )
  */
 function bug_group_action_process( $p_action, $p_bug_id ) {
-	$t_include_definition = strtoupper( 'bug_actiongroup_' . $p_action . '_inc_allow' );
-	if( !defined( $t_include_definition ) ) {
-		define( $t_include_definition, true );
-	}
-	require_once( config_get_global( 'absolute_path' ) . 'bug_actiongroup_' . $p_action . '_inc.php' );
 	$t_function_name = 'action_' . $p_action . '_process';
 	return $t_function_name( $p_bug_id );
 }
