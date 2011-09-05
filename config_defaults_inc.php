@@ -128,12 +128,7 @@ if ( isset ( $_SERVER['SCRIPT_NAME'] ) ) {
 		$t_host = 'localhost';
 	}
 
-	if( isset( $_SERVER['SCRIPT_NAME'] ) ) {
-		$t_self = $_SERVER['SCRIPT_NAME'];
-	} else {
-		$t_self = $_SERVER['PHP_SELF'];
-	}
-
+	$t_self = $_SERVER['SCRIPT_NAME'];
 	$t_self = filter_var($t_self, FILTER_SANITIZE_STRING);
 	$t_path = str_replace( basename( $t_self ), '', $t_self );
 	$t_path = basename( $t_path ) == "admin" ? rtrim( dirname( $t_path ), '/\\' ) . '/' : $t_path;
@@ -142,12 +137,13 @@ if ( isset ( $_SERVER['SCRIPT_NAME'] ) ) {
 		echo 'Can not safely determine $g_path. Please set $g_path manually in config_inc.php';
 		die;
 	}
-	$t_url	= $t_protocol . '://' . $t_host . $t_path;
+	$g_path	= $t_protocol . '://' . $t_host . $t_path;
 
 } else {
-	$t_path = '';
-	$t_host = '';
-	$t_protocol = '';
+	echo 'Invalid server configuration detected. Please set $g_path manually in config_inc.php.';
+	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ( stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false ) )
+		echo ' Please try to add "fastcgi_param SCRIPT_NAME $fastcgi_script_name;" to the nginx server configuration.';
+	die;
 }
 
 /**
@@ -155,7 +151,7 @@ if ( isset ( $_SERVER['SCRIPT_NAME'] ) ) {
  * requires trailing /
  * @global string $g_path
  */
-$g_path	= isset( $t_url ) ? $t_url : 'http://localhost/mantisbt/';
+//$g_path = 'http://localhost/mantisbt/';
 
 /**
  * path to your images directory (for icons)
