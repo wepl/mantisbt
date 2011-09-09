@@ -88,10 +88,10 @@ function is_blank( $p_var ) {
  * @access public
  */
 function ini_get_bool( $p_name ) {
-	$result = ini_get( $p_name );
+	$t_result = ini_get( $p_name );
 
-	if( is_string( $result ) ) {
-		switch( $result ) {
+	if( is_string( $t_result ) ) {
+		switch( strtolower( $t_result ) ) {
 			case 'off':
 			case 'false':
 			case 'no':
@@ -108,7 +108,7 @@ function ini_get_bool( $p_name ) {
 				break;
 		}
 	} else {
-		return (bool) $result;
+		return (bool) $t_result;
 	}
 }
 
@@ -179,25 +179,6 @@ function multi_sort( $p_array, $p_key, $p_direction = ASCENDING ) {
 }
 
 /**
- * Return GD version
- * It doesn't use gd_info() so it works with PHP < 4.3.0 as well
- * @return int represents gd version
- * @access public
- */
-function get_gd_version() {
-	$t_GDfuncList = get_extension_funcs( 'gd' );
-	if( !is_array( $t_GDfuncList ) ) {
-		return 0;
-	} else {
-		if( in_array( 'imagegd2', $t_GDfuncList ) ) {
-			return 2;
-		} else {
-			return 1;
-		}
-	}
-}
-
-/**
  * return true or false if string matches current page name
  * @param string $p_string page name
  * @return bool
@@ -207,6 +188,11 @@ function is_page_name( $p_string ) {
 	return isset( $_SERVER['SCRIPT_NAME'] ) && ( 0 < strpos( $_SERVER['SCRIPT_NAME'], $p_string ) );
 }
 
+/**
+ * return true or false if the host operating system is windows
+ * @return bool
+ * @access public
+ */
 function is_windows_server() {
 	if( defined( 'PHP_WINDOWS_VERSION_MAJOR' ) ) {
 		return (PHP_WINDOWS_VERSION_MAJOR > 0);
@@ -214,31 +200,44 @@ function is_windows_server() {
 	return ('WIN' == substr( PHP_OS, 0, 3 ) );
 }
 
-function getClassProperties($className, $types='public', $return_object = false, $include_parent = false ) {
-	$ref = new ReflectionClass($className);
-	$props = $ref->getProperties();
-	$props_arr = array();
-	foreach($props as $prop){
-		$f = $prop->getName();
-		if($prop->isPublic() and (stripos($types, 'public') === FALSE)) continue;
-		if($prop->isPrivate() and (stripos($types, 'private') === FALSE)) continue;
-		if($prop->isProtected() and (stripos($types, 'protected') === FALSE)) continue;
-		if($prop->isStatic() and (stripos($types, 'static') === FALSE)) continue;
-		if ( $return_object )
-			$props_arr[$f] = $prop;
+/**
+ * return array of class properties (via reflection api)
+ * @param string $p_classname class name
+ * @param string $p_type property type - public/private/protected/static
+ * @param bool $p_return_object whether to return array of property objects
+ * @param bool $p_include_parent whether to include properties of parent classes
+ * @return bool
+ * @access public
+ */
+function getClassProperties($p_classname, $p_type='public', $p_return_object = false, $p_include_parent = false ) {
+	$t_ref = new ReflectionClass($p_classname);
+	$t_props = $t_ref->getProperties();
+	$t_props_arr = array();
+	foreach($t_props as $t_prop){
+		$t_name = $t_prop->getName();
+		if($t_prop->isPublic() and (stripos($p_type, 'public') === FALSE)) continue;
+		if($t_prop->isPrivate() and (stripos($p_type, 'private') === FALSE)) continue;
+		if($t_prop->isProtected() and (stripos($p_type, 'protected') === FALSE)) continue;
+		if($t_prop->isStatic() and (stripos($p_type, 'static') === FALSE)) continue;
+		if ( $p_return_object )
+			$t_props_arr[$t_name] = $t_prop;
 		else
-			$props_arr[$f] = true;
+			$t_props_arr[$t_name] = true;
 	}
-	if ( $include_parent ) {
-		if($parentClass = $ref->getParentClass()){
-			$parent_props_arr = getClassProperties($parentClass->getName());//RECURSION
-			if(count($parent_props_arr) > 0)
-				$props_arr = array_merge($parent_props_arr, $props_arr);
+	if ( $p_include_parent ) {
+		if($t_parentclass = $ref->getParentClass()){
+			$t_parent_props_arr = getClassProperties($t_parentclass->getName());//RECURSION
+			if(count($t_parent_props_arr) > 0)
+				$t_props_arr = array_merge($t_parent_props_arr, $t_props_arr);
 		}
 	}
-	return $props_arr;
+	return $t_props_arr;
 }
 
+/**
+ * return string of system font path
+ * @access public
+ */
 function get_font_path() {
 		$t_font_path = config_get_global( 'system_font_folder' );
 		if( $t_font_path == '' ) {

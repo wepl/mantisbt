@@ -74,9 +74,12 @@ if ( OFF == config_get_global( 'allow_signup' ) ) {
 	exit;
 }
 
-if( ON == config_get( 'signup_use_captcha' ) && get_gd_version() > 0 	&&
-			helper_call_custom_function( 'auth_can_change_password', array() ) ) {
-	# captcha image requires GD library and related option to ON
+# captcha image requires GD library and related option to ON
+if( ON == config_get( 'signup_use_captcha' ) && helper_call_custom_function( 'auth_can_change_password', array() ) ) {
+	if( !extension_loaded('gd') ) {
+		throw new MantisBT\Exception\Missing_GD_Extension();
+	}
+
 	$t_private_key = substr( hash( 'whirlpool', 'captcha' . config_get_global( 'crypto_master_salt' ) . $f_public_key, false ), 0, 5 );
 
 	if ( $t_private_key != $f_captcha ) {

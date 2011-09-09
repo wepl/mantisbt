@@ -91,8 +91,11 @@ $t_public_key = crypto_generate_uri_safe_nonce( 64 );
 
 			<?php
 			$t_allow_passwd = helper_call_custom_function( 'auth_can_change_password', array() );
-			if( ON == config_get( 'signup_use_captcha' ) && get_gd_version() > 0 && ( true == $t_allow_passwd ) ) {
+			if( ON == config_get( 'signup_use_captcha' ) && ( true == $t_allow_passwd ) ) {
 				# captcha image requires GD library and related option to ON
+				if( !extension_loaded('gd') ) {
+					throw new MantisBT\Exception\Missing_GD_Extension();
+				}
 
 				echo '<div class="field-container ', helper_alternate_class_no_attribute(), '">';
 				echo '<label for="captcha-field"><span>' . lang_get( 'signup_captcha_request_label' ) . '</span></label>';
