@@ -1720,7 +1720,7 @@ $g_ldap_realname_field  = 'displayName';
 
 /**
  * The LDAP field for email name (i.e. email).
- * @global string $g_ldap_uid_field
+ * @global string $g_ldap_email_field
  */
 $g_ldap_email_field  = 'mail';
 
