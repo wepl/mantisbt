@@ -63,6 +63,7 @@ if ( file_exists( 'mantis_offline.php' ) && !isset( $_GET['mbadmin'] ) ) {
 	exit;
 }
 
+
 $g_request_time = microtime( true );
 
 ob_start();
@@ -94,12 +95,9 @@ if ( $t_local_config && file_exists( $t_local_config ) ){
 	$t_config_inc_found = true;
 }
 
-# Remember (globally) which API files have already been loaded
-$g_api_included = array();
-
 # Define an API inclusion function to replace require_once
 function require_api( $p_api_name ) {
-	global $g_api_included;
+	static $g_api_included;
 	global $g_core_path;
 	if ( !isset( $g_api_included[$p_api_name] ) ) {
 		$t_existing_globals = get_defined_vars();
@@ -113,12 +111,9 @@ function require_api( $p_api_name ) {
 	}
 }
 
-# Remember (globally) which library files have already been loaded
-$g_libraries_included = array();
-
 # Define an API inclusion function to replace require_once
 function require_lib( $p_library_name ) {
-	global $g_libraries_included;
+	static $g_libraries_included;
 	global $g_library_path;
 	if ( !isset( $g_libraries_included[$p_library_name] ) ) {
 		$t_existing_globals = get_defined_vars();
