@@ -142,7 +142,7 @@ print_manage_menu( 'manage_tags_page.php' ); ?>
 			<td><?php echo lang_get( 'tag_updated' ) ?></td>
 		</tr><?php
 		foreach ( $t_result as $t_tag_row ) {
-			$t_tag_name = string_display_line( $t_tag_row['name'] );
+			$t_tag_name = string_html_specialchars( string_display_line( $t_tag_row['name'] ) );
 			$t_tag_description = string_display( $t_tag_row['description'] ); ?>
 		<tr <?php echo helper_alternate_class() ?>><?php
 		if ( $t_can_edit ) { ?>

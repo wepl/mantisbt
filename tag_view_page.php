@@ -59,7 +59,7 @@ compress_enable();
 $f_tag_id = gpc_get_int( 'tag_id' );
 $t_tag_row = tag_get( $f_tag_id );
 
-$t_name = string_display_line( $t_tag_row['name'] );
+$t_name = string_html_specialchars( string_display_line( $t_tag_row['name'] ) );
 $t_description = string_display( $t_tag_row['description'] );
 $t_can_edit = access_has_global_level( config_get( 'tag_edit_threshold' ) );
 $t_can_edit_own = $t_can_edit || auth_get_current_user_id() == tag_get_field( $f_tag_id, 'user_id' )
@@ -120,13 +120,15 @@ html_page_top( sprintf( lang_get( 'tag_details' ), $t_name ) ); ?>
 				<td><span class="tag-filter"><a href="<?php echo $t_link; ?>"><?php echo $t_label; ?></a></span></td>
 			</tr><?php
 		} ?>
-		</table><?php
-	} ?></div></div>
-		<span class="label-style"></span>
+		</table>
+		</div></div>
 	</div><?php
+	} ?>
+		<span class="label-style"></span>
+	<?php
 	if ( $t_can_edit_own || $t_can_edit ) { ?>
 	<div class="action-buttons"><?php
-	if ( $t_can_edit_own ) { ?>
+		if ( $t_can_edit_own ) { ?>
 		<form class="action-button" action="tag_update_page.php" method="post">
 			<fieldset>
 				<?php # CSRF protection not required here - form does not result in modifications ?>
