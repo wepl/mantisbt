@@ -169,7 +169,7 @@ $t_current_resolution = $t_bug->resolution;
 $t_bug_is_open = $t_current_resolution < $t_resolved;
 if ( ( $f_new_status >= $t_resolved ) && ( ( $f_new_status < $t_closed ) || ( $t_bug_is_open ) ) ) { ?>
 <!-- Resolution -->
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php echo lang_get( 'resolution' ) ?>
 	</th>
@@ -198,7 +198,7 @@ if ( $f_new_status >= $t_resolved
 	&& $f_new_status < $t_closed
 	&& $t_resolution != config_get( 'bug_duplicate_resolution' ) ) { ?>
 <!-- Duplicate ID -->
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php echo lang_get( 'duplicate_id' ) ?>
 	</th>
@@ -217,7 +217,7 @@ if ( access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get
 	}
 ?>
 <!-- Assigned To -->
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php echo lang_get( 'assigned_to' ) ?>
 	</th>
@@ -237,7 +237,7 @@ if ( access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get
 	}
 ?>
 <!-- Due date -->
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php print_documentation_link( 'due_date' ) ?>
 	</th>
@@ -278,7 +278,7 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 	}
 	if ( custom_field_has_write_access( $t_id, $f_bug_id ) ) {
 ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php if ( $t_require ) {?><span class="required">*</span><?php } echo lang_get_defaulted( $t_def['name'] ) ?>
 	</th>
@@ -292,7 +292,7 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 	} #  custom_field_has_write_access( $t_id, $f_bug_id ) )
 	else if ( custom_field_has_read_access( $t_id, $f_bug_id ) ) {
 ?>
-	<tr <?php echo helper_alternate_class() ?>>
+	<tr>
 		<th class="category">
 			<?php echo lang_get_defaulted( $t_def['name'] ) ?>
 		</th>
@@ -313,7 +313,7 @@ if ( ( $f_new_status >= $t_resolved ) ) {
 	) {
 ?>
 <!-- Fixed in Version -->
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php echo lang_get( 'fixed_in_version' ) ?>
 	</th>
@@ -338,7 +338,7 @@ if ( ON == $f_reopen_flag ) {
 ?>
 
 <!-- Bugnote -->
-<tr id="bug-change-status-note" <?php echo helper_alternate_class() ?>>
+<tr id="bug-change-status-note">
 	<th class="category">
 		<?php echo lang_get( 'add_bugnote_title' ) ?>
 	</th>
@@ -347,7 +347,7 @@ if ( ON == $f_reopen_flag ) {
 	</td>
 </tr>
 <?php if ( access_has_bug_level( config_get( 'private_bugnote_threshold' ), $f_bug_id ) ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php echo lang_get( 'view_status' ) ?>
 	</th>
@@ -370,7 +370,7 @@ if ( ON == $f_reopen_flag ) {
 <?php if ( config_get('time_tracking_enabled') ) { ?>
 <?php if ( access_has_bug_level( config_get( 'private_bugnote_threshold' ), $f_bug_id ) ) { ?>
 <?php if ( access_has_bug_level( config_get( 'time_tracking_edit_threshold' ), $f_bug_id ) ) { ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<th class="category">
 		<?php echo lang_get( 'time_tracking' ) ?>
 	</th>

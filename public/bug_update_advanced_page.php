@@ -204,7 +204,7 @@ if ( $tpl_show_id || $tpl_show_project || $tpl_show_category || $tpl_show_view_s
 	# Values for Bug Id, Project Name, Category, View State, Date Submitted, Last Updated
 	#
 
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	# Bug ID
 	echo '<td>', $tpl_formatted_bug_id, '</td>';
@@ -253,7 +253,7 @@ if ( $tpl_show_id || $tpl_show_project || $tpl_show_category || $tpl_show_view_s
 #
 
 if ( $tpl_show_reporter ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 4;
 
@@ -282,7 +282,7 @@ if ( $tpl_show_reporter ) {
 #
 
 if ( $tpl_show_handler || $tpl_show_due_date ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 2;
 
@@ -340,7 +340,7 @@ if ( $tpl_show_handler || $tpl_show_due_date ) {
 #
 
 if ( $tpl_show_priority || $tpl_show_severity || $tpl_show_reproducibility ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 0;
 
@@ -387,7 +387,7 @@ if ( $tpl_show_priority || $tpl_show_severity || $tpl_show_reproducibility ) {
 #
 
 if ( $tpl_show_status || $tpl_show_resolution ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 2;
 
@@ -431,7 +431,7 @@ if ( $tpl_show_status || $tpl_show_resolution ) {
 #
 
 if ( $tpl_show_projection || $tpl_show_eta ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 2;
 
@@ -466,7 +466,7 @@ if ( $tpl_show_projection || $tpl_show_eta ) {
 #
 
 if ( $tpl_show_platform || $tpl_show_os || $tpl_show_os_version ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 0;
 
@@ -537,7 +537,7 @@ if ( $tpl_show_platform || $tpl_show_os || $tpl_show_os_version ) {
 #
 
 if ( $tpl_show_product_version || $tpl_show_product_build ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 2;
 
@@ -571,7 +571,7 @@ if ( $tpl_show_product_version || $tpl_show_product_build ) {
 #
 
 if ( $tpl_show_target_version || $tpl_show_fixed_in_version ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 
 	$t_spacer = 2;
 
@@ -610,7 +610,7 @@ echo '<tr class="spacer"><td colspan="6"></td></tr>';
 
 # Summary
 if ( $tpl_show_summary ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 	echo '<th class="category"><label for="summary">' . lang_get( 'summary' ) . '</label></th>';
 	echo '<td colspan="5">', '<input ', helper_get_tab_index(), ' type="text" id="summary" name="summary" size="105" maxlength="128" value="', $tpl_summary_attribute, '" />';
 	echo '</td></tr>';
@@ -618,7 +618,7 @@ if ( $tpl_show_summary ) {
 
 # Description
 if ( $tpl_show_description ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 	echo '<th class="category"><label for="description">' . lang_get( 'description' ) . '</label></th>';
 	echo '<td colspan="5">';
 	echo '<textarea ', helper_get_tab_index(), ' cols="80" rows="10" id="description" name="description">', $tpl_description_textarea, '</textarea>';
@@ -627,7 +627,7 @@ if ( $tpl_show_description ) {
 
 # Steps to Reproduce
 if ( $tpl_show_steps_to_reproduce ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 	echo '<th class="category"><label for="steps_to_reproduce">' . lang_get( 'steps_to_reproduce' ) . '</label></th>';
 	echo '<td colspan="5">';
 	echo '<textarea ', helper_get_tab_index(), ' cols="80" rows="10" id="steps_to_reproduce" name="steps_to_reproduce">', $tpl_steps_to_reproduce_textarea, '</textarea>';
@@ -636,7 +636,7 @@ if ( $tpl_show_steps_to_reproduce ) {
 
 # Additional Information
 if ( $tpl_show_additional_information ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 	echo '<th class="category"><label for="additional_information">' . lang_get( 'additional_information' ) . '</label></th>';
 	echo '<td colspan="5">';
 	echo '<textarea ', helper_get_tab_index(), ' cols="80" rows="10" id="additional_information" name="additional_information">', $tpl_additional_information_textarea, '</textarea>';
@@ -654,7 +654,7 @@ foreach ( $t_related_custom_field_ids as $t_id ) {
 	if ( ( $t_def['display_update'] || $t_def['require_update'] ) && custom_field_has_write_access( $t_id, $tpl_bug_id ) ) {
 		$t_custom_fields_found = true;
 
-		echo '<tr ', helper_alternate_class(), '>';
+		echo '<tr>';
 		echo '<td class="category">';
 		if ( $t_def['require_update'] ) {
 			echo '<span class="required">*</span>';
@@ -676,13 +676,13 @@ if ( $t_custom_fields_found ) {
 } # custom fields found
 
 # Bugnote Text Box
-echo '<tr ', helper_alternate_class(), '>';
+echo '<tr>';
 echo '<th class="category"><label for="bugnote_text">' . lang_get( 'add_bugnote_title' ) . '</label></th>';
 echo '<td colspan="5"><textarea ', helper_get_tab_index(), ' id="bugnote_text" name="bugnote_text" cols="80" rows="10"></textarea></td></tr>';
 
 # Bugnote Private Checkbox (if permitted)
 if ( access_has_bug_level( config_get( 'private_bugnote_threshold' ), $tpl_bug_id ) ) {
-	echo '<tr ', helper_alternate_class(), '>';
+	echo '<tr>';
 	echo '<th class="category">' . lang_get( 'private' ) . '</th>';
 	echo '<td colspan="5">';
 
@@ -700,7 +700,7 @@ if ( access_has_bug_level( config_get( 'private_bugnote_threshold' ), $tpl_bug_i
 # Time Tracking (if permitted)
 if ( config_get('time_tracking_enabled') ) {
 	if ( access_has_bug_level( config_get( 'time_tracking_edit_threshold' ), $tpl_bug_id ) ) {
-		echo '<tr ', helper_alternate_class(), '>';
+		echo '<tr>';
 		echo '<th class="category"><label for="time_tracking">' . lang_get( 'time_tracking' ) . '</label></th>';
 		echo '<td colspan="5"><input type="text" id="time_tracking" name="time_tracking" size="5" placeholder="hh:mm" /></td></tr>';
 	}
