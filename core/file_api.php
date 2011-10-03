@@ -474,7 +474,7 @@ function file_delete_local( $p_filename ) {
 
 # Return the specified field value
 function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
-	if( !db_field_exists( $p_field_name, $p_table ) ) {
+	if( !db_field_exists( $p_field_name, "{$p_table}" ) ) {
 		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
 	}
 	$t_bug_file_table = db_get_table( $p_table . '_file' );
