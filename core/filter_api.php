@@ -3368,7 +3368,7 @@ function filter_draw_selection_area2( $p_page_number, $p_for_screen = true, $p_e
 				foreach( $t_stored_queries_arr as $t_query_id => $t_query_name ) {
 					echo '<option value="' . $t_query_id . '" ';
 					check_selected( $t_query_id, $t_source_query_id );
-					echo '>' . string_display_line( $t_query_name ) . '</option>';
+					echo '>' . string_html_specialchars( string_display_line( $t_query_name ) ) . '</option>';
 				}
 				?>
 			</select>
