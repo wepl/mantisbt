@@ -117,7 +117,7 @@ function gpc_get_string( $p_var_name, $p_default = null ) {
 		throw new MantisBT\Exception\GPC_Array_Unexpected( $p_var_name );
 	}
 
-	return $t_result;
+	return str_replace( "\0","",$t_result );
 }
 
 /**
@@ -258,7 +258,11 @@ function gpc_get_string_array( $p_var_name, $p_default = null ) {
 		throw new MantisBT\Exception\GPC_Array_Expected( $p_var_name );
 	}
 
-	return $t_result;
+	$t_array = array();
+	foreach( $t_result as $key => $val ) {
+		$t_array[$key] = str_replace( "\0", "", $val );
+	}
+	return $t_array;
 }
 
 /**
