@@ -137,7 +137,7 @@ class MantisBug extends MantisCacheable {
 
 		$c_bug_id = (int) $p_bug_id;
 
-		$t_query = "SELECT * FROM {bug} WHERE id=%d";
+		$t_query = 'SELECT * FROM {bug} WHERE id=%d';
 		$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 		$t_row = db_fetch_array( $t_result );
@@ -367,8 +367,7 @@ class MantisBug extends MantisCacheable {
 		if( 0 == $this->handler_id ) {
 			# if a default user is associated with the category and we know at this point
 			# that that the bug was not assigned to somebody, then assign it automatically.
-			$query = "SELECT user_id FROM {category}
-						  WHERE id=%d";
+			$query = 'SELECT user_id FROM {category} WHERE id=%d';
 			$result = db_query( $query, array( $this->category_id ) );
 
 			if( $t_result = db_result( $result ) ) {

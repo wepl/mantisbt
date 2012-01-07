@@ -547,7 +547,7 @@ function auth_generate_unique_cookie_string() {
  * @access public
  */
 function auth_is_cookie_string_unique( $p_cookie_string ) {
-	$t_query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=%s";
+	$t_query = 'SELECT COUNT(*) FROM {user} WHERE cookie_string=%s';
 	$t_result = db_query( $t_query, array( $p_cookie_string ) );
 	$t_count = db_result( $t_result );
 

@@ -102,7 +102,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
             return $this->tables;
         }
         $this->tables = array();
-        $sql = "SHOW TABLES";
+        $sql = 'SHOW TABLES';
 		
 		$t_result = $this->execute( $sql );
         if ($t_result) {

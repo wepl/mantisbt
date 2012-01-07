@@ -117,8 +117,7 @@ function bug_cache_array_rows( $p_bug_id_array ) {
 		return;
 	}
 
-	$t_query = "SELECT * FROM {bug}
-				  WHERE id IN (" . implode( ',', $c_bug_id_array ) . ')';
+	$t_query = 'SELECT * FROM {bug} WHERE id IN (' . implode( ',', $c_bug_id_array ) . ')';
 	$t_result = db_query( $t_query );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -181,10 +180,8 @@ function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
 		return $g_cache_bug_text[$c_bug_id];
 	}
 
-	$t_query = "SELECT bt.*
-				  FROM {bug_text} bt, {bug} b
-				  WHERE b.id=%d AND
-				  		b.bug_text_id = bt.id";
+	$t_query = "SELECT bt.* FROM {bug_text} bt, {bug} b
+				  WHERE b.id=%d AND b.bug_text_id = bt.id";
 	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	$row = db_fetch_array( $t_result );
@@ -437,8 +434,7 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 
 	# Copy bugnotes
 	if( $p_copy_bugnotes ) {
-		$query = "SELECT * FROM {bugnote}
-					  WHERE bug_id=%d";
+		$query = 'SELECT * FROM {bugnote} WHERE bug_id=%d';
 		$result = db_query( $query, array( $t_bug_id ) );
 
 		while( $t_bug_note = db_fetch_array( $result ) ) {
@@ -595,11 +591,11 @@ function bug_delete( $p_bug_id ) {
 	# Delete the bugnote text
 	$t_bug_text_id = bug_get_field( $p_bug_id, 'bug_text_id' );
 
-	$t_query = "DELETE FROM {bug_text} WHERE id=%d";
+	$t_query = 'DELETE FROM {bug_text} WHERE id=%d';
 	db_query( $t_query, array( $t_bug_text_id ) );
 
 	# Delete the bug entry
-	$t_query = "DELETE FROM {bug} WHERE id=%d";
+	$t_query = 'DELETE FROM {bug} WHERE id=%d';
 	db_query( $t_query, array( $c_bug_id ) );
 
 	bug_clear_cache( $p_bug_id );
@@ -713,7 +709,7 @@ function bug_format_summary( $p_bug_id, $p_context ) {
 function bug_get_newest_bugnote_timestamp( $p_bug_id ) {
 	$c_bug_id = (int)$p_bug_id;
 
-	$query = "SELECT last_modified FROM {bugnote} WHERE bug_id=%d ORDER BY last_modified DESC";
+	$query = 'SELECT last_modified FROM {bugnote} WHERE bug_id=%d ORDER BY last_modified DESC';
 	$result = db_query( $query, array( $c_bug_id ), 1 );
 	$row = db_result( $result );
 
@@ -911,7 +907,7 @@ function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_pri
 
 	if(( $t_ass_val != $h_status ) || ( $p_user_id != $h_handler_id ) ) {
 		# get user id
-		$query = "UPDATE {bug} SET handler_id=%d, status=%d WHERE id=%d";
+		$query = 'UPDATE {bug} SET handler_id=%d, status=%d WHERE id=%d';
 		db_query( $query, array( $p_user_id, $t_ass_val, $p_bug_id ) );
 
 		# log changes
@@ -1131,19 +1127,16 @@ function bug_monitor( $p_bug_id, $p_user_id ) {
  * @param int $p_bug_id
  */
 function bug_get_monitors( $p_bug_id ) {
-    
     if ( ! access_has_bug_level( config_get( 'show_monitor_list_threshold' ), $p_bug_id ) ) {
         return array();
     }
-    
-	$c_bug_id = (int)$p_bug_id;
 
 	# get the bugnote data
 	$t_query = "SELECT user_id, enabled
 			FROM {bug_monitor} m, {user} u
 			WHERE m.bug_id=%d AND m.user_id = u.id
 			ORDER BY u.realname, u.username";
-	$t_result = db_query( $t_query, array( $c_bug_id ) );
+	$t_result = db_query( $t_query, array( $p_bug_id ) );
 
 	$t_users = array();
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -1193,22 +1186,19 @@ function bug_monitor_copy( $p_source_bug_id, $p_dest_bug_id ) {
  * @uses history_api.php
  */
 function bug_unmonitor( $p_bug_id, $p_user_id ) {
-	$c_bug_id = (int) $p_bug_id;
-	$c_user_id = (int) $p_user_id;
-
 	# Delete monitoring record
 	$query = 'DELETE FROM {bug_monitor} WHERE bug_id=%d';
-	$db_query_params[] = $c_bug_id;
+	$db_query_params[] = $p_bug_id;
 
 	if( $p_user_id !== null ) {
 		$query .= " AND user_id=%d ";
-		$db_query_params[] = $c_user_id;
+		$db_query_params[] = $p_user_id;
 	}
 
 	db_query( $query, $db_query_params );
 
 	# log new un-monitor action
-	history_log_event_special( $c_bug_id, BUG_UNMONITOR, $c_user_id );
+	history_log_event_special( $p_bug_id, BUG_UNMONITOR, $p_user_id );
 
 	# updated the last_updated date
 	bug_update_date( $p_bug_id );

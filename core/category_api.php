@@ -61,7 +61,7 @@ function category_exists( $p_category_id ) {
 		return true;
 	}
 
-	$t_query = "SELECT COUNT(*) FROM {category} WHERE id=%d";
+	$t_query = 'SELECT COUNT(*) FROM {category} WHERE id=%d';
 	$t_count = db_result( db_query( $t_query, array( (int)$p_category_id ) ) );
 
 	if( 0 < $t_count ) {
@@ -156,7 +156,7 @@ function category_exists( $p_category_id ) {
 
 	# Add bug history entries if we update the category's name
 	if( $t_old_category['name'] != $p_name ) {
-		$query = "SELECT id FROM {bug} WHERE category_id=%d";
+		$query = 'SELECT id FROM {bug} WHERE category_id=%d';
 		$t_result = db_query( $query, array( $p_category_id ) );
 
 		while( $t_bug_row = db_fetch_array( $t_result ) ) {

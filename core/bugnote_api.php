@@ -173,13 +173,11 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 
 	# get user information
 	if( $p_user_id === null ) {
-		$c_user_id = auth_get_current_user_id();
-	} else {
-		$c_user_id = $p_user_id;
+		$p_user_id = auth_get_current_user_id();
 	}
 
 	# Check for private bugnotes.
-	if( $c_private && access_has_bug_level( config_get( 'set_view_status_threshold' ), $p_bug_id, $c_user_id ) ) {
+	if( $c_private && access_has_bug_level( config_get( 'set_view_status_threshold' ), $p_bug_id, $p_user_id ) ) {
 		$t_view_state = VS_PRIVATE;
 	} else {
 		$t_view_state = VS_PUBLIC;
@@ -189,7 +187,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 	$t_query = "INSERT INTO {bugnote}
 				(bug_id, reporter_id, bugnote_text_id, view_state, date_submitted, last_modified, note_type, note_attr, time_tracking )
 			VALUES (%d, %d,%d, %d, %d,%d, %d, %s, %d )";
-	db_query( $t_query, array( $c_bug_id, $c_user_id, $t_bugnote_text_id, $t_view_state, $c_date_submitted, $c_last_modified, $c_type, $p_attr, $c_time_tracking ) );
+	db_query( $t_query, array( $c_bug_id, $p_user_id, $t_bugnote_text_id, $t_view_state, $c_date_submitted, $c_last_modified, $c_type, $p_attr, $c_time_tracking ) );
 
 	# get bugnote id
 	$t_bugnote_id = db_insert_id( '{bugnote}' );
@@ -316,7 +314,7 @@ function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
  * @access public
  */
 function bugnote_get_latest_id( $p_bug_id ) {
-	$t_query = "SELECT id FROM {bugnote} WHERE bug_id=%d ORDER by last_modified DESC";
+	$t_query = 'SELECT id FROM {bugnote} WHERE bug_id=%d ORDER by last_modified DESC';
 	$t_result = db_query( $t_query, array( $p_bug_id ), 1 );
 
 	return (int)db_result( $t_result );
@@ -447,7 +445,7 @@ function bugnote_get_all_bugnotes( $p_bug_id ) {
 function bugnote_set_time_tracking( $p_bugnote_id, $p_time_tracking ) {
 	$c_bugnote_time_tracking = helper_duration_to_minutes( $p_time_tracking );
 
-	$t_query = "UPDATE {bugnote} SET time_tracking=%d WHERE id=%d";
+	$t_query = 'UPDATE {bugnote} SET time_tracking=%d WHERE id=%d';
 	db_query( $t_query, array( $c_bugnote_time_tracking, $p_bugnote_id ) );
 
 	# db_query errors if there was a problem so:
@@ -461,7 +459,7 @@ function bugnote_set_time_tracking( $p_bugnote_id, $p_time_tracking ) {
  * @access public
  */
 function bugnote_date_update( $p_bugnote_id ) {
-	$query = "UPDATE {bugnote} SET last_modified=%d WHERE id=%d";
+	$query = 'UPDATE {bugnote} SET last_modified=%d WHERE id=%d';
 	db_query( $query, array( db_now(), $p_bugnote_id ) );
 
 	# db_query errors if there was a problem so:
@@ -553,7 +551,6 @@ function bugnote_format_id( $p_bugnote_id ) {
  * @access public
  */
 function bugnote_stats_get_events_array( $p_bug_id, $p_from, $p_to ) {
-	$c_bug_id = (int)$p_bug_id;
 	$c_to = strtotime( $p_to ) + SECONDS_PER_DAY - 1;
 	$c_from = strtotime( $p_from );
 
@@ -573,12 +570,11 @@ function bugnote_stats_get_events_array( $p_bug_id, $p_from, $p_to ) {
 
 	$t_query = "SELECT username, SUM(time_tracking) AS sum_time_tracking
 				FROM {user} u, {bugnote} bn
-				WHERE u.id = bn.reporter_id AND
-				bn.bug_id = '$c_bug_id'
+				WHERE u.id=bn.reporter_id AND bn.bug_id=%d
 				$t_from_where $t_to_where
 			GROUP BY u.id, u.username";
 
-	$t_result = db_query( $t_query, array() );
+	$t_result = db_query( $t_query, array( $p_bug_id) );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$t_results[] = $t_row;

@@ -316,7 +316,7 @@ function user_delete( $p_user_id ) {
 	}
 
 	# Remove account
-	$t_query = "DELETE FROM {user} WHERE id=%d";
+	$t_query = 'DELETE FROM {user} WHERE id=%d';
 	db_query( $t_query, array( $c_user_id ) );
 
 	return true;
@@ -781,7 +781,7 @@ function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
  * return a profile row
  */
 function user_get_profile_row( $p_user_id, $p_profile_id ) {
-	$query = "SELECT * FROM {user_profile} WHERE id=%d AND user_id=%d";
+	$query = 'SELECT * FROM {user_profile} WHERE id=%d AND user_id=%d';
 	$result = db_query( $query, array( $p_profile_id, $p_user_id ) );
 
 	$row = db_fetch_array( $result );
@@ -845,7 +845,7 @@ function user_update_last_visit( $p_user_id ) {
 	$c_user_id = (int)$p_user_id;
 	$c_value = db_now();
 
-	$query = "UPDATE {user} SET last_visit=%d WHERE id=%d";
+	$query = 'UPDATE {user} SET last_visit=%d WHERE id=%d';
 
 	db_query( $query, array( $c_value, $c_user_id ) );
 

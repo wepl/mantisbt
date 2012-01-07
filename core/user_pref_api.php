@@ -182,7 +182,7 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 		return $g_cache_user_pref[(int)$p_user_id][(int)$p_project_id];
 	}
 
-	$t_query = "SELECT * FROM {user_pref} WHERE user_id=%d AND project_id=%d";
+	$t_query = 'SELECT * FROM {user_pref} WHERE user_id=%d AND project_id=%d';
 	$t_result = db_query( $t_query, array( (int)$p_user_id, (int)$p_project_id ) );
 
 	$t_row = db_fetch_array( $t_result );

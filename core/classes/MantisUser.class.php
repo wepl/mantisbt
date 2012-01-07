@@ -111,7 +111,7 @@ class MantisUser extends MantisCacheable {
 		}
 		
 		if( is_array( $p_value ) ) {
-			$t_query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
+			$t_query = 'SELECT * FROM {user} WHERE ' . $p_field . ' IN (' . implode( ',', $p_value ) . ')';
 			$t_result = db_query( $t_query );
 			$t_rows = array();
 			while( $t_row = db_fetch_array( $t_result ) ) {
@@ -119,7 +119,7 @@ class MantisUser extends MantisCacheable {
 			}
 			return $t_rows;
 		} else {
-			$t_query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
+			$t_query = 'SELECT * FROM {user} WHERE ' . $p_field . '=' . $t_type;
 			$t_result = db_query( $t_query, array( $p_value ) );
 			$t_row = db_fetch_array( $t_result );
 			
@@ -138,7 +138,7 @@ class MantisUser extends MantisCacheable {
 	 *  false, return false if the user can't be found.
 	 */
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
-		$t_query = "SELECT * FROM {user} WHERE id=%d";
+		$t_query = 'SELECT * FROM {user} WHERE id=%d';
 		$t_result = db_query( $t_query, array( $p_user_id ) );
 
 		$t_row = db_fetch_array( $t_result );

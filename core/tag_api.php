@@ -235,7 +235,7 @@ function tag_parse_filters( $p_string ) {
 function tag_get( $p_tag_id ) {
 	tag_ensure_exists( $p_tag_id );
 
-	$t_query = "SELECT * FROM {tag} WHERE id=%d";
+	$t_query = 'SELECT * FROM {tag} WHERE id=%d';
 	$t_result = db_query( $t_query, array( $p_tag_id ) );
 
 	$t_row = db_fetch_array( $t_result );
@@ -702,9 +702,7 @@ function tag_stats_related( $p_tag_id, $p_limit = 5 ) {
 					WHERE ( p.access_level>b.view_state OR u.access_level>b.view_state )
 						AND t.tag_id=%d";
 
-	$query = "SELECT * FROM {bug_tag}
-					WHERE tag_id != %d
-						AND bug_id IN ( $subquery ) ";
+	$query = "SELECT * FROM {bug_tag} WHERE tag_id != %d AND bug_id IN ( $subquery ) ";
 
 	$result = db_query( $query, array( /*query*/ $c_tag_id, /*subquery*/ $c_user_id, $c_user_id, $c_tag_id ) );
 
