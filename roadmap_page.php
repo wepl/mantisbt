@@ -210,7 +210,7 @@ foreach( $t_project_ids as $t_project_id ) {
 
 		$t_first_entry = true;
 
-		$t_result = db_query_bound( $query, array( $t_project_id, $t_version ) );
+		$t_result = db_query( $query, array( $t_project_id, $t_version ) );
 
 		$t_issue_ids = array();
 		$t_issue_parents = array();

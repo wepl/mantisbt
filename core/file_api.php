@@ -93,7 +93,7 @@ function file_bug_attachment_count( $p_bug_id ) {
 	# Otherwise build the cache and return the attachment count
 	#   for the given bug (if any).
 	$t_query = "SELECT bug_id, COUNT(bug_id) AS attachments FROM {bug_file} GROUP BY bug_id";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	$t_file_count = 0;
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -346,7 +346,7 @@ function file_delete_attachments( $p_bug_id ) {
 	# Delete files from disk
 	$t_query = "SELECT diskfile, filename FROM {bug_file}
 				WHERE bug_id=%d";
-	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
+	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	$t_files = array();
 	while ( $t_row = db_fetch_array( $t_result ) ) {
@@ -381,7 +381,7 @@ function file_delete_attachments( $p_bug_id ) {
 	# Delete the corresponding db records
 	$t_query = "DELETE FROM $t_bug_file_table
 				  WHERE bug_id=%d";
-	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
+	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -395,7 +395,7 @@ function file_delete_project_files( $p_project_id ) {
 
 		# Delete files from disk
 		$t_query = 'SELECT diskfile, filename FROM {project_file} WHERE project_id=%d';
-		$t_result = db_query_bound( $t_query, array( (int) $p_project_id ) );
+		$t_result = db_query( $t_query, array( (int) $p_project_id ) );
 
 		$t_files = array();
 		while ( $t_row = db_fetch_array( $t_result ) ) {
@@ -423,7 +423,7 @@ function file_delete_project_files( $p_project_id ) {
 
 	# Delete the corresponding db records
 	$t_query = 'DELETE FROM {project_file} WHERE project_id=%d';
-	$t_result = db_query_bound( $t_query, array( (int) $p_project_id ) );
+	$t_result = db_query( $t_query, array( (int) $p_project_id ) );
 }
 
 # Delete all cached files that are older than configured number of days.
@@ -483,7 +483,7 @@ function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
 	$query = "SELECT $p_field_name
 				  FROM $t_bug_file_table
 				  WHERE id=%d";
-	$result = db_query_bound( $query, array( (int) $p_file_id ), 1 );
+	$result = db_query( $query, array( (int) $p_file_id ), 1 );
 
 	return db_result( $result );
 }
@@ -522,7 +522,7 @@ function file_delete( $p_file_id, $p_table = 'bug' ) {
 
 	$t_file_table = db_get_table( $p_table . '_file' );
 	$t_query = "DELETE FROM $t_file_table WHERE id=%d";
-	db_query_bound( $t_query, array( $c_file_id ) );
+	db_query( $t_query, array( $c_file_id ) );
 	return true;
 }
 
@@ -586,7 +586,7 @@ function diskfile_is_name_unique( $p_name, $p_filepath ) {
 	$c_name = $p_filepath . $p_name;
 
 	$query = 'SELECT COUNT(*) FROM {bug_file} WHERE diskfile=%s';
-	$result = db_query_bound( $query, array( $c_name ) );
+	$result = db_query( $query, array( $c_name ) );
 	$t_count = db_result( $result );
 
 	if( $t_count > 0 ) {
@@ -599,7 +599,7 @@ function diskfile_is_name_unique( $p_name, $p_filepath ) {
 # Return true if the file name identifier is unique, false otherwise
 function file_is_name_unique( $p_name, $p_bug_id ) {
 	$query = "SELECT COUNT(*) FROM {bug_file} WHERE filename=%s AND bug_id=%d";
-	$result = db_query_bound( $query, array( $p_name, $p_bug_id ) );
+	$result = db_query( $query, array( $p_name, $p_bug_id ) );
 	$t_count = db_result( $result );
 
 	if( $t_count > 0 ) {
@@ -722,7 +722,7 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 						(" . $p_table . "_id, title, description, diskfile, filename, folder, filesize, file_type, date_added, content, user_id)
 					  VALUES
 						($c_id, '$c_title', '$c_desc', '$c_unique_name', '$c_new_file_name', '$c_file_path', $c_file_size, '$c_file_type', '" . $c_date_added . "', $c_content, $c_user_id)";
-	db_query_bound( $query, array() );
+	db_query( $query, array() );
 
 	if( 'bug' == $p_table ) {
 
@@ -863,7 +863,7 @@ function file_get_content( $p_file_id, $p_type = 'bug' ) {
 		default:
 			return false;
 	}
-	$result = db_query_bound( $query, array( $p_file_id ) );
+	$result = db_query( $query, array( $p_file_id ) );
 	$row = db_fetch_array( $result );
 
 	if ( $f_type == 'bug' ) {
@@ -994,7 +994,7 @@ function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 				file_delete_local( $t_disk_file_name_from );
 			}
 			chmod( $t_disk_file_name_to, config_get( 'attachments_file_permissions' ) );
-			db_query_bound( $query_disk_attachment_update, array( $t_path_to, $c_bug_id, $t_row['id'] ) );
+			db_query( $query_disk_attachment_update, array( $t_path_to, $c_bug_id, $t_row['id'] ) );
 		} else {
 			throw new MantisBT\Exception\File_Duplicate();
 		}

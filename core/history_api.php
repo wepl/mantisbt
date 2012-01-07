@@ -87,7 +87,7 @@ function history_log_event_direct( $p_bug_id, $p_field_name, $p_old_value, $p_ne
 						( user_id, bug_id, date_modified, field_name, old_value, new_value, type )
 					VALUES
 						( %d, %d, %d, %s, %s, %s, %d )";
-		db_query_bound( $t_query, array( $p_user_id, $p_bug_id, db_now(), $c_field_name, $c_old_value, $c_new_value, $p_type ) );
+		db_query( $t_query, array( $p_user_id, $p_bug_id, db_now(), $c_field_name, $c_old_value, $c_new_value, $p_type ) );
 	}
 }
 
@@ -120,7 +120,7 @@ function history_log_event_special( $p_bug_id, $p_type, $p_optional = '', $p_opt
 					( user_id, bug_id, date_modified, type, old_value, new_value, field_name )
 				VALUES
 					( %d, %d, %d, %d, %s, %s, %s)";
-	db_query_bound( $t_query, array( $t_user_id, $p_bug_id, db_now(), $p_type, $p_optional, $p_optional2, '' ) );
+	db_query( $t_query, array( $t_user_id, $p_bug_id, db_now(), $p_type, $p_optional, $p_optional2, '' ) );
 }
 
 /**
@@ -171,7 +171,7 @@ function history_get_raw_events_array( $p_bug_id, $p_user_id = null ) {
 	# bug we will find the line related to the relationship mixed with the custom fields (the history is creted
 	# for the new bug with the same timestamp...)
 	$query = "SELECT * FROM {bug_history} WHERE bug_id=%d ORDER BY date_modified $t_history_order,id";
-	$result = db_query_bound( $query, array( $p_bug_id ) );
+	$result = db_query( $query, array( $p_bug_id ) );
 	$raw_history = array();
 
 	$t_private_bugnote_threshold = config_get( 'private_bugnote_threshold' );
@@ -574,7 +574,7 @@ function history_localize_item( $p_field_name, $p_type, $p_old_value, $p_new_val
  */
 function history_delete( $p_bug_id ) {
 	$t_query = 'DELETE FROM {bug_history} WHERE bug_id=%d';
-	db_query_bound( $t_query, array( $p_bug_id ) );
+	db_query( $t_query, array( $p_bug_id ) );
 
 	# db_query errors on failure so:
 	return true;

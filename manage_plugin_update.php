@@ -50,7 +50,7 @@ auth_reauthenticate();
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
 $t_query = "SELECT basename FROM {plugin}";
-$t_result = db_query_bound( $t_query );
+$t_result = db_query( $t_query );
 
 while ( $t_row = db_fetch_array( $t_result ) ) {
 	$t_basename = $t_row['basename'];
@@ -64,7 +64,7 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 
 	$t_query = 'UPDATE {plugin} SET priority=%d, protected=%d WHERE basename=%s';
 
-	db_query_bound( $t_query, array( $f_priority, $f_protected, $t_basename ) );
+	db_query( $t_query, array( $f_priority, $f_protected, $t_basename ) );
 }
 
 form_security_purge( 'manage_plugin_update' );

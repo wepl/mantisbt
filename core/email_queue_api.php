@@ -101,7 +101,7 @@ function email_queue_add( $p_email_data ) {
 					  submitted,
 					  metadata)
 				  VALUES ( %s, %s, %s, %d, %s )";
-	db_query_bound( $t_query, array( $c_email, $c_subject, $c_body, db_now(), $c_metadata ) );
+	db_query( $t_query, array( $c_email, $c_subject, $c_body, db_now(), $c_metadata ) );
 
 	return db_insert_id( '{email}', 'email_id' );
 }
@@ -145,7 +145,7 @@ function email_queue_row_to_object( $p_row ) {
  */
 function email_queue_get( $p_email_id ) {
 	$t_query = 'SELECT * FROM {email} WHERE email_id=%d';
-	$t_result = db_query_bound( $t_query, array( $p_email_id ) );
+	$t_result = db_query( $t_query, array( $p_email_id ) );
 
 	$t_row = db_fetch_array( $t_result );
 
@@ -159,7 +159,7 @@ function email_queue_get( $p_email_id ) {
  */
 function email_queue_delete( $p_email_id ) {
 	$t_query = 'DELETE FROM {email} WHERE email_id=%d';
-	db_query_bound( $t_query, array( $p_email_id ) );
+	db_query( $t_query, array( $p_email_id ) );
 }
 
 /**
@@ -168,7 +168,7 @@ function email_queue_delete( $p_email_id ) {
  */
 function email_queue_get_ids() {
 	$t_query = 'SELECT email_id FROM {email} ORDER BY email_id DESC';
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	$t_ids = array();
 	while(( $t_row = db_fetch_array( $t_result ) ) !== false ) {

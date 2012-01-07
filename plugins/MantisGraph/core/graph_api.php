@@ -584,7 +584,7 @@ function create_bug_enum_summary( $p_enum_string, $p_enum ) {
 		$query = "SELECT COUNT(*)
 					FROM {bug}
 					WHERE $p_enum='$t_value' $specific_where";
-		$result = db_query_bound( $query, array() );
+		$result = db_query( $query, array() );
 		$t_metrics[$t_label] = db_result( $result );
 	}
 
@@ -606,14 +606,14 @@ function enum_bug_group( $p_enum_string, $p_enum ) {
 		$query = "SELECT COUNT(*) FROM {bug}
 					WHERE $p_enum='$t_value' AND
 						status<'$t_res_val' $specific_where";
-		$result2 = db_query_bound( $query, array() );
+		$result2 = db_query( $query, array() );
 		$t_metrics['open'][$t_label] = db_result( $result2 );
 
 		# Calculates the number of bugs closed and puts the results in a table
 		$query = "SELECT COUNT(*) FROM {bug}
 					WHERE $p_enum='$t_value' AND
 						status='$t_clo_val' $specific_where";
-		$result2 = db_query_bound( $query, array() );
+		$result2 = db_query( $query, array() );
 		$t_metrics['closed'][$t_label] = db_result( $result2 );
 
 		# Calculates the number of bugs resolved and puts the results in a table
@@ -621,7 +621,7 @@ function enum_bug_group( $p_enum_string, $p_enum ) {
 					WHERE $p_enum='$t_value' AND
 						status>='$t_res_val'  AND
 						status<'$t_clo_val' $specific_where";
-		$result2 = db_query_bound( $query, array() );
+		$result2 = db_query( $query, array() );
 		$t_metrics['resolved'][$t_label] = db_result( $result2 );
 	}
 
@@ -641,7 +641,7 @@ function create_developer_summary() {
 
 	$query = "SELECT handler_id, status FROM {bug}
 				 WHERE handler_id > 0 $specific_where";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_handler_arr = array();
 	$t_handlers = array();
@@ -692,7 +692,7 @@ function create_reporter_summary() {
 
 	$query = "SELECT reporter_id FROM {bug}
 				 WHERE $specific_where";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_reporter_arr = array();
 	$t_reporters = array();
@@ -730,14 +730,14 @@ function create_category_summary() {
 	$query = "SELECT id, name FROM {category}
 				WHERE $specific_where
 				ORDER BY name";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_metrics = array();
 	while( $row = db_fetch_array( $result ) ) {
 		$t_cat_name = $row['name'];
 		$t_cat_id = $row['id'];
 		$query = "SELECT COUNT(*) FROM {bug} WHERE category_id=%d AND $specific_where";
-		$result2 = db_query_bound( $query, array( $t_cat_id ) );
+		$result2 = db_query( $query, array( $t_cat_id ) );
 		if ( isset($t_metrics[$t_cat_name]) ) {
 			$t_metrics[$t_cat_name] = $t_metrics[$t_cat_name] + db_result( $result2 );
 		} else {
@@ -762,7 +762,7 @@ function create_cumulative_bydate() {
 				FROM {bug}
 				WHERE $specific_where
 				ORDER BY date_submitted";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	while( $row = db_fetch_array( $result ) ) {
 		# rationalise the timestamp to a day to reduce the amount of data
@@ -787,7 +787,7 @@ function create_cumulative_bydate() {
 								AND {history}.field_name = 'status' )
 						OR {history}.id is NULL )
 			ORDER BY {bug}.id, date_modified ASC";
-	$result = db_query_bound( $query, array() );
+	$result = db_query( $query, array() );
 
 	$t_last_id = 0;
 	$t_last_date = 0;

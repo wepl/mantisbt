@@ -88,7 +88,7 @@ $t_total_tag_count = 0;
 $t_result = '';
 $t_query = "SELECT count(*) FROM {tag} $t_where";
 
-$t_result = db_query_bound( $t_query, $t_where_params );
+$t_result = db_query( $t_query, $t_where_params );
 $t_row = db_fetch_array( $t_result );
 $t_total_tag_count = (int)db_result( $t_result );
 
@@ -112,7 +112,7 @@ if ( $f_page_number < 1 ) {
 # Retrive Tags from tag table
 $t_query = "SELECT * FROM {tag} $t_where ORDER BY name";
 
-$t_result = db_query_bound( $t_query, $t_where_params, $t_per_page, $t_offset );
+$t_result = db_query( $t_query, $t_where_params, $t_per_page, $t_offset );
 
 html_page_top( lang_get( 'manage_tags_link' ) );
 print_manage_menu( 'manage_tags_page.php' ); ?>

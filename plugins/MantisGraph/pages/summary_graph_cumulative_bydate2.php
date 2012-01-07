@@ -161,7 +161,7 @@ function create_cumulative_bydate2() {
 				FROM {bug}
 				WHERE $specific_where
 				ORDER BY date_submitted";
-	$result = db_query_bound( $query, array() );
+	$result = db_query( $query, array() );
 
 	while( $row = db_fetch_array( $result ) ) {
 
@@ -187,7 +187,7 @@ function create_cumulative_bydate2() {
 								AND {bug_history}.field_name = 'status' )
 						OR {bug_history}.id is NULL )
 			ORDER BY {bug}.id, date_modified ASC";
-	$result = db_query_bound( $query, array() );
+	$result = db_query( $query, array() );
 
 	$t_last_id = 0;
 	$t_last_date = 0;

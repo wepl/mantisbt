@@ -88,7 +88,7 @@ function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 	}
 
 	$t_query = "SELECT * FROM {project} WHERE id=%d";
-	$t_result = db_query_bound( $t_query, array( $p_project_id ) );
+	$t_result = db_query( $t_query, array( $p_project_id ) );
 
 	$t_row = db_fetch_array( $t_result );
 	
@@ -123,7 +123,7 @@ function project_cache_array_rows( $p_project_id_array ) {
 	}
 
 	$t_query = "SELECT * FROM {project} WHERE id IN (" . implode( ',', $c_project_id_array ) . ')';
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	$t_projects_found = array();
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -148,7 +148,7 @@ function project_cache_all() {
 
 	if( !$g_cache_project_all ) {
 		$t_query = "SELECT * FROM {project}";
-		$t_result = db_query_bound( $t_query );
+		$t_result = db_query( $t_query );
 
 		while( $t_row = db_fetch_array( $t_result ) ) {
 			$g_cache_project[(int) $t_row['id']] = $t_row;
@@ -212,7 +212,7 @@ function project_ensure_exists( $p_project_id ) {
  */
 function project_is_name_unique( $p_name ) {
 	$t_query = 'SELECT COUNT(*) FROM {project} WHERE name=%s';
-	$t_result = db_query_bound( $t_query, array( $p_name ) );
+	$t_result = db_query( $t_query, array( $p_name ) );
 
 	if( 0 == db_result( $t_result ) ) {
 		return true;
@@ -238,7 +238,7 @@ function project_ensure_name_unique( $p_name ) {
  */
 function project_includes_user( $p_project_id, $p_user_id ) {
 	$t_query = 'SELECT COUNT(*) FROM {project_user_list} WHERE project_id=%d AND user_id=%d';
-	$t_result = db_query_bound( $t_query, array( $p_project_id, $p_user_id ) );
+	$t_result = db_query( $t_query, array( $p_project_id, $p_user_id ) );
 
 	if( 0 == db_result( $t_result ) ) {
 		return false;
@@ -271,7 +271,7 @@ function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_
 				  VALUES
 					( %s, %d, %d, %d, %s, %s, %d)";
 
-	db_query_bound( $t_query, array( $p_name, (int) $p_status, $c_enabled, (int) $p_view_state, $p_file_path, $p_description, $c_inherit_global ) );
+	db_query( $t_query, array( $p_name, (int) $p_status, $c_enabled, (int) $p_view_state, $p_file_path, $p_description, $c_inherit_global ) );
 
 	# return the id of the new project
 	return db_insert_id( '{project}' );
@@ -317,7 +317,7 @@ function project_delete( $p_project_id ) {
 	# Delete the project entry
 	$t_query = "DELETE FROM {project} WHERE id=%d";
 
-	db_query_bound( $t_query, array( $p_project_id ) );
+	db_query( $t_query, array( $p_project_id ) );
 
 	config_set_cache( 'enable_email_notification', $t_email_notifications, CONFIG_TYPE_INT );
 
@@ -355,7 +355,7 @@ function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_v
 				  SET name=%s, status=%d, enabled=%d, view_state=%d,
 					file_path=%s, description=%s, inherit_global=%d
 				  WHERE id=%d";
-	db_query_bound( $t_query, array( $p_name, (int) $p_status, $c_enabled, (int) $p_view_state, $p_file_path, $p_description, $c_inherit_global, $p_project_id ) );
+	db_query( $t_query, array( $p_name, (int) $p_status, $c_enabled, (int) $p_view_state, $p_file_path, $p_description, $c_inherit_global, $p_project_id ) );
 
 	project_clear_cache( $p_project_id );
 
@@ -382,7 +382,7 @@ function project_copy_custom_fields( $p_destination_id, $p_source_id ) {
  */
 function project_get_id_by_name( $p_project_name ) {
 	$t_query = 'SELECT id FROM {project} WHERE name = %s';
-	$t_result = db_query_bound( $t_query, array( $p_project_name ), 1 );
+	$t_result = db_query( $t_query, array( $p_project_name ), 1 );
 
 	$t_ret = db_result( $t_result );
 	if( $t_ret ) {
@@ -442,7 +442,7 @@ function project_get_local_user_access_level( $p_project_id, $p_user_id ) {
 	}
 
 	$t_query = 'SELECT access_level FROM {project_user_list} WHERE user_id=%d AND project_id=%d';
-	$t_result = db_query_bound( $t_query, array( (int) $p_user_id, $p_project_id ) );
+	$t_result = db_query( $t_query, array( (int) $p_user_id, $p_project_id ) );
 
 	$t_ret = db_result( $t_result );
 	if( $t_ret ) {
@@ -459,7 +459,7 @@ function project_get_local_user_access_level( $p_project_id, $p_user_id ) {
 function project_get_local_user_rows( $p_project_id ) {
 	$t_query = 'SELECT * FROM {project_user_list} WHERE project_id=%d';
 
-	$t_result = db_query_bound( $t_query, array( (int) $p_project_id ) );
+	$t_result = db_query( $t_query, array( (int) $p_project_id ) );
 
 	$t_user_rows = array();
 
@@ -547,7 +547,7 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 				FROM {user} WHERE enabled = %d
 					AND access_level $t_global_access_clause";
 
-		$t_result = db_query_bound( $t_query, array( $t_on ) );
+		$t_result = db_query( $t_query, array( $t_on ) );
 		while( $t_row = db_fetch_array( $t_result ) ) {
 			$t_users[$t_row['id']] = $t_row;
 		}
@@ -561,7 +561,7 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 				AND u.enabled = %d
 				AND l.project_id = %d";
 
-		$t_result = db_query_bound( $t_query, array( $t_on, $c_project_id ) );
+		$t_result = db_query( $t_query, array( $t_on, $c_project_id ) );
 		while( $t_row = db_fetch_array( $t_result ) ) {
 			if( is_array( $p_access_level ) ) {
 				$t_keep = in_array( $t_row['access_level'], $p_access_level );
@@ -598,7 +598,7 @@ function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 				  VALUES
 				    ( %d, %d, %d)";
 
-	db_query_bound( $t_query, array( $p_project_id, $p_user_id, $p_access_level ) );
+	db_query( $t_query, array( $p_project_id, $p_user_id, $p_access_level ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -611,7 +611,7 @@ function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 function project_update_user_access( $p_project_id, $p_user_id, $p_access_level ) {
 	$t_query = 'UPDATE {project_user_list} SET access_level=%d WHERE project_id=%d AND user_id=%d';
 
-	db_query_bound( $t_query, array( $p_access_level, $p_project_id, $p_user_id ) );
+	db_query( $t_query, array( $p_access_level, $p_project_id, $p_user_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -636,7 +636,7 @@ function project_set_user_access( $p_project_id, $p_user_id, $p_access_level ) {
 function project_remove_user( $p_project_id, $p_user_id ) {
 	$t_query = 'DELETE FROM {project_user_list} WHERE project_id=%d AND user_id=%d';
 
-	db_query_bound( $t_query, array( $p_project_id, $p_user_id ) );
+	db_query( $t_query, array( $p_project_id, $p_user_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -656,9 +656,9 @@ function project_remove_all_users( $p_project_id, $p_access_level_limit = null )
 
 	if ( $p_access_level_limit !== null ) {
 		$t_query .= ' AND access_level <= %d';
-		db_query_bound( $t_query, array( $p_project_id, $p_access_level_limit ) );
+		db_query( $t_query, array( $p_project_id, $p_access_level_limit ) );
 	} else {
-		db_query_bound( $t_query, array( $p_project_id ) );
+		db_query( $t_query, array( $p_project_id ) );
 	}
 
 	# db_query errors on failure so:
@@ -721,7 +721,7 @@ function project_format_id( $p_project_id ) {
  */
 function project_file_is_name_unique( $p_name ) {
 	$query = 'SELECT COUNT(*) FROM {project_file} WHERE filename=%s';
-	$result = db_query_bound( $query, array( $p_name ) );
+	$result = db_query( $query, array( $p_name ) );
 	$t_count = db_result( $result );
 
 	if( $t_count > 0 ) {

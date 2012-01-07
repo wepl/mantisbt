@@ -102,7 +102,7 @@ function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $
 
 	# Grab the data
 	$query = "SELECT print_pref FROM {user_print_pref} WHERE user_id=%d";
-	$result = db_query_bound( $query, array( $c_user_id ) );
+	$result = db_query( $query, array( $c_user_id ) );
 
 	$row = db_fetch_array( $result );
 	
@@ -117,11 +117,11 @@ function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $
 		# all fields are added by default
 		$query = 'INSERT INTO {user_print_pref} (user_id, print_pref) VALUES (%d,%d)';
 
-		$result = db_query_bound( $query, array( $c_user_id, $t_default ) );
+		$result = db_query( $query, array( $c_user_id, $t_default ) );
 
 		# Rerun select query
 		$query = "SELECT print_pref FROM {user_print_pref} WHERE user_id=%d";
-		$result = db_query_bound( $query, array( $c_user_id ) );
+		$result = db_query( $query, array( $c_user_id ) );
 		
 		$row = db_fetch_array( $result );
 	}

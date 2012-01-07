@@ -359,7 +359,7 @@ function print_news_item_option_list() {
 		$t_query = "SELECT id, headline, announcement, view_state FROM {news}
 				WHERE project_id=%d ORDER BY date_posted DESC";
 	}
-	$t_result = db_query_bound( $t_query, ($t_global == true ? array() : array( $t_project_id ) ) );
+	$t_result = db_query( $t_query, ($t_global == true ? array() : array( $t_project_id ) ) );
 
 	while( $row = db_fetch_array( $t_result ) ) {
 		$t_headline = string_display( $row['headline'] );
@@ -715,7 +715,7 @@ function print_build_option_list( $p_build = '' ) {
 
 	# Get the "found in" build list
 	$t_query = "SELECT DISTINCT build FROM {bug} WHERE $t_project_where ORDER BY build DESC";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 	
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$t_overall_build_arr[] = $t_row['build'];
@@ -897,7 +897,7 @@ function print_project_user_list_option_list2( $p_user_id ) {
 				WHERE p.enabled = %d AND
 					u.user_id IS NULL
 				ORDER BY p.name";
-	$t_result = db_query_bound( $t_query, array( $p_user_id, true ) );
+	$t_result = db_query( $t_query, array( $p_user_id, true ) );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$t_project_name = string_attribute( $t_row['name'] );
@@ -1536,7 +1536,7 @@ function print_bug_attachment_preview_text( $p_attachment ) {
 		default:
 			$c_attachment_id = db_prepare_int( $p_attachment['id'] );
 			$t_query = "SELECT * FROM {bug_file} WHERE id=%d";
-			$t_result = db_query_bound( $t_query, array( $c_attachment_id ) );
+			$t_result = db_query( $t_query, array( $c_attachment_id ) );
 			$t_row = db_fetch_array( $t_result );
 			$t_content = $t_row['content'];
 	}

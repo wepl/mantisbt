@@ -112,7 +112,7 @@ class MantisUser extends MantisCacheable {
 		
 		if( is_array( $p_value ) ) {
 			$t_query = "SELECT * FROM {user} WHERE " . $p_field . " IN (" . implode( ',', $p_value ) . ')';
-			$t_result = db_query_bound( $t_query );
+			$t_result = db_query( $t_query );
 			$t_rows = array();
 			while( $t_row = db_fetch_array( $t_result ) ) {
 				$t_rows[] = $t_row;
@@ -120,7 +120,7 @@ class MantisUser extends MantisCacheable {
 			return $t_rows;
 		} else {
 			$t_query = "SELECT * FROM {user} WHERE " . $p_field . '=' . $t_type;
-			$t_result = db_query_bound( $t_query, array( $p_value ) );
+			$t_result = db_query( $t_query, array( $p_value ) );
 			$t_row = db_fetch_array( $t_result );
 			
 			if ( $t_row ) {
@@ -139,7 +139,7 @@ class MantisUser extends MantisCacheable {
 	 */
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
 		$t_query = "SELECT * FROM {user} WHERE id=%d";
-		$t_result = db_query_bound( $t_query, array( $p_user_id ) );
+		$t_result = db_query( $t_query, array( $p_user_id ) );
 
 		$t_row = db_fetch_array( $t_result );
 		
@@ -250,7 +250,7 @@ class MantisUser extends MantisCacheable {
 					  VALUES
 						( %s, %s, %s, %d, %d,
 						 %d,%d,%d,%s, %s)";
-		db_query_bound( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), $c_enabled, $c_access_level, 0, $t_cookie_string, $p_realname ) );
+		db_query( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), $c_enabled, $c_access_level, 0, $t_cookie_string, $p_realname ) );
 
 		$t_user_id = db_insert_id( '{user}' );		
 		
@@ -298,7 +298,7 @@ class MantisUser extends MantisCacheable {
 		}
 		
 		$t_query = 'SELECT username FROM {user} WHERE username=%s';
-		$t_result = db_query_bound( $t_query, array( $p_username ), 1 );
+		$t_result = db_query( $t_query, array( $p_username ), 1 );
 
 		if( db_result( $t_result ) ) {
 			throw new MantisBT\Exception\User_Name_Not_Unique();

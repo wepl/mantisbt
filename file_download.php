@@ -92,7 +92,7 @@ switch ( $f_type ) {
 	default:
 		throw new MantisBT\Exception\Access_Denied();
 }
-$result = db_query_bound( $query, array( $c_file_id ) );
+$result = db_query( $query, array( $c_file_id ) );
 $row = db_fetch_array( $result );
 extract( $row, EXTR_PREFIX_ALL, 'v' );
 

@@ -62,7 +62,7 @@ function category_exists( $p_category_id ) {
 	}
 
 	$t_query = "SELECT COUNT(*) FROM {category} WHERE id=%d";
-	$t_count = db_result( db_query_bound( $t_query, array( (int)$p_category_id ) ) );
+	$t_count = db_result( db_query( $t_query, array( (int)$p_category_id ) ) );
 
 	if( 0 < $t_count ) {
 		return true;
@@ -92,7 +92,7 @@ function category_exists( $p_category_id ) {
  */
  function category_is_unique( $p_project_id, $p_name ) {
 	$query = "SELECT COUNT(*) FROM {category} WHERE project_id=%d AND " . db_helper_like( 'name' );
-	$count = db_result( db_query_bound( $query, array( $p_project_id, $p_name ) ) );
+	$count = db_result( db_query( $query, array( $p_project_id, $p_name ) ) );
 
 	if( 0 < $count ) {
 		return false;
@@ -130,7 +130,7 @@ function category_exists( $p_category_id ) {
 	category_ensure_unique( $p_project_id, $p_name );
 
 	$t_query = 'INSERT INTO {category} ( project_id, name ) VALUES ( %d, %s )';
-	db_query_bound( $t_query, array( $p_project_id, $p_name ) );
+	db_query( $t_query, array( $p_project_id, $p_name ) );
 
 	# db_query errors on failure so:
 	return db_insert_id( '{category}' );
@@ -152,12 +152,12 @@ function category_exists( $p_category_id ) {
 	$t_old_category = category_get_row( $p_category_id );
 
 	$t_query = 'UPDATE {category} SET name=%s, user_id=%d WHERE id=%d';
-	db_query_bound( $t_query, array( $p_name, $p_assigned_to, $p_category_id ) );
+	db_query( $t_query, array( $p_name, $p_assigned_to, $p_category_id ) );
 
 	# Add bug history entries if we update the category's name
 	if( $t_old_category['name'] != $p_name ) {
 		$query = "SELECT id FROM {bug} WHERE category_id=%d";
-		$t_result = db_query_bound( $query, array( $p_category_id ) );
+		$t_result = db_query( $query, array( $p_category_id ) );
 
 		while( $t_bug_row = db_fetch_array( $t_result ) ) {
 			history_log_event_direct( $t_bug_row['id'], 'category', $t_old_category['name'], $p_name );
@@ -184,11 +184,11 @@ function category_exists( $p_category_id ) {
 	}
 
 	$t_query = 'DELETE FROM {category} WHERE id=%d';
-	db_query_bound( $t_query, array( $p_category_id ) );
+	db_query( $t_query, array( $p_category_id ) );
 
 	# update bug history entries
 	$query = 'SELECT id FROM {bug} WHERE category_id=%d';
-	$t_result = db_query_bound( $query, array( $p_category_id ) );
+	$t_result = db_query( $query, array( $p_category_id ) );
 
 	while( $t_bug_row = db_fetch_array( $t_result ) ) {
 		history_log_event_direct( $t_bug_row['id'], 'category', $t_category_row['name'], category_full_name( $p_new_category_id, false ) );
@@ -196,7 +196,7 @@ function category_exists( $p_category_id ) {
 
 	# update bug data
 	$query = 'UPDATE {bug} SET category_id=%d WHERE category_id=%d';
-	db_query_bound( $query, array( $p_new_category_id, $p_category_id ) );
+	db_query( $query, array( $p_new_category_id, $p_category_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -220,7 +220,7 @@ function category_exists( $p_category_id ) {
 
 	# get a list of affected categories
 	$t_query = 'SELECT id FROM {category} WHERE project_id=%d';
-	$t_result = db_query_bound( $t_query, array( $p_project_id ) );
+	$t_result = db_query( $t_query, array( $p_project_id ) );
 
 	$t_category_ids = array();
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -236,7 +236,7 @@ function category_exists( $p_category_id ) {
 
 	# update bug history entries
 	$t_query = "SELECT id, category_id FROM {bug} WHERE category_id IN ( $t_category_ids )";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	while( $t_bug_row = db_fetch_array( $t_result ) ) {
 		history_log_event_direct( $t_bug_row['id'], 'category', category_full_name( $t_bug_row['category_id'], false ), category_full_name( $p_new_category_id, false ) );
@@ -244,11 +244,11 @@ function category_exists( $p_category_id ) {
 
 	# update bug data
 	$t_query = "UPDATE {bug} SET category_id=%d WHERE category_id IN ( $t_category_ids )";
-	db_query_bound( $t_query, array( $p_new_category_id ) );
+	db_query( $t_query, array( $p_new_category_id ) );
 
 	# delete categories
 	$t_query = 'DELETE FROM {category} WHERE project_id=%d';
-	db_query_bound( $t_query, array( $p_project_id ) );
+	db_query( $t_query, array( $p_project_id ) );
 
 	return true;
 }
@@ -266,7 +266,7 @@ function category_exists( $p_category_id ) {
 	}
 
 	$t_query = 'SELECT * FROM {category} WHERE id=%d';
-	$t_result = db_query_bound( $t_query, array( $p_category_id ) );
+	$t_result = db_query( $t_query, array( $p_category_id ) );
 	$t_row = db_fetch_array( $t_result );
 	if( !$t_row ) {
 		throw new MantisBT\Exception\Category_Not_Found();
@@ -332,7 +332,7 @@ function category_cache_array_rows_by_project( $p_project_id_array ) {
 					ON c.project_id=p.id
 				WHERE project_id IN ( " . implode( ', ', $c_project_id_array ) . " )
 				ORDER BY c.name ";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	$t_rows = array();
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -443,7 +443,7 @@ function category_get_filter_list( $p_project_id = null ) {
 					ON c.project_id=p.id
 				WHERE $t_project_where
 				ORDER BY c.name ";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$rows = array();
 	while( $row = db_fetch_array( $result ) ) {	
@@ -484,7 +484,7 @@ function category_cache_array_rows( $p_cat_id_array ) {
 				LEFT JOIN {project} p
 					ON c.project_id=p.id
 				WHERE c.id IN (" . implode( ',', $c_cat_id_array ) . ')';
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	while( $row = db_fetch_array( $result ) ) {
 		$g_category_cache[(int) $row['id']] = $row;
@@ -530,7 +530,7 @@ function category_get_field( $p_category_id, $p_field_name ) {
 	$t_project_name = project_get_name( $p_project_id );
 
 	$t_query = 'SELECT id FROM {category} WHERE name=%s AND project_id=%d';
-	$t_result = db_query_bound( $t_query, array( $p_category_name, (int) $p_project_id ) );
+	$t_result = db_query( $t_query, array( $p_category_name, (int) $p_project_id ) );
 	$t_id = db_result( $t_result );
 	if( $t_id ) {
 		if( $p_trigger_errors ) {

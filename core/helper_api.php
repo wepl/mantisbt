@@ -153,7 +153,7 @@ function get_percentage_by_status() {
 		$t_query .= ' AND view_state < ' . VS_PRIVATE;
 	}
 	$t_query .= ' GROUP BY status';
-	$result = db_query_bound( $t_query );
+	$result = db_query( $t_query );
 
 	$t_bug_count = 0;
 	$t_status_count_array = array();

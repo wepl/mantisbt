@@ -119,7 +119,7 @@ function bug_cache_array_rows( $p_bug_id_array ) {
 
 	$t_query = "SELECT * FROM {bug}
 				  WHERE id IN (" . implode( ',', $c_bug_id_array ) . ')';
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		bug_add_to_cache( $t_row );
@@ -185,7 +185,7 @@ function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
 				  FROM {bug_text} bt, {bug} b
 				  WHERE b.id=%d AND
 				  		b.bug_text_id = bt.id";
-	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
+	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	$row = db_fetch_array( $t_result );
 	
@@ -416,7 +416,7 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 		$query = "SELECT field_id, bug_id, value
 					   FROM {custom_field_string}
 					   WHERE bug_id=%d";
-		$result = db_query_bound( $query, array( $t_bug_id ) );
+		$result = db_query( $query, array( $t_bug_id ) );
 
 		while( $t_bug_custom = db_fetch_array( $result ) ) {
 			$c_field_id = db_prepare_int( $t_bug_custom['field_id'] );
@@ -426,7 +426,7 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 			$query = "INSERT INTO {custom_field_string}
 						   ( field_id, bug_id, value )
 						   VALUES (%d, %d, %s)";
-			db_query_bound( $query, array( $c_field_id, $c_new_bug_id, $c_value ) );
+			db_query( $query, array( $c_field_id, $c_new_bug_id, $c_value ) );
 		}
 	}
 
@@ -439,32 +439,32 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 	if( $p_copy_bugnotes ) {
 		$query = "SELECT * FROM {bugnote}
 					  WHERE bug_id=%d";
-		$result = db_query_bound( $query, array( $t_bug_id ) );
+		$result = db_query( $query, array( $t_bug_id ) );
 
 		while( $t_bug_note = db_fetch_array( $result ) ) {
 			$t_bugnote_text_id = $t_bug_note['bugnote_text_id'];
 
 			$t_query2 = 'SELECT * FROM {bugnote_text} WHERE id=%d';
-			$t_result2 = db_query_bound( $t_query2, array( $t_bugnote_text_id ) );
+			$t_result2 = db_query( $t_query2, array( $t_bugnote_text_id ) );
 
 			$t_bugnote_text_insert_id = -1;
 			if( $t_bugnote_text = db_fetch_array( $t_result2 ) ) {
 				$t_query2 = 'INSERT INTO {bugnote_text} ( note ) VALUES ( %s )';
-				db_query_bound( $t_query2, array( $t_bugnote_text['note'] ) );
+				db_query( $t_query2, array( $t_bugnote_text['note'] ) );
 				$t_bugnote_text_insert_id = db_insert_id( '{bugnote_text}' );
 			}
 
 			$t_query2 = "INSERT INTO {bugnote}
 						   ( bug_id, reporter_id, bugnote_text_id, view_state, date_submitted, last_modified )
 						   VALUES ( %d, %d, %d, %d, %d, %d)";
-			db_query_bound( $t_query2, array( $t_new_bug_id, $t_bug_note['reporter_id'], $t_bugnote_text_insert_id, $t_bug_note['view_state'], $t_bug_note['date_submitted'], $t_bug_note['last_modified'] ) );
+			db_query( $t_query2, array( $t_new_bug_id, $t_bug_note['reporter_id'], $t_bugnote_text_insert_id, $t_bug_note['view_state'], $t_bug_note['date_submitted'], $t_bug_note['last_modified'] ) );
 		}
 	}
 
 	# Copy attachments
 	if( $p_copy_attachments ) {
 		$t_query = 'SELECT * FROM {bug_file} WHERE bug_id=%d';
-		$t_result = db_query_bound( $t_query, array( $t_bug_id ) );
+		$t_result = db_query( $t_query, array( $t_bug_id ) );
 
 		$t_bug_file = array();
 		while( $t_bug_file = db_fetch_array( $t_result ) ) {
@@ -481,7 +481,7 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 			$t_query = "INSERT INTO {bug_file}
 						( bug_id, title, description, diskfile, filename, folder, filesize, file_type, date_added, content )
 						VALUES ( %d, %s, %s, %s, %s, %s, %d, %s, %d, %d)";
-			db_query_bound( $t_query, array( $t_new_bug_id, $t_bug_file['title'], $t_bug_file['description'], $t_new_diskfile_name, $t_new_file_name, $t_bug_file['folder'], $t_bug_file['filesize'], $t_bug_file['file_type'], $t_bug_file['date_added'], $t_bug_file['content'] ) );
+			db_query( $t_query, array( $t_new_bug_id, $t_bug_file['title'], $t_bug_file['description'], $t_new_diskfile_name, $t_new_file_name, $t_bug_file['folder'], $t_bug_file['filesize'], $t_bug_file['file_type'], $t_bug_file['date_added'], $t_bug_file['content'] ) );
 		}
 	}
 
@@ -494,13 +494,13 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 	history_delete( $t_new_bug_id );	# should history only be deleted inside the if statement below?
 	if( $p_copy_history ) {
 		$query = 'SELECT * FROM {bug_history} WHERE bug_id = %d';
-		$result = db_query_bound( $query, array( $t_bug_id ) );
+		$result = db_query( $query, array( $t_bug_id ) );
 
 		while( $t_bug_history = db_fetch_array( $result ) ) {
 			$query = "INSERT INTO {bug_history}
 						  ( user_id, bug_id, date_modified, field_name, old_value, new_value, type )
 						  VALUES ( %d, %d, %d, %s, %s, %s, %d );";
-			db_query_bound( $query, array( $t_bug_history['user_id'], $t_new_bug_id, $t_bug_history['date_modified'], $t_bug_history['field_name'], $t_bug_history['old_value'], $t_bug_history['new_value'], $t_bug_history['type'] ) );
+			db_query( $query, array( $t_bug_history['user_id'], $t_new_bug_id, $t_bug_history['date_modified'], $t_bug_history['field_name'], $t_bug_history['old_value'], $t_bug_history['new_value'], $t_bug_history['type'] ) );
 		}
 	}
 
@@ -596,11 +596,11 @@ function bug_delete( $p_bug_id ) {
 	$t_bug_text_id = bug_get_field( $p_bug_id, 'bug_text_id' );
 
 	$t_query = "DELETE FROM {bug_text} WHERE id=%d";
-	db_query_bound( $t_query, array( $t_bug_text_id ) );
+	db_query( $t_query, array( $t_bug_text_id ) );
 
 	# Delete the bug entry
 	$t_query = "DELETE FROM {bug} WHERE id=%d";
-	db_query_bound( $t_query, array( $c_bug_id ) );
+	db_query( $t_query, array( $c_bug_id ) );
 
 	bug_clear_cache( $p_bug_id );
 	bug_text_clear_cache( $p_bug_id );
@@ -618,7 +618,7 @@ function bug_delete( $p_bug_id ) {
  */
 function bug_delete_all( $p_project_id ) {
 	$t_query = 'SELECT id FROM {bug} WHERE project_id=%d';
-	$t_result = db_query_bound( $t_query, array( $p_project_id ) );
+	$t_result = db_query( $t_query, array( $p_project_id ) );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		bug_delete( $t_row['id'] );
@@ -714,7 +714,7 @@ function bug_get_newest_bugnote_timestamp( $p_bug_id ) {
 	$c_bug_id = db_prepare_int( $p_bug_id );
 
 	$query = "SELECT last_modified FROM {bugnote} WHERE bug_id=%d ORDER BY last_modified DESC";
-	$result = db_query_bound( $query, array( $c_bug_id ), 1 );
+	$result = db_query( $query, array( $c_bug_id ), 1 );
 	$row = db_result( $result );
 
 	if( false === $row ) {
@@ -746,7 +746,7 @@ function bug_get_bugnote_stats( $p_bug_id ) {
 	}
 
 	$t_query = "SELECT last_modified FROM {bugnote} WHERE bug_id=%d ORDER BY last_modified DESC";
-	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
+	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	$t_bugnote_count = 0;
 	while ( $t_row = db_fetch_array( $t_result ) ) {
@@ -776,7 +776,7 @@ function bug_get_bugnote_stats( $p_bug_id ) {
 function bug_get_attachments( $p_bug_id ) {
 	$query = "SELECT id, title, diskfile, filename, filesize, file_type, date_added, user_id
 				FROM {bug_file} WHERE bug_id=%d ORDER BY date_added";
-	$db_result = db_query_bound( $query, array( $p_bug_id ) );
+	$db_result = db_query( $query, array( $p_bug_id ) );
 
 	$t_result = array();
 
@@ -863,7 +863,7 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 
 	# Update fields
 	$query = 'UPDATE {bug} SET $p_field_name=%s WHERE id=%d';
-	db_query_bound( $query, array( $c_value, $c_bug_id ) );
+	db_query( $query, array( $c_value, $c_bug_id ) );
 
 	# updated the last_updated date
 	bug_update_date( $p_bug_id );
@@ -912,7 +912,7 @@ function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_pri
 	if(( $t_ass_val != $h_status ) || ( $p_user_id != $h_handler_id ) ) {
 		# get user id
 		$query = "UPDATE {bug} SET handler_id=%d, status=%d WHERE id=%d";
-		db_query_bound( $query, array( $p_user_id, $t_ass_val, $p_bug_id ) );
+		db_query( $query, array( $p_user_id, $t_ass_val, $p_bug_id ) );
 
 		# log changes
 		history_log_event_direct( $c_bug_id, 'status', $h_status, $t_ass_val );
@@ -1079,7 +1079,7 @@ function bug_reopen( $p_bug_id, $p_bugnote_text = '', $p_time_tracking = '0:00',
  */
 function bug_update_date( $p_bug_id ) {
 	$t_query = 'UPDATE {bug} SET last_updated= %d WHERE id=%d';
-	db_query_bound( $t_query, array( db_now(), $p_bug_id ) );
+	db_query( $t_query, array( db_now(), $p_bug_id ) );
 
 	bug_clear_cache( $p_bug_id );
 
@@ -1112,7 +1112,7 @@ function bug_monitor( $p_bug_id, $p_user_id ) {
 
 	# Insert monitoring record
 	$query = 'INSERT INTO {bug_monitor} ( user_id, bug_id ) VALUES (%d,%d)';
-	db_query_bound( $query, array( $c_user_id, $c_bug_id ) );
+	db_query( $query, array( $c_user_id, $c_bug_id ) );
 
 	# log new monitoring action
 	history_log_event_special( $c_bug_id, BUG_MONITOR, $c_user_id );
@@ -1143,7 +1143,7 @@ function bug_get_monitors( $p_bug_id ) {
 			FROM {bug_monitor} m, {user} u
 			WHERE m.bug_id=%d AND m.user_id = u.id
 			ORDER BY u.realname, u.username";
-	$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
+	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	$t_users = array();
 	while( $t_row = db_fetch_array( $t_result ) ) {
@@ -1170,13 +1170,13 @@ function bug_monitor_copy( $p_source_bug_id, $p_dest_bug_id ) {
 	$c_dest_bug_id = (int)$p_dest_bug_id;
 
 	$query = 'SELECT user_id FROM {bug_monitor} WHERE bug_id = %d';
-	$result = db_query_bound( $query, array( $c_source_bug_id ) );
+	$result = db_query( $query, array( $c_source_bug_id ) );
 
 	while( $t_bug_monitor = db_fetch_array( $result ) ) {
 		if ( user_exists( $t_bug_monitor['user_id'] ) &&
 			!user_is_monitoring_bug( $t_bug_monitor['user_id'], $c_dest_bug_id ) ) {
 			$query = 'INSERT INTO {bug_monitor} ( user_id, bug_id ) VALUES ( %d, %d )';
-			db_query_bound( $query, array( $t_bug_monitor['user_id'], $c_dest_bug_id ) );
+			db_query( $query, array( $t_bug_monitor['user_id'], $c_dest_bug_id ) );
 			history_log_event_special( $c_dest_bug_id, BUG_MONITOR, $t_bug_monitor['user_id'] );
 		}
 	}
@@ -1205,7 +1205,7 @@ function bug_unmonitor( $p_bug_id, $p_user_id ) {
 		$db_query_params[] = $c_user_id;
 	}
 
-	db_query_bound( $query, $db_query_params );
+	db_query( $query, $db_query_params );
 
 	# log new un-monitor action
 	history_log_event_special( $c_bug_id, BUG_UNMONITOR, $c_user_id );

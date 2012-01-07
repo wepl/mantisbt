@@ -88,7 +88,7 @@ function upgrade_move_att2disk( $p_source ) {
 
 	$t_query = 'SELECT * FROM ' . $t_file_table . ' WHERE content <> \'\'';
 
-	$t_result = @db_query_bound( $t_query );
+	$t_result = @db_query( $t_query );
 
 	if ( $t_result === false ) {
 		echo '<p>No attachments need to be moved.</p>';
@@ -144,7 +144,7 @@ function upgrade_move_att2disk( $p_source ) {
 				$c_new_file_name = $t_file_path . $c_filename;
 				$t_query2 = "UPDATE $t_file_table SET diskfile = %s,
 						folder = %s, content = '' WHERE id = %d";
-				$t_update = @db_query_bound( $t_query2, array( $c_new_file_name, $t_file_path, $t_attachment['id'] ) );
+				$t_update = @db_query( $t_query2, array( $c_new_file_name, $t_file_path, $t_attachment['id'] ) );
 				if ( !$t_update ) {
 					echo 'database update failed';
 					$t_failures++;

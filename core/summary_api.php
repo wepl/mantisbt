@@ -89,7 +89,7 @@ function summary_print_by_enum( $p_enum ) {
 				WHERE $t_project_filter
 				GROUP BY $p_enum $t_status_query
 				ORDER BY $p_enum $t_status_query";
-	$result = db_query_bound( $t_query );
+	$result = db_query( $t_query );
 
 	$t_last_value = -1;
 	$t_bugs_open = 0;
@@ -233,7 +233,7 @@ function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 
 	$t_query = "SELECT COUNT(*) FROM {bug}
 				WHERE " . db_helper_compare_days( "" . db_now() . "", "date_submitted", "<= $c_time_length" ) . " AND $specific_where";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 	return db_result( $t_result );
 }
 
@@ -265,7 +265,7 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 				AND h.new_value >= %s
 				AND " . db_helper_compare_days( "" . db_now() . "", "date_modified", "<= $c_time_length" ) . "
 				AND $specific_where";
-	$t_result = db_query_bound( $t_query, array( $t_resolved, $t_resolved, $t_resolved ) );
+	$t_result = db_query( $t_query, array( $t_resolved, $t_resolved, $t_resolved ) );
 	return db_result( $t_result );
 }
 
@@ -335,7 +335,7 @@ function summary_print_by_activity() {
 				AND $specific_where
 				GROUP BY h.bug_id, b.id, b.summary, b.last_updated, b.view_state
 				ORDER BY count DESC, b.last_updated DESC";
-	$t_result = db_query_bound( $t_query, array( $t_resolved ) );
+	$t_result = db_query( $t_query, array( $t_resolved ) );
 
 	$t_count = 0;
 	$t_private_bug_threshold = config_get( 'private_bug_threshold' );
@@ -387,7 +387,7 @@ function summary_print_by_age() {
 				WHERE status < $t_resolved
 				AND $specific_where
 				ORDER BY date_submitted ASC, priority DESC";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_count = 0;
 	$t_private_bug_threshold = config_get( 'private_bug_threshold' );
@@ -430,7 +430,7 @@ function summary_print_by_developer() {
 				WHERE handler_id>0 AND $specific_where
 				GROUP BY handler_id, status
 				ORDER BY handler_id, status";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_last_handler = -1;
 	$t_bugs_open = 0;
@@ -529,7 +529,7 @@ function summary_print_by_reporter() {
 				WHERE $specific_where
 				GROUP BY reporter_id
 				ORDER BY num DESC";
-	$result = db_query_bound( $query, null, $t_reporter_summary_limit );
+	$result = db_query( $query, null, $t_reporter_summary_limit );
 
 	$t_reporters = array();
 	while( $row = db_fetch_array( $result ) ) {
@@ -545,7 +545,7 @@ function summary_print_by_reporter() {
 					AND $specific_where
 					GROUP BY status
 					ORDER BY status";
-		$result2 = db_query_bound( $query );
+		$result2 = db_query( $query );
 
 		$last_reporter = -1;
 		$t_bugs_open = 0;
@@ -610,7 +610,7 @@ function summary_print_by_category() {
 				GROUP BY $t_project_query category_id, c.name, b.status
 				ORDER BY $t_project_query category_id, c.name, b.status";
 
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$last_category_name = -1;
 	$last_category_id = -1;
@@ -718,7 +718,7 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 					FROM {bug}
 					GROUP BY project_id, status";
 
-		$result = db_query_bound( $query );
+		$result = db_query( $query );
 		$p_cache = array();
 
 		$t_resolved_val = config_get( 'bug_resolved_status_threshold' );
@@ -795,7 +795,7 @@ function summary_print_developer_resolution( $p_resolution_enum_string ) {
 				WHERE $specific_where
 				GROUP BY handler_id, resolution
 				ORDER BY handler_id, resolution";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_handler_res_arr = array();
 	$t_arr = db_fetch_array( $result );
@@ -897,7 +897,7 @@ function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 				FROM {bug}
 				WHERE $specific_where
 				GROUP BY reporter_id, resolution";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_reporter_res_arr = array();
 	$t_reporter_bugcount_arr = array();
@@ -1015,7 +1015,7 @@ function summary_print_reporter_effectiveness( $p_severity_enum_string, $p_resol
 				FROM {bug}
 				WHERE $specific_where
 				GROUP BY reporter_id, resolution, severity";
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$t_reporter_ressev_arr = array();
 	$t_reporter_bugcount_arr = array();

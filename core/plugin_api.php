@@ -540,7 +540,7 @@ function plugin_is_installed( $p_basename ) {
 	}
 
 	$t_query = 'SELECT COUNT(*) FROM {plugin} WHERE basename=%s';
-	$t_result = db_query_bound( $t_query, array( $p_basename ) );
+	$t_result = db_query( $t_query, array( $p_basename ) );
 	return( 0 < db_result( $t_result ) );
 }
 
@@ -564,7 +564,7 @@ function plugin_install( $p_plugin ) {
 	}
 
 	$t_query = "INSERT INTO {plugin} ( basename, enabled ) VALUES ( %s, '1' )";
-	db_query_bound( $t_query, array( $p_plugin->basename ) );
+	db_query( $t_query, array( $p_plugin->basename ) );
 
 	if( false === ( plugin_config_get( 'schema', false ) ) ) {
 		plugin_config_set( 'schema', -1 );
@@ -674,7 +674,7 @@ function plugin_uninstall( $p_plugin ) {
 	}
 
 	$t_query = 'DELETE FROM {plugin} WHERE basename=%s';
-	db_query_bound( $t_query, array( $p_plugin->basename ) );
+	db_query( $t_query, array( $p_plugin->basename ) );
 
 	plugin_push_current( $p_plugin->basename );
 
@@ -796,7 +796,7 @@ function plugin_register_installed() {
 
 	# register plugins installed via the interface/database
 	$t_query = 'SELECT basename, priority, protected FROM {plugin} WHERE enabled=%d ORDER BY priority DESC';
-	$t_result = db_query_bound( $t_query, array( 1 ) );
+	$t_result = db_query( $t_query, array( 1 ) );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$t_basename = $t_row['basename'];

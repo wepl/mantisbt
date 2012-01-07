@@ -135,10 +135,10 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 		SET title=%s, description=%s, date_added=%d,
 			filename=%s, filesize=%d, file_type=%s, content=%b
 			WHERE id=%d";
-	$result = db_query_bound( $query, array( $c_title, $c_description, db_now(), $c_file_name, $c_file_size, $c_file_type, $c_content, $c_file_id ) );
+	$result = db_query( $query, array( $c_title, $c_description, db_now(), $c_file_name, $c_file_size, $c_file_type, $c_content, $c_file_id ) );
 } else {
 	$query = "UPDATE {project_file} SET title=%s, description=%s WHERE id=%d";
-	$result = db_query_bound( $query, array( $c_title, $c_description, $c_file_id ) );
+	$result = db_query( $query, array( $c_title, $c_description, $c_file_id ) );
 }
 
 if ( !$result ) {

@@ -138,7 +138,7 @@ class MantisBug extends MantisCacheable {
 		$c_bug_id = (int) $p_bug_id;
 
 		$t_query = "SELECT * FROM {bug} WHERE id=%d";
-		$t_result = db_query_bound( $t_query, array( $c_bug_id ) );
+		$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 		$t_row = db_fetch_array( $t_result );
 		
@@ -290,7 +290,7 @@ class MantisBug extends MantisCacheable {
 		}
 
 		$t_query = "SELECT COUNT(*) FROM {bugnote} WHERE bug_id=%d $t_restriction";
-		$t_result = db_query_bound( $t_query, array( $this->bug_id ) );
+		$t_result = db_query( $t_query, array( $this->bug_id ) );
 
 		return db_result( $t_result );
 	}
@@ -351,7 +351,7 @@ class MantisBug extends MantisCacheable {
 					    ( description, steps_to_reproduce, additional_information )
 					  VALUES
 					    (%s,%s,%s)";
-		db_query_bound( $t_query, array( $this->description, $this->steps_to_reproduce, $this->additional_information ) );
+		db_query( $t_query, array( $this->description, $this->steps_to_reproduce, $this->additional_information ) );
 
 		# Get the id of the text information we just inserted
 		# NOTE: this is guarranteed to be the correct one.
@@ -369,7 +369,7 @@ class MantisBug extends MantisCacheable {
 			# that that the bug was not assigned to somebody, then assign it automatically.
 			$query = "SELECT user_id FROM {category}
 						  WHERE id=%d";
-			$result = db_query_bound( $query, array( $this->category_id ) );
+			$result = db_query( $query, array( $this->category_id ) );
 
 			if( $t_result = db_result( $result ) ) {
 				$this->handler_id = $t_result;
@@ -402,7 +402,7 @@ class MantisBug extends MantisCacheable {
 					      %d,%s,%d,%d,
 					      %d,%d,%s,%d)";
 
-		db_query_bound( $t_query, array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, $this->date_submitted, $this->last_updated, $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
+		db_query( $t_query, array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, $this->date_submitted, $this->last_updated, $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
 
 		$this->id = db_insert_id( '{bug}' );
 
@@ -482,7 +482,7 @@ class MantisBug extends MantisCacheable {
 		$t_fields[] = $this->due_date;
 		$t_fields[] = $this->id;
 
-		db_query_bound( $t_query, $t_fields );
+		db_query( $t_query, $t_fields );
 
 		bug_clear_cache( $this->id );
 
@@ -523,7 +523,7 @@ class MantisBug extends MantisCacheable {
 								steps_to_reproduce=%s,
 								additional_information=%s
 							WHERE id=%d";
-			db_query_bound( $query, array( $this->description, $this->steps_to_reproduce, $this->additional_information, $t_bug_text_id ) );
+			db_query( $query, array( $this->description, $this->steps_to_reproduce, $this->additional_information, $t_bug_text_id ) );
 
 			bug_text_clear_cache( $this->id );
 

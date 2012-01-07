@@ -548,7 +548,7 @@ function auth_generate_unique_cookie_string() {
  */
 function auth_is_cookie_string_unique( $p_cookie_string ) {
 	$t_query = "SELECT COUNT(*) FROM {user} WHERE cookie_string=%s";
-	$t_result = db_query_bound( $t_query, array( $p_cookie_string ) );
+	$t_result = db_query( $t_query, array( $p_cookie_string ) );
 	$t_count = db_result( $t_result );
 
 	if( $t_count > 0 ) {
@@ -592,7 +592,7 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 
 					# get anonymous information if database is available
 					$t_query = 'SELECT id, cookie_string FROM {user} WHERE username = %s';
-					$t_result = db_query_bound( $t_query, array( config_get( 'anonymous_account' ) ) );
+					$t_result = db_query( $t_query, array( config_get( 'anonymous_account' ) ) );
 
 					if( $t_row = db_fetch_array( $t_result ) ) {						
 						$t_cookie = $t_row['cookie_string'];
@@ -748,7 +748,7 @@ function auth_is_cookie_valid( $p_cookie_string ) {
 
 	# look up cookie in the database to see if it is valid
 	$t_query = 'SELECT * FROM {user} WHERE cookie_string=%s';
-	$t_result = db_query_bound( $t_query, array( $p_cookie_string ) );
+	$t_result = db_query( $t_query, array( $p_cookie_string ) );
 
 	# return true if a matching cookie was found
 	$row = db_fetch_array( $t_result );

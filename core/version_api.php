@@ -109,7 +109,7 @@ function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 	}
 
 	$query = 'SELECT * FROM {project_version} WHERE id=%d';
-	$result = db_query_bound( $query, array( $c_version_id ) );
+	$result = db_query( $query, array( $c_version_id ) );
 
 	$row = db_fetch_array( $result );
 	
@@ -200,7 +200,7 @@ function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $
 					( project_id, version, date_order, description, released, obsolete )
 				  VALUES
 					(%d, %s, %d, %s, %d, %d )";
-	db_query_bound( $query, array( $c_project_id, $p_version, $c_date_order, $p_description, $c_released, $c_obsolete ) );
+	db_query( $query, array( $c_project_id, $p_version, $c_date_order, $p_description, $c_released, $c_obsolete ) );
 
 	# db_query errors on failure so:
 	return db_insert_id( '{project_version}' );
@@ -237,7 +237,7 @@ function version_update( $p_version_info ) {
 					date_order=%d,
 					obsolete=%d
 				  WHERE id=%d";
-	db_query_bound( $query, array( $c_version_name, $c_description, $c_released, $c_date_order, $c_obsolete, $c_version_id ) );
+	db_query( $query, array( $c_version_name, $c_description, $c_released, $c_date_order, $c_obsolete, $c_version_id ) );
 
 	if( $c_version_name != $c_old_version_name ) {
 		$t_project_list = array( $c_project_id );
@@ -247,30 +247,30 @@ function version_update( $p_version_info ) {
 		$t_project_list = implode( ',', $t_project_list );
 
 		$query = 'UPDATE {bug} SET version=%s WHERE ( project_id IN ( $t_project_list ) ) AND ( version=%s)';
-		db_query_bound( $query, array( $c_version_name, $c_old_version_name ) );
+		db_query( $query, array( $c_version_name, $c_old_version_name ) );
 
 		$query = "UPDATE {bug} SET fixed_in_version=%s
 					  WHERE ( project_id IN ( $t_project_list ) ) AND ( fixed_in_version=%s)";
-		db_query_bound( $query, array( $c_version_name, $c_old_version_name ) );
+		db_query( $query, array( $c_version_name, $c_old_version_name ) );
 
 		$query = "UPDATE {bug}
 					  SET target_version=%s
 					  WHERE ( project_id IN ( $t_project_list ) ) AND ( target_version=%s)";
-		db_query_bound( $query, array( $c_version_name, $c_old_version_name ) );
+		db_query( $query, array( $c_version_name, $c_old_version_name ) );
 
 		$query = "UPDATE {history}
 			SET old_value=%s
 			WHERE field_name IN ('version','fixed_in_version','target_version')
 				AND old_value=%s
 				AND bug_id IN (SELECT id FROM {bug} WHERE project_id IN ( $t_project_list ))";
-		db_query_bound( $query, array( $c_version_name, $c_old_version_name ) );
+		db_query( $query, array( $c_version_name, $c_old_version_name ) );
 
 		$query = "UPDATE {history}
 			SET new_value=%s
 			WHERE field_name IN ('version','fixed_in_version','target_version')
 				AND new_value=%s
 				AND bug_id IN (SELECT id FROM {bug} WHERE project_id IN ( $t_project_list ))";
-		db_query_bound( $query, array( $c_version_name, $c_old_version_name ) );
+		db_query( $query, array( $c_version_name, $c_old_version_name ) );
 
 		/**
 		 * @todo We should consider using ids instead of names for foreign keys.  The main advantage of using the names are:
@@ -300,7 +300,7 @@ function version_remove( $p_version_id, $p_new_version = '' ) {
 	$c_project_id = db_prepare_int( $t_project_id );
 
 	$query = 'DELETE FROM {project_version} WHERE id=%d';
-	db_query_bound( $query, array( $c_version_id ) );
+	db_query( $query, array( $c_version_id ) );
 
 	$t_project_list = array( $c_project_id );
 	if ( config_get( 'subprojects_inherit_versions' ) ) {
@@ -310,15 +310,15 @@ function version_remove( $p_version_id, $p_new_version = '' ) {
 
 	$query = "UPDATE {bug} SET version=%s
 				  WHERE project_id IN ( $t_project_list ) AND version=%s";
-	db_query_bound( $query, array( $p_new_version, $t_old_version ) );
+	db_query( $query, array( $p_new_version, $t_old_version ) );
 
 	$query = "UPDATE {bug} SET fixed_in_version=%s
 				  WHERE ( project_id IN ( $t_project_list ) ) AND ( fixed_in_version=%s )";
-	db_query_bound( $query, array( $p_new_version, $t_old_version ) );
+	db_query( $query, array( $p_new_version, $t_old_version ) );
 
 	$query = "UPDATE {bug} SET target_version=%s
 				  WHERE ( project_id IN ( $t_project_list ) ) AND ( target_version=%s)";
-	db_query_bound( $query, array( $p_new_version, $t_old_version ) );
+	db_query( $query, array( $p_new_version, $t_old_version ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -335,11 +335,11 @@ function version_remove_all( $p_project_id ) {
 	# remove all references to versions from verison, fixed in version and target version.
 	$query = "UPDATE {bug} SET version='', fixed_in_version='', target_version=''
 				  WHERE project_id=%d";
-	db_query_bound( $query, array( $c_project_id ) );
+	db_query( $query, array( $c_project_id ) );
 
 	# remove the actual versions associated with the project.
 	$query = 'DELETE FROM {project_version} WHERE project_id=%d';
-	db_query_bound( $query, array( $c_project_id ) );
+	db_query( $query, array( $c_project_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -371,7 +371,7 @@ function version_cache_array_rows( $p_project_id_array ) {
 	$query = "SELECT * FROM {project_version}
 				  WHERE project_id IN (" . implode( ',', $c_project_id_array ) . ')
 				  ORDER BY date_order DESC';
-	$result = db_query_bound( $query );
+	$result = db_query( $query );
 
 	$rows = array();
 	while( $row = db_fetch_array( $result ) ) {
@@ -429,7 +429,7 @@ function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = 
 
 	$query .= " ORDER BY date_order DESC";
 
-	$t_result = db_query_bound( $query, $query_params );
+	$t_result = db_query( $query, $query_params );
 	$t_rows = array();
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$g_cache_versions[(int) $t_row['id']] = $t_row;
@@ -470,7 +470,7 @@ function version_get_all_rows_with_subs( $p_project_id, $p_released = null, $p_o
 	$query = "SELECT * FROM {project_version}
 				  WHERE $t_project_where $t_released_where $t_obsolete_where
 				  ORDER BY date_order DESC";
-	$result = db_query_bound( $query, $t_query_params );
+	$result = db_query( $query, $t_query_params );
 	$rows = array();
 	while( $row = db_fetch_array( $result ) ) {
 		$rows[] = $row;
@@ -506,7 +506,7 @@ function version_get_id( $p_version, $p_project_id = null, $p_inherit = null ) {
 	$query = "SELECT id FROM {project_version}
 					WHERE " . $t_project_where . " AND version=%s";
 
-	$result = db_query_bound( $query, array( $p_version ) );
+	$result = db_query( $query, array( $p_version ) );
 
 	if( $t_row = db_result( $result ) ) {
 		return $t_row;

@@ -183,7 +183,7 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 	}
 
 	$t_query = "SELECT * FROM {user_pref} WHERE user_id=%d AND project_id=%d";
-	$t_result = db_query_bound( $t_query, array( (int)$p_user_id, (int)$p_project_id ) );
+	$t_result = db_query( $t_query, array( (int)$p_user_id, (int)$p_project_id ) );
 
 	$t_row = db_fetch_array( $t_result );
 	
@@ -230,7 +230,7 @@ function user_pref_cache_array_rows( $p_user_id_array, $p_project_id = ALL_PROJE
 	$query = "SELECT * FROM {user_pref}
 				  WHERE user_id IN (" . implode( ',', $c_user_id_array ) . ') AND project_id=%d';
 
-	$result = db_query_bound( $query, array( (int)$p_project_id ) );
+	$result = db_query( $query, array( (int)$p_project_id ) );
 
 	while( $row = db_fetch_array( $result ) ) {
 		if ( !isset( $g_cache_user_pref[(int) $row['user_id']] ) ) {
@@ -318,7 +318,7 @@ function user_pref_insert( $p_user_id, $p_project_id, $p_prefs ) {
 
 	$query = 'INSERT INTO {user_pref} (user_id, project_id, ' . $t_vars_string . ') ' .
 			 ' VALUES ( ' . $t_params_string . ')';
-	db_query_bound( $query, $t_values  );
+	db_query( $query, $t_values  );
 
 	# db_query errors on failure so:
 	return true;
@@ -353,7 +353,7 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	$t_values[] = $p_project_id;
 
 	$query = 'UPDATE {user_pref} SET $t_pairs_string WHERE user_id=%d AND project_id=%d';
-	db_query_bound( $query, $t_values );
+	db_query( $query, $t_values );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
 
@@ -372,7 +372,7 @@ function user_pref_delete( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 	user_ensure_unprotected( $p_user_id );
 
 	$t_query = 'DELETE FROM {user_pref} WHERE user_id=%d AND project_id=%d';
-	db_query_bound( $t_query, array( $p_user_id, $p_project_id ) );
+	db_query( $t_query, array( $p_user_id, $p_project_id ) );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
 
@@ -394,7 +394,7 @@ function user_pref_delete_all( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
 
 	$t_query = 'DELETE FROM {user_pref} WHERE user_id=%d';
-	db_query_bound( $t_query, array( $p_user_id ) );
+	db_query( $t_query, array( $p_user_id ) );
 
 	user_pref_clear_cache( $p_user_id );
 
@@ -414,7 +414,7 @@ function user_pref_delete_all( $p_user_id ) {
  */
 function user_pref_delete_project( $p_project_id ) {
 	$t_query = 'DELETE FROM {user_pref} WHERE project_id=%d';
-	db_query_bound( $t_query, array( $p_project_id ) );
+	db_query( $t_query, array( $p_project_id ) );
 
 	# db_query errors on failure so:
 	return true;

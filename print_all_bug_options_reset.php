@@ -74,7 +74,7 @@ $t_default = implode('',$t_default_arr) ;
 # reset to defaults
 $query = "UPDATE {user_print_pref} SET print_pref=%s WHERE user_id=%d";
 
-$result = db_query_bound( $query, array( $t_default, $t_user_id ) );
+$result = db_query( $query, array( $t_default, $t_user_id ) );
 
 form_security_purge( 'print_all_bug_options_reset' );
 

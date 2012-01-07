@@ -135,7 +135,7 @@ function db_is_mssql() {
  * @param int $p_offset offset query results for paging
  * @return ADORecordSet|bool adodb result set or false if the query failed.
  */
-function db_query_bound( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) {
+function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) {
 	global $g_queries_array, $g_db, $g_db_log_queries;
 
 	static $s_check_params;

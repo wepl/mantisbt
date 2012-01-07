@@ -121,7 +121,7 @@ $t_query = "SELECT COUNT(*) AS new_user_count FROM {user}
 	WHERE ".db_helper_compare_days("" . db_now() . "","date_created","<= $t_days_old")."
 	ORDER BY date_created DESC";
 
-$t_result = db_query_bound( $t_query );
+$t_result = db_query( $t_query );
 $t_row = db_fetch_array( $t_result );
 $t_new_user_count = $t_row['new_user_count'];
 
@@ -130,7 +130,7 @@ $t_new_user_count = $t_row['new_user_count'];
 $t_query = "SELECT COUNT(*) AS unused_user_count FROM {user}
 	WHERE ( login_count = 0 ) AND ( date_created = last_visit )
 	ORDER BY date_created DESC";
-$t_result = db_query_bound( $t_query );
+$t_result = db_query( $t_query );
 $t_row = db_fetch_array( $t_result );
 $t_unused_user_count = $t_row['unused_user_count'];
 
@@ -194,13 +194,13 @@ $t_total_user_count = 0;
 $t_result = '';
 if ( $c_hide == 0 ) {
 	$t_query = "SELECT COUNT(*) as user_count FROM {user} WHERE $t_where";
-	$t_result = db_query_bound( $t_query, $t_where_params );
+	$t_result = db_query( $t_query, $t_where_params );
 	$t_row = db_fetch_array( $t_result );
 	$t_total_user_count = $t_row['user_count'];
 } else {
 	$t_query = "SELECT count(*) as user_count FROM {user}
 			WHERE $t_where AND " . db_helper_compare_days("" . db_now() . "","last_visit","< $t_days_old");
-	$t_result = db_query_bound( $t_query, $t_where_params );
+	$t_result = db_query( $t_query, $t_where_params );
 	$t_row = db_fetch_array( $t_result );
 	$t_total_user_count = $t_row['user_count'];
 }
@@ -223,13 +223,13 @@ if ( $f_page_number < 1 ) {
 
 if ( 0 == $c_hide ) {
 	$t_query = "SELECT * FROM {user} WHERE $t_where ORDER BY $c_sort $c_dir";
-	$t_result = db_query_bound( $t_query, $t_where_params, $p_per_page, $t_offset );
+	$t_result = db_query( $t_query, $t_where_params, $p_per_page, $t_offset );
 } else {
 
 	$t_query = "SELECT * FROM {user}
 			WHERE $t_where AND " . db_helper_compare_days( "" . db_now() . "", "last_visit", "< $t_days_old" ) . "
 			ORDER BY $c_sort $c_dir";
-	$t_result = db_query_bound( $t_query, $t_where_params, $p_per_page, $t_offset );
+	$t_result = db_query( $t_query, $t_where_params, $p_per_page, $t_offset );
 }
 
 $t_users = array();

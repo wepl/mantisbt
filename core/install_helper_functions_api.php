@@ -121,10 +121,10 @@ function install_category_migrate() {
 	}
 
 	$query = "SELECT project_id, category, user_id FROM {project_category} ORDER BY project_id, category";
-	$t_category_result = db_query_bound( $query );
+	$t_category_result = db_query( $query );
 
 	$query = "SELECT project_id, category FROM {bug} ORDER BY project_id, category";
-	$t_bug_result = db_query_bound( $query );
+	$t_bug_result = db_query( $query );
 
 	$t_data = array();
 
@@ -152,7 +152,7 @@ function install_category_migrate() {
 			$t_lower_name = utf8_strtolower( trim( $t_name ) );
 			if ( !isset( $t_inserted[$t_lower_name] ) ) {
 				$query = 'INSERT INTO {category} ( name, project_id, user_id ) VALUES ( %s, %d, %d )';
-				db_query_bound( $query, array( $t_name, $t_project_id, $t_user_id ) );
+				db_query( $query, array( $t_name, $t_project_id, $t_user_id ) );
 				$t_category_id = db_insert_id( '{category}' );
 				$t_inserted[$t_lower_name] = $t_category_id;
 			} else {
@@ -160,7 +160,7 @@ function install_category_migrate() {
 			}
 
 			$t_query = "UPDATE {bug} SET category_id=%d WHERE project_id=%d AND category=%s";
-			db_query_bound( $t_query, array( $t_category_id, $t_project_id, $t_name ) );
+			db_query( $t_query, array( $t_category_id, $t_project_id, $t_name ) );
 		}
 	}
 
@@ -209,7 +209,7 @@ function install_date_migrate( $p_data) {
 		$t_query = "SELECT $t_id_column, $t_old_column FROM $t_table WHERE $t_new_column_name = 1";
 	}
 
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	while( $row = db_fetch_array( $t_result ) ) {
 		$t_id = (int)$row[$t_id_column];
@@ -236,7 +236,7 @@ function install_date_migrate( $p_data) {
 		}
 
 		$query = "UPDATE $t_table SET $t_new_column WHERE $t_id_column=%d";
-		db_query_bound( $query, $t_values );
+		db_query( $query, $t_values );
 	}
 
 	// re-enabled query logging if we disabled it
@@ -276,7 +276,7 @@ function install_correct_multiselect_custom_fields_db_format() {
 		WHERE (c.type = " . CUSTOM_FIELD_TYPE_MULTILIST . " OR c.type = " . CUSTOM_FIELD_TYPE_CHECKBOX . ")
 			AND v.value != ''
 			AND v.value NOT LIKE '|%|'";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$c_field_id = (int)$t_row['field_id'];
@@ -286,7 +286,7 @@ function install_correct_multiselect_custom_fields_db_format() {
 			SET value = '$c_value'
 			WHERE field_id = $c_field_id
 				AND bug_id = $c_bug_id";
-		$t_update_result = db_query_bound( $t_update_query );
+		$t_update_result = db_query( $t_update_query );
 	}
 
 	# Remove vertical pipe | prefix and suffix from radio custom field values.
@@ -296,7 +296,7 @@ function install_correct_multiselect_custom_fields_db_format() {
 		WHERE c.type = " . CUSTOM_FIELD_TYPE_RADIO . "
 			AND v.value != ''
 			AND v.value LIKE '|%|'";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$c_field_id = (int)$t_row['field_id'];
@@ -306,7 +306,7 @@ function install_correct_multiselect_custom_fields_db_format() {
 			SET value = '$c_value'
 			WHERE field_id = $c_field_id
 				AND bug_id = $c_bug_id";
-		$t_update_result = db_query_bound( $t_update_query );
+		$t_update_result = db_query( $t_update_query );
 	}
 
 	# Re-enable query logging if we disabled it.
@@ -354,7 +354,7 @@ function install_stored_filter_migrate() {
 	$t_filter_fields['sticky_issues'] = 'sticky';
 
 	$t_query = "SELECT * FROM {filters}";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 	while( $t_row = db_fetch_array( $t_result ) ) {
 		$t_filter_arr = filter_deserialize( $t_row['filter_string'] );
 		foreach( $t_filter_fields AS $t_old=>$t_new ) {
@@ -371,7 +371,7 @@ function install_stored_filter_migrate() {
 		$t_filter_string = $t_cookie_version . '#' . $t_filter_serialized;
 
 		$t_update_query = 'UPDATE {filters} SET filter_string=%s WHERE id=%d';
-		$t_update_result = db_query_bound( $t_update_query, array( $t_filter_string, $t_row['id'] ) );
+		$t_update_result = db_query( $t_update_query, array( $t_filter_string, $t_row['id'] ) );
 	}
 
 	# Re-enable query logging if we disabled it.
@@ -390,7 +390,7 @@ function install_do_nothing() {
 
 function install_create_admin_if_not_exist( $p_data ) {
 	$t_query = "SELECT count(*) FROM {user}";
-	$t_result = db_query_bound( $t_query );
+	$t_result = db_query( $t_query );
 	
 	if ( db_result($t_result) != 0 ) {
 		return 2;
@@ -409,7 +409,7 @@ function install_create_admin_if_not_exist( $p_data ) {
 				  VALUES
 				    ( %s, %s, %s, %d, %d, %d,
 				      %d, %d, %d, %s, %s)";
-	db_query_bound( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), 1, 1, 90, 0, $t_cookie_string, '' ) );
+	db_query( $query, array( $p_username, $p_email, $t_password, db_now(), db_now(), 1, 1, 90, 0, $t_cookie_string, '' ) );
 
 	# Create preferences for the user
 	$t_user_id = db_insert_id( '{user}' );

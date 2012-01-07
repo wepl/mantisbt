@@ -171,7 +171,7 @@ if ( $f_protected && $t_old_protected ) {
 	$query_params = array( $c_username, $c_email, $c_access_level, $c_enabled, $c_protected, $c_realname, $c_user_id );
 }
 
-$result = db_query_bound( $query, $query_params );
+$result = db_query( $query, $query_params );
 
 if ( $f_send_email_notification ) {
 	lang_push( user_pref_get_language( $f_user_id ) );
