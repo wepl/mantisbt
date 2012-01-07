@@ -82,6 +82,11 @@ form_security_validate( 'bug_report' );
 
 access_ensure_project_level( config_get('report_bug_threshold' ) );
 
+if( isset( $_GET['posted'] ) && empty( $_FILE ) && empty( $_POST ) ) {
+	# _POST/_FILES are not populated if you exceed size limit
+	throw new MantisBT\Exception\File_Too_Big();
+}
+
 $t_bug_data = new MantisBug;
 $t_bug_data->build				= gpc_get_string( 'build', '' );
 $t_bug_data->platform				= gpc_get_string( 'platform', '' );
@@ -111,8 +116,7 @@ if ( is_blank ( $t_bug_data->due_date ) ) {
 	$t_bug_data->due_date = $t_bug_data->due_date;
 }
 
-$f_file					= gpc_get_file( 'file', null ); /** @todo (thraxisp) Note that this always returns a structure */
-														# size = 0, if no file
+$f_file					= gpc_get_file( 'file', null );
 $f_report_stay			= gpc_get_bool( 'report_stay', false );
 $t_bug_data->project_id			= gpc_get_int( 'project_id' );
 

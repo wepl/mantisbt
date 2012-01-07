@@ -208,7 +208,7 @@ print_recently_visited();
 ?>
 <br />
 <div>
-<form name="report_bug_form" method="post" <?php if ( $tpl_show_attachments ) { echo 'enctype="multipart/form-data"'; } ?> action="bug_report.php">
+<form name="report_bug_form" method="post" <?php if ( $tpl_show_attachments ) { echo 'enctype="multipart/form-data"'; } ?> action="bug_report.php?posted=1">
 <?php echo form_security_field( 'bug_report' ) ?>
 <table class="width90" cellspacing="1">
 	<tr>
