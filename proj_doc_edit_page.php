@@ -59,7 +59,7 @@ if ( OFF == config_get( 'enable_project_documentation' ) ||
 
 $f_file_id = gpc_get_int( 'file_id' );
 
-$c_file_id = db_prepare_int( $f_file_id );
+$c_file_id = (int)$f_file_id;
 $t_project_id = file_get_field( $f_file_id, 'project_id', 'project' );
 
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ), $t_project_id );

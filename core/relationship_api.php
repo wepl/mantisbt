@@ -224,15 +224,15 @@ function relationship_add( $p_src_bug_id, $p_dest_bug_id, $p_relationship_type )
 function relationship_update( $p_relationship_id, $p_src_bug_id, $p_dest_bug_id, $p_relationship_type ) {
 	global $g_relationships;
 	if( $g_relationships[$p_relationship_type]['#forward'] === FALSE ) {
-		$c_src_bug_id = db_prepare_int( $p_dest_bug_id );
-		$c_dest_bug_id = db_prepare_int( $p_src_bug_id );
-		$c_relationship_type = db_prepare_int( relationship_get_complementary_type( $p_relationship_type ) );
+		$c_src_bug_id = (int)$p_dest_bug_id;
+		$c_dest_bug_id = (int)$p_src_bug_id;
+		$c_relationship_type = (int)relationship_get_complementary_type( $p_relationship_type );
 	} else {
-		$c_src_bug_id = db_prepare_int( $p_src_bug_id );
-		$c_dest_bug_id = db_prepare_int( $p_dest_bug_id );
-		$c_relationship_type = db_prepare_int( $p_relationship_type );
+		$c_src_bug_id = (int)$p_src_bug_id;
+		$c_dest_bug_id = (int)$p_dest_bug_id;
+		$c_relationship_type = (int)$p_relationship_type;
 	}
-	$c_relationship_id = db_prepare_int( $p_relationship_id );
+	$c_relationship_id = (int)$p_relationship_id;
 
 	$query = "UPDATE {bug_relationship}
 				SET source_bug_id=%d, destination_bug_id=%d, relationship_type=%d
@@ -254,7 +254,7 @@ function relationship_update( $p_relationship_id, $p_src_bug_id, $p_dest_bug_id,
  * @param int $p_relationship_id Relationship Id to update
  */
 function relationship_delete( $p_relationship_id ) {
-	$c_relationship_id = db_prepare_int( $p_relationship_id );
+	$c_relationship_id = (int)$p_relationship_id;
 
 	$query = "DELETE FROM {bug_relationship} WHERE id=%d";
 	$result = db_query( $query, array( $c_relationship_id ) );
@@ -265,7 +265,7 @@ function relationship_delete( $p_relationship_id ) {
  * @param int $p_bug_id Bug Id
  */
 function relationship_delete_all( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	$query = "DELETE FROM {bug_relationship}
 				WHERE source_bug_id=%d OR
@@ -279,8 +279,8 @@ function relationship_delete_all( $p_bug_id ) {
  * @param int $p_new_bug_id Destination Bug Id
  */
 function relationship_copy_all( $p_bug_id, $p_new_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
-	$c_new_bug_id = db_prepare_int( $p_new_bug_id );
+	$c_bug_id = (int)$p_bug_id;
+	$c_new_bug_id = (int)$p_new_bug_id;
 
 	$t_relationship = relationship_get_all_src( $p_bug_id );
 	$t_relationship_count = count( $t_relationship );
@@ -327,7 +327,7 @@ function relationship_get( $p_relationship_id ) {
  * @return array Array of BugRelationshipData objects
  */
 function relationship_get_all_src( $p_src_bug_id ) {
-	$c_src_bug_id = db_prepare_int( $p_src_bug_id );
+	$c_src_bug_id = (int)$p_src_bug_id;
 
 	$query = "SELECT {bug_relationship}.id, {bug_relationship}.relationship_type,
 				{bug_relationship}.source_bug_id, {bug_relationship}.destination_bug_id,
@@ -370,7 +370,7 @@ function relationship_get_all_src( $p_src_bug_id ) {
  * @return array Array of BugRelationshipData objects
  */
 function relationship_get_all_dest( $p_dest_bug_id ) {
-	$c_dest_bug_id = db_prepare_int( $p_dest_bug_id );
+	$c_dest_bug_id = (int)$p_dest_bug_id;
 
 	$query = "SELECT {bug_relationship}.id, {bug_relationship}.relationship_type,
 				{bug_relationship}.source_bug_id, {bug_relationship}.destination_bug_id,
@@ -434,8 +434,8 @@ function relationship_get_all( $p_bug_id, &$p_is_different_projects ) {
  * @return int Relationship ID
  */
 function relationship_exists( $p_src_bug_id, $p_dest_bug_id ) {
-	$c_src_bug_id = db_prepare_int( $p_src_bug_id );
-	$c_dest_bug_id = db_prepare_int( $p_dest_bug_id );
+	$c_src_bug_id = (int)$p_src_bug_id;
+	$c_dest_bug_id = (int)$p_dest_bug_id;
 
 	$t_query = "SELECT * FROM {bug_relationship} WHERE
 					(source_bug_id=%d AND destination_bug_id=%d)

@@ -419,7 +419,7 @@ function category_get_filter_list( $p_project_id = null ) {
 		}
 	}
 
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	if ( $c_project_id == ALL_PROJECTS ) {
 		$t_inherit = false;

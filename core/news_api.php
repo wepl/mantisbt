@@ -128,7 +128,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 
 # Selects the news item associated with the specified id
 function news_get_row( $p_news_id ) {
-	$c_news_id = db_prepare_int( $p_news_id );
+	$c_news_id = (int)$p_news_id;
 
 	$t_query = "SELECT * FROM {news} WHERE id=%d";
 	$result = db_query( $t_query, array( $c_news_id ) );
@@ -144,7 +144,7 @@ function news_get_row( $p_news_id ) {
 
 # get news count (selected project plus sitewide posts)
 function news_get_count( $p_project_id, $p_sitewide = true ) {
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	$t_project_where = helper_project_specific_where( $p_project_id );
 
@@ -208,7 +208,7 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 		$p_project_id = helper_get_current_project();
 	}
 
-	$c_offset = db_prepare_int( $p_offset );
+	$c_offset = (int)$p_offset;
 
 	$t_projects = current_user_get_all_accessible_subprojects( $p_project_id );
 	$t_projects[] = (int)$p_project_id;

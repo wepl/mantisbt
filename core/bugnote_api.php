@@ -140,12 +140,12 @@ function bugnote_is_user_reporter( $p_bugnote_id, $p_user_id ) {
  * @access public
  */
 function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_private = false, $p_type = 0, $p_attr = '', $p_user_id = null, $p_send_email = TRUE, $p_date_submitted = 0, $p_last_modified = 0, $p_skip_bug_update = FALSE ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 	$c_time_tracking = helper_duration_to_minutes( $p_time_tracking );
 	$c_private = db_prepare_bool( $p_private );
-	$c_type = db_prepare_int( $p_type );
-	$c_date_submitted = $p_date_submitted <= 0 ? db_now() : db_prepare_int( $p_date_submitted );
-	$c_last_modified = $p_last_modified <= 0 ? db_now() : db_prepare_int( $p_last_modified );
+	$c_type = (int)$p_type;
+	$c_date_submitted = $p_date_submitted <= 0 ? db_now() : (int)$p_date_submitted;
+	$c_last_modified = $p_last_modified <= 0 ? db_now() : (int)$p_last_modified;
 
 	$t_time_tracking_enabled = config_get( 'time_tracking_enabled' );
 	$t_time_tracking_without_note = config_get( 'time_tracking_without_note' );
@@ -553,7 +553,7 @@ function bugnote_format_id( $p_bugnote_id ) {
  * @access public
  */
 function bugnote_stats_get_events_array( $p_bug_id, $p_from, $p_to ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 	$c_to = strtotime( $p_to ) + SECONDS_PER_DAY - 1;
 	$c_from = strtotime( $p_from );
 
@@ -597,7 +597,7 @@ function bugnote_stats_get_events_array( $p_bug_id, $p_from, $p_to ) {
  * @access public
  */
 function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost ) {
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	$c_to = strtotime( $p_to ) + SECONDS_PER_DAY - 1;
 	$c_from = strtotime( $p_from );

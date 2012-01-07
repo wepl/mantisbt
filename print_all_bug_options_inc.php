@@ -85,7 +85,7 @@ function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $
 		$p_user_id = auth_get_current_user_id();
 	}
 
-	$c_user_id = db_prepare_int( $p_user_id );
+	$c_user_id = (int)$p_user_id;
 
 	# protected account check
 	if ( $p_error_if_protected ) {

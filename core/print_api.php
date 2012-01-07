@@ -192,7 +192,7 @@ function print_user( $p_user_id ) {
 # --------------------
 # same as print_user() but fills in the subject with the bug summary
 function print_user_with_subject( $p_user_id, $p_bug_id ) {
-	$c_user_id = db_prepare_int( $p_user_id );
+	$c_user_id = (int)$p_user_id;
 
 	if( NO_USER == $p_user_id ) {
 		return;
@@ -661,7 +661,7 @@ function print_version_option_list( $p_version = '', $p_project_id = null, $p_re
 	if( null === $p_project_id ) {
 		$c_project_id = helper_get_current_project();
 	} else {
-		$c_project_id = db_prepare_int( $p_project_id );
+		$c_project_id = (int)$p_project_id;
 	}
 
 	if( $p_with_subs ) {
@@ -1534,7 +1534,7 @@ function print_bug_attachment_preview_text( $p_attachment ) {
 			}
 			break;
 		default:
-			$c_attachment_id = db_prepare_int( $p_attachment['id'] );
+			$c_attachment_id = (int)$p_attachment['id'];
 			$t_query = "SELECT * FROM {bug_file} WHERE id=%d";
 			$t_result = db_query( $t_query, array( $c_attachment_id ) );
 			$t_row = db_fetch_array( $t_result );

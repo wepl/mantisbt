@@ -379,8 +379,8 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 
 	$t_mantis_db = $g_db;
 
-	$t_bug_id = db_prepare_int( $p_bug_id );
-	$t_target_project_id = db_prepare_int( $p_target_project_id );
+	$t_bug_id = (int)$p_bug_id;
+	$t_target_project_id = (int)$p_target_project_id;
 
 	$t_bug_data = bug_get( $t_bug_id, true );
 
@@ -419,8 +419,8 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 		$result = db_query( $query, array( $t_bug_id ) );
 
 		while( $t_bug_custom = db_fetch_array( $result ) ) {
-			$c_field_id = db_prepare_int( $t_bug_custom['field_id'] );
-			$c_new_bug_id = db_prepare_int( $t_new_bug_id );
+			$c_field_id = (int)$t_bug_custom['field_id'];
+			$c_new_bug_id = (int)$t_new_bug_id;
 			$c_value = $t_bug_custom['value'];
 
 			$query = "INSERT INTO {custom_field_string}
@@ -711,7 +711,7 @@ function bug_format_summary( $p_bug_id, $p_context ) {
  * @uses database_api.php
  */
 function bug_get_newest_bugnote_timestamp( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	$query = "SELECT last_modified FROM {bugnote} WHERE bug_id=%d ORDER BY last_modified DESC";
 	$result = db_query( $query, array( $c_bug_id ), 1 );
@@ -735,7 +735,7 @@ function bug_get_newest_bugnote_timestamp( $p_bug_id ) {
  */
 function bug_get_bugnote_stats( $p_bug_id ) {
 	global $g_cache_bug;
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	if ( !is_null( $g_cache_bug[$c_bug_id]['_stats'] ) ) {
 		if ( $g_cache_bug[$c_bug_id]['_stats'] === false )
@@ -798,7 +798,7 @@ function bug_get_attachments( $p_bug_id ) {
  * @uses history_api.php
  */
 function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 	$c_value = null;
 
 	switch( $p_field_name ) {
@@ -1136,7 +1136,7 @@ function bug_get_monitors( $p_bug_id ) {
         return array();
     }
     
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	# get the bugnote data
 	$t_query = "SELECT user_id, enabled

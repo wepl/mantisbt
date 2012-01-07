@@ -98,7 +98,7 @@ function twitter_issue_resolved( $p_bug_id ) {
 		return true;
 	}
 
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	if( is_blank( $t_bug->fixed_in_version ) ) {
 		$t_message = sprintf( lang_get( 'twitter_resolved_no_version' ), $c_bug_id, category_full_name( $t_bug->category_id,

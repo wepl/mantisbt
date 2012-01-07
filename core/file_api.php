@@ -339,13 +339,12 @@ function file_get_visible_attachments( $p_bug_id ) {
 
 # delete all files that are associated with the given bug
 function file_delete_attachments( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	$t_method = config_get( 'file_upload_method' );
 
 	# Delete files from disk
-	$t_query = "SELECT diskfile, filename FROM {bug_file}
-				WHERE bug_id=%d";
+	$t_query = "SELECT diskfile, filename FROM {bug_file} WHERE bug_id=%d";
 	$t_result = db_query( $t_query, array( $c_bug_id ) );
 
 	$t_files = array();
@@ -491,7 +490,7 @@ function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
 function file_delete( $p_file_id, $p_table = 'bug' ) {
 	$t_upload_method = config_get( 'file_upload_method' );
 
-	$c_file_id = db_prepare_int( $p_file_id );
+	$c_file_id = (int)$p_file_id;
 	$t_filename = file_get_field( $p_file_id, 'filename', $p_table );
 	$t_diskfile = file_get_field( $p_file_id, 'diskfile', $p_table );
 
@@ -626,7 +625,7 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	file_ensure_uploaded( $p_file );
 	$t_file_name = $p_file['name'];
 	$t_tmp_file = $p_file['tmp_name'];
-	$c_date_added = $p_date_added <= 0 ? db_now() : db_prepare_int( $p_date_added );
+	$c_date_added = $p_date_added <= 0 ? db_now() : (int)$p_date_added;
 
 	if( !file_type_check( $t_file_name ) ) {
 		throw new MantisBT\Exception\File_Not_Allowed();
@@ -651,8 +650,8 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	}
 
 	# prepare variables for insertion
-	$c_bug_id = db_prepare_int( $p_bug_id );
-	$c_project_id = db_prepare_int( $t_project_id );
+	$c_bug_id = (int)$p_bug_id;
+	$c_project_id = (int)$t_project_id;
 	$c_file_type = $p_file['type'];
 	$c_title = $p_title;
 	$c_desc = $p_desc;
@@ -681,7 +680,7 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	if( $t_file_size > $t_max_file_size ) {
 		throw new MantisBT\Exception\File_Too_Big();
 	}
-	$c_file_size = db_prepare_int( $t_file_size );
+	$c_file_size = (int)$t_file_size;
 
 	$t_method = config_get( 'file_upload_method' );
 
@@ -973,7 +972,7 @@ function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 	}
 
 	# Initialize the update query to update a single row
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 	$query_disk_attachment_update = "UPDATE {bug_file} SET folder=%s WHERE bug_id=%d AND id =%d";
 
 	$t_attachment_rows = bug_get_attachments( $p_bug_id );

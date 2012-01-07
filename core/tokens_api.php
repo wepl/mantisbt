@@ -44,7 +44,7 @@ $g_tokens_purged = false;
  * @return boolean True if token exists
  */
 function token_exists( $p_token_id ) {
-	$c_token_id = db_prepare_int( $p_token_id );
+	$c_token_id = (int)$p_token_id;
 
 	$t_query = 'SELECT id FROM {tokens} WHERE id=%d';
 	$t_result = db_query( $t_query, array( $c_token_id ), 1 );
@@ -79,8 +79,8 @@ function token_ensure_exists( $p_token_id ) {
 function token_get( $p_type, $p_user_id = null ) {
 	token_purge_expired_once();
 
-	$c_type = db_prepare_int( $p_type );
-	$c_user_id = db_prepare_int( $p_user_id == null ? auth_get_current_user_id() : $p_user_id );
+	$c_type = (int)$p_type;
+	$c_user_id = (int)( $p_user_id == null ? auth_get_current_user_id() : $p_user_id );
 
 	$t_query = 'SELECT * FROM {tokens} WHERE type=%d AND owner=%d';
 	$t_result = db_query( $t_query, array( $c_type, $c_user_id ) );
@@ -135,7 +135,7 @@ function token_set( $p_type, $p_value, $p_expiry = TOKEN_EXPIRY, $p_user_id = nu
 function token_touch( $p_token_id, $p_expiry = TOKEN_EXPIRY ) {
 	token_ensure_exists( $p_token_id );
 
-	$c_token_id = db_prepare_int( $p_token_id );
+	$c_token_id = (int)$p_token_id;
 	$c_token_expiry = time() + $p_expiry;
 
 	$t_query = 'UPDATE {tokens} SET expiry=%d WHERE id=%d';
@@ -151,8 +151,8 @@ function token_touch( $p_token_id, $p_expiry = TOKEN_EXPIRY ) {
  * @return always true
  */
 function token_delete( $p_type, $p_user_id = null ) {
-	$c_type = db_prepare_int( $p_type );
-	$c_user_id = db_prepare_int( $p_user_id == null ? auth_get_current_user_id() : $p_user_id );
+	$c_type = (int)$p_type;
+	$c_user_id = (int)( $p_user_id == null ? auth_get_current_user_id() : $p_user_id );
 
 	$t_query = 'DELETE FROM {tokens} WHERE type=%d AND owner=%d';
 	db_query( $t_query, array( $c_type, $c_user_id ) );
@@ -169,7 +169,7 @@ function token_delete_by_owner( $p_user_id = null ) {
 	if( $p_user_id == null ) {
 		$c_user_id = auth_get_current_user_id();
 	} else {
-		$c_user_id = db_prepare_int( $p_user_id );
+		$c_user_id = (int)$p_user_id;
 	}
 
 
@@ -190,10 +190,10 @@ function token_delete_by_owner( $p_user_id = null ) {
  * @return integer Token ID
  */
 function token_create( $p_type, $p_value, $p_expiry = TOKEN_EXPIRY, $p_user_id = null ) {
-	$c_type = db_prepare_int( $p_type );
+	$c_type = (int)$p_type;
 	$c_timestamp = db_now();
 	$c_expiry = time() + $p_expiry;
-	$c_user_id = db_prepare_int( $p_user_id == null ? auth_get_current_user_id() : $p_user_id );
+	$c_user_id = (int)( $p_user_id == null ? auth_get_current_user_id() : $p_user_id );
 
 	$t_query = "INSERT INTO {tokens} ( type, value, timestamp, expiry, owner ) 
 				VALUES ( %d, %s, %d, %d, %d )";
@@ -210,7 +210,7 @@ function token_create( $p_type, $p_value, $p_expiry = TOKEN_EXPIRY, $p_user_id =
  */
 function token_update( $p_token_id, $p_value, $p_expiry = TOKEN_EXPIRY ) {
 	token_ensure_exists( $p_token_id );
-	$c_token_id = db_prepare_int( $p_token_id );
+	$c_token_id = (int)$p_token_id;
 	$c_expiry = time() + $p_expiry;
 
 	$t_query = 'UPDATE {tokens} SET value=%s, expiry=%d WHERE id=%d';
@@ -225,7 +225,7 @@ function token_update( $p_token_id, $p_value, $p_expiry = TOKEN_EXPIRY ) {
  * @return always true.
  */
 function token_delete_by_type( $p_token_type ) {
-	$c_token_type = db_prepare_int( $p_token_type );
+	$c_token_type = (int)$p_token_type;
 
 	# Remove
 	$t_query = 'DELETE FROM {tokens} WHERE type=%d';
@@ -244,7 +244,7 @@ function token_purge_expired( $p_token_type = null ) {
 
 	$t_query = "DELETE FROM {tokens} WHERE %d > expiry";
 	if( !is_null( $p_token_type ) ) {
-		$c_token_type = db_prepare_int( $p_token_type );
+		$c_token_type = (int)$p_token_type;
 		$t_query .= " AND type=%d";
 		db_query( $t_query, array( db_now(), $c_token_type ) );
 	} else {

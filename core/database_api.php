@@ -349,17 +349,6 @@ function db_prepare_binary_string( $p_string ) {
 }
 
 /**
- * prepare a int for database insertion.
- * @param int $p_int integer
- * @return int integer
- * @deprecated db_query_bound should be used in preference to this function. This function may be removed in 1.2.0 final
- * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final
- */
-function db_prepare_int( $p_int ) {
-	return (int) $p_int;
-}
-
-/**
  * prepare a boolean for database insertion.
  * @param boolean $p_boolean boolean
  * @return int integer representing boolean

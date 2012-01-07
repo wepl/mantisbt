@@ -61,7 +61,7 @@ class EmailData {
  * @return EmailData
  */
 function email_queue_prepare_db( $p_email_data ) {
-	$p_email_data->email_id = db_prepare_int( $p_email_data->email_id );
+	$p_email_data->email_id = (int)$p_email_data->email_id;
 
 	return $p_email_data;
 }

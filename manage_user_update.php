@@ -128,8 +128,8 @@ $c_username = $f_username;
 $c_realname = $t_realname;
 $c_protected = db_prepare_bool( $f_protected );
 $c_enabled = db_prepare_bool( $f_enabled );
-$c_user_id = db_prepare_int( $f_user_id );
-$c_access_level = db_prepare_int( $f_access_level );
+$c_user_id = (int)$f_user_id;
+$c_access_level = (int)$f_access_level;
 
 $t_old_protected = $t_user['protected'];
 

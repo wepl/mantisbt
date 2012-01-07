@@ -1051,7 +1051,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		$t_user_id = $p_user_id;
 	}
 
-	$c_user_id = db_prepare_int( $t_user_id );
+	$c_user_id = (int)$t_user_id;
 
 	if( null === $p_project_id ) {
 
@@ -1111,10 +1111,10 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		log_event( LOG_FILTERING, 'Advanced Filter' );
 		if( !is_array( $t_filter[FILTER_PROPERTY_PROJECT_ID] ) ) {
 			$t_project_ids = array(
-				db_prepare_int( $t_filter[FILTER_PROPERTY_PROJECT_ID] ),
+				(int)$t_filter[FILTER_PROPERTY_PROJECT_ID],
 			);
 		} else {
-			$t_project_ids = array_map( 'db_prepare_int', $t_filter[FILTER_PROPERTY_PROJECT_ID] );
+			$t_project_ids = array_map( 'intval', $t_filter[FILTER_PROPERTY_PROJECT_ID] );
 		}
 
 		$t_include_sub_projects = (( count( $t_project_ids ) == 1 ) && ( ( $t_project_ids[0] == META_FILTER_CURRENT ) || ( $t_project_ids[0] == ALL_PROJECTS ) ) );
@@ -1235,7 +1235,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 	}
 
 	# view state
-	$t_view_state = db_prepare_int( $t_filter[FILTER_PROPERTY_VIEW_STATE] );
+	$t_view_state = (int)$t_filter[FILTER_PROPERTY_VIEW_STATE];
 	if( !filter_field_is_any( $t_filter[FILTER_PROPERTY_VIEW_STATE] ) ) {
 		$t_view_state_query = '({bug}.view_state=%d)';
 		log_event( LOG_FILTERING, 'view_state query = ' . $t_view_state_query );
@@ -1253,7 +1253,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, "0" );
 			} else {
-				$c_reporter_id = db_prepare_int( $t_filter_member );
+				$c_reporter_id = (int)$t_filter_member;
 				if( filter_field_is_myself( $c_reporter_id ) ) {
 					array_push( $t_clauses, $c_user_id );
 				} else {
@@ -1292,7 +1292,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, 0 );
 			} else {
-				$c_handler_id = db_prepare_int( $t_filter_member );
+				$c_handler_id = (int)$t_filter_member;
 				if( filter_field_is_myself( $c_handler_id ) ) {
 					array_push( $t_clauses, $c_user_id );
 				} else {
@@ -1341,7 +1341,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		$t_clauses = array();
 
 		foreach( $t_filter[FILTER_PROPERTY_SEVERITY] as $t_filter_member ) {
-			$c_show_severity = db_prepare_int( $t_filter_member );
+			$c_show_severity = (int)$t_filter_member;
 			array_push( $t_clauses, $c_show_severity );
 		}
 		if( 1 < count( $t_clauses ) ) {
@@ -1394,7 +1394,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		$t_clauses = array();
 
 		foreach( $t_desired_statuses as $t_filter_member ) {
-			$c_show_status = db_prepare_int( $t_filter_member );
+			$c_show_status = (int)$t_filter_member;
 			array_push( $t_clauses, $c_show_status );
 		}
 		if( 1 < count( $t_clauses ) ) {
@@ -1415,7 +1415,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		$t_clauses = array();
 
 		foreach( $t_filter[FILTER_PROPERTY_RESOLUTION] as $t_filter_member ) {
-			$c_show_resolution = db_prepare_int( $t_filter_member );
+			$c_show_resolution = (int)$t_filter_member;
 			array_push( $t_clauses, $c_show_resolution );
 		}
 		if( 1 < count( $t_clauses ) ) {
@@ -1436,7 +1436,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		$t_clauses = array();
 
 		foreach( $t_filter[FILTER_PROPERTY_PRIORITY] as $t_filter_member ) {
-			$c_show_priority = db_prepare_int( $t_filter_member );
+			$c_show_priority = (int)$t_filter_member;
 			array_push( $t_clauses, $c_show_priority );
 		}
 		if( 1 < count( $t_clauses ) ) {
@@ -1514,7 +1514,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 			if( filter_field_is_none( $t_filter_member ) ) {
 				array_push( $t_clauses, "0" );
 			} else {
-				$c_show_profile = db_prepare_int( $t_filter_member );
+				$c_show_profile = (int)$t_filter_member;
 				array_push( $t_clauses, "$c_show_profile" );
 			}
 		}
@@ -1684,7 +1684,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		array_push( $t_join_clauses, "LEFT JOIN {bug_monitor} $t_table_name ON $t_table_name.bug_id = {bug}.id" );
 
 		foreach( $t_filter[FILTER_PROPERTY_MONITOR_USER_ID] as $t_filter_member ) {
-			$c_user_monitor = db_prepare_int( $t_filter_member );
+			$c_user_monitor = (int)$t_filter_member;
 			if( filter_field_is_myself( $c_user_monitor ) ) {
 				array_push( $t_clauses, $c_user_id );
 			} else {
@@ -1798,7 +1798,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		array_push( $t_where_clauses, "( {bug}.id = $t_bugnote_table_alias.bug_id )" );
 
 		foreach( $t_filter[FILTER_PROPERTY_NOTE_USER_ID] as $t_filter_member ) {
-			$c_note_user_id = db_prepare_int( $t_filter_member );
+			$c_note_user_id = (int)$t_filter_member;
 			if( filter_field_is_myself( $c_note_user_id ) ) {
 				array_push( $t_clauses, $c_user_id );
 			} else {
@@ -4333,7 +4333,7 @@ function filter_clear_cache( $p_filter_id = null ) {
  */
 function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $p_filter_string ) {
 	$t_user_id = auth_get_current_user_id();
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 	$c_is_public = db_prepare_bool( $p_is_public, false );
 
 	# check that the user can save non current filters (if required)
@@ -4389,7 +4389,7 @@ function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $
  */
 function filter_db_get_filter( $p_filter_id, $p_user_id = null ) {
 	global $g_cache_filter_db_filters;
-	$c_filter_id = db_prepare_int( $p_filter_id );
+	$c_filter_id = (int)$p_filter_id;
 
 	if( isset( $g_cache_filter_db_filters[$p_filter_id] ) ) {
 		if( $g_cache_filter_db_filters[$p_filter_id] === false ) {
@@ -4433,13 +4433,13 @@ function filter_db_get_filter( $p_filter_id, $p_user_id = null ) {
  * @return int
  */
 function filter_db_get_project_current( $p_project_id, $p_user_id = null ) {
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 	$c_project_id = $c_project_id * -1;
 
 	if( null === $p_user_id ) {
 		$c_user_id = auth_get_current_user_id();
 	} else {
-		$c_user_id = db_prepare_int( $p_user_id );
+		$c_user_id = (int)$p_user_id;
 	}
 
 	# we store current filters for each project with a special project index
@@ -4459,7 +4459,7 @@ function filter_db_get_project_current( $p_project_id, $p_user_id = null ) {
  * @return string
  */
 function filter_db_get_name( $p_filter_id ) {
-	$c_filter_id = db_prepare_int( $p_filter_id );
+	$c_filter_id = (int)$p_filter_id;
 
 	$query = 'SELECT * FROM {filters} WHERE id=%d';
 	$result = db_query( $query, array( $c_filter_id ) );
@@ -4483,7 +4483,7 @@ function filter_db_get_name( $p_filter_id ) {
  * @return bool
  */
 function filter_db_can_delete_filter( $p_filter_id ) {
-	$c_filter_id = db_prepare_int( $p_filter_id );
+	$c_filter_id = (int)$p_filter_id;
 	$t_user_id = auth_get_current_user_id();
 
 	# Administrators can delete any filter
@@ -4508,7 +4508,7 @@ function filter_db_can_delete_filter( $p_filter_id ) {
  * @return bool
  */
 function filter_db_delete_filter( $p_filter_id ) {
-	$c_filter_id = db_prepare_int( $p_filter_id );
+	$c_filter_id = (int)$p_filter_id;
 	$t_user_id = auth_get_current_user_id();
 
 	if( !filter_db_can_delete_filter( $c_filter_id ) ) {
@@ -4543,13 +4543,13 @@ function filter_db_get_available_queries( $p_project_id = null, $p_user_id = nul
 	if( null === $p_project_id ) {
 		$t_project_id = helper_get_current_project();
 	} else {
-		$t_project_id = db_prepare_int( $p_project_id );
+		$t_project_id = (int)$p_project_id;
 	}
 
 	if( null === $p_user_id ) {
 		$t_user_id = auth_get_current_user_id();
 	} else {
-		$t_user_id = db_prepare_int( $p_user_id );
+		$t_user_id = (int)$p_user_id;
 	}
 
 	# If the user doesn't have access rights to stored queries, just return

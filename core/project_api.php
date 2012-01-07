@@ -479,7 +479,7 @@ function project_get_local_user_rows( $p_project_id ) {
  * any reference to the specific project
  */
 function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_level = ANYBODY, $p_include_global_users = true ) {
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	# Optimization when access_level is NOBODY
 	if( NOBODY == $p_access_level ) {
@@ -590,7 +590,7 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 	if( DEFAULT_ACCESS_LEVEL == $p_access_level ) {
 		# Default access level for this user
-		$c_access_level = db_prepare_int( user_get_access_level( $p_user_id ) );
+		$c_access_level = (int)( user_get_access_level( $p_user_id ) );
 	}
 
 	$t_query = "INSERT INTO {project_user_list}

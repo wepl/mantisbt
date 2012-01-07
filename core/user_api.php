@@ -280,7 +280,7 @@ function user_delete_project_specific_access_levels( $p_user_id ) {
  * returns true when the account was successfully deleted
  */
 function user_delete( $p_user_id ) {
-	$c_user_id = db_prepare_int( $p_user_id );
+	$c_user_id = (int)$p_user_id;
 
 	user_ensure_unprotected( $p_user_id );
 
@@ -842,7 +842,7 @@ function user_get_bug_filter( $p_user_id, $p_project_id = null ) {
  * Update the last_visited field to be now
  */
 function user_update_last_visit( $p_user_id ) {
-	$c_user_id = db_prepare_int( $p_user_id );
+	$c_user_id = (int)$p_user_id;
 	$c_value = db_now();
 
 	$query = "UPDATE {user} SET last_visit=%d WHERE id=%d";
@@ -949,7 +949,7 @@ function user_set_password( $p_user_id, $p_password, $p_allow_protected = false 
 	$t_seed = $t_email . $t_username;
 	$c_cookie_string = auth_generate_unique_cookie_string( $t_seed );
 
-	$c_user_id = db_prepare_int( $p_user_id );
+	$c_user_id = (int)$p_user_id;
 	$c_password = auth_process_plain_password( $p_password );
 
 	$query = 'UPDATE {user} SET password=%s, cookie_string=%s WHERE id=%d';

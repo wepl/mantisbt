@@ -78,7 +78,7 @@ $g_cache_sponsorships = array();
 function sponsorship_cache_row( $p_sponsorship_id, $p_trigger_errors = true ) {
 	global $g_cache_sponsorships;
 
-	$c_sponsorship_id = db_prepare_int( $p_sponsorship_id );
+	$c_sponsorship_id = (int)$p_sponsorship_id;
 
 	if( isset( $g_cache_sponsorships[$c_sponsorship_id] ) ) {
 		return $g_cache_sponsorships[$c_sponsorship_id];
@@ -115,7 +115,7 @@ function sponsorship_clear_cache( $p_sponsorship_id = null ) {
 	if( $p_sponsorship_id === null ) {
 		$g_cache_sponsorships = array();
 	} else {
-		$c_sponsorship_id = db_prepare_int( $p_sponsorship_id );
+		$c_sponsorship_id = (int)$p_sponsorship_id;
 		unset( $g_cache_sponsorships[$c_sponsorship_id] );
 	}
 }
@@ -138,12 +138,12 @@ function sponsorship_exists( $p_sponsorship_id ) {
  * @return int|false
  */
 function sponsorship_get_id( $p_bug_id, $p_user_id = null ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	if( $p_user_id === null ) {
 		$c_user_id = auth_get_current_user_id();
 	} else {
-		$c_user_id = db_prepare_int( $p_user_id );
+		$c_user_id = (int)$p_user_id;
 	}
 
 	$query = 'SELECT id FROM {sponsorship} WHERE bug_id = %d AND user_id = %d';
@@ -191,7 +191,7 @@ function sponsorship_get_all_ids( $p_bug_id ) {
 	global $g_cache_sponsorships;
 	static $s_cache_sponsorship_bug_ids = array();
 
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	if( isset( $s_cache_sponsorship_bug_ids[$c_bug_id] ) ) {
 		return $s_cache_sponsorship_bug_ids[$c_bug_id];
@@ -284,10 +284,10 @@ function sponsorship_set( $p_sponsorship ) {
 		}
 	}
 
-	$c_id = db_prepare_int( $p_sponsorship->id );
-	$c_bug_id = db_prepare_int( $p_sponsorship->bug_id );
-	$c_user_id = db_prepare_int( $p_sponsorship->user_id );
-	$c_amount = db_prepare_int( $p_sponsorship->amount );
+	$c_id = (int)$p_sponsorship->id;
+	$c_bug_id = (int)$p_sponsorship->bug_id;
+	$c_user_id = (int)$p_sponsorship->user_id;
+	$c_amount = (int)$p_sponsorship->amount;
 	$c_logo = $p_sponsorship->logo;
 	$c_url = $p_sponsorship->url;
 	$c_now = db_now();
@@ -356,7 +356,7 @@ function sponsorship_delete( $p_sponsorship_id ) {
 		return;
 	}
 
-	$c_sponsorship_id = db_prepare_int( $p_sponsorship_id );
+	$c_sponsorship_id = (int)$p_sponsorship_id;
 
 	$t_sponsorship = sponsorship_get( $c_sponsorship_id );
 
@@ -379,10 +379,10 @@ function sponsorship_delete( $p_sponsorship_id ) {
  * @return true
  */
 function sponsorship_update_paid( $p_sponsorship_id, $p_paid ) {
-	$c_sponsorship_id = db_prepare_int( $p_sponsorship_id );
+	$c_sponsorship_id = (int)$p_sponsorship_id;
 	$t_sponsorship = sponsorship_get( $c_sponsorship_id );
 
-	$c_paid = db_prepare_int( $p_paid );
+	$c_paid = (int)$p_paid;
 
 	$query = "UPDATE {sponsorship} SET last_updated=%d, paid=%d WHERE id=%d";
 	db_query( $query, array( db_now(), $c_paid, $c_sponsorship_id ) );
@@ -399,7 +399,7 @@ function sponsorship_update_paid( $p_sponsorship_id, $p_paid ) {
  * @return true
  */
 function sponsorship_update_date( $p_sponsorship_id ) {
-	$c_sponsorship_id = db_prepare_int( $p_sponsorship_id );
+	$c_sponsorship_id = (int)$p_sponsorship_id;
 
 	$query = 'UPDATE {sponsorship} SET last_updated=%d WHERE id=%d';
 	db_query( $query, array( db_now(), $c_sponsorship_id ) );

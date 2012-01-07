@@ -74,7 +74,7 @@ if ( is_blank( $f_title ) ) {
 	throw new MantisBT\Exception\Empty_Field();
 }
 
-$c_file_id = db_prepare_int( $f_file_id );
+$c_file_id = (int)$f_file_id;
 $c_title = $f_title;
 $c_description = $f_description;
 
@@ -100,7 +100,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 	if ( $t_file_size > $t_max_file_size ) {
 		throw new MantisBT\Exception\File_Too_Big();
 	}
-	$c_file_size = db_prepare_int( $t_file_size );
+	$c_file_size = (int)$t_file_size;
 
 	$t_method = config_get( 'file_upload_method' );
 	switch ( $t_method ) {

@@ -408,16 +408,16 @@ function custom_field_create( $p_name ) {
  * @access public
  */
 function custom_field_update( $p_field_id, $p_def_array ) {
-	$c_field_id = db_prepare_int( $p_field_id );
+	$c_field_id = (int)$p_field_id;
 	$c_name = trim( $p_def_array['name'] );
-	$c_type = db_prepare_int( $p_def_array['type'] );
+	$c_type = (int)$p_def_array['type'];
 	$c_possible_values = $p_def_array['possible_values'];
 	$c_default_value = $p_def_array['default_value'];
 	$c_valid_regexp = $p_def_array['valid_regexp'];
-	$c_access_level_r = db_prepare_int( $p_def_array['access_level_r'] );
-	$c_access_level_rw = db_prepare_int( $p_def_array['access_level_rw'] );
-	$c_length_min = db_prepare_int( $p_def_array['length_min'] );
-	$c_length_max = db_prepare_int( $p_def_array['length_max'] );
+	$c_access_level_r = (int)$p_def_array['access_level_r'];
+	$c_access_level_rw = (int)$p_def_array['access_level_rw'];
+	$c_length_min = (int)$p_def_array['length_min'];
+	$c_length_max = (int)$p_def_array['length_max'];
 	$c_filter_by = db_prepare_bool( $p_def_array['filter_by'] );
 	$c_display_report = db_prepare_bool( $p_def_array['display_report'] );
 	$c_display_update = db_prepare_bool( $p_def_array['display_update'] );
@@ -927,8 +927,8 @@ function custom_field_get_field( $p_field_id, $p_field_name ) {
  * @access public
  */
 function custom_field_get_value( $p_field_id, $p_bug_id ) {
-	$c_field_id = db_prepare_int( $p_field_id );
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_field_id = (int)$p_field_id;
+	$c_bug_id = (int)$p_bug_id;
 
 	$row = custom_field_cache_row( $p_field_id );
 
@@ -990,8 +990,8 @@ function custom_field_get_all_linked_fields( $p_bug_id ) {
 
 	# is the list in cache ?
 	if( !array_key_exists( $p_bug_id, $g_cached_custom_field_lists ) ) {
-		$c_bug_id = db_prepare_int( $p_bug_id );
-		$c_project_id = db_prepare_int( bug_get_field( $p_bug_id, 'project_id' ) );
+		$c_bug_id = (int)$p_bug_id;
+		$c_project_id = (int)( bug_get_field( $p_bug_id, 'project_id' ) );
 
 		$t_query = "SELECT f.name, f.type, f.access_level_r, f.default_value, f.type, s.value
 					FROM {custom_field_project} p INNER JOIN {custom_field} f
@@ -1035,8 +1035,8 @@ function custom_field_get_all_linked_fields( $p_bug_id ) {
  * @access public
  */
 function custom_field_get_sequence( $p_field_id, $p_project_id ) {
-	$c_field_id = db_prepare_int( $p_field_id );
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_field_id = (int)$p_field_id;
+	$c_project_id = (int)$p_project_id;
 
 	$query = 'SELECT sequence FROM {custom_field_project} WHERE field_id=%d AND project_id=%d';
 	$result = db_query( $query, array( $c_field_id, $c_project_id ), 1 );

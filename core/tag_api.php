@@ -441,8 +441,8 @@ function tag_get_candidates_for_bug( $p_bug_id ) {
  * @return boolean True if the tag is attached
  */
 function tag_bug_is_attached( $p_tag_id, $p_bug_id ) {
-	$c_tag_id = db_prepare_int( $p_tag_id );
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_tag_id = (int)$p_tag_id;
+	$c_bug_id = (int)$p_bug_id;
 
 	$query = 'SELECT id FROM {bug_tag} WHERE tag_id=%d AND bug_id=%d';
 	$result = db_query( $query, array( $c_tag_id, $c_bug_id ) );
@@ -456,8 +456,8 @@ function tag_bug_is_attached( $p_tag_id, $p_bug_id ) {
  * @return array Tag attachment row
  */
 function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
-	$c_tag_id = db_prepare_int( $p_tag_id );
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_tag_id = (int)$p_tag_id;
+	$c_bug_id = (int)$p_bug_id;
 
 	$query = 'SELECT * FROM {bug_tag} WHERE tag_id=%d AND bug_id=%d';
 	$result = db_query( $query, array( $c_tag_id, $c_bug_id ) );
@@ -475,7 +475,7 @@ function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
  * @return array Array of tag rows with attachement information
  */
 function tag_bug_get_attached( $p_bug_id ) {
-	$c_bug_id = db_prepare_int( $p_bug_id );
+	$c_bug_id = (int)$p_bug_id;
 
 	$query = "SELECT t.*, b.user_id as user_attached, b.date_attached
 					FROM {tag} as t
@@ -499,7 +499,7 @@ function tag_bug_get_attached( $p_bug_id ) {
  * @return array Array of bug ID's.
  */
 function tag_get_bugs_attached( $p_tag_id ) {
-	$c_tag_id = db_prepare_int( $p_tag_id );
+	$c_tag_id = (int)$p_tag_id;
 
 	$query = 'SELECT bug_id FROM {bug_tag} WHERE tag_id=%d';
 	$result = db_query( $query, array( $c_tag_id ) );
@@ -533,9 +533,9 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 		user_ensure_exists( $p_user_id );
 	}
 
-	$c_tag_id = db_prepare_int( $p_tag_id );
-	$c_bug_id = db_prepare_int( $p_bug_id );
-	$c_user_id = db_prepare_int( $p_user_id );
+	$c_tag_id = (int)$p_tag_id;
+	$c_bug_id = (int)$p_bug_id;
+	$c_user_id = (int)$p_user_id;
 
 	$t_query = "INSERT INTO {bug_tag}
 					( tag_id,
@@ -671,7 +671,7 @@ function tag_display_attached( $p_bug_id ) {
  * @return integer Number of attached bugs
  */
 function tag_stats_attached( $p_tag_id ) {
-	$c_tag_id = db_prepare_int( $p_tag_id );
+	$c_tag_id = (int)$p_tag_id;
 
 	$query = 'SELECT COUNT(*) FROM {bug_tag} WHERE tag_id=%d';
 	$result = db_query( $query, array( $c_tag_id ) );
@@ -689,7 +689,7 @@ function tag_stats_attached( $p_tag_id ) {
  * @return array Array of tag rows, with share count added
  */
 function tag_stats_related( $p_tag_id, $p_limit = 5 ) {
-	$c_tag_id = db_prepare_int( $p_tag_id );
+	$c_tag_id = (int)$p_tag_id;
 	$c_user_id = auth_get_current_user_id();
 
 	$subquery = "SELECT b.id FROM {bug} AS b

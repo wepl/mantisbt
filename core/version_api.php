@@ -102,7 +102,7 @@ $g_cache_versions = array();
 function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 	global $g_cache_versions;
 
-	$c_version_id = db_prepare_int( $p_version_id );
+	$c_version_id = (int)$p_version_id;
 
 	if( isset( $g_cache_versions[$c_version_id] ) ) {
 		return $g_cache_versions[$c_version_id];
@@ -184,8 +184,8 @@ function version_ensure_unique( $p_version, $p_project_id = null ) {
  * @return int
  */
 function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $p_description = '', $p_date_order = null, $p_obsolete = false ) {
-	$c_project_id = db_prepare_int( $p_project_id );
-	$c_released = db_prepare_int( $p_released );
+	$c_project_id = (int)$p_project_id;
+	$c_released = (int)$p_released;
 	$c_obsolete = db_prepare_bool( $p_obsolete );
 
 	if( null === $p_date_order ) {
@@ -291,13 +291,13 @@ function version_update( $p_version_info ) {
  * @return true
  */
 function version_remove( $p_version_id, $p_new_version = '' ) {
-	$c_version_id = db_prepare_int( $p_version_id );
+	$c_version_id = (int)$p_version_id;
 
 	version_ensure_exists( $p_version_id );
 
 	$t_old_version = version_get_field( $p_version_id, 'version' );
 	$t_project_id = version_get_field( $p_version_id, 'project_id' );
-	$c_project_id = db_prepare_int( $t_project_id );
+	$c_project_id = (int)$t_project_id;
 
 	$query = 'DELETE FROM {project_version} WHERE id=%d';
 	db_query( $query, array( $c_version_id ) );
@@ -330,7 +330,7 @@ function version_remove( $p_version_id, $p_new_version = '' ) {
  * @return true
  */
 function version_remove_all( $p_project_id ) {
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	# remove all references to versions from verison, fixed in version and target version.
 	$query = "UPDATE {bug} SET version='', fixed_in_version='', target_version=''
@@ -407,7 +407,7 @@ function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = 
 		}
 	}
 
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	$t_project_where = version_get_project_where_clause( $p_project_id, $p_inherit );
 
@@ -416,7 +416,7 @@ function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = 
 	$query_params = array();
 
 	if( $p_released !== null ) {
-		$c_released = db_prepare_int( $p_released );
+		$c_released = (int)$p_released;
 		$query .= ' AND released = %d';
 		$query_params[] = $c_released;
 	}
@@ -454,7 +454,7 @@ function version_get_all_rows_with_subs( $p_project_id, $p_released = null, $p_o
 	if( $p_released === null ) {
 		$t_released_where = '';
 	} else {
-		$c_released = db_prepare_int( $p_released );
+		$c_released = (int)$p_released;
 		$t_released_where = "AND ( released = %d )";
 		$t_query_params[] = $c_released;
 	}
@@ -492,7 +492,7 @@ function version_get_id( $p_version, $p_project_id = null, $p_inherit = null ) {
 	if( $p_project_id === null ) {
 		$c_project_id = helper_get_current_project();
 	} else {
-		$c_project_id = db_prepare_int( $p_project_id );
+		$c_project_id = (int)$p_project_id;
 	}
 
 	foreach( $g_cache_versions as $t_version ) {
@@ -601,9 +601,9 @@ function version_get( $p_version_id ) {
  * @return VersionData
  */
 function version_prepare_db( $p_version_info ) {
-	$p_version_info->id = db_prepare_int( $p_version_info->id );
-	$p_version_info->project_id = db_prepare_int( $p_version_info->project_id );
-	$p_version_info->released = db_prepare_int( $p_version_info->released );
+	$p_version_info->id = (int)($p_version_info->id);
+	$p_version_info->project_id = (int)($p_version_info->project_id);
+	$p_version_info->released = (int)($p_version_info->released);
 
 	return $p_version_info;
 }
@@ -638,7 +638,7 @@ function version_get_project_where_clause( $p_project_id, $p_inherit ) {
 		}
 	}
 
-	$c_project_id = db_prepare_int( $p_project_id );
+	$c_project_id = (int)$p_project_id;
 
 	if ( $t_inherit ) {
 		$t_project_ids = project_hierarchy_inheritance( $p_project_id );
