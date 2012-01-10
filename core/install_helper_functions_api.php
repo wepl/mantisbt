@@ -53,12 +53,15 @@ function check_get_database_extensions( $p_list = false ) {
 	$t_ext_array = get_loaded_extensions();
 	$t_db = '';
 	foreach( $t_ext_array as $t_ext) {
+		$t_extl = strtolower( $t_ext );
+		if( $t_extl == 'pdo' )
+			continue;
 		// pdo drivers
-		if( substr( $t_ext, 0, 3 ) == 'pdo' ) {
-			$t_db .= $t_ext . ',';
+		if( substr( $t_extl, 0, 3 ) == 'pdo' ) {
+			$t_db .= $t_extl . ',';
 		}
 		// non-pdo drivers
-		switch ($t_ext) {
+		switch ($t_extl) {
 			default:
 				continue;
 		}
