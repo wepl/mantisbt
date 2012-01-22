@@ -589,35 +589,46 @@ function bugnote_stats_get_events_array( $p_bug_id, $p_from, $p_to ) {
  * @param string $p_from Starting date (yyyy-mm-dd) inclusive, if blank, then ignored.
  * @param string $p_to Ending date (yyyy-mm-dd) inclusive, if blank, then ignored.
  * @param int $p_cost cost
+ * @param int $p_user_id Optional user id of user who added the bugnote
  * @return array array of bugnote stats
  * @access public
  */
-function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost ) {
-	$c_project_id = (int)$p_project_id;
+function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost, $p_user_id = ALL_USERS ) {
+	$t_params = array();
 
 	$c_to = strtotime( $p_to ) + SECONDS_PER_DAY - 1;
 	$c_from = strtotime( $p_from );
 
 	if ( $c_to === false || $c_from === false ) {
-		throw new MantisBT\Exception\Generic( array( $p_form, $p_to ) );
+		throw new MantisBT\Exception\Generic( array( $p_from, $p_to ) );
+	}
+
+	if( ALL_PROJECTS != $p_project_id ) {
+		$t_project_where = " AND b.project_id=%d AND bn.bug_id = b.id";
+		$t_params[] = $p_project_id;
+	} else {
+		$t_project_where = '';
 	}
 
 	if( !is_blank( $c_from ) ) {
-		$t_from_where = " AND bn.date_submitted >= $c_from";
+		$t_from_where = " AND bn.date_submitted>=%d";
+		$t_params[] = $c_from;
 	} else {
 		$t_from_where = '';
 	}
 
 	if( !is_blank( $c_to ) ) {
-		$t_to_where = " AND bn.date_submitted <= $c_to";
+		$t_to_where = " AND bn.date_submitted<=%d";
+		$t_params[] = $c_to;
 	} else {
 		$t_to_where = '';
 	}
 
-	if( ALL_PROJECTS != $c_project_id ) {
-		$t_project_where = " AND b.project_id = '$c_project_id' AND bn.bug_id = b.id ";
+	if( ALL_USERS != $p_user_id ) {
+		$t_reporter_where = " AND bn.reporter_id=%d";
+		$t_params[] = $p_user_id;
 	} else {
-		$t_project_where = '';
+		$t_reporter_where = '';
 	}
 
 	$t_results = array();
@@ -625,11 +636,11 @@ function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost
 	$t_query = "SELECT username, summary, bn.bug_id, SUM(time_tracking) AS sum_time_tracking
 			FROM {user} u, {bugnote} bn, {bug} b
 			WHERE u.id = bn.reporter_id AND bn.time_tracking != 0 AND bn.bug_id = b.id
-			$t_project_where $t_from_where $t_to_where
+			$t_project_where $t_from_where $t_to_where $t_reporter_where
 			GROUP BY bn.bug_id, u.id, u.username, b.summary
 			ORDER BY bn.bug_id";
 
-	$t_result = db_query( $t_query, array() );
+	$t_result = db_query( $t_query, $t_params );
 
 	$t_cost_min = $p_cost / 60.0;
 

@@ -79,6 +79,8 @@ $t_bugnote_stats_to_m = gpc_get_int('end_month', $t_bugnote_stats_to_def_m);
 $t_bugnote_stats_to_y = gpc_get_int('end_year', $t_bugnote_stats_to_def_y);
 
 $f_get_bugnote_stats_button = gpc_get_string('get_bugnote_stats_button', '');
+
+$f_reporter_id = gpc_get_int( 'reporter_id', ALL_USERS );
 $f_bugnote_cost = gpc_get_int( 'bugnote_cost', '' );
 $f_project_id = helper_get_current_project();
 
@@ -91,10 +93,9 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 ?>
 <form method="post" action="">
 <?php # CSRF protection not required here - form does not result in modifications ?>
-<input type="hidden" name="id" value="<?php echo isset( $f_bug_id ) ? $f_bug_id : 0 ?>" />
-<table class="width100" cellspacing="0">
+<table class="width50" cellspacing="0">
 <tr>
-	<td class="form-title" colspan="4">
+	<td class="form-title" colspan="2">
 <?php
 		collapse_icon( 'bugnotestats' );
 ?>
@@ -102,7 +103,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 	</td>
 </tr>
 <tr class="row-2">
-	<td class="category" width="25%">
+	<td class="category" colspan="2">
 			<?php
 	$t_filter = array();
 	$t_filter[FILTER_PROPERTY_FILTER_BY_DATE] = 'on';
@@ -116,8 +117,20 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 	?>
 	</td>
 </tr>
+
+<tr class="row-2">
+	<td>
+		<?php echo lang_get( 'username' ) ?>:
+		<select name="reporter_id">
+			<option value="0" selected="selected"></option>
+			<?php print_reporter_option_list( $f_reporter_id, $f_project_id ) ?>
+		</select>
+	</td>
+</tr>
+
+
 <?php if ( $t_cost_col ) { ?>
-<tr class="row-1">
+<tr class="row-2">
 	<td>
 		<?php echo lang_get( 'time_tracking_cost_label' ) ?>
 		<input type="text" name="bugnote_cost" value="<?php echo $f_bugnote_cost ?>" />
@@ -126,6 +139,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 <?php } ?>
 <tr>
         <td class="center" colspan="2">
+				<input type="hidden" name="id" value="<?php echo isset( $f_bug_id ) ? $f_bug_id : 0 ?>" />
                 <input type="submit" class="button" name="get_bugnote_stats_button" value="<?php echo lang_get( 'time_tracking_get_info_button' ) ?>" />
         </td>
 </tr>
@@ -136,7 +150,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 	$t_from = "$t_bugnote_stats_from_y-$t_bugnote_stats_from_m-$t_bugnote_stats_from_d";
 	$t_to = "$t_bugnote_stats_to_y-$t_bugnote_stats_to_m-$t_bugnote_stats_to_d";
-	$t_bugnote_stats = bugnote_stats_get_project_array( $f_project_id, $t_from, $t_to, $f_bugnote_cost );
+	$t_bugnote_stats = bugnote_stats_get_project_array( $f_project_id, $t_from, $t_to, $f_bugnote_cost, $f_reporter_id );
 
 	if ( is_blank( $f_bugnote_cost ) || ( (double)$f_bugnote_cost == 0 ) ) {
 		$t_cost_col = false;
@@ -166,7 +180,11 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 
 	foreach ( $t_bugnote_stats as $t_item ) {
 		$t_sum_in_minutes += $t_item['sum_time_tracking'];
-		$t_user_summary[$t_item['username']] += $t_item['sum_time_tracking'];
+		if( isset( $t_user_summary[$t_item['username']] ) ) {
+			$t_user_summary[$t_item['username']] += $t_item['sum_time_tracking'];
+		} else {
+			$t_user_summary[$t_item['username']] = $t_item['sum_time_tracking'];
+		}
 
 		$t_item['sum_time_tracking'] = db_minutes_to_hhmm( $t_item['sum_time_tracking'] );
 		if ( $t_item['bug_id'] != $t_prev_id) {
