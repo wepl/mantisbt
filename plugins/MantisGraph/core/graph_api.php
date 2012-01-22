@@ -22,7 +22,6 @@
  * @link http://www.mantisbt.org
  */
 
-
 if( OFF == plugin_config_get( 'eczlibrary' ) ) {
 	$t_font_path = get_font_path();
 	if( $t_font_path !== '' && !defined('TTF_DIR') ) {
@@ -101,10 +100,9 @@ function graph_get_font() {
 	}
 }
 
-# ## Graph API ###
-# --------------------
-# graphing routines
-# --------------------
+/**
+ * Generate Bar Graph
+ */
 function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_height = 400 ) {
 	$t_graph_font = graph_get_font();
 
@@ -123,6 +121,9 @@ function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_he
 
 		$graph->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
 		$graph->xAxis->axisLabelRenderer->angle = 45;
+
+		$t_label_count = count( $graph->data[0] );
+		$graph->xAxis->labelCount = $t_label_count;
 
 		$graph->driver = new ezcGraphGdDriver();
 		//$graph->driver->options->supersampling = 1;
@@ -170,7 +171,9 @@ function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_he
 	}
 }
 
-# Function which displays the charts using the absolute values according to the status (opened/closed/resolved)
+/**
+ * Function which displays the charts using the absolute values according to the status (opened/closed/resolved)
+ */
 function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_height = 400, $p_baseline = 100 ) {
 
 	# $p_metrics is an array of three arrays
@@ -205,14 +208,12 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 			$graph->data[$t_label] = new ezcGraphArrayDataSet( $p_metrics[$t_label] );
 		}
 		$graph->data['total'] = new ezcGraphArrayDataSet( $total );
-		//$graph->data['total']->displayType = ezcGraph::LINE;
-		//$graph->data['total']->barMargin = -20;
 		$graph->options->fillLines = 210;
 		$graph->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
 		$graph->xAxis->axisLabelRenderer->angle = 45;
+		$graph->xAxis->labelCount = $t_count;
 
 		$graph->driver = new ezcGraphGdDriver();
-		//$graph->driver->options->supersampling = 1;
 		$graph->driver->options->jpegQuality = 100;
 		$graph->driver->options->imageFormat = IMG_JPEG;
 
@@ -279,8 +280,9 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 	}
 }
 
-# --------------------
-# Function that displays pie charts
+/**
+ * Function that displays pie charts
+ */
 function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_height = 350, $p_center = 0.4, $p_poshorizontal = 0.10, $p_posvertical = 0.09 ) {
 	$t_graph_font = graph_get_font();
 
@@ -305,7 +307,6 @@ function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_he
 		$graph->renderer->options->legendSymbolGleam = .5;
 
 		$graph->driver = new ezcGraphGdDriver();
-		//$graph->driver->options->supersampling = 1;
 		$graph->driver->options->jpegQuality = 100;
 		$graph->driver->options->imageFormat = IMG_JPEG;
 
@@ -348,7 +349,9 @@ function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_he
 	}
 }
 
-# --------------------
+/**
+ *
+ */
 function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_height = 380 ) {
 
 	$t_graph_font = graph_get_font();
@@ -388,7 +391,6 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 		$graph->legend->background    = '#FFFFFF80';
 
 		$graph->driver = new ezcGraphGdDriver();
-		//$graph->driver->options->supersampling = 1;
 		$graph->driver->options->jpegQuality = 100;
 		$graph->driver->options->imageFormat = IMG_JPEG;
 
@@ -464,7 +466,9 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 	}
 }
 
-# --------------------
+/**
+ *
+ */
 function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p_graph_height = 380 ) {
 	$t_graph_font = graph_get_font();
 	error_check( is_array( $p_metrics ) ? count( $p_metrics ) : 0, lang_get( 'by_date' ) );
@@ -475,7 +479,6 @@ function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p
 		$t_cnt = count($p_metrics);
 
 		foreach( $t_dates as $i => $val ) {
-				//$t_metrics[$val]
 				for($j = 0; $j < $t_cnt; $j++ ) {
 					$t_metrics[$j][$val] = $p_metrics[$j][$i];
 				}
@@ -498,7 +501,6 @@ function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p
 		$graph->legend->background    = '#FFFFFF80';
 
 		$graph->driver = new ezcGraphGdDriver();
-		//$graph->driver->options->supersampling = 1;
 		$graph->driver->options->jpegQuality = 100;
 		$graph->driver->options->imageFormat = IMG_JPEG;
 
@@ -557,9 +559,9 @@ function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p
 	}
 }
 
-# --------------------
-# utilities
-# --------------------
+/**
+ *
+ */
 function graph_total_metrics( $p_metrics ) {
 	foreach( $p_metrics['open'] as $t_enum => $t_value ) {
 		$total[$t_enum] = $t_value + $p_metrics['resolved'][$t_enum] + $p_metrics['closed'][$t_enum];
@@ -567,12 +569,14 @@ function graph_total_metrics( $p_metrics ) {
 	return $total;
 }
 
-# --------------------
-# Data Extractions
-# --------------------
-# --------------------
-# summarize metrics by a single field in the bug table
+/**
+ * summarize metrics by a single ENUM field in the bug table
+ */
 function create_bug_enum_summary( $p_enum_string, $p_enum ) {
+	if( !db_field_exists( $p_enum, '{bug}' ) ) {
+		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+	}
+
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
 	$specific_where = " AND " . helper_project_specific_where( $t_project_id, $t_user_id );
@@ -581,18 +585,22 @@ function create_bug_enum_summary( $p_enum_string, $p_enum ) {
 	$t_assoc_array = MantisEnum::getAssocArrayIndexedByValues( $p_enum_string );
 
 	foreach ( $t_assoc_array as $t_value => $t_label  ) {
-		$query = "SELECT COUNT(*)
-					FROM {bug}
-					WHERE $p_enum='$t_value' $specific_where";
-		$result = db_query( $query, array() );
+		$query = "SELECT COUNT(*) FROM {bug} WHERE $p_enum=%d $specific_where";
+		$result = db_query( $query, array( $t_value ) );
 		$t_metrics[$t_label] = db_result( $result );
 	}
 
 	return $t_metrics;
 }
 
-# Function which gives the absolute values according to the status (opened/closed/resolved)
+/**
+ * Function which gives the absolute values according to the status (opened/closed/resolved)
+ */
 function enum_bug_group( $p_enum_string, $p_enum ) {
+	if( !db_field_exists( $p_enum, '{bug}' ) ) {
+		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+	}
+
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
 	$t_res_val = config_get( 'bug_resolved_status_threshold' );
@@ -604,33 +612,31 @@ function enum_bug_group( $p_enum_string, $p_enum ) {
 	foreach ( $t_array_indexed_by_enum_values as $t_value => $t_label ) {
 		# Calculates the number of bugs opened and puts the results in a table
 		$query = "SELECT COUNT(*) FROM {bug}
-					WHERE $p_enum='$t_value' AND
-						status<'$t_res_val' $specific_where";
-		$result2 = db_query( $query, array() );
+					WHERE $p_enum=%d AND status<%d $specific_where";
+		$result2 = db_query( $query, array( $t_value, $t_res_val ) );
 		$t_metrics['open'][$t_label] = db_result( $result2 );
 
 		# Calculates the number of bugs closed and puts the results in a table
 		$query = "SELECT COUNT(*) FROM {bug}
-					WHERE $p_enum='$t_value' AND
-						status='$t_clo_val' $specific_where";
-		$result2 = db_query( $query, array() );
+					WHERE $p_enum=%d AND status=%d $specific_where";
+		$result2 = db_query( $query, array( $t_value, $t_clo_val ) );
 		$t_metrics['closed'][$t_label] = db_result( $result2 );
 
 		# Calculates the number of bugs resolved and puts the results in a table
 		$query = "SELECT COUNT(*) FROM {bug}
-					WHERE $p_enum='$t_value' AND
-						status>='$t_res_val'  AND
-						status<'$t_clo_val' $specific_where";
-		$result2 = db_query( $query, array() );
+					WHERE $p_enum=%d AND
+						status>=%d  AND
+						status<%d $specific_where";
+		$result2 = db_query( $query, array( $t_value, $t_res_val, $t_clo_val ) );
 		$t_metrics['resolved'][$t_label] = db_result( $result2 );
 	}
-
-	# ## end for
 
 	return $t_metrics;
 }
 
-# --------------------
+/**
+ *
+ */
 function create_developer_summary() {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -678,11 +684,12 @@ function create_developer_summary() {
 	}
 	ksort($t_metrics);
 
-	# end for
 	return $t_metrics;
 }
 
-# --------------------
+/**
+ *
+ */
 function create_reporter_summary() {
 	global $reporter_name, $reporter_count;
 
@@ -690,8 +697,7 @@ function create_reporter_summary() {
 	$t_user_id = auth_get_current_user_id();
 	$specific_where = helper_project_specific_where( $t_project_id, $t_user_id );
 
-	$query = "SELECT reporter_id FROM {bug}
-				 WHERE $specific_where";
+	$query = "SELECT reporter_id FROM {bug} WHERE $specific_where";
 	$result = db_query( $query );
 
 	$t_reporter_arr = array();
@@ -719,7 +725,9 @@ function create_reporter_summary() {
 	return $t_metrics;
 }
 
-# --------------------
+/**
+ *
+ */
 function create_category_summary() {
 	global $category_name, $category_bug_count;
 
@@ -748,7 +756,9 @@ function create_category_summary() {
 	return $t_metrics;
 }
 
-# --------------------
+/**
+ *
+ */
 function create_cumulative_bydate() {
 	$t_clo_val = config_get( 'bug_closed_status_threshold' );
 	$t_res_val = config_get( 'bug_resolved_status_threshold' );
@@ -758,8 +768,7 @@ function create_cumulative_bydate() {
 	$specific_where = helper_project_specific_where( $t_project_id, $t_user_id );
 
 	# Get all the submitted dates
-	$query = "SELECT date_submitted
-				FROM {bug}
+	$query = "SELECT date_submitted FROM {bug}
 				WHERE $specific_where
 				ORDER BY date_submitted";
 	$result = db_query( $query );
@@ -782,12 +791,12 @@ function create_cumulative_bydate() {
 			FROM {bug} LEFT JOIN {history}
 			ON {bug}.id = {history}.bug_id
 			WHERE $specific_where
-						AND {bug}.status >= '$t_res_val'
-						AND ( ( {history}.new_value >= '$t_res_val'
+						AND {bug}.status>=%d
+						AND ( ( {history}.new_value>=%d
 								AND {history}.field_name = 'status' )
 						OR {history}.id is NULL )
 			ORDER BY {bug}.id, date_modified ASC";
-	$result = db_query( $query, array() );
+	$result = db_query( $query, array( $t_res_val, $t_res_val ) );
 
 	$t_last_id = 0;
 	$t_last_date = 0;
@@ -839,13 +848,16 @@ function create_cumulative_bydate() {
 	return $t_metrics;
 }
 
+/**
+ *
+ */
 function graph_date_format( $p_date ) {
 	return date( config_get( 'short_date_format' ), $p_date );
 }
 
-# ----------------------------------------------------
-# Check that there is enough data to create graph
-# ----------------------------------------------------
+/**
+ * Check that there is enough data to create graph
+ */
 function error_check( $bug_count, $title ) {
 	if( 0 == $bug_count ) {
 		$t_graph_font = graph_get_font();
@@ -854,6 +866,9 @@ function error_check( $bug_count, $title ) {
 	}
 }
 
+/**
+ *
+ */
 function error_text( $title, $text ) {
 		if( OFF == plugin_config_get( 'eczlibrary' ) ) {
 			$graph = new CanvasGraph( 300, 380 );
