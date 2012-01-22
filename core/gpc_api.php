@@ -44,14 +44,6 @@ require_api( 'error_api.php' );
 $g_cookie_secure_flag_enabled = isset( $_SERVER['HTTPS'] ) && ( utf8_strtolower( $_SERVER['HTTPS'] ) != 'off' );
 
 /**
- * Determines (once-off) whether the version of PHP executing this script has
- * support for the HttpOnly cookie flag. If so, we will set this flag to true
- * so that it'll be added to all cookies sent to the client.
- * @global bool $g_cookie_httponly_flag_enabled
- */
-$g_cookie_httponly_flag_enabled = version_compare( PHP_VERSION, '5.2.0', '>=' );
-
-/**
  * GET, POST, and Cookie API
  * ---------------
  * Retrieve a GPC variable.
@@ -360,7 +352,6 @@ function gpc_get_cookie( $p_var_name, $p_default = null ) {
  */
 function gpc_set_cookie( $p_name, $p_value, $p_expire = false, $p_path = null, $p_domain = null, $p_httponly = true ) {
 	global $g_cookie_secure_flag_enabled;
-	global $g_cookie_httponly_flag_enabled;
 	if( false === $p_expire ) {
 		$p_expire = 0;
 	}
@@ -375,12 +366,7 @@ function gpc_set_cookie( $p_name, $p_value, $p_expire = false, $p_path = null, $
 		$p_domain = config_get( 'cookie_domain' );
 	}
 
-	if( $g_cookie_httponly_flag_enabled ) {
-		# The HttpOnly cookie flag is only supported in PHP >= 5.2.0
-		return setcookie( $p_name, $p_value, $p_expire, $p_path, $p_domain, $g_cookie_secure_flag_enabled, $g_cookie_httponly_flag_enabled );
-	}
-
-	return setcookie( $p_name, $p_value, $p_expire, $p_path, $p_domain, $g_cookie_secure_flag_enabled );
+	return setcookie( $p_name, $p_value, $p_expire, $p_path, $p_domain, $g_cookie_secure_flag_enabled, true );
 }
 
 /**
