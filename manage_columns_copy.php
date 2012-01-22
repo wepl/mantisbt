@@ -76,8 +76,9 @@ if ( $f_manage_page && $t_dst_project_id != ALL_PROJECTS ) {
 	access_ensure_project_level( MANAGER, $t_dst_project_id );
 }
 
-# user should only be able to set columns for a project that is accessible.
+# user should only be able to set columns for a project that is accessible and exists
 if ( $t_dst_project_id != ALL_PROJECTS ) {
+	project_ensure_exists( $t_project_id );
 	access_ensure_project_level( VIEWER, $t_dst_project_id );
 }
 
