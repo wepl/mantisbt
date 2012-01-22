@@ -140,7 +140,7 @@ function __autoload( $className ) {
 		$name = str_replace( 'MantisBT\Exception\\', '', $className );
 		// @TODO - if this stays, check $name is only ascii+underscore
 		eval('namespace MantisBT\Exception; class ' . $name . ' extends \ErrorException{ 
-			    public function __construct($parameters = null, Exception $previous = null)
+			    public function __construct($code = null, $parameters = null, Exception $previous = null)
 				{
 					parent::__construct(\'exception_' . strtolower($name) . '\', $parameters, $previous);
 				}
