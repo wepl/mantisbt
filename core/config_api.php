@@ -339,7 +339,9 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 	}
 
 	if( config_can_set_in_database( $p_option ) ) {
-		$c_option = $p_option;
+		// before we set in the database, ensure that the user and project id exist
+		project_ensure_exists( $p_project );
+		user_ensure_exists( $p_user );
 
 		$t_query = "SELECT COUNT(*) from {config}
 				WHERE config_id = %d AND project_id = %d AND user_id = %d";
