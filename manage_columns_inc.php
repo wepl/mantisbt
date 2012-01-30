@@ -64,17 +64,14 @@ if ( $t_manage_page ) {
 $t_columns = columns_get_all( $t_project_id );
 $t_all = implode( ', ', $t_columns );
 
-$t_columns = helper_get_columns_to_view( COLUMNS_TARGET_CSV_PAGE, /* $p_viewable_only */ false, $t_user_id );
-$t_csv = implode( ', ', $t_columns );
-
 $t_columns = helper_get_columns_to_view( COLUMNS_TARGET_VIEW_PAGE, /* $p_viewable_only */ false, $t_user_id );
 $t_view_issues = implode( ', ', $t_columns );
 
 $t_columns = helper_get_columns_to_view( COLUMNS_TARGET_PRINT_PAGE, /* $p_viewable_only */ false, $t_user_id );
 $t_print_issues = implode( ', ', $t_columns );
 
-$t_columns = helper_get_columns_to_view( COLUMNS_TARGET_EXCEL_PAGE, /* $p_viewable_only */ false, $t_user_id );
-$t_excel = implode( ', ', $t_columns );
+$t_columns = helper_get_columns_to_view( COLUMNS_TARGET_EXPORT_PAGE, /* $p_viewable_only */ false, $t_user_id );
+$t_export_issues = implode( ', ', $t_columns );
 ?>
 
 <div id="manage-columns-div" class="form-container">
@@ -106,13 +103,8 @@ $t_excel = implode( ', ', $t_columns );
 				<span class="label-style"></span>
 			</div>
 			<div class="field-container <?php echo helper_alternate_class_no_attribute(); ?>">
-				<label for="csv-columns" class="required"><span><?php echo lang_get( 'csv_columns_title' )?></span></label>
-				<span class="textarea"><textarea id="csv-columns" <?php echo helper_get_tab_index() ?> name="csv_columns" cols="80" rows="5"><?php echo $t_csv ?></textarea></span>
-				<span class="label-style"></span>
-			</div>
-			<div class="field-container <?php echo helper_alternate_class_no_attribute(); ?>">
-				<label for="excel-columns" class="required"><span><?php echo lang_get( 'excel_columns_title' )?></span></label>
-				<span class="textarea"><textarea id="excel-columns" <?php echo helper_get_tab_index() ?> name="excel_columns" cols="80" rows="5"><?php echo $t_excel ?></textarea></span>
+				<label for="export-columns" class="required"><span><?php echo lang_get( 'export_columns_title' )?></span></label>
+				<span class="textarea"><textarea id="export-columns" <?php echo helper_get_tab_index() ?> name="export_columns" cols="80" rows="5"><?php echo $t_export_issues ?></textarea></span>
 				<span class="label-style"></span>
 			</div>
 			<?php

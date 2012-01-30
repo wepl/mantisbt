@@ -226,10 +226,8 @@ function custom_function_default_auth_can_change_password() {
 function custom_function_default_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAGE, $p_user_id = null ) {
 	$t_project_id = helper_get_current_project();
 
-	if( $p_columns_target == COLUMNS_TARGET_CSV_PAGE ) {
-		$t_columns = config_get( 'csv_columns', columns_get_default( 'csv' ), $p_user_id, $t_project_id );
-	} else if( $p_columns_target == COLUMNS_TARGET_EXCEL_PAGE ) {
-		$t_columns = config_get( 'excel_columns', columns_get_default( 'excel' ), $p_user_id, $t_project_id );
+	if( $p_columns_target == COLUMNS_TARGET_EXPORT_PAGE ) {
+		$t_columns = config_get( 'export_columns', columns_get_default( 'export' ), $p_user_id, $t_project_id );
 	} else if( $p_columns_target == COLUMNS_TARGET_VIEW_PAGE ) {
 		$t_columns = config_get( 'view_issues_page_columns', columns_get_default( 'view_issues_page' ), $p_user_id, $t_project_id );
 	} else {
@@ -249,7 +247,7 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
 
 	$t_custom_field = column_get_custom_field_name( $p_column );
 	if( $t_custom_field !== null ) {
-		if( COLUMNS_TARGET_CSV_PAGE != $p_columns_target ) {
+		if( COLUMNS_TARGET_EXPORT_PAGE != $p_columns_target ) {
 			echo '<td>';
 		}
 
@@ -260,7 +258,7 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
 			$t_def = custom_field_get_definition( $t_field_id );
 			$t_custom_field = lang_get_defaulted( $t_def['name'] );
 
-			if( COLUMNS_TARGET_CSV_PAGE != $p_columns_target ) {
+			if( COLUMNS_TARGET_EXPORT_PAGE != $p_columns_target ) {
 				print_view_bug_sort_link( $t_custom_field, $p_column, $t_sort, $t_dir, $p_columns_target );
 				print_sort_icon( $t_dir, $t_sort, $p_column );
 			} else {
@@ -268,7 +266,7 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
 			}
 		}
 
-		if( COLUMNS_TARGET_CSV_PAGE != $p_columns_target ) {
+		if( COLUMNS_TARGET_EXPORT_PAGE != $p_columns_target ) {
 			echo '</td>';
 		}
 	} else {
@@ -298,7 +296,7 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
 # $p_row: the row from the bug table that belongs to the issue that we should print the values for.
 # $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
 function custom_function_default_print_column_value( $p_column, $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	if( COLUMNS_TARGET_CSV_PAGE == $p_columns_target ) {
+	if( COLUMNS_TARGET_EXPORT_PAGE == $p_columns_target ) {
 		$t_column_start = '';
 		$t_column_end = '';
 		$t_column_empty = '';
@@ -331,14 +329,14 @@ function custom_function_default_print_column_value( $p_column, $p_bug, $p_colum
 	} else {
 		$t_plugin_columns = columns_get_plugin_columns();
 
-		if( $p_columns_target != COLUMNS_TARGET_CSV_PAGE ) {
+		if( $p_columns_target != COLUMNS_TARGET_EXPORT_PAGE ) {
 			$t_function = 'print_column_' . $p_column;
 		} else {
-			$t_function = 'csv_format_' . $p_column;
+			$t_function = 'export_format_' . $p_column;
 		}
 
 		if( function_exists( $t_function ) ) {
-			if( $p_columns_target != COLUMNS_TARGET_CSV_PAGE ) {
+			if( $p_columns_target != COLUMNS_TARGET_EXPORT_PAGE ) {
 				$t_function( $p_bug, $p_columns_target );
 			} else {
 				$t_function( $p_bug->$p_column );

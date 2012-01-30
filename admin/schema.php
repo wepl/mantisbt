@@ -596,3 +596,4 @@ $upgrade[] = array( 'UpdateFunction', 'correct_multiselect_custom_fields_db_form
 $upgrade[] = array( 'UpdateFunction', "stored_filter_migrate" );
 $upgrade[] = array( 'AddColumnSQL', array( '{custom_field_string}', "
 	text		XL  			NULL DEFAULT NULL " ) );
+$upgrade[] = array( 'UpdateFunction', "update_export_columns", array() );

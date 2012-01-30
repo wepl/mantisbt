@@ -1445,10 +1445,9 @@ If you requested this verification, visit the following URL to change your passw
 	# manage columns page
 	'manage_columns_config' => 'Manage Columns',
 	'all_columns_title' => 'All Available Columns',
-	'csv_columns_title' => 'CSV Columns',
 	'view_issues_columns_title' => 'View Issues Columns',
 	'print_issues_columns_title' => 'Print Issues Columns',
-	'excel_columns_title' => 'Excel Columns',
+	'export_columns_title' => 'Export Issues Columns',
 	'update_columns_as_global_default' => 'Update Columns as Global Default for All Projects',
 	'update_columns_for_current_project' => 'Update Columns For Current Project',
 	'update_columns_as_my_default' => 'Update Columns as Default for All Projects',

@@ -78,7 +78,11 @@ if ( $f_manage_page && $t_dst_project_id != ALL_PROJECTS ) {
 
 # user should only be able to set columns for a project that is accessible and exists
 if ( $t_dst_project_id != ALL_PROJECTS ) {
-	project_ensure_exists( $t_project_id );
+	// ensure the project we are copying from exists, if not all projects
+	if( $f_project_id !== ALL_PROJECTS ) {
+		project_ensure_exists( $f_project_id );
+	}
+	// ensure the user has access to the destination project
 	access_ensure_project_level( VIEWER, $t_dst_project_id );
 }
 
@@ -98,16 +102,12 @@ $t_view_issues_page_columns = columns_remove_invalid( $t_view_issues_page_column
 $t_print_issues_page_columns = config_get( 'print_issues_page_columns', $t_default, $t_user_id, $t_src_project_id );
 $t_print_issues_page_columns = columns_remove_invalid( $t_print_issues_page_columns, $t_all_columns );
 
-$t_csv_columns = config_get( 'csv_columns', $t_default, $t_user_id, $t_src_project_id );
-$t_csv_columns = columns_remove_invalid( $t_csv_columns, $t_all_columns );
-
-$t_excel_columns = config_get( 'excel_columns', $t_default, $t_user_id, $t_src_project_id );
-$t_excel_columns = columns_remove_invalid( $t_excel_columns, $t_all_columns );
+$t_export_columns = config_get( 'export_columns', $t_default, $t_user_id, $t_src_project_id );
+$t_export_columns = columns_remove_invalid( $t_export_columns, $t_all_columns );
 
 config_set( 'view_issues_page_columns', $t_view_issues_page_columns, $t_user_id, $t_dst_project_id );
 config_set( 'print_issues_page_columns', $t_print_issues_page_columns, $t_user_id, $t_dst_project_id );
-config_set( 'csv_columns', $t_csv_columns, $t_user_id, $t_dst_project_id );
-config_set( 'excel_columns', $t_excel_columns, $t_user_id, $t_dst_project_id );
+config_set( 'export_columns', $t_export_columns, $t_user_id, $t_dst_project_id );
 
 form_security_purge( 'manage_columns_copy' );
 

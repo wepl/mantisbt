@@ -172,3 +172,4 @@ config_obsolete( 'ldap_simulation_file_path', '' );
 config_obsolete( 'email_set_category', '' );
 config_obsolete( 'hr_size', '' );
 config_obsolete( 'hr_width', '' );
+config_obsolete( 'csv_separator', '' );

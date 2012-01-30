@@ -59,8 +59,7 @@ form_security_validate( 'manage_config_columns_set' );
 $f_project_id = gpc_get_int( 'project_id' );
 $f_view_issues_columns = gpc_get_string( 'view_issues_columns' );
 $f_print_issues_columns = gpc_get_string( 'print_issues_columns' );
-$f_csv_columns = gpc_get_string( 'csv_columns' );
-$f_excel_columns = gpc_get_string( 'excel_columns' );
+$f_export_columns = gpc_get_string( 'export_columns' );
 $f_update_columns_for_current_project = gpc_get_bool( 'update_columns_for_current_project' );
 $f_update_columns_as_my_default = gpc_get_bool( 'update_columns_as_my_default' );
 $f_update_columns_as_global_default = gpc_get_bool( 'update_columns_as_global_default' );
@@ -103,11 +102,8 @@ columns_ensure_valid( 'view_issues', $t_view_issues_columns, $t_all_columns );
 $t_print_issues_columns = columns_string_to_array( $f_print_issues_columns );
 columns_ensure_valid( 'print_issues', $t_print_issues_columns, $t_all_columns );
 
-$t_csv_columns = columns_string_to_array( $f_csv_columns );
-columns_ensure_valid( 'csv', $t_csv_columns, $t_all_columns );
-
-$t_excel_columns = columns_string_to_array( $f_excel_columns );
-columns_ensure_valid( 'excel', $t_excel_columns, $t_all_columns );
+$t_export_columns = columns_string_to_array( $f_export_columns );
+columns_ensure_valid( 'export', $t_export_columns, $t_all_columns );
 
 if ( serialize( config_get( 'view_issues_page_columns', columns_get_default('view_issues_page'), $t_user_id, $t_project_id ) ) !== serialize( $t_view_issues_columns ) ) {
 	config_set( 'view_issues_page_columns', $t_view_issues_columns, $t_user_id, $t_project_id );
@@ -115,20 +111,19 @@ if ( serialize( config_get( 'view_issues_page_columns', columns_get_default('vie
 if ( serialize( config_get( 'print_issues_page_columns', columns_get_default('print_issues_page'), $t_user_id, $t_project_id ) ) !== serialize( $t_print_issues_columns ) ) {
 	config_set( 'print_issues_page_columns', $t_print_issues_columns, $t_user_id, $t_project_id );
 }
-if ( serialize( config_get( 'csv_columns', columns_get_default('csv'), $t_user_id, $t_project_id ) ) !== serialize( $t_csv_columns ) ) {
-	config_set( 'csv_columns', $t_csv_columns, $t_user_id, $t_project_id );
+
+if ( serialize( config_get( 'export_columns', columns_get_default('export'), $t_user_id, $t_project_id ) ) !== serialize( $t_export_columns ) ) {
+	config_set( 'export_columns', $t_export_columns, $t_user_id, $t_project_id );
 }
-if ( serialize( config_get( 'excel_columns', columns_get_default('excel'), $t_user_id, $t_project_id ) ) !== serialize( $t_excel_columns ) ) {
-	config_set( 'excel_columns', $t_excel_columns, $t_user_id, $t_project_id );
-}
+
+$t_redirect_url = $f_form_page === 'account' ? 'account_manage_columns_page.php' : 'manage_config_columns_page.php';
+html_page_top( null, $t_redirect_url );
 
 form_security_purge( 'manage_config_columns_set' );
 ?>
 <br />
 <div>
 <?php
-$t_redirect_url = $f_form_page === 'account' ? 'account_manage_columns_page.php' : 'manage_config_columns_page.php';
-html_page_top( null, $t_redirect_url );
 echo '<br />';
 echo lang_get( 'operation_successful' ) . '<br />';
 print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );

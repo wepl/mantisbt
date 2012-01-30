@@ -2476,13 +2476,6 @@ $g_default_manage_user_prefix = 'ALL';
 $g_default_manage_tag_prefix = 'ALL';
 
 /**
- * CSV Export
- * Set the csv separator
- * @global string $g_csv_separator
- */
-$g_csv_separator = ',';
-
-/**
  * The threshold required for users to be able to manage configuration of a project.
  * This includes workflow, email notifications, columns to view, and others.
  */

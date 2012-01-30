@@ -421,3 +421,48 @@ function install_create_admin_if_not_exist( $p_data ) {
 		return 2;
 	}  
 }
+
+function install_update_export_columns() {
+	global $g_db_log_queries;
+
+	# Disable query logging due to possibility of mass spam.
+	if ( $g_db_log_queries !== 0 ) {
+		$t_log_queries = $g_db_log_queries;
+		$g_db_log_queries = 0;
+	} else {
+		$t_log_queries = null;
+	}
+
+	$query = "SELECT project_id, user_id, access_reqd, type FROM {config} WHERE config_id = 'csv_columns' or config_id = 'excel_columns' group by project_id, user_id, access_reqd, type";
+
+	$t_result = db_query( $query );
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$project_id = (int)$t_row['project_id'];
+		$user_id = (int)$t_row['user_id'];
+		$access_reqd = (int)$t_row['access_reqd'];
+		$type = (int)$t_row['type'];
+
+		$query = "SELECT value FROM {config} WHERE (config_id = 'csv_columns' or config_id = 'excel_columns') AND access_reqd=%d AND type=%d AND project_id=%d AND user_id=%d";
+		$t_result2 = db_query( $query, array( $access_reqd, $type, $project_id, $user_id ) );
+		$t_array = array();
+
+		while( $t_row2 = db_fetch_array( $t_result2 ) ) {
+			$t_array = array_merge( $t_array, unserialize( $t_row2['value'] ) );
+		}
+
+		$query = "INSERT INTO {config} (config_id, value, access_reqd, type, project_id, user_id ) VALUES ( %s,%s,%d,%d,%d,%d )";
+		$t_value = serialize( array_values( array_unique( $t_array ) ) );
+		$t_result3 = db_query( $query, array( 'export_columns', $t_value, $access_reqd, $type, $project_id, $user_id ) );
+
+		$query = "DELETE FROM {config} WHERE (config_id = 'csv_columns' or config_id = 'excel_columns') AND access_reqd=%d AND type=%d AND project_id=%d AND user_id=%d";
+		$t_result3 = db_query( $query, array( $access_reqd, $type, $project_id, $user_id ) );
+	}
+
+	// re-enabled query logging if we disabled it
+	if ( $t_log_queries !== null ) {
+		$g_db_log_queries = $t_log_queries;
+	}
+
+	# Return 2 because that's what ADOdb/DataDict does when things happen properly
+	return 2;
+}

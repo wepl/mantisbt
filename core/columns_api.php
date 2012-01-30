@@ -150,6 +150,8 @@ function columns_get_standard() {
 
 	# The following fields are used internally and don't make sense as columns
 	unset( $t_columns['_stats'] );
+	unset( $t_columns['_fields'] );
+	unset( $t_columns['_exists'] );
 	unset( $t_columns['profile_id'] );
 	unset( $t_columns['sticky'] );
 	unset( $t_columns['loading'] );
@@ -172,14 +174,10 @@ function columns_get_default( $p_type ) {
 			// $g_print_issues_page_columns
 			$t_columns = columns_remove_invalid( array ( 'selection', 'priority', 'id', 'sponsorship_total', 'bugnotes_count', 'attachment', 'category_id', 'severity', 'status', 'last_updated', 'summary' ), $t_columns );
 			break;
-		case 'csv':
-			// $g_csv_columns
+		case 'export':
+			// $g_export_columns
 			$t_columns = columns_remove_invalid( array ( 'id', 'project_id', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'version', 'projection', 'category_id', 'date_submitted', 'eta', 'os', 'os_build', 'platform', 'view_state', 'last_updated', 'summary', 'status', 'resolution', 'fixed_in_version' ), $t_columns );
 			break;		
-		case 'excel':
-			// $g_excel_columns 
-			$t_columns = columns_remove_invalid( array ( 'id', 'project_id', 'reporter_id', 'handler_id', 'priority', 'severity', 'reproducibility', 'version', 'projection', 'category_id', 'date_submitted', 'eta', 'os', 'os_build', 'platform', 'view_state', 'last_updated', 'summary', 'status', 'resolution', 'fixed_in_version' ), $t_columns );
-			break;
 		case 'bug_report_page':
 			// $g_bug_report_page_columns
 			$t_columns = columns_remove_invalid( array( 'category_id', 'view_state', 'handler_id', 'priority', 'severity', 'reproducibility', 'platform', 'os', 'os_build', 'version', 'build', 'target_version', 'summary', 'description', 'additional_info', 'steps_to_reproduce', 'attachments', 'due_date' ), $t_columns );
@@ -695,7 +693,7 @@ function print_column_title_os_build( $p_sort, $p_dir, $p_columns_target = COLUM
  * @access public
  */
 function print_column_title_build( $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	if( $p_columns_target != COLUMNS_TARGET_CSV_PAGE ) {
+	if( $p_columns_target != COLUMNS_TARGET_EXPORT_PAGE ) {
 		echo '<th class="column-build">';
 		print_view_bug_sort_link( lang_get( 'build' ), 'build', $p_sort, $p_dir, $p_columns_target );
 		print_sort_icon( $p_dir, $p_sort, 'build' );
@@ -979,7 +977,7 @@ function print_column_title_plugin( $p_column, $p_column_object, $p_sort, $p_dir
  * @access public
  */
 function print_column_plugin( $p_column_object, $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	if ( $p_columns_target != COLUMNS_TARGET_CSV_PAGE ) {
+	if ( $p_columns_target != COLUMNS_TARGET_EXPORT_PAGE ) {
 		echo '<td class="column-plugin">';
 		$p_column_object->display( $p_bug, $p_columns_target );
 		echo '</td>';
@@ -1321,7 +1319,7 @@ function print_column_date_submitted( $p_bug, $p_columns_target = COLUMNS_TARGET
  * @access public
  */
 function print_column_summary( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	if( $p_columns_target == COLUMNS_TARGET_CSV_PAGE ) {
+	if( $p_columns_target == COLUMNS_TARGET_EXPORT_PAGE ) {
 		$t_summary = string_attribute( $p_bug->summary );
 	} else {
 		$t_summary = string_display_line_links( $p_bug->summary );
