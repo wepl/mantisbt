@@ -340,34 +340,38 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
 
 	if( config_can_set_in_database( $p_option ) ) {
 		// before we set in the database, ensure that the user and project id exist
-		project_ensure_exists( $p_project );
-		user_ensure_exists( $p_user );
+		if( $p_project !== ALL_PROJECTS ) {
+			project_ensure_exists( $p_project );
+		}
+		if( $p_user !== NO_USER ) {
+			user_ensure_exists( $p_user );
+		}
 
 		$t_query = "SELECT COUNT(*) from {config}
-				WHERE config_id = %d AND project_id = %d AND user_id = %d";
-		$t_result = db_query( $t_query, array( (int)$p_option, (int)$p_project, (int)$p_user ) );
+				WHERE config_id = %s AND project_id = %d AND user_id = %d";
+		$t_result = db_query( $t_query, array( $p_option, (int)$p_project, (int)$p_user ) );
 
 		$t_params = array();
 		if( 0 < db_result( $t_result ) ) {
 			$t_set_query = "UPDATE {config} SET value=%s, type=%d, access_reqd=%d
-					WHERE config_id = %d AND project_id = %d AND user_id = %d";
+					WHERE config_id = %s AND project_id = %d AND user_id = %d";
 			$t_params = array(
 				$c_value,
 				$t_type,
 				(int)$p_access,
-				(int)$p_option,
+				$p_option,
 				(int)$p_project,
 				(int)$p_user,
 			);
 		} else {
 			$t_set_query = "INSERT INTO {config}
 					( value, type, access_reqd, config_id, project_id, user_id )
-					VALUES ( %s, %d, %d, %d, %d,%d )";
+					VALUES ( %s, %d, %d, %s, %d,%d )";
 			$t_params = array(
 				$c_value,
 				$t_type,
 				(int)$p_access,
-				(int)$p_option,
+				$p_option,
 				(int)$p_project,
 				(int)$p_user,
 			);
