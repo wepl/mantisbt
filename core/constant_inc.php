@@ -344,7 +344,7 @@ define( 'PHPMAILER_METHOD_SENDMAIL',	1 );
 define( 'PHPMAILER_METHOD_SMTP',		2 );
 
 # Lengths - NOTE: these may represent hard-coded values in db schema and should not be changed.
-define( 'USERLEN', 32);
+define( 'USERLEN', 255);
 define( 'REALLEN', 64);
 define( 'PASSLEN', 32);
 

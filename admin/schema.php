@@ -597,3 +597,4 @@ $upgrade[] = array( 'UpdateFunction', "stored_filter_migrate" );
 $upgrade[] = array( 'AddColumnSQL', array( '{custom_field_string}', "
 	text		XL  			NULL DEFAULT NULL " ) );
 $upgrade[] = array( 'UpdateFunction', "update_export_columns", array() );
+$upgrade[] = array( 'AlterColumnSQL', array( '{user}', "username C(255) NOTNULL DEFAULT ''" ) );
