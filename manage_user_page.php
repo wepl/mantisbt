@@ -118,8 +118,7 @@ print_manage_menu( 'manage_user_page.php' );
 
 $t_days_old = 7 * SECONDS_PER_DAY;
 $t_query = "SELECT COUNT(*) AS new_user_count FROM {user}
-	WHERE ".db_helper_compare_days("" . db_now() . "","date_created","<= $t_days_old")."
-	ORDER BY date_created DESC";
+	WHERE ".db_helper_compare_days("" . db_now() . "","date_created","<= $t_days_old");
 
 $t_result = db_query( $t_query );
 $t_row = db_fetch_array( $t_result );
@@ -128,8 +127,7 @@ $t_new_user_count = $t_row['new_user_count'];
 # Never Logged In Form BEGIN
 
 $t_query = "SELECT COUNT(*) AS unused_user_count FROM {user}
-	WHERE ( login_count = 0 ) AND ( date_created = last_visit )
-	ORDER BY date_created DESC";
+	WHERE ( login_count = 0 ) AND ( date_created = last_visit )";
 $t_result = db_query( $t_query );
 $t_row = db_fetch_array( $t_result );
 $t_unused_user_count = $t_row['unused_user_count'];
