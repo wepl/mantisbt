@@ -375,7 +375,7 @@ $upgrade[] = array('CreateTableSQL', array( '{plugin}', "
 
 $upgrade[] = array('AlterColumnSQL', array( '{user_pref}', "redirect_delay 	I NOTNULL DEFAULT 0" ) );
 
-	$upgrade[] = array('AlterColumnSQL', array( '{custom_field}', "possible_values X NOTNULL" ) );
+$upgrade[] = array('AlterColumnSQL', array( '{custom_field}', "possible_values X NOTNULL DEFAULT ''" ) );
 
 $upgrade[] = array( 'CreateTableSQL', array( '{category}', "
 	id				I		UNSIGNED NOTNULL PRIMARY AUTOINCREMENT,
