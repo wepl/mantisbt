@@ -202,7 +202,7 @@ class MantisLanguage {
 		# don't allow 'auto' as a language to be pushed onto the stack
 		#  The results from auto are always the local user, not what the
 		#  override wants, unless this is the first language setting
-		if(( 'auto' == $t_lang ) && ( 0 < count( $g_lang_overrides ) ) ) {
+		if(( 'auto' == $t_lang ) && ( 0 < count( self::$s_lang_overrides ) ) ) {
 			$t_lang = config_get( 'fallback_language' );
 		}
 
@@ -239,11 +239,9 @@ class MantisLanguage {
 	 * @return string
 	 */
 	private static function GetCurrentLanguage() {
-		global $g_lang_overrides;
-
-		$t_count_overrides = count( $g_lang_overrides );
+		$t_count_overrides = count( self::$s_lang_overrides );
 		if( $t_count_overrides > 0 ) {
-			$t_lang = $g_lang_overrides[$t_count_overrides - 1];
+			$t_lang = self::$s_lang_overrides[$t_count_overrides - 1];
 		} else {
 			$t_lang = lang_get_default();
 		}
