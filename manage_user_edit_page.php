@@ -91,7 +91,7 @@ print_manage_menu();
 			<legend><span><?php echo lang_get( 'edit_user_title' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_user_update' ) ?>
 			<!-- Title -->
-			<input type="hidden" name="user_id" value="<?php echo $t_user['id'] ?>" />
+			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
 
 			<!-- Username -->
 			<div class="field-container <?php echo helper_alternate_class_no_attribute(); ?>">
@@ -175,7 +175,7 @@ print_manage_menu();
 	<form id="manage-user-reset-form" method="post" action="manage_user_reset.php" class="action-button">
 		<fieldset>
 		<?php echo form_security_field( 'manage_user_reset' ) ?>
-		<input type="hidden" name="user_id" value="<?php echo $t_user['id'] ?>" />
+		<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
 			<span><input type="submit" class="button" value="<?php echo lang_get( 'reset_password_button' ) ?>" /></span>
 		</fieldset>
 	</form>
@@ -186,7 +186,7 @@ print_manage_menu();
 	<form id="manage-user-delete-form" method="post" action="manage_user_delete.php" class="action-button">
 		<fieldset>
 			<?php echo form_security_field( 'manage_user_delete' ) ?>
-			<input type="hidden" name="user_id" value="<?php echo $t_user['id'] ?>" />
+			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
 			<span><input type="submit" class="button" value="<?php echo lang_get( 'delete_user_button' ) ?>" /></span>
 		</fieldset>
 	</form>
@@ -213,18 +213,18 @@ print_manage_menu();
 	<h2><?php echo lang_get( 'add_user_title' ) ?></h2>
 	<div class="field-container <?php echo helper_alternate_class_no_attribute(); ?>">
 		<span class="display-label"><span><?php echo lang_get( 'assigned_projects_label' ) ?></span></span>
-		<div class="input"><?php print_project_user_list( $t_user['id'] ) ?></div>
+		<div class="input"><?php print_project_user_list( $t_user['user_id'] ) ?></div>
 		<span class="label-style"></span>
 	</div>
 	<form id="manage-user-project-add-form" method="post" action="manage_user_proj_add.php">
 		<fieldset>
 			<?php echo form_security_field( 'manage_user_proj_add' ) ?>
-			<input type="hidden" name="user_id" value="<?php echo $t_user['id'] ?>" />
+			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
 			<div class="field-container <?php echo helper_alternate_class_no_attribute(); ?>">
 				<label for="add-user-project-id"><span><?php echo lang_get( 'unassigned_projects_label' ) ?></span></label>
 				<span class="select">
 					<select id="add-user-project-id" name="project_id[]" multiple="multiple" size="5">
-						<?php print_project_user_list_option_list2( $t_user['id'] ) ?>
+						<?php print_project_user_list_option_list2( $t_user['user_id'] ) ?>
 					</select>
 				</span>
 				<span class="label-style"></span>
@@ -246,6 +246,6 @@ print_manage_menu();
 
 define ( 'ACCOUNT_PREFS_INC_ALLOW', true );
 include( dirname( __FILE__ ) . '/account_prefs_inc.php' );
-edit_account_prefs( $t_user['id'], false, false, 'manage_user_edit_page.php?user_id=' . $t_user_id );
+edit_account_prefs( $t_user['user_id'], false, false, 'manage_user_edit_page.php?user_id=' . $t_user_id );
 
 html_page_bottom();
