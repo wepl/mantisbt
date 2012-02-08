@@ -62,7 +62,6 @@ require_api( 'utility_api.php' );
 # *******************************************
 
 $g_custom_field_types[CUSTOM_FIELD_TYPE_STRING] = 'standard';
-$g_custom_field_types[CUSTOM_FIELD_TYPE_TEXTAREA] = 'standard';
 $g_custom_field_types[CUSTOM_FIELD_TYPE_NUMERIC] = 'standard';
 $g_custom_field_types[CUSTOM_FIELD_TYPE_FLOAT] = 'standard';
 $g_custom_field_types[CUSTOM_FIELD_TYPE_ENUM] = 'standard';
@@ -939,9 +938,7 @@ function custom_field_get_value( $p_field_id, $p_bug_id ) {
 		return false;
 	}
 
-	$t_value_field = ( $row['type'] == CUSTOM_FIELD_TYPE_TEXTAREA ? 'text' : 'value' );
-
-	$query = 'SELECT $t_value_field FROM {custom_field_string} WHERE bug_id=%d AND field_id=%d';
+	$query = 'SELECT value FROM {custom_field_string} WHERE bug_id=%d AND field_id=%d';
 	$result = db_query( $query, array( $c_bug_id, $c_field_id ) );
 
 	if( $t_value = db_result( $result ) ) {
@@ -1261,10 +1258,8 @@ function custom_field_set_value( $p_field_id, $p_bug_id, $p_value, $p_log_insert
 	$t_name = custom_field_get_field( $p_field_id, 'name' );
 	$t_type = custom_field_get_field( $p_field_id, 'type' );
 
-	$t_value_field = ( $t_type == CUSTOM_FIELD_TYPE_TEXTAREA ) ? 'text' : 'value';
-
 	# Determine whether an existing value needs to be updated or a new value inserted
-	$query = "SELECT $t_value_field
+	$query = "SELECT value
 				  FROM {custom_field_string}
 				  WHERE field_id=%d AND
 				  		bug_id=%d";
@@ -1272,15 +1267,15 @@ function custom_field_set_value( $p_field_id, $p_bug_id, $p_value, $p_log_insert
 
 	if( $row = db_fetch_array( $result ) ) {
 		$query = "UPDATE {custom_field_string}
-					  SET $t_value_field=%s
+					  SET value=%s
 					  WHERE field_id=%d AND
 					  		bug_id=%d";
 		db_query( $query, array( custom_field_value_to_database( $p_value, $t_type ), $p_field_id, $p_bug_id ) );
 
-		history_log_event_direct( $p_bug_id, $t_name, custom_field_database_to_value( $row[$t_value_field], $t_type ), $p_value );
+		history_log_event_direct( $p_bug_id, $t_name, custom_field_database_to_value( $row['value'], $t_type ), $p_value );
 	} else {
 		$query = "INSERT INTO {custom_field_string}
-						( field_id, bug_id, $t_value_field )
+						( field_id, bug_id, value )
 					  VALUES
 						( %d, %d, %s)";
 		db_query( $query, array( $p_field_id, $p_bug_id, custom_field_value_to_database( $p_value, $t_type ) ) );

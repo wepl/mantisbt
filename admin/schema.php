@@ -594,7 +594,6 @@ $upgrade[] = array( 'CreateIndexSQL', array( 'idx_bug_tag_tag_id', '{bug_tag}', 
 $upgrade[] = array( 'CreateIndexSQL', array( 'idx_email_id', '{email}', 'email_id', array( 'DROP' ) ), array( 'db_index_exists', array( '{email}', 'idx_email_id') ) );
 $upgrade[] = array( 'UpdateFunction', 'correct_multiselect_custom_fields_db_format' );
 $upgrade[] = array( 'UpdateFunction', "stored_filter_migrate" );
-$upgrade[] = array( 'AddColumnSQL', array( '{custom_field_string}', "
-	text		XL  			NULL DEFAULT NULL " ) );
+$upgrade[] = array( 'AlterColumnSQL', array( '{custom_field_string}', "value XL NULL DEFAULT NULL " ) );
 $upgrade[] = array( 'UpdateFunction', "update_export_columns", array() );
 $upgrade[] = array( 'AlterColumnSQL', array( '{user}', "username C(255) NOTNULL DEFAULT ''" ) );
