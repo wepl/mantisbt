@@ -35,7 +35,6 @@ class MantisBug extends MantisCacheable {
 	protected $due_date = 0;
 
 	# omitted:
-	# var $bug_text_id
 	protected $profile_id = 0;
 
 	# extended info
@@ -60,13 +59,13 @@ class MantisBug extends MantisCacheable {
 
 		if( $p_bug_id ) {
 			$this->id = intval($p_bug_id);
-			if( $this->isCached() ) {
+			/*if( $this->isCached() ) {
 				log_event( LOG_FILTERING, 'CACHE HIT' );
 				$cache = $this->getCache();
 				foreach( self::$fields as $t_field=>$t) {
 					$this->{$t_field} = $cache->{$t_field};
 				}				
-			} else {
+			} else {*/
 				if( $p_get_extended ) {
 					$t_row = $this->bug_get_extended_row( $p_bug_id );
 				} else {
@@ -80,7 +79,7 @@ class MantisBug extends MantisCacheable {
 					$this->loadrow( $t_row );
 				}
 				$this->putCache(); 
-			}
+			//}
 		}
 	}
 	
@@ -104,7 +103,7 @@ class MantisBug extends MantisCacheable {
 	 */
 	function bug_get_extended_row( $p_bug_id ) {
 		$t_base = $this->bug_cache_row( $p_bug_id );
-		$t_text = bug_text_cache_row( $p_bug_id );
+		$t_text = $this->bug_text_cache_row( $p_bug_id );
 
 		# merge $t_text first so that the 'id' key has the bug id not the bug text id
 		return array_merge( $t_text, $t_base );
@@ -152,7 +151,7 @@ class MantisBug extends MantisCacheable {
 			}
 		}
 
-		return bug_add_to_cache( $t_row );
+		return $t_row;
 	}	
 	
 	/**
@@ -215,7 +214,7 @@ class MantisBug extends MantisCacheable {
 				}
 				break;
 		}
-		$this->$name = $value;
+		$this->{$name} = $value;
 	}
 
 	/**
@@ -253,7 +252,7 @@ class MantisBug extends MantisCacheable {
 	 */
 	private function fetch_extended_info() {
 		if ( $this->description == '' ) {
-			$t_text = bug_text_cache_row($this->id);
+			$t_text = $this->bug_text_cache_row($this->id);
 
 			$this->description = $t_text['description'];
 			$this->steps_to_reproduce = $t_text['steps_to_reproduce'];
@@ -346,19 +345,6 @@ class MantisBug extends MantisCacheable {
 			$this->last_updated = db_now();
 		}
 
-		# Insert text information
-		$t_query = "INSERT INTO {bug_text}
-					    ( description, steps_to_reproduce, additional_information )
-					  VALUES
-					    (%s,%s,%s)";
-		db_query( $t_query, array( $this->description, $this->steps_to_reproduce, $this->additional_information ) );
-
-		# Get the id of the text information we just inserted
-		# NOTE: this is guarranteed to be the correct one.
-		# The value LAST_INSERT_ID is stored on a per connection basis.
-
-		$t_text_id = db_insert_id( '{bug_text}' );
-
 		# check to see if we want to assign this right off
 		$t_starting_status  = config_get( 'bug_submit_status' );
 		$t_original_status = $this->status;
@@ -387,21 +373,23 @@ class MantisBug extends MantisCacheable {
 					    ( project_id,reporter_id, handler_id,duplicate_id,
 					      priority,severity, reproducibility,status,
 					      resolution,projection, category_id,date_submitted,
-					      last_updated,eta, bug_text_id, os,
+					      last_updated,eta, os,
 					      os_build,platform, version,build,
 					      profile_id, summary, view_state, sponsorship_total, 
-						  sticky, fixed_in_version, target_version, due_date
+						  sticky, fixed_in_version, target_version, due_date,
+						  description, steps_to_reproduce, additional_information
 					    )
 					  VALUES
 					    ( %d,%d,%d,%d,
 					      %d,%d,%d,%d,
 					      %d,%d,%d,%d,
-					      %d,%d,%d,%s,
+					      %d,%d,%s,
 					      %s,%s,%s,%s,
 					      %d,%s,%d,%d,
-					      %d,%d,%s,%d)";
+					      %d,%d,%s,%d,
+						  %s, %s,%s)";
 
-		db_query( $t_query, array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, $this->date_submitted, $this->last_updated, $this->eta, $t_text_id, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date ) );
+		db_query( $t_query, array( $this->project_id, $this->reporter_id, $this->handler_id, $this->duplicate_id, $this->priority, $this->severity, $this->reproducibility, $t_status, $this->resolution, $this->projection, $this->category_id, $this->date_submitted, $this->last_updated, $this->eta, $this->os, $this->os_build, $this->platform, $this->version, $this->build, $this->profile_id, $this->summary, $this->view_state, $this->sponsorship_total, $this->sticky, $this->fixed_in_version, $this->target_version, $this->due_date, $this->description, $this->steps_to_reproduce, $this->additional_information ) );
 
 		$this->id = db_insert_id( '{bug}' );
 
@@ -515,16 +503,12 @@ class MantisBug extends MantisCacheable {
 
 		# Update extended info if requested
 		if( $p_update_extended ) {
-			$t_bug_text_id = bug_get_field( $this->id, 'bug_text_id' );
-
-			$query = "UPDATE {bug_text}
+			$query = "UPDATE {bug}
 							SET description=%s,
 								steps_to_reproduce=%s,
 								additional_information=%s
 							WHERE id=%d";
-			db_query( $query, array( $this->description, $this->steps_to_reproduce, $this->additional_information, $t_bug_text_id ) );
-
-			bug_text_clear_cache( $this->id );
+			db_query( $query, array( $this->description, $this->steps_to_reproduce, $this->additional_information, $this->id ) );
 
 			$t_current_user = auth_get_current_user_id();
 
@@ -578,5 +562,32 @@ class MantisBug extends MantisCacheable {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Cache a bug text row if necessary and return the cached copy
+	 * @param int p_bug_id integer bug id to retrieve text for
+	 * @param bool p_trigger_errors If the second parameter is true (default), trigger an error if bug text not found.
+	 * @return bool|array returns false if not bug text found or array of bug text
+	 * @access public
+	 * @uses database_api.php
+	 */
+	function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
+		$c_bug_id = (int) $p_bug_id;
+
+		$t_query = "SELECT b.* FROM {bug} b WHERE b.id=%d";
+		$t_result = db_query( $t_query, array( $c_bug_id ) );
+
+		$row = db_fetch_array( $t_result );
+		
+		if( !$row ) {
+			if( $p_trigger_errors ) {
+				throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
+			} else {
+				return false;
+			}
+		}
+
+		return $row;
 	}
 }

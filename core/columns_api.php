@@ -279,24 +279,6 @@ function columns_get_all( $p_project_id = null ) {
 }
 
 /**
- * Checks if the specified column is an extended column.  Extended columns are native columns that are
- * associated with the issue but are saved in mantis_bug_text_table.
- * @param string $p_column The column name
- * @return bool true for extended; false otherwise.
- * @access public
- */
-function column_is_extended( $p_column ) {
-	switch( $p_column ) {
-		case 'description':
-		case 'steps_to_reproduce':
-		case 'additional_information':
-			return true;
-		default:
-			return false;
-	}
-}
-
-/**
  * Given a column name from the array of columns to be included in a view, this method checks if
  * the column is a custom column and if so returns its name.  Note that for custom fields, then
  * provided names will have the "custom_" prefix, where the returned ones won't have the prefix.

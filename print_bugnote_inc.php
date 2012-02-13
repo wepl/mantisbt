@@ -103,14 +103,6 @@ $t_note_count = count( $t_notes );
 		extract( $t_notes[$i], EXTR_PREFIX_ALL, 'v3' );
 		$v3_date_submitted = date( config_get( 'normal_date_format' ), $v3_date_submitted );
 		$v3_last_modified = date( config_get( 'normal_date_format' ), $v3_last_modified );
-
-		# grab the bugnote text and id and prefix with v3_
-		$t_query = "SELECT note, id FROM {bugnote_text}
-				WHERE id=%d";
-		$t_result2 = db_query( $t_query, array( $v3_bugnote_text_id ) );
-		$v3_note = db_result( $t_result2, 0, 0 );
-		$v3_bugnote_text_id = db_result( $t_result2, 0, 1 );
-
 		$v3_note = string_display_links( $v3_note );
 ?>
 <tr>

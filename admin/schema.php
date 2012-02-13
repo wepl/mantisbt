@@ -597,3 +597,15 @@ $upgrade[] = array( 'UpdateFunction', "stored_filter_migrate" );
 $upgrade[] = array( 'AlterColumnSQL', array( '{custom_field_string}', "value XL NULL DEFAULT NULL " ) );
 $upgrade[] = array( 'UpdateFunction', "update_export_columns", array() );
 $upgrade[] = array( 'AlterColumnSQL', array( '{user}', "username C(255) NOTNULL DEFAULT ''" ) );
+
+$upgrade[] = array( 'AddColumnSQL', array( '{bug}', "description XL NOTNULL DEFAULT ''" ) );
+$upgrade[] = array( 'AddColumnSQL', array( '{bug}', "steps_to_reproduce XL NOTNULL DEFAULT ''" ) );
+$upgrade[] = array( 'AddColumnSQL', array( '{bug}', "additional_information XL NOTNULL DEFAULT ''" ) );
+$upgrade[] = array( 'UpdateFunction', "migrate_bug_text", array() );
+$upgrade[] = array( 'DropTableSQL', array( '{bug_text}' ) );
+$upgrade[] = array( 'DropColumnSQL', array( '{bug}', "bug_text_id" ) );
+
+$upgrade[] = array( 'AddColumnSQL', array( '{bugnote}', "note XL NOTNULL DEFAULT ''" ) );
+$upgrade[] = array( 'UpdateFunction', "migrate_bugnote_text", array() );
+$upgrade[] = array( 'DropTableSQL', array( '{bugnote_text}' ) );
+$upgrade[] = array( 'DropColumnSQL', array( '{bugnote}', "bugnote_text_id" ) );

@@ -466,3 +466,75 @@ function install_update_export_columns() {
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
 	return 2;
 }
+
+//migrate_bug_text
+
+function install_migrate_bug_text() {
+	global $g_db_log_queries;
+
+	# Disable query logging due to possibility of mass spam.
+	if ( $g_db_log_queries !== 0 ) {
+		$t_log_queries = $g_db_log_queries;
+		$g_db_log_queries = 0;
+	} else {
+		$t_log_queries = null;
+	}
+
+	$query = "SELECT id, description, steps_to_reproduce, additional_information FROM {bug_text}";
+
+	$t_result = db_query( $query );
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$text_id = (int)$t_row['id'];
+		$description = $t_row['description'];
+		$steps_to_reproduce = $t_row['steps_to_reproduce'];
+		$additional_information = $t_row['additional_information'];
+
+		$query = "UPDATE {bug} SET description=%s, steps_to_reproduce=%s, additional_information=%s WHERE bug_text_id=%d";
+		$t_result3 = db_query( $query, array( $description, $steps_to_reproduce, $additional_information, $text_id ) );
+
+		$query = "DELETE FROM {bug_text} WHERE id=%d";
+		$t_result3 = db_query( $query, array( $text_id ) );
+	}
+
+	// re-enabled query logging if we disabled it
+	if ( $t_log_queries !== null ) {
+		$g_db_log_queries = $t_log_queries;
+	}
+
+	# Return 2 because that's what ADOdb/DataDict does when things happen properly
+	return 2;
+}
+
+function install_migrate_bugnote_text() {
+	global $g_db_log_queries;
+
+	# Disable query logging due to possibility of mass spam.
+	if ( $g_db_log_queries !== 0 ) {
+		$t_log_queries = $g_db_log_queries;
+		$g_db_log_queries = 0;
+	} else {
+		$t_log_queries = null;
+	}
+
+	$query = "SELECT id, note FROM {bugnote_text}";
+
+	$t_result = db_query( $query );
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$text_id = (int)$t_row['id'];
+		$note = $t_row['note'];
+
+		$query = "UPDATE {bugnote} SET note=%s WHERE bugnote_text_id=%d";
+		$t_result3 = db_query( $query, array( $note, $text_id ) );
+
+		$query = "DELETE FROM {bugnote_text} WHERE id=%d";
+		$t_result3 = db_query( $query, array( $text_id ) );
+	}
+
+	// re-enabled query logging if we disabled it
+	if ( $t_log_queries !== null ) {
+		$g_db_log_queries = $t_log_queries;
+	}
+
+	# Return 2 because that's what ADOdb/DataDict does when things happen properly
+	return 2;
+}

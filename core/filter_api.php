@@ -1952,10 +1952,10 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 
 			$c_search = '%' . $t_search_term . '%';
 			$t_textsearch_where_clause .= '( ' . db_helper_like( 'summary' ) .
-				' OR ' . db_helper_like( "{bug_text}.description" ) .
-				' OR ' . db_helper_like( "{bug_text}.steps_to_reproduce" ) .
-				' OR ' . db_helper_like( "{bug_text}.additional_information" ) .
-				' OR ' . db_helper_like( "{bugnote_text}.note" );
+				' OR ' . db_helper_like( "{bug}.description" ) .
+				' OR ' . db_helper_like( "{bug}.steps_to_reproduce" ) .
+				' OR ' . db_helper_like( "{bug}.additional_information" ) .
+				' OR ' . db_helper_like( "{bugnote}.note" );
 
 			$t_where_params[] = $c_search;
 			$t_where_params[] = $c_search;
@@ -1978,11 +1978,8 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 
 		# add text query elements to arrays
 		if ( !$t_first ) {
-			$t_from_clauses[] = "{bug_text}";
-			$t_where_clauses[] = "{bug}.bug_text_id = {bug_text}.id";
 			$t_where_clauses[] = $t_textsearch_where_clause;
 			$t_join_clauses[] = " LEFT JOIN {bugnote} ON {bug}.id = {bugnote}.bug_id";
-			$t_join_clauses[] = " LEFT JOIN {bugnote_text} ON {bugnote}.bugnote_text_id = {bugnote_text}.id";
 		}
 	}
 

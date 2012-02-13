@@ -72,11 +72,6 @@ require_api( 'twitter_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 
-
-
-$g_cache_bug = array();
-$g_cache_bug_text = array();
-
 /**
  * Cache a database result-set containing full contents of bug_table row.
  * @param array p_bug_database_result database row containing all columns from mantis_bug_table
@@ -158,62 +153,6 @@ function bug_clear_cache( $p_bug_id = null ) {
 		$g_cache_bug = array();
 	} else {
 		unset( $g_cache_bug[(int) $p_bug_id] );
-	}
-
-	return true;
-}
-
-/**
- * Cache a bug text row if necessary and return the cached copy
- * @param int p_bug_id integer bug id to retrieve text for
- * @param bool p_trigger_errors If the second parameter is true (default), trigger an error if bug text not found.
- * @return bool|array returns false if not bug text found or array of bug text
- * @access public
- * @uses database_api.php
- */
-function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
-	global $g_cache_bug_text;
-
-	$c_bug_id = (int) $p_bug_id;
-
-	if( isset( $g_cache_bug_text[$c_bug_id] ) ) {
-		return $g_cache_bug_text[$c_bug_id];
-	}
-
-	$t_query = "SELECT bt.* FROM {bug_text} bt, {bug} b
-				  WHERE b.id=%d AND b.bug_text_id = bt.id";
-	$t_result = db_query( $t_query, array( $c_bug_id ) );
-
-	$row = db_fetch_array( $t_result );
-	
-	if( !$row ) {
-		$g_cache_bug_text[$c_bug_id] = false;
-
-		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
-		} else {
-			return false;
-		}
-	}
-
-	$g_cache_bug_text[$c_bug_id] = $row;
-
-	return $row;
-}
-
-/**
- * Clear a bug's bug text from the cache or all bug text if no bug id specified.
- * @param int bug id to clear (optional)
- * @return null
- * @access public
- */
-function bug_text_clear_cache( $p_bug_id = null ) {
-	global $g_cache_bug_text;
-
-	if( null === $p_bug_id ) {
-		$g_cache_bug_text = array();
-	} else {
-		unset( $g_cache_bug_text[(int) $p_bug_id] );
 	}
 
 	return true;
@@ -438,22 +377,10 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
 		$result = db_query( $query, array( $t_bug_id ) );
 
 		while( $t_bug_note = db_fetch_array( $result ) ) {
-			$t_bugnote_text_id = $t_bug_note['bugnote_text_id'];
-
-			$t_query2 = 'SELECT * FROM {bugnote_text} WHERE id=%d';
-			$t_result2 = db_query( $t_query2, array( $t_bugnote_text_id ) );
-
-			$t_bugnote_text_insert_id = -1;
-			if( $t_bugnote_text = db_fetch_array( $t_result2 ) ) {
-				$t_query2 = 'INSERT INTO {bugnote_text} ( note ) VALUES ( %s )';
-				db_query( $t_query2, array( $t_bugnote_text['note'] ) );
-				$t_bugnote_text_insert_id = db_insert_id( '{bugnote_text}' );
-			}
-
 			$t_query2 = "INSERT INTO {bugnote}
-						   ( bug_id, reporter_id, bugnote_text_id, view_state, date_submitted, last_modified )
-						   VALUES ( %d, %d, %d, %d, %d, %d)";
-			db_query( $t_query2, array( $t_new_bug_id, $t_bug_note['reporter_id'], $t_bugnote_text_insert_id, $t_bug_note['view_state'], $t_bug_note['date_submitted'], $t_bug_note['last_modified'] ) );
+						   ( bug_id, reporter_id, view_state, date_submitted, last_modified, note )
+						   VALUES ( %d, %d, %d, %d, %d, %s)";
+			db_query( $t_query2, array( $t_new_bug_id, $t_bug_note['reporter_id'], $t_bug_note['view_state'], $t_bug_note['date_submitted'], $t_bug_note['last_modified'], $t_bugnote_text['note'] ) );
 		}
 	}
 
@@ -588,18 +515,11 @@ function bug_delete( $p_bug_id ) {
 	# Delete bug info revisions
 	bug_revision_delete( $p_bug_id );
 
-	# Delete the bugnote text
-	$t_bug_text_id = bug_get_field( $p_bug_id, 'bug_text_id' );
-
-	$t_query = 'DELETE FROM {bug_text} WHERE id=%d';
-	db_query( $t_query, array( $t_bug_text_id ) );
-
 	# Delete the bug entry
 	$t_query = 'DELETE FROM {bug} WHERE id=%d';
 	db_query( $t_query, array( $c_bug_id ) );
 
 	bug_clear_cache( $p_bug_id );
-	bug_text_clear_cache( $p_bug_id );
 
 	# db_query errors on failure so:
 	return true;
@@ -660,25 +580,6 @@ function bug_get_field( $p_bug_id, $p_field_name ) {
 
 	if( isset( $t_bug_data->{$p_field_name} ) ) {
 		return $t_bug_data->{$p_field_name};
-	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
-		return '';
-	}
-}
-
-/**
- * return the specified text field of the given bug
- *  if the field does not exist, display a warning and return ''
- * @param int p_bug_id integer representing bug id
- * @param string p_fieldname field name
- * @return string
- * @access public
- */
-function bug_get_text_field( $p_bug_id, $p_field_name ) {
-	$row = bug_text_cache_row( $p_bug_id );
-
-	if( isset( $row[$p_field_name] ) ) {
-		return $row[$p_field_name];
 	} else {
 		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
 		return '';
