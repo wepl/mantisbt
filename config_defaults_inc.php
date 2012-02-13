@@ -132,6 +132,7 @@ if ( isset ( $_SERVER['SCRIPT_NAME'] ) ) {
 	$t_self = filter_var($t_self, FILTER_SANITIZE_STRING);
 	$t_path = str_replace( basename( $t_self ), '', $t_self );
 	$t_path = basename( $t_path ) == "admin" ? rtrim( dirname( $t_path ), '/\\' ) . '/' : $t_path;
+	$t_path = basename( $t_path ) == "manage" ? rtrim( dirname( $t_path ), '/\\' ) . '/' : $t_path;
 	$t_path = basename( $t_path ) == "soap" ? rtrim( dirname( dirname( $t_path ) ), '/\\' ) . '/' : $t_path;
 	if( strpos( $t_path, '&#' ) ) {
 		echo 'Can not safely determine $g_path. Please set $g_path manually in config_inc.php';
@@ -1677,7 +1678,7 @@ $g_ldap_server	= array( 'ldaps://ldap.example.com/',
  * LDAP_OPT_DEREF (integer)
  * LDAP_OPT_SIZELIMIT (integer)
  * LDAP_OPT_TIMELIMIT (integer)
- * LDAP_OPT_NETWORK_TIMEOUT	(integer - exists since PHP 5.3.0)
+ * LDAP_OPT_NETWORK_TIMEOUT	(integer)
  * LDAP_OPT_PROTOCOL_VERSION (integer)
  * LDAP_OPT_ERROR_NUMBER (integer)
  * LDAP_OPT_REFERRALS (bool)
@@ -1874,8 +1875,7 @@ $g_status_enum_workflow = array();
  ****************************/
 
 /**
- * Specify the filename of the magic database file. This is used by
- * PHP 5.3.0 (or earlier versions with the fileinfo PECL extension) to
+ * Specify the filename of the magic database file. This is used to
  * guess what the MIME type of a file is. Usually it is safe to leave this
  * setting as the default (blank) as PHP is usually able to find this file
  * by itself.
