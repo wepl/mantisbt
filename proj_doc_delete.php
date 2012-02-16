@@ -78,15 +78,4 @@ form_security_purge( 'proj_doc_delete' );
 
 $t_redirect_url = 'proj_doc_page.php';
 
-html_page_top( null, $t_redirect_url );
-?>
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ).'<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( 'proj_doc_page.php' );

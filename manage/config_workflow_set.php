@@ -61,8 +61,6 @@ $t_redirect_url = 'manage_config_workflow_page.php';
 $t_project = helper_get_current_project();
 $t_access = current_user_get_access_level();
 
-html_page_top( lang_get( 'manage_workflow_config' ), $t_redirect_url );
-
 # process the changes to threshold values
 $t_valid_thresholds = array( 'bug_submit_status', 'bug_resolved_status_threshold', 'bug_reopen_status' );
 
@@ -145,15 +143,5 @@ if( config_get_access( 'status_enum_workflow' ) <= $t_access ) {
 }
 
 form_security_purge( 'manage_config_workflow_set' );
-?>
 
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );

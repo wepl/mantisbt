@@ -166,6 +166,16 @@ function print_successful_redirect( $p_redirect_to ) {
 	}
 }
 
+function print_successful_operation( $p_redirect ) {
+	html_page_top( null, $p_redirect );
+	echo '<br /><div>';
+	echo $p_result . '<br />';
+	echo lang_get( 'operation_successful' ) . '<br />';
+	print_bracket_link( $p_redirect, lang_get( 'proceed' ) );
+	echo '</div>';
+	html_page_bottom();
+}
+
 # Print avatar image for the given user ID
 function print_avatar( $p_user_id, $p_size = 80 ) {
 	if( !user_exists( $p_user_id ) ) {

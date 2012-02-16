@@ -84,15 +84,4 @@ if ( $f_project_id == ALL_PROJECTS ) {
 	$t_redirect_url = 'manage_proj_edit_page.php?project_id=' . $f_project_id;
 }
 
-html_page_top( null, $t_redirect_url );
-?>
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );

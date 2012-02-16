@@ -64,8 +64,6 @@ $f_flags			= gpc_get( 'flag', array() );
 $f_thresholds		= gpc_get( 'flag_threshold', array() );
 $f_actions_access	= gpc_get_int( 'notify_actions_access' );
 
-html_page_top( lang_get( 'manage_email_config' ), $t_redirect_url );
-
 $t_access = current_user_get_access_level();
 $t_can_change_flags = $t_access >= config_get_access( 'notify_flags' );
 $t_can_change_defaults = $t_access >= config_get_access( 'default_notify_flags' );
@@ -175,15 +173,5 @@ if ( isset( $t_notify_flags ) ) {
 }
 
 form_security_purge('manage_config_email_set');
-?>
 
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );

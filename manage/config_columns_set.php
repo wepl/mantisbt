@@ -117,18 +117,7 @@ if ( serialize( config_get( 'export_columns', columns_get_default('export'), $t_
 }
 
 $t_redirect_url = $f_form_page === 'account' ? 'account_manage_columns_page.php' : 'manage_config_columns_page.php';
-html_page_top( null, $t_redirect_url );
 
 form_security_purge( 'manage_config_columns_set' );
-?>
-<br />
-<div>
-<?php
-echo '<br />';
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
 
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );

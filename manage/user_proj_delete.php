@@ -75,15 +75,4 @@ form_security_purge( 'manage_user_proj_delete' );
 
 $t_redirect_url = 'manage_user_edit_page.php?user_id=' .$f_user_id;
 
-html_page_top( null, $t_redirect_url );
-?>
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ).'<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );

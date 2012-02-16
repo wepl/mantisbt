@@ -89,17 +89,4 @@ $result = db_query( $query, array( $c_export, $t_user_id ) );
 
 form_security_purge( 'print_all_bug_options_update' );
 
-html_page_top( null, $f_redirect_url );
-
-echo '<br /><div>';
-
-if ( $result ) {
-	print lang_get( 'operation_successful' );
-} else {
-	throw new MantisBT\Exception\Generic();
-}
-
-echo '<br />';
-print_bracket_link( $f_redirect_url, lang_get( 'proceed' ) );
-echo '<br /></div>';
-html_page_bottom();
+print_successful_operation( $f_redirect_url );

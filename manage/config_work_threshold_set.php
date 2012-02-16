@@ -55,8 +55,6 @@ auth_reauthenticate();
 $t_redirect_url = 'manage_config_work_threshold_page.php';
 $t_project = helper_get_current_project();
 
-html_page_top( lang_get( 'manage_threshold_config' ), $t_redirect_url );
-
 $t_access = current_user_get_access_level();
 
 function set_capability_row( $p_threshold, $p_all_projects_only=false ) {
@@ -177,15 +175,5 @@ set_capability_row( 'view_history_threshold' );
 set_capability_row( 'bug_reminder_threshold' );
 
 form_security_purge( 'manage_config_work_threshold_set' );
-?>
 
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );

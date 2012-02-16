@@ -86,16 +86,4 @@ user_delete( $f_user_id );
 
 form_security_purge('manage_user_delete');
 
-html_page_top( null, 'manage_user_page.php' );
-?>
-
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( 'manage_user_page.php', lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( 'manage_user_page.php' );

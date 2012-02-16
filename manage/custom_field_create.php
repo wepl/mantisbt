@@ -65,16 +65,4 @@ if ( ON == config_get( 'custom_field_edit_after_create' ) ) {
 
 form_security_purge('manage_custom_field_create');
 
-html_page_top( null, $t_redirect_url );
-
-echo '<br />';
-echo '<div>';
-
-echo lang_get( 'operation_successful' ) . '<br />';
-
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-
-echo '</div>';
-
-html_page_bottom();
-
+print_successful_operation( $t_redirect_url );

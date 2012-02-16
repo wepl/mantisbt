@@ -61,9 +61,6 @@ $t_query = "SELECT id, access_level FROM {user}
 		WHERE ( login_count = 0 ) AND ( date_created = last_visit ) AND " . db_helper_compare_days( 0, "date_created", "> $t_days_old" );
 $t_result = db_query( $t_query, array( db_now() ) );
 
-if ( !$t_result )
-	throw new MantisBT\Exception\Generic();
-
 $t_users = array();
 while ( $t_row = db_fetch_array( $t_result ) ) {
 	$t_users[] = $t_row;

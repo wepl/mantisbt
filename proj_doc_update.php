@@ -141,23 +141,6 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 	$result = db_query( $query, array( $c_title, $c_description, $c_file_id ) );
 }
 
-if ( !$result ) {
-	throw new MantisBT\Exception\Generic();
-}
-
 form_security_purge( 'proj_doc_update' );
 
-$t_redirect_url = 'proj_doc_page.php';
-
-html_page_top( null, $t_redirect_url );
-?>
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ).'<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( 'proj_doc_page.php' );

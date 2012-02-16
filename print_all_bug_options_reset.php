@@ -78,19 +78,4 @@ $result = db_query( $query, array( $t_default, $t_user_id ) );
 
 form_security_purge( 'print_all_bug_options_reset' );
 
-$t_redirect_url = 'print_all_bug_options_page.php';
-
-html_page_top( null, $t_redirect_url );
-
-echo '<br /><div>';
-
-if ( $result ) {
-	print lang_get( 'operation_successful' );
-} else {
-	throw new MantisBT\Exception\Generic();
-}
-
-echo '<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-echo '<br /></div>';
-html_page_bottom();
+print_successful_operation( 'print_all_bug_options_page.php' );

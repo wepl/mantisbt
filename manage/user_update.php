@@ -203,25 +203,19 @@ if ( $f_send_email_notification ) {
 	lang_pop();
 }
 
+$t_msg = '';
+if ( $f_protected && $t_old_protected ) {				# PROTECTED
+	$t_msg = lang_get( 'manage_user_protected_msg' );
+} else if ( $result ) {					# SUCCESS
+	$t_msg = lang_get( 'operation_successful' );
+}
+
 $t_redirect_url = 'manage_user_edit_page.php?user_id=' . $c_user_id;
 
 form_security_purge('manage_user_update');
 
-html_page_top( null, $result ? $t_redirect_url : null );
-?>
+print_successful_operation( $t_redirect_url, $t_msg );
 
-<br />
-<div>
-<?php
-if ( $f_protected && $t_old_protected ) {				# PROTECTED
-	echo lang_get( 'manage_user_protected_msg' ) . '<br />';
-} else if ( $result ) {					# SUCCESS
-	echo lang_get( 'operation_successful' ) . '<br />';
-}
 
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
 
-<?php
-html_page_bottom();
+

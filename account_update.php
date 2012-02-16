@@ -121,23 +121,15 @@ if ( !is_blank( $f_password ) ) {
 
 form_security_purge('account_update');
 
-html_page_top( null, $t_redirect );
-
-echo '<br /><div>';
-
 if ( $t_email_updated ) {
-	echo lang_get( 'email_updated' ) . '<br />';
+	print_successful_operation( $t_redirect, lang_get( 'email_updated' ) );
 }
 
 if ( $t_password_updated ) {
-	echo lang_get( 'password_updated' ) . '<br />';
+	print_successful_operation( $t_redirect, lang_get( 'password_updated' ) );
 }
 
 if ( $t_realname_updated ) {
-	echo lang_get( 'realname_updated' ) . '<br />';
+	print_successful_operation( $t_redirect, lang_get( 'realname_updated' ) );
 }
 
-echo lang_get( 'operation_successful' ) . '<br />';
-print_bracket_link( $t_redirect, lang_get( 'proceed' ) );
-echo '</div>';
-html_page_bottom();

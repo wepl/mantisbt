@@ -68,15 +68,4 @@ version_remove( $f_version_id );
 
 form_security_purge( 'manage_proj_ver_delete' );
 
-html_page_top( null, $t_redirect_url );
-?>
-<br />
-<div>
-<?php
-echo lang_get( 'operation_successful' ).'<br />';
-print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
-?>
-</div>
-
-<?php
-html_page_bottom();
+print_successful_operation( $t_redirect_url );
