@@ -53,7 +53,7 @@ require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 
 function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p_total ) {
-	printf( '<tr %s>', helper_alternate_class() );
+	print( '<tr>' );
 	printf( '<td class="width50">%s</td>', string_display_line( $p_label ) );
 	printf( '<td class="width12 right">%s</td>', $p_open );
 	printf( '<td class="width12 right">%s</td>', $p_resolved );
@@ -282,7 +282,7 @@ function summary_print_by_date( $p_date_array ) {
 		$t_start_date = mktime( 0, 0, 0, date( 'm' ), ( date( 'd' ) - $t_days ), date( 'Y' ) );
 		$t_new_bugs_link = '<a class="subtle" href="' . config_get( 'bug_count_hyperlink_prefix' ) . '&amp;' . FILTER_PROPERTY_FILTER_BY_DATE . '=on&amp;' . FILTER_PROPERTY_START_YEAR . '=' . date( 'Y', $t_start_date ) . '&amp;' . FILTER_PROPERTY_START_MONTH . '=' . date( 'm', $t_start_date ) . '&amp;' . FILTER_PROPERTY_START_DAY . '=' . date( 'd', $t_start_date ) . '&amp;' . FILTER_PROPERTY_HIDE_STATUS . '=">';
 
-		print( "<tr " . helper_alternate_class() . ">\n" );
+		print( "<tr>\n" );
 		print( "    <td class=\"width50\">" . $t_days . "</td>\n" );
 
 		if( $t_new_count > 0 ) {
@@ -367,7 +367,7 @@ function summary_print_by_activity() {
 		$t_summary = string_display_line( $row['summary'] );
 		$t_notescount = $row['count'];
 
-		print "<tr " . helper_alternate_class() . ">\n";
+		print "<tr>\n";
 		print "<td class=\"small\">$t_bugid - $t_summary</td><td class=\"right\">$t_notescount</td>\n";
 		print "</tr>\n";
 	}
@@ -409,7 +409,7 @@ function summary_print_by_age() {
 		$t_summary = string_display_line( $row['summary'] );
 		$t_days_open = intval(( time() - $row['date_submitted'] ) / SECONDS_PER_DAY );
 
-		print "<tr " . helper_alternate_class() . ">\n";
+		print "<tr>\n";
 		print "<td class=\"small\">$t_bugid - $t_summary</td><td class=\"right\">$t_days_open</td>\n";
 		print "</tr>\n";
 	}
@@ -814,7 +814,6 @@ function summary_print_developer_resolution( $p_resolution_enum_string ) {
 	}
 
 	$t_filter_prefix = config_get( 'bug_count_hyperlink_prefix' );
-	$t_row_count = 0;
 
 	# We now have a multi dimensional array of users and resolutions, with the value of each resolution for each user
 	foreach( $t_handler_res_arr as $t_handler_id => $t_arr2 ) {
@@ -824,8 +823,7 @@ function summary_print_developer_resolution( $p_resolution_enum_string ) {
 		# users that aren't actually developers...
 
 		if( $t_arr2['total'] > 0 ) {
-			echo '<tr ' . helper_alternate_class( $t_row_count ) . '>';
-			$t_row_count++;
+			echo '<tr>';
 			echo '<td>';
 			echo string_display_line( user_get_name( $t_handler_id ) );
 			echo '</td>';
@@ -935,7 +933,7 @@ function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 		if( $t_total_user_bugs > 0 ) {
 			$t_arr2 = $t_reporter_res_arr[$t_reporter_id];
 
-			echo '<tr ' . helper_alternate_class( $t_row_count ) . '>';
+			echo '<tr>';
 			$t_row_count++;
 			echo '<td>';
 			echo string_display_line( user_get_name( $t_reporter_id ) );
@@ -1059,8 +1057,7 @@ function summary_print_reporter_effectiveness( $p_severity_enum_string, $p_resol
 		if( $t_total_user_bugs > 0 ) {
 			$t_arr2 = $t_reporter_ressev_arr[$t_reporter_id];
 
-			echo '<tr ' . helper_alternate_class( $t_row_count ) . '>';
-			$t_row_count++;
+			echo '<tr>';
 			echo '<td>';
 			echo string_display_line( user_get_name( $t_reporter_id ) );
 			echo '</td>';

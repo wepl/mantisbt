@@ -132,7 +132,7 @@ print_manage_menu( 'manage_proj_page.php' );
 
 			# only print row if user has project management privileges
 			if (access_has_project_level( $t_manage_project_threshold, $t_project_id, auth_get_current_user_id() ) ) { ?>
-			<tr <?php echo helper_alternate_class() ?>>
+			<tr>
 				<td>
 					<a href="manage_proj_edit_page.php?project_id=<?php echo $t_project['id'] ?>"><?php echo str_repeat( "&raquo; ", $t_level ) . string_display( $t_project['name'] ) ?></a>
 				</td>
@@ -182,7 +182,7 @@ print_manage_menu( 'manage_proj_page.php' );
 			$t_user_name = '';
 		} ?>
 
-		<tr <?php echo helper_alternate_class() ?>>
+		<tr>
 			<td><?php echo string_display( category_full_name( $t_category['id'], false ) )  ?></td>
 			<td><?php echo string_display_line( $t_user_name ) ?></td>
 			<td class="center">

@@ -73,7 +73,7 @@ function print_font_checked( $p_font_name ) {
 	</td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<th class="category">
 		<?php echo plugin_lang_get( 'library' )?>
 	</th>
@@ -87,7 +87,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr class="spacer"><td></td></tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<th class="category">
 		<?php echo plugin_lang_get( 'window_width' )?>
 	</th>
@@ -96,7 +96,7 @@ function print_font_checked( $p_font_name ) {
 	</td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<th class="category">
 		<?php echo plugin_lang_get( 'bar_aspect' )?>
 	</th>
@@ -105,7 +105,7 @@ function print_font_checked( $p_font_name ) {
 	</td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<th class="category">
 		<?php echo plugin_lang_get( 'summary_graphs_per_row' )?>
 	</th>
@@ -114,7 +114,7 @@ function print_font_checked( $p_font_name ) {
 	</td>
 </tr>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<th class="category">
 		<?php echo plugin_lang_get( 'font' )?>
 	</th>
@@ -139,7 +139,7 @@ function print_font_checked( $p_font_name ) {
 <tr class="spacer"><td></td></tr>
 
 <?php if ( current_user_is_administrator() ) {?>
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<td class="category">
 		<?php echo plugin_lang_get( 'jpgraph_path' )?>
 		<br /><span class="small"><?php echo plugin_lang_get( 'jpgraph_path_default' )?></span>
@@ -150,7 +150,7 @@ function print_font_checked( $p_font_name ) {
 </tr>
 <?php } ?>
 
-<tr <?php echo helper_alternate_class( )?>>
+<tr>
 	<td class="category">
 		<?php echo plugin_lang_get( 'jpgraph_antialias' )?>
 		<br /><span class="small"><?php echo plugin_lang_get( 'jpgraph_antialias_info' )?></span>

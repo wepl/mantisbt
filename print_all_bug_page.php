@@ -231,7 +231,7 @@ $t_icon_path = config_get( 'icon_path' );
 
 		if ( isset( $t_bug_arr_sort[ $t_row->id ] ) || ( $t_show_flag==0 ) ) {
 ?>
-<tr <?php echo helper_alternate_class( $i ) ?>>
+<tr>
 <?php
 		foreach( $t_columns as $t_column ) {
 			$t_column_value_function = 'print_column_value';

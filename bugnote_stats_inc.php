@@ -137,7 +137,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 		$t_item['sum_time_tracking'] = db_minutes_to_hhmm ( $t_item['sum_time_tracking'] );
 ?>
 
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<td class="small-caption">
 		<?php echo string_display_line( $t_item['username'] ) ?>
 	</td>
@@ -146,7 +146,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 	</td>
 </tr>
 <?php } # end for loop ?>
-<tr <?php echo helper_alternate_class() ?>>
+<tr>
 	<td class="small-caption">
 		<?php echo lang_get( 'total_time' ) ?>
 	</td>

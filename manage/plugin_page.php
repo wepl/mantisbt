@@ -172,7 +172,7 @@ foreach ( $t_plugins_installed as $t_basename => $t_plugin ) {
 		$t_depends = '<span class="small dependency_met">' . lang_get( 'plugin_no_depends' ) . '</span>';
 	}
 
-	echo '<tr ',helper_alternate_class(),'>';
+	echo '<tr>';
 	echo '<td class="small center">',$t_name,'<input type="hidden" name="change_',$t_basename,'" value="1"/></td>';
 	echo '<td class="small">',$t_description,$t_author,$t_url,'</td>';
 	echo '<td class="small center">',$t_depends,'</td>';
@@ -279,7 +279,7 @@ foreach ( $t_plugins_available as $t_basename => $t_plugin ) {
 		$t_depends = '<span class="small dependency_met">' . lang_get( 'plugin_no_depends' ) . '</span>';
 	}
 
-	echo '<tr ',helper_alternate_class(),'>';
+	echo '<tr>';
 	echo '<td class="small center">',$t_name,'</td>';
 	echo '<td class="small">',$t_description,$t_author,$t_url,'</td>';
 	echo '<td class="center">',$t_depends,'</td>';
