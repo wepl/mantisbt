@@ -56,13 +56,13 @@ auth_reauthenticate();
 
 access_ensure_global_level( config_get( 'manage_user_threshold' ) );
 
-$f_sort	         = gpc_get_string( 'sort', 'username' );
-$f_dir	         = gpc_get_string( 'dir', 'ASC' );
+$f_sort = gpc_get_string( 'sort', 'username' );
+$f_dir = gpc_get_string( 'dir', 'ASC' );
 $f_hide_inactive = gpc_get_bool( 'hideinactive' );
 $f_show_disabled = gpc_get_bool( 'showdisabled' );
-$f_save          = gpc_get_bool( 'save' );
-$f_filter        = utf8_strtoupper( gpc_get_string( 'filter', config_get( 'default_manage_user_prefix' ) ) );
-$f_page_number   = gpc_get_int( 'page_number', 1 );
+$f_save = gpc_get_bool( 'save' );
+$f_filter = mb_strtoupper( gpc_get_string( 'filter', config_get( 'default_manage_user_prefix' ) ) );
+$f_page_number = gpc_get_int( 'page_number', 1 );
 
 $t_cookie_name = config_get( 'manage_cookie' );
 $t_lock_image = '<img src="' . config_get( 'icon_path' ) . 'protected.gif" width="8" height="15" alt="' . lang_get( 'protected' ) . '" />';
