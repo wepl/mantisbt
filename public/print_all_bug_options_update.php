@@ -33,9 +33,6 @@
  * @uses print_api.php
  */
 
-use MantisBT\Error;
-use MantisBT\Exception\UnspecifiedException;
-
 require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'constant_inc.php' );
@@ -95,7 +92,7 @@ if ( $result ) {
     html_operation_successful( $f_redirect_url );
 } else {
     echo '<div class="failure-msg">';
-    echo Error::error_string( ERROR_GENERIC ) . '<br />';
+    echo string_display_line(_('An error occurred during this action. You may wish to report this error to your local administrator.')) . '<br />';
     print_bracket_link( $f_redirect_url, lang_get( 'proceed' ) );
     echo '</div>';
 }
