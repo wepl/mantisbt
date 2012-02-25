@@ -113,16 +113,6 @@ function db_unixtimestamp( $p_date = null, $p_gmt = false ) {
  * Migrate the legacy category data to the new category_id-based schema.
  */
 function install_category_migrate() {
-	global $g_db_log_queries;
-
-	// disable query logging (even if it's enabled in config for this)
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	$query = "SELECT project_id, category, user_id FROM {project_category} ORDER BY project_id, category";
 	$t_category_result = db_query( $query );
 
@@ -167,27 +157,12 @@ function install_category_migrate() {
 		}
 	}
 
-	// re-enabled query logging if we disabled it
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
-	}
-
 	# return 2 because that's what ADOdb/DataDict does when things happen properly
 	return 2;
 }
 
 function install_date_migrate( $p_data) {
 	// $p_data[0] = tablename, [1] id column, [2] = old column, [3] = new column
-	global $g_db_log_queries;
-
-	// disable query logging (even if it's enabled in config for this)
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	$t_table = $p_data[0];
 	$t_id_column = $p_data[1];
 
@@ -242,11 +217,6 @@ function install_date_migrate( $p_data) {
 		db_query( $query, $t_values );
 	}
 
-	// re-enabled query logging if we disabled it
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
-	}
-
 	# return 2 because that's what ADOdb/DataDict does when things happen properly
 	return 2;
 
@@ -261,16 +231,6 @@ function install_date_migrate( $p_data) {
  * one possible value that can be assigned to a radio field.
  */
 function install_correct_multiselect_custom_fields_db_format() {
-	global $g_db_log_queries;
-
-	# Disable query logging due to possibility of mass spam.
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	# Ensure multilist and checkbox custom field values have a vertical pipe |
 	# as a prefix and suffix.
 	$t_query = "SELECT v.field_id, v.bug_id, v.value from {custom_field_string} v
@@ -312,11 +272,6 @@ function install_correct_multiselect_custom_fields_db_format() {
 		$t_update_result = db_query( $t_update_query );
 	}
 
-	# Re-enable query logging if we disabled it.
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
-	}
-
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
 	return 2;
 }
@@ -328,16 +283,6 @@ function install_correct_multiselect_custom_fields_db_format() {
  *	filter None.  This removes it from all filters.
  */
 function install_stored_filter_migrate() {
-	global $g_db_log_queries;
-
-	# Disable query logging due to possibility of mass spam.
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	require_api( 'filter_api.php' );
 
 	$t_cookie_version = config_get( 'cookie_version' );
@@ -375,11 +320,6 @@ function install_stored_filter_migrate() {
 
 		$t_update_query = 'UPDATE {filters} SET filter_string=%s WHERE id=%d';
 		$t_update_result = db_query( $t_update_query, array( $t_filter_string, $t_row['id'] ) );
-	}
-
-	# Re-enable query logging if we disabled it.
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
@@ -423,16 +363,6 @@ function install_create_admin_if_not_exist( $p_data ) {
 }
 
 function install_update_export_columns() {
-	global $g_db_log_queries;
-
-	# Disable query logging due to possibility of mass spam.
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	$query = "SELECT project_id, user_id, access_reqd, type FROM {config} WHERE config_id = 'csv_columns' or config_id = 'excel_columns' group by project_id, user_id, access_reqd, type";
 
 	$t_result = db_query( $query );
@@ -458,11 +388,6 @@ function install_update_export_columns() {
 		$t_result3 = db_query( $query, array( $access_reqd, $type, $project_id, $user_id ) );
 	}
 
-	// re-enabled query logging if we disabled it
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
-	}
-
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
 	return 2;
 }
@@ -470,16 +395,6 @@ function install_update_export_columns() {
 //migrate_bug_text
 
 function install_migrate_bug_text() {
-	global $g_db_log_queries;
-
-	# Disable query logging due to possibility of mass spam.
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	$query = "SELECT id, description, steps_to_reproduce, additional_information FROM {bug_text}";
 
 	$t_result = db_query( $query );
@@ -496,26 +411,11 @@ function install_migrate_bug_text() {
 		$t_result3 = db_query( $query, array( $text_id ) );
 	}
 
-	// re-enabled query logging if we disabled it
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
-	}
-
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
 	return 2;
 }
 
 function install_migrate_bugnote_text() {
-	global $g_db_log_queries;
-
-	# Disable query logging due to possibility of mass spam.
-	if ( $g_db_log_queries !== 0 ) {
-		$t_log_queries = $g_db_log_queries;
-		$g_db_log_queries = 0;
-	} else {
-		$t_log_queries = null;
-	}
-
 	$query = "SELECT id, note FROM {bugnote_text}";
 
 	$t_result = db_query( $query );
@@ -530,9 +430,32 @@ function install_migrate_bugnote_text() {
 		$t_result3 = db_query( $query, array( $text_id ) );
 	}
 
-	// re-enabled query logging if we disabled it
-	if ( $t_log_queries !== null ) {
-		$g_db_log_queries = $t_log_queries;
+	# Return 2 because that's what ADOdb/DataDict does when things happen properly
+	return 2;
+}
+
+function install_check_project_hierarchy() {
+	$query = 'SELECT count(child_id) as count, child_id, parent_id FROM {project_hierarchy} GROUP BY child_id, parent_id';
+
+	$t_result = db_query( $query );
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$count = (int)$t_row['count'];
+		$child_id = (int)$t_row['child_id'];
+		$parent_id = (int)$t_row['parent_id'];
+
+		if( $count > 1 ) {
+			$query = 'SELECT inherit_parent, child_id, parent_id FROM {project_hierarchy} WHERE child_id=%d AND parent_id=%d';
+			
+			$t_result2 = db_query( $query, array( $child_id, $parent_id ) );		
+			// get first result for inherit_parent, discard the rest
+			$t_row2 = db_fetch_array( $t_result2 );
+			
+			$inherit = $t_row2['inherit_parent'];
+			
+			db_query( 'DELETE FROM {project_hierarchy} WHERE child_id=%d AND parent_id=%d', array( $child_id, $parent_id ) );
+			
+			db_query( 'INSERT INTO {project_hierarchy} (child_id, parent_id, inherit_parent) VALUES (%d,%d,%d)', array( $child_id, $parent_id, $inherit ) );
+		}
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly

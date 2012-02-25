@@ -49,12 +49,6 @@ $g_queries_array = array();
 $g_db_connected = false;
 
 /**
- * Store whether to log queries ( used for show_queries_count/query list)
- * @global bool $g_db_log_queries
- */
-$g_db_log_queries = ( 0 != ( config_get_global( 'log_level' ) & LOG_DATABASE ) );
-
-/**
  * Open a connection to the database.
  * @param string $p_dsn Database connection string ( specified instead of other params)
  * @param string $p_hostname Database server hostname
@@ -78,7 +72,7 @@ function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password
 
 	$t_prefix = config_get_global( 'db_table_prefix' ) . '_';
 	$t_suffix = config_get_global( 'db_table_suffix' );
-	
+
 	$g_db->SetPrefixes( $t_prefix, $t_suffix );
 	$g_db_connected = true;
 	return true;
@@ -136,67 +130,16 @@ function db_is_mssql() {
  * @return ADORecordSet|bool adodb result set or false if the query failed.
  */
 function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) {
-	global $g_queries_array, $g_db, $g_db_log_queries;
-
-	static $s_check_params;
-	if( $s_check_params === null ) {
-		$s_check_params = ( db_is_pgsql() || config_get_global( 'db_type' ) == 'odbc_mssql' );
-	}
+	global $g_db;
 	
-	$t_start = $t_elapsed = microtime(true);
 	if(( $p_limit != -1 ) || ( $p_offset != -1 ) ) {
 		$t_result = $g_db->SelectLimit( $p_query, $p_limit, $p_offset, $arr_parms );
 	} else {
 		$t_result = $g_db->Execute( $p_query, $arr_parms );
 	}
 
-	$t_elapsed = number_format( microtime(true) - $t_start, 4 );
-
-	if( ON == $g_db_log_queries ) {
-		$t_db_type = config_get_global( 'db_type' );
-		$lastoffset = 0;
-		$i = 1;
-		if( !( is_null( $arr_parms ) || empty( $arr_parms ) ) ) {
-			while( preg_match( '/(\?)/', $p_query, $matches, PREG_OFFSET_CAPTURE, $lastoffset ) ) {
-				if( $i <= count( $arr_parms ) ) {
-					if( is_null( $arr_parms[$i - 1] ) ) {
-						$replace = 'NULL';
-					}
-					else if( is_string( $arr_parms[$i - 1] ) ) {
-						$replace = "'" . $arr_parms[$i - 1] . "'";
-					}
-					else if( is_integer( $arr_parms[$i - 1] ) || is_float( $arr_parms[$i - 1] ) ) {
-						$replace = (float) $arr_parms[$i - 1];
-					}
-					else if( is_bool( $arr_parms[$i - 1] ) ) {
-						switch( $t_db_type ) {
-							case 'pgsql':
-								$replace = "'" . $arr_parms[$i - 1] . "'";
-							break;
-						default:
-							$replace = $arr_parms[$i - 1];
-							break;
-						}
-					} else {
-						echo( "Invalid argument type passed to query_bound(): $i" );
-						exit( 1 );
-					}
-					$p_query = utf8_substr( $p_query, 0, $matches[1][1] ) . $replace . utf8_substr( $p_query, $matches[1][1] + utf8_strlen( $matches[1][0] ) );
-					$lastoffset = $matches[1][1] + utf8_strlen( $replace );
-				} else {
-					$lastoffset = $matches[1][1] + 1;
-				}
-				$i++;
-			}
-		}
-		log_event( LOG_DATABASE, array( $p_query, $t_elapsed), debug_backtrace() );
-		//array_push( $g_queries_array, array( $p_query, $t_elapsed ) );
-	} else {
-		//array_push( $g_queries_array, array( '', $t_elapsed ) );
-	}
-
 	if( !$t_result ) {
-		throw new MantisBT\Exception\DB_Query_Failed();
+		throw new MantisBT\Exception\Database\QueryFailed();
 		return false;
 	} else {
 		return $t_result;
