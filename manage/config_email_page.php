@@ -98,7 +98,7 @@ function get_notify_flag( $action, $flag ) {
 }
 
 function colour_notify_flag ( $p_action, $p_flag ) {
-	global $t_notify_flags, $t_global_notify_flags, $t_file_notify_flags, $t_colour_project, $t_colour_global;
+	global $t_notify_flags, $t_global_notify_flags, $t_file_notify_flags;
 
 	$t_file = isset( $t_file_notify_flags[$p_action][$p_flag] ) ? ( $t_file_notify_flags[$p_action][$p_flag] ? 1 : 0 ): -1;
 	$t_global = isset( $t_global_notify_flags[$p_action][$p_flag] ) ? ( $t_global_notify_flags[$p_action][$p_flag]  ? 1 : 0 ): -1;
@@ -107,12 +107,12 @@ function colour_notify_flag ( $p_action, $p_flag ) {
 	$t_colour = '';
 	if ( $t_global >= 0 ) {
 		if ( $t_global != $t_file ) {
-			$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+			$t_colour = ' class="colour-global" '; # all projects override
 		}
 	}
 	if ( $t_project >= 0 ) {
 		if ( $t_project != $t_global ) {
-			$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+			$t_colour = ' class="colour-project" '; # project overrides
 		}
 	}
 	return $t_colour;
@@ -132,7 +132,7 @@ function show_notify_flag( $p_action, $p_flag ) {
 }
 
 function colour_threshold_flag ( $p_access, $p_action ) {
-	global $t_notify_flags, $t_global_notify_flags, $t_file_notify_flags, $t_colour_project, $t_colour_global;
+	global $t_notify_flags, $t_global_notify_flags, $t_file_notify_flags;
 
 	$t_file = ( $p_access >= $t_file_notify_flags[$p_action]['threshold_min'] )
 					 && ( $p_access <= $t_file_notify_flags[$p_action]['threshold_max'] );
@@ -143,10 +143,10 @@ function colour_threshold_flag ( $p_access, $p_action ) {
 
 	$t_colour = '';
 	if ( $t_global != $t_file ) {
-		$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+		$t_colour = ' class="colour-global" '; # all projects override
 	}
 	if ( $t_project != $t_global ) {
-		$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+		$t_colour = ' class="colour-project" '; # project overrides
 	}
 	return $t_colour;
 }
@@ -212,9 +212,6 @@ print_manage_config_menu( 'manage_config_email_page.php' );
 $t_access = current_user_get_access_level();
 $t_project = helper_get_current_project();
 
-$t_colour_project = config_get( 'colour_project');
-$t_colour_global = config_get( 'colour_global');
-
 # build a list of all of the actions
 $t_actions = array( 'owner', 'reopened', 'deleted', 'bugnote' );
 if( config_get( 'enable_sponsorship' ) == ON ) {
@@ -277,9 +274,9 @@ if( config_get( 'enable_email_notification' ) == ON ) {
 	echo '<p class="bold">' . $t_project_title . '</p>' . "\n";
 	echo '<p>' . lang_get( 'colour_coding' ) . '<br />';
 	if ( ALL_PROJECTS <> $t_project ) {
-		echo '<span style="background-color:' . $t_colour_project . '">' . lang_get( 'colour_project' ) . '</span><br />';
+		echo '<span class="colour-project">' . lang_get( 'colour_project' ) . '</span><br />';
 	}
-	echo '<span style="background-color:' . $t_colour_global . '">' . lang_get( 'colour_global' ) . '</span></p>';
+	echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
 
 	get_section_begin_for_email( lang_get( 'email_notification' ) );
 #		get_capability_row_for_email( lang_get( 'email_on_new' ), 'new' );  # duplicate of status change to 'new'

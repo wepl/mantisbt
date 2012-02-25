@@ -89,7 +89,7 @@ function get_section_begin_mcwt( $p_section_name ) {
 }
 
 function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=false ) {
-	global $t_user, $t_project_id, $t_show_submit, $t_access_levels, $t_colour_project, $t_colour_global;
+	global $t_user, $t_project_id, $t_show_submit, $t_access_levels;
 
 	$t_file = config_get_global( $p_threshold );
 	if ( !is_array( $t_file ) ) {
@@ -138,13 +138,13 @@ function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=fals
 
 		$t_colour = '';
 		if ( $t_global != $t_file ) {
-			$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+			$t_colour = ' class="colour-global" '; # all projects override
 			if ( $t_can_change ) {
 				set_overrides( $p_threshold );
 			}
 		}
 		if ( $t_project != $t_global ) {
-			$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+			$t_colour = ' class="colour-project" '; # project overrides
 			if ( $t_can_change ) {
 				set_overrides( $p_threshold );
 			}
@@ -175,7 +175,7 @@ function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=fals
 }
 
 function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=false ) {
-	global $t_user, $t_project_id, $t_show_submit, $t_access_levels, $t_colour_project, $t_colour_global;
+	global $t_user, $t_project_id, $t_show_submit, $t_access_levels;
 
 	$t_file = config_get_global( $p_threshold );
 	$t_global = config_get( $p_threshold, null, null, ALL_PROJECTS );
@@ -186,13 +186,13 @@ function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=
 
 	$t_colour = '';
 	if ( $t_global != $t_file ) {
-		$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+		$t_colour = ' class="colour-global" '; # all projects override
 		if ( $t_can_change ) {
 			set_overrides( $p_threshold );
 		}
 	}
 	if ( $t_project != $t_global ) {
-		$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+		$t_colour = ' class="colour-project" '; # project overrides
 		if ( $t_can_change ) {
 			set_overrides( $p_threshold );
 		}
@@ -224,7 +224,7 @@ function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=
 }
 
 function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects_only=false ) {
-	global $t_user, $t_project_id, $t_show_submit, $t_access_levels, $t_colour_project, $t_colour_global;
+	global $t_user, $t_project_id, $t_show_submit, $t_access_levels;
 
 	$t_file = config_get_global( $p_threshold );
 	$t_global = config_get( $p_threshold, null, null, ALL_PROJECTS );
@@ -235,13 +235,13 @@ function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects
 
 	$t_colour = '';
 	if ( $t_global != $t_file ) {
-		$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+		$t_colour = ' class="colour-global" '; # all projects override
 		if ( $t_can_change ) {
 			set_overrides( $p_threshold );
 		}
 	}
 	if ( $t_project != $t_global ) {
-		$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+		$t_colour = ' class="colour-project" '; # project overrides
 		if ( $t_can_change ) {
 			set_overrides( $p_threshold );
 		}
@@ -273,9 +273,6 @@ function get_section_end() {
 	echo '</table><br />' . "\n";
 }
 
-$t_colour_project = config_get( 'colour_project');
-$t_colour_global = config_get( 'colour_global');
-
 echo "<br /><br />\n";
 
 if ( ALL_PROJECTS == $t_project_id ) {
@@ -286,9 +283,9 @@ if ( ALL_PROJECTS == $t_project_id ) {
 echo '<p class="bold">' . $t_project_title . '</p>' . "\n";
 echo '<p>' . lang_get( 'colour_coding' ) . '<br />';
 if ( ALL_PROJECTS <> $t_project_id ) {
-	echo '<span style="background-color:' . $t_colour_project . '">' . lang_get( 'colour_project' ) .'</span><br />';
+	echo '<span class="colour-project">' . lang_get( 'colour_project' ) .'</span><br />';
 }
-echo '<span style="background-color:' . $t_colour_global . '">' . lang_get( 'colour_global' ) . '</span></p>';
+echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
 
 echo "<form name=\"mail_config_action\" method=\"post\" action=\"manage_config_work_threshold_set.php\">\n";
 echo form_security_field( 'manage_config_work_threshold_set' );

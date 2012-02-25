@@ -590,3 +590,6 @@ ul.project-list li span.access-level, ul.project-list li span.view-state { displ
 .tag-link {
 	margin: 0em .5em;
 }
+
+.colour-global		{ background-color: LightBlue; }
+.colour-project		{ background-color: LightGreen; }

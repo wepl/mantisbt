@@ -74,7 +74,7 @@ function set_overrides( $p_config ) {
 
 # Get the value associated with the specific action and flag.
 function show_flag( $p_from_status_id, $p_to_status_id ) {
-	global $t_can_change_workflow, $t_overrides, $t_file_workflow, $t_global_workflow, $t_project_workflow, $t_colour_global, $t_colour_project;
+	global $t_can_change_workflow, $t_overrides, $t_file_workflow, $t_global_workflow, $t_project_workflow;
 	if ( $p_from_status_id <> $p_to_status_id ) {
 		$t_file = isset( $t_file_workflow['exit'][$p_from_status_id][$p_to_status_id] ) ? 1 : 0 ;
 		$t_global = isset( $t_global_workflow['exit'][$p_from_status_id][$p_to_status_id] ) ? 1 : 0 ;
@@ -82,13 +82,13 @@ function show_flag( $p_from_status_id, $p_to_status_id ) {
 
 		$t_colour = '';
 		if ( $t_global != $t_file ) {
-			$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+			$t_colour = ' class="colour-global" '; # all projects override
 			if ( $t_can_change_workflow ) {
 				set_overrides( 'status_enum_workflow' );
 			}
 		}
 		if ( $t_project != $t_global ) {
-			$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+			$t_colour = ' class="colour-project" '; # project overrides
 			if ( $t_can_change_workflow ) {
 				set_overrides( 'status_enum_workflow' );
 			}
@@ -137,7 +137,7 @@ function section_begin( $p_section_name ) {
 }
 
 function capability_row( $p_from_status ) {
-	global $t_file_workflow, $t_global_workflow, $t_project_workflow, $t_colour_global, $t_colour_project, $t_can_change_workflow;
+	global $t_file_workflow, $t_global_workflow, $t_project_workflow, $t_can_change_workflow;
 	$t_enum_status = MantisEnum::getAssocArrayIndexedByValues( config_get( 'status_enum_string' ) );
 	echo '<tr ' . helper_alternate_class() . '><td>' . string_no_break( MantisEnum::getLabel( lang_get( 'status_enum_string' ), $p_from_status ) ) . '</td>';
 	foreach ( $t_enum_status as $t_to_status_id => $t_to_status_label ) {
@@ -150,13 +150,13 @@ function capability_row( $p_from_status ) {
 
 	$t_colour = '';
 	if ( $t_global != $t_file ) {
-		$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+		$t_colour = ' class="colour-global" '; # all projects override
 		if ( $t_can_change_workflow ) {
 			set_overrides( 'status_enum_workflow' );
 		}
 	}
 	if ( $t_project != $t_global ) {
-		$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+		$t_colour = ' class="colour-project" '; # project overrides
 		if ( $t_can_change_workflow ) {
 			set_overrides( 'status_enum_workflow' );
 		}
@@ -187,7 +187,7 @@ function threshold_begin( $p_section_name ) {
 }
 
 function threshold_row( $p_threshold ) {
-	global $t_access, $t_can_change_flags, $t_colour_project, $t_colour_global;
+	global $t_access, $t_can_change_flags;
 
 	$t_file = config_get_global( $p_threshold );
 	$t_global = config_get( $p_threshold, null, null, ALL_PROJECTS );
@@ -195,13 +195,13 @@ function threshold_row( $p_threshold ) {
 	$t_can_change_threshold = $t_access >= config_get_access( $p_threshold );
 	$t_colour = '';
 	if ( $t_global != $t_file ) {
-		$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+		$t_colour = ' class="colour-global" '; # all projects override
 		if ( $t_can_change_threshold ) {
 			set_overrides( $p_threshold );
 		}
 	}
 	if ( $t_project != $t_global ) {
-		$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+		$t_colour = ' class="colour-project" '; # project overrides
 		if ( $t_can_change_threshold ) {
 			set_overrides( $p_threshold );
 		}
@@ -236,7 +236,7 @@ function access_begin( $p_section_name ) {
 }
 
 function access_row() {
-	global $t_access, $t_can_change_flags, $t_colour_project, $t_colour_global;
+	global $t_access, $t_can_change_flags;
 
 	$t_enum_status = MantisEnum::getAssocArrayIndexedByValues( config_get( 'status_enum_string' ) );
 
@@ -272,13 +272,13 @@ function access_row() {
 			$t_can_change = ( $t_access >= config_get_access( 'report_bug_threshold' ) );
 			$t_colour = '';
 			if ( $t_global_new != $t_file_new ) {
-				$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+				$t_colour = ' class="colour-global" '; # all projects override
 				if ( $t_can_change ) {
 					set_overrides( 'report_bug_threshold' );
 				}
 			}
 			if ( $t_project_new != $t_global_new ) {
-				$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+				$t_colour = ' class="colour-project" '; # project overrides
 				if ( $t_can_change ) {
 					set_overrides( 'report_bug_threshold' );
 				}
@@ -290,13 +290,13 @@ function access_row() {
 			$t_can_change = ( $t_access >= config_get_access( 'set_status_threshold' ) );
 			$t_colour = '';
 			if ( $t_level_global != $t_level_file ) {
-				$t_colour = ' bgcolor="' . $t_colour_global . '" '; # all projects override
+				$t_colour = ' class="colour-global" '; # all projects override
 				if ( $t_can_change ) {
 					set_overrides( 'set_status_threshold' );
 				}
 			}
 			if ( $t_level != $t_level_global ) {
-				$t_colour = ' bgcolor="' . $t_colour_project . '" '; # project overrides
+				$t_colour = ' class="colour-project" '; # project overrides
 				if ( $t_can_change ) {
 					set_overrides( 'set_status_threshold' );
 				}
@@ -366,9 +366,6 @@ foreach ( $t_status_arr as $t_status => $t_status_label ) {
 	}
 }
 
-$t_colour_project = config_get( 'colour_project');
-$t_colour_global = config_get( 'colour_global');
-
 echo "<form name=\"workflow_config_action\" method=\"post\" action=\"manage_config_workflow_set.php\">\n";
 echo '<fieldset>';
 echo form_security_field( 'manage_config_workflow_set' );
@@ -382,9 +379,9 @@ if ( ALL_PROJECTS == $t_project ) {
 echo '<p class="bold">' . $t_project_title . '</p>' . "\n";
 echo '<p>' . lang_get( 'colour_coding' ) . '<br />';
 if ( ALL_PROJECTS <> $t_project ) {
-	echo '<span style="background-color:' . $t_colour_project . '">' . lang_get( 'colour_project' ) .'</span><br />';
+	echo '<span class="colour-project">' . lang_get( 'colour_project' ) .'</span><br />';
 }
-echo '<span style="background-color:' . $t_colour_global . '">' . lang_get( 'colour_global' ) . '</span></p>';
+echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
 
 # show the settings used to derive the table
 threshold_begin( lang_get( 'workflow_thresholds' ) );

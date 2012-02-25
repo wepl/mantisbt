@@ -173,3 +173,6 @@ config_obsolete( 'email_set_category', '' );
 config_obsolete( 'hr_size', '' );
 config_obsolete( 'hr_width', '' );
 config_obsolete( 'csv_separator', '' );
+
+config_obsolete( 'colour_project', '' );
+config_obsolete( 'colour_global', '' );
