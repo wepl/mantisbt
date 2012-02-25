@@ -262,7 +262,7 @@ echo '<br /><br />';
 if( config_get( 'enable_email_notification' ) == ON ) {
 
 	if ( $t_can_change_flags  || $t_can_change_defaults ) {
-		echo "<form name=\"mail_config_action\" method=\"post\" action=\"manage_config_email_set.php\">\n";
+		echo "<form id=\"mail_config_action\" method=\"post\" action=\"manage_config_email_set.php\">\n";
 		echo form_security_field( 'manage_config_email_set' );
 	}
 
@@ -307,7 +307,7 @@ if( config_get( 'enable_email_notification' ) == ON ) {
 
 		echo "</form>\n";
 
-		echo "<div class=\"right\"><form name=\"mail_config_action\" method=\"post\" action=\"manage_config_revert.php\">\n";
+		echo "<div class=\"right\"><form id=\"mail_config_action\" method=\"post\" action=\"manage_config_revert.php\">\n";
 		echo form_security_field( 'manage_config_revert' );
 		echo "<input name=\"revert\" type=\"hidden\" value=\"notify_flags,default_notify_flags\"></input>";
 		echo "<input name=\"project\" type=\"hidden\" value=\"$t_project\"></input>";

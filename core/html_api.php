@@ -997,15 +997,15 @@ function print_manage_menu( $p_page = '' ) {
 	echo '<ul class="menu">';
 	foreach( $t_pages AS $t_page ) {
 		if( $t_page['url'] == '' ) {
-			echo '<li>', lang_get( $t_page['label'] ), '</li>';
+			echo "\t" . '<li>' . lang_get( $t_page['label'] ) . '</li>' . "\n";
 		} else {
-			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>';
+			echo "\t" . '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>' . "\n";
 		}
 	}
 
 	// Plugins menu items - these are cooked links
 	foreach( $t_menu_options as $t_menu_item ) {
-		echo '<li>', $t_menu_item, '</li>';
+		echo "\t" . '<li>', $t_menu_item, '</li>' . "\n";
 	}
 
 	echo '</ul>';

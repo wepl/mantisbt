@@ -287,7 +287,7 @@ if ( ALL_PROJECTS <> $t_project_id ) {
 }
 echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
 
-echo "<form name=\"mail_config_action\" method=\"post\" action=\"manage_config_work_threshold_set.php\">\n";
+echo "<form id=\"mail_config_action\" method=\"post\" action=\"manage_config_work_threshold_set.php\">\n";
 echo form_security_field( 'manage_config_work_threshold_set' );
 
 # Issues
