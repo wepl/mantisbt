@@ -538,4 +538,5 @@ array('mysql' => 'ENGINE=MyISAM DEFAULT CHARSET=utf8', 'pgsql' => 'WITHOUT OIDS'
 /* 196 */ $upgrade[] = array( 'DropTableSQL', array( '{bugnote_text}' ) );
 /* 197 */ $upgrade[] = array( 'DropColumnSQL', array( '{bugnote}', "bugnote_text_id" ) );
 /* 198 */ $upgrade[] = array( 'UpdateFunction', "check_project_hierarchy", array() );
-/* 199 */ $upgrade[] = array( 'CreateIndexSQL',array('idx_project_hierarchy','{project_hierarchy}','child_id,parent_id',array('UNIQUE')));
+/* 199 */ $upgrade[] = array( 'CreateIndexSQL', array('idx_project_hierarchy','{project_hierarchy}','child_id,parent_id',array('UNIQUE')));
+/* 200 */ $upgrade[] = array( 'AlterColumnSQL', array('{tokens}','owner I UNSIGNED NOTNULL') );
