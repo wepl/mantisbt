@@ -67,9 +67,9 @@ $result = db_query_bound( $query, array( $f_file_id ) );
 $t_title = db_result( $result );
 
 # Confirm with the user
-helper_ensure_confirmed( lang_get( 'confirm_file_delete_msg' ) .
-	'<br/>' . lang_get( 'filename_label' ) . lang_get( 'word_separator' ) . string_display( $t_title ),
-	lang_get( 'file_delete_button' ) );
+helper_ensure_confirmed( _('Are you sure you wish to delete this file?') .
+	'<br/>' . _('Filename:') . _('&#32;') . string_display( $t_title ),
+	_('Delete File') );
 
 file_delete( $f_file_id, 'project' );
 

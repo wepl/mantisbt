@@ -70,7 +70,7 @@ function workflow_parse( $p_enum_workflow ) {
 
 	# prepopulate new bug state (bugs go from nothing to here)
 	$t_submit_status_array = config_get( 'bug_submit_status' );
-	$t_new_label = MantisEnum::getLabel( lang_get( 'status_enum_string' ), config_get( 'bug_submit_status' ) );
+	$t_new_label = MantisEnum::getLabel( lang_get('status_enum_string'), config_get( 'bug_submit_status' ) );
 	if ( is_array( $t_submit_status_array ) ) {
 		# @@@ (thraxisp) this is not implemented in bug_api.php
 		foreach ($t_submit_status_array as $t_access => $t_status ) {

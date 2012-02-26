@@ -63,15 +63,15 @@ $t_max_file_size = (int)min( ini_get_number( 'upload_max_filesize' ), ini_get_nu
 	<td class="form-title" colspan="2">
 <?php
 		collapse_icon( 'upload_form' );
-		echo lang_get( $t_file_upload_max_num == 1 ? 'upload_file' : 'upload_files' );
+		echo n___('Upload File', 'Upload Files', $t_file_upload_max_num);
 ?>
 	</td>
 </tr>
 <tr class="row-1">
 	<td class="category" width="15%">
-		<?php echo lang_get( $t_file_upload_max_num == 1 ? 'select_file' : 'select_files' ) ?><br />
+		<?php echo n___('Select File', 'Select Files', $t_file_upload_max_num) ?><br />
 		<?php //FIXME: hard coded "k" in here. ?>
-		<span class="small"><?php echo lang_get( 'max_file_size_label' ) . lang_get( 'word_separator' ) . number_format( $t_max_file_size/1000 ) ?>k</span>
+		<span class="small"><?php echo _('Maximum size:') . _('&#32;') . number_format( $t_max_file_size/1000 ) ?>k</span>
 	</td>
 	<td width="85%">
 		<input type="hidden" name="bug_id" value="<?php echo $f_bug_id ?>" />
@@ -87,9 +87,7 @@ $t_max_file_size = (int)min( ini_get_number( 'upload_max_filesize' ), ini_get_nu
 		}
 	}
 ?>
-		<input type="submit" class="button"
-			value="<?php echo lang_get( $t_file_upload_max_num == 1 ? 'upload_file_button' : 'upload_files_button' ) ?>"
-		/>
+		<input type="submit" class="button" value="<?php echo n___('Upload File', 'Upload Files', $t_file_upload_max_num) ?>" />
 	</td>
 </tr>
 </table>
@@ -102,7 +100,7 @@ collapse_closed( 'upload_form' );
 	<td class="form-title" colspan="2">
 		<?php
 			collapse_icon( 'upload_form' );
-			echo lang_get( 'upload_file' ) ?>
+			echo _('Upload File') ?>
 	</td>
 </tr>
 </table>

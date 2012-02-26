@@ -65,7 +65,7 @@ $f_filter = mb_strtoupper( gpc_get_string( 'filter', config_get( 'default_manage
 $f_page_number = gpc_get_int( 'page_number', 1 );
 
 $t_cookie_name = config_get( 'manage_cookie' );
-$t_lock_image = '<img src="' . config_get( 'icon_path' ) . 'protected.gif" width="8" height="15" alt="' . lang_get( 'protected' ) . '" />';
+$t_lock_image = '<img src="' . config_get( 'icon_path' ) . 'protected.gif" width="8" height="15" alt="' . _('Protected') . '" />';
 $c_filter = '';
 
 # Clean up the form variables
@@ -115,7 +115,7 @@ if ( $f_save ) {
 	}
 }
 
-html_page_top( lang_get( 'manage_users_link' ) );
+html_page_top( _('Manage Users') );
 
 print_manage_menu( 'manage_user_page.php' );
 
@@ -142,7 +142,7 @@ $t_unused_user_count = $t_row['unused_user_count'];
 
 $t_prefix_array = array();
 
-$t_prefix_array['ALL'] = lang_get( 'show_all_users' );
+$t_prefix_array['ALL'] = _('All');
 
 for ( $i = 'A'; $i != 'AA'; $i++ ) {
 	$t_prefix_array[$i] = $i;
@@ -151,17 +151,17 @@ for ( $i = 'A'; $i != 'AA'; $i++ ) {
 for ( $i = 0; $i <= 9; $i++ ) {
 	$t_prefix_array["$i"] = "$i";
 }
-$t_prefix_array['UNUSED'] = lang_get( 'users_unused' );
-$t_prefix_array['NEW'] = lang_get( 'users_new' );
+$t_prefix_array['UNUSED'] = _('Unused');
+$t_prefix_array['NEW'] = _('New');
 
 echo '<div id="manage-user-filter-menu">';
 echo '<ul class="menu">';
 foreach ( $t_prefix_array as $t_prefix => $t_caption ) {
 	echo '<li>';
 	if ( $t_prefix === 'UNUSED' ) {
-		$t_title = ' title="[' . $t_unused_user_count . '] (' . lang_get( 'never_logged_in_title' ) . ')"';
+		$t_title = ' title="[' . $t_unused_user_count . '] (' . _('Never Logged In') . ')"';
 	} else if ( $t_prefix === 'NEW' ) {
-		$t_title = ' title="[' . $t_new_user_count . '] (' . lang_get( '1_week_title' ) . ')"';
+		$t_title = ' title="[' . $t_new_user_count . '] (' . _('1 Week') . ')"';
 	} else {
 		$t_title = '';
 	}
@@ -254,9 +254,9 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 $t_user_count = count( $t_users );
 ?>
 <div id="manage-user-div" class="form-container">
-	<h2><?php echo lang_get( 'manage_accounts_title' ) ?></h2> [<?php echo $t_total_user_count ?>]
-	<?php print_button( 'manage_user_create_page.php', lang_get( 'create_new_account_link' ) ) ?>
-	<?php if ( $f_filter === 'UNUSED' ) echo print_button( 'manage_user_prune.php', lang_get( 'prune_accounts' ) ); ?>
+	<h2><?php echo _('Manage Accounts') ?></h2> [<?php echo $t_total_user_count ?>]
+	<?php print_button( 'manage_user_create_page.php', _('Create New Account') ) ?>
+	<?php if ( $f_filter === 'UNUSED' ) echo print_button( 'manage_user_prune.php', _('Prune Accounts') ); ?>
 	<form id="manage-user-filter" method="post" action="manage_user_page.php">
 		<fieldset>
 			<?php # CSRF protection not required here - form does not result in modifications ?>
@@ -264,9 +264,9 @@ $t_user_count = count( $t_users );
 			<input type="hidden" name="dir" value="<?php echo $c_dir ?>" />
 			<input type="hidden" name="save" value="1" />
 			<input type="hidden" name="filter" value="<?php echo $c_filter ?>" />
-			<input type="checkbox" name="hideinactive" value="1" <?php check_checked( (int)$c_hide_inactive, 1 ); ?> /> <?php echo lang_get( 'hide_inactive' ) ?>
-			<input type="checkbox" name="showdisabled" value="1" <?php check_checked( (int)$c_show_disabled, 1 ); ?> /> <?php echo lang_get( 'show_disabled' ) ?>
-			<input type="submit" class="button" value="<?php echo lang_get( 'filter_button' ) ?>" />
+			<input type="checkbox" name="hideinactive" value="1" <?php check_checked( (int)$c_hide_inactive, 1 ); ?> /> <?php echo _('Hide Inactive') ?>
+			<input type="checkbox" name="showdisabled" value="1" <?php check_checked( (int)$c_show_disabled, 1 ); ?> /> <?php echo _('Show Disabled') ?>
+			<input type="submit" class="button" value="<?php echo _('Apply Filter') ?>" />
 		</fieldset>
 	</form>
 
@@ -281,8 +281,35 @@ $t_user_count = count( $t_users );
 
 	foreach( $t_columns as $t_col ) {
 		echo "\t<td>";
+		$t_column_title = $t_col;
+		switch( $t_col ) {
+			case 'username':
+				$t_column_title = _('Username');
+				break;
+			case 'realname':
+				$t_column_title = _('Real Name');
+				break;
+			case 'email':
+				$t_column_title = _('E-mail');
+				break;
+			case 'access_level':
+				$t_column_title = _('Access Level');
+				break;
+			case 'enabled':
+				$t_column_title = _('Enabled');
+				break;
+			case 'protected':
+				$t_column_title = _('Protected');
+				break;
+			case 'date_created':
+				$t_column_title = _('Date Created');
+				break;
+			case 'last_visit':
+				$t_column_title = _('Last Visit');
+				break;
+		}
 		print_manage_user_sort_link( 'manage_user_page.php',
-			lang_get( $t_col ),
+			$t_column_title,
 			$t_col,
 			$c_dir, $c_sort, $c_hide_inactive, $c_filter, $c_show_disabled
 		);
@@ -339,11 +366,11 @@ $t_user_count = count( $t_users );
 		<form id="manage-user-edit-form" method="get" action="manage_user_edit_page.php"<?php # CSRF protection not required here - form does not result in modifications ?>>
 			<fieldset>
 				<div class="field-container">
-					<label for="username"><span><?php echo lang_get( 'search' ) ?></span></label>
+					<label for="username"><span><?php echo _('Search') ?></span></label>
 					<span class="input"><input id="username" type="text" name="username" value="" /></span>
 					<span class="label-style"></span>
 				</div>
-				<span class="submit-button"><input type="submit" class="button" value="<?php echo lang_get( 'manage_user' ) ?>" /></span>
+				<span class="submit-button"><input type="submit" class="button" value="<?php echo _('Manage User') ?>" /></span>
 			</fieldset>
 		</form>
 	</div>

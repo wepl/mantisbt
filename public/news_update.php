@@ -68,10 +68,10 @@ form_security_purge( 'news_update' );
 html_page_top();
 
 echo '<div class="success-msg">';
-echo lang_get( 'operation_successful' ) ?><br />
+echo _('Operation successful.') . '<br />';
 
-print_bracket_link( "news_edit_page.php?news_id=$f_news_id&action=edit", lang_get( 'edit_link' ) );
-print_bracket_link( 'news_menu_page.php', lang_get( 'proceed' ) );
+print_bracket_link( "news_edit_page.php?news_id=$f_news_id&action=edit", _('Edit') );
+print_bracket_link( 'news_menu_page.php', _('Proceed') );
 
 echo '<br /><br />';
 

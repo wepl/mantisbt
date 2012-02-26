@@ -128,17 +128,17 @@ html_page_top( null, $t_redirect_url );
 $t_message = '';
 
 if ( $t_email_updated ) {
-    $t_message .= lang_get( 'email_updated' );
+    $t_message .= _('E-mail address successfully updated');
 }
 
 if ( $t_password_updated ) {
     $t_message = is_blank( $t_message ) ? '' : $t_message . '<br />';
-    $t_message .= lang_get( 'password_updated' );
+    $t_message .= _('Password successfully updated');
 }
 
 if ( $t_realname_updated ) {
     $t_message = is_blank( $t_message ) ? '' : $t_message . '<br />';
-    $t_message .= lang_get( 'realname_updated' );
+    $t_message .= _('Real name successfully updated');
 }
 
 html_operation_successful( $t_redirect_url, $t_message );

@@ -85,7 +85,7 @@ if ( $result ) {
 } else {
     echo '<div class="failure-msg">';
     echo string_display_line(_('An error occurred during this action. You may wish to report this error to your local administrator.')) . '<br />';
-    print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
+    print_bracket_link( $t_redirect_url, _('Proceed') );
     echo '</div>';
 }
 
