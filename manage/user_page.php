@@ -112,7 +112,7 @@ if ( $f_save ) {
 
 html_page_top( lang_get( 'manage_users_link' ) );
 
-print_manage_menu( 'manage_user_page.php' );
+print_manage_menu( 'user_page.php' );
 
 # New Accounts Form BEGIN
 
@@ -163,7 +163,7 @@ foreach ( $t_prefix_array as $t_prefix => $t_caption ) {
 		$c_filter = $f_filter;
 		echo '<span class="current-filter">' . $t_caption . '</span>';
 	} else {
-		echo '<a' . $t_title . ' href="manage_user_page.php?sort=' . $c_sort . '&amp;dir=' . $c_dir . '&amp;save=1' . $t_hide_filter . '&amp;filter=' . $t_prefix . '">' . $t_caption . '</a>';
+		echo '<a' . $t_title . ' href="user_page.php?sort=' . $c_sort . '&amp;dir=' . $c_dir . '&amp;save=1' . $t_hide_filter . '&amp;filter=' . $t_prefix . '">' . $t_caption . '</a>';
 	}
 	echo '</li>';
 }
@@ -239,9 +239,9 @@ $t_user_count = count( $t_users );
 ?>
 <div id="manage-user-div" class="form-container">
 	<h2><?php echo lang_get( 'manage_accounts_title' ) ?></h2> [<?php echo $t_total_user_count ?>]
-	<?php print_button( 'manage_user_create_page.php', lang_get( 'create_new_account_link' ) ) ?>
-	<?php if ( $f_filter === 'UNUSED' ) echo print_button( 'manage_user_prune.php', lang_get( 'prune_accounts' ) ); ?>
-	<form id="manage-user-filter" method="post" action="manage_user_page.php">
+	<?php print_button( 'user_create_page.php', lang_get( 'create_new_account_link' ) ) ?>
+	<?php if ( $f_filter === 'UNUSED' ) echo print_button( 'user_prune.php', lang_get( 'prune_accounts' ) ); ?>
+	<form id="manage-user-filter" method="post" action="user_page.php">
 		<fieldset>
 			<?php # CSRF protection not required here - form does not result in modifications ?>
 			<input type="hidden" name="sort" value="<?php echo $c_sort ?>" />
@@ -256,35 +256,35 @@ $t_user_count = count( $t_users );
 	<table cellspacing="1" cellpadding="5" border="1">
 		<tr class="row-category">
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'username' ), 'username', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'username' ), 'username', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'username' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'realname' ), 'realname', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'realname' ), 'realname', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'realname' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'email' ), 'email', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'email' ), 'email', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'email' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'access_level' ), 'access_level', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'access_level' ), 'access_level', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'access_level' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'enabled' ), 'enabled', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'enabled' ), 'enabled', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'enabled' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', $t_lock_image, 'protected', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', $t_lock_image, 'protected', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'protected' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'date_created' ), 'date_created', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'date_created' ), 'date_created', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'date_created' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'manage_user_page.php', lang_get( 'last_visit' ), 'last_visit', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', lang_get( 'last_visit' ), 'last_visit', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'last_visit' ); ?>
 			</td>
 		</tr><?php
@@ -304,7 +304,7 @@ $t_user_count = count( $t_users );
 		<tr>
 			<td><?php
 				if ( access_has_global_level( $u_access_level ) ) { ?>
-					<a href="manage_user_edit_page.php?user_id=<?php echo $u_id ?>"><?php echo string_display_line( $u_username ) ?></a><?php
+					<a href="user_edit_page.php?user_id=<?php echo $u_id ?>"><?php echo string_display_line( $u_username ) ?></a><?php
 				} else {
 					echo string_display_line( $u_username );
 				} ?>
@@ -328,13 +328,13 @@ $t_user_count = count( $t_users );
 	<div class="pager-links">
 		<?php
 		/* @todo hack - pass in the hide inactive filter via cheating the actual filter value */
-		print_page_links( 'manage_user_page.php', 1, $t_page_count, (int)$f_page_number, $c_filter . $t_hide_filter . "&amp;sort=$c_sort&amp;dir=$c_dir");
+		print_page_links( 'user_page.php', 1, $t_page_count, (int)$f_page_number, $c_filter . $t_hide_filter . "&amp;sort=$c_sort&amp;dir=$c_dir");
 		?>
 	</div>
 </div>
 
 <div id="manage-user-edit-div" class="form-container">
-	<form id="manage-user-edit-form" method="get" action="manage_user_edit_page.php"<?php # CSRF protection not required here - form does not result in modifications ?>>
+	<form id="manage-user-edit-form" method="get" action="user_edit_page.php"<?php # CSRF protection not required here - form does not result in modifications ?>>
 		<fieldset>
 			<div class="field-container">
 				<label for="username"><span><?php echo lang_get( 'username' ) ?></span></label>

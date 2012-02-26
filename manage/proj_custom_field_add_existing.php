@@ -63,6 +63,6 @@ custom_field_link( $f_field_id, $f_project_id );
 
 form_security_purge( 'manage_proj_custom_field_add_existing' );
 
-$t_redirect_url = 'manage_proj_edit_page.php?project_id=' . $f_project_id;
+$t_redirect_url = 'proj_edit_page.php?project_id=' . $f_project_id;
 
 print_successful_operation( $t_redirect_url );

@@ -54,10 +54,10 @@ $t_ldap = ( LDAP == config_get( 'login_method' ) );
 
 html_page_top();
 
-print_manage_menu( 'manage_user_create_page.php' );
+print_manage_menu( 'user_create_page.php' );
 ?>
 <div id="manage-user-create-div" class="form-container">
-	<form id="manage-user-create-form" method="post" action="manage_user_create.php">
+	<form id="manage-user-create-form" method="post" action="user_create.php">
 		<fieldset>
 			<legend><span><?php echo lang_get( 'create_new_account_title' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_user_create' ) ?>

@@ -54,13 +54,13 @@ access_ensure_global_level( config_get( 'create_project_threshold' ) );
 
 html_page_top();
 
-print_manage_menu( 'manage_proj_create_page.php' );
+print_manage_menu( 'proj_create_page.php' );
 
 $f_parent_id = gpc_get( 'parent_id', null );
 ?>
 
 <div id="manage-project-create-div" class="form-container">
-	<form method="post" id="manage-project-create-form" action="manage_proj_create.php">
+	<form method="post" id="manage-project-create-form" action="proj_create.php">
 		<fieldset class="has-required"><?php
 			echo form_security_field( 'manage_proj_create' );
 			if ( null !== $f_parent_id ) {

@@ -116,7 +116,7 @@ if ( serialize( config_get( 'export_columns', columns_get_default('export'), $t_
 	config_set( 'export_columns', $t_export_columns, $t_user_id, $t_project_id );
 }
 
-$t_redirect_url = $f_form_page === 'account' ? 'account_manage_columns_page.php' : 'manage_config_columns_page.php';
+$t_redirect_url = $f_form_page === 'account' ? 'account_manage_columns_page.php' : 'config_columns_page.php';
 
 form_security_purge( 'manage_config_columns_set' );
 

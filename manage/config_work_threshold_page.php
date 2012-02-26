@@ -57,7 +57,7 @@ auth_reauthenticate();
 html_page_top( lang_get( 'manage_threshold_config' ) );
 
 print_manage_menu( 'adm_permissions_report.php' );
-print_manage_config_menu( 'manage_config_work_threshold_page.php' );
+print_manage_config_menu( 'config_work_threshold_page.php' );
 
 $t_user = auth_get_current_user_id();
 $t_project_id = helper_get_current_project();
@@ -287,7 +287,7 @@ if ( ALL_PROJECTS <> $t_project_id ) {
 }
 echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
 
-echo "<form id=\"mail_config_action\" method=\"post\" action=\"manage_config_work_threshold_set.php\">\n";
+echo "<form id=\"mail_config_action\" method=\"post\" action=\"config_work_threshold_set.php\">\n";
 echo form_security_field( 'manage_config_work_threshold_set' );
 
 # Issues
@@ -345,7 +345,7 @@ if ( $t_show_submit ) {
 echo "</form>\n";
 
 if ( $t_show_submit && ( 0 < count( $t_overrides ) ) ) {
-	echo "<div class=\"right\"><form name=\"threshold_config_action\" method=\"post\" action=\"manage_config_revert.php\">\n";
+	echo "<div class=\"right\"><form name=\"threshold_config_action\" method=\"post\" action=\"config_revert.php\">\n";
 	echo form_security_field( 'manage_config_revert' );
 	echo "<input name=\"revert\" type=\"hidden\" value=\"" . implode( ',', $t_overrides ) . "\"></input>";
 	echo "<input name=\"project\" type=\"hidden\" value=\"$t_project_id\"></input>";

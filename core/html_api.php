@@ -943,29 +943,29 @@ function print_summary_submenu() {
  */
 function print_manage_menu( $p_page = '' ) {
 	if( access_has_global_level( config_get( 'manage_user_threshold' ) ) ) {
-		$t_pages['manage_user_page.php'] = array( 'url'   => 'manage_user_page.php', 'label' => 'manage_users_link' );
+		$t_pages['user_page.php'] = array( 'url'   => 'manage/user_page.php', 'label' => 'manage_users_link' );
 	}
 	if( access_has_project_level( config_get( 'manage_project_threshold' ) ) ) {
-		$t_pages['manage_proj_page.php'] = array( 'url'   => 'manage_proj_page.php', 'label' => 'manage_projects_link' );
+		$t_pages['proj_page.php'] = array( 'url'   => 'manage/proj_page.php', 'label' => 'manage_projects_link' );
 	}
 	if( access_has_project_level( config_get( 'tag_edit_threshold' ) ) ) {
-		$t_pages['manage_tags_page.php'] = array( 'url'   => 'manage_tags_page.php', 'label' => 'manage_tags_link' );
+		$t_pages['tags_page.php'] = array( 'url'   => 'manage/tags_page.php', 'label' => 'manage_tags_link' );
 	}
 	if( access_has_global_level( config_get( 'manage_custom_fields_threshold' ) ) ) {
-		$t_pages['manage_custom_field_page.php'] = array( 'url'   => 'manage_custom_field_page.php', 'label' => 'manage_custom_field_link' );
+		$t_pages['custom_field_page.php'] = array( 'url'   => 'manage/custom_field_page.php', 'label' => 'manage_custom_field_link' );
 	}
 	if( access_has_global_level( config_get( 'manage_global_profile_threshold' ) ) ) {
-		$t_pages['manage_prof_menu_page.php'] = array( 'url'   => 'manage_prof_menu_page.php', 'label' => 'manage_global_profiles_link' );
+		$t_pages['prof_menu_page.php'] = array( 'url'   => 'manage/prof_menu_page.php', 'label' => 'manage_global_profiles_link' );
 	}
 	if( access_has_global_level( config_get( 'manage_plugin_threshold' ) ) ) {
-		$t_pages['manage_plugin_page.php'] = array( 'url'   => 'manage_plugin_page.php', 'label' => 'manage_plugin_link' );
+		$t_pages['plugin_page.php'] = array( 'url'   => 'manage/plugin_page.php', 'label' => 'manage_plugin_link' );
 	}
 
 	if ( access_has_project_level( config_get( 'manage_configuration_threshold' ) ) ) {
 		if ( access_has_global_level( config_get( 'view_configuration_threshold' ) ) ) {
-			$t_pages['adm_config_report.php'] = array( 'url'   => 'adm_config_report.php', 'label' => 'manage_config_link' );
+			$t_pages['adm_config_report.php'] = array( 'url'   => 'manage/adm_config_report.php', 'label' => 'manage_config_link' );
 		} else {
-			$t_pages['adm_permissions_report.php'] = array( 'url'   => 'adm_permissions_report.php', 'label' => 'manage_config_link' );
+			$t_pages['adm_permissions_report.php'] = array( 'url'   => 'manage/adm_permissions_report.php', 'label' => 'manage_config_link' );
 		}
 	}
 	# Remove the link from the current page
@@ -1020,28 +1020,28 @@ function print_manage_config_menu( $p_page = '' ) {
 	$t_pages = array();
 
 	if ( access_has_global_level( config_get( 'view_configuration_threshold' ) ) ) {
-		$t_pages['adm_config_report.php'] = array( 'url'   => 'adm_config_report.php',
+		$t_pages['adm_config_report.php'] = array( 'url'   => 'manage/adm_config_report.php',
 		                                           'label' => 'configuration_report' );
 	}
 
-	$t_pages['adm_permissions_report.php'] = array( 'url'   => 'adm_permissions_report.php',
+	$t_pages['adm_permissions_report.php'] = array( 'url'   => 'manage/adm_permissions_report.php',
 	                                                'label' => 'permissions_summary_report' );
 
-	$t_pages['manage_config_work_threshold_page.php'] = array( 'url'   => 'manage_config_work_threshold_page.php',
+	$t_pages['manage_config_work_threshold_page.php'] = array( 'url'   => 'manage/config_work_threshold_page.php',
 	                                                           'label' => 'manage_threshold_config' );
 
-	$t_pages['manage_config_workflow_page.php'] = array( 'url'   => 'manage_config_workflow_page.php',
+	$t_pages['manage_config_workflow_page.php'] = array( 'url'   => 'manage/config_workflow_page.php',
 	                                                     'label' => 'manage_workflow_config' );
 
 	if ( config_get( 'relationship_graph_enable' ) ) {
-		$t_pages['manage_config_workflow_graph_page.php'] = array( 'url'   => 'manage_config_workflow_graph_page.php',
+		$t_pages['manage_config_workflow_graph_page.php'] = array( 'url'   => 'manage/config_workflow_graph_page.php',
 		                                                           'label' => 'manage_workflow_graph' );
 	}
 
-	$t_pages['manage_config_email_page.php'] = array( 'url'   => 'manage_config_email_page.php',
+	$t_pages['manage_config_email_page.php'] = array( 'url'   => 'manage/config_email_page.php',
 	                                                  'label' => 'manage_email_config' );
 
-	$t_pages['manage_config_columns_page.php'] = array( 'url'   => 'manage_config_columns_page.php',
+	$t_pages['manage_config_columns_page.php'] = array( 'url'   => 'manage/config_columns_page.php',
 	                                                    'label' => 'manage_columns_config' );
 
 	# Remove the link from the current page

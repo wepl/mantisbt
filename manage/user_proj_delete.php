@@ -73,6 +73,6 @@ $result = project_remove_user( $f_project_id, $f_user_id );
 
 form_security_purge( 'manage_user_proj_delete' );
 
-$t_redirect_url = 'manage_user_edit_page.php?user_id=' .$f_user_id;
+$t_redirect_url = 'user_edit_page.php?user_id=' .$f_user_id;
 
 print_successful_operation( $t_redirect_url );

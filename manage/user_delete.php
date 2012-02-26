@@ -86,4 +86,4 @@ user_delete( $f_user_id );
 
 form_security_purge('manage_user_delete');
 
-print_successful_operation( 'manage_user_page.php' );
+print_successful_operation( 'user_page.php' );

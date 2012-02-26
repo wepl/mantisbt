@@ -52,7 +52,7 @@ auth_reauthenticate();
 access_ensure_global_level( config_get( 'manage_custom_fields_threshold' ) );
 
 $f_field_id						= gpc_get_int( 'field_id' );
-$f_return						= strip_tags( gpc_get_string( 'return', 'manage_custom_field_page.php' ) );
+$f_return						= strip_tags( gpc_get_string( 'return', 'custom_field_page.php' ) );
 $t_values['name']				= gpc_get_string( 'name' );
 $t_values['type']				= gpc_get_int( 'type' );
 $t_values['possible_values']	= gpc_get_string( 'possible_values' );

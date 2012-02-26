@@ -75,7 +75,7 @@ $t_export_issues = implode( ', ', $t_columns );
 ?>
 
 <div id="manage-columns-div" class="form-container">
-	<form id="manage-columns-form" method="post" <?php if ( file_allow_bug_upload() ) { echo 'enctype="multipart/form-data"'; } ?> action="manage_config_columns_set.php">
+	<form id="manage-columns-form" method="post" <?php if ( file_allow_bug_upload() ) { echo 'enctype="multipart/form-data"'; } ?> action="config_columns_set.php">
 		<fieldset class="has-required">
 			<legend><span><?php echo lang_get( 'manage_columns_config' ) ?></span></legend>
 			<?php
@@ -125,7 +125,7 @@ $t_export_issues = implode( ', ', $t_columns );
 </div>
 
 <div id="manage-columns-copy-div" class="form-container">
-	<form id="manage-columns-copy-form" method="post" action="manage_columns_copy.php">
+	<form id="manage-columns-copy-form" method="post" action="columns_copy.php">
 		<fieldset>
 			<?php echo form_security_field( 'manage_columns_copy' ) ?>
 			<input type="hidden" name="project_id" value="<?php echo $t_project_id ?>" />
@@ -148,7 +148,7 @@ $t_export_issues = implode( ', ', $t_columns );
 if ( $t_account_page ) {
 ?>
 <div class="form-container">
-	<form method="post" action="manage_config_columns_reset.php">
+	<form method="post" action="config_columns_reset.php">
 		<fieldset>
 			<?php echo form_security_field( 'manage_config_columns_reset' ) ?>
 			<span class="submit-button"><input type="submit" class="button" value="<?php echo lang_get( 'reset_columns_configuration' ) ?>" /></span>

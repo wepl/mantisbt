@@ -52,7 +52,7 @@ access_ensure_global_level( config_get( 'manage_custom_fields_threshold' ) );
 
 html_page_top( lang_get( 'manage_custom_field_link' ) );
 
-print_manage_menu( 'manage_custom_field_page.php' );
+print_manage_menu( 'custom_field_page.php' );
 ?>
 
 <div class="table-container">
@@ -70,7 +70,7 @@ print_manage_menu( 'manage_custom_field_page.php' );
 			$t_desc = custom_field_get_definition( $t_field_id ); ?>
 		<tr>
 			<td>
-				<a href="manage_custom_field_edit_page.php?field_id=<?php echo $t_field_id ?>"><?php echo string_display( $t_desc['name'] ) ?></a>
+				<a href="custom_field_edit_page.php?field_id=<?php echo $t_field_id ?>"><?php echo string_display( $t_desc['name'] ) ?></a>
 			</td>
 			<td><?php echo count( custom_field_get_project_ids( $t_field_id ) ) ?></td>
 			<td><?php echo get_enum_element( 'custom_field_type', $t_desc['type'] ) ?></td>
@@ -79,7 +79,7 @@ print_manage_menu( 'manage_custom_field_page.php' );
 		</tr><?php
 		} # Create Form END ?>
 	</table>
-	<form method="post" action="manage_custom_field_create.php">
+	<form method="post" action="custom_field_create.php">
 		<fieldset>
 			<?php echo form_security_field( 'manage_custom_field_create' ); ?>
 			<input type="text" name="name" size="32" maxlength="64" />

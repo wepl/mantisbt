@@ -86,7 +86,7 @@ print_manage_menu();
 
 <!-- USER INFO -->
 <div id="edit-user-div" class="form-container">
-	<form id="edit-user-form" method="post" action="manage_user_update.php">
+	<form id="edit-user-form" method="post" action="user_update.php">
 		<fieldset>
 			<legend><span><?php echo lang_get( 'edit_user_title' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_user_update' ) ?>
@@ -172,7 +172,7 @@ print_manage_menu();
 
 <div id="manage-user-actions-div" class="form-container">
 <?php if( !$t_ldap ) { ?>
-	<form id="manage-user-reset-form" method="post" action="manage_user_reset.php" class="action-button">
+	<form id="manage-user-reset-form" method="post" action="user_reset.php" class="action-button">
 		<fieldset>
 		<?php echo form_security_field( 'manage_user_reset' ) ?>
 		<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
@@ -183,7 +183,7 @@ print_manage_menu();
 
 <!-- Delete Button -->
 <?php if ( !( ( user_is_administrator( $t_user_id ) && ( user_count_level( config_get_global( 'admin_site_threshold' ) ) <= 1 ) ) ) ) { ?>
-	<form id="manage-user-delete-form" method="post" action="manage_user_delete.php" class="action-button">
+	<form id="manage-user-delete-form" method="post" action="user_delete.php" class="action-button">
 		<fieldset>
 			<?php echo form_security_field( 'manage_user_delete' ) ?>
 			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
@@ -216,7 +216,7 @@ print_manage_menu();
 		<div class="input"><?php print_project_user_list( $t_user['user_id'] ) ?></div>
 		<span class="label-style"></span>
 	</div>
-	<form id="manage-user-project-add-form" method="post" action="manage_user_proj_add.php">
+	<form id="manage-user-project-add-form" method="post" action="user_proj_add.php">
 		<fieldset>
 			<?php echo form_security_field( 'manage_user_proj_add' ) ?>
 			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
@@ -246,6 +246,6 @@ print_manage_menu();
 
 define ( 'ACCOUNT_PREFS_INC_ALLOW', true );
 include( dirname( __FILE__ ) . '/account_prefs_inc.php' );
-edit_account_prefs( $t_user['user_id'], false, false, 'manage_user_edit_page.php?user_id=' . $t_user_id );
+edit_account_prefs( $t_user['user_id'], false, false, 'user_edit_page.php?user_id=' . $t_user_id );
 
 html_page_bottom();

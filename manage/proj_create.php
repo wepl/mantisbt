@@ -96,4 +96,4 @@ event_signal( 'EVENT_MANAGE_PROJECT_CREATE', array( $t_project_id ) );
 
 form_security_purge( 'manage_proj_create' );
 
-print_successful_operation( 'manage_proj_page.php' );
+print_successful_operation( 'proj_page.php' );

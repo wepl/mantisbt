@@ -166,10 +166,10 @@ function print_successful_redirect( $p_redirect_to ) {
 	}
 }
 
-function print_successful_operation( $p_redirect ) {
+function print_successful_operation( $p_redirect, $p_message = '' ) {
 	html_page_top( null, $p_redirect );
 	echo '<br /><div>';
-	echo $p_result . '<br />';
+	echo $p_message . '<br />';
 	echo lang_get( 'operation_successful' ) . '<br />';
 	print_bracket_link( $p_redirect, lang_get( 'proceed' ) );
 	echo '</div>';
@@ -955,7 +955,7 @@ function print_custom_field_projects_list( $p_field_id ) {
 		$t_project_name = project_get_field( $t_project_id, 'name' );
 		$t_sequence = custom_field_get_sequence( $p_field_id, $t_project_id );
 		echo '<strong>', string_display_line( $t_project_name ), '</strong>: ';
-		print_bracket_link( "manage_proj_custom_field_remove.php?field_id=$c_field_id&project_id=$t_project_id&return=custom_field$t_security_token", lang_get( 'remove_link' ) );
+		print_bracket_link( "proj_custom_field_remove.php?field_id=$c_field_id&project_id=$t_project_id&return=custom_field$t_security_token", lang_get( 'remove_link' ) );
 		echo '<br />- ';
 
 		$t_linked_field_ids = custom_field_get_linked_ids( $t_project_id );

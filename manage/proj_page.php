@@ -75,7 +75,7 @@ if ( 'ASC' == $f_dir ) {
 
 html_page_top( lang_get( 'manage_projects_link' ) );
 
-print_manage_menu( 'manage_proj_page.php' );
+print_manage_menu( 'proj_page.php' );
 
 # Project Menu Form BEGIN
 ?>
@@ -84,29 +84,29 @@ print_manage_menu( 'manage_proj_page.php' );
 
 	# Check the user's global access level before allowing project creation
 	if ( access_has_global_level ( config_get( 'create_project_threshold' ) ) ) {
-		print_button( 'manage_proj_create_page.php', lang_get( 'create_new_project_link' ) );
+		print_button( 'proj_create_page.php', lang_get( 'create_new_project_link' ) );
 	} ?>
 
 	<table cellspacing="1" cellpadding="5" border="1">
 		<tr class="row-category">
 			<td><?php
-				print_manage_project_sort_link( 'manage_proj_page.php', lang_get( 'name' ), 'name', $t_direction, $f_sort );
+				print_manage_project_sort_link( 'proj_page.php', lang_get( 'name' ), 'name', $t_direction, $f_sort );
 				print_sort_icon( $t_direction, $f_sort, 'name' ); ?>
 			</td>
 			<td><?php
-				print_manage_project_sort_link( 'manage_proj_page.php', lang_get( 'status' ), 'status', $t_direction, $f_sort );
+				print_manage_project_sort_link( 'proj_page.php', lang_get( 'status' ), 'status', $t_direction, $f_sort );
 				print_sort_icon( $t_direction, $f_sort, 'status' ); ?>
 			</td>
 			<td><?php
-				print_manage_project_sort_link( 'manage_proj_page.php', lang_get( 'enabled' ), 'enabled', $t_direction, $f_sort );
+				print_manage_project_sort_link( 'proj_page.php', lang_get( 'enabled' ), 'enabled', $t_direction, $f_sort );
 				print_sort_icon( $t_direction, $f_sort, 'enabled' ); ?>
 			</td>
 			<td><?php
-				print_manage_project_sort_link( 'manage_proj_page.php', lang_get( 'view_status' ), 'view_state', $t_direction, $f_sort );
+				print_manage_project_sort_link( 'proj_page.php', lang_get( 'view_status' ), 'view_state', $t_direction, $f_sort );
 				print_sort_icon( $t_direction, $f_sort, 'view_state' ); ?>
 			</td>
 			<td><?php
-				print_manage_project_sort_link( 'manage_proj_page.php', lang_get( 'description' ), 'description', $t_direction, $f_sort );
+				print_manage_project_sort_link( 'proj_page.php', lang_get( 'description' ), 'description', $t_direction, $f_sort );
 				print_sort_icon( $t_direction, $f_sort, 'description' ); ?>
 			</td>
 		</tr><?php
@@ -134,7 +134,7 @@ print_manage_menu( 'manage_proj_page.php' );
 			if (access_has_project_level( $t_manage_project_threshold, $t_project_id, auth_get_current_user_id() ) ) { ?>
 			<tr>
 				<td>
-					<a href="manage_proj_edit_page.php?project_id=<?php echo $t_project['id'] ?>"><?php echo str_repeat( "&raquo; ", $t_level ) . string_display( $t_project['name'] ) ?></a>
+					<a href="proj_edit_page.php?project_id=<?php echo $t_project['id'] ?>"><?php echo str_repeat( "&raquo; ", $t_level ) . string_display( $t_project['name'] ) ?></a>
 				</td>
 				<td><?php echo get_enum_element( 'project_status', $t_project['status'] ) ?></td>
 				<td><?php echo trans_bool( $t_project['enabled'] ) ?></td>
@@ -199,7 +199,7 @@ print_manage_menu( 'manage_proj_page.php' );
 	} # end for loop ?>
 	</table>
 
-	<form method="post" action="manage_proj_cat_add.php">
+	<form method="post" action="proj_cat_add.php">
 		<fieldset>
 			<?php echo form_security_field( 'manage_proj_cat_add' ) ?>
 			<input type="hidden" name="project_id" value="<?php echo ALL_PROJECTS ?>" />

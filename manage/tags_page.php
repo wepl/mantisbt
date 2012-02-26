@@ -115,7 +115,7 @@ $t_query = "SELECT * FROM {tag} $t_where ORDER BY name";
 $t_result = db_query( $t_query, $t_where_params, $t_per_page, $t_offset );
 
 html_page_top( lang_get( 'manage_tags_link' ) );
-print_manage_menu( 'manage_tags_page.php' ); ?>
+print_manage_menu( 'tags_page.php' ); ?>
 
 <div id="manage-tags-filter-menu">
 	<ul class="menu"><?php
@@ -124,7 +124,7 @@ print_manage_menu( 'manage_tags_page.php' ); ?>
 		if ( $t_prefix == $f_filter ) {
 			$t_link = "<strong>$t_caption</strong>";
 		} else {
-			$t_link = '<a href="manage_tags_page.php?filter=' . $t_prefix .'">' . $t_caption . '</a>';
+			$t_link = '<a href="tags_page.php?filter=' . $t_prefix .'">' . $t_caption . '</a>';
 		}
 		echo "<li>$t_link </li>";
 	} ?>
@@ -158,7 +158,7 @@ print_manage_menu( 'manage_tags_page.php' ); ?>
 	</table>
 	<div class="pager-links"><?php
 		/* @todo hack - pass in the hide inactive filter via cheating the actual filter value */
-		print_page_links( 'manage_tags_page.php', 1, $t_page_count, (int)$f_page_number, $f_filter ); ?>
+		print_page_links( 'tags_page.php', 1, $t_page_count, (int)$f_page_number, $f_filter ); ?>
 	</div>
 </div>
 

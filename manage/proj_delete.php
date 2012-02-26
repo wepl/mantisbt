@@ -72,4 +72,4 @@ if ( helper_get_current_project() == $f_project_id ) {
 	helper_set_current_project( ALL_PROJECTS );
 }
 
-print_header_redirect( 'manage_proj_page.php' );
+print_header_redirect( 'proj_page.php' );

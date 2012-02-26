@@ -76,7 +76,7 @@ if ( $g_global_profiles ) {
 html_page_top( lang_get( 'manage_profiles_link' ) );
 
 if ( $g_global_profiles ) {
-	print_manage_menu( 'manage_prof_menu_page.php' );
+	print_manage_menu( 'prof_menu_page.php' );
 }
 
 if ( $g_global_profiles ) {

@@ -55,19 +55,19 @@ auth_reauthenticate();
 access_ensure_global_level( config_get( 'manage_custom_fields_threshold' ) );
 
 $f_field_id	= gpc_get_int( 'field_id' );
-$f_return	= strip_tags( gpc_get_string( 'return', 'manage_custom_field_page.php' ) );
+$f_return	= strip_tags( gpc_get_string( 'return', 'custom_field_page.php' ) );
 
 custom_field_ensure_exists( $f_field_id );
 
 html_page_top();
 
-print_manage_menu( 'manage_custom_field_edit_page.php' );
+print_manage_menu( 'custom_field_edit_page.php' );
 
 $t_definition = custom_field_get_definition( $f_field_id );
 ?>
 
 <div id="manage-custom-field-update-div" class="form-container">
-	<form id="manage-custom-field-update-form" method="post" action="manage_custom_field_update.php">
+	<form id="manage-custom-field-update-form" method="post" action="custom_field_update.php">
 		<fieldset>
 			<legend><span><?php echo lang_get( 'edit_custom_field_title' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_custom_field_update' ); ?>
@@ -183,7 +183,7 @@ $t_definition = custom_field_get_definition( $f_field_id );
 <br />
 
 <div class="form-container">
-	<form method="post" action="manage_custom_field_delete.php" class="action-button">
+	<form method="post" action="custom_field_delete.php" class="action-button">
 		<fieldset>
 			<?php echo form_security_field( 'manage_custom_field_delete' ); ?>
 			<input type="hidden" name="field_id" value="<?php echo $f_field_id ?>" />
@@ -205,7 +205,7 @@ $t_definition = custom_field_get_definition( $f_field_id );
 		</div>
 		<span class="label-style"></span>
 	</div>
-	<form method="post" action="manage_custom_field_proj_add.php">
+	<form method="post" action="custom_field_proj_add.php">
 		<fieldset>
 			<input type="hidden" name="field_id" value="<?php echo $f_field_id ?>" />
 			<?php echo form_security_field( 'manage_custom_field_proj_add' ); ?>

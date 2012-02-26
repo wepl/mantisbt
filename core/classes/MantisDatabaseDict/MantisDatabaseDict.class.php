@@ -25,7 +25,7 @@ class MantisDatabaseDict {
 	var $renameTable = 'RENAME TABLE %s TO %s'; 
 	var $dropIndex = 'DROP INDEX %s';
 	var $addCol = ' ADD';
-	var $alterCol = ' ALTER COLUMN';
+	var $alterCol = ' MODIFY';
 	var $dropCol = ' DROP COLUMN';
 	var $renameColumn = 'ALTER TABLE %s CHANGE COLUMN %s %s %s';	// table, old-column, new-column, column-definitions (not used by default)
 	var $nameRegex = '\w';

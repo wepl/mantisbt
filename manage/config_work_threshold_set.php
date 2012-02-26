@@ -52,7 +52,7 @@ form_security_validate( 'manage_config_work_threshold_set' );
 
 auth_reauthenticate();
 
-$t_redirect_url = 'manage_config_work_threshold_page.php';
+$t_redirect_url = 'config_work_threshold_page.php';
 $t_project = helper_get_current_project();
 
 $t_access = current_user_get_access_level();

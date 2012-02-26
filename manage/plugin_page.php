@@ -54,7 +54,7 @@ access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
 html_page_top( lang_get( 'manage_plugin_link' ) );
 
-print_manage_menu( 'manage_plugin_page.php' );
+print_manage_menu( 'plugin_page.php' );
 
 function plugin_sort( $p1, $p2 ) {
 	return strcasecmp( $p1->name, $p2->name );
@@ -80,7 +80,7 @@ foreach( $t_plugins as $t_basename => $t_plugin ) {
 if ( 0 < count( $t_plugins_installed ) ) {
 ?>
 <br/>
-<form action="manage_plugin_update.php" method="post">
+<form action="plugin_update.php" method="post">
 <fieldset>
 <?php echo form_security_field( 'manage_plugin_update' ) ?>
 </fieldset>
@@ -186,8 +186,8 @@ foreach ( $t_plugins_installed as $t_basename => $t_plugin ) {
 		echo '<td class="center">','<input type="checkbox" name="protected_',$t_basename,'" '.( $t_protected ? 'checked="checked" ' : '').'/>','</td>';
 	}
 	echo '<td class="center">';
-	if ( $t_upgrade ) { print_bracket_link( 'manage_plugin_upgrade.php?name=' . $t_basename . form_security_param( 'manage_plugin_upgrade' ), lang_get( 'plugin_upgrade' ) ); }
-	if ( $t_uninstall ) { print_bracket_link( 'manage_plugin_uninstall.php?name=' . $t_basename . form_security_param( 'manage_plugin_uninstall' ), lang_get( 'plugin_uninstall' ) ); }
+	if ( $t_upgrade ) { print_bracket_link( 'plugin_upgrade.php?name=' . $t_basename . form_security_param( 'manage_plugin_upgrade' ), lang_get( 'plugin_upgrade' ) ); }
+	if ( $t_uninstall ) { print_bracket_link( 'plugin_uninstall.php?name=' . $t_basename . form_security_param( 'manage_plugin_uninstall' ), lang_get( 'plugin_uninstall' ) ); }
 	echo '</td></tr>';
 } ?>
 
@@ -284,7 +284,7 @@ foreach ( $t_plugins_available as $t_basename => $t_plugin ) {
 	echo '<td class="small">',$t_description,$t_author,$t_url,'</td>';
 	echo '<td class="center">',$t_depends,'</td>';
 	echo '<td class="center">';
-	if ( $t_ready ) { print_bracket_link( 'manage_plugin_install.php?name=' . $t_basename . form_security_param( 'manage_plugin_install' ), lang_get( 'plugin_install' ) ); }
+	if ( $t_ready ) { print_bracket_link( 'plugin_install.php?name=' . $t_basename . form_security_param( 'manage_plugin_install' ), lang_get( 'plugin_install' ) ); }
 	echo '</td></tr>';
 } ?>
 

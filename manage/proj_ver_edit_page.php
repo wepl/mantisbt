@@ -67,10 +67,10 @@ access_ensure_project_level( config_get( 'manage_project_threshold' ), $t_versio
 
 html_page_top();
 
-print_manage_menu( 'manage_proj_ver_edit_page.php' ); ?>
+print_manage_menu( 'proj_ver_edit_page.php' ); ?>
 
 <div id="manage-proj-version-update-div" class="form-container">
-	<form id="manage-proj-version-update-form" method="post" action="manage_proj_ver_update.php">
+	<form id="manage-proj-version-update-form" method="post" action="proj_ver_update.php">
 		<fieldset>
 			<legend><span><?php echo lang_get( 'edit_project_version_title' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_proj_ver_update' ) ?>
@@ -108,7 +108,7 @@ print_manage_menu( 'manage_proj_ver_edit_page.php' ); ?>
 </div>
 
 <div class="form-container">
-	<form method="post" action="manage_proj_ver_delete.php" class="action-button">
+	<form method="post" action="proj_ver_delete.php" class="action-button">
 		<fieldset>
 			<?php echo form_security_field( 'manage_proj_ver_delete' ) ?>
 			<input type="hidden" name="version_id" value="<?php echo string_attribute( $t_version->id ) ?>" />

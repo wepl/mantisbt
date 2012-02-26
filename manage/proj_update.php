@@ -64,4 +64,4 @@ event_signal( 'EVENT_MANAGE_PROJECT_UPDATE', array( $f_project_id ) );
 
 form_security_purge( 'manage_proj_update' );
 
-print_header_redirect( 'manage_proj_page.php' );
+print_header_redirect( 'proj_page.php' );

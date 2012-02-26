@@ -62,4 +62,4 @@ foreach ( $f_project_id as $t_proj_id ) {
 
 form_security_purge('manage_user_proj_add');
 
-print_header_redirect( 'manage_user_edit_page.php?user_id=' . $f_user_id );
+print_header_redirect( 'user_edit_page.php?user_id=' . $f_user_id );

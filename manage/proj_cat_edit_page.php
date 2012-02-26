@@ -64,10 +64,10 @@ $t_name = $t_row['name'];
 
 html_page_top();
 
-print_manage_menu( 'manage_proj_cat_edit_page.php' ); ?>
+print_manage_menu( 'proj_cat_edit_page.php' ); ?>
 
 <div id="manage-proj-category-update-div" class="form-container">
-	<form id="manage-proj-category-update-form" method="post" action="manage_proj_cat_update.php">
+	<form id="manage-proj-category-update-form" method="post" action="proj_cat_update.php">
 		<fieldset>
 			<legend><span><?php echo lang_get( 'edit_project_category_title' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_proj_cat_update' ) ?>
@@ -94,7 +94,7 @@ print_manage_menu( 'manage_proj_cat_edit_page.php' ); ?>
 </div>
 
 <div class="form-container">
-	<form method="post" action="manage_proj_cat_delete.php" class="action-button">
+	<form method="post" action="proj_cat_delete.php" class="action-button">
 		<fieldset>
 			<?php echo form_security_field( 'manage_proj_cat_delete' ) ?>
 			<input type="hidden" name="id" value="<?php echo string_attribute( $f_category_id ) ?>" />

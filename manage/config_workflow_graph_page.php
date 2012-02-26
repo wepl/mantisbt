@@ -59,7 +59,7 @@ if ( !config_get( 'relationship_graph_enable' ) ) {
 html_page_top( lang_get( 'manage_workflow_graph' ) );
 
 print_manage_menu( 'adm_permissions_report.php' );
-print_manage_config_menu( 'manage_config_workflow_graph_page.php' );
+print_manage_config_menu( 'config_workflow_graph_page.php' );
 
 $t_project = helper_get_current_project();
 

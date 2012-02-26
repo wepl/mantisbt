@@ -1162,7 +1162,7 @@ function custom_field_distinct_values( $p_field_def, $p_project_id = ALL_PROJECT
 		return call_user_func( $g_custom_field_type_definition[$p_field_def['type']]['#function_return_distinct_values'], $p_field_def );
 	} else {
 		$t_where = '';
-		$t_from = $t_custom_field_string_table;
+		$t_from = '{custom_field_string}';
 		if( ALL_PROJECTS != $p_project_id ) {
 			$t_where = " AND {mantis_bug}.id = {custom_field_string}.bug_id AND
 							{mantis_bug}.project_id = '$p_project_id'";

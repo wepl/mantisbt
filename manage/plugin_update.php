@@ -69,4 +69,4 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 
 form_security_purge( 'manage_plugin_update' );
 
-print_successful_redirect( 'manage_plugin_page.php' );
+print_successful_redirect( 'plugin_page.php' );

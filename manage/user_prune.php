@@ -79,4 +79,4 @@ for ( $i = 0; $i < $t_user_count; $i++ ) {
 
 form_security_purge( 'manage_user_prune' );
 
-print_header_redirect( 'manage_user_page.php' );
+print_header_redirect( 'user_page.php' );

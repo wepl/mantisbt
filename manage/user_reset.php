@@ -81,4 +81,4 @@ if ( false == $t_result ) {
 	}
 }
 
-print_successful_operation( 'manage_user_page.php', $t_msg );
+print_successful_operation( 'user_page.php', $t_msg );
