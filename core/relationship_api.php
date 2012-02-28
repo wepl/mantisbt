@@ -98,20 +98,6 @@ require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
 require_css( 'status_config.php' );
 
-/**
- * RelationshipData Structure Definition
- * @package MantisBT
- * @subpackage classes
- */
-class BugRelationshipData {
-	var $id;
-	var $src_bug_id;
-	var $src_project_id;
-	var $dest_bug_id;
-	var $dest_project_id;
-	var $type;
-}
-
 $g_relationships = array();
 $g_relationships[BUG_DEPENDANT] = array(
 	'#forward' => TRUE,
@@ -183,7 +169,7 @@ function relationship_get_complementary_type( $p_relationship_type ) {
  * @param int $p_src_bug_id Source Bug Id
  * @param int $p_dest_bug_id Destination Bug Id
  * @param int $p_relationship_type Relationship type
- * @return BugRelationshipData Bug Relationship
+ * @return MantisBugRelationshipData Bug Relationship
  */
 function relationship_add( $p_src_bug_id, $p_dest_bug_id, $p_relationship_type ) {
 	global $g_relationships;
@@ -197,18 +183,11 @@ function relationship_add( $p_src_bug_id, $p_dest_bug_id, $p_relationship_type )
 		$c_relationship_type = $p_relationship_type;
 	}
 
-	$query = "INSERT INTO {bug_relationship}
-				( source_bug_id, destination_bug_id, relationship_type )
-				VALUES
-				( %d,%d,%d)";
-	$result = db_query( $query, array( $c_src_bug_id, $c_dest_bug_id, $c_relationship_type ) );
-	$t_relationship = db_fetch_array( $result );
-
-	$t_bug_relationship_data = new BugRelationshipData;
-	$t_bug_relationship_data->id = $t_relationship['id'];
-	$t_bug_relationship_data->src_bug_id = $t_relationship['source_bug_id'];
-	$t_bug_relationship_data->dest_bug_id = $t_relationship['destination_bug_id'];
-	$t_bug_relationship_data->type = $t_relationship['relationship_type'];
+	$t_bug_relationship_data = new MantisBugRelationshipData;
+	$t_bug_relationship_data->src_bug_id = $p_src_bug_id;
+	$t_bug_relationship_data->dest_bug_id = $p_dest_bug_id;
+	$t_bug_relationship_data->type = $p_relationship_type;
+	$t_bug_relationship_data->id = $t_bug_relationship_data->create();
 
 	return $t_bug_relationship_data;
 }
@@ -219,32 +198,21 @@ function relationship_add( $p_src_bug_id, $p_dest_bug_id, $p_relationship_type )
  * @param int $p_src_bug_id Source Bug Id
  * @param int $p_dest_bug_id Destination Bug Id
  * @param int $p_relationship_type Relationship type
- * @return BugRelationshipData Bug Relationship
+ * @return MantisBugRelationshipData Bug Relationship
  */
 function relationship_update( $p_relationship_id, $p_src_bug_id, $p_dest_bug_id, $p_relationship_type ) {
 	global $g_relationships;
 	if( $g_relationships[$p_relationship_type]['#forward'] === FALSE ) {
-		$c_src_bug_id = (int)$p_dest_bug_id;
-		$c_dest_bug_id = (int)$p_src_bug_id;
 		$c_relationship_type = (int)relationship_get_complementary_type( $p_relationship_type );
 	} else {
-		$c_src_bug_id = (int)$p_src_bug_id;
-		$c_dest_bug_id = (int)$p_dest_bug_id;
 		$c_relationship_type = (int)$p_relationship_type;
 	}
-	$c_relationship_id = (int)$p_relationship_id;
 
-	$query = "UPDATE {bug_relationship}
-				SET source_bug_id=%d, destination_bug_id=%d, relationship_type=%d
-				WHERE id=%d";
-	$result = db_query( $query, array( $c_src_bug_id, $c_dest_bug_id, $c_relationship_type, $c_relationship_id ) );
-	$t_relationship = db_fetch_array( $result );
-
-	$t_bug_relationship_data = new BugRelationshipData;
-	$t_bug_relationship_data->id = $t_relationship['id'];
-	$t_bug_relationship_data->src_bug_id = $t_relationship['source_bug_id'];
-	$t_bug_relationship_data->dest_bug_id = $t_relationship['destination_bug_id'];
-	$t_bug_relationship_data->type = $t_relationship['relationship_type'];
+	$t_bug_relationship_data = new MantisBugRelationshipData($p_relationship_id);
+	$t_bug_relationship_data->src_bug_id = $p_src_bug_id;
+	$t_bug_relationship_data->dest_bug_id = $p_dest_bug_id;
+	$t_bug_relationship_data->type = $c_relationship_type;
+	$t_bug_relationship_data->update();
 
 	return $t_bug_relationship_data;
 }
@@ -300,7 +268,7 @@ function relationship_copy_all( $p_bug_id, $p_new_bug_id ) {
 /**
  * get a relationship from id
  * @param int $p_relationship_id Relationship ID
- * @return null|BugRelationshipData BugRelationshipData object
+ * @return null|MantisBugRelationshipData MantisBugRelationshipData object
  */
 function relationship_get( $p_relationship_id ) {
 	$query = 'SELECT * FROM {bug_relationship} WHERE id=%d';
@@ -309,7 +277,7 @@ function relationship_get( $p_relationship_id ) {
 	$t_relationship = db_fetch_array( $result );
 
 	if( $t_relationship ) {
-		$t_bug_relationship_data = new BugRelationshipData;
+		$t_bug_relationship_data = new MantisBugRelationshipData;
 		$t_bug_relationship_data->id = $t_relationship['id'];
 		$t_bug_relationship_data->src_bug_id = $t_relationship['source_bug_id'];
 		$t_bug_relationship_data->dest_bug_id = $t_relationship['destination_bug_id'];
@@ -324,7 +292,7 @@ function relationship_get( $p_relationship_id ) {
 /**
  * get all relationships with the given bug as source
  * @param int $p_src_bug_id Source Bug id
- * @return array Array of BugRelationshipData objects
+ * @return array Array of MantisBugRelationshipData objects
  */
 function relationship_get_all_src( $p_src_bug_id ) {
 	$c_src_bug_id = (int)$p_src_bug_id;
@@ -345,7 +313,7 @@ function relationship_get_all_src( $p_src_bug_id ) {
 	$i = 0;
 
 	while( $row = db_fetch_array( $result ) ) {
-		$t_bug_relationship_data[$i] = new BugRelationshipData;
+		$t_bug_relationship_data[$i] = new MantisBugRelationshipData;
 		$t_bug_relationship_data[$i]->id = $row['id'];
 		$t_bug_relationship_data[$i]->src_bug_id = $row['source_bug_id'];
 		$t_bug_relationship_data[$i]->src_project_id = $t_src_project_id;
@@ -367,7 +335,7 @@ function relationship_get_all_src( $p_src_bug_id ) {
 /**
  * get all relationships with the given bug as destination
  * @param int $p_dest_bug_id Destination Bug id
- * @return array Array of BugRelationshipData objects
+ * @return array Array of MantisBugRelationshipData objects
  */
 function relationship_get_all_dest( $p_dest_bug_id ) {
 	$c_dest_bug_id = (int)$p_dest_bug_id;
@@ -388,7 +356,7 @@ function relationship_get_all_dest( $p_dest_bug_id ) {
 	$i = 0;
 
 	while( $row = db_fetch_array( $result ) ) {
-		$t_bug_relationship_data[$i] = new BugRelationshipData;
+		$t_bug_relationship_data[$i] = new MantisBugRelationshipData;
 		$t_bug_relationship_data[$i]->id = $row['id'];
 		$t_bug_relationship_data[$i]->src_bug_id = $row['source_bug_id'];
 		$t_bug_relationship_data[$i]->src_project_id = $row['project_id'];
@@ -411,7 +379,7 @@ function relationship_get_all_dest( $p_dest_bug_id ) {
  * get all relationships associated with the given bug
  * @param int $p_bug_id  Bug id
  * @param bool &$p_is_different_projects Returned Boolean value indicating if some relationships cross project boundaries
- * @return array Array of BugRelationshipData objects
+ * @return array Array of MantisBugRelationshipData objects
  */
 function relationship_get_all( $p_bug_id, &$p_is_different_projects ) {
 	$t_src = relationship_get_all_src( $p_bug_id );
@@ -579,7 +547,7 @@ function relationship_can_resolve_bug( $p_bug_id ) {
 /**
  * return formatted string with all the details on the requested relationship
  * @param int $p_bug_id Bug id
- * @param BugRelationshipData $p_relationship Relationsip object
+ * @param MantisBugRelationshipData $p_relationship Relationsip object
  * @param bool $p_html Generate html
  * @param bool $p_html_preview ???? generate printable version???
  * @param bool $p_show_project Show Project details
