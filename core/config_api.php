@@ -600,13 +600,11 @@ function config_is_private( $p_config_var ) {
 		case 'absolute_path_default_upload_folder':
 		case 'ldap_server':
 		case 'plugin_path':
-		case 'ldap_root_dn':
 		case 'ldap_organization':
 		case 'ldap_uid_field':
 		case 'ldap_bind_dn':
 		case 'ldap_bind_passwd':
 		case 'use_ldap_email':
-		case 'ldap_protocol_version':
 		case 'login_method':
 		case 'cookie_path':
 		case 'cookie_domain':
