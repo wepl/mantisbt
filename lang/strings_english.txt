@@ -1333,6 +1333,7 @@ If you requested this verification, visit the following URL to change your passw
 	'delete_attachment_button' => 'Delete',
 	'delete_attachment_sure_msg' => 'Are you sure you wish to delete this attachment?',
 	'upload_issue_attachments' => 'Upload issue attachments',
+	'downloaded_times' => 'Downloaded %1$s time(s)',
 	'filters' => 'filters',
 	'save_filters' => 'Save filters',
 	'save_filters_as_shared' => 'Save filters as shared',

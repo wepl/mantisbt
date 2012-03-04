@@ -671,7 +671,7 @@ function bug_get_bugnote_stats( $p_bug_id ) {
  * @uses file_api.php
  */
 function bug_get_attachments( $p_bug_id ) {
-	$query = "SELECT id, title, diskfile, filename, filesize, file_type, date_added, user_id
+	$query = "SELECT id, title, diskfile, filename, filesize, file_type, date_added, user_id, downloaded
 				FROM {bug_file} WHERE bug_id=%d ORDER BY date_added";
 	$db_result = db_query( $query, array( $p_bug_id ) );
 

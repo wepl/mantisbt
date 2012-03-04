@@ -125,7 +125,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 			$c_content = '';
 			break;
 		case DATABASE:
-			$c_content = db_prepare_binary_string( fread ( fopen( $v_tmp_name, 'rb' ), $v_size ) );
+			$c_content = fread ( fopen( $v_tmp_name, 'rb' ), $v_size );
 			break;
 		default:
 			/** @todo Such errors should be checked in the admin checks */

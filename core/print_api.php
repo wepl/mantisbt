@@ -1501,7 +1501,7 @@ function print_bug_attachment_header( $p_attachment ) {
 			echo '</a>';
 		}
 		echo lang_get( 'word_separator' ) . '(' . number_format( $p_attachment['size'] ) . lang_get( 'word_separator' ) . lang_get( 'bytes' ) . ')';
-		echo lang_get( 'word_separator' ) . '<span class="italic">' . date( config_get( 'normal_date_format' ), $p_attachment['date_added'] ) . '</span>';
+		echo lang_get( 'word_separator' ) . '<span class="italic">' . date( config_get( 'normal_date_format' ), $p_attachment['date_added'] ) . ', ' . sprintf( lang_get( 'downloaded_times' ), $p_attachment['downloaded'] ) . '</span>';
 		if ( $p_attachment['can_delete'] ) {
 			echo lang_get( 'word_separator' ) . '[';
 			print_link( 'bug_file_delete.php?file_id=' . $p_attachment['id'] . form_security_param( 'bug_file_delete' ), lang_get( 'delete_link' ), false, 'small' );

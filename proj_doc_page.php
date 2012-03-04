@@ -92,7 +92,7 @@ if ( is_array( $t_reqd_access ) ) {
 	$t_access_clause = ">= $t_reqd_access ";
 }
 
-$query = "SELECT pft.id, pft.project_id, pft.filename, pft.filesize, pft.title, pft.description, pft.date_added
+$query = "SELECT pft.id, pft.project_id, pft.filename, pft.filesize, pft.title, pft.description, pft.date_added, pft.downloaded
 			FROM {project_file} pft
 				LEFT JOIN {project} pt ON pft.project_id = pt.id
 				LEFT JOIN {project_user_list} pult

@@ -119,6 +119,17 @@ switch ( $f_type ) {
 		break;
 }
 
+# Update download counter
+switch ( $f_type ) {
+	case 'bug':
+		$query2 = 'UPDATE {bug_file} SET downloaded=downloaded+1 WHERE id=%d';
+		break;
+	case 'doc':
+		$query2 = 'UPDATE {project_file} SET downloaded=downloaded+1 WHERE id=%d';
+		break;
+}
+$result2 = db_query( $query2, array( $c_file_id ) );
+
 # throw away output buffer contents (and disable it) to protect download
 while ( @ob_end_clean() );
 

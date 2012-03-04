@@ -139,6 +139,7 @@ function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) 
 	}
 
 	if( !$t_result ) {
+		var_dump($p_query); die;
 		throw new MantisBT\Exception\Database\QueryFailed();
 		return false;
 	} else {
@@ -259,36 +260,6 @@ function db_close() {
 	global $g_db;
 
 	$t_result = $g_db->Close();
-}
-
-
-/**
- * prepare a binary string before DB insertion
- * @param string $p_string unprepared binary data
- * @return string prepared database query string
- * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final
- */
-function db_prepare_binary_string( $p_string ) {
-	global $g_db;
-	$t_db_type = config_get_global( 'db_type' );
-
-	switch( $t_db_type ) {
-		case 'mssql':
-		case 'odbc_mssql':
-		case 'ado_mssql':
-			$content = unpack( "H*hex", $p_string );
-			return '0x' . $content['hex'];
-			break;
-		case 'postgres':
-		case 'postgres64':
-		case 'postgres7':
-		case 'pgsql':
-			return '\'' . pg_escape_bytea( $p_string ) . '\'';
-			break;
-		default:
-			return '\'' .  $p_string . '\'';
-			break;
-	}
 }
 
 /**

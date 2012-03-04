@@ -293,6 +293,7 @@ function file_get_visible_attachments( $p_bug_id ) {
 		$t_filesize = $t_row['filesize'];
 		$t_diskfile = file_normalize_attachment_path( $t_row['diskfile'], bug_get_field( $p_bug_id, 'project_id' ) );
 		$t_date_added = $t_row['date_added'];
+		$t_downloaded = $t_row['downloaded'];
 
 		$t_attachment = array();
 		$t_attachment['id'] = $t_id;
@@ -300,6 +301,7 @@ function file_get_visible_attachments( $p_bug_id ) {
 		$t_attachment['size'] = $t_filesize;
 		$t_attachment['date_added'] = $t_date_added;
 		$t_attachment['diskfile'] = $t_diskfile;
+		$t_attachment['downloaded'] = $t_downloaded;
 
 		$t_attachment['can_download'] = file_can_download_bug_attachments( $p_bug_id, (int)$t_row['user_id'] );
 		$t_attachment['can_delete'] = file_can_delete_bug_attachments( $p_bug_id, (int)$t_row['user_id'] );
@@ -473,10 +475,11 @@ function file_delete_local( $p_filename ) {
 
 # Return the specified field value
 function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
-	if( !db_field_exists( $p_field_name, "{$p_table}" ) ) {
+	$t_bug_file_table = db_get_table( $p_table . '_file' );
+
+	if( !db_field_exists( $p_field_name, $t_bug_file_table ) ) {
 		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
 	}
-	$t_bug_file_table = db_get_table( $p_table . '_file' );
 
 	# get info
 	$query = "SELECT $p_field_name
@@ -708,7 +711,7 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 			}
 			break;
 		case DATABASE:
-			$c_content = db_prepare_binary_string( fread( fopen( $t_tmp_file, 'rb' ), $t_file_size ) );
+			$c_content = fread( fopen( $t_tmp_file, 'rb' ), $t_file_size );
 			break;
 		default:
 			throw new MantisBT\Exception\Generic();
@@ -720,8 +723,8 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	$query = "INSERT INTO $t_file_table
 						(" . $p_table . "_id, title, description, diskfile, filename, folder, filesize, file_type, date_added, content, user_id)
 					  VALUES
-						($c_id, '$c_title', '$c_desc', '$c_unique_name', '$c_new_file_name', '$c_file_path', $c_file_size, '$c_file_type', '" . $c_date_added . "', $c_content, $c_user_id)";
-	db_query( $query, array() );
+						(%d,%s,%s,%s,%s, %s, %d, %s, %d, %b, %d)";
+	db_query( $query, array($c_id, $c_title, $c_desc, $c_unique_name, $c_new_file_name, $c_file_path, $c_file_size, $c_file_type, $c_date_added, $c_content, $c_user_id ) );
 
 	if( 'bug' == $p_table ) {
 
