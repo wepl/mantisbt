@@ -29,7 +29,6 @@
  * @uses constant_inc.php
  * @uses custom_field_api.php
  * @uses database_api.php
- * @uses error_api.php
  * @uses file_api.php
  * @uses lang_api.php
  * @uses news_api.php
@@ -46,7 +45,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'database_api.php' );
-require_api( 'error_api.php' );
 require_api( 'file_api.php' );
 require_api( 'lang_api.php' );
 require_api( 'news_api.php' );

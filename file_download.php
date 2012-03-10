@@ -65,8 +65,8 @@ $f_show_inline = gpc_get_bool( 'show_inline', false );
 # violating cross-domain security.
 if ( $f_show_inline ) {
 	# Disable errors for form_security_validate as we need to send HTTP
-	# headers prior to raising an error (the error handler within
-	# error_api.php doesn't check that headers have been sent, it just
+	# headers prior to raising an error (the error handler
+	# doesn't check that headers have been sent, it just
 	# makes the assumption that they've been sent already).
 	if ( !@form_security_validate( 'file_show_inline' ) ) {
 		http_all_headers();

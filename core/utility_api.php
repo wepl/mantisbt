@@ -33,12 +33,10 @@
  *
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses error_api.php
  */
 
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'error_api.php' );
 
 /**
  * converts a 1 value to X

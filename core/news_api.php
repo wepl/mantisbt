@@ -29,7 +29,6 @@
  * @uses constant_inc.php
  * @uses current_user_api.php
  * @uses database_api.php
- * @uses error_api.php
  * @uses helper_api.php
  * @uses lang_api.php
  * @uses twitter_api.php
@@ -41,7 +40,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
-require_api( 'error_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'lang_api.php' );
 require_api( 'twitter_api.php' );

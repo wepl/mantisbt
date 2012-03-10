@@ -63,7 +63,6 @@
  * @uses constant_inc.php
  * @uses current_user_api.php
  * @uses database_api.php
- * @uses error_api.php
  * @uses event_api.php
  * @uses file_api.php
  * @uses filter_api.php
@@ -88,7 +87,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
-require_api( 'error_api.php' );
 require_api( 'event_api.php' );
 require_api( 'file_api.php' );
 require_api( 'filter_api.php' );

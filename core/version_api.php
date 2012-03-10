@@ -28,7 +28,6 @@
  * @uses constant_inc.php
  * @uses database_api.php
  * @uses date_api.php
- * @uses error_api.php
  * @uses helper_api.php
  * @uses project_api.php
  * @uses project_hierarchy_api.php
@@ -38,7 +37,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'database_api.php' );
 require_api( 'date_api.php' );
-require_api( 'error_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'project_api.php' );
 require_api( 'project_hierarchy_api.php' );

@@ -26,7 +26,6 @@
  * @uses category_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses error_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses lang_api.php
@@ -43,7 +42,6 @@ require_api( 'authentication_api.php' );
 require_api( 'category_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'error_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'lang_api.php' );

@@ -26,7 +26,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses error_api.php
  * @uses plugin_api.php
  * @uses user_pref_api.php
  */
@@ -34,7 +33,6 @@
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'error_api.php' );
 require_api( 'plugin_api.php' );
 require_api( 'user_pref_api.php' );
 

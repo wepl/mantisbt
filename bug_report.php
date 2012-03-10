@@ -31,7 +31,6 @@
  * @uses custom_field_api.php
  * @uses date_api.php
  * @uses email_api.php
- * @uses error_api.php
  * @uses event_api.php
  * @uses file_api.php
  * @uses form_api.php
@@ -61,7 +60,6 @@ require_api( 'constant_inc.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'date_api.php' );
 require_api( 'email_api.php' );
-require_api( 'error_api.php' );
 require_api( 'event_api.php' );
 require_api( 'file_api.php' );
 require_api( 'form_api.php' );

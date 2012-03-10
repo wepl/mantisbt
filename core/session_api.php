@@ -31,14 +31,12 @@
  *
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses error_api.php
  * @uses gpc_api.php
  * @uses php_api.php
  */
 
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'error_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'php_api.php' );
 

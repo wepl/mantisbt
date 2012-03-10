@@ -177,6 +177,11 @@ function __autoload( $className ) {
 # Register the autoload function to make it effective immediately
 spl_autoload_register( '__autoload' );
 
+# Register the error handler
+set_exception_handler(array('MantisError', 'exception_handler'));
+set_error_handler(array('MantisError', 'error_handler'));
+register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
+
 # Load UTF8-capable string functions
 define( 'UTF8', $g_library_path . 'utf8' );
 require_lib( 'utf8/utf8.php' );

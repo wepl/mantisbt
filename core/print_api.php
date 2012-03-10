@@ -34,7 +34,6 @@
  * @uses custom_field_api.php
  * @uses database_api.php
  * @uses email_api.php
- * @uses error_api.php
  * @uses file_api.php
  * @uses form_api.php
  * @uses helper_api.php
@@ -64,7 +63,6 @@ require_api( 'current_user_api.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'database_api.php' );
 require_api( 'email_api.php' );
-require_api( 'error_api.php' );
 require_api( 'file_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
