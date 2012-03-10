@@ -27,15 +27,3 @@
 set_exception_handler(array('MantisError', 'exception_handler'));
 set_error_handler(array('MantisError', 'error_handler'));
 register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
-
-/**
- * Set a url to give to the user to proceed after viewing the error
- * @access public
- * @param string p_url url given to user after viewing the error
- * @return null
- */
-function error_proceed_url( $p_url ) {
-	MantisError::error_proceed_url( $p_url );
-}
-
-

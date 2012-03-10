@@ -433,7 +433,6 @@ if ( !is_blank( $t_view_all_cookie ) ) {
 		# for ftype = 0, 1, or 3, we are going to re-write the filter anyways
 		if ( !in_array( $f_type, array( 0, 1, 3 ) ) ) {
 			gpc_clear_cookie( 'view_all_cookie' );
-			error_proceed_url( 'view_all_set.php?type=0' );
 			throw new MantisBT\Exception\Filter_Too_Old();
 			exit; # stop here
 		}
@@ -522,7 +521,6 @@ switch ( $f_type ) {
 			if ( false === $t_setting_arr ) {
 				# couldn't deserialize, if we were trying to use the filter, clear it and reload
 				gpc_clear_cookie( 'view_all_cookie' );
-				error_proceed_url( 'view_all_set.php?type=0' );
 				throw new MantisBT\Exception\Filter_Too_Old();
 				exit; # stop here
 			}

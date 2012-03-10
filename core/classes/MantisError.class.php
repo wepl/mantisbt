@@ -32,8 +32,6 @@ class MantisError
 
 	private static $_parameters = array();
 	
-	private static $_proceed_url = null;
-	
 	private static $_fatal = false;
 									
 	public static function init(){
@@ -387,10 +385,6 @@ class MantisError
 	 */	
 	public static function error_parameters( $p_args ) {
 		self::$_parameters = $p_args;
-	}
-
-	public static function error_proceed_url( $p_url ) {
-		self::$_proceed_url = $p_url();
 	}
 
 	/**
