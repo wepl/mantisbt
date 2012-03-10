@@ -1354,10 +1354,6 @@ function print_hidden_input( $p_field_key, $p_field_val ) {
 	}
 }
 
-# ===============================
-# Deprecated Functions
-# ===============================
-
 # Get icon corresponding to the specified filename
 function print_file_icon( $p_filename ) {
 	$t_icon = file_get_icon_url( $p_filename );
