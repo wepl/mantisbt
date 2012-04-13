@@ -601,12 +601,12 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 	}
 
 	# fetch user cookie
-	$t_cookie_name = config_get( 'string_cookie' );
+	$t_cookie_name = config_get_global( 'string_cookie' );
 	$t_cookie = gpc_get_cookie( $t_cookie_name, '' );
 
 	# if cookie not found, and anonymous login enabled, use cookie of anonymous account.
 	if( is_blank( $t_cookie ) ) {
-		if( $p_login_anonymous && ON == config_get( 'allow_anonymous_login' ) ) {
+		if( $p_login_anonymous && ON == config_get_global( 'allow_anonymous_login' ) ) {
 			if( $g_cache_anonymous_user_cookie_string === null ) {
 				if( function_exists( 'db_is_connected' ) && db_is_connected() ) {
 
