@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace MantisBT\Locale;
-
 # The next 4 functions are courtesy of https://developer.mozilla.org/en/gettext
 function pgettext($context, $msgid) {
 	$contextString = "{$context}\004{$msgid}";
