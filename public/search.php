@@ -132,7 +132,7 @@ $my_filter['_view_type'] = 'advanced';
 $tc_setting_arr = filter_ensure_valid_filter( $my_filter );
 
 $t_settings_serialized = serialize( $tc_setting_arr );
-$t_settings_string = config_get( 'cookie_version' ) . '#' . $t_settings_serialized;
+$t_settings_string = config_get_global( 'cookie_version' ) . '#' . $t_settings_serialized;
 
 # Store the filter string in the database: its the current filter, so some values won't change
 $t_project_id = helper_get_current_project();
@@ -140,7 +140,7 @@ $t_project_id = ( $t_project_id * -1 );
 $t_row_id = filter_db_set_for_current_user( $t_project_id, false, '', $t_settings_string );
 
 # set cookie values
-gpc_set_cookie( config_get( 'view_all_cookie' ), $t_row_id, time()+config_get( 'cookie_time_length' ), config_get( 'cookie_path' ) );
+gpc_set_cookie( config_get_global( 'view_all_cookie' ), $t_row_id, time() + config_get_global( 'cookie_time_length' ), config_get_global( 'cookie_path' ) );
 
 # redirect to print_all or view_all page
 if ( $f_print ) {

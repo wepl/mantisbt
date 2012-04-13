@@ -179,7 +179,7 @@ if( $f_error || $f_cookie_error ) {
 				<span class="input"><input id="password" type="password" name="password" size="32" maxlength="<?php echo auth_get_password_max_size(); ?>" class="<?php echo $t_password_field_autofocus ?>" /></span>
 				<span class="label-style"></span>
 			</div>
-			<?php if( ON == config_get( 'allow_permanent_cookie' ) ) { ?>
+			<?php if( ON == config_get_global( 'allow_permanent_cookie' ) ) { ?>
 			<div class="field-container">
 				<label for="remember-login"><span><?php echo _('Remember my login in this browser') ?></span></label>
 				<span class="input"><input id="remember-login" type="checkbox" name="perm_login" <?php echo ( $f_perm_login ? 'checked="checked" ' : '' ) ?>/></span>

@@ -44,7 +44,7 @@ require_api( 'print_api.php' );
 require_api( 'session_api.php' );
 require_api( 'string_api.php' );
 
-$t_allow_perm_login = ( ON == config_get( 'allow_permanent_cookie' ) );
+$t_allow_perm_login = ( ON == config_get_global( 'allow_permanent_cookie' ) );
 
 $f_username		= gpc_get_string( 'username', '' );
 $f_password		= gpc_get_string( 'password', '' );

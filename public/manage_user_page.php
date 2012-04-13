@@ -64,7 +64,7 @@ $f_save = gpc_get_bool( 'save' );
 $f_filter = mb_strtoupper( gpc_get_string( 'filter', config_get( 'default_manage_user_prefix' ) ) );
 $f_page_number = gpc_get_int( 'page_number', 1 );
 
-$t_cookie_name = config_get( 'manage_cookie' );
+$t_cookie_name = config_get_global( 'manage_cookie' );
 $t_lock_image = '<img src="' . config_get( 'icon_path' ) . 'protected.gif" width="8" height="15" alt="' . _('Protected') . '" />';
 $c_filter = '';
 

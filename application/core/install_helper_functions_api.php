@@ -340,7 +340,7 @@ function install_stored_filter_migrate() {
 
 	require_api( 'filter_api.php' );
 
-	$t_cookie_version = config_get( 'cookie_version' );
+	$t_cookie_version = config_get_global( 'cookie_version' );
 
 	# convert filters to use the same value for the filter key and the form field
 	$t_filter_fields['show_category'] = 'category_id';
