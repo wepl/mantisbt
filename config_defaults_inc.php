@@ -3560,7 +3560,7 @@ $g_global_settings = array(
 	'language',
 	'login_method',
 	'plugins_enabled',
-	'plugins_installed',
+	'plugins_force_installed',
 	'session_',
 	'show_queries_',
 	'use_javascript',
