@@ -882,7 +882,7 @@ function email_send( $p_email_data ) {
 	$t_subject = string_email( trim( $t_email_data->subject ) );
 	$t_message = string_email_links( trim( $t_email_data->body ) );
 
-	$t_debug_email = config_get( 'debug_email' );
+	$t_debug_email = config_get_global( 'debug_email' );
 	$t_mailer_method = config_get( 'phpMailer_method' );
 
 	if( is_null( $g_phpMailer ) ) {
@@ -948,7 +948,7 @@ function email_send( $p_email_data ) {
 	$mail->Sender = config_get( 'return_path_email' );
 	$mail->FromName = config_get( 'from_name' );
 
-	if( OFF !== $t_debug_email ) {
+	if( '' !== $t_debug_email ) {
 		$t_message = 'To: ' . $t_recipient . "\n\n" . $t_message;
 		try {
 			$mail->AddAddress( $t_debug_email, '' );
