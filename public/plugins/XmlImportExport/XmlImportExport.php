@@ -34,13 +34,13 @@ class XmlImportExportPlugin extends MantisPlugin {
 	 *  A method that populates the plugin information and minimum requirements.
 	 */
 	function register( ) {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
+		$this->name = d___('plugin_XmlImportExport', 'Import/Export issues');
+		$this->description = d___('plugin_XmlImportExport', 'Adds XML based import and export capabilities to MantisBT.');
 		$this->page = '';
 
-		$this->version = '1.0';
+		$this->version = '1.3.0';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 		);
 
 		$this->author = 'MantisBT Team';
@@ -60,17 +60,17 @@ class XmlImportExportPlugin extends MantisPlugin {
 	}
 
 	function import_issues_menu( ) {
-		return array( '<a href="' . plugin_page( 'import' ) . '">' . plugin_lang_get( 'import' ) . '</a>', );
+		return array( '<a href="' . plugin_page( 'import' ) . '">' . d___('plugin_XmlImportExport', 'Import issues') . '</a>', );
 	}
 
 	function export_issues_menu( ) {
-		return array( '<a href="' . plugin_page( 'export' ) . '">' . plugin_lang_get( 'export' ) . '</a>', );
+		return array( '<a href="' . plugin_page( 'export' ) . '">' . d___('plugin_XmlImportExport', 'XML Export') . '</a>', );
 	}
 
 	function install() {
 		$result = extension_loaded("xmlreader") && extension_loaded("xmlwriter");
 		if ( ! $result ) {
-			throw new InstallationFailed( plugin_lang_get( 'title' ), plugin_lang_get( 'error_no_xml' ) );
+			throw new InstallationFailed( d___('plugin_XmlImportExport', 'Import/Export issues'), d___('plugin_XmlImportExport', 'can not find xmlreader and xmlwriter extensions') );
 		}
 		return $result;
 	}

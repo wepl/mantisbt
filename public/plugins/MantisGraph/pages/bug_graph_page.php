@@ -51,20 +51,20 @@ $t_today = date( 'Y-m-d' );
 $f_type = gpc_get_int( 'graph_type', 0 );
 $f_show_as_table = gpc_get_bool( 'show_table', FALSE );
 
-html_page_top1( plugin_lang_get( 'graph_page' ) );
+html_page_top1( d___('plugin_MantisGraph', 'Graph Issue History') );
 $t_path = config_get( 'path' );
 html_page_top2();
 
 $t_period = new Period();
 $t_period->set_period_from_selector( 'interval' );
-$t_types = array( 0 => plugin_lang_get( 'select' ),
-                  2 => plugin_lang_get( 'select_bystatus'),
-                  3 => plugin_lang_get( 'select_summbystatus'),
-                  4 => plugin_lang_get( 'select_bycat'),
-                  6 => plugin_lang_get( 'select_both') );
+$t_types = array( 0 => d___('plugin_MantisGraph', 'Please Select'),
+                  2 => d___('plugin_MantisGraph', 'by Status'),
+                  3 => d___('plugin_MantisGraph', 'Summary by Status'),
+                  4 => d___('plugin_MantisGraph', 'Summary by Category'),
+                  6 => d___('plugin_MantisGraph', 'Summary by Status and Category') );
 
-$t_show = array( 0 => plugin_lang_get( 'show_as_graph' ),
-                 1 => plugin_lang_get( 'show_as_table' ) );
+$t_show = array( 0 => d___('plugin_MantisGraph', 'Show as Graph'),
+                 1 => d___('plugin_MantisGraph', 'Show as Table') );
 ?>
 		<form name="graph_form" method="post" action="<?php echo plugin_page( 'bug_graph_page.php' ); ?>">
 			<table class="width100" cellspacing="1">
@@ -80,7 +80,7 @@ $t_show = array( 0 => plugin_lang_get( 'show_as_graph' ),
 						<?php echo get_dropdown( $t_show, 'show_table', $f_show_as_table ? 1 : 0 ); ?>
 					</td>
 					<td>
-						<input type="submit" name="show" value="<?php echo plugin_lang_get( 'show_graph' ); ?>" />
+						<input type="submit" name="show" value="<?php echo d___('plugin_MantisGraph', 'Show Graph'); ?>" />
 					</td>
 				</tr>
 			</table>

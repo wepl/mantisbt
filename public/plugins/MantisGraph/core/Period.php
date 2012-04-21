@@ -251,17 +251,17 @@ class Period {
 	*/
 	function period_selector( $p_control_name ) {
 		$t_periods = array(
-			0 => plugin_lang_get( 'period_none' ),
-			7 => plugin_lang_get( 'period_this_week' ),
-			8 => plugin_lang_get( 'period_last_week' ),
-			9 => plugin_lang_get( 'period_two_weeks' ),
-			1 => plugin_lang_get( 'period_this_month' ),
-			2 => plugin_lang_get( 'period_last_month' ),
-			3 => plugin_lang_get( 'period_this_quarter' ),
-			4 => plugin_lang_get( 'period_last_quarter' ),
-			5 => plugin_lang_get( 'period_year_to_date' ),
-			6 => plugin_lang_get( 'period_last_year' ),
-			10 => plugin_lang_get( 'period_select' ),
+			0 => d___('plugin_MantisGraph', 'None'),
+			7 => d___('plugin_MantisGraph', 'This Week'),
+			8 => d___('plugin_MantisGraph', 'Last Week'),
+			9 => d___('plugin_MantisGraph', 'Last Two Weeks'),
+			1 => d___('plugin_MantisGraph', 'This Month'),
+			2 => d___('plugin_MantisGraph', 'Last Month'),
+			3 => d___('plugin_MantisGraph', 'This Quarter'),
+			4 => d___('plugin_MantisGraph', 'Last Quarter'),
+			5 => d___('plugin_MantisGraph', 'Year to Date'),
+			6 => d___('plugin_MantisGraph', 'Last Year'),
+			10 => d___('plugin_MantisGraph', 'Arbitrary Dates'),
 		);
 		$t_default = gpc_get_int( $p_control_name, 0 );
 		$t_formatted_start = $this->get_start_formatted();

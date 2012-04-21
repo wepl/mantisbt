@@ -20,13 +20,13 @@ class MantisCoreFormattingPlugin extends MantisFormattingPlugin {
 	 *  A method that populates the plugin information and minimum requirements.
 	 */
 	function register( ) {
-		$this->name = lang_get( 'plugin_format_title' );
-		$this->description = lang_get( 'plugin_format_description' );
+		$this->name = d___('plugin_MantisCoreFormatting', 'MantisBT Formatting');
+		$this->description = d___('plugin_MantisCoreFormatting', 'Official text processing and formatting plugin.');
 		$this->page = 'config';
 
-		$this->version = '1.0a';
+		$this->version = '1.3.0';
 		$this->requires = array(
-			'MantisCore' => '1.2.0',
+			'MantisCore' => '1.3.0',
 		);
 
 		$this->author = 'MantisBT Team';

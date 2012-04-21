@@ -16,7 +16,7 @@
 
 auth_reauthenticate( );
 
-html_page_top( plugin_lang_get( 'import' ) );
+html_page_top( d___('plugin_XmlImportExport', 'Import issues') );
 
 $t_this_page = plugin_page('import'); //FIXME with plugins this does not work...
 print_manage_menu( $t_this_page );
@@ -45,7 +45,7 @@ if( ALL_PROJECTS == $t_project_id ) {
 <tr>
 	<td class="form-title" colspan="2">
 <?php
-	echo plugin_lang_get( 'importing_in_project' ) . ' ' . string_display( project_get_field( $t_project_id, 'name' ) );
+	echo d___('plugin_XmlImportExport', 'Importing issues in project:') . ' ' . string_display( project_get_field( $t_project_id, 'name' ) );
 ?>
 	</td>
 </tr>
@@ -63,32 +63,32 @@ if( ALL_PROJECTS == $t_project_id ) {
 <tr>
 	<td class="form-title" colspan="2">
 <?php
-	echo plugin_lang_get( 'import_options' );
+	echo d___('plugin_XmlImportExport', 'Import options');
 ?>
 	</td>
 </tr>
 
 <tr class="row-2">
 	<th class="category" width="25%">
-	<?php echo plugin_lang_get( 'cross_references' );?>
+	<?php echo d___('plugin_XmlImportExport', 'Cross references') ?>
 	</th>
 	<td>
-	<p><?php echo plugin_lang_get( 'default_strategy' );?>
+	<p><?php echo d___('plugin_XmlImportExport', 'Default conversion strategy:' );?>
 	<select name="strategy">
-	<option value="renumber" title="<?php echo plugin_lang_get( 'renumber_desc' );?>">
-	<?php echo plugin_lang_get( 'renumber' );?></option>
-	<option value="link" title="<?php echo plugin_lang_get( 'link_desc' );?>">
-	<?php echo plugin_lang_get( 'link' );?></option>
-	<option value="disable" title="<?php echo plugin_lang_get( 'disable_desc' );?>">
-	<?php echo plugin_lang_get( 'disable' );?></option>
+	<option value="renumber" title="<?php echo d___('plugin_XmlImportExport', 'Try to convert references to new numbering' );?>">
+	<?php echo d___('plugin_XmlImportExport', 'Renumber' );?></option>
+	<option value="link" title="<?php echo d___('plugin_XmlImportExport', 'Convert into a link to the original item' );?>">
+	<?php echo d___('plugin_XmlImportExport', 'Link' );?></option>
+	<option value="disable" title="<?php echo d___('plugin_XmlImportExport', 'Disable the link' );?>">
+	<?php echo d___('plugin_XmlImportExport', 'Disable' );?></option>
 	</select>
 	</p>
-	<p><?php echo plugin_lang_get( 'fallback' );?>
+	<p><?php echo d___('plugin_XmlImportExport', 'Fallback strategy (when "Renumber" does not apply):' );?>
 	<select name="fallback">
-	<option value="link" title="<?php echo plugin_lang_get( 'link_desc' );?>">
-	<?php echo plugin_lang_get( 'link' );?></option>
-	<option value="disable" title="<?php echo plugin_lang_get( 'disable_desc' );?>">
-	<?php echo plugin_lang_get( 'disable' );?></option>
+	<option value="link" title="<?php echo d___('plugin_XmlImportExport', 'Convert into a link to the original item' );?>">
+	<?php echo d___('plugin_XmlImportExport', 'Link' );?></option>
+	<option value="disable" title="<?php echo d___('plugin_XmlImportExport', 'Disable the link' );?>">
+	<?php echo d___('plugin_XmlImportExport', 'Disable' );?></option>
 	</select>
 	</p>
 
@@ -98,10 +98,10 @@ if( ALL_PROJECTS == $t_project_id ) {
 <tr class="row-2">
 	<th class="category" width="25%"><?php echo _('Categories');?></th>
 	<td>
-	<p><label for="keepcategory"><?php echo plugin_lang_get( 'keep_same_category' );?></label>
+	<p><label for="keepcategory"><?php echo d___('plugin_XmlImportExport', 'Try keeping same category' );?></label>
 	<input type="checkbox" checked="checked" id="keepcategory" name="keepcategory" /></p>
 
-	<p><?php echo plugin_lang_get( 'fallback_category' );?>
+	<p><?php echo d___('plugin_XmlImportExport', 'Fallback category:' );?>
 	<select name="defaultcategory">
 <?php print_category_option_list( );?>
 	</select>

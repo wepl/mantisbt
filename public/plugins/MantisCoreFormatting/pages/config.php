@@ -17,7 +17,7 @@
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-html_page_top( lang_get( 'plugin_format_title' ) );
+html_page_top( d___('plugin_MantisCoreFormatting', 'MantisBT Formatting') );
 
 print_manage_menu( );
 
@@ -30,50 +30,50 @@ print_manage_menu( );
 
 <tr>
 	<td class="form-title" colspan="3">
-		<?php echo lang_get( 'plugin_format_title' ) . ': ' . lang_get( 'plugin_format_config' )?>
+		<?php echo d___('plugin_MantisCoreFormatting', 'MantisBT Formatting Configuration') ?>
 	</td>
 </tr>
 
 <tr>
 	<td class="category" width="60%">
-		<?php echo lang_get( 'plugin_format_process_text' )?>
-		<br /><span class="small"><?php echo lang_get( 'plugin_format_process_text_warning_notice' )?></span>
+		<?php echo d___('plugin_MantisCoreFormatting', 'Text Processing') ?>
+		<br /><span class="small"><?php echo d___('plugin_MantisCoreFormatting', 'Do not turn off unless you really know what you\'re doing. In the off state, cross site scripting (XSS) attacks are possible.') ?></span>
 	</td>
 	<td class="center" width="20%">
 		<label><input type="radio" name="process_text" value="1" <?php echo( ON == plugin_config_get( 'process_text' ) ) ? 'checked="checked" ' : ''?>/>
-			<?php echo lang_get( 'plugin_format_enabled' )?></label>
+			<?php echo d___('plugin_MantisCoreFormatting', 'On') ?></label>
 	</td>
 	<td class="center" width="20%">
 		<label><input type="radio" name="process_text" value="0" <?php echo( OFF == plugin_config_get( 'process_text' ) ) ? 'checked="checked" ' : ''?>/>
-			<?php echo lang_get( 'plugin_format_disabled' )?></label>
+			<?php echo d___('plugin_MantisCoreFormatting', 'Off') ?></label>
 	</td>
 </tr>
 
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'plugin_format_process_urls' )?>
+		<?php echo d___('plugin_MantisCoreFormatting', 'URL Processing') ?>
 	</th>
 	<td class="center">
 		<label><input type="radio" name="process_urls" value="1" <?php echo( ON == plugin_config_get( 'process_urls' ) ) ? 'checked="checked" ' : ''?>/>
-			<?php echo lang_get( 'plugin_format_enabled' )?></label>
+			<?php echo d___('plugin_MantisCoreFormatting', 'On') ?></label>
 	</td>
 	<td class="center">
 		<label><input type="radio" name="process_urls" value="0" <?php echo( OFF == plugin_config_get( 'process_urls' ) ) ? 'checked="checked" ' : ''?>/>
-			<?php echo lang_get( 'plugin_format_disabled' )?></label>
+			<?php echo d___('plugin_MantisCoreFormatting', 'Off') ?></label>
 	</td>
 </tr>
 
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'plugin_format_process_buglinks' )?>
+		<?php echo d___('plugin_MantisCoreFormatting', 'MantisBT Links ( Issue/Issuenote )') ?>
 	</th>
 	<td class="center">
 		<label><input type="radio" name="process_buglinks" value="1" <?php echo( ON == plugin_config_get( 'process_buglinks' ) ) ? 'checked="checked" ' : ''?>/>
-			<?php echo lang_get( 'plugin_format_enabled' )?></label>
+			<?php echo d___('plugin_MantisCoreFormatting', 'On') ?></label>
 	</td>
 	<td class="center">
 		<label><input type="radio" name="process_buglinks" value="0" <?php echo( OFF == plugin_config_get( 'process_buglinks' ) ) ? 'checked="checked" ' : ''?>/>
-			<?php echo lang_get( 'plugin_format_disabled' )?></label>
+			<?php echo d___('plugin_MantisCoreFormatting', 'Off') ?></label>
 	</td>
 </tr>
 

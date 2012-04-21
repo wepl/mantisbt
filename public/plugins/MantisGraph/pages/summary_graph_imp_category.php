@@ -37,7 +37,7 @@
 	echo '<br />';
 	print_summary_submenu();
 
-	$t_width = plugin_config_get( 'window_width' );
+	$t_width = d___('plugin_MantisGraph', 'Graph width (in pixels)');
 	$t_graph_width = (int) ( ( $t_width - 50 ) * 0.6 );
 
 	# gather the data for the graphs
@@ -50,7 +50,7 @@
 <table class="width100" cellspacing="1">
 <tr>
 	<td class="form-title">
-		<?php echo plugin_lang_get( 'graph_imp_category_title' ) ?>
+		<?php echo d___('plugin_MantisGraph', 'Synthesis graphs by category') ?>
 	</td>
 </tr>
 <tr>

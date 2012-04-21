@@ -250,23 +250,23 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 		$tot = new BarPlot( array_values( $total ) );
 		$tot->SetFillColor( 'lightblue' );
 		$tot->SetWidth( 0.7 );
-		$tot->SetLegend( plugin_lang_get( 'legend_total' ) );
+		$tot->SetLegend( d___('plugin_MantisGraph', 'Total') );
 		$graph->Add( $tot );
 
 		$p1 = new BarPlot( array_values( $p_metrics['open'] ) );
 		$p1->SetFillColor( 'yellow' );
 		$p1->SetWidth( 1 );
-		$p1->SetLegend( plugin_lang_get( 'legend_opened' ) );
+		$p1->SetLegend( d___('plugin_MantisGraph', 'Opened') );
 
 		$p2 = new BarPlot( array_values( $p_metrics['closed'] ) );
 		$p2->SetFillColor( 'blue' );
 		$p2->SetWidth( 1 );
-		$p2->SetLegend( plugin_lang_get( 'legend_closed' ) );
+		$p2->SetLegend( d___('plugin_MantisGraph', 'Closed') );
 
 		$p3 = new BarPlot( array_values( $p_metrics['resolved'] ) );
 		$p3->SetFillColor( 'red' );
 		$p3->SetWidth( 1 );
-		$p3->SetLegend( plugin_lang_get( 'legend_resolved' ) );
+		$p3->SetLegend( d___('plugin_MantisGraph', 'Resolved') );
 
 		$gbplot = new GroupBarPlot( array( $p1, $p3, $p2 ) );
 		$graph->Add( $gbplot );
@@ -352,7 +352,7 @@ function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_he
 function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_height = 380 ) {
 
 	$t_graph_font = graph_get_font();
-	error_check( is_array( $p_metrics ) ? count( $p_metrics ) : 0, plugin_lang_get( 'cumulative' ) . ' ' . _('By Date (days)') );
+	error_check( is_array( $p_metrics ) ? count( $p_metrics ) : 0, d___('plugin_MantisGraph', 'Cumulative by date (days)') );
 
 	if ( plugin_config_get( 'eczlibrary' ) == ON ) {
 		$graph = new ezcGraphLineChart();
@@ -362,15 +362,15 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 		$graph->xAxis = new ezcGraphChartElementNumericAxis();
 
 		$graph->data[0] = new ezcGraphArrayDataSet( $p_metrics[0] );
-		$graph->data[0]->label = plugin_lang_get( 'legend_reported' );
+		$graph->data[0]->label = d___('plugin_MantisGraph', 'Reported');
 		$graph->data[0]->color = '#FF0000';
 
 		$graph->data[1] = new ezcGraphArrayDataSet( $p_metrics[1] );
-		$graph->data[1]->label = plugin_lang_get( 'legend_resolved' );
+		$graph->data[1]->label = d___('plugin_MantisGraph', 'Resolved');
 		$graph->data[1]->color = '#0000FF';
 
 		$graph->data[2] = new ezcGraphArrayDataSet( $p_metrics[2] );
-		$graph->data[2]->label = plugin_lang_get( 'legend_still_open' );
+		$graph->data[2]->label = d___('plugin_MantisGraph', 'Still Open');
 		$graph->data[2]->color = '#000000';
 
 		$graph->additionalAxis[2] = $nAxis = new ezcGraphChartElementNumericAxis();
@@ -392,7 +392,7 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 		$graph->driver->options->jpegQuality = 100;
 		$graph->driver->options->imageFormat = IMG_JPEG;
 
-		$graph->title = plugin_lang_get( 'cumulative' ) . ' ' . _('By Date (days)');
+		$graph->title = d___('plugin_MantisGraph', 'Cumulative by date (days)');
 		$graph->options->font = $t_graph_font ;
 
 		$graph->renderToOutput( $p_graph_width, $p_graph_height);
@@ -416,7 +416,7 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 		$graph->SetY2Scale("lin");
 		$graph->SetMarginColor( 'white' );
 		$graph->SetFrame( false );
-		$graph->title->Set( plugin_lang_get( 'cumulative' ) . ' ' . _('By Date (days)') );
+		$graph->title->Set( d___('plugin_MantisGraph', 'Cumulative by date (days)') );
 		$graph->title->SetFont( $t_graph_font, FS_BOLD );
 
 		$graph->legend->Pos( 0.05, 0.9, 'right', 'bottom' );
@@ -441,19 +441,19 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 		$p1 = new LinePlot( $reported_plot, $plot_date );
 		$p1->SetColor( 'blue' );
 		$p1->SetCenter();
-		$p1->SetLegend( plugin_lang_get( 'legend_reported' ) );
+		$p1->SetLegend( d___('plugin_MantisGraph', 'Reported') );
 		$graph->AddY2( $p1 );
 
 		$p3 = new LinePlot( $still_open_plot, $plot_date );
 		$p3->SetColor( 'red' );
 		$p3->SetCenter();
-		$p3->SetLegend( plugin_lang_get( 'legend_still_open' ) );
+		$p3->SetLegend( d___('plugin_MantisGraph', 'Still Open') );
 		$graph->Add( $p3 );
 
 		$p2 = new LinePlot( $resolved_plot, $plot_date );
 		$p2->SetColor( 'black' );
 		$p2->SetCenter();
-		$p2->SetLegend( plugin_lang_get( 'legend_resolved' ) );
+		$p2->SetLegend( d___('plugin_MantisGraph', 'Resolved') );
 		$graph->AddY2( $p2 );
 
 		if( helper_show_query_count() ) {
@@ -850,7 +850,7 @@ function graph_date_format( $p_date ) {
 # ----------------------------------------------------
 function error_check( $bug_count, $title ) {
 	if( 0 == $bug_count ) {
-		error_text( $title, plugin_lang_get( 'not_enough_data' ) );
+		error_text( $title, d___('plugin_MantisGraph', 'Not enough data to create graph') );
 	}
 }
 

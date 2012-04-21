@@ -39,4 +39,4 @@
 		$t_metrics = unserialize( $t_token );
 	}
 
-	graph_group( $t_metrics, plugin_lang_get( 'by_severity_mix' ), $f_width, $f_width * $t_ar );
+	graph_group( $t_metrics, d___('plugin_MantisGraph', 'By severity and status'), $f_width, $f_width * $t_ar );

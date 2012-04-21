@@ -49,7 +49,7 @@
 <table class="width100" cellspacing="1">
 <tr>
 	<td class="form-title">
-		<?php echo plugin_lang_get( 'graph_imp_resolution_title' ) ?>
+		<?php echo d___('plugin_MantisGraph', 'Synthesis graphs by resolution') ?>
 	</td>
 </tr>
 <tr>
