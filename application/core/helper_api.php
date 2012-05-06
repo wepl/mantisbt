@@ -30,7 +30,6 @@
  * @uses current_user_api.php
  * @uses gpc_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses project_api.php
  * @uses user_api.php
@@ -48,7 +47,6 @@ require_api( 'constant_inc.php' );
 require_api( 'current_user_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
 require_api( 'user_api.php' );
@@ -119,7 +117,48 @@ function get_percentage_by_status() {
  */
 function get_enum_element( $p_enum_name, $p_val, $p_user = null, $p_project = null ) {
 	$config_var = config_get( $p_enum_name . '_enum_string', null, $p_user, $p_project );
-	$string_var = lang_get( $p_enum_name . '_enum_string' );
+
+	switch( $p_enum_name ) {
+		case 'access_levels':
+			$string_var = _('10:viewer,25:reporter,40:updater,55:developer,70:manager,90:administrator');
+			break;
+		case 'custom_field_type':
+			$string_var = _('0:String,1:Numeric,2:Float,3:Enumeration,4:E-mail,5:Checkbox,6:List,7:Multiselection list,8:Date,9:Radio,10:Textarea');
+			break;
+		case 'eta':
+			$string_var = _('10:none,20:< 1 day,30:2-3 days,40:< 1 week,50:< 1 month,60:> 1 month');
+			break;
+		case 'priority':
+			$string_var = _('10:none,20:low,30:normal,40:high,50:urgent,60:immediate');
+			break;
+		case 'project_status':
+			$string_var = _('10:development,30:release,50:stable,70:obsolete');
+			break;
+		case 'project_view_state':
+			$string_var = _('10:public,50:private');
+			break;
+		case 'projection':
+			$string_var = _('10:none,30:tweak,50:minor fix,70:major rework,90:redesign');
+			break;
+		case 'reproducibility':
+			$string_var = _('10:always,30:sometimes,50:random,70:have not tried,90:unable to reproduce,100:N/A');
+			break;
+		case 'resolution':
+			$string_var = _('10:always,30:sometimes,50:random,70:have not tried,90:unable to reproduce,100:N/A');
+			break;
+		case 'severity':
+			$string_var = _('10:feature,20:trivial,30:text,40:tweak,50:minor,60:major,70:crash,80:block');
+			break;
+		case 'sponsorship':
+			$string_var = _('0:Unpaid,1:Requested,2:Paid');
+			break;
+		case 'status':
+			$string_var = _('10:new,20:feedback,30:acknowledged,40:confirmed,50:assigned,80:resolved,90:closed');
+			break;
+		case 'view_state':
+			$string_var = _('10:public,50:private');
+			break;
+	}
 
 	return MantisEnum::getLocalizedLabel( $config_var, $string_var, $p_val );
 }

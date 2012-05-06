@@ -35,7 +35,6 @@
  * @uses database_api.php
  * @uses event_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses prepare_api.php
  * @uses print_api.php
  * @uses string_api.php
@@ -58,7 +57,6 @@ require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );

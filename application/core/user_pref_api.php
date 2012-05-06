@@ -27,7 +27,6 @@
  * @uses config_api.php
  * @uses constant_inc.php
  * @uses database_api.php
- * @uses lang_api.php
  * @uses user_api.php
  * @uses utility_api.php
  */
@@ -39,7 +38,6 @@ require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'database_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 
@@ -516,19 +514,17 @@ function user_pref_get_pref( $p_user_id, $p_pref_name, $p_project_id = ALL_PROJE
 }
 
 /**
- * returns user language
+ * Returns the language preference of a user. Note that this function may
+ * return an invalid language preference (one which is not supported on the
+ * current system). It is the responsibility of the caller to validate whether
+ * the language preference returned by this function is valid or not.
  * @param int $p_user_id
  * @param int $p_project_id
- * @return string language name or null if invalid language specified
+ * @return string language name
  */
 function user_pref_get_language( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 	$t_prefs = user_pref_get( $p_user_id, $p_project_id );
-
-	// ensure the language is a valid one
 	$t_lang = $t_prefs->language;
-	if( !lang_language_exists( $t_lang ) ) {
-		$t_lang = null;
-	}
 	return $t_lang;
 }
 

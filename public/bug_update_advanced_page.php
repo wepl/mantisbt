@@ -33,7 +33,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses last_visited_api.php
  * @uses prepare_api.php
  * @uses print_api.php
@@ -61,7 +60,6 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'last_visited_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
@@ -660,9 +658,11 @@ foreach ( $t_related_custom_field_ids as $t_id ) {
 			echo '<span class="required">*</span>';
 		}
 		if ( $t_def['type'] != CUSTOM_FIELD_TYPE_RADIO && $t_def['type'] != CUSTOM_FIELD_TYPE_CHECKBOX ) {
-			echo '<label for="custom_field_' . string_attribute( $t_def['id'] ) . '">' . string_display( lang_get_defaulted( $t_def['name'] ) ) . '</label>';
+			/* TODO L10N: translation support for custom field names */
+			echo '<label for="custom_field_' . string_attribute( $t_def['id'] ) . '">' . string_display( $t_def['name'] ) . '</label>';
 		} else {
-			echo string_display( lang_get_defaulted( $t_def['name'] ) );
+			/* TODO L10N: translation support for custom field names */
+			echo string_display( $t_def['name'] );
 		}
 		echo '</td><td colspan="5">';
 		print_custom_field_input( $t_def, $tpl_bug_id );

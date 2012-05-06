@@ -25,8 +25,8 @@
  * @uses access_api.php
  * @uses config_api.php
  * @uses constant_inc.php
+ * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses string_api.php
  */
 
@@ -37,8 +37,8 @@ require_once( 'core.php' );
 require_api( 'access_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
+require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'string_api.php' );
 
 access_ensure_project_level( config_get( 'manage_configuration_threshold' ) );
@@ -56,7 +56,7 @@ function get_section_begin_apr( $p_section_name ) {
 	$t_output .= '<tr><td class="form-title">' . _('Capability') . '</td>';
 
 	foreach( $t_access_levels as $t_access_level ) {
-		$t_output .= '<td class="form-title" style="text-align:center">&#160;' . MantisEnum::getLabel( lang_get('access_levels_enum_string'), $t_access_level ) . '&#160;</td>';
+		$t_output .= '<td class="form-title" style="text-align:center">&#160;' . get_enum_element( 'access_levels', $t_access_level ) . '&#160;</td>';
 	}
 
 	$t_output .= '</tr>' . "\n";

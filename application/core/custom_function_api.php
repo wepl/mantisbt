@@ -34,7 +34,6 @@
  * @uses history_api.php
  * @uses html_api.php
  * @uses icon_api.php
- * @uses lang_api.php
  * @uses prepare_api.php
  * @uses print_api.php
  * @uses string_api.php
@@ -53,7 +52,6 @@ require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
 require_api( 'html_api.php' );
 require_api( 'icon_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
@@ -258,7 +256,8 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
 			echo '@', $t_custom_field, '@';
 		} else {
 			$t_def = custom_field_get_definition( $t_field_id );
-			$t_custom_field = lang_get_defaulted( $t_def['name'] );
+			/* TODO L10N: translation support for custom field names */
+			$t_custom_field = $t_def['name'];
 
 			if( COLUMNS_TARGET_CSV_PAGE != $p_columns_target ) {
 				print_view_bug_sort_link( $t_custom_field, $p_column, $t_sort, $t_dir, $p_columns_target );

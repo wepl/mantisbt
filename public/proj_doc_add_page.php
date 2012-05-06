@@ -26,7 +26,6 @@
  * @uses file_api.php
  * @uses form_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses utility_api.php
  */
 
@@ -38,7 +37,6 @@ require_api( 'config_api.php' );
 require_api( 'file_api.php' );
 require_api( 'form_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'utility_api.php' );
 
 # Check if project documentation feature is enabled.

@@ -38,7 +38,6 @@
  * @uses helper_api.php
  * @uses history_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses last_visited_api.php
  * @uses print_api.php
  * @uses profile_api.php
@@ -68,7 +67,6 @@ require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'last_visited_api.php' );
 require_api( 'print_api.php' );
 require_api( 'profile_api.php' );
@@ -170,10 +168,12 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 			$t_def['type'] == CUSTOM_FIELD_TYPE_LIST ||
 			$t_def['type'] == CUSTOM_FIELD_TYPE_MULTILIST ||
 			$t_def['type'] == CUSTOM_FIELD_TYPE_RADIO ) ) {
-		throw new EmptyField( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ) );
+		/* TODO L10N: translation support for custom field names */
+		throw new EmptyField( custom_field_get_field( $t_id, 'name' ) );
 	}
 	if ( !custom_field_validate( $t_id, gpc_get_custom_field( "custom_field_$t_id", $t_def['type'], NULL ) ) ) {
-		throw new CustomFieldInvalidValue( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ) );
+		/* TODO L10N: translation support for custom field names */
+		throw new CustomFieldInvalidValue( custom_field_get_field( $t_id, 'name' ) );
 	}
 }
 
@@ -208,7 +208,8 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 
 	$t_def = custom_field_get_definition( $t_id );
 	if( !custom_field_set_value( $t_id, $t_bug_id, gpc_get_custom_field( "custom_field_$t_id", $t_def['type'], $t_def['default_value'] ), false ) ) {
-		throw new CustomFieldInvalidValue( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ) );
+		/* TODO L10N: translation support for custom field names */
+		throw new CustomFieldInvalidValue( custom_field_get_field( $t_id, 'name' ) );
 	}
 }
 

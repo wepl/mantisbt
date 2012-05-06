@@ -25,6 +25,7 @@
  * @uses authentication_api.php
  * @uses compress_api.php
  * @uses config_api.php
+ * @uses helper_api.php
  * @uses relationship_graph_api.php
  * @uses workflow_api.php
  */
@@ -35,6 +36,7 @@ require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'compress_api.php' );
 require_api( 'config_api.php' );
+require_api( 'helper_api.php' );
 require_api( 'graphviz_api.php' );
 require_api( 'workflow_api.php' );
 
@@ -76,8 +78,8 @@ foreach ( $t_status_arr as $t_from_status => $t_from_label) {
 	$t_enum_status = MantisEnum::getAssocArrayIndexedByValues( config_get( 'status_enum_string' ) );
 	foreach ( $t_enum_status as $t_to_status_id => $t_to_status_label ) {
 		if ( workflow_transition_edge_exists( $t_from_status, $t_to_status_id ) ) {
-			$t_graph->add_edge( string_no_break( MantisEnum::getLabel( lang_get('status_enum_string'), $t_from_status ) ),
-			                    string_no_break( MantisEnum::getLabel( lang_get('status_enum_string'), $t_to_status_id ) ),
+			$t_graph->add_edge( string_no_break( get_enum_element( 'status', $t_from_status ) ),
+			                    string_no_break( get_enum_element( 'status', $t_to_status_id ) ),
 			                    array() );
 		}
 	}

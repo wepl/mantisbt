@@ -27,7 +27,6 @@
  * @uses database_api.php
  * @uses filter_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses rss_api.php
  */
@@ -42,7 +41,6 @@ require_api( 'config_api.php' );
 require_api( 'database_api.php' );
 require_api( 'filter_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'rss_api.php' );
 

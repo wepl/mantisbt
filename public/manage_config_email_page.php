@@ -28,7 +28,6 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses project_api.php
  * @uses string_api.php
@@ -45,7 +44,6 @@ require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
 require_api( 'string_api.php' );
@@ -177,7 +175,7 @@ function get_section_begin_for_email( $p_section_name ) {
 	echo '<td class="form-title" style="text-align:center" colspan="' . count( $t_access_levels ) . '">&#160;' . _('Access Levels') . '&#160;</td></tr><tr>';
 
 	foreach( $t_access_levels as $t_access_level ) {
-		echo '<td class="form-title" style="text-align:center">&#160;' . MantisEnum::getLabel( lang_get('access_levels_enum_string'), $t_access_level ) . '&#160;</td>';
+		echo '<td class="form-title" style="text-align:center">&#160;' . get_enum_element( 'access_levels', $t_access_level ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";

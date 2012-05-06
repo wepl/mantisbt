@@ -28,7 +28,6 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses project_api.php
  * @uses string_api.php
@@ -46,7 +45,6 @@ require_api( 'constant_inc.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
 require_api( 'string_api.php' );
@@ -83,7 +81,7 @@ function get_section_begin_mcwt( $p_section_name ) {
 	echo '<td class="form-title" style="text-align:center"  width="40%" colspan="' . count( $t_access_levels ) . '">' . _('Access Levels') . '</td>';
 	echo '<td class="form-title" style="text-align:center" rowspan="2">&#160;' . _('Who can alter this value') . '&#160;</td></tr><tr>';
 	foreach( $t_access_levels as $t_access_level => $t_access_label ) {
-		echo '<td class="form-title" style="text-align:center">&#160;' . MantisEnum::getLabel( lang_get('access_levels_enum_string'), $t_access_level ) . '&#160;</td>';
+		echo '<td class="form-title" style="text-align:center">&#160;' . get_enum_element( 'access_levels', $t_access_level ) . '&#160;</td>';
 	}
 	echo '</tr>' . "\n";
 }
@@ -168,7 +166,7 @@ function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=fals
 		print_enum_string_option_list( 'access_levels', config_get_access( $p_threshold ) );
 		echo '</select> </td>';
 	} else {
-		echo '<td>' . MantisEnum::getLabel( lang_get('access_levels_enum_string'), config_get_access( $p_threshold ) ) . '&#160;</td>';
+		echo '<td>' . get_enum_element( 'access_levels', config_get_access( $p_threshold ) ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";
@@ -217,7 +215,7 @@ function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=
 		print_enum_string_option_list( 'access_levels', config_get_access( $p_threshold ) );
 		echo '</select> </td>';
 	} else {
-		echo '<td>' . MantisEnum::getLabel( lang_get('access_levels_enum_string'), config_get_access( $p_threshold ) ) . '&#160;</td>';
+		echo '<td>' . get_enum_element( 'access_levels', config_get_access( $p_threshold ) ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";
@@ -254,7 +252,7 @@ function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects
 		echo '</select></td><td colspan="' . ( count( $t_access_levels ) - 3 ) . '"></td>';
 		$t_show_submit = true;
 	} else {
-		$t_value = MantisEnum::getLabel( lang_get( $p_enum . '_enum_string' ), config_get( $p_threshold ) ) . '&#160;';
+		$t_value = get_enum_element( $p_enum, config_get( $p_threshold ) ) . '&#160;';
 		echo '<td class="left" colspan="3"' . $t_colour . '>' . $t_value . '</td><td colspan="' . ( count( $t_access_levels ) - 3 ) . '"></td>';
 	}
 
@@ -263,7 +261,7 @@ function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects
 		print_enum_string_option_list( 'access_levels', config_get_access( $p_threshold ) );
 		echo '</select> </td>';
 	} else {
-		echo '<td>' . MantisEnum::getLabel( lang_get('access_levels_enum_string'), config_get_access( $p_threshold ) ) . '&#160;</td>';
+		echo '<td>' . get_enum_element( 'access_levels', config_get_access( $p_threshold ) ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";

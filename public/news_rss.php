@@ -25,7 +25,6 @@
  * @uses config_api.php
  * @uses constant_inc.php
  * @uses gpc_api.php
- * @uses lang_api.php
  * @uses news_api.php
  * @uses project_api.php
  * @uses rss_api.php
@@ -42,7 +41,6 @@ require_api( 'access_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'gpc_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'news_api.php' );
 require_api( 'project_api.php' );
 require_api( 'rss_api.php' );

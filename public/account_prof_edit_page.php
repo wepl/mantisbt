@@ -32,7 +32,6 @@
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses profile_api.php
  * @uses string_api.php
  */
@@ -48,7 +47,6 @@ require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'profile_api.php' );
 require_api( 'string_api.php' );
 

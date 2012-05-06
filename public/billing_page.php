@@ -25,7 +25,6 @@
  * @uses config_api.php
  * @uses constant_inc.php
  * @uses html_api.php
- * @uses lang_api.php
  */
 
 use MantisBT\Exception\Access\AccessDenied;
@@ -35,7 +34,6 @@ require_api( 'access_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 
 if ( !config_get( 'time_tracking_enabled' ) )
 	throw new AccessDenied();

@@ -30,7 +30,6 @@
  * @uses filter_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses utility_api.php
  */
 
@@ -45,7 +44,6 @@ require_api( 'constant_inc.php' );
 require_api( 'filter_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'utility_api.php' );
 
 if ( OFF == config_get('time_tracking_enabled') ) {

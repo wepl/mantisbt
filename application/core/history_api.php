@@ -35,7 +35,6 @@
  * @uses database_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses project_api.php
  * @uses relationship_api.php
  * @uses sponsorship_api.php
@@ -55,7 +54,6 @@ require_api( 'custom_field_api.php' );
 require_api( 'database_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'project_api.php' );
 require_api( 'relationship_api.php' );
 require_api( 'sponsorship_api.php' );
@@ -289,10 +287,16 @@ function history_localize_item( $p_field_name, $p_type, $p_old_value, $p_new_val
 	$t_raw = true;
 
 	if( PLUGIN_HISTORY == $p_type ) {
-		$t_note = lang_get_defaulted( "plugin_$p_field_name", $p_field_name );
+		/* TODO L10N: History lives long after a plugin is uninstalled
+		 * and thus localisation will not be possible when a plugin
+		 * has been removed from MantisBT. Find a way to resolve this
+		 * problem! An interim solution is to take $p_field_name, get
+		 * the plugin name, switch the text domain to that of the
+		 * plugin (assuming it is installed) and look up the localised
+		 * field name within the plugin's text domain.
+		 */ 
 		$t_change = ( isset( $p_new_value ) ? "$p_old_value => $p_new_value" : $p_old_value );
-
-		return array( 'note' => $t_note, 'change' => $t_change, 'raw' => true );
+		return array( 'note' => $p_field_name, 'change' => $t_change, 'raw' => true );
 	}
 
 	switch( $p_field_name ) {

@@ -35,7 +35,6 @@
  * @uses helper_api.php
  * @uses history_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses last_visited_api.php
  * @uses prepare_api.php
  * @uses print_api.php
@@ -65,7 +64,6 @@ require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'last_visited_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
@@ -453,7 +451,8 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 	$t_def = custom_field_get_definition( $t_id );
 
 	echo '<tr class="print">';
-	echo '<th class="print-category">', string_display_line( lang_get_defaulted( $t_def['name'] ) ), '</th>';
+	/* TODO L10N: translation support for custom field names */
+	echo '<th class="print-category">', string_display_line( $t_def['name'] ), '</th>';
 	echo '<td class="print" colspan="4">';
 	print_custom_field_value( $t_def, $t_id, $f_bug_id );
 	echo '</td>';

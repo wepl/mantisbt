@@ -31,7 +31,6 @@
  * @uses constant_inc.php
  * @uses custom_field_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses project_api.php
  * @uses user_api.php
  */
@@ -44,7 +43,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'project_api.php' );
 require_api( 'user_api.php' );
 
@@ -136,7 +134,8 @@ function excel_get_titles_row( $p_style_id = '') {
 	foreach( $t_columns as $t_column ) {
 		$t_custom_field = column_get_custom_field_name( $t_column );
 		if( $t_custom_field !== null ) {
-			$t_ret .= excel_format_column_title( lang_get_defaulted( $t_custom_field ) );
+			/* TODO L10N: translation support for custom field names */
+			$t_ret .= excel_format_column_title( $t_custom_field );
 		} else {
 			$t_column_title = column_get_title( $t_column );
 			$t_ret .= excel_format_column_title( $t_column_title );

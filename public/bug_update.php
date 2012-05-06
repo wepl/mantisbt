@@ -36,7 +36,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses history_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses relationship_api.php
  * @uses twitter_api.php
@@ -67,7 +66,6 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'relationship_api.php' );
 require_api( 'twitter_api.php' );
@@ -249,7 +247,8 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 		if ( $t_cf_def[$t_cf_require_check] ) {
 			# A value for the custom field was expected however
 			# no value was given by the user.
-			throw new EmptyField( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
+			/* TODO L10N: translation support for custom field names */
+			throw new EmptyField( custom_field_get_field( $t_cf_id, 'name' ) );
 		} else {
 			# The custom field isn't compulsory and the user did
 			# not supply a value. Therefore we can just ignore this
@@ -271,7 +270,8 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 	# modified such that old values that were once OK are now considered
 	# invalid.
 	if ( !custom_field_validate( $t_cf_id, $t_new_custom_field_value ) ) {
-		throw new CustomFieldInvalidValue( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
+		/* TODO L10N: translation support for custom field names */
+		throw new CustomFieldInvalidValue( custom_field_get_field( $t_cf_id, 'name' ) );
 	}
 
 	# Remember the new custom field values so we can set them when updating

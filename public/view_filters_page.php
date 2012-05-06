@@ -33,7 +33,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses string_api.php
  * @uses version_api.php
@@ -55,7 +54,6 @@ require_api( 'filter_constants_inc.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
 require_api( 'version_api.php' );
@@ -362,7 +360,8 @@ if ( ON == config_get( 'filter_by_custom_fields' ) ) {
 			for( $j = 0; $j < $t_per_row; $j++ ) {
 				echo '<td class="small-caption" colspan="' . ( 1 * $t_filter_cols ) . '">';
 				if ( isset( $t_accessible_custom_fields_names[$t_base + $j] ) ) {
-					echo string_display( lang_get_defaulted( $t_accessible_custom_fields_names[$t_base + $j] ) );
+					/* TODO L10N: translation support for custom field names */
+					echo string_display( $t_accessible_custom_fields_names[$t_base + $j] );
 				} else {
 					echo '&#160;';
 				}

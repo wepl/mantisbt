@@ -32,7 +32,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses string_api.php
  */
@@ -50,14 +49,13 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
 
-$f_bug_id	= gpc_get_int( 'bug_id', -1 );
-$f_files		= gpc_get_file( 'ufile', -1 );
+$f_bug_id = gpc_get_int( 'bug_id', -1 );
+$f_files = gpc_get_file( 'ufile', -1 );
 
-if ( $f_bug_id == -1 && $f_files	== -1 ) {
+if ( $f_bug_id == -1 && $f_files == -1 ) {
 	# _POST/_FILES does not seem to get populated if you exceed size limit so check if bug_id is -1
 	throw new AttachmentOversized();
 }

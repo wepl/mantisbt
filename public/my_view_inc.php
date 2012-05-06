@@ -31,7 +31,6 @@
  * @uses filter_constants_inc.php
  * @uses helper_api.php
  * @uses icon_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses project_api.php
  * @uses string_api.php
@@ -52,7 +51,6 @@ require_api( 'filter_api.php' );
 require_api( 'filter_constants_inc.php' );
 require_api( 'helper_api.php' );
 require_api( 'icon_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
 require_api( 'string_api.php' );

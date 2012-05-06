@@ -38,7 +38,6 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses last_visited_api.php
  * @uses news_api.php
  * @uses prepare_api.php
@@ -69,7 +68,6 @@ require_api( 'file_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'last_visited_api.php' );
 require_api( 'news_api.php' );
 require_api( 'prepare_api.php' );
@@ -827,7 +825,7 @@ function print_status_option_list( $p_select_label, $p_current_value = 0, $p_all
 	} else if ( count( $t_enum_list ) == 1 ) {
 		echo array_pop( $t_enum_list );
 	} else {
-		echo MantisEnum::getLabel( lang_get('status_enum_string'), $p_current_value );
+		echo get_enum_element( 'status', $p_current_value );
 	}
 }
 
@@ -1409,7 +1407,7 @@ function get_dropdown( $p_control_array, $p_control_name, $p_match = '', $p_add_
 	}
 	$t_info = sprintf( "<select %s name=\"%s\" id=\"%s\"%s>", $t_multiple, $p_control_name, $p_control_name, $t_size );
 	if( $p_add_any ) {
-		array_unshift_assoc( $t_control_array, META_FILTER_ANY, lang_trans( '[any]' ) );
+		array_unshift_assoc( $t_control_array, META_FILTER_ANY, _('[any]') );
 	}
 	while( list( $t_name, $t_desc ) = each( $t_control_array ) ) {
 		$t_sel = '';

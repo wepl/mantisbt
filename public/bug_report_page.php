@@ -38,7 +38,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses profile_api.php
  * @uses project_api.php
@@ -69,7 +68,6 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'profile_api.php' );
 require_api( 'project_api.php' );
@@ -521,8 +519,8 @@ print_recently_visited();
 		<th class="category">
 			<?php if($t_def['require_report']) {?><span class="required">*</span><?php } ?>
 			<?php if ( $t_def['type'] != CUSTOM_FIELD_TYPE_RADIO && $t_def['type'] != CUSTOM_FIELD_TYPE_CHECKBOX ) { ?>
-			<label for="custom_field_<?php echo string_attribute( $t_def['id'] ) ?>"><?php echo string_display( lang_get_defaulted( $t_def['name'] ) ) ?></label>
-			<?php } else echo string_display( lang_get_defaulted( $t_def['name'] ) ) ?>
+			<label for="custom_field_<?php echo string_attribute( $t_def['id'] ) ?>"><?php echo string_display( $t_def['name'] ) /* TODO L10N: translation support for custom field names */ ?></label>
+			<?php } else echo string_display( $t_def['name'] ) /* TODO L10N: translation support for custom field names */ ?>
 		</th>
 		<td>
 			<?php print_custom_field_input( $t_def, ( $f_master_bug_id === 0 ) ? null : $f_master_bug_id ) ?>

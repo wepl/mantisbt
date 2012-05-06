@@ -84,15 +84,6 @@ abstract class MantisPlugin {
 	public function init() {}
 
 	/**
-	 * This function allows plugins to add new error messages for Mantis usage
-	 *
-	 * @returns array The error_name=>error_message list to add
-	 */
-	public function errors() {
-		return array();
-	}
-
-	/**
 	 * return an array of default configuration name/value pairs
 	 */
 	public function config() {

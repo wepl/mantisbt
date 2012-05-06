@@ -24,7 +24,6 @@
  * @uses bug_api.php
  * @uses config_api.php
  * @uses gpc_api.php
- * @uses lang_api.php
  * @uses print_api.php
  */
 
@@ -36,7 +35,6 @@ require_api( 'access_api.php' );
 require_api( 'bug_api.php' );
 require_api( 'config_api.php' );
 require_api( 'gpc_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 
 /**

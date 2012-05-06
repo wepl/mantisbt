@@ -34,7 +34,6 @@
  * @uses file_api.php
  * @uses helper_api.php
  * @uses icon_api.php
- * @uses lang_api.php
  * @uses prepare_api.php
  * @uses print_api.php
  * @uses project_api.php
@@ -57,7 +56,6 @@ require_api( 'event_api.php' );
 require_api( 'file_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'icon_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
@@ -315,7 +313,8 @@ function column_get_title( $p_column ) {
 			$t_custom_field = '@' . $t_custom_field . '@';
 		} else {
 			$t_def = custom_field_get_definition( $t_field_id );
-			$t_custom_field = lang_get_defaulted( $t_def['name'] );
+			/* TODO L10N: translation support for custom field names */
+			$t_custom_field = $t_def['name'];
 		}
 
 		return $t_custom_field;
@@ -355,7 +354,8 @@ function column_get_title( $p_column ) {
 		case 'view_state':
 			return _('View Status');
 		default:
-			return lang_get_defaulted( $p_column );
+			/* TODO L10N: translation support for custom field names */
+			return $p_column;
 	}
 }
 

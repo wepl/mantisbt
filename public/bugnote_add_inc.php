@@ -29,7 +29,6 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  */
 
 if ( !defined( 'BUGNOTE_ADD_INC_ALLOW' ) ) {
@@ -45,7 +44,6 @@ require_api( 'event_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 
 ?>
 <?php if ( ( !bug_is_readonly( $f_bug_id ) ) &&

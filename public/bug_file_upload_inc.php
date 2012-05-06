@@ -27,7 +27,6 @@
  * @uses config_api.php
  * @uses file_api.php
  * @uses form_api.php
- * @uses lang_api.php
  * @uses utility_api.php
  */
 
@@ -39,7 +38,6 @@ require_api( 'collapse_api.php' );
 require_api( 'config_api.php' );
 require_api( 'file_api.php' );
 require_api( 'form_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'utility_api.php' );
 
 # check if we can allow the upload... bail out if we can't

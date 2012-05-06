@@ -28,7 +28,6 @@
  * @uses constant_inc.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses string_api.php
  */
 
@@ -39,7 +38,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'string_api.php' );
 
 require_css( 'status_config.php' );
@@ -300,7 +298,8 @@ function bug_group_action_get_commands( $p_project_ids = null ) {
 			}
 			$t_custom_field_def = custom_field_get_definition( $t_custom_field_id );
 			$t_command_id = 'custom_field_' . $t_custom_field_id;
-			$t_command_caption = sprintf( _('Update %1'), lang_get_defaulted( $t_custom_field_def['name'] ) );
+			/* TODO L10N: translation support for custom field names */
+			$t_command_caption = sprintf( _('Update %1'), $t_custom_field_def['name'] );
 			$t_commands[$t_command_id] = string_display( $t_command_caption );
 		}
 	}
@@ -310,9 +309,11 @@ function bug_group_action_get_commands( $p_project_ids = null ) {
 	foreach( $t_custom_group_actions as $t_custom_group_action ) {
 		# use label if provided to get the localized text, otherwise fallback to action name.
 		if( isset( $t_custom_group_action['label'] ) ) {
-			$t_commands[$t_custom_group_action['action']] = lang_get_defaulted( $t_custom_group_action['label'] );
+			/* TODO L10N: translation support for custom field names */
+			$t_commands[$t_custom_group_action['action']] = $t_custom_group_action['label'];
 		} else {
-			$t_commands[$t_custom_group_action['action']] = lang_get_defaulted( $t_custom_group_action['action'] );
+			/* TODO L10N: translation support for custom field names */
+			$t_commands[$t_custom_group_action['action']] = $t_custom_group_action['action'];
 		}
 	}
 

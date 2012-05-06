@@ -23,7 +23,6 @@
  * @uses authentication_api.php
  * @uses database_api.php
  * @uses form_api.php
- * @uses lang_api.php
  * @uses string_api.php
  * @uses user_api.php
  * @uses utility_api.php
@@ -36,46 +35,9 @@ if ( !defined( 'PRINT_ALL_BUG_OPTIONS_INC_ALLOW' ) ) {
 require_api( 'authentication_api.php' );
 require_api( 'database_api.php' );
 require_api( 'form_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'string_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
-
-# this function only gets the field names, by appending strings
-function get_field_names()
-{
-	#currently 27 fields
-	return $t_arr = array (
-	                       	'id',
-	                       	'category',
-	                       	'severity',
-	                       	'reproducibility',
-	                       	'date_submitted',
-	                       	'last_update',
-	                       	'reporter',
-	                       	'assigned_to',
-	                      	'priority',
-	                       	'status',
-	                       	'build',
-	                       	'projection',
-	                       	'eta',
-	                       	'platform',
-	                       	'os',
-	                       	'os_version',
-	                       	'product_version',
-	                       	'resolution',
-	                       	'duplicate_id',
-	                       	'summary',
-	                       	'description',
-	                       	'steps_to_reproduce',
-	                       	'additional_information',
-	                       	'attached_files',
-	                       	'bugnote_title',
-	                       	'bugnote_date',
-	                       	'bugnote_description',
-				'time_tracking' );
-}
-
 
 function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $p_redirect_url = '' )
 {
@@ -94,44 +56,63 @@ function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $
 		$p_redirect_url = 'print_all_bug_page.php';
 	}
 
-	# get the fields list
-	$t_field_name_arr = get_field_names();
-	$field_name_count = count( $t_field_name_arr );
+	$t_field_name_arr = array( 'id',
+	                           'category',
+	                           'severity',
+	                           'reproducibility',
+	                           'date_submitted',
+	                           'last_update',
+	                           'reporter',
+	                           'assigned_to',
+	                           'priority',
+	                           'status',
+	                           'build',
+	                           'projection',
+	                           'eta',
+	                           'platform',
+	                           'os',
+	                           'os_version',
+	                           'product_version',
+	                           'resolution',
+	                           'duplicate_id',
+	                           'summary',
+	                           'description',
+	                           'steps_to_reproduce',
+	                           'additional_information',
+	                           'attached_files',
+	                           'bugnote_title',
+	                           'bugnote_date',
+	                           'bugnote_description',
+	                           'time_tracking'
+	                         );
+	$t_field_name_count = count( $t_field_name_arr );
 
 	# Grab the data
-	$query = "SELECT print_pref FROM {user_print_pref} WHERE user_id=" . db_param();
-	$result = db_query_bound( $query, array( $c_user_id ) );
+	$t_query = "SELECT print_pref FROM {user_print_pref} WHERE user_id=" . db_param();
+	$t_result = db_query_bound( $t_query, array( $c_user_id ) );
 
-	$row = db_fetch_array( $result );
+	$t_row = db_fetch_array( $t_result );
 
 	## OOPS, No entry in the database yet.  Lets make one
-	if ( !$row ) {
+	if ( !$t_row ) {
 		# create a default array, same size than $t_field_name
-		for ($i=0 ; $i<$field_name_count ; $i++) {
+		for ( $i = 0; $i < $t_field_name_count; $i++ ) {
 			$t_default_arr[$i] = 1 ;
 		}
 		$t_default = implode( '', $t_default_arr ) ;
 
 		# all fields are added by default
-		$query = "INSERT
-				INTO {user_print_pref}
-				(user_id, print_pref)
-				VALUES
-				(" . db_param() . "," . db_param() . ")";
-
-		$result = db_query_bound( $query, array( $c_user_id, $t_default ) );
+		$t_query = "INSERT INTO {user_print_pref} (user_id, print_pref) VALUES (" . db_param() . "," . db_param() . ")";
+		$t_result = db_query_bound( $t_query, array( $c_user_id, $t_default ) );
 
 		# Rerun select query
-		$query = "SELECT print_pref
-				FROM {user_print_pref}
-				WHERE user_id=" . db_param();
-		$result = db_query_bound( $query, array( $c_user_id ) );
-
-		$row = db_fetch_array( $result );
+		$t_query = "SELECT print_pref FROM {user_print_pref} WHERE user_id=" . db_param();
+		$t_result = db_query_bound( $t_query, array( $c_user_id ) );
+		$t_row = db_fetch_array( $t_result );
 	}
 
 	# putting the query result into an array with the same size as $t_fields_arr
-	$t_prefs = $row['print_pref'];
+	$t_prefs = $t_row['print_pref'];
 
 	# Account Preferences Form BEGIN
 	$t_index_count=0;
@@ -153,16 +134,103 @@ function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $
 
 
 <?php # display the checkboxes
-for ($i=0 ; $i <$field_name_count ; $i++) {
+for ( $i = 0; $i < $t_field_name_count; $i++ ) {
 	echo '<tr>';
 ?>
 
 	<th class="category">
-		<?php echo lang_get( $t_field_name_arr[$i] ) ?>
+		<?php
+			switch( $t_field_name_arr[$i] ) {
+				case 'id':
+					echo _('ID');
+					break;
+				case 'category':
+					echo _('Category');
+					break;
+				case 'severity':
+					echo _('Severity');
+					break;
+				case 'reproducibility':
+					echo _('Reproducibility');
+					break;
+				case 'date_submitted':
+					echo _('Date Submitted');
+					break;
+				case 'last_update':
+					echo _('Last Update');
+					break;
+				case 'reporter':
+					echo _('Reporter');
+					break;
+				case 'assigned_to':
+					echo _('Assigned To');
+					break;
+				case 'priority':
+					echo _('Priority');
+					break;
+				case 'status':
+					echo _('Status');
+					break;
+				case 'build':
+					echo _('Build');
+					break;
+				case 'projection':
+					echo _('Projection');
+					break;
+				case 'eta':
+					echo _('EA');
+					break;
+				case 'platform':
+					echo _('Platform');
+					break;
+				case 'os':
+					echo _('OS');
+					break;
+				case 'os_version':
+					echo _('OS Version');
+					break;
+				case 'product_version':
+					echo _('Product Version');
+					break;
+				case 'resolution':
+					echo _('Resolution');
+					break;
+				case 'duplicate_id':
+					echo _('Duplicate ID');
+					break;
+				case 'summary':
+					echo _('Summary');
+					break;
+				case 'description':
+					echo _('Description');
+					break;
+				case 'steps_to_reproduce':
+					echo _('Steps To Reproduce');
+					break;
+				case 'additional_information':
+					echo _('Additional Information');
+					break;
+				case 'attached_files':
+					echo _('Attached Files');
+					break;
+				case 'bugnote_title':
+					echo _('Note handler');
+					break;
+				case 'bugnote_description':
+					echo _('Note description');
+					break;
+				case 'time_tracking':
+					echo _('Time tracking');
+					break;
+				case default:
+					echo string_display_line( $t_field_name_arr[$i] );
+					break;
+			}
+		?>	                           
 	</th>
 	<td>
-		<input type="checkbox" name="<?php echo 'print_' . $t_field_name_arr[$i]; ?>"
-		<?php if ( isset( $t_prefs[$i] ) && ( $t_prefs[$i]==1 ) ) echo 'checked="checked"' ?> />
+		<input type="checkbox" name="<?php echo 'print_' . string_attribute( $t_field_name_arr[$i] ) ?>"
+		<?php if ( isset( $t_prefs[$i] ) && ( $t_prefs[$i] == 1 ) ) echo 'checked="checked"' ?> />
 	</td>
 </tr>
 

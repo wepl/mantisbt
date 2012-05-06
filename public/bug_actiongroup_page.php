@@ -33,7 +33,6 @@
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses string_api.php
  * @uses utility_api.php
@@ -56,7 +55,6 @@ require_api( 'custom_field_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
@@ -222,7 +220,8 @@ switch ( $f_action )  {
 
 	case 'CUSTOM' :
 		$t_custom_field_def = custom_field_get_definition( $t_custom_field_id );
-		$t_question_title = sprintf( _('Update %1'), lang_get_defaulted( $t_custom_field_def['name'] ) );
+		/* TODO L10N: translation support for custom field names */
+		$t_question_title = sprintf( _('Update %1'), $t_custom_field_def['name'] );
 		$t_button_title = $t_question_title;
 		$t_form = "custom_field_$t_custom_field_id";
 		break;

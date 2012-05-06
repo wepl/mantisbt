@@ -24,7 +24,6 @@
  * @uses bug_api.php
  * @uses config_api.php
  * @uses gpc_api.php
- * @uses lang_api.php
  */
 
 if ( !defined( 'BUG_ACTIONGROUP_INC_ALLOW' ) ) {
@@ -35,7 +34,6 @@ require_api( 'access_api.php' );
 require_api( 'bug_api.php' );
 require_api( 'config_api.php' );
 require_api( 'gpc_api.php' );
-require_api( 'lang_api.php' );
 
 /**
  * Prints the title for the custom action page.
