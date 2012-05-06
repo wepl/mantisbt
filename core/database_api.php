@@ -251,16 +251,6 @@ function db_field_names( $p_table_name ) {
 }
 
 /**
- * close the connection.
- * Not really necessary most of the time since a connection is automatically closed when a page finishes loading.
- */
-function db_close() {
-	global $g_db;
-
-	$t_result = $g_db->Close();
-}
-
-/**
  * prepare a boolean for database insertion.
  * @param boolean $p_boolean boolean
  * @return int integer representing boolean
