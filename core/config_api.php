@@ -76,10 +76,8 @@ function config_get( $p_option, $p_default = null, $p_user = null, $p_project = 
 			$p_project = $g_project_override;
 		}
 		# @@ debug @@ if ( ! db_is_connected() ) { echo "no db "; }
-		# @@ debug @@ echo "lu table=" . ( db_table_exists( $t_config_table ) ? "yes " : "no " );
 		if( !$g_cache_db_table_exists ) {
-			$t_config_table = db_get_table( 'config' );
-			$g_cache_db_table_exists = ( TRUE === db_is_connected() ) && db_table_exists( $t_config_table );
+			$g_cache_db_table_exists = ( TRUE === db_is_connected() ) && db_table_exists( '{config}' );
 		}
 
 		if( $g_cache_db_table_exists ) {
@@ -457,12 +455,11 @@ function config_delete( $p_option, $p_user = ALL_USERS, $p_project = ALL_PROJECT
 	# @@ debug @@ if ($t_bypass_lookup) { echo "bp=$p_option match=$t_match_pattern <br />"; }
 	# @@ debug @@ if ( ! db_is_connected() ) { echo "no db"; }
 
-	if(( !$t_bypass_lookup ) && ( TRUE === db_is_connected() ) && ( db_table_exists( db_get_table( 'config' ) ) ) ) {
+	if(( !$t_bypass_lookup ) && ( TRUE === db_is_connected() ) && ( db_table_exists( '{config}'  ) ) ) {
 		if( !config_can_delete( $p_option ) ) {
 			return;
 		}
 
-		# @@ debug @@ echo "lu table=" . ( db_table_exists( $t_config_table ) ? "yes" : "no" );
 		# @@ debug @@ error_print_stack_trace();
 
 		$t_query = "DELETE FROM {config} WHERE config_id = %d AND project_id=%d AND user_id=%d";

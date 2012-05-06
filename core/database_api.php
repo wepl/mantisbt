@@ -375,23 +375,6 @@ function db_time_queries() {
 }
 
 /**
- * get database table name
- * @return string containing full database table name
- */
-function db_get_table( $p_option ) {
-	$t_table = $p_option;
-	$t_prefix = config_get_global( 'db_table_prefix' );
-	$t_suffix = config_get_global( 'db_table_suffix' );
-	if ( $t_prefix ) {
-		$t_table = $t_prefix . '_' . $t_table;
-	}
-	if ( $t_suffix ) {
-		$t_table .= $t_suffix;
-	}
-	return $t_table;
-}
-
-/**
  * get list database tables
  * @return array containing table names
  */

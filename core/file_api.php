@@ -475,16 +475,13 @@ function file_delete_local( $p_filename ) {
 
 # Return the specified field value
 function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
-	$t_bug_file_table = db_get_table( $p_table . '_file' );
+	$t_bug_file_table = '{' . $p_table . '_file}';
 
 	if( !db_field_exists( $p_field_name, $t_bug_file_table ) ) {
 		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
 	}
 
-	# get info
-	$query = "SELECT $p_field_name
-				  FROM $t_bug_file_table
-				  WHERE id=%d";
+	$query = "SELECT $p_field_name FROM $t_bug_file_table WHERE id=%d";
 	$result = db_query( $query, array( (int) $p_file_id ), 1 );
 
 	return db_result( $result );
@@ -522,8 +519,7 @@ function file_delete( $p_file_id, $p_table = 'bug' ) {
 		history_log_event_special( $t_bug_id, FILE_DELETED, file_get_display_name( $t_filename ) );
 	}
 
-	$t_file_table = db_get_table( $p_table . '_file' );
-	$t_query = "DELETE FROM $t_file_table WHERE id=%d";
+	$t_query = 'DELETE FROM {' . $p_table . '_file} WHERE id=%d';
 	db_query( $t_query, array( $c_file_id ) );
 	return true;
 }
@@ -717,10 +713,9 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 			throw new MantisBT\Exception\Generic();
 	}
 
-	$t_file_table = db_get_table( $p_table . '_file' );
 	$c_id = ( 'bug' == $p_table ) ? $c_bug_id : $c_project_id;
 
-	$query = "INSERT INTO $t_file_table
+	$query = "INSERT INTO {" . $p_table . "_file}
 						(" . $p_table . "_id, title, description, diskfile, filename, folder, filesize, file_type, date_added, content, user_id)
 					  VALUES
 						(%d,%s,%s,%s,%s, %s, %d, %s, %d, %b, %d)";

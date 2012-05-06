@@ -779,7 +779,6 @@ function custom_field_get_linked_ids( $p_project_id = ALL_PROJECTS ) {
 	if( !isset( $g_cache_cf_linked[$p_project_id] ) ) {
 
 		$p_project_id = (int) $p_project_id;
-		$t_custom_field_table = db_get_table( 'custom_field' );
 
 		if( ALL_PROJECTS == $p_project_id ) {
 			$t_user_id = auth_get_current_user_id();
