@@ -69,7 +69,6 @@ function token_ensure_exists( $p_token_id ) {
 	return true;
 }
 
-# High-level CRUD Usage
 /**
  * Get a token's information
  * @param integer Token type
@@ -180,7 +179,6 @@ function token_delete_by_owner( $p_user_id = null ) {
 	return true;
 }
 
-# Low-level CRUD, not for general use
 /**
  * Create a token.
  * @param integer Token type

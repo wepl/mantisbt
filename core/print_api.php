@@ -80,18 +80,19 @@ require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 require_api( 'version_api.php' );
 
-# --------------------
-# Print the headers to cause the page to redirect to $p_url
-# If $p_die is true (default), terminate the execution of the script
-#  immediately
-# If we have handled any errors on this page return false and don't redirect.
-# $p_sanitize - true/false - true in the case where the URL is extracted from GET/POST or untrusted source.
-# This would be false if the URL is trusted (e.g. read from config_inc.php).
-#
-# @param string The page to redirect: has to be a relative path
-# @param boolean if true, stop the script after redirecting
-# @param boolean apply string_sanitize_url to passed url
-# @return boolean
+
+/**
+ * Print the headers to cause the page to redirect to $p_url
+ * If $p_die is true (default), terminate the execution of the script immediately
+ * If we have handled any errors on this page return false and don't redirect.
+ * $p_sanitize - true/false - true in the case where the URL is extracted from GET/POST or untrusted source.
+ * This would be false if the URL is trusted (e.g. read from config_inc.php).
+ *
+ * @param string The page to redirect: has to be a relative path
+ * @param boolean if true, stop the script after redirecting
+ * @param boolean apply string_sanitize_url to passed url
+ * @return boolean
+ */
 function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_absolute = false ) {
 	if( MantisError::error_handled() ) {
 		return false;
@@ -125,32 +126,33 @@ function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_a
 
 	if( $p_die ) {
 		die;
-
 		# additional output can cause problems so let's just stop output here
 	}
 
 	return true;
 }
 
-# --------------------
-# Print a redirect header to view a bug
+/**
+ * Print a redirect header to view a bug
+ */
 function print_header_redirect_view( $p_bug_id ) {
 	print_header_redirect( string_get_bug_view_url( $p_bug_id ) );
 }
 
-# --------------------
-# Get a view URL for the bug id based on the user's preference and
-#  call print_successful_redirect() with that URL
+/**
+ * Get a view URL for the bug id based on the user's preference and
+ * call print_successful_redirect() with that URL
+ */
 function print_successful_redirect_to_bug( $p_bug_id ) {
 	$t_url = string_get_bug_view_url( $p_bug_id, auth_get_current_user_id() );
 
 	print_successful_redirect( $t_url );
 }
 
-# --------------------
-# If the show query count is ON, print success and redirect after the
-#  configured system wait time.
-# If the show query count is OFF, redirect right away.
+/**
+ * If the show query count is ON, print success and redirect after the configured system wait time.
+ * If the show query count is OFF, redirect right away.
+ */
 function print_successful_redirect( $p_redirect_to ) {
 	if( helper_log_to_page() ) {
 		html_page_top( null, $p_redirect_to );
@@ -164,6 +166,9 @@ function print_successful_redirect( $p_redirect_to ) {
 	}
 }
 
+/**
+ * Print Successful operation message.
+ */
 function print_successful_operation( $p_redirect, $p_message = '' ) {
 	html_page_top( null, $p_redirect );
 	echo '<br /><div>';
@@ -174,7 +179,9 @@ function print_successful_operation( $p_redirect, $p_message = '' ) {
 	html_page_bottom();
 }
 
-# Print avatar image for the given user ID
+/**
+ * Print avatar image for the given user ID
+ */
 function print_avatar( $p_user_id, $p_size = 80 ) {
 	if( !user_exists( $p_user_id ) ) {
 		return;
@@ -191,14 +198,16 @@ function print_avatar( $p_user_id, $p_size = 80 ) {
 	}
 }
 
-# --------------------
-# prints the name of the user given the id.  also makes it an email link.
+/**
+ * prints the name of the user given the id.  also makes it an email link.
+ */
 function print_user( $p_user_id ) {
 	echo prepare_user_name( $p_user_id );
 }
 
-# --------------------
-# same as print_user() but fills in the subject with the bug summary
+/**
+ * same as print_user() but fills in the subject with the bug summary
+ */
 function print_user_with_subject( $p_user_id, $p_bug_id ) {
 	$c_user_id = (int)$p_user_id;
 
@@ -217,8 +226,9 @@ function print_user_with_subject( $p_user_id, $p_bug_id ) {
 	}
 }
 
-# --------------------
-# print out an email editing input
+/**
+ * print out an email editing input
+ */
 function print_email_input( $p_field_name, $p_email ) {
 	$t_limit_email_domain = config_get( 'limit_email_domain' );
 	if( $t_limit_email_domain ) {
@@ -231,21 +241,17 @@ function print_email_input( $p_field_name, $p_email ) {
 	}
 }
 
-# --------------------
-# print out an email editing input
+/**
+ * print out an email editing input
+ */
 function print_captcha_input( $p_field_name ) {
 	echo '<input id="captcha-field" type="text" name="' . $p_field_name . '" size="5" maxlength="5" value="" />';
 }
 
-# ##########################################################################
-# Option List Printing API
-# ##########################################################################
-
-
-# --------------------
-# This populates an option list with the appropriate users by access level
-#
-# @todo from print_reporter_option_list
+/**
+ * This populates an option list with the appropriate users by access level
+ * @todo from print_reporter_option_list
+ */
 function print_user_option_list( $p_user_id, $p_project_id = null, $p_access = ANYBODY ) {
 	$t_users = array();
 
@@ -286,16 +292,17 @@ function print_user_option_list( $p_user_id, $p_project_id = null, $p_access = A
 	}
 }
 
-# --------------------
-# ugly functions  need to be refactored
-# This populates the reporter option list with the appropriate users
-#
-# @todo This function really ought to print out all the users, I think.
-#  I just encountered a situation where a project used to be public and
-#  was made private, so now I can't filter on any of the reporters who
-#  actually reported the bugs at the time. Maybe we could get all user
-#  who are listed as the reporter in any bug?  It would probably be a
-#  faster query actually.
+/**
+ * @todo ugly functions  need to be refactored
+ * This populates the reporter option list with the appropriate users
+ *
+ * @todo This function really ought to print out all the users, I think.
+ *  I just encountered a situation where a project used to be public and
+ *  was made private, so now I can't filter on any of the reporters who
+ *  actually reported the bugs at the time. Maybe we could get all user
+ *  who are listed as the reporter in any bug?  It would probably be a
+ *  faster query actually.
+ */
 function print_reporter_option_list( $p_user_id, $p_project_id = null ) {
 	print_user_option_list( $p_user_id, $p_project_id, config_get( 'report_bug_threshold' ) );
 }
@@ -355,8 +362,9 @@ function print_tag_option_list( $p_bug_id = 0 ) {
 	}
 }
 
-# --------------------
-# Get current headlines and id  prefix with v_
+/**
+ * Get current headlines and id  prefix with v_
+ */
 function print_news_item_option_list() {
 	$t_project_id = helper_get_current_project();
 
@@ -1354,19 +1362,25 @@ function print_hidden_input( $p_field_key, $p_field_val ) {
 	}
 }
 
-# Get icon corresponding to the specified filename
+/**
+ * Get icon corresponding to the specified filename
+ */
 function print_file_icon( $p_filename ) {
 	$t_icon = file_get_icon_url( $p_filename );
 	echo '<img src="' . string_attribute( $t_icon['url'] ) . '" alt="' . string_attribute( $t_icon['alt'] ) . ' file icon" width="16" height="16" />';
 }
 
-# Prints an RSS image that is hyperlinked to an RSS feed.
+/**
+ * Prints an RSS image that is hyperlinked to an RSS feed.
+ */
 function print_rss( $p_feed_url, $p_title = '' ) {
 	$t_path = config_get( 'path' );
 	echo '<a class="rss" rel="alternate" href="', htmlspecialchars( $p_feed_url ), '" title="', $p_title, '"><img src="', $t_path, '/images/', 'rss.png" width="16" height="16" alt="', $p_title, '" /></a>';
 }
 
-# Prints the recently visited issues.
+/**
+ * Prints the recently visited issues.
+ */
 function print_recently_visited() {
 	if( !last_visited_enabled() ) {
 		return;
@@ -1393,7 +1407,9 @@ function print_recently_visited() {
 	echo '</div>';
 }
 
-# print a dropdown box from input array
+/**
+ * print a dropdown box from input array
+ */
 function get_dropdown( $p_control_array, $p_control_name, $p_match = '', $p_add_any = false, $p_multiple = false ) {
 	$t_control_array = $p_control_array;
 	if( $p_multiple ) {

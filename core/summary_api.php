@@ -373,7 +373,9 @@ function summary_print_by_activity() {
 	}
 }
 
-# Print list of bugs opened from the longest time
+/**
+ * Print list of bugs opened from the longest time
+ */
 function summary_print_by_age() {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -415,7 +417,9 @@ function summary_print_by_age() {
 	}
 }
 
-# print bug counts by assigned to each developer
+/**
+ * print bug counts by assigned to each developer
+ */
 function summary_print_by_developer() {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -512,7 +516,9 @@ function summary_print_by_developer() {
 	}
 }
 
-# print bug counts by reporter id
+/**
+ * print bug counts by reporter id
+ */
 function summary_print_by_reporter() {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );
 
@@ -590,7 +596,9 @@ function summary_print_by_reporter() {
 	}
 }
 
-# print a bug count per category
+/**
+ * print a bug count per category
+ */
 function summary_print_by_category() {
 	$t_summary_category_include_project = config_get( 'summary_category_include_project' );
 
@@ -698,7 +706,9 @@ function summary_print_by_category() {
 	}
 }
 
-# print bug counts by project
+/**
+ * print bug counts by project
+ */
 function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = null ) {
 	$t_project_id = helper_get_current_project();
 
@@ -773,7 +783,9 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 	}
 }
 
-# Print developer / resolution report
+/**
+ * Print developer / resolution report
+ */
 function summary_print_developer_resolution( $p_resolution_enum_string ) {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -873,7 +885,9 @@ function summary_print_developer_resolution( $p_resolution_enum_string ) {
 	}
 }
 
-# Print reporter / resolution report
+/**
+ * Print reporter / resolution report
+ */
 function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );
 
@@ -984,7 +998,9 @@ function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 	}
 }
 
-# Print reporter effectiveness report
+/**
+ * Print reporter effectiveness report
+ */
 function summary_print_reporter_effectiveness( $p_severity_enum_string, $p_resolution_enum_string ) {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );
 

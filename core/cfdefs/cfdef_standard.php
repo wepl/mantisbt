@@ -208,25 +208,33 @@ function cfdef_prepare_date_default( $p_value ) {
 	return $t_value;
 }
 
-#string_custom_field_value
+/**
+ * string_custom_field_value
+ */
 function cfdef_prepare_list_value($p_value) {
 	// strip start and end markers before converting markers to commas
 	return string_display_line( str_replace( '|', ', ', utf8_substr( str_replace( '||', '|', '|' . $p_value . '|' ), 1, -1 ) ) );
 }
 
+/**
+ *
+ */
 function cfdef_prepare_email_value($p_value) {
 	return "<a href=\"mailto:" . string_attribute( $p_value ) . "\">" . string_display_line( $p_value ) . "</a>";
 }
 
+/**
+ *
+ */
 function cfdef_prepare_date_value($p_value) {
 	if ($p_value != null) {
 		return date( config_get( 'short_date_format'), $p_value);
 	}
 }
 
-
-#print_custom_field_input
-
+/**
+ * print_custom_field_input
+ */
 function cfdef_input_list($p_field_def, $t_custom_field_value) {
 	$t_values = explode( '|', custom_field_prepare_possible_values( $p_field_def['possible_values'] ) );
 	$t_list_size = $t_possible_values_count = count( $t_values );
@@ -256,6 +264,9 @@ function cfdef_input_list($p_field_def, $t_custom_field_value) {
 	echo '</select>';
 }
 
+/**
+ *
+ */
 function cfdef_input_checkbox($p_field_def, $t_custom_field_value) {
 	$t_values = explode( '|', custom_field_prepare_possible_values( $p_field_def['possible_values'] ) );
 	$t_checked_values = explode( '|', $t_custom_field_value );
@@ -269,6 +280,9 @@ function cfdef_input_checkbox($p_field_def, $t_custom_field_value) {
 	}
 }
 
+/**
+ *
+ */
 function cfdef_input_radio( $p_field_def, $p_custom_field_value ) {
 	$t_values = explode( '|', custom_field_prepare_possible_values( $p_field_def['possible_values'] ) );
 
@@ -289,6 +303,9 @@ function cfdef_input_radio( $p_field_def, $p_custom_field_value ) {
 	}
 }
 
+/**
+ *
+ */
 function cfdef_input_textbox($p_field_def, $t_custom_field_value) {
 	echo '<input ' . helper_get_tab_index() . ' type="text" id="custom_field_' . $p_field_def['id'] . '" name="custom_field_' . $p_field_def['id'] . '" size="80"';
 	if( 0 < $p_field_def['length_max'] ) {
@@ -309,7 +326,9 @@ function cfdef_input_date( $p_field_def, $p_custom_field_value ) {
 	print_date_selection_set( 'custom_field_' . $p_field_def['id'], config_get( 'short_date_format' ), $p_custom_field_value, false, true );
 }
 
-#value to database
+/**
+ * value to database
+ */
 function cfdef_prepare_list_value_to_database($p_value) {
 	if ( '' == $p_value ) {
 		return '';
@@ -318,6 +337,9 @@ function cfdef_prepare_list_value_to_database($p_value) {
 	}
 }
 
+/**
+ *
+ */
 function cfdef_prepare_list_distinct_values($p_field_def) {
 	$t_query = "SELECT possible_values FROM {custom_field} WHERE id=%d";
 	$t_result = db_query( $t_query, array( $p_field_def['id'] ) );
@@ -326,7 +348,6 @@ function cfdef_prepare_list_distinct_values($p_field_def) {
 	if ( !$t_row ) {
 		return false;
 	}
-	
 
 	$t_possible_values = custom_field_prepare_possible_values( $t_row['possible_values'] );
 	$t_values_arr = explode( '|', $t_possible_values );

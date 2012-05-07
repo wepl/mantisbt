@@ -251,21 +251,22 @@ function file_normalize_attachment_path( $p_diskfile, $p_project_id ) {
 	return $p_diskfile;
 }
 
-# --------------------
-# Gets an array of attachments that are visible to the currently logged in user.
-# Each element of the array contains the following:
-# display_name - The attachment display name (i.e. file name dot extension)
-# size - The attachment size in bytes.
-# date_added - The date where the attachment was added.
-# can_download - true: logged in user has access to download the attachment, false: otherwise.
-# diskfile - The name of the file on disk.  Typically this is a hash without an extension.
-# download_url - The download URL for the attachment (only set if can_download is true).
-# exists - Applicable for DISK attachments.  true: file exists, otherwise false.
-# can_delete - The logged in user can delete the attachments.
-# preview - true: the attachment should be previewable, otherwise false.
-# type - Can be "image", "text" or empty for other types.
-# alt - The alternate text to be associated with the icon.
-# icon - array with icon information, contains 'url' and 'alt' elements.
+/**
+ * Gets an array of attachments that are visible to the currently logged in user.
+ * Each element of the array contains the following:
+ * display_name - The attachment display name (i.e. file name dot extension)
+ * size - The attachment size in bytes.
+ * date_added - The date where the attachment was added.
+ * can_download - true: logged in user has access to download the attachment, false: otherwise.
+ * diskfile - The name of the file on disk.  Typically this is a hash without an extension.
+ * download_url - The download URL for the attachment (only set if can_download is true).
+ * exists - Applicable for DISK attachments.  true: file exists, otherwise false.
+ * can_delete - The logged in user can delete the attachments.
+ * preview - true: the attachment should be previewable, otherwise false.
+ * type - Can be "image", "text" or empty for other types.
+ * alt - The alternate text to be associated with the icon.
+ * icon - array with icon information, contains 'url' and 'alt' elements.
+ */
 function file_get_visible_attachments( $p_bug_id ) {
 	$t_attachment_rows = bug_get_attachments( $p_bug_id );
 	$t_visible_attachments = array();

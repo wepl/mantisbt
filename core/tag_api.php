@@ -224,7 +224,6 @@ function tag_parse_filters( $p_string ) {
 	return $t_tags;
 }
 
-# CRUD
 /**
  * Return a tag row for the given ID.
  * @param integer Tag ID
@@ -608,7 +607,6 @@ function tag_bug_detach_all( $p_bug_id, $p_add_history = true, $p_user_id = null
 	}
 }
 
-# Display
 /**
  * Display a tag hyperlink.
  * If a bug ID is passed, the tag link will include a detach link if the
@@ -662,7 +660,6 @@ function tag_display_attached( $p_bug_id ) {
 	return true;
 }
 
-# Statistics
 /**
  * Get the number of bugs a given tag is attached to.
  * @param integer Tag ID

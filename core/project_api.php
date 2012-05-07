@@ -66,11 +66,12 @@ $g_cache_project = array();
 $g_cache_project_missing = array();
 $g_cache_project_all = false;
 
-# --------------------
-# Cache a project row if necessary and return the cached copy
-#  If the second parameter is true (default), trigger an error
-#  if the project can't be found.  If the second parameter is
-#  false, return false if the project can't be found.
+/**
+ * Cache a project row if necessary and return the cached copy
+ *  If the second parameter is true (default), trigger an error
+ *  if the project can't be found.  If the second parameter is
+ *  false, return false if the project can't be found.
+ */
 function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 	global $g_cache_project, $g_cache_project_missing;
 
@@ -105,6 +106,9 @@ function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 	return $t_row;
 }
 
+/**
+ *
+ */
 function project_cache_array_rows( $p_project_id_array ) {
 	global $g_cache_project, $g_cache_project_missing;
 
@@ -182,7 +186,6 @@ function project_clear_cache( $p_project_id = null ) {
  * return true if it does, false otherwise
  */
 function project_exists( $p_project_id ) {
-
 	# we're making use of the caching function here.  If we
 	#  succeed in caching the project then it exists and is
 	#  now cached for use by later function calls.  If we can't

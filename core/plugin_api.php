@@ -334,8 +334,6 @@ function plugin_child( $p_child ) {
 	return $t_plugin;
 }
 
-# ## Plugin Management Helpers
-
 /**
  * Checks if a given plugin has been registered and initialized,
  * and returns a boolean value representing the "loaded" state.
@@ -523,7 +521,6 @@ function plugin_priority( $p_basename ) {
 	return $g_plugin_cache_priority[$p_basename];
 }
 
-# ## Plugin management functions
 /**
  * Determine if a given plugin is installed.
  * @param string Plugin basename
@@ -681,7 +678,6 @@ function plugin_uninstall( $p_plugin ) {
 	plugin_pop_current();
 }
 
-# ## Core usage only.
 /**
  * Search the plugins directory for plugins.
  * @return array Plugin basename/info key/value pairs.

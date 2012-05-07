@@ -484,7 +484,9 @@ function config_delete_for_user( $p_option, $p_user_id ) {
 	db_query( $t_query, array( $p_option, $p_user_id ) );
 }
 
-# delete the config entry
+/**
+ * delete the config entry
+ */
 function config_delete_project( $p_project = ALL_PROJECTS ) {
 	$t_query = 'DELETE FROM {config} WHERE project_id=%d';
 	$t_result = db_query( $t_query, array( $p_project ) );
@@ -493,8 +495,10 @@ function config_delete_project( $p_project = ALL_PROJECTS ) {
 	config_flush_cache();
 }
 
-# delete the config entry from the cache
-# @@@ to be used sparingly
+/**
+ * delete the config entry from the cache
+ * @@@ to be used sparingly
+ */
 function config_flush_cache( $p_option = '', $p_user = ALL_USERS, $p_project = ALL_PROJECTS ) {
 	global $g_cache_config, $g_cache_config_access, $g_cache_filled;
 
@@ -558,8 +562,10 @@ function config_eval( $p_value ) {
 	return $t_value;
 }
 
-# list of configuration variable which may expose webserver details and shouldn't be
-# exposed to users or webservices
+/*
+ * list of configuration variable which may expose webserver details and shouldn't be
+ * exposed to users or webservices
+ */
 function config_is_private( $p_config_var ) {
 	switch( $p_config_var ) {
 		case 'hostname':

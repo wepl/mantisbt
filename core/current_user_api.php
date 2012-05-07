@@ -44,8 +44,6 @@ require_api( 'user_api.php' );
 require_api( 'user_pref_api.php' );
 require_api( 'utility_api.php' );
 
-# ## Current User API ###
-# Wrappers around the User API that pass in the logged-in user for you
 /**
  * Returns the access level of the current user in the current project
  *

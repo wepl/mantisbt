@@ -60,10 +60,11 @@ require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
 require_api( 'version_api.php' );
 
-# ## Custom Function API ###
-# Checks the provided bug and determines whether it should be included in the changelog
-# or not.
-# returns true: to include, false: to exclude.
+/**
+ * Custom Function API
+ * Checks the provided bug and determines whether it should be included in the changelog or not.
+ * returns true: to include, false: to exclude.
+ */
 function custom_function_default_changelog_include_issue( $p_issue_id ) {
 	$t_issue = bug_get( $p_issue_id );
 
@@ -72,7 +73,9 @@ function custom_function_default_changelog_include_issue( $p_issue_id ) {
 		$t_issue->status >= config_get( 'bug_resolved_status_threshold' ) ) );
 }
 
-# Prints one entry in the changelog.
+/**
+ * Prints one entry in the changelog.
+ */
 function custom_function_default_changelog_print_issue( $p_issue_id, $p_issue_level = 0 ) {
 	static $t_status;
 
@@ -97,13 +100,17 @@ function custom_function_default_changelog_print_issue( $p_issue_id, $p_issue_le
 	echo ' - ', $t_status[$t_bug->status], '.<br />';
 }
 
-# Checks the provided bug and determines whether it should be included in the roadmap or not.
-# returns true: to include, false: to exclude.
+/**
+ * Checks the provided bug and determines whether it should be included in the roadmap or not.
+ * returns true: to include, false: to exclude.
+ */
 function custom_function_default_roadmap_include_issue( $p_issue_id ) {
 	return true;
 }
 
-# Prints one entry in the roadmap.
+/**
+ * Prints one entry in the roadmap.
+ */
 function custom_function_default_roadmap_print_issue( $p_issue_id, $p_issue_level = 0 ) {
 	static $t_status;
 
@@ -136,7 +143,9 @@ function custom_function_default_roadmap_print_issue( $p_issue_id, $p_issue_leve
 	echo ' - ', $t_status[$t_bug->status], $t_strike_end, '.<br />';
 }
 
-# format the bug summary.
+/**
+ * format the bug summary.
+ */
 function custom_function_default_format_issue_summary( $p_issue_id, $p_context = 0 ) {
 	switch( $p_context ) {
 		case SUMMARY_CAPTION:
@@ -155,50 +164,64 @@ function custom_function_default_format_issue_summary( $p_issue_id, $p_context =
 	return $t_string;
 }
 
-# Hook to validate field issue data before updating
-# Verify that the proper fields are set with the appropriate values before proceeding
-# to change the status.
-# In case of invalid data, this function should call trigger_error()
-# p_issue_id is the issue number that can be used to get the existing state
-# p_new_issue_data is an object (MantisBug) with the appropriate fields updated
+/**
+ * Hook to validate field issue data before updating
+ * Verify that the proper fields are set with the appropriate values before proceeding
+ * to change the status.
+ * In case of invalid data, this function should call trigger_error()
+ * @param p_issue_id is the issue number that can be used to get the existing state
+ * @param p_new_issue_data is an object (MantisBug) with the appropriate fields updated
+ * @param p_bugnote_text
+ */
 function custom_function_default_issue_update_validate( $p_issue_id, $p_new_issue_data, $p_bugnote_text ) {
 }
 
-# Hook to notify after an issue has been updated.
-# In case of errors, this function should call trigger_error()
-# p_issue_id is the issue number that can be used to get the existing state
+/**
+ * Hook to notify after an issue has been updated.
+ * In case of errors, this function should call trigger_error()
+ * p_issue_id is the issue number that can be used to get the existing state
+ */
 function custom_function_default_issue_update_notify( $p_issue_id ) {
 }
 
-# Hook to validate field settings before creating an issue
-# Verify that the proper fields are set before proceeding to create an issue
-# In case of errors, this function should call trigger_error()
-# p_new_issue_data is an object (MantisBug) with the appropriate fields updated
+/**
+ * Hook to validate field settings before creating an issue
+ * Verify that the proper fields are set before proceeding to create an issue
+ * In case of errors, this function should call trigger_error()
+ * p_new_issue_data is an object (MantisBug) with the appropriate fields updated
+ */
 function custom_function_default_issue_create_validate( $p_new_issue_data ) {
 }
 
-# Hook to notify after aa issue has been created.
-# In case of errors, this function should call trigger_error()
-# p_issue_id is the issue number that can be used to get the existing state
+/**
+ * Hook to notify after aa issue has been created.
+ * In case of errors, this function should call trigger_error()
+ * p_issue_id is the issue number that can be used to get the existing state
+ */
 function custom_function_default_issue_create_notify( $p_issue_id ) {
 }
 
-# Hook to validate field settings before deleting an issue.
-# Verify that the issue can be deleted before the actual deletion.
-# In the case that the issue should not be deleted, this function should
-# call trigger_error().
-# p_issue_id is the issue number that can be used to get the existing state
+/**
+ * Hook to validate field settings before deleting an issue.
+ * Verify that the issue can be deleted before the actual deletion.
+ * In the case that the issue should not be deleted, this function should call trigger_error().
+ * p_issue_id is the issue number that can be used to get the existing state
+ */
 function custom_function_default_issue_delete_validate( $p_issue_id ) {
 }
 
-# Hook to notify after an issue has been deleted.
-# p_issue_data is the issue data (MantisBug) that reflects the last status of the
-# issue before it was deleted.
+/**
+ * Hook to notify after an issue has been deleted.
+ * p_issue_data is the issue data (MantisBug) that reflects the last status of the
+ * issue before it was deleted.
+ */
 function custom_function_default_issue_delete_notify( $p_issue_data ) {
 }
 
-# Hook for authentication
-# can MantisBT update the password
+/**
+ * Hook for authentication
+ * can MantisBT update the password
+ */
 function custom_function_default_auth_can_change_password() {
 	$t_can_change = array(
 		PLAIN,
@@ -213,16 +236,18 @@ function custom_function_default_auth_can_change_password() {
 	}
 }
 
-# returns an array of the column names to be displayed.
-# The column names to use are those of the field names in the bug table.
-# In addition, you can use the following:
-# - "selection" for selection checkboxes.
-# - "edit" for icon to open the edit page.
-# - "custom_xxxx" were xxxx is the name of the custom field that is valid for the
-#   current project.  In case of "All Projects, the field will be empty where it is
-#   not applicable.
-# $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
-# $p_user_id: The user id or null for current logged in user.
+/**
+ * returns an array of the column names to be displayed.
+ * The column names to use are those of the field names in the bug table.
+ * In addition, you can use the following:
+ * - "selection" for selection checkboxes.
+ * - "edit" for icon to open the edit page.
+ * - "custom_xxxx" were xxxx is the name of the custom field that is valid for the
+ *   current project.  In case of "All Projects, the field will be empty where it is
+ *   not applicable.
+ * $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ * $p_user_id: The user id or null for current logged in user.
+ */
 function custom_function_default_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAGE, $p_user_id = null ) {
 	$t_project_id = helper_get_current_project();
 
@@ -239,9 +264,11 @@ function custom_function_default_get_columns_to_view( $p_columns_target = COLUMN
 	return $t_columns;
 }
 
-# Print the title of a column given its name.
-# $p_column: custom_xxx for custom field xxx, or otherwise field name as in bug table.
-# $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+/**
+ * Print the title of a column given its name.
+ * $p_column: custom_xxx for custom field xxx, or otherwise field name as in bug table.
+ * $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ */
 function custom_function_default_print_column_title( $p_column, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	global $t_sort, $t_dir;
 
@@ -289,12 +316,14 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
 	}
 }
 
-# Print the value of the custom field (if the field is applicable to the project of
-# the specified issue and the current user has read access to it.
-# see custom_function_default_print_column_title() for rules about column names.
-# $p_column: name of field to show in the column.
-# $p_row: the row from the bug table that belongs to the issue that we should print the values for.
-# $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+/**
+ * Print the value of the custom field (if the field is applicable to the project of
+ * the specified issue and the current user has read access to it.
+ * see custom_function_default_print_column_title() for rules about column names.
+ * $p_column: name of field to show in the column.
+ * $p_row: the row from the bug table that belongs to the issue that we should print the values for.
+ * $p_columns_target: see COLUMNS_TARGET_* in constant_inc.php
+ */
 function custom_function_default_print_column_value( $p_column, $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	if( COLUMNS_TARGET_EXPORT_PAGE == $p_columns_target ) {
 		$t_column_start = '';
@@ -356,10 +385,12 @@ function custom_function_default_print_column_value( $p_column, $p_bug, $p_colum
 	}
 }
 
-# Construct an enumeration for all versions for the current project.
-# The enumeration will be empty if current project is ALL PROJECTS.
-# Enumerations format is: "abc|lmn|xyz"
-# To use this in a custom field type "=versions" in the possible values field.
+/**
+ * Construct an enumeration for all versions for the current project.
+ * The enumeration will be empty if current project is ALL PROJECTS.
+ * Enumerations format is: "abc|lmn|xyz"
+ * To use this in a custom field type "=versions" in the possible values field.
+ */
 function custom_function_default_enum_versions() {
 	$t_versions = version_get_all_rows( helper_get_current_project() );
 
@@ -373,10 +404,12 @@ function custom_function_default_enum_versions() {
 	return $t_possible_values;
 }
 
-# Construct an enumeration for released versions for the current project.
-# The enumeration will be empty if current project is ALL PROJECTS.
-# Enumerations format is: "abc|lmn|xyz"
-# To use this in a custom field type "=released_versions" in the possible values field.
+/**
+ * Construct an enumeration for released versions for the current project.
+ * The enumeration will be empty if current project is ALL PROJECTS.
+ * Enumerations format is: "abc|lmn|xyz"
+ * To use this in a custom field type "=released_versions" in the possible values field.
+ */
 function custom_function_default_enum_released_versions() {
 	$t_versions = version_get_all_rows( helper_get_current_project() );
 
@@ -392,10 +425,12 @@ function custom_function_default_enum_released_versions() {
 	return $t_possible_values;
 }
 
-# Construct an enumeration for released versions for the current project.
-# The enumeration will be empty if current project is ALL PROJECTS.
-# Enumerations format is: "abc|lmn|xyz"
-# To use this in a custom field type "=future_versions" in the possible values field.
+/**
+ * Construct an enumeration for released versions for the current project.
+ * The enumeration will be empty if current project is ALL PROJECTS.
+ * Enumerations format is: "abc|lmn|xyz"
+ * To use this in a custom field type "=future_versions" in the possible values field.
+ */
 function custom_function_default_enum_future_versions() {
 	$t_versions = version_get_all_rows( helper_get_current_project() );
 
@@ -411,10 +446,12 @@ function custom_function_default_enum_future_versions() {
 	return $t_possible_values;
 }
 
-# Construct an enumeration for all categories for the current project.
-# The enumeration will be empty if current project is ALL PROJECTS.
-# Enumerations format is: "abc|lmn|xyz"
-# To use this in a custom field type "=categories" in the possible values field.
+/**
+ * Construct an enumeration for all categories for the current project.
+ * The enumeration will be empty if current project is ALL PROJECTS.
+ * Enumerations format is: "abc|lmn|xyz"
+ * To use this in a custom field type "=categories" in the possible values field.
+ */
 function custom_function_default_enum_categories() {
 	$t_categories = category_get_all_rows( helper_get_current_project() );
 
@@ -428,8 +465,10 @@ function custom_function_default_enum_categories() {
 	return $t_possible_values;
 }
 
-# This function prints the custom buttons on the current view page based on specified bug id
-# and the context.  The printing of the buttons will typically call html_button() from
-# html_api.php.  For each button, this function needs to generate the enclosing '<td>' and '</td>'.
+/**
+ * This function prints the custom buttons on the current view page based on specified bug id
+ * and the context.  The printing of the buttons will typically call html_button() from
+ * html_api.php.  For each button, this function needs to generate the enclosing '<td>' and '</td>'.
+ */
 function custom_function_default_print_bug_view_page_custom_buttons( $p_bug_id ) {
 }
