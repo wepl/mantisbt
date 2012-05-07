@@ -742,7 +742,7 @@ function custom_field_get_id_from_name( $p_field_name, $p_truncated_length = nul
 		return $g_cache_name_to_id_map[$p_field_name];
 	}
 
-	if(( null === $p_truncated_length ) || ( utf8_strlen( $c_field_name ) != $p_truncated_length ) ) {
+	if(( null === $p_truncated_length ) || ( utf8_strlen( $p_field_name ) != $p_truncated_length ) ) {
 		$t_query = "SELECT id FROM {custom_field} WHERE name = %s";
 	} else {
 		/** @todo This is to handle the case where we only have a truncated part of the name.  This happens in the case where
