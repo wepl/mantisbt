@@ -1133,13 +1133,11 @@ function custom_field_validate( $p_field_id, $p_value ) {
  * @access public
  */
 function custom_field_prepare_possible_values( $p_possible_values ) {
-	$t_possible_values = $p_possible_values;
-
-	if( !is_blank( $t_possible_values ) && ( $t_possible_values[0] == '=' ) ) {
-		$t_possible_values = helper_call_custom_function( 'enum_' . utf8_substr( $t_possible_values, 1 ), array() );
+	if( !is_blank( $p_possible_values ) && ( $p_possible_values[0] == '=' ) ) {
+		return helper_call_custom_function( 'enum_' . ltrim( $p_possible_values, '=' ), array() );
 	}
 
-	return $t_possible_values;
+	return $p_possible_values;
 }
 
 /**
