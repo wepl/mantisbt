@@ -765,7 +765,7 @@ function file_allow_project_upload( $p_project_id = null, $p_user_id = null ) {
 #
 #  if the bug null (the default) we answer whether the user can
 #   upload a file to a new bug in the current project
-function file_allow_bug_upload( $p_bug_id = null, $p_user_id = null ) {
+function file_allow_bug_upload( $p_bug = null, $p_user_id = null ) {
 	if( null === $p_user_id ) {
 		$p_user_id = auth_get_current_user_id();
 	}
@@ -775,7 +775,7 @@ function file_allow_bug_upload( $p_bug_id = null, $p_user_id = null ) {
 		return false;
 	}
 
-	if( null === $p_bug_id ) {
+	if( null === $p_bug ) {
 
 		# new bug
 		$t_project_id = helper_get_current_project();
@@ -785,10 +785,10 @@ function file_allow_bug_upload( $p_bug_id = null, $p_user_id = null ) {
 	} else {
 
 		# existing bug
-		$t_project_id = bug_get_field( $p_bug_id, 'project_id' );
+		$t_project_id = bug_get_field( $p_bug->id, 'project_id' );
 
 		# check if the user is the reporter of the bug
-		$t_reporter = bug_is_user_reporter( $p_bug_id, $p_user_id );
+		$t_reporter = bug_is_user_reporter( $p_bug->id, $p_user_id );
 	}
 
 	if( $t_reporter && ( ON == config_get( 'allow_reporter_upload' ) ) ) {

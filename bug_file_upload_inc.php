@@ -42,8 +42,10 @@ require_api( 'form_api.php' );
 require_api( 'lang_api.php' );
 require_api( 'utility_api.php' );
 
+$t_bug = bug_get( $f_bug_id, true );
+
 # check if we can allow the upload... bail out if we can't
-if ( !file_allow_bug_upload( $f_bug_id ) ) {
+if ( !file_allow_bug_upload( $t_bug ) ) {
 	return false;
 }
 

@@ -71,7 +71,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 	$g_project_override = $t_bug->project_id;
 }
 
-if ( !file_allow_bug_upload( $f_bug_id ) ) {
+if ( !file_allow_bug_upload( $t_bug ) ) {
 	throw new MantisBT\Exception\Access_Denied();
 }
 
