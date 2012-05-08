@@ -109,18 +109,21 @@ function history_log_event( $p_bug_id, $p_field_name, $p_old_value ) {
  * These are special case logs (new bug, deleted bugnote, etc.)
  * @param int $p_bug_id
  * @param int $p_type
- * @param string $p_optional
- * @param string $p_optional2
+ * @param string $p_old_value
+ * @param string $p_new_value
  * @return null
  */
-function history_log_event_special( $p_bug_id, $p_type, $p_optional = '', $p_optional2 = '' ) {
+function history_log_event_special( $p_bug_id, $p_type, $p_old_value = '', $p_new_value = '' ) {
 	$t_user_id = auth_get_current_user_id();
+
+	$c_old_value = ( is_null( $p_old_value ) ? '' : $p_old_value );
+	$c_new_value = ( is_null( $p_new_value ) ? '' : $p_new_value );
 
 	$t_query = "INSERT INTO {bug_history}
 					( user_id, bug_id, date_modified, type, old_value, new_value, field_name )
 				VALUES
 					( %d, %d, %d, %d, %s, %s, %s)";
-	db_query( $t_query, array( $t_user_id, $p_bug_id, db_now(), $p_type, $p_optional, $p_optional2, '' ) );
+	db_query( $t_query, array( $t_user_id, $p_bug_id, db_now(), $p_type, $c_old_value, $c_new_value, '' ) );
 }
 
 /**
@@ -490,7 +493,9 @@ function history_localize_item( $p_field_name, $p_type, $p_old_value, $p_new_val
 					$t_note = lang_get( 'bug_monitor' ) . ': ' . $p_old_value;
 					break;
 				case BUG_UNMONITOR:
-					$p_old_value = user_get_name( $p_old_value );
+					if( $p_old_value !== '' ) {
+						$p_old_value = user_get_name( $p_old_value );
+					}
 					$t_note = lang_get( 'bug_end_monitor' ) . ': ' . $p_old_value;
 					break;
 				case BUG_DELETED:
