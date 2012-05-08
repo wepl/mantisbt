@@ -107,223 +107,209 @@ foreach( $f_bug_arr as $t_bug_id ) {
 	$t_status = $t_bug->status;
 
 	switch ( $f_action ) {
+		case 'CLOSE':
+			$t_closed = config_get( 'bug_closed_status_threshold' );
+			if ( access_can_close_bug( $t_bug_id ) &&
+					( $t_status < $t_closed ) &&
+					bug_check_workflow( $t_status, $t_closed ) ) {
 
-	case 'CLOSE':
-		$t_closed = config_get( 'bug_closed_status_threshold' );
-		if ( access_can_close_bug( $t_bug_id ) &&
-				( $t_status < $t_closed ) &&
-				bug_check_workflow( $t_status, $t_closed ) ) {
-
-			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $f_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			bug_close( $t_bug_id, $f_bug_notetext, $f_bug_noteprivate );
-			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			if ( !access_can_close_bug( $t_bug_id ) ) {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $f_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+				bug_close( $t_bug_id, $f_bug_notetext, $f_bug_noteprivate );
+				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
-			}
-		}
-		break;
-
-	case 'DELETE':
-		if ( access_has_bug_level( config_get( 'delete_bug_threshold' ), $t_bug_id ) ) {
-			event_signal( 'EVENT_BUG_DELETED', array( $t_bug_id ) );
-			bug_delete( $t_bug_id );
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'MOVE':
-		if ( access_has_bug_level( config_get( 'move_bug_threshold' ), $t_bug_id ) ) {
-			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			$f_project_id = gpc_get_int( 'project_id' );
-			bug_move( $t_bug_id, $f_project_id );
-			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'COPY':
-		$f_project_id = gpc_get_int( 'project_id' );
-
-		if ( access_has_project_level( config_get( 'report_bug_threshold' ), $f_project_id ) ) {
-			bug_copy( $t_bug_id, $f_project_id, true, true, true, true, true, true );
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'ASSIGN':
-		$f_assign = gpc_get_int( 'assign' );
-		if ( ON == config_get( 'auto_set_status_to_assigned' ) ) {
-			$t_assign_status = config_get( 'bug_assigned_status' );
-		} else {
-			$t_assign_status = $t_status;
-		}
-		# check that new handler has rights to handle the issue, and
-		#  that current user has rights to assign the issue
-		$t_threshold = access_get_status_threshold( $t_assign_status, bug_get_field( $t_bug_id, 'project_id' ) );
-		if ( access_has_bug_level( $t_threshold , $t_bug_id, $f_assign ) &&
-			 access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get( 'update_bug_threshold' ) ), $t_bug_id ) &&
-				bug_check_workflow($t_status, $t_assign_status )	) {
-			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			bug_assign( $t_bug_id, $f_assign, $f_bug_notetext, $f_bug_noteprivate );
-			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			if ( bug_check_workflow($t_status, $t_assign_status ) ) {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
-			}
-		}
-		break;
-
-	case 'RESOLVE':
-		$t_resolved_status = config_get( 'bug_resolved_status_threshold' );
-		if ( access_has_bug_level( access_get_status_threshold( $t_resolved_status, bug_get_field( $t_bug_id, 'project_id' ) ), $t_bug_id ) &&
-					( $t_status < $t_resolved_status ) &&
-					bug_check_workflow($t_status, $t_resolved_status ) ) {
-			$f_resolution = gpc_get_int( 'resolution' );
-			$f_fixed_in_version = gpc_get_string( 'fixed_in_version', '' );
-			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			bug_resolve( $t_bug_id, $f_resolution, $f_fixed_in_version, $f_bug_notetext, null, null, $f_bug_noteprivate );
-			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			if ( ( $t_status < $t_resolved_status ) &&
-					bug_check_workflow($t_status, $t_resolved_status ) ) {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
-			}
-		}
-		break;
-
-	case 'UP_PRIOR':
-		if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
-			$f_priority = gpc_get_int( 'priority' );
-			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			bug_set_field( $t_bug_id, 'priority', $f_priority );
-			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'UP_STATUS':
-		$f_status = gpc_get_int( 'status' );
-		$t_project = bug_get_field( $t_bug_id, 'project_id' );
-		if ( access_has_bug_level( access_get_status_threshold( $f_status, $t_project ), $t_bug_id ) ) {
-			if ( TRUE == bug_check_workflow($t_status, $f_status ) ) {
-				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_set_field( $t_bug_id, 'status', $f_status );
-
-				# Add bugnote if supplied
-				if ( !is_blank( $f_bug_notetext ) ) {
-					bugnote_add( $t_bug_id, $f_bug_notetext, null, $f_bug_noteprivate );
+				if ( !access_can_close_bug( $t_bug_id ) ) {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				} else {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
 				}
-
+			}
+			break;
+		case 'DELETE':
+			if ( access_has_bug_level( config_get( 'delete_bug_threshold' ), $t_bug_id ) ) {
+				event_signal( 'EVENT_BUG_DELETED', array( $t_bug_id ) );
+				bug_delete( $t_bug_id );
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'MOVE':
+			if ( access_has_bug_level( config_get( 'move_bug_threshold' ), $t_bug_id ) ) {
+				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+				$f_project_id = gpc_get_int( 'project_id' );
+				bug_move( $t_bug_id, $f_project_id );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
 			}
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
+			break;
+		case 'COPY':
+			$f_project_id = gpc_get_int( 'project_id' );
 
-	case 'UP_CATEGORY':
-		$f_category_id = gpc_get_int( 'category' );
-		if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
-			if ( category_exists( $f_category_id ) ) {
+			if ( access_has_project_level( config_get( 'report_bug_threshold' ), $f_project_id ) ) {
+				bug_copy( $t_bug_id, $f_project_id, true, true, true, true, true, true );
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'ASSIGN':
+			$f_assign = gpc_get_int( 'assign' );
+			if ( ON == config_get( 'auto_set_status_to_assigned' ) ) {
+				$t_assign_status = config_get( 'bug_assigned_status' );
+			} else {
+				$t_assign_status = $t_status;
+			}
+			# check that new handler has rights to handle the issue, and
+			#  that current user has rights to assign the issue
+			$t_threshold = access_get_status_threshold( $t_assign_status, bug_get_field( $t_bug_id, 'project_id' ) );
+			if ( access_has_bug_level( $t_threshold , $t_bug_id, $f_assign ) &&
+				 access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get( 'update_bug_threshold' ) ), $t_bug_id ) &&
+					bug_check_workflow($t_status, $t_assign_status )	) {
 				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_set_field( $t_bug_id, 'category_id', $f_category_id );
+				bug_assign( $t_bug_id, $f_assign, $f_bug_notetext, $f_bug_noteprivate );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_category' );
+				if ( bug_check_workflow($t_status, $t_assign_status ) ) {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				} else {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+				}
 			}
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'UP_FIXED_IN_VERSION':
-		$f_fixed_in_version = gpc_get_string( 'fixed_in_version' );
-		$t_project_id = bug_get_field( $t_bug_id, 'project_id' );
-		$t_success = false;
-
-		if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
-			if ( version_get_id( $f_fixed_in_version, $t_project_id ) !== false ) {
+			break;
+		case 'RESOLVE':
+			$t_resolved_status = config_get( 'bug_resolved_status_threshold' );
+			if ( access_has_bug_level( access_get_status_threshold( $t_resolved_status, bug_get_field( $t_bug_id, 'project_id' ) ), $t_bug_id ) &&
+						( $t_status < $t_resolved_status ) &&
+						bug_check_workflow($t_status, $t_resolved_status ) ) {
+				$f_resolution = gpc_get_int( 'resolution' );
+				$f_fixed_in_version = gpc_get_string( 'fixed_in_version', '' );
 				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_set_field( $t_bug_id, 'fixed_in_version', $f_fixed_in_version );
+				bug_resolve( $t_bug_id, $f_resolution, $f_fixed_in_version, $f_bug_notetext, null, null, $f_bug_noteprivate );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-				$t_success = true;
+			} else {
+				if ( ( $t_status < $t_resolved_status ) &&
+						bug_check_workflow($t_status, $t_resolved_status ) ) {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				} else {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+				}
 			}
-		}
-
-		if ( !$t_success ) {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'UP_TARGET_VERSION':
-		$f_target_version = gpc_get_string( 'target_version' );
-		$t_project_id = bug_get_field( $t_bug_id, 'project_id' );
-		$t_success = false;
-
-		if ( access_has_bug_level( config_get( 'roadmap_update_threshold' ), $t_bug_id ) ) {
-			if ( version_get_id( $f_target_version, $t_project_id ) !== false ) {
+			break;
+		case 'UP_PRIOR':
+			if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
+				$f_priority = gpc_get_int( 'priority' );
 				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_set_field( $t_bug_id, 'target_version', $f_target_version );
+				bug_set_field( $t_bug_id, 'priority', $f_priority );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-				$t_success = true;
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
 			}
-		}
+			break;
+		case 'UP_STATUS':
+			$f_status = gpc_get_int( 'status' );
+			$t_project = bug_get_field( $t_bug_id, 'project_id' );
+			if ( access_has_bug_level( access_get_status_threshold( $f_status, $t_project ), $t_bug_id ) ) {
+				if ( TRUE == bug_check_workflow($t_status, $f_status ) ) {
+					/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+					bug_set_field( $t_bug_id, 'status', $f_status );
 
-		if ( !$t_success ) {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
+					# Add bugnote if supplied
+					if ( !is_blank( $f_bug_notetext ) ) {
+						bugnote_add( $t_bug_id, $f_bug_notetext, null, $f_bug_noteprivate );
+					}
 
-	case 'VIEW_STATUS':
-		if ( access_has_bug_level( config_get( 'change_view_status_threshold' ), $t_bug_id ) ) {
-			$f_view_status = gpc_get_int( 'view_status' );
+					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
+				} else {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+				}
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'UP_CATEGORY':
+			$f_category_id = gpc_get_int( 'category' );
+			if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
+				if ( category_exists( $f_category_id ) ) {
+					/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+					bug_set_field( $t_bug_id, 'category_id', $f_category_id );
+					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
+				} else {
+					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_category' );
+				}
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'UP_FIXED_IN_VERSION':
+			$f_fixed_in_version = gpc_get_string( 'fixed_in_version' );
+			$t_project_id = bug_get_field( $t_bug_id, 'project_id' );
+			$t_success = false;
+
+			if ( access_has_bug_level( config_get( 'update_bug_threshold' ), $t_bug_id ) ) {
+				if ( version_get_id( $f_fixed_in_version, $t_project_id ) !== false ) {
+					/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+					bug_set_field( $t_bug_id, 'fixed_in_version', $f_fixed_in_version );
+					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
+					$t_success = true;
+				}
+			}
+
+			if ( !$t_success ) {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'UP_TARGET_VERSION':
+			$f_target_version = gpc_get_string( 'target_version' );
+			$t_project_id = bug_get_field( $t_bug_id, 'project_id' );
+			$t_success = false;
+
+			if ( access_has_bug_level( config_get( 'roadmap_update_threshold' ), $t_bug_id ) ) {
+				if ( version_get_id( $f_target_version, $t_project_id ) !== false ) {
+					/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+					bug_set_field( $t_bug_id, 'target_version', $f_target_version );
+					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
+					$t_success = true;
+				}
+			}
+
+			if ( !$t_success ) {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'VIEW_STATUS':
+			if ( access_has_bug_level( config_get( 'change_view_status_threshold' ), $t_bug_id ) ) {
+				$f_view_status = gpc_get_int( 'view_status' );
+				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+				bug_set_field( $t_bug_id, 'view_state', $f_view_status );
+				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'SET_STICKY':
+			if ( access_has_bug_level( config_get( 'set_bug_sticky_threshold' ), $t_bug_id ) ) {
+				$f_sticky = bug_get_field( $t_bug_id, 'sticky' );
+				// The new value is the inverted old value
+				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
+				bug_set_field( $t_bug_id, 'sticky', intval( !$f_sticky ) );
+				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
+			} else {
+				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+			}
+			break;
+		case 'CUSTOM':
+			if ( 0 === $f_custom_field_id ) {
+				throw new MantisBT\Exception\Generic();
+			}
+
 			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			bug_set_field( $t_bug_id, 'view_state', $f_view_status );
+			$t_form_var = "custom_field_$f_custom_field_id";
+			$t_custom_field_value = gpc_get_custom_field( $t_form_var, $t_custom_field_def['type'], null );
+			custom_field_set_value( $f_custom_field_id, $t_bug_id, $t_custom_field_value );
 			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
+			break;
 
-	case 'SET_STICKY':
-		if ( access_has_bug_level( config_get( 'set_bug_sticky_threshold' ), $t_bug_id ) ) {
-			$f_sticky = bug_get_field( $t_bug_id, 'sticky' );
-			// The new value is the inverted old value
-			/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-			bug_set_field( $t_bug_id, 'sticky', intval( !$f_sticky ) );
-			helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		} else {
-			$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
-		}
-		break;
-
-	case 'CUSTOM':
-		if ( 0 === $f_custom_field_id ) {
+		default:
 			throw new MantisBT\Exception\Generic();
-		}
-
-		/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-		$t_form_var = "custom_field_$f_custom_field_id";
-		$t_custom_field_value = gpc_get_custom_field( $t_form_var, $t_custom_field_def['type'], null );
-		custom_field_set_value( $f_custom_field_id, $t_bug_id, $t_custom_field_value );
-		helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
-		break;
-
-	default:
-		throw new MantisBT\Exception\Generic();
 	}
 
 	// Bug Action Event
