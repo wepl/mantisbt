@@ -127,7 +127,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 		case 'DELETE':
 			if ( access_has_bug_level( config_get( 'delete_bug_threshold' ), $t_bug_id ) ) {
 				event_signal( 'EVENT_BUG_DELETED', array( $t_bug_id ) );
-				bug_delete( $t_bug_id );
+				$t_bug->delete();
 			} else {
 				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
 			}

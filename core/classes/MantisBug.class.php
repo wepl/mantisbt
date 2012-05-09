@@ -563,7 +563,64 @@ class MantisBug extends MantisCacheable {
 
 		return true;
 	}
-	
+
+	/**
+	 * allows bug deletion :
+	 * delete the bug, bugtext, bugnote, and bugtexts selected
+	 * @return bool (always true)
+	 * @access public
+	 */
+	function delete() {
+		# call pre-deletion custom function
+		helper_call_custom_function( 'issue_delete_validate', array( $this->id ) );
+
+		# log deletion of bug - removed later on in this function by history_delete
+		history_log_event_special( $this->id, BUG_DELETED, bug_format_id( $this->id ) );
+
+		email_bug_deleted( $this->id );
+
+		# call post-deletion custom function.  We call this here to allow the custom function to access the details of the bug before
+		# they are deleted from the database given it's id.  The other option would be to move this to the end of the function and
+		# provide it with bug data rather than an id, but this will break backward compatibility.
+		helper_call_custom_function( 'issue_delete_notify', array( $this->id ) );
+
+		# Unmonitor bug for all users
+		bug_unmonitor( $this->id, null );
+
+		# Delete custom fields
+		custom_field_delete_all_values( $this->id );
+
+		# Delete bugnotes
+		bugnote_delete_all( $this->id );
+
+		# Delete all sponsorships
+		sponsorship_delete( sponsorship_get_all_ids( $this->id ) );
+
+		# delete any relationships
+		relationship_delete_all( $this->id );
+
+		# Delete files
+		file_delete_attachments( $this->id );
+
+		# Detach tags
+		tag_bug_detach_all( $this->id, false );
+
+		# Delete the bug history
+		history_delete( $this->id );
+
+		# Delete bug info revisions
+		bug_revision_delete( $this->id );
+
+		# Delete the bug entry
+		$t_query = 'DELETE FROM {bug} WHERE id=%d';
+		db_query( $t_query, array( $this->id ) );
+
+		bug_clear_cache( $this->id );
+
+		# db_query errors on failure so:
+		return true;
+	}
+
 	/**
 	 * Cache a bug text row if necessary and return the cached copy
 	 * @param int p_bug_id integer bug id to retrieve text for

@@ -462,64 +462,6 @@ function bug_move( $p_bug_id, $p_target_project_id ) {
 }
 
 /**
- * allows bug deletion :
- * delete the bug, bugtext, bugnote, and bugtexts selected
- * @param array p_bug_id integer representing bug id
- * @return bool (always true)
- * @access public
- */
-function bug_delete( $p_bug_id ) {
-	# call pre-deletion custom function
-	helper_call_custom_function( 'issue_delete_validate', array( $p_bug_id ) );
-
-	# log deletion of bug
-	history_log_event_special( $p_bug_id, BUG_DELETED, bug_format_id( $p_bug_id ) );
-
-	email_bug_deleted( $p_bug_id );
-
-	# call post-deletion custom function.  We call this here to allow the custom function to access the details of the bug before
-	# they are deleted from the database given it's id.  The other option would be to move this to the end of the function and
-	# provide it with bug data rather than an id, but this will break backward compatibility.
-	helper_call_custom_function( 'issue_delete_notify', array( $p_bug_id ) );
-
-	# Unmonitor bug for all users
-	bug_unmonitor( $p_bug_id, null );
-
-	# Delete custom fields
-	custom_field_delete_all_values( $p_bug_id );
-
-	# Delete bugnotes
-	bugnote_delete_all( $p_bug_id );
-
-	# Delete all sponsorships
-	sponsorship_delete( sponsorship_get_all_ids( $p_bug_id ) );
-
-	# delete any relationships
-	relationship_delete_all( $p_bug_id );
-
-	# Delete files
-	file_delete_attachments( $p_bug_id );
-
-	# Detach tags
-	tag_bug_detach_all( $p_bug_id, false );
-
-	# Delete the bug history
-	history_delete( $p_bug_id );
-
-	# Delete bug info revisions
-	bug_revision_delete( $p_bug_id );
-
-	# Delete the bug entry
-	$t_query = 'DELETE FROM {bug} WHERE id=%d';
-	db_query( $t_query, array( $p_bug_id ) );
-
-	bug_clear_cache( $p_bug_id );
-
-	# db_query errors on failure so:
-	return true;
-}
-
-/**
  * Delete all bugs associated with a project
  * @param array p_project_id integer representing a projectid
  * @return bool always true
@@ -531,7 +473,8 @@ function bug_delete_all( $p_project_id ) {
 	$t_result = db_query( $t_query, array( $p_project_id ) );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {
-		bug_delete( $t_row['id'] );
+		$t_bug = bug_get( $t_row['id'], false );
+		$t_bug->delete();
 	}
 
 	# @todo should we check the return value of each bug_delete() and
