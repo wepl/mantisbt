@@ -1939,14 +1939,6 @@ $g_show_attachment_indicator = OFF;
 $g_view_attachments_threshold = VIEWER;
 
 /**
- * list of filetypes to view inline. This is a string of extentions separated
- * by commas. This is used when downloading an attachment. Rather than
- * downloading, the attachment is viewed in the browser.
- * @global string $g_inline_file_exts
- */
-$g_inline_file_exts = 'gif,png,jpg,jpeg,bmp';
-
-/**
  * access level needed to download bug attachments
  * @global int $g_download_attachments_threshold
  */
