@@ -297,7 +297,19 @@ abstract class MantisDatabase {
      * @return bool
      */	
     public abstract function IsConnected();
-		
+
+	/**
+	 * Given a short table name e.g. {table} returns the full sql table name
+	 * @return string
+	 */
+	public function GetTableName($p_table) {
+		return strtr($p_table, array(
+							'{' => self::$dbprefix,
+							'}' => self::$dbsuffix
+							)
+					);
+	}
+
 	protected function PrepareSQLString($sql) {
 		return strtr($sql, array(
 							'{' => self::$dbprefix, 
