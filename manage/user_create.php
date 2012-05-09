@@ -88,7 +88,6 @@ if ( $f_password != $f_password_verify ) {
 	throw new MantisBT\Exception\User_Create_Password_Mismatch();
 }
 
-$f_email = email_append_domain( $f_email );
 email_ensure_not_disposable( $f_email );
 
 if ( ( ON == config_get( 'send_reset_password' ) ) && ( ON == config_get( 'enable_email_notification' ) ) ) {

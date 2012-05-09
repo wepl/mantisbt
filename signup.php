@@ -60,7 +60,6 @@ $f_captcha		= gpc_get_string( 'captcha', '' );
 $f_public_key	= gpc_get_string( 'public_key', '' );
 
 $f_username = trim( $f_username );
-$f_email = email_append_domain( trim( $f_email ) );
 $f_captcha = utf8_strtolower( trim( $f_captcha ) );
 
 # force logout on the current user if already authenticated
@@ -87,6 +86,7 @@ if( ON == config_get( 'signup_use_captcha' ) && helper_call_custom_function( 'au
 	}
 }
 
+email_ensure_valid( $f_email );
 email_ensure_not_disposable( $f_email );
 
 # notify the selected group a new user has signed-up

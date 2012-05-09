@@ -70,7 +70,6 @@ if( auth_is_user_authenticated() ) {
 $f_username = gpc_get_string('username');
 $f_email = gpc_get_string('email');
 
-$f_email = email_append_domain( $f_email );
 email_ensure_valid( $f_email );
 
 /** @todo Consider moving this query to user_api.php */
