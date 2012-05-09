@@ -584,13 +584,13 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 
 	# if cookie not found, and anonymous login enabled, use cookie of anonymous account.
 	if( is_blank( $t_cookie ) ) {
-		if( $p_login_anonymous && ON == config_get( 'allow_anonymous_login' ) ) {
+		if( $p_login_anonymous && OFF !== config_get( 'anonymous_login' ) ) {
 			if( $g_cache_anonymous_user_cookie_string === null ) {
 				if( function_exists( 'db_is_connected' ) && db_is_connected() ) {
 
 					# get anonymous information if database is available
 					$t_query = 'SELECT id, cookie_string FROM {user} WHERE username = %s';
-					$t_result = db_query( $t_query, array( config_get( 'anonymous_account' ) ) );
+					$t_result = db_query( $t_query, array( config_get( 'anonymous_login' ) ) );
 
 					if( $t_row = db_fetch_array( $t_result ) ) {						
 						$t_cookie = $t_row['cookie_string'];
@@ -640,14 +640,13 @@ function auth_reauthenticate() {
 		token_touch( $t_auth_token['id'], config_get_global( 'reauthentication_expiry' ) );
 		return true;
 	} else {
-		$t_anon_account = config_get( 'anonymous_account' );
-		$t_anon_allowed = config_get( 'allow_anonymous_login' );
+		$t_anon_account = config_get( 'anonymous_login' );
 
 		$t_user_id = auth_get_current_user_id();
 		$t_username = user_get_field( $t_user_id, 'username' );
 
 		# check for anonymous login
-		if( ON == $t_anon_allowed && $t_anon_account == $t_username ) {
+		if( OFF !== $t_anon_allowed && $t_anon_account == $t_username ) {
 			return true;
 		}
 

@@ -38,23 +38,23 @@ require_api( 'user_api.php' );
 
 check_print_section_header_row( 'Anonymous access' );
 
-$t_anonymous_access_enabled = config_get_global( 'allow_anonymous_login' );
+$t_anonymous_access_enabled = config_get_global( 'anonymous_login' );
 check_print_info_row(
 	'Anonymous access is enabled',
-	$t_anonymous_access_enabled ? 'Yes' : 'No'
+	( $t_anonymous_access_enabled !== OFF ) ? 'Yes' : 'No'
 );
 
-if( !$t_anonymous_access_enabled ) {
+if( $t_anonymous_access_enabled === OFF ) {
 	return;
 }
 
-$t_anonymous_account = config_get_global( 'anonymous_account' );
+$t_anonymous_account = config_get_global( 'anonymous_login' );
 check_print_test_row(
 	'anonymous_account configuration option is specified',
 	$t_anonymous_account !== '',
 	array(
 		true => 'The account currently being used for anonymous access is: ' . htmlentities( $t_anonymous_account ),
-		false => 'The anonymous_account configuration option must specify the username of an account to use for anonymous logins.'
+		false => 'The anonymous_login configuration option must specify the username of an account to use for anonymous logins.'
 	)
 );
 

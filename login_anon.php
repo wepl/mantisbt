@@ -18,9 +18,8 @@
  * login_anon.php logs a user in anonymously without having to enter a username
  * or password.
  *
- * Depends on two global configuration variables:
- * allow_anonymous_login - bool which must be true to allow anonymous login.
- * anonymous_account - name of account to login with.
+ * Depends on global configuration variables:
+ * anonymous_login - false or name of account to login with.
  *
  * TODO:
  * Check how manage account is impacted.
@@ -49,7 +48,7 @@ require_api( 'string_api.php' );
 
 $f_return = gpc_get_string( 'return', '' );
 
-$t_anonymous_account = config_get( 'anonymous_account' );
+$t_anonymous_account = config_get( 'anonymous_login' );
 
 if ( $f_return !== '' ) {
 	$t_return = string_url( string_sanitize_url( $f_return ) );

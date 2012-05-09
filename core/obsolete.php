@@ -178,3 +178,6 @@ config_obsolete( 'colour_project', '' );
 config_obsolete( 'colour_global', '' );
 
 config_obsolete( 'limit_email_domain', 'limit_email_domains' );
+
+config_obsolete( 'allow_anonymous_login', 'anonymous_login' );
+config_obsolete( 'anonymous_account', 'anonymous_login' );

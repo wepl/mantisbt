@@ -74,14 +74,14 @@ $f_key = gpc_get_string( 'key', null );
 if ( OFF == config_get( 'rss_enabled' ) ) {
 	throw new MantisBT\Exception\Access_Denied();
 }
-
+# @todo gpc_get_string seems to return '' not null
 # authenticate the user
 if ( $f_username !== null ) {
 	if ( !rss_login( $f_username, $f_key ) ) {
 		throw new MantisBT\Exception\Access_Denied();
 	}
 } else {
-	if ( OFF == config_get( 'allow_anonymous_login' ) ) {
+	if ( OFF == config_get( 'anonymous_login' ) ) {
 		throw new MantisBT\Exception\Access_Denied();
 	}
 }

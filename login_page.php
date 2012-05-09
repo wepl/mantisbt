@@ -74,7 +74,7 @@ $t_session_validation = ( ON == config_get_global( 'session_validation' ) );
 if ( auth_automatic_logon_bypass_form() ) {
 	$t_uri = "login.php";
 
-	if ( ON == config_get( 'allow_anonymous_login' ) ) {
+	if ( OFF !== config_get( 'anonymous_login' ) ) {
 		$t_uri = "login_anon.php";
 	}
 
@@ -141,7 +141,7 @@ if( $f_error || $f_cookie_error ) {
 			# CSRF protection not required here - form does not result in modifications
 			echo '<ul id="login-links">';
 
-			if ( ON == config_get( 'allow_anonymous_login' ) ) {
+			if ( OFF !== config_get( 'anonymous_login' ) ) {
 				echo '<li><a href="login_anon.php?return=' . string_url( $f_return ) . '">' . lang_get( 'login_anonymously' ) . '</a></li>';
 			}
 
