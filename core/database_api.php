@@ -137,7 +137,6 @@ function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) 
 	}
 
 	if( !$t_result ) {
-		var_dump($p_query); die;
 		throw new MantisBT\Exception\Database\QueryFailed();
 		return false;
 	} else {
@@ -183,9 +182,12 @@ function db_insert_id( $p_table = null, $p_field = "id" ) {
  * @return bool indicating whether the table exists
  */
 function db_table_exists( $p_table_name ) {
+	global $g_db;
 	if( is_blank( $p_table_name ) ) {
 		return false;
 	}
+
+	$p_table_name = $g_db->GetTableName($p_table_name);
 
 	$t_tables = db_get_table_list();
 
