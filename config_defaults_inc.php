@@ -506,10 +506,10 @@ $g_allow_blank_email = OFF;
 /**
  * Only allow and send email to addresses in the given domain
  * For example:
- * $g_limit_email_domain		= array( 'users.sourceforge.net', 'sourceforge.net' );
- * @global array $g_limit_email_domain
+ * $g_limit_email_domains		= array( 'users.sourceforge.net', 'sourceforge.net' );
+ * @global array $g_limit_email_domains
  */
-$g_limit_email_domain = array();
+$g_limit_email_domains = array();
 
 /**
  * This specifies the access level that is needed to get the mailto: links.

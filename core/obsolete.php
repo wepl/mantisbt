@@ -176,3 +176,5 @@ config_obsolete( 'csv_separator', '' );
 
 config_obsolete( 'colour_project', '' );
 config_obsolete( 'colour_global', '' );
+
+config_obsolete( 'limit_email_domain', 'limit_email_domains' );

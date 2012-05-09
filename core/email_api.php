@@ -115,15 +115,15 @@ function email_is_valid( $p_email ) {
 		$t_domain = $t_check[2];
 
 		# see if we're limited to a set of known domains
-		$t_limit_email_domain = config_get( 'limit_email_domain' );
-		if( !empty( $t_limit_email_domain ) ) {
-			$t_limit = false;
-			foreach( $t_limit_email_domain as $t_email ) {
-				if( 0 == strcasecmp( $t_email, $t_domain ) ) {
-					$t_limit = true;
+		$t_limit_email_domains = config_get( 'limit_email_domains' );
+		if( !empty( $t_limit_email_domains ) ) {
+			$t_limit_domain = false;
+			foreach( $t_limit_email_domains as $t_email_domain ) {
+				if( 0 == strcasecmp( $t_email_domain, $t_domain ) ) {
+					$t_limit_domain = true;
 				}
 			}
-			if( !$t_limit ) {
+			if( !$t_limit_domain ) {
 				return false;
 			}
 		}
