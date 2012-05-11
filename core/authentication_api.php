@@ -646,7 +646,7 @@ function auth_reauthenticate() {
 		$t_username = user_get_field( $t_user_id, 'username' );
 
 		# check for anonymous login
-		if( OFF !== $t_anon_allowed && $t_anon_account == $t_username ) {
+		if( OFF !== $t_anon_account && $t_anon_account == $t_username ) {
 			return true;
 		}
 
