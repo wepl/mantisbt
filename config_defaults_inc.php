@@ -2868,12 +2868,6 @@ $g_manage_custom_fields_threshold = ADMINISTRATOR;
  */
 $g_custom_field_link_threshold = MANAGER;
 
-/**
- * Whether to start editng a custom field immediately after creating it
- * @global int $g_custom_field_edit_after_create
- */
-$g_custom_field_edit_after_create = ON;
-
 /****************
  * Custom Menus *
  ****************/

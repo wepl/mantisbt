@@ -183,3 +183,5 @@ config_obsolete( 'allow_anonymous_login', 'anonymous_login' );
 config_obsolete( 'anonymous_account', 'anonymous_login' );
 
 config_obsolete( 'inline_file_exts', '' );
+
+config_obsolete( 'custom_field_edit_after_create', '' );
