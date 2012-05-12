@@ -1374,10 +1374,6 @@ function print_rss( $p_feed_url, $p_title = '' ) {
  * Prints the recently visited issues.
  */
 function print_recently_visited() {
-	if( !last_visited_enabled() ) {
-		return;
-	}
-
 	$t_ids = last_visited_get_array();
 
 	if( count( $t_ids ) == 0 ) {
