@@ -1358,7 +1358,7 @@ function email_build_visible_bug_data( $p_user_id, $p_bug_id, $p_message_id ) {
 	$t_user_bugnote_order = user_pref_get_pref( $p_user_id, 'bugnote_order' );
 	$t_user_bugnote_limit = user_pref_get_pref( $p_user_id, 'email_bugnote_limit' );
 
-	$row = bug_get_extended_row( $p_bug_id );
+	$t_bug = bug_get( $p_bug_id );
 	$t_bug_data = array();
 
 	$t_bug_data['email_bug'] = $p_bug_id;
@@ -1368,39 +1368,39 @@ function email_build_visible_bug_data( $p_user_id, $p_bug_id, $p_message_id ) {
 	}
 
 	if( access_compare_level( $t_user_access_level, config_get( 'view_handler_threshold' ) ) ) {
-		if( 0 != $row['handler_id'] ) {
+		if( 0 != $t_bug->handler_id ) {
 			$t_bug_data['email_handler'] = user_get_name( $row['handler_id'] );
 		} else {
 			$t_bug_data['email_handler'] = '';
 		}
 	}
 
-	$t_bug_data['email_reporter'] = user_get_name( $row['reporter_id'] );
-	$t_bug_data['email_project_id'] = $row['project_id'];
-	$t_bug_data['email_project'] = project_get_field( $row['project_id'], 'name' );
+	$t_bug_data['email_reporter'] = user_get_name( $t_bug->reporter_id );
+	$t_bug_data['email_project_id'] = $t_bug->project_id;
+	$t_bug_data['email_project'] = project_get_field( $t_bug->project_id, 'name' );
 
-	$t_category_name = category_full_name( $row['category_id'], false );
+	$t_category_name = category_full_name( $t_bug->category_id, false );
 	$t_bug_data['email_category'] = $t_category_name;
 
-	$t_bug_data['email_date_submitted'] = $row['date_submitted'];
-	$t_bug_data['email_last_modified'] = $row['last_updated'];
+	$t_bug_data['email_date_submitted'] = $t_bug->date_submitted;
+	$t_bug_data['email_last_modified'] = $t_bug->last_updated;
 
-	$t_bug_data['email_status'] = $row['status'];
-	$t_bug_data['email_severity'] = $row['severity'];
-	$t_bug_data['email_priority'] = $row['priority'];
-	$t_bug_data['email_reproducibility'] = $row['reproducibility'];
+	$t_bug_data['email_status'] = $t_bug->status;
+	$t_bug_data['email_severity'] = $t_bug->severity;
+	$t_bug_data['email_priority'] = $t_bug->priority;
+	$t_bug_data['email_reproducibility'] = $t_bug->reproducibility;
 
-	$t_bug_data['email_resolution'] = $row['resolution'];
-	$t_bug_data['email_fixed_in_version'] = $row['fixed_in_version'];
+	$t_bug_data['email_resolution'] = $t_bug->resolution;
+	$t_bug_data['email_fixed_in_version'] = $t_bug->fixed_in_version;
 
-	if( !is_blank( $row['target_version'] ) && access_compare_level( $t_user_access_level, config_get( 'roadmap_view_threshold' ) ) ) {
-		$t_bug_data['email_target_version'] = $row['target_version'];
+	if( !is_blank( $t_bug->target_version ) && access_compare_level( $t_user_access_level, config_get( 'roadmap_view_threshold' ) ) ) {
+		$t_bug_data['email_target_version'] = $t_bug->target_version;
 	}
 
-	$t_bug_data['email_summary'] = $row['summary'];
-	$t_bug_data['email_description'] = $row['description'];
-	$t_bug_data['email_additional_information'] = $row['additional_information'];
-	$t_bug_data['email_steps_to_reproduce'] = $row['steps_to_reproduce'];
+	$t_bug_data['email_summary'] = $t_bug->summary;
+	$t_bug_data['email_description'] = $t_bug->description;
+	$t_bug_data['email_additional_information'] = $t_bug->additional_information;
+	$t_bug_data['email_steps_to_reproduce'] = $t_bug->steps_to_reproduce;
 
 	$t_bug_data['set_category'] = '[' . $t_bug_data['email_project'] . '] ' . $t_category_name;
 
