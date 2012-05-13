@@ -774,6 +774,7 @@ If you requested this verification, visit the following URL to change your passw
 	'plugin_protected' => 'Protected',
 	'plugin_update' => 'Update',
 	'plugin_actions' => 'Actions',
+	'plugin_info' => 'Info',
 	'plugin_install' => 'Install',
 	'plugin_upgrade' => 'Upgrade',
 	'plugin_uninstall' => 'Uninstall',
@@ -1246,9 +1247,6 @@ If you requested this verification, visit the following URL to change your passw
 	'attachment_missing' => 'Attachment missing',
 	'attachment_count' => 'Attachment count',
 	'view_attachments_for_issue' => 'View %1$d attachment(s) for issue #%2$d',
-	
-	# PHPMailer
-	'phpmailer_language' => 'en',
 	
 	# Sponsorship Strings
 	'sponsors' => '%1$d sponsor(s)',

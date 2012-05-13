@@ -939,7 +939,6 @@ Si va sol·licitar aquest canvi, visiti aquesta URL per a canviar la contrasenya
 	'monitored_by_label' => 'Monitoritzat Per:',
 	'attachments' => 'adjunt(s)',
 	'bytes' => 'bytes',
-	'phpmailer_language' => 'ca',
 	'sponsors' => '%1$d patrocinador(s)',
 	'sponsorship_added' => 'Patrocinador Afegit',
 	'sponsorship_updated' => 'Patrocinador Actualitzat',

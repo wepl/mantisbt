@@ -5,15 +5,13 @@ The version and status of each is summarized below:
 directory       | project         | version  | status
 -----------------------------------------------------------------
 disposable      | disposable      | 1.1.0    | unpatched
-ezc             | ez Components   | 2009.2.1 | unpatched
+ezc             | zeta Components | github   | unpatched
 nusoap          | nusoap          | 0.9.5    | patched: XSS vulnerabilities as per #12312
-phpmailer       | PHPMailer       | 5.2      | unpatched
 utf8            | phputf8         | 0.5      | unpatched
 
 Upstream projects
 ==================
 disposable -  http://github.com/vboctor/disposable_email_checker/tree/master
-ezc        -  http://ezcomponents.org/
+zeta       -  http://github.com/zetacomponents
 nusoap     -  http://sourceforge.net/projects/nusoap/
-phpmailer  -  http://phpmailer.codeworxtech.com/
 utf8       -  http://sourceforge.net/projects/phputf8

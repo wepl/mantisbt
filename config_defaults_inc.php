@@ -534,15 +534,14 @@ $g_mail_priority = 3;
 
 /**
  * select the method to mail by:
- * PHPMAILER_METHOD_MAIL - mail()
- * PHPMAILER_METHOD_SENDMAIL - sendmail
- * PHPMAILER_METHOD_SMTP - SMTP
- * @global int $g_phpMailer_method
+ * 'mail' - mail()
+ * 'smtp' - SMTP
+ * @global int $g_mailer_method
  */
-$g_phpMailer_method = PHPMAILER_METHOD_MAIL;
+$g_mailer_method = 'smtp';
 
 /**
- * This option allows you to use a remote SMTP host.  Must use the phpMailer script
+ * This option allows you to use a remote SMTP host.
  * One or more hosts, separated by a semicolon, can be listed.
  * You can also specify a different port for each host by using this
  * format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com").
@@ -552,8 +551,8 @@ $g_phpMailer_method = PHPMAILER_METHOD_MAIL;
 $g_smtp_host = 'localhost';
 
 /**
- * These options allow you to use SMTP Authentication when you use a remote
- * SMTP host with phpMailer.  If smtp_username is not '' then the username
+ * These options allow you to use SMTP Authentication when you use a remote SMTP host.
+ * If smtp_username is not '' then the username
  * and password will be used when logging in to the SMTP server.
  * @global string $g_smtp_username
  */

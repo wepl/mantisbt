@@ -187,3 +187,5 @@ config_obsolete( 'inline_file_exts', '' );
 config_obsolete( 'custom_field_edit_after_create', '' );
 
 config_obsolete( 'recently_visited', 'recently_visited_count' );
+
+config_obsolete( 'phpMailer_method' , 'mailer_method' );

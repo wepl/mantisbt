@@ -71,11 +71,7 @@ require_api( 'string_api.php' );
 require_api( 'user_api.php' );
 require_api( 'user_pref_api.php' );
 require_api( 'utility_api.php' );
-
-/**
- * reusable object of class SMTP
- */
- $g_phpMailer = null;
+require_lib( 'ezc/Base/src/base.php' );
 
 /**
  *
@@ -880,7 +876,7 @@ function email_send_all($p_delete_on_failure = false) {
  * @return bool
  */
 function email_send( $p_email_data ) {
-	global $g_phpMailer;
+	static $s_transport;
 
 	$t_email_data = $p_email_data;
 
@@ -889,98 +885,63 @@ function email_send( $p_email_data ) {
 	$t_message = string_email_links( trim( $t_email_data->body ) );
 
 	$t_debug_email = config_get_global( 'debug_email' );
-	$t_mailer_method = config_get( 'phpMailer_method' );
+	$t_mailer_method = config_get( 'mailer_method' );
 
-	if( is_null( $g_phpMailer ) ) {
-		if ( $t_mailer_method == PHPMAILER_METHOD_SMTP )
-			register_shutdown_function( 'email_smtp_close' );
-		if( !class_exists( 'PHPMailer' ) ) {
-			require_lib( 'phpmailer/class.phpmailer.php' );
+	if( is_null( $s_transport ) ) {
+		# Select the method to send mail
+		switch( config_get( 'mailer_method' ) ) {
+			case 'mail':
+				$s_transport = new ezcMailMtaTransport();
+				break;
+			case 'smtp':
+				$t_options = new ezcMailSmtpTransportOptions();
+
+				if ( !is_blank( config_get( 'smtp_connection_mode' ) ) ) {
+					$options->connectionType = config_get( 'smtp_connection_mode' );
+				}
+
+				$s_transport = new ezcMailSmtpTransport( config_get( 'smtp_host' ),
+														 config_get( 'smtp_username' ),
+														 config_get( 'smtp_password' ),
+														 config_get( 'smtp_port' ),
+														 $t_options );
+				$s_transport->keepConnection();
+				break;
 		}
-		$mail = new PHPMailer(true);
-	} else {
-		$mail = $g_phpMailer;
 	}
 
 	if( isset( $t_email_data->metadata['hostname'] ) ) {
-		$mail->Hostname = $t_email_data->metadata['hostname'];
+		$s_transport->senderHost = $t_email_data->metadata['hostname'];
 	}
 
-	# @@@ should this be the current language (for the recipient) or the default one (for the user running the command) (thraxisp)
-	$t_lang = config_get( 'default_language' );
-	if( 'auto' == $t_lang ) {
-		$t_lang = config_get( 'fallback_language' );
-	}
-	$mail->SetLanguage( lang_get( 'phpmailer_language', $t_lang ) );
+	$mail = new ezcMailComposer();
+	$mail->from = new ezcMailAddress( config_get( 'from_email' ), config_get( 'from_name' ) );
 
-	# Select the method to send mail
-	switch( config_get( 'phpMailer_method' ) ) {
-		case PHPMAILER_METHOD_MAIL:
-			$mail->IsMail();
-			break;
-
-		case PHPMAILER_METHOD_SENDMAIL:
-			$mail->IsSendmail();
-			break;
-
-		case PHPMAILER_METHOD_SMTP:
-			$mail->IsSMTP();
-
-			// SMTP collection is always kept alive
-			$mail->SMTPKeepAlive = true;
-
-			if ( !is_blank( config_get( 'smtp_username' ) ) ) {
-				# Use SMTP Authentication
-				$mail->SMTPAuth = true;
-				$mail->Username = config_get( 'smtp_username' );
-				$mail->Password = config_get( 'smtp_password' );
-			}
-
-			if ( !is_blank( config_get( 'smtp_connection_mode' ) ) ) {
-				$mail->SMTPSecure = config_get( 'smtp_connection_mode' );
-			}
-
-			$mail->Port = config_get( 'smtp_port' );
-
-			break;
-	}
-
-	$mail->IsHTML( false );              # set email format to plain text
-	$mail->WordWrap = 80;              # set word wrap to 50 characters
-	$mail->Priority = $t_email_data->metadata['priority'];  # Urgent = 1, Not Urgent = 5, Disable = 0
-	$mail->CharSet = $t_email_data->metadata['charset'];
-	$mail->Host = config_get( 'smtp_host' );
-	$mail->From = config_get( 'from_email' );
-	$mail->Sender = config_get( 'return_path_email' );
-	$mail->FromName = config_get( 'from_name' );
+	$mail->setHeader( 'Priority', $t_email_data->metadata['priority'] );  # Urgent = 1, Not Urgent = 5, Disable = 0
+	$mail->charset = $t_email_data->metadata['charset'];
+	$mail->returnPath = new ezcMailAddress( config_get( 'return_path_email' ) );
 
 	if( '' !== $t_debug_email ) {
 		$t_message = 'To: ' . $t_recipient . "\n\n" . $t_message;
 		try {
-			$mail->AddAddress( $t_debug_email, '' );
-		} catch ( phpmailerException $e ) {
+			$mail->AddTo( new ezcMailAddress( $t_debug_email, '' ) );
+		} catch ( ezcMailTransportException $e ) {
 			$t_success = false;
-			$mail->ClearAllRecipients();
-			$mail->ClearAttachments();
-			$mail->ClearReplyTos();
-			$mail->ClearCustomHeaders();
+			$s_transport = null;
 			return $t_success;
 		}
 	} else {
 		try {
-			$mail->AddAddress( $t_recipient, '' );
-		} catch ( phpmailerException $e ) {
+			$mail->AddTo( new ezcMailAddress( $t_recipient, '' ) );
+		} catch ( ezcMailTransportException $e ) {
 			$t_success = false;
-			$mail->ClearAllRecipients();
-			$mail->ClearAttachments();
-			$mail->ClearReplyTos();
-			$mail->ClearCustomHeaders();
+			$s_transport = null;
 			return $t_success;
 		}
 	}
 
-	$mail->Subject = $t_subject;
-	$mail->Body = make_lf_crlf( "\n" . $t_message );
+	$mail->subject = $t_subject;
+	$mail->plainText = $t_message;
 
 	if( isset( $t_email_data->metadata['headers'] ) && is_array( $t_email_data->metadata['headers'] ) ) {
 		foreach( $t_email_data->metadata['headers'] as $t_key => $t_value ) {
@@ -988,62 +949,39 @@ function email_send( $p_email_data ) {
 				case 'Message-ID':
 					/* Note: hostname can never be blank here as we set metadata['hostname']
 					   in email_store() where mail gets queued. */
-						if ( !strchr( $t_value, '@' ) && !is_blank( $mail->Hostname ) ) {
-							$t_value = $t_value . '@' . $mail->Hostname;
+						if ( !strchr( $t_value, '@' ) && !is_blank( $s_transport->senderHost ) ) {
+							$t_value = $t_value . '@' . $s_transport->senderHost;
 						}
-					$mail->set( 'MessageID', "<$t_value>" );
+					$mail->messageId = "<$t_value>";
 					break;
 				case 'In-Reply-To':
-					$mail->AddCustomHeader( "$t_key: <{$t_value}@{$mail->Hostname}>" );
+					$mail->setHeader( $t_key, "<{$t_value}@{$s_transport->senderHost}>" );
 					break;
 				default:
-					$mail->AddCustomHeader( "$t_key: $t_value" );
+					$mail->setHeader( $t_key, $t_value );
 					break;
 			}
 		}
 	}
+	$mail->build();
 
 	try
 	{
-		if ( !$mail->Send() ) {
-			$t_success = false;
-		} else {
-			$t_success = true;
+		$s_transport->send( $mail );
 
-			if ( $t_email_data->email_id > 0 ) {
-				email_queue_delete( $t_email_data->email_id );
-			}
+		$t_success = true;
+
+		if ( $t_email_data->email_id > 0 ) {
+			email_queue_delete( $t_email_data->email_id );
 		}
 	}
-	catch ( phpmailerException $e )
+	catch ( ezcMailTransportException $e )
 	{
+		$s_transport = null;
 		$t_success = false;
 	}
 
-	$mail->ClearAllRecipients();
-	$mail->ClearAttachments();
-	$mail->ClearReplyTos();
-	$mail->ClearCustomHeaders();
-
 	return $t_success;
-}
-
-/**
- * closes opened kept alive SMTP connection (if it was opened)
- *
- * @param string
- * @return null
- */
-function email_smtp_close() {
-	global $g_phpMailer;
-
-	if( !is_null( $g_phpMailer ) ) {
-		if( $g_phpMailer->smtp->Connected() ) {
-			$g_phpMailer->smtp->Quit();
-			$g_phpMailer->smtp->Close();
-		}
-		$g_phpMailer = null;
-	}
 }
 
 /**
@@ -1064,17 +1002,6 @@ function email_build_subject( $p_bug_id ) {
 	$p_bug_id = bug_format_id( $p_bug_id );
 
 	return '[' . $p_project_name . ' ' . $p_bug_id . ']: ' . $p_subject;
-}
-
-/**
- * clean up LF to CRLF
- *
- * @param string $p_string
- * @return null
- */
-function make_lf_crlf( $p_string ) {
-	$t_string = str_replace( "\n", "\r\n", $p_string );
-	return str_replace( "\r\r\n", "\r\n", $t_string );
 }
 
 /**

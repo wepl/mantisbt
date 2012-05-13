@@ -919,7 +919,6 @@ $s_messages = array(
 	'monitored_by_label' => 'يراقبها:',
 	'attachments' => 'الملحق(ات)',
 	'bytes' => 'بايت',
-	'phpmailer_language' => 'en',
 	'sponsors' => '%1$d راعي(رعاة)',
 	'sponsorship_added' => 'الرعاية تمت إضافتها',
 	'sponsorship_updated' => 'الرعاية تم تحديثها',
