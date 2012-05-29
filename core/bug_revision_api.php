@@ -39,12 +39,12 @@ require_api( 'database_api.php' );
  * @param int $p_timestamp Timestamp(int)
  * @return int Revision ID
  */
-function bug_revision_add( $p_bug_id, $p_user_id, $p_type, $p_value, $p_bugnote_id=0, $p_timestamp = null ) {
+function bug_revision_add( $p_bug, $p_user_id, $p_type, $p_value, $p_bugnote_id=0, $p_timestamp = null ) {
 	if ( $p_type <= REV_ANY ) {
 		return null;
 	}
 
-	$t_last = bug_revision_last( $p_bug_id, $p_type );
+	$t_last = bug_revision_last( $p_bug->id, $p_type );
 
 	# Don't save a revision twice if nothing has changed
 	if ( !is_null( $t_last ) &&
@@ -68,7 +68,7 @@ function bug_revision_add( $p_bug_id, $p_user_id, $p_type, $p_value, $p_bugnote_
 			value
 		) VALUES ( %d, %d, %d, %d, %d, %s )";
 	db_query( $t_query, array(
-			$p_bug_id,
+			$p_bug->id,
 			$p_bugnote_id,
 			$p_user_id,
 			$t_timestamp,

@@ -485,7 +485,7 @@ foreach( $t_related_custom_field_ids as $t_custom_field_id ) {
 <?php
 	$t_user_bugnote_limit = 0;
 
-	$t_bugnotes = bugnote_get_all_visible_bugnotes( $t_id, $t_user_bugnote_order, $t_user_bugnote_limit );
+	$t_bugnotes = bugnote_get_all_visible_bugnotes( $t_bug, $t_user_bugnote_order, $t_user_bugnote_limit );
 ?>
 <br />
 <table class="width100" cellspacing="1">

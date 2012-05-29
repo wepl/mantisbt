@@ -316,7 +316,7 @@ echo '</tr>';
 if ( $tpl_top_buttons_enabled ) {
 	echo '<tr class="top-buttons">';
 	echo '<td colspan="6">';
-	html_buttons_view_bug_page( $tpl_bug_id );
+	html_buttons_view_bug_page( $tpl_bug );
 	echo '</td>';
 	echo '</tr>';
 }
@@ -326,7 +326,7 @@ echo '</thead>';
 if ( $tpl_bottom_buttons_enabled ) {
 	echo '<tfoot>';
 	echo '<tr class="bottom-buttons"><td colspan="6">';
-	html_buttons_view_bug_page( $tpl_bug_id );
+	html_buttons_view_bug_page( $tpl_bug );
 	echo '</td></tr>';
 	echo '</tfoot>';
 }
@@ -678,7 +678,7 @@ if ( $tpl_show_tags ) {
 	echo '<tr>';
 	echo '<th class="bug-tags category">', lang_get( 'tags' ), '</th>';
 	echo '<td class="bug-tags" colspan="5">';
-	tag_display_attached( $tpl_bug_id );
+	tag_display_attached( $tpl_bug );
 	echo '</td></tr>';
 }
 

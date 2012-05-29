@@ -76,7 +76,8 @@ if ( isset( $g_project_override ) ) {
 
 # get the bugnote data
 $t_bugnote_order = current_user_get_pref( 'bugnote_order' );
-$t_bugnotes = bugnote_get_all_visible_bugnotes( $f_bug_id, $t_bugnote_order, 0, $t_user_id );
+$t_bug = bug_get( $f_bug_id );
+$t_bugnotes = bugnote_get_all_visible_bugnotes( $t_bug, $t_bugnote_order, 0, $t_user_id );
 
 #precache users
 $t_bugnote_users = array();

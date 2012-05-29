@@ -418,25 +418,24 @@ function user_get_realname( $p_user_id ) {
  * if show_realname is set and real name is not empty, return it instead
  */
 function user_get_name( $p_user_id ) {
-	$t_user = MantisUser::getByUserID( $p_user_id );
-	$row = $t_user->user_cache_row( $p_user_id );
-	
-	if( false == $row ) {
+	try {
+		$t_user = MantisUser::getByUserID( $p_user_id );
+	} catch ( MantisBT\Exception\User_By_UserID_Not_Found $e ) {
 		return lang_get( 'prefix_for_deleted_users' ) . (int) $p_user_id;
-	} else {
-		if( ON == config_get( 'show_realname' ) ) {
-			if( is_blank( $row['realname'] ) ) {
-				return $row['username'];
-			} else {
-				if( isset( $row['duplicate_realname'] ) && ( ON == $row['duplicate_realname'] ) ) {
-					return $row['realname'] . ' (' . $row['username'] . ')';
-				} else {
-					return $row['realname'];
-				}
-			}
+	}
+
+	if( ON == config_get( 'show_realname' ) ) {
+		if( is_blank( $t_user->realname ) ) {
+			return $t_user->username;
 		} else {
-			return $row['username'];
+			if( isset( $row['duplicate_realname'] ) && ( ON == $row['duplicate_realname'] ) ) {
+				return $t_user->realname . ' (' . $t_user->username . ')';
+			} else {
+				return $t_user->realname;
+			}
 		}
+	} else {
+		return $t_user->username;
 	}
 }
 

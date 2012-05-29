@@ -38,6 +38,13 @@ class MantisUser extends MantisCacheable {
 		return $this->user_id;
 	}
 
+	/**
+	 * @private
+	 */
+	public function __get($name) {
+		return $this->{$name};
+	}
+
 	public static function getByArray($p_field, $p_values ) {
 		if( empty( $p_values ) ) {
 			return array();

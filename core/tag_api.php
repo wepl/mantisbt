@@ -641,10 +641,10 @@ function tag_display_link( $p_tag_row, $p_bug_id = 0 ) {
 
 /**
  * Display a list of attached tag hyperlinks separated by the configured hyperlinks.
- * @param Bug ID
+ * @param BugData $p_bug Bug Object
  */
-function tag_display_attached( $p_bug_id ) {
-	$t_tag_rows = tag_bug_get_attached( $p_bug_id );
+function tag_display_attached( $p_bug ) {
+	$t_tag_rows = tag_bug_get_attached( $p_bug->id );
 
 	if( count( $t_tag_rows ) == 0 ) {
 		echo lang_get( 'tag_none_attached' );
@@ -652,7 +652,7 @@ function tag_display_attached( $p_bug_id ) {
 		$i = 0;
 		foreach( $t_tag_rows as $t_tag ) {
 			echo( $i > 0 ? config_get( 'tag_separator' ) . ' ' : '' );
-			tag_display_link( $t_tag, $p_bug_id );
+			tag_display_link( $t_tag, $p_bug->id );
 			$i++;
 		}
 	}

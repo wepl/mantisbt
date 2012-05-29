@@ -114,7 +114,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 					bug_check_workflow( $t_status, $t_closed ) ) {
 
 				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $f_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_close( $t_bug_id, $f_bug_notetext, $f_bug_noteprivate );
+				bug_close( $t_bug, $f_bug_notetext, $f_bug_noteprivate );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
 				if ( !access_can_close_bug( $t_bug_id ) ) {
@@ -165,7 +165,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				 access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get( 'update_bug_threshold' ) ), $t_bug_id ) &&
 					bug_check_workflow($t_status, $t_assign_status )	) {
 				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_assign( $t_bug_id, $f_assign, $f_bug_notetext, $f_bug_noteprivate );
+				bug_assign( $t_bug, $f_assign, $f_bug_notetext, $f_bug_noteprivate );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
 				if ( bug_check_workflow($t_status, $t_assign_status ) ) {
@@ -183,7 +183,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				$f_resolution = gpc_get_int( 'resolution' );
 				$f_fixed_in_version = gpc_get_string( 'fixed_in_version', '' );
 				/** @todo we need to issue a helper_call_custom_function( 'issue_update_validate', array( $t_bug_id, $t_bug_data, $f_bugnote_text ) ); */
-				bug_resolve( $t_bug_id, $f_resolution, $f_fixed_in_version, $f_bug_notetext, null, null, $f_bug_noteprivate );
+				bug_resolve( $t_bug, $f_resolution, $f_fixed_in_version, $f_bug_notetext, null, null, $f_bug_noteprivate );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
 				if ( ( $t_status < $t_resolved_status ) &&

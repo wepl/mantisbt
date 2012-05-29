@@ -157,7 +157,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 		return false;
 	}
 
-	$t_bugnote_text = $p_bugnote_text;
+	$t_bugnote_text = trim( $p_bugnote_text );
 
 	# Event integration
 	$t_bugnote_text = event_signal( 'EVENT_BUGNOTE_DATA', $t_bugnote_text, $c_bug_id );
@@ -296,24 +296,24 @@ function bugnote_get_latest_id( $p_bug_id ) {
  * Bugnotes are sorted by date_submitted according to 'bugnote_order' configuration setting.
  * Return BugnoteData class object with raw values from the tables except the field
  * last_modified - it is UNIX_TIMESTAMP.
- * @param int $p_bug_id bug id
+ * @param BugData $p_bug Bug Object
  * @param int $p_user_bugnote_order sort order
  * @param int $p_user_bugnote_limit number of bugnotes to display to user
  * @param int $p_user_id user id
  * @return array array of bugnotes
  * @access public
  */
-function bugnote_get_all_visible_bugnotes( $p_bug_id, $p_user_bugnote_order, $p_user_bugnote_limit, $p_user_id = null ) {
+function bugnote_get_all_visible_bugnotes( $p_bug, $p_user_bugnote_order, $p_user_bugnote_limit, $p_user_id = null ) {
 	if( $p_user_id === null ) {
 		$t_user_id = auth_get_current_user_id();
 	} else {
 		$t_user_id = $p_user_id;
 	}
 
-	$t_project_id = bug_get_field( $p_bug_id, 'project_id' );
+	$t_project_id = $p_bug->project_id;
 	$t_user_access_level = user_get_access_level( $t_user_id, $t_project_id );
 
-	$t_all_bugnotes = bugnote_get_all_bugnotes( $p_bug_id );
+	$t_all_bugnotes = bugnote_get_all_bugnotes( $p_bug->id );
 	$t_private_bugnote_threshold = config_get( 'private_bugnote_threshold' );
 
 	$t_private_bugnote_visible = access_compare_level( $t_user_access_level, config_get( 'private_bugnote_threshold' ) );
@@ -450,12 +450,13 @@ function bugnote_set_text( $p_bugnote_id, $p_bugnote_text ) {
 	}
 
 	$t_bug_id = bugnote_get_field( $p_bugnote_id, 'bug_id' );
+	$t_bug = bug_get( $t_bug_id );
 
 	# insert an 'original' revision if needed
 	if ( bug_revision_count( $t_bug_id, REV_BUGNOTE, $p_bugnote_id ) < 1 ) {
 		$t_user_id = bugnote_get_field( $p_bugnote_id, 'reporter_id' );
 		$t_timestamp = bugnote_get_field( $p_bugnote_id, 'last_modified' );
-		bug_revision_add( $t_bug_id, $t_user_id, REV_BUGNOTE, $t_old_text, $p_bugnote_id, $t_timestamp );
+		bug_revision_add( $t_bug, $t_user_id, REV_BUGNOTE, $t_old_text, $p_bugnote_id, $t_timestamp );
 	}
 
 	$t_query = "UPDATE {bugnote} SET note=%s WHERE id=%d";

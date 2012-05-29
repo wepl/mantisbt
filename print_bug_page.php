@@ -496,7 +496,7 @@ if ( $tpl_show_tags ) {
 	echo "<tr class=\"print\">";
 	echo '<th class="print-category">', lang_get( 'tags' ), '</th>';
 	echo '<td class="print" colspan="5">';
-	tag_display_attached( $f_bug_id );
+	tag_display_attached( $tpl_bug );
 	echo '</td></tr>';
 }
 

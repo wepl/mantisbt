@@ -514,25 +514,25 @@ class MantisBug extends MantisCacheable {
 
 			if( $t_old_data->description != $this->description ) {
 				if ( bug_revision_count( $this->id, REV_DESCRIPTION ) < 1 ) {
-					$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_DESCRIPTION, $t_old_data->description, 0, $t_old_data->last_updated );
+					$t_revision_id = bug_revision_add( $this, $t_current_user, REV_DESCRIPTION, $t_old_data->description, 0, $t_old_data->last_updated );
 				}
-				$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_DESCRIPTION, $this->description );
+				$t_revision_id = bug_revision_add( $this, $t_current_user, REV_DESCRIPTION, $this->description );
 				history_log_event_special( $this->id, DESCRIPTION_UPDATED, $t_revision_id );
 			}
 
 			if( $t_old_data->steps_to_reproduce != $this->steps_to_reproduce ) {
 				if ( bug_revision_count( $this->id, REV_STEPS_TO_REPRODUCE ) < 1 ) {
-					$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_STEPS_TO_REPRODUCE, $t_old_data->steps_to_reproduce, 0, $t_old_data->last_updated );
+					$t_revision_id = bug_revision_add( $this, $t_current_user, REV_STEPS_TO_REPRODUCE, $t_old_data->steps_to_reproduce, 0, $t_old_data->last_updated );
 				}
-				$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_STEPS_TO_REPRODUCE, $this->steps_to_reproduce );
+				$t_revision_id = bug_revision_add( $this, $t_current_user, REV_STEPS_TO_REPRODUCE, $this->steps_to_reproduce );
 				history_log_event_special( $this->id, STEP_TO_REPRODUCE_UPDATED, $t_revision_id );
 			}
 
 			if( $t_old_data->additional_information != $this->additional_information ) {
 				if ( bug_revision_count( $this->id, REV_ADDITIONAL_INFO ) < 1 ) {
-					$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_ADDITIONAL_INFO, $t_old_data->additional_information, 0, $t_old_data->last_updated );
+					$t_revision_id = bug_revision_add( $this, $t_current_user, REV_ADDITIONAL_INFO, $t_old_data->additional_information, 0, $t_old_data->last_updated );
 				}
-				$t_revision_id = bug_revision_add( $this->id, $t_current_user, REV_ADDITIONAL_INFO, $this->additional_information );
+				$t_revision_id = bug_revision_add( $this, $t_current_user, REV_ADDITIONAL_INFO, $this->additional_information );
 				history_log_event_special( $this->id, ADDITIONAL_INFO_UPDATED, $t_revision_id );
 			}
 		}

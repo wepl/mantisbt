@@ -723,19 +723,20 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 
 /**
  * assign the bug to the given user
- * @param array p_bug_id_array integer array representing bug ids to cache
+ * @param BugData $p_bug Bug Object
+ * @todo other params
  * @return null
  * @access public
  * @uses database_api.php
  */
-function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_private = false ) {
-	if(( $p_user_id != NO_USER ) && !access_has_bug_level( config_get( 'handle_bug_threshold' ), $p_bug_id, $p_user_id ) ) {
+function bug_assign( $p_bug, $p_user_id, $p_bugnote_text = '', $p_bugnote_private = false ) {
+	if(( $p_user_id != NO_USER ) && !access_has_bug_level( config_get( 'handle_bug_threshold' ), $p_bug->id, $p_user_id ) ) {
 		throw new MantisBT\Exception\User_Does_Not_Have_Req_Access();
 	}
 
 	# extract current information into history variables
-	$h_status = bug_get_field( $p_bug_id, 'status' );
-	$h_handler_id = bug_get_field( $p_bug_id, 'handler_id' );
+	$h_status = bug_get_field( $p_bug->id, 'status' );
+	$h_handler_id = bug_get_field( $p_bug->id, 'handler_id' );
 
 	if(( ON == config_get( 'auto_set_status_to_assigned' ) ) && ( NO_USER != $p_user_id ) ) {
 		$t_ass_val = config_get( 'bug_assigned_status' );
@@ -746,22 +747,22 @@ function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_pri
 	if(( $t_ass_val != $h_status ) || ( $p_user_id != $h_handler_id ) ) {
 		# get user id
 		$query = 'UPDATE {bug} SET handler_id=%d, status=%d WHERE id=%d';
-		db_query( $query, array( $p_user_id, $t_ass_val, $p_bug_id ) );
+		db_query( $query, array( $p_user_id, $t_ass_val, $p_bug->id ) );
 
 		# log changes
-		history_log_event_direct( $c_bug_id, 'status', $h_status, $t_ass_val );
-		history_log_event_direct( $c_bug_id, 'handler_id', $h_handler_id, $p_user_id );
+		history_log_event_direct( $p_bug->id, 'status', $h_status, $t_ass_val );
+		history_log_event_direct( $p_bug->id, 'handler_id', $h_handler_id, $p_user_id );
 
 		# Add bugnote if supplied ignore false return
-		bugnote_add( $p_bug_id, $p_bugnote_text, 0, $p_bugnote_private, 0, '', NULL, FALSE );
+		bugnote_add( $p_bug->id, $p_bugnote_text, 0, $p_bugnote_private, 0, '', NULL, FALSE );
 
 		# updated the last_updated date
-		bug_update_date( $p_bug_id );
+		bug_update_date( $p_bug->id );
 
-		bug_clear_cache( $p_bug_id );
+		bug_clear_cache( $p_bug->id );
 
 		# send assigned to email
-		email_assign( $p_bug_id );
+		email_assign( $p_bug->id );
 	}
 
 	return true;
@@ -769,46 +770,45 @@ function bug_assign( $p_bug_id, $p_user_id, $p_bugnote_text = '', $p_bugnote_pri
 
 /**
  * close the given bug
- * @param int p_bug_id
+ * @param BugData $p_bug Bug Object
  * @param string p_bugnote_text
  * @param bool p_bugnote_private
  * @param string p_time_tracking
  * @return bool (always true)
  * @access public
  */
-function bug_close( $p_bug_id, $p_bugnote_text = '', $p_bugnote_private = false, $p_time_tracking = '0:00' ) {
-	$p_bugnote_text = trim( $p_bugnote_text );
-
+function bug_close( $p_bug, $p_bugnote_text = '', $p_bugnote_private = false, $p_time_tracking = '0:00' ) {
 	# Add bugnote if supplied ignore a false return
 	# Moved bugnote_add before bug_set_field calls in case time_tracking_no_note is off.
 	# Error condition stopped execution but status had already been changed
-	bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking, $p_bugnote_private, 0, '', NULL, FALSE );
+	bugnote_add( $p_bug->id, $p_bugnote_text, $p_time_tracking, $p_bugnote_private, 0, '', NULL, FALSE );
 
-	bug_set_field( $p_bug_id, 'status', config_get( 'bug_closed_status_threshold' ) );
+	bug_set_field( $p_bug->id, 'status', config_get( 'bug_closed_status_threshold' ) );
 
-	email_close( $p_bug_id );
-	email_relationship_child_closed( $p_bug_id );
+	email_close( $p_bug->id );
+	email_relationship_child_closed( $p_bug->id );
 
 	return true;
 }
 
 /**
  * resolve the given bug
+ * @param BugData $p_bug Bug Object
+ * @todo params 
  * @return bool (alawys true)
  * @access public
  */
-function bug_resolve( $p_bug_id, $p_resolution, $p_fixed_in_version = '', $p_bugnote_text = '', $p_duplicate_id = null, $p_handler_id = null, $p_bugnote_private = false, $p_time_tracking = '0:00' ) {
+function bug_resolve( $p_bug, $p_resolution, $p_fixed_in_version = '', $p_bugnote_text = '', $p_duplicate_id = null, $p_handler_id = null, $p_bugnote_private = false, $p_time_tracking = '0:00' ) {
 	$c_resolution = (int) $p_resolution;
-	$p_bugnote_text = trim( $p_bugnote_text );
 
 	# Add bugnote if supplied
 	# Moved bugnote_add before bug_set_field calls in case time_tracking_no_note is off.
 	# Error condition stopped execution but status had already been changed
-	bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking, $p_bugnote_private, 0, '', NULL, FALSE );
+	bugnote_add( $p_bug->id, $p_bugnote_text, $p_time_tracking, $p_bugnote_private, 0, '', NULL, FALSE );
 
 	$t_duplicate = !is_blank( $p_duplicate_id ) && ( $p_duplicate_id != 0 );
 	if( $t_duplicate ) {
-		if( $p_bug_id == $p_duplicate_id ) {
+		if( $p_bug->id == $p_duplicate_id ) {
 			throw new MantisBT\Exception\Bug_Duplicate_Self();
 
 			# never returns
@@ -818,56 +818,56 @@ function bug_resolve( $p_bug_id, $p_resolution, $p_fixed_in_version = '', $p_bug
 		bug_ensure_exists( $p_duplicate_id );
 
 		# check if there is other relationship between the bugs...
-		$t_id_relationship = relationship_same_type_exists( $p_bug_id, $p_duplicate_id, BUG_DUPLICATE );
+		$t_id_relationship = relationship_same_type_exists( $p_bug->id, $p_duplicate_id, BUG_DUPLICATE );
 
 		 if( $t_id_relationship > 0 ) {
 			# Update the relationship
-			relationship_update( $t_id_relationship, $p_bug_id, $p_duplicate_id, BUG_DUPLICATE );
+			relationship_update( $t_id_relationship, $p_bug->id, $p_duplicate_id, BUG_DUPLICATE );
 
 			# Add log line to the history (both bugs)
-			history_log_event_special( $p_bug_id, BUG_REPLACE_RELATIONSHIP, BUG_DUPLICATE, $p_duplicate_id );
-			history_log_event_special( $p_duplicate_id, BUG_REPLACE_RELATIONSHIP, BUG_HAS_DUPLICATE, $p_bug_id );
+			history_log_event_special( $p_bug->id, BUG_REPLACE_RELATIONSHIP, BUG_DUPLICATE, $p_duplicate_id );
+			history_log_event_special( $p_duplicate_id, BUG_REPLACE_RELATIONSHIP, BUG_HAS_DUPLICATE, $p_bug->id );
 		} else if ( $t_id_relationship != -1 ) {
 			# Add the new relationship
-			relationship_add( $p_bug_id, $p_duplicate_id, BUG_DUPLICATE );
+			relationship_add( $p_bug->id, $p_duplicate_id, BUG_DUPLICATE );
 
 			# Add log line to the history (both bugs)
-			history_log_event_special( $p_bug_id, BUG_ADD_RELATIONSHIP, BUG_DUPLICATE, $p_duplicate_id );
-			history_log_event_special( $p_duplicate_id, BUG_ADD_RELATIONSHIP, BUG_HAS_DUPLICATE, $p_bug_id );
+			history_log_event_special( $p_bug->id, BUG_ADD_RELATIONSHIP, BUG_DUPLICATE, $p_duplicate_id );
+			history_log_event_special( $p_duplicate_id, BUG_ADD_RELATIONSHIP, BUG_HAS_DUPLICATE, $p_bug->id );
 		} # else relationship is -1 - same type exists, do nothing
 
 		# Copy list of users monitoring the duplicate bug to the original bug
-		$t_old_reporter_id = bug_get_field( $p_bug_id, 'reporter_id' );
-		$t_old_handler_id = bug_get_field( $p_bug_id, 'handler_id' );
+		$t_old_reporter_id = bug_get_field( $p_bug->id, 'reporter_id' );
+		$t_old_handler_id = bug_get_field( $p_bug->id, 'handler_id' );
 		if ( user_exists( $t_old_reporter_id ) ) {
 			bug_monitor( $p_duplicate_id, $t_old_reporter_id );
 		}
 		if ( user_exists ( $t_old_handler_id ) ) {
 			bug_monitor( $p_duplicate_id, $t_old_handler_id );
 		}
-		bug_monitor_copy( $p_bug_id, $p_duplicate_id );
+		bug_monitor_copy( $p_bug->id, $p_duplicate_id );
 
-		bug_set_field( $p_bug_id, 'duplicate_id', (int) $p_duplicate_id );
+		bug_set_field( $p_bug->id, 'duplicate_id', (int) $p_duplicate_id );
 	}
 
-	bug_set_field( $p_bug_id, 'status', config_get( 'bug_resolved_status_threshold' ) );
-	bug_set_field( $p_bug_id, 'fixed_in_version', $p_fixed_in_version );
-	bug_set_field( $p_bug_id, 'resolution', $c_resolution );
+	bug_set_field( $p_bug->id, 'status', config_get( 'bug_resolved_status_threshold' ) );
+	bug_set_field( $p_bug->id, 'fixed_in_version', $p_fixed_in_version );
+	bug_set_field( $p_bug->id, 'resolution', $c_resolution );
 
 	# only set handler if specified explicitly or if bug was not assigned to a handler
 	if( null == $p_handler_id ) {
-		if( bug_get_field( $p_bug_id, 'handler_id' ) == 0 ) {
+		if( bug_get_field( $p_bug->id, 'handler_id' ) == 0 ) {
 			$p_handler_id = auth_get_current_user_id();
-			bug_set_field( $p_bug_id, 'handler_id', $p_handler_id );
+			bug_set_field( $p_bug->id, 'handler_id', $p_handler_id );
 		}
 	} else {
-		bug_set_field( $p_bug_id, 'handler_id', $p_handler_id );
+		bug_set_field( $p_bug->id, 'handler_id', $p_handler_id );
 	}
 
-	email_resolved( $p_bug_id );
-	email_relationship_child_resolved( $p_bug_id );
+	email_resolved( $p_bug->id );
+	email_relationship_child_resolved( $p_bug->id );
 
-	twitter_issue_resolved( $p_bug_id );
+	twitter_issue_resolved( $p_bug->id );
 
 	return true;
 }
@@ -886,8 +886,6 @@ function bug_resolve( $p_bug_id, $p_resolution, $p_fixed_in_version = '', $p_bug
  * @uses config_api.php
  */
 function bug_reopen( $p_bug_id, $p_bugnote_text = '', $p_time_tracking = '0:00', $p_bugnote_private = false ) {
-	$p_bugnote_text = trim( $p_bugnote_text );
-
 	# Add bugnote if supplied
 	# Moved bugnote_add before bug_set_field calls in case time_tracking_no_note is off.
 	# Error condition stopped execution but status had already been changed
