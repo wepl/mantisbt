@@ -97,9 +97,9 @@ if ( $t_local_config && file_exists( $t_local_config ) ){
 
 # Define an API inclusion function to replace require_once
 function require_api( $p_api_name ) {
-	static $g_api_included;
+	static $s_api_included;
 	global $g_core_path;
-	if ( !isset( $g_api_included[$p_api_name] ) ) {
+	if ( !isset( $s_api_included[$p_api_name] ) ) {
 		$t_existing_globals = get_defined_vars();
 		require_once( $g_core_path . $p_api_name );
 		$t_new_globals = array_diff_key( get_defined_vars(), $GLOBALS, array( 't_existing_globals' => 0, 't_new_globals' => 0 ) );
@@ -107,15 +107,15 @@ function require_api( $p_api_name ) {
 			global $$t_global_name;
 		}
 		extract( $t_new_globals );
-		$g_api_included[$p_api_name] = 1;
+		$s_api_included[$p_api_name] = 1;
 	}
 }
 
 # Define an API inclusion function to replace require_once
 function require_lib( $p_library_name ) {
-	static $g_libraries_included;
+	static $s_libraries_included;
 	global $g_library_path;
-	if ( !isset( $g_libraries_included[$p_library_name] ) ) {
+	if ( !isset( $s_libraries_included[$p_library_name] ) ) {
 		$t_existing_globals = get_defined_vars();
 		require_once( $g_library_path . $p_library_name );
 		$t_new_globals = array_diff_key( get_defined_vars(), $GLOBALS, array( 't_existing_globals' => 0, 't_new_globals' => 0 ) );
@@ -123,7 +123,7 @@ function require_lib( $p_library_name ) {
 			global $$t_global_name;
 		}
 		extract( $t_new_globals );
-		$g_libraries_included[$p_library_name] = 1;
+		$s_libraries_included[$p_library_name] = 1;
 	}
 }
 
