@@ -453,7 +453,7 @@ function user_get_avatar( $p_user_id, $p_size = 80 ) {
 		$t_size = $p_size;
 
 		$t_use_ssl = false;
-		if( isset( $_SERVER['HTTPS'] ) && ( utf8_strtolower( $_SERVER['HTTPS'] ) != 'off' ) ) {
+		if ( isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER['HTTPS'] ) ) && strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
 			$t_use_ssl = true;
 		}
 
