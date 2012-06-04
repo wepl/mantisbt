@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Account preferences include page
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -51,6 +53,14 @@ require_api( 'user_api.php' );
 require_api( 'user_pref_api.php' );
 require_api( 'utility_api.php' );
 
+/**
+ * Display html form to edit account preferences
+ *
+ * @param int user id
+ * @param bool error if account is protected
+ * @param bool display account preferences menu
+ * @param string redirect URI
+ */
 function edit_account_prefs($p_user_id = null, $p_error_if_protected = true, $p_accounts_menu = true, $p_redirect_url = '') {
 	if ( null === $p_user_id ) {
 		$p_user_id = auth_get_current_user_id();

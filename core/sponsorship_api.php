@@ -46,15 +46,50 @@ require_api( 'history_api.php' );
  * @subpackage classes
  */
 class SponsorshipData {
+	/**
+	 * Sponsorship id
+	 */
+
 	var $id = 0;
+
+	/**
+	 * Bug ID
+	 */
 	var $bug_id = 0;
+
+	/**
+	 * User ID
+	 */
 	var $user_id = 0;
+
+	/**
+	 * Sponsorship amount
+	 */
 	var $amount = 0;
+
+	/**
+	 * Logo
+	 */
 	var $logo = '';
+
+	/**
+	 * URL
+	 */
 	var $url = '';
+
+	/**
+	 * Sponsorship paid
+	 */
 	var $paid = 0;
 
+	/**
+	 * date submitted timestamp
+	 */
 	var $date_submitted = '';
+
+	/**
+	 * Last updated timestamp
+	 */
 	var $last_updated = '';
 }
 

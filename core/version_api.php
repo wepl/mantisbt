@@ -47,17 +47,45 @@ require_api( 'project_hierarchy_api.php' );
  * @subpackage classes
  */
 class VersionData {
+	/**
+	 * Version id
+	 */
 	protected $id = 0;
+
+	/**
+	 * Project ID
+	 */
 	protected $project_id = 0;
+
+	/**
+	 * Version name
+	 */
 	protected $version = '';
+
+	/**
+	 * Version Description
+	 */
 	protected $description = '';
+
+	/**
+	 * Version Release Status e.g. VERSION_FUTURE
+	 */
 	protected $released = VERSION_FUTURE;
+
+	/**
+	 * Date Order
+	 */
 	protected $date_order = 1;
+
+	/**
+	 * Obsolete
+	 */
 	protected $obsolete = 0;
 
 	/**
-	 * @param string $name
-	 * @param string $value
+	 * Overloaded function
+	 * @param string property name
+	 * @param string value
 	 * @private
 	 */
 	public function __set($name, $value) {
@@ -78,7 +106,8 @@ class VersionData {
 	}
 
 	/**
-	 * @param string $p_string
+	 * Overloaded function
+	 * @param string property name
 	 * @private
 	 */
 	public function __get( $p_name ) {
@@ -386,9 +415,10 @@ function version_cache_array_rows( $p_project_id_array ) {
 
 /**
  * Return all versions for the specified project
- * @param int $p_project_id
- * @param int $p_released
- * @param bool $p_obsolete
+ * @param int project id
+ * @param int include released
+ * @param bool include obsolete
+ * @param bool inherit versions
  * @return array Array of version rows (in array format)
  */
 function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = false, $p_inherit = null ) {

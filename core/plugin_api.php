@@ -83,6 +83,7 @@ function plugin_pop_current() {
 /**
  * Get the URL to the plugin wrapper page.
  * @param string Page name
+ * @param bool return url for redirection
  * @param string Plugin basename (defaults to current plugin)
  */
 function plugin_page( $p_page, $p_redirect = false, $p_basename = null ) {
@@ -113,8 +114,9 @@ function plugin_file_path( $p_filename, $p_basename ) {
 }
 
 /**
- * Get the URL to the plugin wrapper page.
- * @param string Page name
+ * Get the URL to the plugin wrapper file page.
+ * @param string file name
+ * @param bool return url for redirection
  * @param string Plugin basename (defaults to current plugin)
  */
 function plugin_file( $p_file, $p_redirect = false, $p_basename = null ) {
@@ -170,6 +172,7 @@ function plugin_table( $p_name, $p_basename = null ) {
  * Get a plugin configuration option.
  * @param string Configuration option name
  * @param multi Default option value
+ * @param bool get global config variables only
  */
 function plugin_config_get( $p_option, $p_default = null, $p_global = false ) {
 	$t_basename = plugin_get_current();
@@ -252,6 +255,15 @@ function plugin_lang_get( $p_name, $p_basename = null ) {
 	return lang_get( $t_name );
 }
 
+/**
+ * log history event from plugin
+ * @param int bug id
+ * @param string field name
+ * @param string old value
+ * @param string new value
+ * @param int user id
+ * @param string plugin basename
+ */
 function plugin_history_log( $p_bug_id, $p_field_name, $p_old_value, $p_new_value = '', $p_user_id = null, $p_basename = null ) {
 	if( is_null( $p_basename ) ) {
 		$t_basename = plugin_get_current();
@@ -441,6 +453,7 @@ function plugin_version_check( $p_version1, $p_version2, $p_maximum = false ) {
  * or -1 if dependency is the wrong version.
  * @param string Plugin basename
  * @param string Required version
+ * @param bool whether plugin is initialized
  * @return integer Plugin dependency status
  */
 function plugin_dependency( $p_basename, $p_required, $p_initialized = false ) {
@@ -709,6 +722,7 @@ function plugin_find_all() {
 /**
  * Load a plugin's core class file.
  * @param string Plugin basename
+ * @param string Child filename
  */
 function plugin_include( $p_basename, $p_child = null ) {
 	$t_path = config_get_global( 'plugin_path' ) . $p_basename . '/';
@@ -731,6 +745,8 @@ function plugin_include( $p_basename, $p_child = null ) {
  * Register a plugin with MantisBT.
  * The plugin class must already be loaded before calling.
  * @param string Plugin classname without 'Plugin' postfix
+ * @param bool return
+ * @param string child filename
  */
 function plugin_register( $p_basename, $p_return = false, $p_child = null ) {
 	global $g_plugin_cache;

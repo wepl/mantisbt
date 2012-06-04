@@ -1,20 +1,24 @@
 <?php
-# MantisBT - a php based bugtracking system
-
-# Copyright (C) 2002 - 2009  MantisBT Team - mantisbt-dev@lists.sourceforge.
-
-# MantisBT is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 2 of the License, or
-# (at your option) any later version.
-#
-# MantisBT is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ * @link http://www.mantisbt.org
+ * @package MantisBT
+ */
 
 /**
  * Abstract database driver class.
@@ -61,13 +65,19 @@ abstract class MantisDatabase {
 	 */
     protected static $dbsuffix;
 	
-    /** @var array Database or driver specific options, such as sockets or TCPIP db connections */
+    /** 
+	 * Database or driver specific options, such as sockets or TCPIP db connections
+	 */
     protected $dboptions;
 
-    /** @var int Database query counter (performance counter).*/
+    /**
+	 * Database query counter (performance counter).
+	 */
     protected $queries = 0;
 
-    /** @var bool Debug level */
+    /**
+	 * Debug level 
+	 */
     protected $debug  = false;
 
     /**
@@ -83,6 +93,11 @@ abstract class MantisDatabase {
         $this->dispose();
     }
 
+	/**
+	 * Set Database Table Prefixes/suffixes
+	 * @param string prefix
+	 * @param string suffix
+	 */
 	public function SetPrefixes( $p_prefix, $p_suffix ) {
 		self::$dbprefix = $p_prefix;
 		self::$dbsuffix = $p_suffix;
@@ -131,14 +146,14 @@ abstract class MantisDatabase {
     /**
      * Connect to db
      * Must be called before other methods.
-     * @param string $dbhost
-     * @param string $dbuser
-     * @param string $dbpass
-     * @param string $dbname
-     * @param mixed $prefix string means moodle db prefix, false used for external databases where prefix not used
-     * @param array $dboptions driver specific options
+	 * @param string Database DSN
+     * @param string Database host name
+     * @param string Database Username
+     * @param string Database Password
+     * @param string Database name
+     * @param array driver specific options
      * @return bool true
-     * @throws dml_connection_exception if error
+     * @throws MantisDatabaseException if error
      */
     public abstract function connect($dsn, $dbhost, $dbuser, $dbpass, $dbname, array $dboptions=null);
 
@@ -149,6 +164,7 @@ abstract class MantisDatabase {
      * @param string $dbuser
      * @param string $dbpass
      * @param string $dbname
+     * @param array driver specific options
      *
      * @return bool success
      */
@@ -169,10 +185,8 @@ abstract class MantisDatabase {
 
     /**
      * Called before each db query.
-     * @param string $sql
+     * @param string SQL Query
      * @param array array of parameters
-     * @param int $type type of query
-     * @param mixed $extrainfo driver specific extra information
      * @return void
      */
     protected function query_start($sql, array $params=null ) {
@@ -208,20 +222,22 @@ abstract class MantisDatabase {
 
     /**
      * Return tables in database WITHOUT current prefix
+	 * @param bool whether to use internal cache of tables
      * @return array of table names in lowercase and without prefix
      */
     public abstract function get_tables($usecache=true);
 
     /**
      * Return table indexes - everything lowercased
+	 * @param string table name
      * @return array of arrays
      */
     public abstract function get_indexes($table);
 
     /**
      * Returns detailed information about columns in table. This information is cached internally.
-     * @param string $table name
-     * @param bool $usecache
+     * @param string table name
+	 * @param bool whether to use internal cache of tables
      * @return array of database_column_info objects indexed with column names
      */
     public abstract function get_columns($table, $usecache=true);
@@ -229,7 +245,6 @@ abstract class MantisDatabase {
 
     /**
      * Reset internal column details cache
-     * @param string $table - empty means all, or one if name of table given
      * @return void
      */
     public function reset_caches() {
@@ -245,6 +260,9 @@ abstract class MantisDatabase {
         return false;
     }
 
+	/**
+	 * Get Last insert ID for given table
+	 * @param string table name
 	abstract public function get_insert_id( $p_table );
 
     /**
@@ -275,10 +293,11 @@ abstract class MantisDatabase {
     public abstract function execute($sql, array $params=null);
 
     /**
-     * @param string $sql query
-	 * @param int $p_limit Number of results to return
-	 * @param int $p_offset offset query results for paging
-     * @param array $params query parameters
+	 * Perform SQL SELECT query
+     * @param string SQL query
+	 * @param int Number of results to return
+	 * @param int offset query results for paging
+     * @param array query parameters
      * @return bool true
      * @throws MantisDatabaseException if error
      */
@@ -300,6 +319,7 @@ abstract class MantisDatabase {
 
 	/**
 	 * Given a short table name e.g. {table} returns the full sql table name
+	 * @param string table name
 	 * @return string
 	 */
 	public function GetTableName($p_table) {
@@ -310,6 +330,11 @@ abstract class MantisDatabase {
 					);
 	}
 
+	/**
+	 * Prepare SQL string - expand tablenames and types
+	 * @param string SQL Query
+	 * @return string
+	 */
 	protected function PrepareSQLString($sql) {
 		return strtr($sql, array(
 							'{' => self::$dbprefix, 
@@ -320,13 +345,20 @@ abstract class MantisDatabase {
 							)
 					);
 	}
-	
-	
-	/* legacy functions */
+
+	/**
+	 * Legacy function - DO NOT USE
+	 * Returns a 'Null' Datetime [for installer]
+	 */
 	public function legacy_null_date() {
         return "1970-01-01 00:00:01";
     }
 	
+	/**
+	 * Legacy function - DO NOT USE
+	 * Converts a legacy datetime to a timestamp [for installer]
+	 * @param string Date
+	 */
 	public function legacy_timestamp( $p_date ) {
 		$p_timestamp = strtotime( $p_date );
 		if ( $p_timestamp == false ) {

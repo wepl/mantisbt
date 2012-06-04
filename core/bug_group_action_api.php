@@ -43,6 +43,7 @@ require_css( 'status_config.php' );
 
 /**
  * Initialise bug action group api
+ * @param string action
  */
 function bug_group_action_init( $p_action ) {
 	$t_valid_actions = bug_group_action_get_commands( current_user_get_accessible_projects() );
@@ -178,7 +179,7 @@ function bug_group_action_process( $p_action, $p_bug_id ) {
 /**
  * Get a list of bug group actions available to the current user for one or
  * more projects.
- * @param array $p_projects An array containing one or more project IDs
+ * @param array An array containing one or more project IDs
  * @return null
  */
 function bug_group_action_get_commands( $p_project_ids = null ) {

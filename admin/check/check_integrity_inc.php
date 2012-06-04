@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * This file contains configuration checks for file integrity issues
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -42,6 +44,11 @@ if( file_exists( $t_this_directory . 'integrity_commit_blobs.php' ) ) {
 	require_once( $t_this_directory . 'integrity_commit_blobs.php' );
 }
 
+/**
+ * Returns the Git Object hash for given file
+ *
+ * @param string filename of file contained in git repository
+ */
 function create_git_object_hash( $p_file ) {
 	$t_hash_context = hash_init( 'sha1' );
 	hash_update( $t_hash_context, 'blob ' . filesize( $p_file ) . "\x00" );
@@ -50,6 +57,11 @@ function create_git_object_hash( $p_file ) {
 	return $t_object_hash;
 }
 
+/**
+ * Get git tag of object hash for given file
+ * @param string filename of file contained in git repository
+ * @param string object hash
+ */
 function get_release_containing_object_hash( $p_filename, $p_object_hash ) {
 	global $g_integrity_release_blobs;
 	if( !isset( $g_integrity_release_blobs ) ) {
@@ -65,6 +77,11 @@ function get_release_containing_object_hash( $p_filename, $p_object_hash ) {
 	return null;
 }
 
+/**
+ * Get commit of object hash for given file
+ * @param string filename of file contained in git repository
+ * @param string object hash
+ */
 function get_commit_containing_object_hash( $p_filename, $p_object_hash ) {
 	global $g_integrity_commit_blobs;
 	if( !isset( $g_integrity_commit_blobs ) ) {
@@ -79,6 +96,15 @@ function get_commit_containing_object_hash( $p_filename, $p_object_hash ) {
 	return null;
 }
 
+/**
+ * Check File integrity of local files against release
+ *
+ * @param string directory
+ * @param string base directory
+ * @param string relative path prefix
+ * @param array files to ignore
+ * @return null;
+ */
 function check_file_integrity_recursive( $p_directory, $p_base_directory, $p_relative_path_prefix = '', $p_ignore_files = array() ) {
 	global $g_integrity_blobs, $g_integrity_release_blobs;
 	if( $t_handle = opendir( $p_directory ) ) {

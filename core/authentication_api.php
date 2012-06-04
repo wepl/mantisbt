@@ -117,7 +117,6 @@ function auth_ensure_user_authenticated( $p_return_page = '' ) {
 /**
  * Return true if there is a currently logged in and authenticated user, false otherwise
  *
- * @param boolean auto-login anonymous user
  * @return bool
  * @access public
  */
@@ -787,6 +786,7 @@ function auth_get_current_user_id() {
 
 
 /**
+ * Generate HTTP 401 Access Denied header and page for user, prompting for BASIC authentication
  *
  * @access public
  */
@@ -802,6 +802,7 @@ function auth_http_prompt() {
 }
 
 /**
+ * Update Cookies to reflect pending logout
  *
  * @param bool $p_pending
  * @access public
@@ -818,6 +819,7 @@ function auth_http_set_logout_pending( $p_pending ) {
 }
 
 /**
+ * Check cookie valus to see if Logout is pending
  *
  * @return bool
  * @access public

@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Test cases for string handling within mantis
+ *
  * @package Tests
  * @subpackage String
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -25,12 +27,21 @@ require_once 'PHPUnit/Framework.php';
 
 //require_once 'string_api.php';
 
+/**
+ * Mantis string handling test cases
+ * @package Tests
+ * @subpackage String
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+ * @link http://www.mantisbt.org
+ */
 class Mantis_StringTest extends PHPUnit_Framework_TestCase {
 
     /**
       * Tests string_sanitize_url()
       *
       * @dataProvider provider
+	  * @param string input
+	  * @param string expected output
       */
     public function testStringSanitize( $in, $out )
     {
@@ -38,6 +49,9 @@ class Mantis_StringTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals( $out, $a );
     }
 
+	/**
+	 * Data provider for string sanitize test
+	 */
     public function provider()
     {
         $testStrings = array(
@@ -83,6 +97,11 @@ class Mantis_StringTest extends PHPUnit_Framework_TestCase {
 
 
 // FIXME: hardcoced here to avoid external dependencies, should use code in string_api.php
+/**
+ * Test sanitize url functionality
+ * @param string url
+ * @param bool return absolute urls
+ */
 function string_do_sanitize_url( $p_url, $p_return_absolute = false ) {
 	$t_url = strip_tags( urldecode( $p_url ) );
 

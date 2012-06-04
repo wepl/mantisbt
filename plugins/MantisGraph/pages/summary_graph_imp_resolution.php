@@ -14,34 +14,32 @@
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
-	/**
-	 * This page displays "improved" charts on resolutions : bars, 3Dpie and a mix resolutions per status
-	 *
-	 * @package MantisBT
-	 * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
-	 * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
-	 * @link http://www.mantisbt.org
-	 */
-	 /**
-	  * MantisBT Core API's
-	  */
-	require_once( 'core.php' );
+/**
+ * This page displays "improved" charts on resolutions : bars, 3Dpie and a mix resolutions per status
+ *
+ * @package MantisBT
+ * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+ * @link http://www.mantisbt.org
+ */
 
-	require_once( 'graph_api.php' );
+require_once( 'core.php' );
 
-	access_ensure_project_level( config_get( 'view_summary_threshold' ) );
+require_once( 'graph_api.php' );
 
-	html_page_top();
+access_ensure_project_level( config_get( 'view_summary_threshold' ) );
 
-	print_summary_menu( 'summary_page.php' );
-	echo '<br />';
-	print_summary_submenu();
-	$t_width = plugin_config_get( 'window_width' );
-	$t_graph_width = (int) ( ( $t_width - 50 ) * 0.6 );
+html_page_top();
 
-	# gather the data for the graphs
-	$t_metrics = enum_bug_group( lang_get( 'resolution_enum_string' ), 'resolution');
-	$t_token = token_set( TOKEN_GRAPH, serialize( $t_metrics ) );
+print_summary_menu( 'summary_page.php' );
+echo '<br />';
+print_summary_submenu();
+$t_width = plugin_config_get( 'window_width' );
+$t_graph_width = (int) ( ( $t_width - 50 ) * 0.6 );
+
+# gather the data for the graphs
+$t_metrics = enum_bug_group( lang_get( 'resolution_enum_string' ), 'resolution');
+$t_token = token_set( TOKEN_GRAPH, serialize( $t_metrics ) );
 
 ?>
 
@@ -70,4 +68,4 @@
 </table>
 
 <?php
-	html_page_bottom();
+html_page_bottom();

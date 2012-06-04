@@ -15,6 +15,7 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Handle configuration required for javascript
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -23,12 +24,13 @@
  * @uses config_api.php
  */
 
-/**
- * MantisBT Core API's
- */
 require_once( 'core.php' );
 require_api( 'config_api.php' );
 
+/**
+ * Print array of config option->values for javascript
+ * @param string config option
+ */
 function print_config_value( $p_config_key ) {
 	echo "config['" . $p_config_key . "'] = '" . addslashes( config_get( $p_config_key ) ) . "';\n";
 }

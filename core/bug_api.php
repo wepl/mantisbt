@@ -301,10 +301,14 @@ function bug_check_workflow( $p_bug_status, $p_wanted_status ) {
  * Copy a bug from one project to another. Also make copies of issue notes, attachments, history,
  * email notifications etc.
  * @todo Not managed FTP file upload
- * @param array p_bug_id integer representing bug id
- * @param int p_target_project_id
- * @param bool p_copy_custom_fields
- * @param bool p_copy_relationships
+ * @param int bug id
+ * @param int target project id
+ * @param bool copy custom fields
+ * @param bool copy relationships
+ * @param bool copy history
+ * @param bool copy attachments
+ * @param copy bugnotes
+ * @param copy monitoring users
  * @return int representing the new bugid
  * @access public
  */
@@ -490,7 +494,7 @@ function bug_delete_all( $p_project_id ) {
  * Returns an object representing the specified bug
  * @param int p_bug_id integer representing bug id
  * @param bool p_get_extended included extended information (including bug_text)
- * @return object MantisBug Object
+ * @return MantisBug Bug Object
  * @access public
  */
 function bug_get( $p_bug_id, $p_get_extended = false ) {
@@ -498,6 +502,10 @@ function bug_get( $p_bug_id, $p_get_extended = false ) {
 	return $t_bug_data;
 }
 
+/**
+ * Convert row [from database] to bug object
+ * @param array bug database row
+ */
 function bug_row_to_object( $p_row ) {
 	$t_bug_data = new MantisBug;
 	$t_bug_data->loadrow( $p_row );
@@ -723,8 +731,10 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 
 /**
  * assign the bug to the given user
- * @param BugData $p_bug Bug Object
- * @todo other params
+ * @param MantisBug Bug Object
+ * @param int User id
+ * @param string bugnote text
+ * @param bool indicate whether bugnote is private
  * @return null
  * @access public
  * @uses database_api.php
@@ -770,10 +780,10 @@ function bug_assign( $p_bug, $p_user_id, $p_bugnote_text = '', $p_bugnote_privat
 
 /**
  * close the given bug
- * @param BugData $p_bug Bug Object
- * @param string p_bugnote_text
- * @param bool p_bugnote_private
- * @param string p_time_tracking
+ * @param BugData Bug Object
+ * @param string bugnote text
+ * @param bool bugnote private
+ * @param string time tracking
  * @return bool (always true)
  * @access public
  */
@@ -793,8 +803,14 @@ function bug_close( $p_bug, $p_bugnote_text = '', $p_bugnote_private = false, $p
 
 /**
  * resolve the given bug
- * @param BugData $p_bug Bug Object
- * @todo params 
+ * @param MantisBug Bug Object
+ * @param int resolution
+ * @param string fixed in version
+ * @param string bugnote text
+ * @param int duplicate id
+ * @param int handler id
+ * @param bool private bugnote
+ * @param string time tracking
  * @return bool (alawys true)
  * @access public
  */

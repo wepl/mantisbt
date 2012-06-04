@@ -13,8 +13,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
-
-
 /**
  * Session API
  *
@@ -52,6 +50,9 @@ $g_session = null;
  * @subpackage classes
  */
 abstract class MantisSession {
+	/**
+	 * Session ID
+	 */
 	var $id;
 
 	/**
@@ -95,6 +96,7 @@ abstract class MantisSession {
 class MantisPHPSession extends MantisSession {
 	/**
 	 * Constructor
+	 * @param int session id
 	 */
 	function __construct( $p_session_id=null ) {
 		global $g_cookie_secure_flag_enabled;

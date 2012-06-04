@@ -14,37 +14,35 @@
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
-	/**
-	 * @package MantisBT
-	 * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
-	 * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
-	 * @link http://www.mantisbt.org
-	 */
-	 /**
-	  * MantisBT Core API's
-	  */
-	require_once( 'core.php' );
+/**
+ * Cumulative graph by date
+ *
+ * @package MantisBT
+ * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+ * @link http://www.mantisbt.org
+ */
 
-	require 'library/ezc/Base/src/base.php';
+require_once( 'core.php' );
 
-	require_once( 'graph_api.php' );
+require 'library/ezc/Base/src/base.php';
 
-	access_ensure_project_level( config_get( 'view_summary_threshold' ) );
+require_once( 'graph_api.php' );
 
-	$f_width = gpc_get_int( 'width', 300 );
-	$t_ar = plugin_config_get( 'bar_aspect' );
+access_ensure_project_level( config_get( 'view_summary_threshold' ) );
 
-	error_check(0,'foo');
+$f_width = gpc_get_int( 'width', 300 );
+$t_ar = plugin_config_get( 'bar_aspect' );
 
-	$t_metrics = create_cumulative_bydate2();
+error_check(0,'foo');
 
-	graph_cumulative_bydate2( $t_metrics, $f_width, $f_width * $t_ar );
+$t_metrics = create_cumulative_bydate2();
+
+graph_cumulative_bydate2( $t_metrics, $f_width, $f_width * $t_ar );
 
 
 function graph_cumulative_bydate2( $p_metrics, $p_graph_width = 300, $p_graph_height = 380 ) {
-
 	$t_graph_font = 'c:\\windows\\fonts\\arial.ttf' ;//graph_get_font();
-
 	error_check( is_array( $p_metrics ) ? count( $p_metrics ) : 0, plugin_lang_get( 'cumulative' ) . ' ' . lang_get( 'by_date' ) );
 
 	$graph = new ezcGraphLineChart();

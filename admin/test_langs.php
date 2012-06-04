@@ -15,6 +15,7 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Check Language Files
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -24,9 +25,6 @@
 define( 'PLUGINS_DISABLED', true );
 define( 'LANG_LOAD_DISABLED', true );
 
-/**
- * MantisBT Core API's
- */
 require_once( dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core.php' );
 
 access_ensure_global_level( config_get_global( 'admin_site_threshold' ) );
@@ -99,6 +97,12 @@ if( function_exists( 'opendir' ) && function_exists( 'readdir' ) ) {
 	echo 'php opendir/readdir are disabled - skipping<br />';
 }
 
+/**
+ * Check directory of language files
+ *
+ * @param string path
+ * @param string sub path
+ */
 function checklangdir( $p_path, $p_subpath = '' ) {
 	$p_path = $p_path . DIRECTORY_SEPARATOR . $p_subpath . DIRECTORY_SEPARATOR;
 	if( $handle = opendir( $p_path ) ) {
@@ -126,7 +130,13 @@ function checklangdir( $p_path, $p_subpath = '' ) {
 	}
 }
 
-
+/**
+ * Check Language File
+ *
+ * @param string Path
+ * @param string File
+ * @param bool quiet output
+ */
 function checkfile( $p_path, $p_file, $p_quiet = false ) {
 		if( !$p_quiet) {
 			echo "Testing language file '$p_file' (phase 1)...<br />";
@@ -178,6 +188,12 @@ function checkfile( $p_path, $p_file, $p_quiet = false ) {
 
 $basevariables = array();
 
+/**
+ * Check Language File Tokens
+ *
+ * @param string file
+ * @param bool 
+ */
 function checktoken( $file, $base = false ) {
 	$in_php_code = false;
 	$variables = array();
@@ -351,10 +367,23 @@ function checktoken( $file, $base = false ) {
 	return $pass;
 }
 
+/**
+ * Error handler for language file checks
+ * @param int type
+ * @param string error
+ * @param string file
+ * @param int line
+ * @param string context
+ */
 function lang_error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 	print_error( "error handler thrown: " . $p_type . '<br />' . $p_error . '<br />' . $p_file . '<br />' . $p_line . '<br />' . $p_context );
 }
 
+/**
+ * Print Language File error
+ *
+ * @param string error string
+ */
 function print_error( $p_string ) {
 	echo '<p class="error-msg">ERROR: ', $p_string, '</p>';
 }

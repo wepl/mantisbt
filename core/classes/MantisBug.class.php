@@ -1,57 +1,220 @@
-<?php 
+<?php
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ */
 
 /**
  * Bug Data Structure Definition
+ *
  * @package MantisBT
  * @subpackage classes
  */
 class MantisBug extends MantisCacheable {
+	/**
+	 * Bug ID
+	 */
 	protected $id;
+
+	/**
+	 * Project ID
+	 */
 	protected $project_id = null;
+
+	/**
+	 * Reporter ID
+	 */
 	protected $reporter_id = 0;
+
+	/**
+	 * Bug Handler ID
+	 */
 	protected $handler_id = 0;
+
+	/**
+	 * Duplicate ID
+	 */
 	protected $duplicate_id = 0;
+
+	/**
+	 * Priority
+	 */
 	protected $priority = NORMAL;
+
+	/**
+	 * Severity
+	 */
 	protected $severity = MINOR;
+
+	/**
+	 * Reproducibility
+	 */
 	protected $reproducibility = 10;
+
+	/**
+	 * Status
+	 */
 	protected $status = NEW_;
+
+	/**
+	 * Resolution
+	 */
 	protected $resolution = OPEN;
+
+	/**
+	 * Projection
+	 */
 	protected $projection = 10;
+
+	/**
+	 * Category ID
+	 */
 	protected $category_id = 1;
+
+	/**
+	 * Date Submitted
+	 */
 	protected $date_submitted = '';
+
+	/**
+	 * Last Updated
+	 */
 	protected $last_updated = '';
+
+	/**
+	 * ETA
+	 */
 	protected $eta = 10;
+
+	/**
+	 * OS
+	 */
 	protected $os = '';
+
+	/**
+	 * OS Build
+	 */
 	protected $os_build = '';
+
+	/**
+	 * Platform
+	 */
 	protected $platform = '';
+
+	/**
+	 * Version
+	 */
 	protected $version = '';
+
+	/**
+	 * Fixed in version
+	 */
 	protected $fixed_in_version = '';
+
+	/**
+	 * Target Version
+	 */
 	protected $target_version = '';
+
+	/**
+	 * Build
+	 */
 	protected $build = '';
+
+	/**
+	 * View State
+	 */
 	protected $view_state = VS_PUBLIC;
+
+	/**
+	 * Summary
+	 */
 	protected $summary = '';
+
+	/**
+	 * Sponsorship Total
+	 */
 	protected $sponsorship_total = 0;
+
+	/**
+	 * Sticky
+	 */
 	protected $sticky = 0;
+
+	/**
+	 * Due Date
+	 */
 	protected $due_date = 0;
 
-	# omitted:
+	/**
+	 * Profile ID
+	 */
 	protected $profile_id = 0;
 
-	# extended info
+	/**
+	 * Description
+	 */
 	protected $description = '';
+
+	/**
+	 * Steps to reproduce
+	 */
 	protected $steps_to_reproduce = '';
+	
+	/**
+	 * Additional Information
+	 */
 	protected $additional_information = '';
 
-	# internal helper objects
+	/**
+	 * Stats
+	 */
 	private $_stats = null;
 
+	/**
+	 * Attachment Count
+	 */
 	public $attachment_count = null;
+	
+	/**
+	 * Bugnotes count
+	 */
 	public $bugnotes_count = null;
 
-	static $fields = null;	
+	/**
+	 * Cache of MantisBug Properies
+	 */
+	static $fields = null;
+	
+	/**
+	 * Indicates if Bug exists in database
+	 */
 	private $_exists = true;
+	
+	/**
+	 * Indicates if bug is currently being loaded from database
+	 */
 	private $loading = false;
 
+	/**
+	 * Constructor for Mantis Bug Object
+	 * @param int bug id
+	 * @param bool whether get extended properties
+	 */
 	function MantisBug( $p_bug_id=0, $p_get_extended = false ) {
 		if( self::$fields === null ) {
 			self::$fields = getClassProperties('MantisBug', 'protected');
@@ -83,10 +246,16 @@ class MantisBug extends MantisCacheable {
 		}
 	}
 	
+	/**
+	 * Return if Bug Exists in database
+	 */	
 	public function Exists() {
 		return $this->_exists;
 	}
 	
+	/**
+	 * Return Bug ID
+	 */	
 	public function getID() {
 		return $this->id;
 	}
@@ -181,6 +350,10 @@ class MantisBug extends MantisCacheable {
 	}
 
 	/**
+	 * Overloaded Function handling property sets
+	 *
+	 * @param string name
+	 * @param string value
 	 * @private
 	 */
 	public function __set($name, $value) {
@@ -218,6 +391,9 @@ class MantisBug extends MantisCacheable {
 	}
 
 	/**
+	 * Overloaded Function handling property get
+	 *
+	 * @param string name
 	 * @private
 	 */
 	public function __get($name) {
@@ -227,6 +403,9 @@ class MantisBug extends MantisCacheable {
 	}
 
 	/**
+	 * Overloaded Function handling property isset
+	 *
+	 * @param string name
 	 * @private
 	 */
 	public function __isset($name) {
@@ -262,6 +441,8 @@ class MantisBug extends MantisCacheable {
 
 	/**
 	 * Returns if the field is an extended field which needs fetch_extended_info()
+	 *
+	 * @param string Field Name
 	 * @return boolean
 	 */
 	private function is_extended_field( $p_field_name ) {

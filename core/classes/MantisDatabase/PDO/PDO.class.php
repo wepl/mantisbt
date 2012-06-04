@@ -1,20 +1,24 @@
 <?php
-# MantisBT - a php based bugtracking system
-
-# Copyright (C) 2002 - 2009  MantisBT Team - mantisbt-dev@lists.sourceforge.
-
-# MantisBT is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 2 of the License, or
-# (at your option) any later version.
-#
-# MantisBT is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ * @link http://www.mantisbt.org
+ * @package MantisBT
+ */
 
 /**
  * Abstract PDO database driver class.
@@ -22,16 +26,31 @@
  * @subpackage classes
  */
 abstract class MantisDatabase_PDO extends MantisDatabase {
-    protected $pdb;
+    /**
+	 * PDO Connection Object
+	 */
+	protected $pdb;
+	
+	/**
+	 * Last Error from database
+	 */
     protected $lastError = null;
 
 	/**
+	 * Constructor
 	 */	
     public function __construct() {
         parent::__construct();
     }
 
 	/**
+	 * Perform PDO Connection
+	 * @param string database DSN
+	 * @param string database server hostname
+	 * @param string database username
+	 * @param string database password
+	 * @param string database name
+	 * @param array database options
 	 */	
     public function connect($dsn, $dbhost, $dbuser, $dbpass, $dbname, array $dboptions=null) {
         $driverstatus = $this->driver_installed();
@@ -161,6 +180,9 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
     }
 
     /**
+	 * Processing that occurs before query is executed
+	 * @param string SQL query
+	 * @param array parameters
      */
     protected function query_start($sql, array $params=null) {
         $this->lastError = null;

@@ -127,6 +127,7 @@ function event_clear_callbacks() {
  * Signal an event to execute and handle callbacks as necessary.
  * @param string Event name
  * @param multi Event parameters
+ * @param multi Event parameters Dynamic
  * @param int Event type override
  * @return multi Null if event undeclared, appropriate return value otherwise
  * @access public
@@ -260,6 +261,7 @@ function event_type_output( $p_event, $p_callbacks, $p_params = null ) {
  * @param string Event name
  * @param array Array of callback function/plugin basename key/value pairs
  * @param string Input string
+ * @param array parameters
  * @return string Output string
  * @access public
  */

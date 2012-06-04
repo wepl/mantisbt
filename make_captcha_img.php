@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Generate Captcha Image
+ *
  * @package MantisBT
  * @author Marcello Scata' <marcelloscata at users.sourceforge.net> ITALY
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
@@ -28,9 +30,6 @@
  * @uses utility_api.php
  */
 
-/**
- * MantisBT Core API's
- */
 require_once( 'core.php' );
 require_api( 'config_api.php' );
 require_api( 'crypto_api.php' );

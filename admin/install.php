@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Mantis Database installation process
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -32,17 +34,27 @@ define( 'MANTIS_MAINTENANCE_MODE', true );
 @require_once( dirname( dirname( __FILE__ ) ) . '/core.php' );
 require_api( 'install_helper_functions_api.php' );
 
-
 $g_failed = false;
 $g_database_upgrade = false;
 
+/**
+ * Print Check result - information only
+ *
+ * @param string description
+ * @param string information
+ */
 function print_info_row( $p_description, $p_info = null ) {
 	echo "\t<tr>\n\t\t<td bgcolor=\"#ffffff\">$p_description</td>\n";
 	echo "\t\t<td bgcolor=\"#ffffff\">$p_info</td>\n\t</tr>\n";
 }
 
-# -------
-# print test result
+/**
+ * Print Test result
+ *
+ * @param int Result - BAD|GOOD
+ * @param bool Fail installation or soft warning
+ * @param string Message to display to user
+ */
 function print_test_result( $p_result, $p_hard_fail = true, $p_message = '' ) {
 	global $g_failed;
 	echo '<td ';
@@ -64,8 +76,14 @@ function print_test_result( $p_result, $p_hard_fail = true, $p_message = '' ) {
 	echo '</td>';
 }
 
-# -------
-# print test header and result
+/**
+ * Print Test result
+ *
+ * @param string Test Description
+ * @param int Result - BAD|GOOD
+ * @param bool Fail installation or soft warning
+ * @param string Message to display to user
+ */
 function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_message = '' ) {
 
 	echo "\n<tr><td bgcolor=\"#ffffff\">$p_test_description</td>";
@@ -73,8 +91,13 @@ function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_mes
 	echo "</tr>\n";
 }
 
-# --------
-# create an SQLArray to insert data
+/**
+ * create an SQLArray to insert data
+ *
+ * @param string table
+ * @param string data
+ 
+ */
 function InsertData( $p_table, $p_data ) {
 	$t_query = "INSERT INTO " . $p_table . $p_data;
 	return array( $t_query );

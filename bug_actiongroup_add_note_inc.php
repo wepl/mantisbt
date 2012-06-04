@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Bugnote action group add include file
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -91,6 +93,7 @@ function action_add_note_print_fields() {
 /**
  * Validates the action on the specified bug id.
  *
+ * @param int bug id
  * @return string|null On failure: the reason why the action could not be validated. On success: null.
  */
 function action_add_note_validate( $p_bug_id ) {

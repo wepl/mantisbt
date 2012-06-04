@@ -48,12 +48,12 @@ $g_db_connected = false;
 
 /**
  * Open a connection to the database.
- * @param string $p_dsn Database connection string ( specified instead of other params)
- * @param string $p_hostname Database server hostname
- * @param string $p_username database server username
- * @param string $p_password database server password
- * @param string $p_database_name database name
- * @param array $p_dboptions Database options
+ * @param string Database connection string ( specified instead of other params)
+ * @param string Database server hostname
+ * @param string database server username
+ * @param string database server password
+ * @param string database name
+ * @param array Database options
  * @return bool indicating if the connection was successful
  */
 function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password = null, $p_database_name = null, $p_db_options = null ) {
@@ -167,7 +167,8 @@ function db_result( $p_result, $p_index1 = 0 ) {
 
 /**
  * return the last inserted id for a specific database table
- * @param string $p_table a valid database table name
+ * @param string a valid database table name
+ * @param string field name - defaults to id
  * @return int last successful insert id
  */
 function db_insert_id( $p_table = null, $p_field = "id" ) {
@@ -243,7 +244,7 @@ function db_field_exists( $p_field_name, $p_table_name ) {
 
 /**
  * Retrieve list of fields for a given table
- * @param string $p_table_name a valid database table name
+ * @param string valid database table name
  * @return array array of fields on table
  */
 function db_field_names( $p_table_name ) {
@@ -254,7 +255,7 @@ function db_field_names( $p_table_name ) {
 
 /**
  * prepare a boolean for database insertion.
- * @param boolean $p_boolean boolean
+ * @param boolean boolean
  * @return int integer representing boolean
  * @deprecated db_query_bound should be used in preference to this function. This function may be removed in 1.2.0 final
  * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final

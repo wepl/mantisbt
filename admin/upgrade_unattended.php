@@ -15,6 +15,7 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Perform unattended MantisBT Upgrade
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -28,9 +29,6 @@
 # and plugins will not be loaded.
 define( 'MANTIS_MAINTENANCE_MODE', true );
 
-/**
- * MantisBT Core API's
- */
 require_once( dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core.php' );
 $g_error_send_page_header = false; # suppress page headers in the error handler
 
@@ -49,7 +47,7 @@ header( 'X-Content-Type-Options: nosniff' );
 /**
  * Print the result of an upgrade step.
  *
- * @param integer $result       GOOD or BAD.
+ * @param integer $p_result       GOOD or BAD.
  * @param bool    $p_hard_fail  If result is BAD, sets the global failure flag.
  * @param string  $p_message    The message describing the upgrade step.
  * @access private

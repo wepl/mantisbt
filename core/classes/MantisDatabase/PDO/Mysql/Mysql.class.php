@@ -1,21 +1,25 @@
 <?php
-# MantisBT - a php based bugtracking system
-
-# Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
-
-# MantisBT is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 2 of the License, or
-# (at your option) any later version.
-#
-# MantisBT is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
-
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ * @link http://www.mantisbt.org
+ * @package MantisBT
+ */
+ 
 /**
  * MYSQL PDO driver class.
  * @package MantisBT
@@ -58,6 +62,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
     }
 	
 	/**
+	 * Execute query with a limit
 	 * @param string $sql
 	 * @param int $p_limit
 	 * @param int $p_offset
@@ -73,6 +78,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 	}
 
 	/**
+	 * Return whether database exists
 	 * @param string $p_name
 	 * @return bool
 	 */	
@@ -94,6 +100,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 	}
 
 	/**
+	 * Get list of tables in database
 	 * @param bool $usecache
 	 * @return array
 	 */	
@@ -114,6 +121,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 	}
 
 	/**
+	 * Get indexes on table
 	 * @param string $table
 	 * @return array
 	 */
@@ -131,6 +139,7 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 	}
 
 	/**
+	 * Get List of database columns for given table
 	 * @param string $table
 	 * @param bool $usecache
 	 * @return array

@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * View all bugs include file
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -168,6 +170,11 @@ if ( $t_status_legend_position == STATUS_LEGEND_POSITION_TOP || $t_status_legend
 </thead><tbody>
 
 <?php
+/**
+ * Output Bug Rows
+ * 
+ * @param array array of bug objects
+ */
 function write_bug_rows ( $p_rows )
 {
 	global $t_columns, $t_filter;

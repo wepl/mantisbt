@@ -64,7 +64,7 @@ function lang_get_default() {
 }
 
 /**
- *
+ * Auto Map Language from HTTP server data
  * @return string
  */
 function lang_map_auto() {

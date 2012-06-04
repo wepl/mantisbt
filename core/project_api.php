@@ -54,14 +54,6 @@ require_api( 'user_pref_api.php' );
 require_api( 'utility_api.php' );
 require_api( 'version_api.php' );
 
-# ## Project API ###
-# ===================================
-# Caching
-# ===================================
-# ########################################
-# SECURITY NOTE: cache globals are initialized here to prevent them
-#   being spoofed if register_globals is turned on
-
 $g_cache_project = array();
 $g_cache_project_missing = array();
 $g_cache_project_all = false;
@@ -71,6 +63,8 @@ $g_cache_project_all = false;
  *  If the second parameter is true (default), trigger an error
  *  if the project can't be found.  If the second parameter is
  *  false, return false if the project can't be found.
+ * @param int project id
+ * @param bool trigger errors
  */
 function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 	global $g_cache_project, $g_cache_project_missing;
@@ -107,7 +101,8 @@ function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 }
 
 /**
- *
+ * Cache project data for array of project ids
+ * @param array project ids
  */
 function project_cache_array_rows( $p_project_id_array ) {
 	global $g_cache_project, $g_cache_project_missing;
@@ -164,6 +159,7 @@ function project_cache_all() {
 
 /** 
  * Clear the project cache (or just the given id if specified)
+ * @param int project id
  */
 function project_clear_cache( $p_project_id = null ) {
 	global $g_cache_project, $g_cache_project_missing, $g_cache_project_all;
@@ -184,6 +180,7 @@ function project_clear_cache( $p_project_id = null ) {
 /**
  * check to see if project exists by id
  * return true if it does, false otherwise
+ * @param int project id
  */
 function project_exists( $p_project_id ) {
 	# we're making use of the caching function here.  If we
@@ -201,6 +198,7 @@ function project_exists( $p_project_id ) {
  * check to see if project exists by id
  * if it doesn't exist then error
  * otherwise let execution continue undisturbed
+ * @param int project id
  */
 function project_ensure_exists( $p_project_id ) {
 	if( !project_exists( $p_project_id ) ) {
@@ -210,6 +208,7 @@ function project_ensure_exists( $p_project_id ) {
 
 /**
  * check to see if project exists by name
+ * @param string project name
  */
 function project_is_name_unique( $p_name ) {
 	$t_query = 'SELECT COUNT(*) FROM {project} WHERE name=%s';
@@ -226,6 +225,7 @@ function project_is_name_unique( $p_name ) {
  * check to see if project exists by id
  * if it doesn't exist then error
  * otherwise let execution continue undisturbed
+ * @param string project name
  */
 function project_ensure_name_unique( $p_name ) {
 	if( !project_is_name_unique( $p_name ) ) {
@@ -236,6 +236,8 @@ function project_ensure_name_unique( $p_name ) {
 /**
  * check to see if the user/project combo already exists
  * returns true is duplicate is found, otherwise false
+ * @param int project id
+ * @param int user id
  */
 function project_includes_user( $p_project_id, $p_user_id ) {
 	$t_query = 'SELECT COUNT(*) FROM {project_user_list} WHERE project_id=%d AND user_id=%d';
@@ -250,6 +252,13 @@ function project_includes_user( $p_project_id, $p_user_id ) {
 
 /**
  * Create a new project
+ * @param string project name
+ * @param string description
+ * @param int status
+ * @param int view state
+ * @param string file path
+ * @param bool enabled
+ * @param bool inherit globals
  */
 function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_PUBLIC, $p_file_path = '', $p_enabled = true, $p_inherit_global = true ) {
 	$c_enabled = db_prepare_bool( $p_enabled );
@@ -278,7 +287,10 @@ function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_
 	return db_insert_id( '{project}' );
 }
 
-# Delete a project
+/**
+ * Delete a project
+ * @param int project id
+ */
 function project_delete( $p_project_id ) {
 	$t_email_notifications = config_get( 'enable_email_notification' );
 
@@ -330,6 +342,14 @@ function project_delete( $p_project_id ) {
 
 /**
  * Update a project
+ * @param int project id
+ * @param string name
+ * @param string description
+ * @param int status
+ * @param int view state
+ * @param string file path
+ * @param bool enabled
+ * @param bool inherit globals
  */
 function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_view_state, $p_file_path, $p_enabled, $p_inherit_global ) {
 	$p_project_id = (int) $p_project_id;
@@ -366,6 +386,8 @@ function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_v
 
 /**
  * Copy custom fields
+ * @param int destination id
+ * @param int source id
  */
 function project_copy_custom_fields( $p_destination_id, $p_source_id ) {
 	$t_custom_field_ids = custom_field_get_linked_ids( $p_source_id );
@@ -380,6 +402,7 @@ function project_copy_custom_fields( $p_destination_id, $p_source_id ) {
 
 /**
  * Get the id of the project with the specified name
+ * @param string project name
  */
 function project_get_id_by_name( $p_project_name ) {
 	$t_query = 'SELECT id FROM {project} WHERE name = %s';
@@ -394,6 +417,8 @@ function project_get_id_by_name( $p_project_name ) {
 
 /**
  * Return the row describing the given project
+ * @param int project id
+ * @param bool trigger errors
  */
 function project_get_row( $p_project_id, $p_trigger_errors = true ) {
 	return project_cache_row( $p_project_id, $p_trigger_errors );
@@ -408,6 +433,9 @@ function project_get_all_rows() {
 
 /**
  * Return the specified field of the specified project
+ * @param int project id
+ * @param string field name
+ * @param bool trigger errors
  */
 function project_get_field( $p_project_id, $p_field_name, $p_trigger_errors = true ) {
 	$row = project_get_row( $p_project_id, $p_trigger_errors );
@@ -424,6 +452,8 @@ function project_get_field( $p_project_id, $p_field_name, $p_trigger_errors = tr
 /**
  * Return the name of the project
  * Handles ALL_PROJECTS by returning the internationalized string for All Projects
+ * @param int project id
+ * @param bool trigger errors
  */
 function project_get_name( $p_project_id, $p_trigger_errors = true ) {
 	if( ALL_PROJECTS == $p_project_id ) {
@@ -436,6 +466,8 @@ function project_get_name( $p_project_id, $p_trigger_errors = true ) {
 /**
  * Return the user's local (overridden) access level on the project or false
  *  if the user is not listed on the project
+ * @param int project id
+ * @param int user id
  */
 function project_get_local_user_access_level( $p_project_id, $p_user_id ) {
 	if( ALL_PROJECTS == $p_project_id ) {
@@ -456,6 +488,7 @@ function project_get_local_user_access_level( $p_project_id, $p_user_id ) {
 /**
  * return the descriptor holding all the info from the project user list
  * for the specified project
+ * @param int project id
  */
 function project_get_local_user_rows( $p_project_id ) {
 	$t_query = 'SELECT * FROM {project_user_list} WHERE project_id=%d';
@@ -478,6 +511,9 @@ function project_get_local_user_rows( $p_project_id ) {
  * higher than the given value.
  * if the first parameter is given as 'ALL_PROJECTS', return the global access level (without
  * any reference to the specific project
+ * @param int project id
+ * @param int access level
+ * @param bool include global users
  */
 function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_level = ANYBODY, $p_include_global_users = true ) {
 	$c_project_id = (int)$p_project_id;
@@ -587,6 +623,9 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 
 /**
  * add user with the specified access level to a project
+ * @param int project id
+ * @param int user id
+ * @param int access level
  */
 function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 	if( DEFAULT_ACCESS_LEVEL == $p_access_level ) {
@@ -608,6 +647,9 @@ function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 /**
  * update entry
  * must make sure entry exists beforehand
+ * @param int project id
+ * @param int user id
+ * @param int access level
  */
 function project_update_user_access( $p_project_id, $p_user_id, $p_access_level ) {
 	$t_query = 'UPDATE {project_user_list} SET access_level=%d WHERE project_id=%d AND user_id=%d';
@@ -620,8 +662,10 @@ function project_update_user_access( $p_project_id, $p_user_id, $p_access_level 
 
 /**
  * update or add the entry as appropriate
- * This function involves one more db query than project_update_user_acces()
- * or project_add_user()
+ * This function involves one more db query than project_update_user_acces() or project_add_user()
+ * @param int project id
+ * @param int user id
+ * @param int access level
  */
 function project_set_user_access( $p_project_id, $p_user_id, $p_access_level ) {
 	if( project_includes_user( $p_project_id, $p_user_id ) ) {
@@ -633,6 +677,8 @@ function project_set_user_access( $p_project_id, $p_user_id, $p_access_level ) {
 
 /**
  * remove user from project
+ * @param int project id
+ * @param int user id
  */
 function project_remove_user( $p_project_id, $p_user_id ) {
 	$t_query = 'DELETE FROM {project_user_list} WHERE project_id=%d AND user_id=%d';
@@ -704,6 +750,7 @@ function project_copy_users( $p_destination_id, $p_source_id, $p_access_level_li
 
 /**
  * Delete all files associated with a project
+ * @param int project id
  */
 function project_delete_all_files( $p_project_id ) {
 	file_delete_project_files( $p_project_id );
@@ -711,6 +758,7 @@ function project_delete_all_files( $p_project_id ) {
 
 /**
  * Pads the project id with the appropriate number of zeros.
+ * @param int project id
  */
 function project_format_id( $p_project_id ) {
 	$t_padding = config_get( 'display_project_padding' );
@@ -719,6 +767,7 @@ function project_format_id( $p_project_id ) {
 
 /**
  * Return true if the file name identifier is unique, false otherwise
+ * @param string project name
  */
 function project_file_is_name_unique( $p_name ) {
 	$query = 'SELECT COUNT(*) FROM {project_file} WHERE filename=%s';

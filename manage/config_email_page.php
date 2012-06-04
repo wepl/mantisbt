@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Manage Email Configuration
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -34,9 +36,6 @@
  * @uses string_api.php
  */
 
-/**
- * MantisBT Core API's
- */
 require_once( '../core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
@@ -58,7 +57,6 @@ auth_reauthenticate();
  * Similar to array_merge_recursive but keyed-valued are always overwritten.
  * Priority goes to the 2nd array.
  *
- * @static yes
  * @public yes
  * @param $p_array1 array
  * @param $p_array2 array
@@ -79,12 +77,17 @@ function array_merge_recursive2( $p_array1, $p_array2 ) {
 	return $t_merged_array;
 }
 
-# --------------------
-# get_notify_flag cloned from email_notify_flag
-# Get the value associated with the specific action and flag.
-# For example, you can get the value associated with notifying "admin"
-# on action "new", i.e. notify administrators on new bugs which can be
-# ON or OFF.
+/**
+ * get_notify_flag cloned from email_notify_flag
+ * Get the value associated with the specific action and flag.
+ * For example, you can get the value associated with notifying "admin"
+ * on action "new", i.e. notify administrators on new bugs which can be
+ * ON or OFF.
+ *
+ * @param string action
+ * @param string flag
+ * @return string
+ */
 function get_notify_flag( $action, $flag ) {
 	global $t_notify_flags, $t_default_notify_flags;
 
@@ -97,6 +100,13 @@ function get_notify_flag( $action, $flag ) {
 	return $val;
 }
 
+/**
+ * Return CSS for flag
+ *
+ * @param string action
+ * @param string flag
+ * @return string
+ */
 function colour_notify_flag ( $p_action, $p_flag ) {
 	global $t_notify_flags, $t_global_notify_flags, $t_file_notify_flags;
 
@@ -118,7 +128,13 @@ function colour_notify_flag ( $p_action, $p_flag ) {
 	return $t_colour;
 }
 
-# Get the value associated with the specific action and flag.
+/**
+ * Get the value associated with the specific action and flag.
+ *
+ * @param string action
+ * @param string flag
+ * @return string
+ */
 function show_notify_flag( $p_action, $p_flag ) {
 	global $t_can_change_flags , $t_can_change_defaults;
 	$t_flag = get_notify_flag( $p_action, $p_flag );
@@ -131,6 +147,13 @@ function show_notify_flag( $p_action, $p_flag ) {
 	}
 }
 
+/**
+ * Get CSS for threshold flags
+ *
+ * @param string action
+ * @param string flag
+ * @return string
+ */
 function colour_threshold_flag ( $p_access, $p_action ) {
 	global $t_notify_flags, $t_global_notify_flags, $t_file_notify_flags;
 
@@ -151,6 +174,13 @@ function colour_threshold_flag ( $p_access, $p_action ) {
 	return $t_colour;
 }
 
+/**
+ * HTML for Show notify threshold
+ *
+ * @param string action
+ * @param string flag
+ * @return string
+ */
 function show_notify_threshold( $p_access, $p_action ) {
 	global $t_can_change_flags , $t_can_change_defaults;
 	$t_flag = ( $p_access >= get_notify_flag( $p_action, 'threshold_min' ) )
@@ -164,6 +194,11 @@ function show_notify_threshold( $p_access, $p_action ) {
 	}
 }
 
+/**
+ * HTML for email section
+ *
+ * @param string section name
+ */
 function get_section_begin_for_email( $p_section_name ) {
 	global $t_project;
 	$t_access_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
@@ -183,6 +218,12 @@ function get_section_begin_for_email( $p_section_name ) {
 	echo '</tr>' . "\n";
 }
 
+/**
+ * HTML for Row
+ *
+ * @param string caption
+ * @param string message type
+ */
 function get_capability_row_for_email( $p_caption, $p_message_type ) {
 	$t_access_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
 
@@ -199,10 +240,13 @@ function get_capability_row_for_email( $p_caption, $p_message_type ) {
 	echo '</tr>' . "\n";
 }
 
+/**
+ * HTML for email section end
+ *
+ */
 function get_section_end_for_email() {
 	echo '</table><br />' . "\n";
 }
-
 
 html_page_top( lang_get( 'manage_email_config' ) );
 

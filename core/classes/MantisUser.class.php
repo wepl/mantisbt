@@ -1,23 +1,119 @@
 <?php
-class MantisUser extends MantisCacheable {
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ * @link http://www.mantisbt.org
+ * @package MantisBT
+ */
+
+/**
+ * Mantis User class
+ *
+ * @package MantisBT
+ * @subpackage classes
+ */
+ class MantisUser extends MantisCacheable {
+	/**
+	 * User ID
+	 */
 	protected $user_id;
+
+	/**
+	 * Username
+	 */
 	protected $username;
+
+	/**
+	 * Real Name
+	 */
 	protected $realname;
+
+	/** 
+	 * Email
+	 */
 	protected $email;
+
+	/**
+	 * Password
+	 */
 	protected $password;
+
+	/**
+	 * User Account enabled flag
+	 */
 	protected $enabled = true;
+
+	/**
+	 * User account protected flag
+	 */
 	protected $protected = false;
+
+	/**
+	 * Access level
+	 */
 	protected $access_level;
+
+	/**
+	 * Login count
+	 */
 	protected $login_count = 0;
+
+	/**
+	 * Lost Password Request Count
+	 */
 	protected $lost_password_request_count = 0;
+
+	/**
+	 * Failed login count
+	 */
 	protected $failed_login_count = 0;
+
+	/**
+	 * User cookie string
+	 */
 	protected $cookie_string;
+
+	/**
+	 * Last visit timestamp
+	 */
 	protected $last_visit;
+
+	/**
+	 * Date created timestamp
+	 */
 	protected $date_created;
 
+	/**
+	 * Field names on user object
+	 */
 	static $fields = null;
+
+	/**
+	 * indicates whether we are currently loading from db - shortcuts some checks if true
+	 * for performance
+	 */
 	private $loading = false;
-	
+
+	/**
+	 * Constructor
+	 * @param string username
+	 * @param string password
+	 * @param string email
+	 */
 	function MantisUser( $p_username = null, $p_password = null, $p_email = null ) {
 		if( self::$fields === null ) {
 			self::$fields = getClassProperties('MantisUser', 'protected');
@@ -33,18 +129,23 @@ class MantisUser extends MantisCacheable {
 			$this->email = $p_email;
 		}		
 	}
-		
+	
+	/**
+	 * Return user id
+	 */
 	public function getID() {
 		return $this->user_id;
 	}
 
 	/**
+	 * overloaded function
+	 * @param string property name
 	 * @private
 	 */
 	public function __get($name) {
 		return $this->{$name};
 	}
-
+ 
 	public static function getByArray($p_field, $p_values ) {
 		if( empty( $p_values ) ) {
 			return array();
@@ -98,10 +199,12 @@ class MantisUser extends MantisCacheable {
 		return $t_user;
 	}
 	
-	# Cache a user row if necessary and return the cached copy
-	#  If the second parameter is true (default), trigger an error
-	#  if the user can't be found.  If the second parameter is
-	#  false, return false if the user can't be found.
+	/**
+	 * Cache a user row if necessary and return the cached copy
+	 *  If the second parameter is true (default), trigger an error
+	 *  if the user can't be found.  If the second parameter is
+	 *  false, return false if the user can't be found.
+	 */
 	private static function GetFromDatabase( $p_field, $p_value ) {
 		switch( $p_field ) {
 			case 'id':
@@ -173,14 +276,19 @@ class MantisUser extends MantisCacheable {
 		$this->loading = false;
 	}
 
+	/**
+	 * Return user object as array
+	 */
 	public function ToArray( ) {
 		$d =  get_object_vars($this);
 		unset( $d['loading'] );
 		return $d;
 	}
-	
-	
+
 	/**
+	 * overloaded function
+	 * @param string name
+	 * @param string value
 	 * @private
 	 */
 	public function __set($name, $p_value) {
@@ -316,11 +424,14 @@ class MantisUser extends MantisCacheable {
 		
 		return true;
 	}
-	
+
+	/**
+	 * validate email address
+	 * @param string email address
+	 */
 	private function validate_email( $p_email ) {
 		email_ensure_valid( $p_email );
 
 		return true;
 	}
-	
 }

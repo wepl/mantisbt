@@ -28,9 +28,6 @@
  * @uses plugin_api.php
  */
 
-/**
- * MantisBT Core API's
- */
 require_once( 'core.php' );
 require_once( 'Period.php' );
 require_api( 'access_api.php' );

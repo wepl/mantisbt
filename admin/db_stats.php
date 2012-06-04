@@ -15,20 +15,26 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Display Database Statistics - Currently Row Count for each table.
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
  * @link http://www.mantisbt.org
  */
-/**
- * MantisBT Core API's
- */
+
 require_once( dirname( dirname( __FILE__ ) ) . '/core.php' );
 
 access_ensure_global_level( config_get_global( 'admin_site_threshold' ) );
 
 html_page_top();
 
+/**
+ * Output HTML Table Row
+ *
+ * @param string Row Description
+ * @param string Row Value
+ */
 function print_info_row( $p_description, $p_value ) {
 	echo '<tr>';
 	echo '<th class="category">' . $p_description . '</th>';
@@ -36,7 +42,12 @@ function print_info_row( $p_description, $p_value ) {
 	echo '</tr>';
 }
 
-# --------------------
+/**
+ * Function to get row count for a given table
+ *
+ * @param string table name
+ * @return int row count
+ */
 function helper_table_row_count( $p_table ) {
 	$t_table = $p_table;
 	$t_query = "SELECT COUNT(*) FROM $t_table";

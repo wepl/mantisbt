@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Supporting functions for the Check configuration
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -32,11 +34,22 @@ $g_alternate_row = 1;
 $g_errors_temporarily_suppressed = false;
 $g_errors_raised = array();
 
+/**
+ * Initialise error handler for checks
+ */
 function check_init_error_handler() {
 	set_error_handler( 'check_error_handler' );
 	error_reporting( E_ALL );
 }
 
+/**
+ * Implement Error handler for check framework
+ * @param int type
+ * @param string error
+ * @param string file
+ * @param int line
+ * @param string context
+ */
 function check_error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 	global $g_errors_raised;
 	$g_errors_raised[] = array(
@@ -48,6 +61,9 @@ function check_error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) 
 	);
 }
 
+/**
+ * Check whether any unhandled errors exist
+ */
 function check_unhandled_errors_exist() {
 	global $g_errors_raised;
 	if ( count( $g_errors_raised ) > 0 ) {
@@ -56,6 +72,9 @@ function check_unhandled_errors_exist() {
 	return false;
 }
 
+/**
+ * Print out errors raised to html
+ */
 function check_print_error_rows() {
 	global $g_show_errors, $g_errors_temporarily_suppressed, $g_errors_raised;
 	if( !$g_show_errors || $g_errors_temporarily_suppressed ) {
@@ -99,6 +118,11 @@ function check_print_error_rows() {
 	$g_errors_raised = array();
 }
 
+/**
+ * Print section header
+ *
+ * @param string heading
+ */
 function check_print_section_header_row( $p_heading ) {
 ?>
 	<tr>
@@ -107,6 +131,12 @@ function check_print_section_header_row( $p_heading ) {
 <?php
 }
 
+/**
+ * Print Check result - information only
+ *
+ * @param string description
+ * @param string information
+ */
 function check_print_info_row( $p_description, $p_info = null ) {
 	global $g_alternate_row, $g_show_all;
 	if( !$g_show_all ) {
@@ -117,6 +147,10 @@ function check_print_info_row( $p_description, $p_info = null ) {
 	$g_alternate_row = $g_alternate_row === 1 ? 2 : 1;
 }
 
+/**
+ * Print Check Test Result
+ * @param int BAD|GOOD|WARN
+ */
 function check_print_test_result( $p_result ) {
 	global $g_alternate_row, $g_failed_test, $g_passed_test_with_warnings;
 	switch ( $p_result ) {
@@ -134,6 +168,12 @@ function check_print_test_result( $p_result ) {
 	}
 }
 
+/**
+ * Print Check Test Row
+ * @param string description
+ * @param bool pass
+ * @param string information
+ */
 function check_print_test_row( $p_description, $p_pass, $p_info = null ) {
 	global $g_alternate_row, $g_show_all;
 	if ( !$g_show_all && $p_pass ) {
@@ -161,6 +201,12 @@ function check_print_test_row( $p_description, $p_pass, $p_info = null ) {
 	return $p_pass;
 }
 
+/**
+ * Print Check Test Warning Row
+ * @param string description
+ * @param bool pass
+ * @param string information
+ */
 function check_print_test_warn_row( $p_description, $p_pass, $p_info = null ) {
 	global $g_alternate_row, $g_show_all;
 	if ( !$g_show_all && $p_pass ) {

@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Graph API
+ *
  * @package CoreAPI
  * @subpackage GraphAPI
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
@@ -49,6 +51,9 @@ if( OFF == plugin_config_get( 'eczlibrary' ) ) {
 	require_lib( 'ezc/Base/src/base.php' );
 }
 
+/**
+ * Get Font to use with graphs from config value
+ */
 function graph_get_font() {
 	$t_font = plugin_config_get( 'font', 'arial' );
 
@@ -102,6 +107,11 @@ function graph_get_font() {
 
 /**
  * Generate Bar Graph
+ *
+ * @param array Graph Data
+ * @param string title
+ * @param int width of graph in pixels
+ * @param int height of graph in pixels
  */
 function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_height = 400 ) {
 	$t_graph_font = graph_get_font();
@@ -173,6 +183,12 @@ function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_he
 
 /**
  * Function which displays the charts using the absolute values according to the status (opened/closed/resolved)
+ *
+ * @param array Graph Data
+ * @param string title
+ * @param int width of graph in pixels
+ * @param int height of graph in pixels
+ * @param int jpgraph baseline
  */
 function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_height = 400, $p_baseline = 100 ) {
 
@@ -282,6 +298,14 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 
 /**
  * Function that displays pie charts
+ *
+ * @param array Graph Data
+ * @param string title
+ * @param int width of graph in pixels
+ * @param int height of graph in pixels
+ * @param int jpgraph center
+ * @param int jpgraph horizontal
+ * @param int jpgraph vertical
  */
 function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_height = 350, $p_center = 0.4, $p_poshorizontal = 0.10, $p_posvertical = 0.09 ) {
 	$t_graph_font = graph_get_font();
@@ -350,7 +374,11 @@ function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_he
 }
 
 /**
+ * Cumulative line graph
  *
+ * @param array Graph Data
+ * @param int width of graph in pixels
+ * @param int height of graph in pixels
  */
 function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_height = 380 ) {
 
@@ -467,7 +495,13 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 }
 
 /**
+ * Line Chart by date
  *
+ * @param array Graph Data
+ * @param array labels
+ * @param string title
+ * @param int width of graph in pixels
+ * @param int height of graph in pixels
  */
 function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p_graph_height = 380 ) {
 	$t_graph_font = graph_get_font();
@@ -560,7 +594,9 @@ function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p
 }
 
 /**
+ * Calculate total metrics
  *
+ * @param array data
  */
 function graph_total_metrics( $p_metrics ) {
 	foreach( $p_metrics['open'] as $t_enum => $t_value ) {
@@ -571,6 +607,9 @@ function graph_total_metrics( $p_metrics ) {
 
 /**
  * summarize metrics by a single ENUM field in the bug table
+ *
+ * @param string enumeration string
+ * @param string enum field
  */
 function create_bug_enum_summary( $p_enum_string, $p_enum ) {
 	if( !db_field_exists( $p_enum, '{bug}' ) ) {
@@ -595,6 +634,9 @@ function create_bug_enum_summary( $p_enum_string, $p_enum ) {
 
 /**
  * Function which gives the absolute values according to the status (opened/closed/resolved)
+ *
+ * @param string enumeration string
+ * @param string enum field
  */
 function enum_bug_group( $p_enum_string, $p_enum ) {
 	if( !db_field_exists( $p_enum, '{bug}' ) ) {
@@ -635,7 +677,7 @@ function enum_bug_group( $p_enum_string, $p_enum ) {
 }
 
 /**
- *
+ * Create summary table of developers
  */
 function create_developer_summary() {
 	$t_project_id = helper_get_current_project();
@@ -688,7 +730,7 @@ function create_developer_summary() {
 }
 
 /**
- *
+ * Create summary table of reporters
  */
 function create_reporter_summary() {
 	global $reporter_name, $reporter_count;
@@ -726,7 +768,7 @@ function create_reporter_summary() {
 }
 
 /**
- *
+ * Create summary table of categories
  */
 function create_category_summary() {
 	global $category_name, $category_bug_count;
@@ -757,7 +799,7 @@ function create_category_summary() {
 }
 
 /**
- *
+ * Create cumulative graph by date
  */
 function create_cumulative_bydate() {
 	$t_clo_val = config_get( 'bug_closed_status_threshold' );
@@ -849,7 +891,9 @@ function create_cumulative_bydate() {
 }
 
 /**
+ * Get formatted date string
  *
+ * @param int date
  */
 function graph_date_format( $p_date ) {
 	return date( config_get( 'short_date_format' ), $p_date );
@@ -857,6 +901,9 @@ function graph_date_format( $p_date ) {
 
 /**
  * Check that there is enough data to create graph
+ *
+ * @param int bug count
+ * @param string title
  */
 function error_check( $bug_count, $title ) {
 	if( 0 == $bug_count ) {
@@ -867,7 +914,10 @@ function error_check( $bug_count, $title ) {
 }
 
 /**
+ * Display Error 'graph'
  *
+ * @param string title
+ * @param string text
  */
 function error_text( $title, $text ) {
 		if( OFF == plugin_config_get( 'eczlibrary' ) ) {

@@ -1,19 +1,63 @@
 <?php
-
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ */
+ 
 /**
  * RelationshipData Structure Definition
  * @package MantisBT
  * @subpackage classes
  */
 class MantisBugRelationshipData {
+	/**
+	 * Relationship id
+	 */
 	protected $id;
+
+	/**
+	 * Source Bug id
+	 */
 	protected $src_bug_id = null;
+
+	/**
+	 * Destination Bug id
+	 */
 	protected $dest_bug_id = null;
+
+	/**
+	 * Type
+	 */
 	protected $type = null;
 
+	/**
+	 * Source project id
+	 */
 	protected $src_project_id;
+
+	/**
+	 * Destination project id
+	 */
 	protected $dest_project_id;
 
+	/**
+	 * Constructor
+	 * @param int id
+	 */
 	function MantisBugRelationshipData( $p_id = 0 ) {
 		if( $p_id ) {
 			$this->id = intval($p_id);
@@ -22,7 +66,10 @@ class MantisBugRelationshipData {
 	}
 
 	/**
+	 * overloaded function
 	 * @private
+	 * @param string property name
+	 * @param string value
 	 */
 	public function __set($name, $value) {
 		switch ($name) {
@@ -40,14 +87,18 @@ class MantisBugRelationshipData {
 	}
 
 	/**
+	 * overloaded function
 	 * @private
+	 * @param string property name
 	 */
 	public function __get($name) {
 		return $this->{$name};
 	}
 
 	/**
+	 * overloaded function
 	 * @private
+	 * @param string property name
 	 */
 	public function __isset($name) {
 		return isset( $this->{$name} );

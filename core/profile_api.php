@@ -107,6 +107,7 @@ function profile_delete( $p_user_id, $p_profile_id ) {
 /**
  * delete profiles for the specified user
  * returns true when successfully deleted
+ * @param int user id
  */
 function profile_delete_all( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );

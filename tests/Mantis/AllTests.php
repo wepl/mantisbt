@@ -15,6 +15,8 @@
 # along with Mantis.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Mantis - All Tests
+ *
  * @package Tests
  * @subpackage UnitTests
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team   - mantisbt-dev@lists.sourceforge.net
@@ -30,6 +32,7 @@ require_once 'EnumTest.php';
 require_once 'StringTest.php';
 
 /**
+ * Test Suite containing All tests
  * @package    Tests
  * @subpackage UnitTests
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team   - mantisbt-dev@lists.sourceforge.net
@@ -37,6 +40,9 @@ require_once 'StringTest.php';
  */
 class Mantis_AllTests extends PHPUnit_Framework_TestSuite
 {
+	/**
+	 * Test suite
+	 */
     public static function suite()
     {
         $suite = new Mantis_AllTests('Main Code');

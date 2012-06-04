@@ -15,14 +15,15 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Show Contents of Email Queue in Mantis Database
+ * This allows an administrator to clear 'stuck' mails
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team   - mantisbt-dev@lists.sourceforge.net
  * @link http://www.mantisbt.org
  */
-/**
- * Mantis Core API's
- */
+
 require_once( dirname( dirname( __FILE__ ) ) . '/core.php' );
 
 access_ensure_global_level( config_get_global( 'admin_site_threshold' ) );

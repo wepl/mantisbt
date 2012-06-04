@@ -14,36 +14,33 @@
 # You should have received a copy of the GNU General Public License
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
-	/**
-	 * This page displays "improved" charts on categories : categories on bars and 3Dpie
-	 *
-	 * @package MantisBT
-	 * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
-	 * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
-	 * @link http://www.mantisbt.org
-	 */
-	 /**
-	  * MantisBT Core API's
-	  */
-	require_once( 'core.php' );
+/**
+ * This page displays "improved" charts on categories : categories on bars and 3Dpie
+ *
+ * @package MantisBT
+ * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+ * @link http://www.mantisbt.org
+ */
 
-	require_once( 'graph_api.php' );
+require_once( 'core.php' );
 
-	access_ensure_project_level( config_get( 'view_summary_threshold' ) );
+require_once( 'graph_api.php' );
 
-	html_page_top();
-	print_summary_menu( 'summary_page.php' );
+access_ensure_project_level( config_get( 'view_summary_threshold' ) );
 
-	echo '<br />';
-	print_summary_submenu();
+html_page_top();
+print_summary_menu( 'summary_page.php' );
 
-	$t_width = plugin_config_get( 'window_width' );
-	$t_graph_width = (int) ( ( $t_width - 50 ) * 0.6 );
+echo '<br />';
+print_summary_submenu();
 
-	# gather the data for the graphs
-	$t_metrics = create_category_summary();
-	$t_token = token_set( TOKEN_GRAPH, serialize( $t_metrics ) );
+$t_width = plugin_config_get( 'window_width' );
+$t_graph_width = (int) ( ( $t_width - 50 ) * 0.6 );
 
+# gather the data for the graphs
+$t_metrics = create_category_summary();
+$t_token = token_set( TOKEN_GRAPH, serialize( $t_metrics ) );
  ?>
 
 <br />
@@ -66,4 +63,4 @@
 </table>
 
 <?php
-	html_page_bottom();
+html_page_bottom();

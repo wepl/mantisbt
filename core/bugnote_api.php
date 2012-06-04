@@ -60,17 +60,60 @@ require_api( 'utility_api.php' );
  * @subpackage classes
  */
 class BugnoteData {
+	/**
+	 * Bugnote ID
+	 */
 	var $id;
+
+	/**
+	 * Bug ID
+	 */
 	var $bug_id;
+
+	/**
+	 * Reporter ID
+	 */
 	var $reporter_id;
+
+	/**
+	 * Note text
+	 */
 	var $note;
+
+	/**
+	 * View State
+	 */
 	var $view_state;
+
+	/**
+	 * Date submitted
+	 */
 	var $date_submitted;
+
+	/**
+	 * Last Modified
+	 */
 	var $last_modified;
+
+	/**
+	 * Bugnote type
+	 */
 	var $note_type;
+
+	/**
+	 * ???
+	 */
 	var $note_attr;
-	var $time_tracking;
 	
+	/**
+	 * Time tracking information
+	 */
+	var $time_tracking;
+
+	/**
+	 * bugnote text id
+	 * @todo remove?
+	 */
 	var $bugnote_text_id;
 }
 

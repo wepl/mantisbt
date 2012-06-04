@@ -15,6 +15,8 @@
 # along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Display Project Roadmap
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
@@ -42,9 +44,6 @@
  * @uses version_api.php
  */
 
-/**
- * MantisBT Core API's
- */
 require_once( 'core.php' );
 require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
@@ -66,7 +65,10 @@ require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 require_api( 'version_api.php' );
 
-# Print header for the specified project version.
+/**
+ * Print header for the specified project version.
+ * @param array array contain project version data
+ */
 function print_version_header( $p_version_row ) {
 	$t_project_id   = $p_version_row['project_id'];
 	$t_version_id   = $p_version_row['id'];
@@ -90,7 +92,10 @@ function print_version_header( $p_version_row ) {
 	echo utf8_str_pad( '', utf8_strlen( $t_release_title_without_hyperlinks ), '=' ), '<br />';
 }
 
-# print project header
+/**
+ * print project header
+ * @param string project name
+ */
 function print_project_header_roadmap( $p_project_name ) {
 	echo '<br /><span class="pagetitle">', string_display( $p_project_name ), ' - ', lang_get( 'roadmap' ), '</span><br />';
 }

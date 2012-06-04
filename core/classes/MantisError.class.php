@@ -1,4 +1,31 @@
 <?php
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ * @link http://www.mantisbt.org
+ * @package MantisBT
+ */
+
+/**
+ * A class that handles Mantis Errors
+ *
+ * @package MantisBT
+ * @subpackage classes
+ */
 class MantisError
 {
 	/**
@@ -12,6 +39,9 @@ class MantisError
 	 */
 	private static $_handled = false;
 	
+	/**
+	 * PHP Error constants
+	 */
 	private static $_errorConstants = array(
 										'1'=>'E_ERROR',
 										'2'=>'E_WARNING',
@@ -30,10 +60,19 @@ class MantisError
 										'16384'=>'E_USER_DEPRECATED',
 									);
 
+	/**
+	 * Error Parameters
+	 */
 	private static $_parameters = array();
 	
+	/** 
+	 * indicates if a fatal error has occured
+	 */
 	private static $_fatal = false;
-									
+	
+	/**
+	 * Init function
+	 */
 	public static function init(){
 		if( self::$_handled === false ) {
 			// first run
@@ -43,6 +82,10 @@ class MantisError
 		}
 	}
 
+	/**
+	 * Exception Handler
+	 * @param Exception exception
+	 */
 	public static function exception_handler( Exception $ex) {
 		self::init();
 
@@ -63,7 +106,15 @@ class MantisError
 
         self::$_allErrors[] = $errorInfo;
 	}
-	
+
+	/**
+	 * Implement Error handler
+	 * @param int type
+	 * @param string error
+	 * @param string file
+	 * @param int line
+	 * @param string context
+	 */	
 	public static function error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 		if (0 == error_reporting())
 		{
@@ -80,6 +131,9 @@ class MantisError
 		return;
 	}
 	
+	/**
+	 * PHP Shutdown handler
+	 */
 	public static function shutdown_error_handler() { 
 		$t_error = error_get_last();
 		if( $t_error === null ) {
@@ -101,8 +155,11 @@ class MantisError
 
         self::$_allErrors[] = $errorInfo;
 	}
-	
-	public static function display_errors( $p_no_header = false ) {
+
+	/**
+	 * Display errors 
+	 */
+	public static function display_errors() {
 		# disable any further event callbacks
 		if ( function_exists( 'event_clear_callbacks' ) ) {
 			event_clear_callbacks();
@@ -168,7 +225,11 @@ class MantisError
 		echo '</body></html>', "\n";
 		exit();
 	}
-	
+
+	/**
+	 * Display single error
+	 * @param object Error Object
+	 */
 	public static function display_error( $p_error) {
 		echo '<br /><div><table class="width70" cellspacing="1">';
 		echo '<tr><td class="form-title">' . $p_error->name . '</td></tr>';
@@ -265,9 +326,13 @@ class MantisError
 		}
 
 		echo '</table>';
-		}
+	}
 
-		public static function error_print_stack_trace( $p_stack ) {
+	/**
+	 * Print out error stack trace
+	 * @param array PHP stack trace
+	 */
+	public static function error_print_stack_trace( $p_stack ) {
 		echo '<table class="width75">';
 		echo '<tr><th>Filename</th><th>Line</th><th></th><th></th><th>Function</th><th>Args</th></tr>';
 
@@ -292,7 +357,12 @@ class MantisError
 		echo '</table>';
 	}
 
-
+	/**
+	 * Print out part of error stacktrace
+	 * @param mixed
+	 * @param bool show object type
+	 * @param int current depth (for infinite loop protection)
+	 */
 	public static function error_build_parameter_string( $p_param, $p_showtype = true, $p_depth = 0 ) {
 		if( $p_depth++ > 10 ) {
 			return '<strong>***Nesting Level Too Deep***</strong>';
@@ -380,6 +450,7 @@ class MantisError
 	 * When writing internationalized error strings, note that you can change the
 	 *  order of parameters in the string.  See the PHP manual page for the
 	 *  sprintf() function for more details.
+	 * @param array Arguments
 	 * @access public
 	 * @return null
 	 */	

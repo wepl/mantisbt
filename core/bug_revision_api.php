@@ -31,12 +31,12 @@ require_api( 'database_api.php' );
 
 /**
  * Add a new revision to a bug history.
- * @param int $p_bug_id Bug ID
- * @param int $p_user_id User ID
- * @param int $p_type Revision Type
- * @param string $p_value Value
- * @param int $p_bugnote_id Bugnote ID
- * @param int $p_timestamp Timestamp(int)
+ * @param MantisBug Bug Object
+ * @param int User ID
+ * @param int Revision Type
+ * @param string Value
+ * @param int Bugnote ID
+ * @param int Timestamp(int)
  * @return int Revision ID
  */
 function bug_revision_add( $p_bug, $p_user_id, $p_type, $p_value, $p_bugnote_id=0, $p_timestamp = null ) {
@@ -114,7 +114,7 @@ function bug_revision_get( $p_revision_id ) {
 
 /**
  * Get the name of the type of a bug revision.
- * @param int $p_revision_id Revision type ID (see constant_inc.php for possible values)
+ * @param int Revision type ID (see constant_inc.php for possible values)
  * @return string Name of the type of the bug revision
  */
 function bug_revision_get_type_name( $p_revision_type_id ) {

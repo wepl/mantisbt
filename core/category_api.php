@@ -309,6 +309,10 @@ function category_exists( $p_category_id ) {
 
 $g_cache_category_project = null;
 
+/**
+ * Cache categories from multiple projects
+ * @param array array of project ids
+ */
 function category_cache_array_rows_by_project( $p_project_id_array ) {
 	global $g_category_cache, $g_cache_category_project;
 
@@ -459,7 +463,7 @@ function category_get_filter_list( $p_project_id = null ) {
 }
 
 /**
- *
+ * Cache an set of category ids
  * @param array $p_cat_id_array array of category id's
  * @return null
  * @access public
@@ -493,8 +497,8 @@ function category_cache_array_rows( $p_cat_id_array ) {
 /**
  * Given a category id and a field name, this function returns the field value.
  * An error will be triggered for a non-existent category id or category id = 0.
- * @param int $p_category_id category id
- * @param string $p_name field name
+ * @param int category id
+ * @param string field name
  * @return string field value
  * @access public
  */
@@ -543,9 +547,9 @@ function category_get_field( $p_category_id, $p_field_name ) {
 
 /**
  * Retrieves category name (including project name if required)
- * @param string $p_category_id category id
- * @param bool $p_show_project show project details
- * @param int $p_project_id current project id override
+ * @param string category id
+ * @param bool show project details
+ * @param int current project id override
  * @return string category full name
  * @access public
  */

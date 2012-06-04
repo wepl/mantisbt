@@ -1,56 +1,147 @@
 <?php
-# The class below was derived from
-# http://www.phpclasses.org/browse/package/1163.html
-#
-# *** 3.0 Author
-# Pascal Rehfeldt
-# Pascal@Pascal-Rehfeldt.com
-#
-# http://www.phpclasses.org/browse.html/author/102754.html
-#
-#
-# *** 3.1 License
-# GNU General Public License (Version 2, June 1991)
-#
-# This program is free software; you can redistribute
-# it and/or modify it under the terms of the GNU
-# General Public License as published by the Free
-# Software Foundation; either version 2 of the License,
-# or (at your option) any later version.
-#
-# This program is distributed in the hope that it will
-# be useful, but WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A
-# PARTICULAR PURPOSE. See the GNU General Public License
-# for more details.
-#
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ */
+ 
+/** The class below was derived from
+ * http://www.phpclasses.org/browse/package/1163.html
+ *
+ * *** 3.0 Author
+ * Pascal Rehfeldt
+ * Pascal@Pascal-Rehfeldt.com
+ *
+ * http://www.phpclasses.org/browse.html/author/102754.html
+ *
+ *
+ * *** 3.1 License
+ * GNU General Public License (Version 2, June 1991)
+ *
+ * This program is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free
+ * Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will
+ * be useful, but WITHOUT ANY WARRANTY; without even the
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ */
 class MantisCaptcha
 {
+	/**
+	 * TTF Font folder
+	 */
 	var $TTF_folder;
+
+	/**
+	 * Array of TTF Fonts to use in captcha
+	 */
 	var $TTF_RANGE  = array('ARIAL.TTF');
+
+	/**
+	 * Character count
+	 */
 	var $chars		= 5;
+
+	/**
+	 * Min Size
+	 */
 	var $minsize	= 15;
+
+	/**
+	 * Max Size
+	 */
 	var $maxsize	= 15;
+
+	/**
+	 * Max rotation
+	 */
 	var $maxrotation = 30;
+
+	/**
+	 * Noise
+	 */
 	var $noise		= FALSE;
+
+	/**
+	 * Web safe colors
+	 */
 	var $websafecolors = TRUE;
 
-	var $lx;				// width of picture
-	var $ly;				// height of picture
-	var $jpegquality = 80;	// image quality
-	var $noisefactor = 9;	// this will multiplyed with number of chars
-	var $nb_noise;			// number of background-noise-characters
-	var $TTF_file;			// holds the current selected TrueTypeFont
+	/**
+	 * Width
+	 */
+	var $lx;
+
+	/** 
+	 * Height
+	 */
+	var $ly;
+
+	/**
+	 * JPEG Image Quality
+	 */
+	var $jpegquality = 80;
+
+	/**
+	 * Noise factor - this will multiplyed with number of chars
+	 */
+	var $noisefactor = 9;
+	
+	/**
+	 * number of background-noise-characters
+	 */
+	var $nb_noise;
+
+	/**
+	 * holds the current selected TrueTypeFont
+	 */
+	var $TTF_file;
+
+	/**
+	 * RGB Value
+	 */
 	var $r;
+
+	/**
+	 * RGB Value
+	 */
 	var $g;
+
+	/**
+	 * RGB Value
+	 */
 	var $b;
 
+	/**
+	 * Constructor
+	 */
 	function MantisCaptcha() {
 		if( !extension_loaded('gd') ) {
 			throw new MantisBT\Exception\Missing_GD_Extension();
 		}
 	}
-	
+
+	/**
+	 * Init function
+	 */
 	function init() {
 		// check vars for maxtry, secretposition and min-max-size
 		if($this->minsize > $this->maxsize)
@@ -95,6 +186,10 @@ class MantisCaptcha
 		//Set image dimension to: (".$this->lx." x ".$this->ly.")";
 	}
 
+	/**
+	 * Generate captcha
+	 * @param string private key
+	 */
 	function make_captcha( $private_key )
 	{
 		self::init();
@@ -198,6 +293,10 @@ class MantisCaptcha
 		//Destroy Imagestream.";
 	}
 
+	/**
+	 * Generate web safe colors
+	 * @param resource image resource
+	 */
 	private function makeWebsafeColors(&$image)
 	{
 		for($r = 0; $r <= 255; $r += 51)
@@ -214,6 +313,11 @@ class MantisCaptcha
 		// Allocate 216 websafe colors to image: (".imagecolorstotal($image).")";
 	}
 
+	/**
+	 * Generate random RGB value - min,max between 0 and 255
+	 * @param int value between 0 and 255
+	 * @param int value between 0 and 255
+	 */
 	function random_color($min,$max)
 	{
 		srand((double)microtime() * 1000000);
@@ -224,6 +328,9 @@ class MantisCaptcha
 		$this->b = intval(rand($min,$max));
 	}
 
+	/**
+	 * Change true type font
+	 */
 	function change_TTF()
 	{
 		if(count($this->TTF_RANGE) > 0){

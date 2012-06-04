@@ -16,14 +16,13 @@
 
 /**
  * This upgrade moves attachments from the database to the disk
+ *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
  * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
  * @link http://www.mantisbt.org
  */
-/**
- * MantisBT Core API's
- */
+
 require_once( dirname( dirname( __FILE__ ) ) . '/core.php' );
 
 access_ensure_global_level( config_get_global( 'admin_site_threshold' ) );
@@ -31,6 +30,12 @@ access_ensure_global_level( config_get_global( 'admin_site_threshold' ) );
 // Move type should be attachment or project.
 $f_move_type = gpc_get( 'doc' );
 
+/**
+ * Get File Path prefix
+ *
+ * @param string file path
+ * @return string
+ */
 function get_prefix( $file_path ) {
 	if( substr( $file_path, 0, 1 ) == '/' ) {
 
@@ -50,17 +55,21 @@ function get_prefix( $file_path ) {
 	return dirname( dirname( __FILE__ ) ) . '/';
 }
 
-# ------ move file attachments to issues from database to disk
-# select non-empty data fields
-# match with the project to get the file path
-# store the file in the correct folder
-#
-# Assumptions: only supports storage in local file system (not FTP)
-#              file paths are set up and working
-#
-# Re-running this is safe because the data
-# is not removed from the database until it is successfully copied.
-#
+/**
+ * move file attachments to issues from database to disk
+ * select non-empty data fields
+ * match with the project to get the file path
+ * store the file in the correct folder
+ *
+ * Assumptions: only supports storage in local file system (not FTP)
+ *              file paths are set up and working
+ *
+ * Re-running this is safe because the data
+ * is not removed from the database until it is successfully copied.
+ *
+ * @param string source - either attachment or project
+ * @return null
+ */
 function upgrade_move_att2disk( $p_source ) {
 
 	# $p_source is the string "attachment" or "project"
@@ -163,9 +172,6 @@ function upgrade_move_att2disk( $p_source ) {
 	echo '</table><br />' . $t_attachment_count . ' attachments processed, ' . $t_failures . ' failures';
 }
 
-# ---------------------
-# main code
-#
 if( $f_move_type == 'attachment' ) {
 	$t_type = 'Attachments';
 } else {

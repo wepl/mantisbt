@@ -95,7 +95,11 @@ if ( $t_local_config && file_exists( $t_local_config ) ){
 	$t_config_inc_found = true;
 }
 
-# Define an API inclusion function to replace require_once
+/**
+ * Define an API inclusion function to replace require_once
+ *
+ * @param string api file name
+ */
 function require_api( $p_api_name ) {
 	static $s_api_included;
 	global $g_core_path;
@@ -111,7 +115,11 @@ function require_api( $p_api_name ) {
 	}
 }
 
-# Define an API inclusion function to replace require_once
+/**
+ * Define an API inclusion function to replace require_once
+ *
+ * @param string lib file name
+ */
 function require_lib( $p_library_name ) {
 	static $s_libraries_included;
 	global $g_library_path;
@@ -127,7 +135,11 @@ function require_lib( $p_library_name ) {
 	}
 }
 
-# Define an autoload function to automatically load classes when referenced
+/**
+ * Define an autoload function to automatically load classes when referenced
+ *
+ * @param string class name
+ */
 function __autoload( $className ) {
 	global $g_class_path;
 	global $g_library_path;
