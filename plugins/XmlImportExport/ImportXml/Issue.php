@@ -1,44 +1,78 @@
 <?php
-# MantisBT - A PHP based bugtracking system
-# Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
-# MantisBT is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 2 of the License, or
-# (at your option) any later version.
-#
-# MantisBT is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ * MantisBT - A PHP based bugtracking system
+ *
+ * MantisBT is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * MantisBT is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with MantisBT.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.
+ */
+
+/**
+ * Import XML issue class
+ */
+
 
 require_once( 'bug_api.php' );
 require_once( 'user_api.php' );
 require_once( 'Interface.php' );
 
+/**
+ * Import XML issue class
+ */
 class ImportXml_Issue implements ImportXml_Interface {
-
+	/**
+	 * old issue id
+	 */
 	private $old_id_;
+	/**
+	 * new issue id
+	 */
 	private $new_id_;
 
+	/**
+	 * new bug object
+	 */
 	private $newbug_;
 
 	// import Issues options
+	/**
+	 * keep existing category
+	 * @var bool
+	 */
 	private $keepCategory_;
+	/**
+	 * default category
+	 * @var int
+	 */
 	private $defaultCategory_;
 
+	/**
+	 * Constructor
+	 * @param bool keep category
+	 * @param int category id
+	 */
 	public function __construct( $keepCategory, $defaultCategory ) {
 		$this->newbug_ = new MantisBug;
 		$this->keepCategory_ = $keepCategory;
 		$this->defaultCategory_ = $defaultCategory;
 	}
 
-	// Read stream until current item finishes, processing
-	// the data found
+	/**
+	 * Read stream until current item finishes, processing the data found
+	 * @param XMLreader XML Reader
+	 */
 	public function process( XMLreader $reader ) {
-
 		//print "\nImportIssue process()\n";
 		$t_project_id = helper_get_current_project(); // TODO: category_get_id_by_name could work by default on current project
 		$userId = auth_get_current_user_id( );
@@ -240,12 +274,18 @@ class ImportXml_Issue implements ImportXml_Interface {
 		//echo "\nnew bug: $this->new_id_\n";
 	}
 
+	/**
+	 * update mapper
+	 * @param Mapper mapper
+	 */
 	public function update_map( Mapper $mapper ) {
 		$mapper->add( 'issue', $this->old_id_, $this->new_id_ );
 	}
 
-
-	public function dumpbug( ) {
+	/**
+	 * Dump Diagnostic information
+	 */
+	public function dumpbug() {
 		var_dump( $this->newbug_ );
 		var_dump( $this->issueMap );
 	}
@@ -256,9 +296,8 @@ class ImportXml_Issue implements ImportXml_Interface {
 	* Current logic is: try to find the same user by username;
 	* if it fails, use $squash_userid
 	*
-	* @param $field string bugdata filed to update
-	* @param $username string username as imported
-	* @param $squash_userid integer fallback userid
+	* @param string username as imported
+	* @param int fallback userid
 	*/
 	private function get_user_id( $username, $squash_userid = 0 ) {
 		$t_user_id = user_get_id_by_name( $username );

@@ -20,8 +20,18 @@
  * @package MantisBT
  */
 
-
+/**
+ * Mantis Database Exception
+ * @package MantisBT
+ * @subpackage classes
+ */
 class MantisDatabaseException extends MantisException {
+	/**
+	 * Constructor
+	 * @param int code
+	 * @param int parameters
+	 * @param Exception Previous exception
+	 */
     public function __construct($code = 0, $parameters = null, Exception $previous = null)
     {
 		/* if we have some form of database exception, assume that the database don't want to treat

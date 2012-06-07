@@ -304,10 +304,10 @@ function filter_get_url( $p_custom_filter ) {
 }
 
 /**
- *  Encodes a field and it's value for the filter URL.  This handles the URL encoding
- *  and arrays.
- * @param string $p_field_name The field name.
- * @param string $p_field_value The field value (can be an array)
+ * Encodes a field and it's value for the filter URL.  This handles the URL encoding and arrays.
+ * @param string The field name.
+ * @param string The field value (can be an array)
+ * @param int Field Type e.g. FILTER_TYPE_MULTI_STRING
  * @return string url encoded string
  */
 function filter_encode_field_and_value( $p_field_name, $p_field_value, $p_field_type=null ) {
@@ -329,11 +329,8 @@ function filter_encode_field_and_value( $p_field_name, $p_field_value, $p_field_
 	return implode( $t_query_array, '&' );
 }
 
-# ==========================================================================
-# GENERAL FUNCTIONS                            						      =
-# ==========================================================================
 /**
- *  Checks the supplied value to see if it is an ANY value.
+ * Checks the supplied value to see if it is an ANY value.
  * @param string $p_field_value - The value to check.
  * @return bool true for "ANY" values and false for others.  "ANY" means filter criteria not active.
  */
@@ -366,11 +363,11 @@ function filter_field_is_any( $p_field_value ) {
 }
 
 /**
-     *  Checks the supplied value to see if it is a NONE value.
-     * @param string $p_field_value - The value to check.
-     * @return bool true for "NONE" values and false for others.
+ * Checks the supplied value to see if it is a NONE value.
+ * @param string $p_field_value - The value to check.
+ * @return bool true for "NONE" values and false for others.
  * @todo is a check for these necessary?  if ( ( $t_filter_value === 'none' ) || ( $t_filter_value === '[none]' ) )
-     */
+ */
 function filter_field_is_none( $p_field_value ) {
 	if( is_array( $p_field_value ) ) {
 		foreach( $p_field_value as $t_value ) {
@@ -392,7 +389,7 @@ function filter_field_is_none( $p_field_value ) {
 }
 
 /**
- *  Checks the supplied value to see if it is a MYSELF value.
+ * Checks the supplied value to see if it is a MYSELF value.
  * @param string $p_field_value - The value to check.
  * @return bool true for "MYSELF" values and false for others.
  */
@@ -401,10 +398,12 @@ function filter_field_is_myself( $p_field_value ) {
 }
 
 /**
-     * @param $p_count
-     * @param $p_per_page
-     * @return int
-     */
+ * Filter per page
+ * @param array filter
+ * @param int count
+ * @param int per page
+ * @return int
+ */
 function filter_per_page( $p_filter, $p_count, $p_per_page ) {
 	$p_per_page = (( NULL == $p_per_page ) ? (int) $p_filter[FILTER_PROPERTY_ISSUES_PER_PAGE] : $p_per_page );
 	$p_per_page = (( 0 == $p_per_page || -1 == $p_per_page ) ? $p_count : $p_per_page );
@@ -413,12 +412,12 @@ function filter_per_page( $p_filter, $p_count, $p_per_page ) {
 }
 
 /**
-     *  Use $p_count and $p_per_page to determine how many pages to split this list up into.
-     *  For the sake of consistency have at least one page, even if it is empty.
-     * @param $p_count
-     * @param $p_per_page
-     * @return $t_page_count
-     */
+ * Use $p_count and $p_per_page to determine how many pages to split this list up into.
+ * For the sake of consistency have at least one page, even if it is empty.
+ * @param int count
+ * @param int per page
+ * @return int page count
+ */
 function filter_page_count( $p_count, $p_per_page ) {
 	$t_page_count = ceil( $p_count / $p_per_page );
 	if( $t_page_count < 1 ) {
@@ -428,11 +427,12 @@ function filter_page_count( $p_count, $p_per_page ) {
 }
 
 /**
-     *  Checks to make sure $p_page_number isn't past the last page.
-     *  and that $p_page_number isn't before the first page
-     *   @param $p_page_number
-     *   @param $p_page_count
-     */
+ * Checks to make sure $p_page_number isn't past the last page.
+ * and that $p_page_number isn't before the first page
+ * @param int Page number
+ * @param int Page count
+ * @return int
+ */
 function filter_valid_page_number( $p_page_number, $p_page_count ) {
 	if( $p_page_number > $p_page_count ) {
 		$p_page_number = $p_page_count;
@@ -445,31 +445,29 @@ function filter_valid_page_number( $p_page_number, $p_page_count ) {
 }
 
 /**
-     *  Figure out the offset into the db query, offset is which record to start querying from
-     * @param int $p_page_number
-     * @param int $p_per_page
-     * @return int
-     */
+ * Figure out the offset into the db query, offset is which record to start querying from
+ * @param int Page number
+ * @param int Per page
+ * @return int
+ */
 function filter_offset( $p_page_number, $p_per_page ) {
 	return(( (int) $p_page_number -1 ) * (int) $p_per_page );
 }
 
 /**
- *  Make sure that our filters are entirely correct and complete (it is possible that they are not).
- *  We need to do this to cover cases where we don't have complete control over the filters given.s
+ * Make sure that our filters are entirely correct and complete (it is possible that they are not).
+ * We need to do this to cover cases where we don't have complete control over the filters given.s
  * @param array $p_filter_arr
  * @return mixed
  * @todo function needs to be abstracted
  */
 function filter_ensure_valid_filter( $p_filter_arr ) {
-
 	# extend current filter to add information passed via POST
 	if( !isset( $p_filter_arr['_version'] ) ) {
 		$p_filter_arr['_version'] = config_get( 'cookie_version' );
 	}
 	$t_cookie_vers = (int) utf8_substr( $p_filter_arr['_version'], 1 );
 	if( utf8_substr( config_get( 'cookie_version' ), 1 ) > $t_cookie_vers ) {
-
 		# if the version is old, update it
 		$p_filter_arr['_version'] = config_get( 'cookie_version' );
 	}
@@ -800,9 +798,9 @@ function filter_get_default() {
 }
 
 /**
- *  Deserialize filter string
- * @param string $p_serialized_filter
- * @return mixed $t_filter array
+ * Deserialize filter string
+ * @param string serialized filter
+ * @return mixed filter array
  * @see filter_ensure_valid_filter
  */
 function filter_deserialize( $p_serialized_filter ) {
@@ -836,7 +834,7 @@ function filter_deserialize( $p_serialized_filter ) {
 }
 
 /**
- *  Check if the filter cookie exists and is of the correct version.
+ * Check if the filter cookie exists and is of the correct version.
  * @return bool
  */
 function filter_is_cookie_valid() {
@@ -870,8 +868,7 @@ function filter_is_cookie_valid() {
 }
 
 /**
- *  Get the array fields specified by $p_filter_id
- *  using the cached row if it's available
+ * Get the array fields specified by $p_filter_id using the cached row if it's available
  * @param int $p_filter_id
  * @return mixed a filter row
  */
@@ -880,7 +877,7 @@ function filter_get_row( $p_filter_id ) {
 }
 
 /**
- *  Get the value of the filter field specified by filter id and field name
+ * Get the value of the filter field specified by filter id and field name
  * @param int $p_filter_id
  * @param string $p_field_name
  * @return string
@@ -897,7 +894,7 @@ function filter_get_field( $p_filter_id, $p_field_name ) {
 }
 
 /**
- *  Add sort parameters to the query clauses
+ * Add sort parameters to the query clauses
  * @param array $p_filter
  * @param bool $p_show_sticky
  * @param array $p_query_clauses
@@ -989,14 +986,14 @@ function filter_get_query_sort_data( &$p_filter, $p_show_sticky, $p_query_clause
 }
 
 /**
-     *  Remove any duplicate values in certain elements of query_clauses
-     *  Do not loop over query clauses as some keys may contain valid duplicate values.
-     *  We basically want unique values for just the base query elements select, from, and join
-     *  'where' and 'where_values' key should not have duplicates as that is handled earlier and applying
-     *  array_unique here could cause problems with the query.
-     * @param $p_query_clauses
-     * @return $p_query_clauses
-     */
+ *  Remove any duplicate values in certain elements of query_clauses
+ *  Do not loop over query clauses as some keys may contain valid duplicate values.
+ *  We basically want unique values for just the base query elements select, from, and join
+ *  'where' and 'where_values' key should not have duplicates as that is handled earlier and applying
+ *  array_unique here could cause problems with the query.
+ * @param $p_query_clauses
+ * @return $p_query_clauses
+ */
 function filter_unique_query_clauses( $p_query_clauses ) {
 	$p_query_clauses['select'] = array_unique( $p_query_clauses['select'] );
 	$p_query_clauses['from'] = array_unique( $p_query_clauses['from'] );
@@ -1005,10 +1002,10 @@ function filter_unique_query_clauses( $p_query_clauses ) {
 }
 
 /**
-     *  Build a query with the query clauses array, query for bug count and return the result
-     * @param array $p_query_clauses
-     * @return int
-     */
+ * Build a query with the query clauses array, query for bug count and return the result
+ * @param array $p_query_clauses
+ * @return int
+ */
 function filter_get_bug_count( $p_query_clauses ) {
 	$p_query_clauses = filter_unique_query_clauses( $p_query_clauses );
 	$t_select_string = "SELECT Count( DISTINCT {bug}.id ) as idcnt ";
@@ -1020,22 +1017,23 @@ function filter_get_bug_count( $p_query_clauses ) {
 }
 
 /**
+ * Get set of bug rows from given filter
  * @todo Had to make all these parameters required because we can't use
  *  call-time pass by reference anymore.  I really preferred not having
  *  to pass all the params in if you didn't want to, but I wanted to get
  *  rid of the errors for now.  If we can think of a better way later
  *  (maybe return an object) that would be great.
  *
- * @param int $p_page_number the page you want to see (set to the actual page on return)
- * @param int $p_per_page the number of bugs to see per page (set to actual on return)
+ * @param int Page number of the page you want to see (set to the actual page on return)
+ * @param int The number of bugs to see per page (set to actual on return)
  *      -1   indicates you want to see all bugs
  *      null indicates you want to use the value specified in the filter
- * @param int $p_page_count you don't need to give a value here, the number of pages will be stored here on return
- * @param int $p_bug_count you don't need to give a value here, the number of bugs will be stored here on return
- * @param mixed $p_custom_filter Filter to use.
- * @param int $p_project_id project id to use in filtering.
- * @param int $p_user_id user id to use as current user when filtering.
- * @param bool $p_show_sticky get sticky issues only.
+ * @param int you don't need to give a value here, the number of pages will be stored here on return
+ * @param int you don't need to give a value here, the number of bugs will be stored here on return
+ * @param mixed Custom Filter to use.
+ * @param int project id to use in filtering.
+ * @param int user id to use as current user when filtering.
+ * @param bool true/false - get sticky issues only.
  */
 function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p_bug_count, $p_custom_filter = null, $p_project_id = null, $p_user_id = null, $p_show_sticky = null ) {
 	log_event( LOG_FILTERING, 'START NEW FILTER QUERY' );
@@ -3406,7 +3404,7 @@ function filter_draw_selection_area2( $p_page_number, $p_for_screen = true, $p_e
 }
 
 /**
- 	 * @internal The following functions each print out filter field inputs.
+ * @internal The following functions each print out filter field inputs.
  *      They are derived from view_filters_page.php
  *      The functions follow a strict naming convention:
  *
@@ -3759,6 +3757,7 @@ function print_filter_highlight_changed() {
 
 /**
  *  print filter by date fields
+ * @param bool hide data filter checkbox
  */
 function print_filter_do_filter_by_date( $p_hide_checkbox = false ) {
 	global $t_filter;
@@ -3959,7 +3958,7 @@ function print_filter_plugin_field( $p_field_name, $p_filter_object ) {
 }
 
 /**
- *  print custom fields
+ * Print custom fields
  * @param int $p_field_id
  */
 function print_filter_custom_field( $p_field_id ) {
@@ -4007,7 +4006,7 @@ function print_filter_custom_field( $p_field_id ) {
 }
 
 /**
- *  print sort fields
+ * Print sort fields
  */
 function print_filter_show_sort() {
 	global $t_filter;
@@ -4083,7 +4082,7 @@ function print_filter_show_sort() {
 }
 
 /**
- *  print custom field date fields
+ * Print custom field date fields
  * @param int $p_field_num
  * @param int $p_field_id
  */
@@ -4197,7 +4196,7 @@ function print_filter_custom_field_date( $p_field_num, $p_field_id ) {
 }
 
 /**
- *  print project field
+ * Print project field
  */
 function print_filter_project_id() {
 	global $t_select_modifier, $t_filter, $f_view_type;
@@ -4211,9 +4210,9 @@ function print_filter_project_id() {
 }
 
 /**
- *  Prints a multi-value filter field.
- * @param  string $p_field_name
- * @param mixed $p_field_value
+ * Prints a multi-value filter field.
+ * @param string Field name
+ * @param mixed field value
  */
 function print_multivalue_field( $p_field_name, $p_field_value ) {
 	$t_output = '';
@@ -4270,10 +4269,9 @@ $g_cache_filter = array();
 $g_cache_filter_db_filters = array();
 
 /**
- *  Cache a filter row if necessary and return the cached copy
- *  If the second parameter is true (default), trigger an error
- *  if the filter can't be found.  If the second parameter is
- *  false, return false if the filter can't be found.
+ * Cache a filter row if necessary and return the cached copy
+ * If the second parameter is true (default), trigger an error if the filter can't be found.
+ * If the second parameter is false, return false if the filter can't be found.
  * @param int $p_filter_id
  * @param bool $p_trigger_errors
  * @return mixed
@@ -4304,8 +4302,8 @@ function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 }
 
 /**
- *  Clear the filter cache (or just the given id if specified)
- * @param int $p_filter_id
+ * Clear the filter cache (or just the given id if specified)
+ * @param int filter id
  * @return bool
  */
 function filter_clear_cache( $p_filter_id = null ) {
@@ -4321,11 +4319,11 @@ function filter_clear_cache( $p_filter_id = null ) {
 }
 
 /**
- *  Add a filter to the database for the current user
- * @param int $p_project_id
- * @param bool $p_is_public
- * @param string $p_name
- * @param string $p_filter_string
+ * Add a filter to the database for the current user
+ * @param int Project id
+ * @param bool whether filter is public or private
+ * @param string filter name
+ * @param string filter string
  * @return int
  */
 function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $p_filter_string ) {
@@ -4376,10 +4374,8 @@ function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $
 }
 
 /**
- *  This function returns the filter string that is
- *  tied to the unique id parameter. If the user doesn't
- *  have permission to see this filter, the function
- *  returns null
+ * This function returns the filter string that is tied to the unique id parameter. If the user 
+ * doesn't have permission to see this filter, the function returns null
  * @param int $p_filter_id
  * @param int $p_user_id
  * @return mixed
@@ -4425,6 +4421,7 @@ function filter_db_get_filter( $p_filter_id, $p_user_id = null ) {
 }
 
 /**
+ * get current filter for given project and user
  * @param int $p_project_id
  * @param int $p_user_id
  * @return int
@@ -4451,8 +4448,8 @@ function filter_db_get_project_current( $p_project_id, $p_user_id = null ) {
 }
 
 /**
- *  Query for the filter name using the filter id
- * @param int $p_filter_id
+ * Query for the filter name using the filter id
+ * @param int filter id
  * @return string
  */
 function filter_db_get_name( $p_filter_id ) {
@@ -4475,8 +4472,8 @@ function filter_db_get_name( $p_filter_id ) {
 }
 
 /**
- *  Check if the current user has permissions to delete the stored query
- * @param $p_filter_id
+ * Check if the current user has permissions to delete the stored query
+ * @param int filter id
  * @return bool
  */
 function filter_db_can_delete_filter( $p_filter_id ) {
@@ -4500,8 +4497,8 @@ function filter_db_can_delete_filter( $p_filter_id ) {
 }
 
 /**
- *  Delete the filter specified by $p_filter_id
- * @param $p_filter_id
+ * Delete the filter specified by $p_filter_id
+ * @param int filter id
  * @return bool
  */
 function filter_db_delete_filter( $p_filter_id ) {
@@ -4520,7 +4517,7 @@ function filter_db_delete_filter( $p_filter_id ) {
 }
 
 /**
- *  Delete all the unnamed filters
+ * Delete all the unnamed filters
  */
 function filter_db_delete_current_filters() {
 	$t_all_id = ALL_PROJECTS;
@@ -4530,8 +4527,9 @@ function filter_db_delete_current_filters() {
 }
 
 /**
- * @param int $p_project_id
- * @param int $p_user_id
+ * Get available filters for given project and user
+ * @param int project id
+ * @param int user id
  * @return mixed
  */
 function filter_db_get_available_queries( $p_project_id = null, $p_user_id = null ) {
@@ -4575,7 +4573,8 @@ function filter_db_get_available_queries( $p_project_id = null, $p_user_id = nul
 }
 
 /**
- * @param str $p_name
+ * Check that the given filter name does not exceed the maximum filter length
+ * @param string filter name
  * @return bool true when under max_length (64) and false when over
  */
 function filter_name_valid_length( $p_name ) {

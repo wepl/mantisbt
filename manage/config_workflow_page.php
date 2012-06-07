@@ -64,6 +64,10 @@ $t_can_change_workflow = $t_access >= config_get_access( 'status_enum_workflow' 
 $t_can_change_flags = $t_can_change_workflow;
 $t_overrides = array();
 
+/**
+ * Set overrides
+ * @param string config value
+ */
 function set_overrides( $p_config ) {
    global $t_overrides;
    if ( !in_array( $p_config, $t_overrides ) ) {
@@ -71,7 +75,11 @@ function set_overrides( $p_config ) {
    }
 }
 
-# Get the value associated with the specific action and flag.
+/**
+ * Get the value associated with the specific action and flag.
+ * @param int from status id
+ * @param int to status id
+ */
 function show_flag( $p_from_status_id, $p_to_status_id ) {
 	global $t_can_change_workflow, $t_overrides, $t_file_workflow, $t_global_workflow, $t_project_workflow;
 	if ( $p_from_status_id <> $p_to_status_id ) {
@@ -117,6 +125,10 @@ function show_flag( $p_from_status_id, $p_to_status_id ) {
 	return $t_value;
 }
 
+/**
+ * section header
+ * @param string section name
+ */
 function section_begin( $p_section_name ) {
 	$t_enum_statuses = MantisEnum::getValues( config_get( 'status_enum_string' ) );
 	echo '<table class="width100">';
@@ -135,6 +147,10 @@ function section_begin( $p_section_name ) {
 	echo '</tr>' . "\n";
 }
 
+/**
+ * Print row
+ * @param int from status
+ */
 function capability_row( $p_from_status ) {
 	global $t_file_workflow, $t_global_workflow, $t_project_workflow, $t_can_change_workflow;
 	$t_enum_status = MantisEnum::getAssocArrayIndexedByValues( config_get( 'status_enum_string' ) );
@@ -172,10 +188,17 @@ function capability_row( $p_from_status ) {
 	echo '</tr>' . "\n";
 }
 
+/**
+ * section footer
+ */
 function section_end() {
 	echo '</table><br />' . "\n";
 }
 
+/**
+ * threshold section begin
+ * @param string section name
+ */
 function threshold_begin( $p_section_name ) {
 	echo '<table class="width100">';
 	echo '<tr><td class="form-title" colspan="3">' . $p_section_name . '</td></tr>' . "\n";
@@ -185,6 +208,10 @@ function threshold_begin( $p_section_name ) {
 	echo "\n";
 }
 
+/**
+ * threshold section row
+ * @param string threshold
+ */
 function threshold_row( $p_threshold ) {
 	global $t_access, $t_can_change_flags;
 
@@ -223,10 +250,17 @@ function threshold_row( $p_threshold ) {
 	echo '</tr>' . "\n";
 }
 
+/**
+ * threshold section end
+ */
 function threshold_end() {
 	echo '</table><br />' . "\n";
 }
 
+/**
+ * access begin
+ * @param string section name
+ */
 function access_begin( $p_section_name ) {
 	echo '<table class="width100">';
 	echo '<tr><td class="form-title" colspan="2">'
@@ -234,6 +268,9 @@ function access_begin( $p_section_name ) {
 	echo '<tr><td class="form-title" colspan="2">' . lang_get( 'access_change' ) . '</td></tr>';
 }
 
+/**
+ * access row
+ */
 function access_row() {
 	global $t_access, $t_can_change_flags;
 

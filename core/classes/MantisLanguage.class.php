@@ -20,18 +20,21 @@
  * @package MantisBT
  */
 
+/**
+ * Mantis Language Handling Class
+ */
 class MantisLanguage {
-	/*
+	/**
 	 * Cache of localization strings in the language files
 	 */
 	static $s_lang_strings = array();
 
-	/*
+	/**
 	 * stack for language overrides
 	 */
 	static $s_lang_overrides = array();
 
-	/*
+	/**
 	 * To be used in custom_strings_inc.php :
 	 */
 	static $s_active_language = '';
@@ -190,7 +193,7 @@ class MantisLanguage {
 	
 	/**
 	 * Ensures that a language file has been loaded
-	 * @param string $p_lang the language name
+	 * @param string the language name
 	 * @return null
 	 */
 	private static function EnsureLoaded( $p_lang ) {
@@ -198,7 +201,11 @@ class MantisLanguage {
 			MantisLanguage::Load( $p_lang );
 		}
 	}	
-	
+
+	/**
+	 * Set the active language
+	 * @param string the language name
+	 */
 	public static function ActiveLanguage( $p_lang ) {
 		self::$s_active_language = $p_lang;
 	}

@@ -52,7 +52,8 @@ $g_cookie_secure_flag_enabled = isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER
  *  you pass in *no* default then an error will be triggered if the field
  *  cannot be found
  *
- * @param string
+ * @param string Variable name
+ * @param mixed Default value
  * @return null
  */
 function gpc_get( $p_var_name, $p_default = null ) {
@@ -73,7 +74,7 @@ function gpc_get( $p_var_name, $p_default = null ) {
 }
 
 /**
- *
+ * Check if GPC variable is set in $_POST or $_GET
  * @param string $p_var_name
  * @return bool
  */
@@ -190,9 +191,9 @@ function gpc_isset_custom_field( $p_var_name, $p_custom_field_type ) {
  * Retrieve a custom field variable.  Uses gpc_get().
  * If you pass in *no* default, an error will be triggered if
  * the variable does not exist
- * @param string $p_var_name
- * @param int $p_custom_field_Type
- * @param mixed $p_default
+ * @param string Variable name
+ * @param int Custom Field Type
+ * @param mixed Default value
  * @return string
  */
 function gpc_get_custom_field( $p_var_name, $p_custom_field_type, $p_default = null ) {
@@ -399,8 +400,8 @@ function gpc_clear_cookie( $p_name, $p_path = null, $p_domain = null ) {
  * You may pass in any variable as a default (including null) but if
  * you pass in *no* default then an error will be triggered if the file
  * cannot be found
- * @param string $p_var_name
- * @param mixed $p_file
+ * @param string Variable name
+ * @param mixed Default value
  * @return mixed
  */
 function gpc_get_file( $p_var_name, $p_default = null ) {
@@ -422,7 +423,7 @@ function gpc_get_file( $p_var_name, $p_default = null ) {
 
 /**
  * Convert a POST/GET parameter to an array if it is not already one.
- * @param string $p_var_name - The name of the parameter
+ * @param string The name of the parameter
  * @return null no return value.  The $_POST/$_GET are updated as appropriate.
  */
 function gpc_make_array( $p_var_name ) {

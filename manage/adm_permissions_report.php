@@ -48,6 +48,10 @@ html_page_top( lang_get( 'permissions_summary_report' ) );
 print_manage_menu( 'adm_permissions_report.php' );
 print_manage_config_menu( 'adm_permissions_report.php' );
 
+/**
+ * Get section header for permissions report
+ * @param string section name
+ */
 function get_section_begin_apr( $p_section_name ) {
 	$t_access_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
 
@@ -64,6 +68,11 @@ function get_section_begin_apr( $p_section_name ) {
 	return $t_output;
 }
 
+/**
+ * Get row for permissions report
+ * @param string caption
+ * @param int access level
+ */
 function get_capability_row( $p_caption, $p_access_level ) {
 	$t_access_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
 
@@ -83,6 +92,9 @@ function get_capability_row( $p_caption, $p_access_level ) {
 	return $t_output;
 }
 
+/**
+ * Get section footer for permissions report
+ */
 function get_section_end() {
 	$t_output = '</table><br />' . "\n";
 	return $t_output;

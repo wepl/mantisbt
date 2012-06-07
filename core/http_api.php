@@ -59,6 +59,10 @@ function is_browser_chrome() {
 	return false;
 }
 
+/**
+ * Checks to see if the client is using a mobile browser
+ * @return boolean true if a mobile browser is detected as the user agent
+ */
 function is_browser_mobile() {
   $t_user_agent = isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : 'none';
   if(preg_match( '/android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $t_user_agent ) || 

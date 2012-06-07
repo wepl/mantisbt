@@ -209,6 +209,7 @@ function email_notify_flag( $action, $flag ) {
 }
 
 /**
+ * Collect valid email recipients for email notification
  * @todo yarick123: email_collect_recipients(...) will be completely rewritten to provide additional information such as language, user access,..
  * @todo yarick123:sort recipients list by language to reduce switches between different languages
  * @param int $p_bug_id
@@ -1259,13 +1260,13 @@ function email_format_bug_message( $p_visible_bug_data ) {
  * if $p_visible_bug_data contains specified attribute the function
  * returns concatenated translated attribute name and original
  * attribute value. Else return empty string.
- * @param array $p_visible_bug_data
- * @param string $p_attribute_id
+ * @param array Visible Bug Data array
+ * @param string Attribute ID
  * @return string
  */
-function email_format_attribute( $p_visible_bug_data, $attribute_id ) {
-	if( array_key_exists( $attribute_id, $p_visible_bug_data ) ) {
-		return utf8_str_pad( lang_get( $attribute_id ) . ': ', config_get( 'email_padding_length' ), ' ', STR_PAD_RIGHT ) . $p_visible_bug_data[$attribute_id] . "\n";
+function email_format_attribute( $p_visible_bug_data, $p_attribute_id ) {
+	if( array_key_exists( $p_attribute_id, $p_visible_bug_data ) ) {
+		return utf8_str_pad( lang_get( $p_attribute_id ) . ': ', config_get( 'email_padding_length' ), ' ', STR_PAD_RIGHT ) . $p_visible_bug_data[$p_attribute_id] . "\n";
 	}
 	return '';
 }

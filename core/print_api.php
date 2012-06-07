@@ -311,9 +311,9 @@ function print_user_option_list( $p_user_id, $p_project_id = null, $p_access = A
 }
 
 /**
- * @todo ugly functions  need to be refactored
  * This populates the reporter option list with the appropriate users
  *
+ * @todo ugly functions  need to be refactored
  * @todo This function really ought to print out all the users, I think.
  *  I just encountered a situation where a project used to be public and
  *  was made private, so now I can't filter on any of the reporters who
@@ -538,6 +538,11 @@ function print_project_option_list( $p_project_id = null, $p_include_all_project
 
 /**
  * List projects that the current user has access to
+ * @param int parent project id
+ * @param int project id
+ * @param int filter project id
+ * @param bool trace
+ * @param array array of parent projects
  */
 function print_subproject_option_list( $p_parent_id, $p_project_id = null, $p_filter_project_id = null, $p_trace = false, $p_parents = array() ) {
 	array_push( $p_parents, $p_parent_id );
@@ -560,6 +565,9 @@ function print_subproject_option_list( $p_parent_id, $p_project_id = null, $p_fi
 
 /**
  * prints the profiles given the user id
+ * @param int user id
+ * @param string select id
+ * @param array profiles
  */
 function print_profile_option_list( $p_user_id, $p_select_id = '', $p_profiles = null ) {
 	if( '' === $p_select_id ) {
@@ -575,6 +583,9 @@ function print_profile_option_list( $p_user_id, $p_select_id = '', $p_profiles =
 
 /**
  * prints the profiles used in a certain project
+ * @param int project id
+ * @param string select id
+ * @param array profiles
  */
 function print_profile_option_list_for_project( $p_project_id, $p_select_id = '', $p_profiles = null ) {
 	if( '' === $p_select_id ) {
@@ -926,6 +937,7 @@ function print_project_access_levels_option_list( $p_val, $p_project_id = null )
 }
 
 /**
+ * Print option list of available language choices
  * @param string language
  */
 function print_language_option_list( $p_language ) {
@@ -942,7 +954,7 @@ function print_language_option_list( $p_language ) {
 /**
  * Print a dropdown list of all bug actions available to a user for a specified
  * set of projects.
- * @param array $p_projects An array containing one or more project IDs
+ * @param array An array containing one or more project IDs
  * @return null
  */
 function print_all_bug_action_option_list( $p_project_ids = null ) {
@@ -1122,8 +1134,10 @@ function print_formatted_severity_string( $p_status, $p_severity ) {
 
 /**
  * Print view bug sort link
+ * @todo params should be in same order as print_manage_user_sort_link
  * @param string string
  * @param string sort field
+ * @param string sort by
  * @param string sort direction
  * @param see COLUMNS_TARGET_* in constant_inc.php
  */

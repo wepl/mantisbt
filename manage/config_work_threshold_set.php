@@ -56,6 +56,11 @@ $t_project = helper_get_current_project();
 
 $t_access = current_user_get_access_level();
 
+/**
+ * set row
+ * @param string threshold
+ * @param bool all projects only
+ */
 function set_capability_row( $p_threshold, $p_all_projects_only=false ) {
 	global $t_access, $t_project;
 
@@ -100,6 +105,11 @@ function set_capability_row( $p_threshold, $p_all_projects_only=false ) {
 	}
 }
 
+/**
+ * Get capability boolean
+ * @param string threshold
+ * @param bool all projects only
+ */
 function set_capability_boolean( $p_threshold, $p_all_projects_only=false ) {
 	global $t_access, $t_project;
 
@@ -116,6 +126,11 @@ function set_capability_boolean( $p_threshold, $p_all_projects_only=false ) {
 	}
 }
 
+/**
+ * Set capability enum
+ * @param string threshold
+ * @param bool all projects only
+ */
 function set_capability_enum( $p_threshold, $p_all_projects_only=false ) {
 	global $t_access, $t_project;
 
@@ -130,7 +145,6 @@ function set_capability_enum( $p_threshold, $p_all_projects_only=false ) {
 		}
 	}
 }
-
 
 # Issues
 set_capability_row( 'report_bug_threshold' );

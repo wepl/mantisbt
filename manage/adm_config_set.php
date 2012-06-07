@@ -129,6 +129,7 @@ print_successful_redirect( 'adm_config_report.php' );
 
 /**
  * Check if the passed string is a constant and return its value
+ * @param string constant name
  */
 function constant_replace( $p_name ) {
 	$t_result = $p_name;

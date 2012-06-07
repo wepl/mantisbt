@@ -52,6 +52,15 @@ require_api( 'string_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 
+/**
+ * Print row in summary table
+ *
+ * @param string label
+ * @param string count of open issues - normally string with hyperlink to filter
+ * @param string count of resolved issues - normally string with hyperlink to filter
+ * @param string count of closed issues - normally string with hyperlink to filter
+ * @param string count of total issues - normally string with hyperlink to filter
+ */
 function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p_total ) {
 	print( '<tr>' );
 	printf( '<td class="width50">%s</td>', string_display_line( $p_label ) );
@@ -63,9 +72,10 @@ function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p
 }
 
 /**
- * Used in summary reports
- * this function prints out the summary for the given enum setting
+ * Used in summary reportsthis function prints out the summary for the given enum setting
  * The enum field name is passed in through $p_enum
+ *
+ * @param string enum field name
  */
 function summary_print_by_enum( $p_enum ) {
 	$t_project_id = helper_get_current_project();
@@ -217,8 +227,9 @@ function summary_print_by_enum( $p_enum ) {
 }
 
 /**
- * prints the bugs submitted in the last X days (default is 1 day) for the
- * current project
+ * prints the bugs submitted in the last X days (default is 1 day) for the current project
+ *
+ * @param int number of days
  */
 function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 	$c_time_length = (int) $p_time_length * SECONDS_PER_DAY;
@@ -238,8 +249,9 @@ function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 }
 
 /**
- * returns the number of bugs resolved in the last X days (default is 1 day) for the
- * current project
+ * returns the number of bugs resolved in the last X days (default is 1 day) for the current project
+ *
+ * @param int number of days
  */
 function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );
@@ -271,7 +283,8 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 
 /**
  * This function shows the number of bugs submitted in the last X days
- * An array of integers representing days is passed in
+ *
+ * @param array An array of integers representing days is passed in
  */
 function summary_print_by_date( $p_date_array ) {
 	$arr_count = count( $p_date_array );
@@ -310,14 +323,11 @@ function summary_print_by_date( $p_date_array ) {
 		print( "\n<td class=\"right$t_style\">$t_balance</td>\n" );
 		print( "</tr>\n" );
 	}
-
-	# end foreach
 }
 
 /**
- * Print list of open bugs with the highest activity score
- * the score is calculated assigning one "point" for each history event
- * associated with the bug
+ * Print list of open bugs with the highest activity score the score is calculated assigning 
+ * one "point" for each history event associated with the bug
  */
 function summary_print_by_activity() {
 	$t_project_id = helper_get_current_project();
@@ -342,7 +352,6 @@ function summary_print_by_activity() {
 	$t_summarydata = array();
 	$t_summarybugs = array();
 	while( $row = db_fetch_array( $t_result ) ) {
-
 		// Skip private bugs unless user has proper permissions
 		if(( VS_PRIVATE == $row['view_state'] ) && ( false == access_has_bug_level( $t_private_bug_threshold, $row['id'] ) ) ) {
 			continue;
@@ -708,6 +717,11 @@ function summary_print_by_category() {
 
 /**
  * print bug counts by project
+ * @todo check p_cache
+ *
+ * @param array Array of project id's
+ * @param int level
+ * @param int cache
  */
 function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = null ) {
 	$t_project_id = helper_get_current_project();
@@ -785,6 +799,8 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 
 /**
  * Print developer / resolution report
+ *
+ * @param string resolution enum string
  */
 function summary_print_developer_resolution( $p_resolution_enum_string ) {
 	$t_project_id = helper_get_current_project();
@@ -887,6 +903,8 @@ function summary_print_developer_resolution( $p_resolution_enum_string ) {
 
 /**
  * Print reporter / resolution report
+ *
+ * @param string resolution enum string
  */
 function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );
@@ -1000,6 +1018,9 @@ function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 
 /**
  * Print reporter effectiveness report
+ *
+ * @param string severity enum string
+ * @param string resolution enum string
  */
 function summary_print_reporter_effectiveness( $p_severity_enum_string, $p_resolution_enum_string ) {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );

@@ -145,7 +145,12 @@
 	public function __get($name) {
 		return $this->{$name};
 	}
- 
+
+	/**
+	 * return a set of users matching given field
+	 * @param string field name to search by
+	 * @param string value to search for
+	 */
 	public static function getByArray($p_field, $p_values ) {
 		if( empty( $p_values ) ) {
 			return array();
@@ -163,6 +168,11 @@
 		return $t_users;
 	}
 	
+	/**
+	 * Get MantisUser by username
+	 * @param string user name
+	 * @return MantisUser
+	 */
 	public static function getByUserName($p_name) {
 		$t_row = self::GetFromDatabase( 'username', $p_name );
 		if ( $t_row === null ) {
@@ -175,6 +185,11 @@
 		return $t_user;
 	}
 
+	/**
+	 * Get MantisUser by cookiestring
+	 * @param string cookie string
+	 * @return MantisUser
+	 */
 	public static function getByCookieString($p_cookie) {
 		$t_row = self::GetFromDatabase( 'cookie_string', $p_cookie );
 		if ( $t_row === null ) {
@@ -186,7 +201,12 @@
 		
 		return $t_user;
 	}
-	
+
+	/**
+	 * Get MantisUser by user id
+	 * @param string user id
+	 * @return MantisUser
+	 */
 	public static function getByUserID($p_user_id) {
 		$t_row = self::GetFromDatabase( 'id', $p_user_id );
 		if ( $t_row === null ) {
@@ -201,9 +221,10 @@
 	
 	/**
 	 * Cache a user row if necessary and return the cached copy
-	 *  If the second parameter is true (default), trigger an error
-	 *  if the user can't be found.  If the second parameter is
-	 *  false, return false if the user can't be found.
+	 * If the second parameter is true (default), trigger an error if the user can't be found.
+	 * If the second parameter is false, return false if the user can't be found.
+	 * @param string field name
+	 * @param mixed array or single value to retrieve
 	 */
 	private static function GetFromDatabase( $p_field, $p_value ) {
 		switch( $p_field ) {
@@ -243,9 +264,10 @@
 	
 	/**
 	 * Cache a user row if necessary and return the cached copy
-	 *  If the second parameter is true (default), trigger an error
-	 *  if the user can't be found.  If the second parameter is
-	 *  false, return false if the user can't be found.
+	 * If the second parameter is true (default), trigger an error if the user can't be found.
+	 * If the second parameter is false, return false if the user can't be found.
+	 * @param int user id
+	 * @param bool trigger errors
 	 */
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
 		$t_query = 'SELECT * FROM {user} WHERE id=%d';
@@ -334,7 +356,6 @@
 	/**
 	 * validate current user object for database insert/update
 	 * throws exception on failure
-	 * @param bool $p_update_extended
 	 */
 	function validate() {
 		// Generate a password if not valid
@@ -395,6 +416,7 @@
 	/** 
 	 * Check if the username is a valid username.
 	 * Return true if it is, false otherwise
+	 * @param string username
 	 */
 	private function validate_username($p_username) {
 		# The DB field is hard-coded. USERLEN should not be modified.

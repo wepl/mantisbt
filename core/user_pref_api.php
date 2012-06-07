@@ -232,9 +232,10 @@ class UserPreferences {
 	}
 
 	/**
-	 * @param string $name
-	 * @param string $value
-	 * @private
+	 * Overloaded function
+	 * @param string Property name
+	 * @param string Value
+	 * @access private
 	 */
 	public function __set($name, $value) {
 		switch ($name) {
@@ -247,8 +248,9 @@ class UserPreferences {
 	}
 
 	/**
-	 * @param string $t_string
-	 * @private
+	 * Overloaded function
+	 * @param string Property name
+	 * @access private
 	 */
 	public function __get( $p_string ) {
 		if( is_null( $this->$p_string ) ) {
@@ -258,7 +260,8 @@ class UserPreferences {
 	}
 
 	/**
-	 * @param string $t_string
+	 * Public Get() function
+	 * @param string Property
 	 */
 	function Get( $p_string ) {
 		if( is_null( $this->$p_string ) ) {

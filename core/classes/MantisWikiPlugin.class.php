@@ -34,7 +34,9 @@
  * @subpackage classes
  */
 abstract class MantisWikiPlugin extends MantisPlugin {
-
+	/**
+	 * Hooks
+	 */
 	function hooks() {
 		return array(
 			'EVENT_WIKI_INIT' => 'wiki_init',
@@ -43,11 +45,25 @@ abstract class MantisWikiPlugin extends MantisPlugin {
 		);
 	}
 
+	/**
+	 * Plugin init function
+	 */
 	function wiki_init() {
 		return true;
 	}
 
+	/**
+	 * Generate url to Bug entry in wiki
+	 * @param int event
+	 * @param int bug id
+	 */
 	abstract function link_bug( $p_event, $p_bug_id );
+
+	/**
+	 * Generate url to Project entry in wiki
+	 * @param int event
+	 * @param int bug id
+	 */
 	abstract function link_project( $p_event, $p_project_id );
 }
 

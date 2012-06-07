@@ -73,6 +73,11 @@ foreach( $g_custom_field_types as $type ) {
 	require_once( config_get_global( 'core_path' ) . 'cfdefs/cfdef_' . $type . '.php' );
 }
 
+/**
+ * Return true whether to display custom field
+ * @param int custom field type
+ * @param string when to display
+ */
 function custom_field_allow_manage_display( $p_type, $p_display ) {
 	global $g_custom_field_type_definition;
 	if( isset( $g_custom_field_type_definition[$p_type]['#display_' . $p_display] ) ) {
@@ -1237,10 +1242,10 @@ function custom_field_default_to_value( $p_value, $p_type ) {
 /**
  * Set the value of a custom field for a given bug
  * return true on success, false on failure
- * @param int $p_field_id custom field id
- * @param int $p_bug_id bug id
- * @param mixed $p_value
- * @param boolean $p_log create history logs for new values
+ * @param int custom field id
+ * @param int bug id
+ * @param mixed new custom field value
+ * @param boolean create history logs for new values
  * @return bool
  * @access public
  */

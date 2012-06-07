@@ -61,6 +61,10 @@ html_page_top( lang_get( 'configuration_report' ) );
 print_manage_menu( 'adm_config_report.php' );
 print_manage_config_menu( 'adm_config_report.php' );
 
+/**
+ * Return string representing type of config variable
+ * @param int CONFIG_TYPE_*
+ */
 function get_config_type( $p_type ) {
 	switch( $p_type ) {
 		case CONFIG_TYPE_INT:
@@ -75,6 +79,11 @@ function get_config_type( $p_type ) {
 	}
 }
 
+/**
+ * Print out a given config value as a string
+ * @param int CONFIG_TYPE_*
+ * @param string config value
+ */
 function print_config_value_as_string( $p_type, $p_value ) {
 	$t_corrupted = false;
 

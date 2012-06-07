@@ -390,7 +390,7 @@ function helper_project_specific_where( $p_project_id, $p_user_id = null ) {
 }
 
 /**
- *
+ * Get array of columns for given target
  * @param int $p_columns_target
  * @param bool $p_viewable_only
  * @param int $p_user_id

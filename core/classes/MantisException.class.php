@@ -20,16 +20,54 @@
  * @package MantisBT
  */
 
+ /**
+ * Mantis Database Exception
+ * @package MantisBT
+ * @subpackage classes
+ */
 abstract class MantisException extends Exception
 {
-    protected $message = 'Unknown exception';     // Exception message
-    private   $string;                            // Unknown
-    protected $code    = 0;                       // User-defined exception code
-    protected $file;                              // Source filename of exception
-    protected $line;                              // Source line of exception
-    private   $trace;                             // Unknown
+	/**
+	 * Exception message
+	 */
+    protected $message = 'Unknown exception';
 
-	private $context = null;		// Mantis Context
+	/**
+	 * Unknown
+	 */
+    private $string;
+	
+	/**
+	 * User-defined exception code
+	 */
+    protected $code    = 0;
+
+	/**
+	 * Source filename of exception
+	 */
+    protected $file;
+
+	/**
+	 * Source line of exception
+	 */
+    protected $line;
+
+	/**
+	 * Unknown
+	 */
+    private $trace;
+
+	/**
+	 * Mantis Context
+	 */
+	private $context = null;
+
+	/**
+	 * Constructor
+	 * @param int code
+	 * @param int parameters
+	 * @param Exception Previous exception
+	 */
     public function __construct($code = 0, $parameters, Exception $previous = null)
     {
 		$message = var_export( $parameters, true);
@@ -37,13 +75,19 @@ abstract class MantisException extends Exception
 		$this->context = $parameters;
         parent::__construct($message, $code, $previous);
     }
-    
+
+	/**
+	 * Return exception details as string
+	 */
     public function __toString()
     {
         return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
                                 . "{$this->getTraceAsString()}";
     }
-	
+
+	/**
+	 * Get Exception Context
+	 */
 	public function getContext() {
 		return $this->context;
 	}

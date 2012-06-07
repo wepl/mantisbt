@@ -28,6 +28,10 @@
 require_once( 'core.php' );
 require_api( 'lang_api.php' );
 
+/**
+ * Print Language translation for javascript
+ * @param string language string
+ */
 function print_translation( $p_lang_key ) {
 	echo "translations['" . $p_lang_key . "'] = '" . addslashes( lang_get( $p_lang_key ) ) . "';\n";
 }

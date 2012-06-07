@@ -340,6 +340,10 @@ function html_title( $p_page_title = null ) {
 	echo '</title>', "\n";
 }
 
+/**
+ * Require a CSS file to be in html page headers
+ * @param string path to CSS stylesheet
+ */
 function require_css( $p_stylesheet_path ) {
 	global $g_stylesheets_included;
 	$g_stylesheets_included[$p_stylesheet_path] = $p_stylesheet_path;
@@ -365,6 +369,7 @@ function html_css() {
 
 /**
  * Prints a css link
+ * @param string filename
  * @return null
  */
 function html_css_link( $p_filename ) {
@@ -406,6 +411,10 @@ function html_meta_redirect( $p_url, $p_time = null, $p_sanitize = true ) {
 	return true;
 }
 
+/**
+ * Require a javascript file to be in html page headers
+ * @param string path to Javascript file
+ */
 function require_js( $p_script_path ) {
 	global $g_scripts_included;
 	$g_scripts_included[$p_script_path] = $p_script_path;
@@ -891,6 +900,9 @@ function print_project_menu_bar() {
 
 /**
  * Print the menu bar with a list of projects to which the user has access
+ * @todo check parents param - set_project.php?project_id=' . $p_parents . $t_subproject
+ * @param int project id
+ * @param string ??
  * @return null
  */
 function print_subproject_menu_bar( $p_project_id, $p_parents = '' ) {
@@ -1218,7 +1230,6 @@ function print_summary_menu( $p_page = '' ) {
 
 /**
  * Print the color legend for the status colors
- * @param string
  * @return null
  */
 function html_status_legend() {
@@ -1329,10 +1340,10 @@ function html_status_percentage_legend() {
 
 /**
  * Print an html button inside a form
- * @param string $p_action
- * @param string $p_buttion_text
- * @param array $p_fields
- * @param string $p_method
+ * @param string Action
+ * @param string Button Text
+ * @param array Fields
+ * @param string Form submit method - default post
  * @return null
  */
 function html_button( $p_action, $p_button_text, $p_fields = null, $p_method = 'post' ) {
@@ -1343,7 +1354,7 @@ function html_button( $p_action, $p_button_text, $p_fields = null, $p_method = '
 		$p_fields = array();
 	}
 
-	if( utf8_strtolower( $p_method ) == 'get' ) {
+	if( strtolower( $p_method ) == 'get' ) {
 		$t_method = 'get';
 	} else {
 		$t_method = 'post';

@@ -16,6 +16,7 @@
 
 /**
  * Cumulative graph by date
+ * @todo is this file still used?
  *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
@@ -40,7 +41,12 @@ $t_metrics = create_cumulative_bydate2();
 
 graph_cumulative_bydate2( $t_metrics, $f_width, $f_width * $t_ar );
 
-
+/**
+ * Cumulative graph by date
+ * @param array graph metrics
+ * @param int width of graph
+ * @param int height of graph
+ */
 function graph_cumulative_bydate2( $p_metrics, $p_graph_width = 300, $p_graph_height = 380 ) {
 	$t_graph_font = 'c:\\windows\\fonts\\arial.ttf' ;//graph_get_font();
 	error_check( is_array( $p_metrics ) ? count( $p_metrics ) : 0, plugin_lang_get( 'cumulative' ) . ' ' . lang_get( 'by_date' ) );
@@ -143,8 +149,9 @@ $graph->driver->options->imageFormat = IMG_JPEG;
 	$graph->renderToOutput( $p_graph_width, $p_graph_height);
 }
 
-
-
+/**
+ * Cumulative graphy by date
+ */
 function create_cumulative_bydate2() {
 
 	$t_clo_val = CLOSED;
