@@ -109,12 +109,6 @@ class BugnoteData {
 	 * Time tracking information
 	 */
 	var $time_tracking;
-
-	/**
-	 * bugnote text id
-	 * @todo remove?
-	 */
-	var $bugnote_text_id;
 }
 
 /**
