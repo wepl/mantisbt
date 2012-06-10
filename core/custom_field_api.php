@@ -1344,10 +1344,9 @@ function print_custom_field_input( $p_field_def, $p_bug_id = null ) {
 
 /**
  * Prepare a string containing a custom field value for display
- * @todo This probably belongs in the string_api.php
- * @param array  $p_def contains the definition of the custom field
- * @param int $p_field_id contains the id of the field
- * @param int $p_bug_id contains the bug id to display the custom field value for
+ * @param array contains the definition of the custom field
+ * @param int contains the id of the field
+ * @param int contains the bug id to display the custom field value for
  * @return string
  * @access public
  */
