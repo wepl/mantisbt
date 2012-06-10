@@ -266,7 +266,6 @@ function db_prepare_bool( $p_bool ) {
 
 /**
  * return current timestamp for DB
- * @todo add param bool $p_gmt whether to use GMT or current timezone (default false)
  * @return string Formatted Date for DB insertion e.g. 1970-01-01 00:00:00 ready for database insertion
  */
 function db_now() {
