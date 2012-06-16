@@ -341,7 +341,7 @@ class MantisError
 	
 
 		foreach( $p_stack as $t_frame ) {
-			echo '<tr ', self::error_alternate_class(), '>';
+			echo '<tr>';
 			echo '<td>', ( isset( $t_frame['file'] ) ? htmlentities( $t_frame['file'], ENT_COMPAT, 'UTF-8' ) : '-' ), '</td><td>', ( isset( $t_frame['line'] ) ? $t_frame['line'] : '-' ), '</td><td>', ( isset( $t_frame['class'] ) ? $t_frame['class'] : '-' ), '</td><td>', ( isset( $t_frame['type'] ) ? $t_frame['type'] : '-' ), '</td><td>', ( isset( $t_frame['function'] ) ? $t_frame['function'] : '-' ), '</td>';
 
 			$t_args = array();
@@ -425,22 +425,6 @@ class MantisError
 		# ripped from string_api
 		$t_string = call_user_func_array( 'sprintf', array_merge( array( $t_error ), self::$_parameters, $t_padding ) );
 		return preg_replace( "/&amp;(#[0-9]+|[a-z]+);/i", "&$1;", @htmlspecialchars( $t_string, ENT_COMPAT, 'UTF-8' ) );
-	}
-	
-	
-	/**
-	 * Simple version of helper_alternate_class for use by error api only.
-	 * @access private
-	 * @return string representing css class
-	 */
-	public static function error_alternate_class() {
-		static $t_errindex = 1;
-
-		if( 1 == $t_errindex++ % 2 ) {
-			return 'class="row-1"';
-		} else {
-			return 'class="row-2"';
-		}
 	}
 
 	/**
