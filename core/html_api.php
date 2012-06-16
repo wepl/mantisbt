@@ -658,7 +658,6 @@ function html_footer( $p_file = null ) {
 		if ( config_get( 'show_queries_count' ) ) {
 			$t_total_queries_count = count( $g_queries_array );
 			$t_unique_queries_count = 0;
-			$t_total_query_execution_time = 0;
 			$t_unique_queries = array();
 			for ( $i = 0; $i < $t_total_queries_count; $i++ ) {
 				if ( !in_array( $g_queries_array[$i][0], $t_unique_queries ) ) {
@@ -668,14 +667,10 @@ function html_footer( $p_file = null ) {
 				} else {
 					$g_queries_array[$i][3] = true;
 				}
-				$t_total_query_execution_time += $g_queries_array[$i][1];
 			}
 
 			$t_total_queries_executed = sprintf( lang_get( 'total_queries_executed' ), $t_total_queries_count );
 			echo "\t<p id=\"total-queries-count\">$t_total_queries_executed</p>\n";
-
-			$t_total_query_time = sprintf( lang_get( 'total_query_execution_time' ), $t_total_query_execution_time );
-			echo "\t<p id=\"total-query-execution-time\">$t_total_query_time</p>\n";
 		}
 	}
 
