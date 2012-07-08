@@ -190,10 +190,7 @@ function html_page_top1( $p_page_title = null ) {
 
 	html_rss_link();
 
-	$t_favicon_image = config_get( 'favicon_image' );
-	if( !is_blank( $t_favicon_image ) ) {
-		echo "\t", '<link rel="shortcut icon" href="', helper_mantis_url( $t_favicon_image ), '" type="image/x-icon" />', "\n";
-	}
+	echo "\t", '<link rel="shortcut icon" href="', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/favicon.ico' ), '" type="image/x-icon" />', "\n";
 
 	// Advertise the availability of the browser search plug-ins.
 	echo "\t", '<link rel="search" type="application/opensearchdescription+xml" title="MantisBT: Text Search" href="' . string_sanitize_url( 'browser_search_plugin.php?type=text', true) . '" />' . "\n";
@@ -355,12 +352,12 @@ function require_css( $p_stylesheet_path ) {
  */
 function html_css() {
 	global $g_stylesheets_included;
-	html_css_link( config_get( 'css_include_file' ) );
+	html_css_link( 'default.css' );
 	html_css_link( 'jquery-ui.css' );
 	html_css_link( 'common_config.php' );
 	# Add right-to-left css if needed
 	if ( lang_get( 'directionality' ) == 'rtl' ) {
-		html_css_link( config_get( 'css_rtl_include_file' ) );
+		html_css_link( 'rtl.css' );
 	}
 	foreach ( $g_stylesheets_included as $t_stylesheet_path ) {
 		html_css_link ( $t_stylesheet_path );
@@ -373,7 +370,7 @@ function html_css() {
  * @return null
  */
 function html_css_link( $p_filename ) {
-	echo "\t", '<link rel="stylesheet" type="text/css" href="', string_sanitize_url( helper_mantis_url( 'css/' . $p_filename ), true ), '" />' . "\n";
+	echo "\t", '<link rel="stylesheet" type="text/css" href="', string_sanitize_url( helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/' . $p_filename ), true ), '" />' . "\n";
 }
 
 
@@ -476,28 +473,22 @@ function html_header() {
  */
 function html_top_banner() {
 	$t_page = config_get( 'top_include_page' );
-	$t_logo_image = config_get( 'logo_image' );
 	$t_logo_url = config_get( 'logo_url' );
 
-	if( is_blank( $t_logo_image ) ) {
-		$t_show_logo = false;
+	if( is_blank( $t_logo_url ) ) {
+		$t_show_url = false;
 	} else {
-		$t_show_logo = true;
-		if( is_blank( $t_logo_url ) ) {
-			$t_show_url = false;
-		} else {
-			$t_show_url = true;
-		}
+		$t_show_url = true;
 	}
 
 	if( !is_blank( $t_page ) && file_exists( $t_page ) && !is_dir( $t_page ) ) {
 		include( $t_page );
-	} else if( $t_show_logo ) {
+	} else {
 		echo '<div id="banner">';
 		if( $t_show_url ) {
 			echo '<a id="logo-link" href="', config_get( 'logo_url' ), '">';
 		}
-		echo '<img id="logo-image" alt="Mantis Bug Tracker" src="' . helper_mantis_url( config_get( 'logo_image' ) ) . '" />';
+		echo '<img id="logo-image" alt="Mantis Bug Tracker" src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' ) . '" />';
 		if( $t_show_url ) {
 			echo '</a>';
 		}
@@ -558,7 +549,7 @@ function html_login_info() {
 		echo '<div id="rss-feed">';
 		# Link to RSS issues feed for the selected project, including authentication details.
 		echo '<a href="' . htmlspecialchars( rss_get_issues_feed_url() ) . '">';
-		echo '<img src="' . helper_mantis_url( 'static/images/rss.png' ) . '" alt="' . lang_get( 'rss' ) . '" title="' . lang_get( 'rss' ) . '" />';
+		echo '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/rss.png' ) . '" alt="' . lang_get( 'rss' ) . '" title="' . lang_get( 'rss' ) . '" />';
 		echo '</a>';
 		echo '</div>';
 	}
@@ -615,8 +606,8 @@ function html_footer( $p_file = null ) {
 	echo "<div id=\"footer\">\n";
 	echo "\t<hr />\n";
 	echo "\t<div id=\"powered-by-mantisbt-logo\">\n";
-	$t_mantisbt_logo_url = helper_mantis_url( 'static/images/mantis_logo_button.gif' );
-	echo "\t\t<a href=\"http://www.mantisbt.org\" title=\"Mantis Bug Tracker: a free and open source web based bug tracking system.\"><img src=\"$t_mantisbt_logo_url\" width=\"88\" height=\"35\" alt=\"Powered by Mantis Bug Tracker: a free and open source web based bug tracking system.\" /></a>\n";
+	$t_mantisbt_logo_url = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' );
+	echo "\t\t<a href=\"http://www.mantisbt.org\" title=\"Mantis Bug Tracker: a free and open source web based bug tracking system.\"><img src=\"$t_mantisbt_logo_url\" width=\"145\" height=\"50\" alt=\"Powered by Mantis Bug Tracker: a free and open source web based bug tracking system.\" /></a>\n";
 	echo "\t</div>\n";
 
 	# Show optional user-specificed custom copyright statement

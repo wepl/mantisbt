@@ -772,18 +772,6 @@ $g_window_title = 'MantisBT';
 $g_page_title = '';
 
 /**
- * Favicon image
- * @global string $g_favicon_image
- */
-$g_favicon_image = 'static/images/favicon.ico';
-
-/**
- * Logo
- * @global string $g_logo_image
- */
-$g_logo_image = 'static/images/mantis_logo.gif';
-
-/**
  * Logo URL link
  * @global string $g_logo_url
  */
@@ -940,12 +928,6 @@ $g_show_avatar = OFF;
  * @global int $g_show_avatar_threshold
  */
 $g_show_avatar_threshold = DEVELOPER;
-
-/**
- * Default avatar for users without a gravatar account
- * @global string $g_default_avatar
- */
-$g_default_avatar = "%path%images/no_avatar.png";
 
 /**
  * Show release dates on changelog
@@ -2780,17 +2762,10 @@ $g_bottom_include_page = '%absolute_path%';
 $g_top_include_page = '%absolute_path%';
 
 /**
- * CSS file
- * @global string $g_css_include_file
+ * Theme
+ * @global string $g_theme
  */
-$g_css_include_file = 'default.css';
-
-/**
- * RTL CSS file
- * @global string $g_css_rtl_include_file
- */
-$g_css_rtl_include_file = 'rtl.css';
-
+$g_theme = 'default';
 
 /**
  * meta tags
@@ -2898,73 +2873,73 @@ $g_main_menu_custom_options = array();
  * @global array $g_file_type_icons
  */
 $g_file_type_icons = array(
-	''	=> 'text.gif',
-	'7z'	=> 'zip.gif',
-	'ace'	=> 'zip.gif',
-	'arj'	=> 'zip.gif',
-	'bz2'	=> 'zip.gif',
-	'c'	=> 'cpp.gif',
-	'chm'	=> 'chm.gif',
-	'cpp'	=> 'cpp.gif',
-	'css'	=> 'css.gif',
-	'csv'	=> 'csv.gif',
-	'cxx'	=> 'cpp.gif',
-	'diff'	=> 'text.gif',
-	'doc'	=> 'doc.gif',
-	'docx'	=> 'doc.gif',
-	'dot'	=> 'doc.gif',
-	'eml'	=> 'eml.gif',
-	'htm'	=> 'html.gif',
-	'html'	=> 'html.gif',
-	'gif'	=> 'gif.gif',
-	'gz'	=> 'zip.gif',
-	'jpe'	=> 'jpg.gif',
-	'jpg'	=> 'jpg.gif',
-	'jpeg'	=> 'jpg.gif',
-	'log'	=> 'text.gif',
-	'lzh'	=> 'zip.gif',
-	'mhtml'	=> 'html.gif',
-	'mid'	=> 'mid.gif',
-	'midi'	=> 'mid.gif',
-	'mov'	=> 'mov.gif',
-	'msg'	=> 'eml.gif',
-	'one'	=> 'one.gif',
-	'patch'	=> 'text.gif',
-	'pcx'	=> 'pcx.gif',
-	'pdf'	=> 'pdf.gif',
-	'png'	=> 'png.gif',
-	'pot'	=> 'pot.gif',
-	'pps'	=> 'pps.gif',
-	'ppt'	=> 'ppt.gif',
-	'pptx'	=> 'ppt.gif',
-	'pub'	=> 'pub.gif',
-	'rar'	=> 'zip.gif',
-	'reg'	=> 'reg.gif',
-	'rtf'	=> 'doc.gif',
-	'tar'	=> 'zip.gif',
-	'tgz'	=> 'zip.gif',
-	'txt'	=> 'text.gif',
-	'uc2'	=> 'zip.gif',
-	'vsd'	=> 'vsd.gif',
-	'vsl'	=> 'vsl.gif',
-	'vss'	=> 'vsd.gif',
-	'vst'	=> 'vst.gif',
-	'vsu'	=> 'vsd.gif',
-	'vsw'	=> 'vsd.gif',
-	'vsx'	=> 'vsd.gif',
-	'vtx'	=> 'vst.gif',
-	'wav'	=> 'wav.gif',
-	'wbk'	=> 'wbk.gif',
-	'wma'	=> 'wav.gif',
-	'wmv'	=> 'mov.gif',
-	'wri'	=> 'wri.gif',
-	'xlk'	=> 'xls.gif',
-	'xls'	=> 'xls.gif',
-	'xlsx'	=> 'xls.gif',
-	'xlt'	=> 'xlt.gif',
-	'xml'	=> 'xml.gif',
-	'zip'	=> 'zip.gif',
-	'?'	=> 'generic.gif' );
+	''	=> 'text.png',
+	'7z'	=> 'zip.png',
+	'ace'	=> 'zip.png',
+	'arj'	=> 'zip.png',
+	'bz2'	=> 'zip.png',
+	'c'	=> 'cpp.png',
+	'chm'	=> 'chm.png',
+	'cpp'	=> 'cpp.png',
+	'css'	=> 'css.png',
+	'csv'	=> 'csv.png',
+	'cxx'	=> 'cpp.png',
+	'diff'	=> 'text.png',
+	'doc'	=> 'doc.png',
+	'docx'	=> 'doc.png',
+	'dot'	=> 'doc.png',
+	'eml'	=> 'eml.png',
+	'htm'	=> 'html.png',
+	'html'	=> 'html.png',
+	'gif'	=> 'gif.png',
+	'gz'	=> 'zip.png',
+	'jpe'	=> 'jpg.png',
+	'jpg'	=> 'jpg.png',
+	'jpeg'	=> 'jpg.png',
+	'log'	=> 'text.png',
+	'lzh'	=> 'zip.png',
+	'mhtml'	=> 'html.png',
+	'mid'	=> 'mid.png',
+	'midi'	=> 'mid.png',
+	'mov'	=> 'mov.png',
+	'msg'	=> 'eml.png',
+	'one'	=> 'one.png',
+	'patch'	=> 'text.png',
+	'pcx'	=> 'pcx.png',
+	'pdf'	=> 'pdf.png',
+	'png'	=> 'png.png',
+	'pot'	=> 'pot.png',
+	'pps'	=> 'pps.png',
+	'ppt'	=> 'ppt.png',
+	'pptx'	=> 'ppt.png',
+	'pub'	=> 'pub.png',
+	'rar'	=> 'zip.png',
+	'reg'	=> 'reg.png',
+	'rtf'	=> 'doc.png',
+	'tar'	=> 'zip.png',
+	'tgz'	=> 'zip.png',
+	'txt'	=> 'text.png',
+	'uc2'	=> 'zip.png',
+	'vsd'	=> 'vsd.png',
+	'vsl'	=> 'vsl.png',
+	'vss'	=> 'vsd.png',
+	'vst'	=> 'vst.png',
+	'vsu'	=> 'vsd.png',
+	'vsw'	=> 'vsd.png',
+	'vsx'	=> 'vsd.png',
+	'vtx'	=> 'vst.png',
+	'wav'	=> 'wav.png',
+	'wbk'	=> 'wbk.png',
+	'wma'	=> 'wav.png',
+	'wmv'	=> 'mov.png',
+	'wri'	=> 'wri.png',
+	'xlk'	=> 'xls.png',
+	'xls'	=> 'xls.png',
+	'xlsx'	=> 'xls.png',
+	'xlt'	=> 'xlt.png',
+	'xml'	=> 'xml.png',
+	'zip'	=> 'zip.png',
+	'?'	=> 'generic.png' );
 
 /**
  * Icon associative arrays
@@ -2973,11 +2948,11 @@ $g_file_type_icons = array(
  */
 $g_status_icon_arr = array (
 	NONE      => '',
-	LOW       => 'priority_low_1.gif',
-	NORMAL    => 'priority_normal.gif',
-	HIGH      => 'priority_1.gif',
-	URGENT    => 'priority_2.gif',
-	IMMEDIATE => 'priority_3.gif'
+	LOW       => 'priority_low_1.png',
+	NORMAL    => 'priority_normal.png',
+	HIGH      => 'priority_1.png',
+	URGENT    => 'priority_2.png',
+	IMMEDIATE => 'priority_3.png'
 );
 
 /**
@@ -2985,17 +2960,8 @@ $g_status_icon_arr = array (
  * @global array $g_sort_icon_arr
  */
 $g_sort_icon_arr = array (
-	ASCENDING  => 'up.gif',
-	DESCENDING => 'down.gif'
-);
-
-/**
- * Read status to icon mapping
- * @global array $g_unread_icon_arr
- */
-$g_unread_icon_arr = array (
-	READ   => 'mantis_space.gif',
-	UNREAD => 'unread.gif'
+	ASCENDING  => 'up.png',
+	DESCENDING => 'down.png'
 );
 
 /********************

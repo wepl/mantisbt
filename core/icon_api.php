@@ -41,11 +41,10 @@ require_api( 'utility_api.php' );
  * @access public
  */
 function icon_get_status_icon( $p_icon ) {
-	$t_icon_path = config_get( 'icon_path' );
 	$t_status_icon_arr = config_get( 'status_icon_arr' );
 	$t_priotext = get_enum_element( 'priority', $p_icon );
 	if( isset( $t_status_icon_arr[$p_icon] ) && !is_blank( $t_status_icon_arr[$p_icon] ) ) {
-		return "<img src=\"$t_icon_path$t_status_icon_arr[$p_icon]\" alt=\"\" title=\"$t_priotext\" />";
+		return "<img src=\"". helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/' . $t_status_icon_arr[$p_icon] ) ."\" alt=\"\" title=\"$t_priotext\" />";
 	} else {
 		return "&#160;";
 	}
@@ -77,7 +76,6 @@ function print_status_icon( $p_icon ) {
  * @access public
  */
 function print_sort_icon( $p_dir, $p_sort_by, $p_field ) {
-	$t_icon_path = config_get( 'icon_path' );
 	$t_sort_icon_arr = config_get( 'sort_icon_arr' );
 
 	if( $p_sort_by != $p_field ) {
@@ -90,11 +88,10 @@ function print_sort_icon( $p_dir, $p_sort_by, $p_field ) {
 		$t_dir = ASCENDING;
 	}
 
-	$t_none = NONE;
 	if( !is_blank( $t_sort_icon_arr[$t_dir] ) ) {
-		echo "<img src=\"$t_icon_path$t_sort_icon_arr[$t_dir]\" alt=\"\" />";
+		echo "<img src=\"" . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/' . $t_sort_icon_arr[$t_dir] ) . "\" alt=\"\" />";
 	} else {
-		echo "<img src=\"$t_icon_path$t_status_icon_arr[$t_none]\" alt=\"\" />";
+		throw new MantisBT\Exception\Generic();
 	}
 }
 

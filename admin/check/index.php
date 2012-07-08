@@ -75,7 +75,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>';
 </head>
 <body>
 <div id="mantisbt-header-logo">
-	<img src="../../static/images/mantis_logo.gif" alt="MantisBT Logo" />
+	<img src="../../themes/default/images/logo.png" alt="MantisBT Logo" />
 </div>
 <p class="notice">Verbosity: <?php echo $t_show_all_mode_link ?> | <?php echo $t_show_errors_mode_link ?></p>
 <table id="check-results">

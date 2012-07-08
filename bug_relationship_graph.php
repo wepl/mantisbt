@@ -162,15 +162,15 @@ html_page_top( bug_format_summary( $f_bug_id, SUMMARY_CAPTION ) );
 		<table class="hide">
 		<tr>
 			<td class="center">
-				<img alt="" src="images/rel_related.png" />
+				<img alt="" src="<?php echo helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/rel_related.png' ); ?>" />
 				<?php echo lang_get( 'related_to' ) ?>
 			</td>
 			<td class="center">
-				<img alt="" src="images/rel_dependant.png" />
+				<img alt="" src="<?php echo helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/rel_dependant.png' ); ?>" />
 				<?php echo lang_get( 'blocks' ) ?>
 			</td>
 			<td class="center">
-				<img alt="" src="images/rel_duplicate.png" />
+				<img alt="" src="<?php echo helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/rel_duplicate.png' ); ?>" />
 				<?php echo lang_get( 'duplicate_of' ) ?>
 			</td>
 		</tr>

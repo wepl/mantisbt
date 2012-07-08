@@ -631,7 +631,6 @@ function config_is_private( $p_config_var ) {
 		case 'global_settings':
 		case 'system_font_folder':
 		case 'mailer_method':
-		case 'default_avatar':
 		case 'file_upload_ftp_server':
 		case 'file_upload_ftp_user':
 		case 'file_upload_ftp_pass':
@@ -650,8 +649,6 @@ function config_is_private( $p_config_var ) {
 		case 'cookie_domain':
 		case 'bottom_include_page':
 		case 'top_include_page':
-		case 'css_include_file':
-		case 'css_rtl_include_file':
 		case 'meta_include_file':
 		case 'log_level':
 		case 'log_destination':

@@ -260,7 +260,7 @@ function print_email_input( $p_field_name, $p_email ) {
  * @param string Name of input tag
  */
 function print_captcha_input( $p_field_name ) {
-	echo '<input id="captcha-field" type="text" name="' . $p_field_name . '" size="5" maxlength="5" value="" />';
+	echo '<input id="captcha-field" type="text" name="' . $p_field_name . '" size="10" value="" />';
 }
 
 /**
@@ -1528,8 +1528,7 @@ function print_file_icon( $p_filename ) {
  * @param string Title to use for hyperlink
  */
 function print_rss( $p_feed_url, $p_title = '' ) {
-	$t_path = config_get( 'path' );
-	echo '<a class="rss" rel="alternate" href="', htmlspecialchars( $p_feed_url ), '" title="', $p_title, '"><img src="', $t_path, 'static/images/', 'rss.png" width="16" height="16" alt="', $p_title, '" /></a>';
+	echo '<a class="rss" rel="alternate" href="', htmlspecialchars( $p_feed_url ), '" title="', $p_title, '"><img src="', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/rss.png' ), '" width="16" height="16" alt="', $p_title, '" /></a>';
 }
 
 /**
@@ -1787,5 +1786,22 @@ function print_timezone_option_list( $p_timezone ) {
 			echo '>' . $t_location[0] . "</option>\n";
 		}
 		echo "\t</optgroup>\n";
+	}
+}
+
+/**
+ * Print option list of available theme choices
+ * @param string themes
+ */
+function print_theme_option_list( $p_theme ) {
+	if ($handle = opendir( config_get( 'absolute_path' ) . '/themes/' ) ) {
+		while( false !== ( $t_theme = readdir( $handle ) ) ) {
+			if ($t_theme != "." && $t_theme != "..") {
+				echo '<option value="' . $t_theme . '"';
+				check_selected( $t_theme, $p_theme );
+				echo '>' . $t_theme . '</option>';
+			}
+		}
+		closedir($handle);
 	}
 }

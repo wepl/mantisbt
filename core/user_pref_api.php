@@ -177,6 +177,11 @@ class UserPreferences {
 	protected $timezone = NULL;
 
 	/**
+	 * User Theme
+	 */
+	protected $theme = NULL;
+
+	/**
 	 * User id
 	 */
 	private $pref_user_id;
@@ -216,6 +221,7 @@ class UserPreferences {
 	'email_bugnote_limit' => 'default_email_bugnote_limit',
 	'language' => 'default_language',
 	'timezone' => 'default_timezone',
+	'theme' => 'theme',
 	);
 
 	/**

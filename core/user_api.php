@@ -82,6 +82,7 @@ function user_exists( $p_user_id ) {
 	} catch ( MantisBT\Exception\User_By_UserID_Not_Found $e ) {
 		return false;
 	}
+	return true;
 }
 
 /**
@@ -515,7 +516,7 @@ function user_get_avatar( $p_user_id, $p_size = 80 ) {
 	if( is_blank( $t_email ) ) {
 		$t_result = false;
 	} else {
-		$t_default_image = config_get( 'default_avatar' );
+		$t_default_image = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/no_avatar.png' );
 		$t_size = $p_size;
 
 		$t_use_ssl = false;

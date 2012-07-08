@@ -637,10 +637,9 @@ function print_column_title_target_version( $p_sort, $p_dir, $p_columns_target =
  * @access public
  */
 function print_column_title_view_state( $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path;
 	echo '<th class="column-view-state">';
 	$t_view_state_text = lang_get( 'view_status' );
-	$t_view_state_icon = '<img src="' . $t_icon_path . 'protected.gif" alt="' . $t_view_state_text . '" title="' . $t_view_state_text . '" />';
+	$t_view_state_icon = '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" alt="' . $t_view_state_text . '" title="' . $t_view_state_text . '" />';
 	print_view_bug_sort_link( $t_view_state_icon, 'view_state', $p_sort, $p_dir, $p_columns_target );
 	print_sort_icon( $p_dir, $p_sort, 'view_state' );
 	echo '</th>';
@@ -756,9 +755,8 @@ function print_column_title_date_submitted( $p_sort, $p_dir, $p_columns_target =
  * @access public
  */
 function print_column_title_attachment_count( $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path;
 	$t_attachment_count_text = lang_get( 'attachment_count' );
-	$t_attachment_count_icon = "<img src=\"${t_icon_path}attachment.png\" alt=\"$t_attachment_count_text\" title=\"$t_attachment_count_text\" />";
+	$t_attachment_count_icon = "<img src=\"". helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/attachment.png' ) . "\" alt=\"$t_attachment_count_text\" title=\"$t_attachment_count_text\" />";
 	echo "\t<th class=\"column-attachments\">$t_attachment_count_icon</th>\n";
 }
 
@@ -929,10 +927,9 @@ function print_column_title_additional_information( $p_sort, $p_dir, $p_columns_
  * @access public
  */
 function print_column_title_overdue( $p_sort, $p_dir, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path;
 	echo '<th class="column-overdue">';
 	$t_overdue_text = lang_get( 'overdue' );
-	$t_overdue_icon = '<img src="' . $t_icon_path . 'overdue.png" alt="' . $t_overdue_text . '" title="' . $t_overdue_text . '" />';
+	$t_overdue_icon = '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/overdue.png' ) . '" alt="' . $t_overdue_text . '" title="' . $t_overdue_text . '" />';
 	print_view_bug_sort_link( $t_overdue_icon, 'due_date', $p_sort, $p_dir, $p_columns_target );
 	print_sort_icon( $p_dir, $p_sort, 'due_date' );
 	echo '</th>';
@@ -1019,13 +1016,11 @@ function print_column_plugin( $p_column_object, $p_bug, $p_columns_target = COLU
  * @access public
  */
 function print_column_edit( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path, $t_update_bug_threshold;
-
 	echo '<td class="column-edit">';
 
 	if( !bug_is_readonly( $p_bug->id ) && access_has_bug_level( config_get( 'update_bug_threshold' ), $p_bug->id ) ) {
 		echo '<a href="' . string_get_bug_update_url( $p_bug->id ) . '">';
-		echo '<img width="16" height="16" src="' . $t_icon_path . 'update.png';
+		echo '<img width="16" height="16" src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/update.png' );
 		echo '" alt="' . lang_get( 'update_bug_button' ) . '"';
 		echo ' title="' . lang_get( 'update_bug_button' ) . '" /></a>';
 	} else {
@@ -1132,8 +1127,6 @@ function print_column_bugnotes_count( $p_bug, $p_columns_target = COLUMNS_TARGET
  * @access public
  */
 function print_column_attachment_count( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path;
-
 	# Check for attachments
 	# TODO: factor in the allow_view_own_attachments configuration option
 	# instead of just using a global check.
@@ -1149,7 +1142,7 @@ function print_column_attachment_count( $p_bug, $p_columns_target = COLUMNS_TARG
 		$t_href_title = sprintf( lang_get( 'view_attachments_for_issue' ), $t_attachment_count, $p_bug->id );
 		if ( config_get( 'show_attachment_indicator' ) ) {
 			$t_alt_text = $t_attachment_count . lang_get( 'word_separator' ) . lang_get( 'attachments' );
-			echo "<a href=\"$t_href\" title=\"$t_href_title\"><img src=\"${t_icon_path}attachment.png\" alt=\"$t_alt_text\" title=\"$t_alt_text\" /></a>";
+			echo "<a href=\"$t_href\" title=\"$t_href_title\"><img src=\"" . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/attachment.png' ) . "\" alt=\"$t_alt_text\" title=\"$t_alt_text\" /></a>";
 		} else {
 			echo "<a href=\"$t_href\" title=\"$t_href_title\">$t_attachment_count</a>";
 		}
@@ -1442,13 +1435,11 @@ function print_column_target_version( $p_bug, $p_columns_target = COLUMNS_TARGET
  * @access public
  */
 function print_column_view_state( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path;
-
 	echo '<td class="column-view-state">';
 
 	if( VS_PRIVATE == $p_bug->view_state ) {
 		$t_view_state_text = lang_get( 'private' );
-		echo '<img src="' . $t_icon_path . 'protected.gif" alt="' . $t_view_state_text . '" title="' . $t_view_state_text . '" />';
+		echo '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" alt="' . $t_view_state_text . '" title="' . $t_view_state_text . '" />';
 	} else {
 		echo '&#160;';
 	}
@@ -1491,7 +1482,6 @@ function print_column_due_date( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_
  * @access public
  */
 function print_column_overdue( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
-	global $t_icon_path;
 
 	echo '<td class="column-overdue">';
 
@@ -1500,7 +1490,7 @@ function print_column_overdue( $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_P
 		bug_is_overdue( $p_bug->id ) ) {
 		$t_overdue_text = lang_get( 'overdue' );
 		$t_overdue_text_hover = $t_overdue_text . '. Due date was: ' . string_display_line( date( config_get( 'short_date_format' ), $p_bug->due_date ) );
-		echo '<img src="' . $t_icon_path . 'overdue.png" alt="' . $t_overdue_text . '" title="' . $t_overdue_text_hover . '" />';
+		echo '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/overdue.png' ) . '" alt="' . $t_overdue_text . '" title="' . $t_overdue_text_hover . '" />';
 	} else {
 		echo '&#160;';
 	}

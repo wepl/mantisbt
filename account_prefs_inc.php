@@ -287,7 +287,15 @@ function edit_account_prefs($p_user_id = null, $p_error_if_protected = true, $p_
 				</span>
 				<span class="label-style"></span>
 			</div>
-
+			<div class="field-container">
+				<label for="theme"><span><?php echo lang_get( 'theme' ) ?></span></label>
+				<span class="select">
+					<select id="theme" name="theme">
+						<?php print_theme_option_list( $t_pref->theme ) ?>
+					</select>
+				</span>
+				<span class="label-style"></span>
+			</div>
 			<?php event_signal( 'EVENT_ACCOUNT_PREF_UPDATE_FORM', array( $p_user_id ) ); ?>
 			<span class="submit-button"><input type="submit" class="button" value="<?php echo lang_get( 'update_prefs_button' ) ?>" /></span>
 		</fieldset>

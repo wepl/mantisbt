@@ -555,7 +555,6 @@ function relationship_can_resolve_bug( $p_bug_id ) {
  */
 function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, $p_html_preview = false, $p_show_project = false ) {
 	$t_summary_wrap_at = utf8_strlen( config_get( 'email_separator2' ) ) - 28;
-	$t_icon_path = config_get( 'icon_path' );
 
 	if( $p_bug_id == $p_relationship->src_bug_id ) {
 
@@ -620,7 +619,7 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
  	if( $p_html == true ) {
  		$t_relationship_info_html .= $t_td . string_display_line_links( $t_bug->summary );
  		if( VS_PRIVATE == $t_bug->view_state ) {
- 			$t_relationship_info_html .= sprintf( ' <img src="%s" alt="(%s)" title="%s" />', $t_icon_path . 'protected.gif', lang_get( 'private' ), lang_get( 'private' ) );
+ 			$t_relationship_info_html .= sprintf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), lang_get( 'private' ), lang_get( 'private' ) );
  		}
   	} else {
  		if( utf8_strlen( $t_bug->summary ) <= $t_summary_wrap_at ) {

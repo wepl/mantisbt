@@ -194,7 +194,7 @@ if ( $t_sponsor_count === 0 ) {
 		# summary
 		echo '<td>' . string_display_line( $t_bug->summary );
 		if ( VS_PRIVATE == $t_bug->view_state ) {
-			printf( ' <img src="%s" alt="(%s)" title="%s" />', $t_icon_path . 'protected.gif', lang_get( 'private' ), lang_get( 'private' ) );
+			printf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), lang_get( 'private' ), lang_get( 'private' ) );
 		}
 		echo '</td>';
 
@@ -317,7 +317,7 @@ if ( $t_sponsor_count === 0 ) {
 		# summary
 		echo '<td>' . string_display_line( $t_bug->summary );
 		if ( VS_PRIVATE == $t_bug->view_state ) {
-			printf( ' <img src="%s" alt="(%s)" title="%s" />', $t_icon_path . 'protected.gif', lang_get( 'private' ), lang_get( 'private' ) );
+			printf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), lang_get( 'private' ), lang_get( 'private' ) );
 		}
 		echo '</td>';
 

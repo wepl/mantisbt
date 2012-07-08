@@ -65,7 +65,7 @@ $f_filter = utf8_strtoupper( gpc_get_string( 'filter', config_get( 'default_mana
 $f_page_number		= gpc_get_int( 'page_number', 1 );
 
 $t_cookie_name = config_get( 'manage_cookie' );
-$t_lock_image = '<img src="' . config_get( 'icon_path' ) . 'protected.gif" width="8" height="15" alt="' . lang_get( 'protected' ) . '" />';
+$t_lock_image = '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" width="8" height="15" alt="' . lang_get( 'protected' ) . '" />';
 $c_filter = '';
 
 # Clean up the form variables

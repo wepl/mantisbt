@@ -189,3 +189,8 @@ config_obsolete( 'custom_field_edit_after_create', '' );
 config_obsolete( 'recently_visited', 'recently_visited_count' );
 
 config_obsolete( 'phpMailer_method' , 'mailer_method' );
+
+config_obsolete( 'css_include_file', 'theme' );
+config_obsolete( 'css_rtl_include_file', 'theme' );
+config_obsolete( 'logo_image', 'theme' );
+config_obsolete( 'favicon_image', 'theme' );

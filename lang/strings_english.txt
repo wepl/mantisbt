@@ -313,7 +313,8 @@ If you requested this verification, visit the following URL to change your passw
 	'update_user_button' => 'Update User',
 	'verify_warning' => 'Your account information has been verified. The account confirmation message you have received is now invalid.',
 	'verify_change_password' => 'You must set a password here to allow you to log in again.',
-	
+	'theme' => 'Theme',
+
 	# account_prefs_page.php
 	'default_account_preferences_title' => 'Account Preferences',
 	'default_project' => 'Default Project',

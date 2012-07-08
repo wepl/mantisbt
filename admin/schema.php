@@ -547,3 +547,4 @@ array('mysql' => 'ENGINE=MyISAM DEFAULT CHARSET=utf8', 'pgsql' => 'WITHOUT OIDS'
 /* 200 */ $upgrade[] = array( 'AlterColumnSQL', array('{tokens}','owner I UNSIGNED NOTNULL') );
 /* 201 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug_file}', "downloaded I  UNSIGNED     NOTNULL DEFAULT '0'" ) );
 /* 202 */ $upgrade[] = array( 'AddColumnSQL', array( '{project_file}', "downloaded I  UNSIGNED     NOTNULL DEFAULT '0'" ) );
+/* 203 */ $upgrade[] = array( 'AddColumnSQL', array( '{user_pref}', "theme C(32) NOTNULL DEFAULT '' " ) );

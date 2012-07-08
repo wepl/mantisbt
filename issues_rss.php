@@ -100,7 +100,7 @@ $t_path = config_get( 'path' );
 $encoding = 'utf-8';
 $about = $t_path;
 $title = config_get( 'window_title' );
-$image_link = $t_path . 'images/mantis_logo_button.gif';
+$image_link = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' );
 
 # only rss 2.0
 $category = project_get_name( $f_project_id );

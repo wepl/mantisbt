@@ -128,16 +128,16 @@ function collapse_icon( $p_name, $p_section = '' ) {
 	global $g_open_collapse_section;
 
 	if( $g_open_collapse_section === true ) {
-		$t_icon = 'minus.png';
+		$t_icon = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/minus.png' );
 		$t_alt = '-';
 		$t_id = $p_name . '_open_link';
 	} else {
-		$t_icon = 'plus.png';
+		$t_icon = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/plus.png' );
 		$t_alt = '+';
 		$t_id = $p_name. '_closed_link';
 	}
 
-	echo '<a id="', $t_id, '" href="" class="collapse-link"><img src="images/', $t_icon, '" alt="', $t_alt, '" /></a>&#160;';
+	echo '<a id="', $t_id, '" href="" class="collapse-link"><img src="', $t_icon, '" alt="', $t_alt, '" /></a>&#160;';
 }
 
 /**
