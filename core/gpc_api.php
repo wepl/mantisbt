@@ -46,7 +46,6 @@ $g_cookie_secure_flag_enabled = isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER
  * ---------------
  * Retrieve a GPC variable.
  * If the variable is not set, the default is returned.
- * If magic_quotes_gpc is on, slashes will be stripped from the value before being returned.
  *
  *  You may pass in any variable as a default (including null) but if
  *  you pass in *no* default then an error will be triggered if the field
@@ -406,12 +405,9 @@ function gpc_clear_cookie( $p_name, $p_path = null, $p_domain = null ) {
  */
 function gpc_get_file( $p_var_name, $p_default = null ) {
 	if( isset( $_FILES[$p_var_name] ) ) {
-
-		# FILES are not escaped even if magic_quotes is ON, this applies to Windows paths.
 		$t_result = $_FILES[$p_var_name];
 	}
 	else if( func_num_args() > 1 ) {
-
 		# check for a default passed in (allowing null)
 		$t_result = $p_default;
 	} else {

@@ -150,7 +150,7 @@ function email_is_valid( $p_email ) {
 
 /**
  * Check if the email address is valid
- * trigger an ERROR if it isn't
+ * throw an exception otherwise
  * @param string $p_email
  * @return null
  */

@@ -441,15 +441,10 @@ function string_process_bugnote_link( $p_string, $p_include_anchor = true, $p_de
  */
 function string_insert_hrefs( $p_string ) {
 	static $s_url_regex = null;
+	static $s_mail_regex = null;
 
 	if( !config_get( 'html_make_links' ) ) {
 		return $p_string;
-	}
-
-	$t_change_quotes = false;
-	if( ini_get_bool( 'magic_quotes_sybase' ) && function_exists( 'ini_set' ) ) {
-		$t_change_quotes = true;
-		ini_set( 'magic_quotes_sybase', false );
 	}
 
 	# Find any URL in a string and replace it by a clickable link
@@ -465,18 +460,17 @@ function string_insert_hrefs( $p_string ) {
 		$t_url_chars_in_brackets = "(?:${t_url_hex}|[${t_url_valid_chars}\(\)])";
 		$t_url_chars_in_parens    = "(?:${t_url_hex}|[${t_url_valid_chars}\[\]])";
 
-		$t_url_part1 = "${t_url_chars}";
+		$t_url_part1 = $t_url_chars;
 		$t_url_part2 = "(?:\(${t_url_chars_in_parens}*\)|\[${t_url_chars_in_brackets}*\]|${t_url_chars2})";
+		$t_url_protocol = '([[:alpha:]][-+.[:alnum:]]*):\/\/';
 
-		$s_url_regex = "/(([[:alpha:]][-+.[:alnum:]]*):\/\/(${t_url_part1}*?${t_url_part2}+))/sue";
+		$s_url_regex = "/(${$t_url_protocol}(${t_url_part1}*?${t_url_part2}+))/sue";
+		$_mail_regex = email_regex_simple();
 	}
 
 	$p_string = preg_replace( $s_url_regex, "'<a href=\"'.rtrim('\\1','.').'\">\\1</a>'", $p_string );
-	if( $t_change_quotes ) {
-		ini_set( 'magic_quotes_sybase', true );
-	}
 
-	$p_string = preg_replace( email_regex_simple(), '<a href="mailto:\0">\0</a>', $p_string );
+	$p_string = preg_replace( $s_mail_regex, '<a href="mailto:\0">\0</a>', $p_string );
 
 	return $p_string;
 }
