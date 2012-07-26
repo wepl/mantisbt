@@ -123,6 +123,7 @@ function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_he
 		$graph->title = $p_title;
 		$graph->background->color = '#FFFFFF';
 		$graph->options->font = $t_graph_font ;
+		$graph->options->font->minFontSize = 8;
 		$graph->options->font->maxFontSize = 12;
 		$graph->legend = false;
 
@@ -131,6 +132,7 @@ function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_he
 
 		$graph->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
 		$graph->xAxis->axisLabelRenderer->angle = 45;
+		$graph->xAxis->axisSpace = 0.2;
 
 		$t_label_count = count( $graph->data[0] );
 		$graph->xAxis->labelCount = $t_label_count;
@@ -217,6 +219,7 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 		$graph->title = $p_title;
 		$graph->background->color = '#FFFFFF';
 		$graph->options->font = $t_graph_font ;
+		$graph->options->font->minFontSize = 8;
 		$graph->options->font->maxFontSize = 12;
 		$graph->legend = false;
 
@@ -227,6 +230,8 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 		$graph->options->fillLines = 210;
 		$graph->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
 		$graph->xAxis->axisLabelRenderer->angle = 45;
+		$graph->xAxis->axisSpace = 0.2;
+		
 		$graph->xAxis->labelCount = $t_count;
 
 		$graph->driver = new ezcGraphGdDriver();
@@ -317,6 +322,7 @@ function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_he
 		$graph->title = $p_title;
 		$graph->background->color = '#FFFFFF';
 		$graph->options->font = $t_graph_font ;
+		$graph->options->font->minFontSize = 8;
 		$graph->options->font->maxFontSize = 12;
 		$graph->legend = false;
 
@@ -390,6 +396,9 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 
 		$graph->background->color = '#FFFFFF';
 
+		$graph->options->font->minFontSize = 8;
+		$graph->options->font->maxFontSize = 12;
+
 		$graph->xAxis = new ezcGraphChartElementNumericAxis();
 
 		$graph->data[0] = new ezcGraphArrayDataSet( $p_metrics[0] );
@@ -414,6 +423,8 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 		$graph->xAxis->labelCallback =  'graph_date_format';
 		$graph->xAxis->axisLabelRenderer = new ezcGraphAxisRotatedLabelRenderer();
 		$graph->xAxis->axisLabelRenderer->angle = -45;
+		$graph->xAxis->axisSpace = 0.2;
+		
 
 		$graph->legend->position      = ezcGraph::BOTTOM;
 		$graph->legend->background    = '#FFFFFF80';
