@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    1.7.7, 2012-05-19
  */
 
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_Excel5_Font
 {
@@ -139,6 +139,11 @@ class PHPExcel_Writer_Excel5_Font
 		return 0x190;		//	400 = Normal font weight
 	}
 
+	/**
+	 * Map of BIFF2-BIFF8 codes for underline styles
+	 * @static	array of int
+	 *
+	 */
 	private static $_mapUnderline = array(	PHPExcel_Style_Font::UNDERLINE_NONE					=> 0x00,
 											PHPExcel_Style_Font::UNDERLINE_SINGLE				=> 0x01,
 											PHPExcel_Style_Font::UNDERLINE_DOUBLE				=> 0x02,

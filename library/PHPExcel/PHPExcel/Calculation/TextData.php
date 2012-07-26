@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category	PHPExcel
  * @package		PHPExcel_Calculation
- * @copyright	Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version		##VERSION##, ##DATE##
+ * @version		1.7.7, 2012-05-19
  */
 
 
@@ -41,7 +41,7 @@ if (!defined('PHPEXCEL_ROOT')) {
  *
  * @category	PHPExcel
  * @package		PHPExcel_Calculation
- * @copyright	Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_TextData {
 
@@ -87,16 +87,16 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	TRIMNONPRINTABLE
+	 * TRIMNONPRINTABLE
 	 *
-	 *	@param	mixed	$value	Value to check
-	 *	@return	string
+	 * @param	mixed	$value	Value to check
+	 * @return	string
 	 */
 	public static function TRIMNONPRINTABLE($stringValue = '') {
 		$stringValue	= PHPExcel_Calculation_Functions::flattenSingleValue($stringValue);
 
 		if (is_bool($stringValue)) {
-			$stringValue = ($stringValue) ? PHPExcel_Calculation::getTRUE() : PHPExcel_Calculation::getFALSE();
+			return ($stringValue) ? PHPExcel_Calculation::getTRUE() : PHPExcel_Calculation::getFALSE();
 		}
 
 		if (self::$_invalidChars == Null) {
@@ -106,23 +106,27 @@ class PHPExcel_Calculation_TextData {
 		if (is_string($stringValue) || is_numeric($stringValue)) {
 			return str_replace(self::$_invalidChars,'',trim($stringValue,"\x00..\x1F"));
 		}
-		return Null;
+		return NULL;
 	}	//	function TRIMNONPRINTABLE()
 
 
 	/**
-	 *	TRIMSPACES
+	 * TRIMSPACES
 	 *
-	 *	@param	mixed	$value	Value to check
-	 *	@return	string
+	 * @param	mixed	$value	Value to check
+	 * @return	string
 	 */
 	public static function TRIMSPACES($stringValue = '') {
 		$stringValue	= PHPExcel_Calculation_Functions::flattenSingleValue($stringValue);
 
-		if (is_string($stringValue) || is_numeric($stringValue)) {
-			return trim(preg_replace('/  +/',' ',$stringValue));
+		if (is_bool($stringValue)) {
+			return ($stringValue) ? PHPExcel_Calculation::getTRUE() : PHPExcel_Calculation::getFALSE();
 		}
-		return Null;
+
+		if (is_string($stringValue) || is_numeric($stringValue)) {
+			return trim(preg_replace('/ +/',' ',trim($stringValue,' ')));
+		}
+		return NULL;
 	}	//	function TRIMSPACES()
 
 
@@ -133,6 +137,8 @@ class PHPExcel_Calculation_TextData {
 	 * @return	int
 	 */
 	public static function ASCIICODE($characters) {
+		if (($characters === NULL) || ($characters === ''))
+			return PHPExcel_Calculation_Functions::VALUE();
 		$characters	= PHPExcel_Calculation_Functions::flattenSingleValue($characters);
 		if (is_bool($characters)) {
 			if (PHPExcel_Calculation_Functions::getCompatibilityMode() == PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE) {
@@ -181,16 +187,16 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	DOLLAR
+	 * DOLLAR
 	 *
-	 *	This function converts a number to text using currency format, with the decimals rounded to the specified place.
-	 *	The format used is $#,##0.00_);($#,##0.00)..
+	 * This function converts a number to text using currency format, with the decimals rounded to the specified place.
+	 * The format used is $#,##0.00_);($#,##0.00)..
 	 *
-	 *	@param	float	$value			The value to format
-	 *	@param	int		$decimals		The number of digits to display to the right of the decimal point.
+	 * @param	float	$value			The value to format
+	 * @param	int		$decimals		The number of digits to display to the right of the decimal point.
 	 *									If decimals is negative, number is rounded to the left of the decimal point.
 	 *									If you omit decimals, it is assumed to be 2
-	 *	@return	string
+	 * @return	string
 	 */
 	public static function DOLLAR($value = 0, $decimals = 2) {
 		$value		= PHPExcel_Calculation_Functions::flattenSingleValue($value);
@@ -282,15 +288,21 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	FIXEDFORMAT
+	 * FIXEDFORMAT
 	 *
-	 *	@param	mixed	$value	Value to check
-	 *	@return	boolean
+	 * @param	mixed	$value	Value to check
+	 * @return	boolean
 	 */
-	public static function FIXEDFORMAT($value,$decimals=2,$no_commas=false) {
+	public static function FIXEDFORMAT($value, $decimals = 2, $no_commas = FALSE) {
 		$value		= PHPExcel_Calculation_Functions::flattenSingleValue($value);
 		$decimals	= PHPExcel_Calculation_Functions::flattenSingleValue($decimals);
-		$no_commas		= PHPExcel_Calculation_Functions::flattenSingleValue($no_commas);
+		$no_commas	= PHPExcel_Calculation_Functions::flattenSingleValue($no_commas);
+
+		// Validate parameters
+		if (!is_numeric($value) || !is_numeric($decimals)) {
+			return PHPExcel_Calculation_Functions::NaN();
+		}
+		$decimals = floor($decimals);
 
 		$valueResult = round($value,$decimals);
 		if ($decimals < 0) { $decimals = 0; }
@@ -330,12 +342,12 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	MID
+	 * MID
 	 *
-	 *	@param	string	$value	Value
-	 *	@param	int		$start	Start character
-	 *	@param	int		$chars	Number of characters
-	 *	@return	string
+	 * @param	string	$value	Value
+	 * @param	int		$start	Start character
+	 * @param	int		$chars	Number of characters
+	 * @return	string
 	 */
 	public static function MID($value = '', $start = 1, $chars = null) {
 		$value		= PHPExcel_Calculation_Functions::flattenSingleValue($value);
@@ -359,11 +371,11 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	RIGHT
+	 * RIGHT
 	 *
-	 *	@param	string	$value	Value
-	 *	@param	int		$chars	Number of characters
-	 *	@return	string
+	 * @param	string	$value	Value
+	 * @param	int		$chars	Number of characters
+	 * @return	string
 	 */
 	public static function RIGHT($value = '', $chars = 1) {
 		$value		= PHPExcel_Calculation_Functions::flattenSingleValue($value);
@@ -408,12 +420,12 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	LOWERCASE
+	 * LOWERCASE
 	 *
-	 *	Converts a string value to upper case.
+	 * Converts a string value to upper case.
 	 *
-	 *	@param	string		$mixedCaseString
-	 *	@return	string
+	 * @param	string		$mixedCaseString
+	 * @return	string
 	 */
 	public static function LOWERCASE($mixedCaseString) {
 		$mixedCaseString	= PHPExcel_Calculation_Functions::flattenSingleValue($mixedCaseString);
@@ -431,12 +443,12 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	UPPERCASE
+	 * UPPERCASE
 	 *
-	 *	Converts a string value to upper case.
+	 * Converts a string value to upper case.
 	 *
-	 *	@param	string		$mixedCaseString
-	 *	@return	string
+	 * @param	string		$mixedCaseString
+	 * @return	string
 	 */
 	public static function UPPERCASE($mixedCaseString) {
 		$mixedCaseString	= PHPExcel_Calculation_Functions::flattenSingleValue($mixedCaseString);
@@ -454,12 +466,12 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	PROPERCASE
+	 * PROPERCASE
 	 *
-	 *	Converts a string value to upper case.
+	 * Converts a string value to upper case.
 	 *
-	 *	@param	string		$mixedCaseString
-	 *	@return	string
+	 * @param	string		$mixedCaseString
+	 * @return	string
 	 */
 	public static function PROPERCASE($mixedCaseString) {
 		$mixedCaseString	= PHPExcel_Calculation_Functions::flattenSingleValue($mixedCaseString);
@@ -477,12 +489,12 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	REPLACE
+	 * REPLACE
 	 *
-	 *	@param	string	$value	Value
-	 *	@param	int		$start	Start character
-	 *	@param	int		$chars	Number of characters
-	 *	@return	string
+	 * @param	string	$value	Value
+	 * @param	int		$start	Start character
+	 * @param	int		$chars	Number of characters
+	 * @return	string
 	 */
 	public static function REPLACE($oldText = '', $start = 1, $chars = null, $newText) {
 		$oldText	= PHPExcel_Calculation_Functions::flattenSingleValue($oldText);
@@ -498,13 +510,13 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	SUBSTITUTE
+	 * SUBSTITUTE
 	 *
-	 *	@param	string	$text		Value
-	 *	@param	string	$fromText	From Value
-	 *	@param	string	$toText		To Value
-	 *	@param	integer	$instance	Instance Number
-	 *	@return	string
+	 * @param	string	$text		Value
+	 * @param	string	$fromText	From Value
+	 * @param	string	$toText		To Value
+	 * @param	integer	$instance	Instance Number
+	 * @return	string
 	 */
 	public static function SUBSTITUTE($text = '', $fromText = '', $toText = '', $instance = 0) {
 		$text		= PHPExcel_Calculation_Functions::flattenSingleValue($text);
@@ -540,15 +552,15 @@ class PHPExcel_Calculation_TextData {
 			}
 		}
 
-		return $left.$newText.$right;
+		return $text;
 	}	//	function SUBSTITUTE()
 
 
 	/**
-	 *	RETURNSTRING
+	 * RETURNSTRING
 	 *
-	 *	@param	mixed	$value	Value to check
-	 *	@return	boolean
+	 * @param	mixed	$value	Value to check
+	 * @return	boolean
 	 */
 	public static function RETURNSTRING($testValue = '') {
 		$testValue	= PHPExcel_Calculation_Functions::flattenSingleValue($testValue);
@@ -561,10 +573,10 @@ class PHPExcel_Calculation_TextData {
 
 
 	/**
-	 *	TEXTFORMAT
+	 * TEXTFORMAT
 	 *
-	 *	@param	mixed	$value	Value to check
-	 *	@return	boolean
+	 * @param	mixed	$value	Value to check
+	 * @return	boolean
 	 */
 	public static function TEXTFORMAT($value,$format) {
 		$value	= PHPExcel_Calculation_Functions::flattenSingleValue($value);

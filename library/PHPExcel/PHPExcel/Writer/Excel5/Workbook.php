@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    1.7.7, 2012-05-19
  */
 
 // Original file header of PEAR::Spreadsheet_Excel_Writer_Workbook (used as the base for this class):
@@ -66,7 +66,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 {
@@ -193,11 +193,12 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 	/**
 	 * Class constructor
 	 *
-	 * @param PHPExcel $phpExcel The Workbook
-	 * @param int  $str_total		Total number of strings
-	 * @param int  $str_unique		Total number of unique strings
-	 * @param array  $str_table
-	 * @param mixed   $parser	  The formula parser created for the Workbook
+	 * @param PHPExcel	$phpExcel		The Workbook
+	 * @param int		&$str_total		Total number of strings
+	 * @param int		&$str_unique	Total number of unique strings
+	 * @param array		&$str_table		String Table
+	 * @param array		&$colors		Colour Table
+	 * @param mixed		$parser			The formula parser created for the Workbook
 	 */
 	public function __construct(PHPExcel $phpExcel = null,
 								&$str_total, &$str_unique, &$str_table, &$colors,
@@ -255,20 +256,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$xfWriter->setIsStyleXf($isStyleXf);
 
 		// Add the font if not already added
-		$fontHashCode = $style->getFont()->getHashCode();
-
-		if (isset($this->_addedFonts[$fontHashCode])) {
-			$fontIndex = $this->_addedFonts[$fontHashCode];
-		} else {
-			$countFonts = count($this->_fontWriters);
-			$fontIndex = ($countFonts < 4) ? $countFonts : $countFonts + 1;
-
-			$fontWriter = new PHPExcel_Writer_Excel5_Font($style->getFont());
-			$fontWriter->setColorIndex($this->_addColor($style->getFont()->getColor()->getRGB()));
-			$this->_fontWriters[] = $fontWriter;
-
-			$this->_addedFonts[$fontHashCode] = $fontIndex;
-		}
+		$fontIndex = $this->_addFont($style->getFont());
 
 		// Assign the font index to the xf record
 		$xfWriter->setFontIndex($fontIndex);
@@ -306,6 +294,29 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		return $xfIndex;
 	}
 
+	/**
+	 * Add a font to added fonts
+	 *
+	 * @param PHPExcel_Style_Font $font
+	 * @return int Index to FONT record
+	 */
+	public function _addFont(PHPExcel_Style_Font $font)
+	{
+		$fontHashCode = $font->getHashCode();
+		if(isset($this->_addedFonts[$fontHashCode])){
+			$fontIndex = $this->_addedFonts[$fontHashCode];
+		} else {
+			$countFonts = count($this->_fontWriters);
+			$fontIndex = ($countFonts < 4) ? $countFonts : $countFonts + 1;
+
+			$fontWriter = new PHPExcel_Writer_Excel5_Font($font);
+			$fontWriter->setColorIndex($this->_addColor($font->getColor()->getRGB()));
+			$this->_fontWriters[] = $fontWriter;
+
+			$this->_addedFonts[$fontHashCode] = $fontIndex;
+		}
+		return $fontIndex;
+	}
 	/**
 	 * Alter color palette adding a custom color
 	 *
@@ -408,8 +419,8 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 	 * Assemble worksheets into a workbook and send the BIFF data to an OLE
 	 * storage.
 	 *
-	 * @param array $worksheetSizes The sizes in bytes of the binary worksheet streams
-	 * @return string Binary data for workbook stream
+	 * @param	array	$pWorksheetSizes	The sizes in bytes of the binary worksheet streams
+	 * @return	string	Binary data for workbook stream
 	 */
 	public function writeWorkbook($pWorksheetSizes = null)
 	{
@@ -632,7 +643,6 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 			}
 		}
 	}
-
 
 	/**
 	 * Writes all the DEFINEDNAME records (BIFF8).
@@ -937,7 +947,6 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$this->_append($header . $data);
 	}
 
-
 	/**
 	 * Writes Excel FORMAT record for non "built-in" numerical formats.
 	 *
@@ -973,7 +982,6 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$this->_append($header . $data);
 	}
 
-
 	/**
 	 * Write BIFF record EXTERNCOUNT to indicate the number of external sheet
 	 * references in the workbook.
@@ -996,7 +1004,6 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$this->_append($header . $data);
 	}
 
-
 	/**
 	 * Writes the Excel BIFF EXTERNSHEET record. These references are used by
 	 * formulas. NAME record is required to define the print area and the repeat
@@ -1018,7 +1025,6 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$data        = pack("CC", $cch, $rgch);
 		$this->_append($header . $data . $sheetname);
 	}
-
 
 	/**
 	 * Store the NAME record in the short format that is used for storing the print
@@ -1081,7 +1087,6 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$data              .= pack("C", $colmax);
 		$this->_append($header . $data);
 	}
-
 
 	/**
 	 * Store the NAME record in the long format that is used for storing the repeat

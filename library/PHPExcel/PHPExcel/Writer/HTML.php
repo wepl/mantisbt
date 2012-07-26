@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category   PHPExcel
  * @package	PHPExcel_Writer
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version	##VERSION##, ##DATE##
+ * @version	1.7.7, 2012-05-19
  */
 
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package	PHPExcel_Writer
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_HTML implements PHPExcel_Writer_IWriter {
 	/**
@@ -145,7 +145,7 @@ class PHPExcel_Writer_HTML implements PHPExcel_Writer_IWriter {
 	/**
 	 * Save PHPExcel to file
 	 *
-	 * @param	string		$pFileName
+	 * @param	string		$pFilename
 	 * @throws	Exception
 	 */
 	public function save($pFilename = null) {
@@ -189,6 +189,9 @@ class PHPExcel_Writer_HTML implements PHPExcel_Writer_IWriter {
 
 	/**
 	 * Map VAlign
+	 *
+	 * @param	string		$vAlign		Vertical alignment
+	 * @return string
 	 */
 	private function _mapVAlign($vAlign) {
 		switch ($vAlign) {
@@ -203,6 +206,7 @@ class PHPExcel_Writer_HTML implements PHPExcel_Writer_IWriter {
 	/**
 	 * Map HAlign
 	 *
+	 * @param	string		$hAlign		Horizontal alignment
 	 * @return string|false
 	 */
 	private function _mapHAlign($hAlign) {
@@ -219,10 +223,13 @@ class PHPExcel_Writer_HTML implements PHPExcel_Writer_IWriter {
 
 	/**
 	 * Map border style
+	 *
+	 * @param	int		$borderStyle		Sheet index
+	 * @return	string
 	 */
 	private function _mapBorderStyle($borderStyle) {
 		switch ($borderStyle) {
-			case PHPExcel_Style_Border::BORDER_NONE:				return '0px';
+			case PHPExcel_Style_Border::BORDER_NONE:				return '1px hidden';
 			case PHPExcel_Style_Border::BORDER_DASHDOT:				return '1px dashed';
 			case PHPExcel_Style_Border::BORDER_DASHDOTDOT:			return '1px dotted';
 			case PHPExcel_Style_Border::BORDER_DASHED:				return '1px dashed';
@@ -839,11 +846,8 @@ class PHPExcel_Writer_HTML implements PHPExcel_Writer_IWriter {
 	 * @return	string
 	 */
 	private function _createCSSStyleBorder(PHPExcel_Style_Border $pStyle) {
-		// Construct HTML
-		$css = '';
-
 		// Create CSS
-		$css .= $this->_mapBorderStyle($pStyle->getBorderStyle()) . ' #' . $pStyle->getColor()->getRGB();
+		$css = $this->_mapBorderStyle($pStyle->getBorderStyle()) . ' #' . $pStyle->getColor()->getRGB();
 
 		// Return
 		return $css;

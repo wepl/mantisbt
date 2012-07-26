@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    1.7.7, 2012-05-19
  */
 
 // Original file header of PEAR::Spreadsheet_Excel_Writer_Parser (used as the base for this class):
@@ -55,7 +55,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_Excel5_Parser
 {
@@ -118,8 +118,6 @@ class PHPExcel_Writer_Excel5_Parser
 	/**
 	 * The class constructor
 	 *
-	 * @param integer $byte_order The byte order (Little endian or Big endian) of the architecture
-	 *                           (optional). 1 => big endian, 0 (default) little endian.
 	 */
 	public function __construct()
 	{
@@ -634,7 +632,8 @@ class PHPExcel_Writer_Excel5_Parser
 	 * Convert an Excel range such as A1:D4 to a ptgRefV.
 	 *
 	 * @access private
-	 * @param string $range An Excel range in the A1:A2
+	 * @param string	$range	An Excel range in the A1:A2
+	 * @param int		$class
 	 */
 	function _convertRange2d($range, $class=0)
 	{
@@ -776,30 +775,31 @@ class PHPExcel_Writer_Excel5_Parser
     /**
      * Convert an error code to a ptgErr
      *
-     * @access private
-     * @param mixed $num an error codefor conversion to its ptg value
+     * @access	private
+	 * @param	string	$errorCode	The error code for conversion to its ptg value
+     * @return	string				The error code ptgErr
      */
     function _convertError($errorCode)
     {
-        switch ($errorCode) {
-            case '#NULL!':	return pack("C", 0x00);
-            case '#DIV/0!':	return pack("C", 0x07);
-            case '#VALUE!':	return pack("C", 0x0F);
-            case '#REF!':	return pack("C", 0x17);
-            case '#NAME?':	return pack("C", 0x1D);
-            case '#NUM!':	return pack("C", 0x24);
-            case '#N/A':	return pack("C", 0x2A);
-        }
-        return pack("C", 0xFF);
+		switch ($errorCode) {
+			case '#NULL!':	return pack("C", 0x00);
+			case '#DIV/0!':	return pack("C", 0x07);
+			case '#VALUE!':	return pack("C", 0x0F);
+			case '#REF!':	return pack("C", 0x17);
+			case '#NAME?':	return pack("C", 0x1D);
+			case '#NUM!':	return pack("C", 0x24);
+			case '#N/A':	return pack("C", 0x2A);
+		}
+		return pack("C", 0xFF);
     }
 
 	/**
 	 * Convert the sheet name part of an external reference, for example "Sheet1" or
 	 * "Sheet1:Sheet2", to a packed structure.
 	 *
-	 * @access private
-	 * @param string $ext_ref The name of the external reference
-	 * @return string The reference index in packed() format
+	 * @access	private
+	 * @param	string	$ext_ref	The name of the external reference
+	 * @return	string				The reference index in packed() format
 	 */
 	function _packExtRef($ext_ref)
 	{
@@ -902,8 +902,9 @@ class PHPExcel_Writer_Excel5_Parser
 	 * sheet names is updated by the addworksheet() method of the
 	 * PHPExcel_Writer_Excel5_Workbook class.
 	 *
-	 * @access private
-	 * @return integer The sheet index, -1 if the sheet was not found
+	 * @access	private
+	 * @param	string	$sheet_name		Sheet name
+	 * @return	integer					The sheet index, -1 if the sheet was not found
 	 */
 	function _getSheetIndex($sheet_name)
 	{
@@ -1055,6 +1056,7 @@ class PHPExcel_Writer_Excel5_Parser
 
 		while ($i < $formula_length) {
 			$token .= $this->_formula{$i};
+
 			if ($i < ($formula_length - 1)) {
 				$this->_lookahead = $this->_formula{$i+1};
 			} else {
@@ -1181,6 +1183,11 @@ class PHPExcel_Writer_Excel5_Parser
 				// if it's a function call
 				elseif (preg_match("/^[A-Z0-9\xc0-\xdc\.]+$/i",$token) and ($this->_lookahead == "("))
 				{
+					return $token;
+				}
+				//	It's an argument of some description (e.g. a named range),
+				//		precise nature yet to be determined
+				elseif(substr($token,-1) == ')') {
 					return $token;
 				}
 				return '';

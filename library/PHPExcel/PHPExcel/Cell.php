@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category	PHPExcel
  * @package		PHPExcel_Cell
- * @copyright	Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version		##VERSION##, ##DATE##
+ * @version		1.7.7, 2012-05-19
  */
 
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package	PHPExcel_Cell
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Cell
 {
@@ -101,6 +101,7 @@ class PHPExcel_Cell
 
 	/**
 	 * Send notification to the cache controller
+	 *
 	 * @return void
 	 **/
 	public function notifyCacheController() {
@@ -121,7 +122,7 @@ class PHPExcel_Cell
 	 * Create a new Cell
 	 *
 	 * @param	string				$pColumn
-	 * @param	int				$pRow
+	 * @param	int					$pRow
 	 * @param	mixed				$pValue
 	 * @param	string				$pDataType
 	 * @param	PHPExcel_Worksheet	$pSheet
@@ -283,7 +284,7 @@ class PHPExcel_Cell
 				$result = PHPExcel_Calculation::getInstance()->calculateCellValue($this,$resetLog);
 //				echo $this->getCoordinate().' calculation result is '.$result.'<br />';
 			} catch ( Exception $ex ) {
-				if (($ex->getMessage() === 'Unable to access External Workbook') && (!is_null($this->_calculatedValue))) {
+				if (($ex->getMessage() === 'Unable to access External Workbook') && ($this->_calculatedValue !== NULL)) {
 //					echo 'Returning fallback value of '.$this->_calculatedValue.' for cell '.$this->getCoordinate().'<br />';
 					return $this->_calculatedValue; // Fallback for calculations referencing external files.
 				}
@@ -300,7 +301,7 @@ class PHPExcel_Cell
 			return $result;
 		}
 
-//		if (is_null($this->_value)) {
+//		if ($this->_value === NULL) {
 //			echo 'Cell '.$this->getCoordinate().' has no value, formula or otherwise<br />';
 //			return null;
 //		}
@@ -316,7 +317,7 @@ class PHPExcel_Cell
 	 */
 	public function setCalculatedValue($pValue = null)
 	{
-		if (!is_null($pValue)) {
+		if ($pValue !== NULL) {
 			$this->_calculatedValue = (is_numeric($pValue)) ? (float) $pValue : $pValue;
 		}
 
@@ -546,10 +547,18 @@ class PHPExcel_Cell
 	{
 		if (strpos($pCoordinateString,':') === false && strpos($pCoordinateString,',') === false) {
 			// Create absolute coordinate
+			$worksheet = '';
+			$cellAddress = explode('!',$pCoordinateString);
+			if (count($cellAddress) == 2) {
+				list($worksheet,$pCoordinateString) = $cellAddress;
+			}
+
 			list($column, $row) = PHPExcel_Cell::coordinateFromString($pCoordinateString);
 			if ($column[0] == '$')	$column = substr($column,1);
 			if ($row[0] == '$')		$row = substr($row,1);
-			return '$' . $column . '$' . $row;
+			if ($worksheet > '')
+				$worksheet .= '!';
+			return $worksheet . '$' . $column . '$' . $row;
 		} else {
 			throw new Exception("Coordinate string should not be a cell range.");
 		}
@@ -581,7 +590,7 @@ class PHPExcel_Cell
 	public static function buildRange($pRange)
 	{
 		// Verify range
-		if (!is_array($pRange) || count($pRange) == 0 || !is_array($pRange[0])) {
+		if (!is_array($pRange) || empty($pRange) || !is_array($pRange[0])) {
 			throw new Exception('Range does not contain any information.');
 		}
 
@@ -813,7 +822,7 @@ class PHPExcel_Cell
 	 * @return PHPExcel_Cell_IValueBinder
 	 */
 	public static function getValueBinder() {
-		if (is_null(self::$_valueBinder)) {
+		if (self::$_valueBinder === NULL) {
 			self::$_valueBinder = new PHPExcel_Cell_DefaultValueBinder();
 		}
 
@@ -827,7 +836,7 @@ class PHPExcel_Cell
 	 * @throws Exception
 	 */
 	public static function setValueBinder(PHPExcel_Cell_IValueBinder $binder = null) {
-		if (is_null($binder)) {
+		if ($binder === NULL) {
 			throw new Exception("A PHPExcel_Cell_IValueBinder is required for PHPExcel to function correctly.");
 		}
 

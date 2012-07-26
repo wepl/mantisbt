@@ -2,7 +2,7 @@
 /**
  * PHPExcel
  *
- * Copyright (c) 2006 - 2011 PHPExcel
+ * Copyright (c) 2006 - 2012 PHPExcel
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,9 +20,9 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
- * @version    ##VERSION##, ##DATE##
+ * @version    1.7.7, 2012-05-19
  */
 
 // Original file header of PEAR::Spreadsheet_Excel_Writer_Format (used as the base for this class):
@@ -66,7 +66,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel5
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2012 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_Excel5_Xf
 {
@@ -134,9 +134,8 @@ class PHPExcel_Writer_Excel5_Xf
 	/**
 	 * Constructor
 	 *
-	 * @access private
-	 * @param integer $index the XF index for the format.
-	 * @param PHPExcel_Style
+	 * @access public
+	 * @param PHPExcel_Style	The XF format
 	 */
 	public function __construct(PHPExcel_Style $style = null)
 	{
@@ -165,7 +164,6 @@ class PHPExcel_Writer_Excel5_Xf
 	/**
 	 * Generate an Excel BIFF XF record (style or cell).
 	 *
-	 * @param string $style The type of the XF record ('style' or 'cell').
 	 * @return string The XF record
 	 */
 	function writeXf()
@@ -378,6 +376,11 @@ class PHPExcel_Writer_Excel5_Xf
 		$this->_fontIndex = $value;
 	}
 
+	/**
+	 * Map of BIFF2-BIFF8 codes for border styles
+	 * @static	array of int
+	 *
+	 */
 	private static $_mapBorderStyle = array	( PHPExcel_Style_Border::BORDER_NONE				=> 0x00,
 											  PHPExcel_Style_Border::BORDER_THIN				=> 0x01,
 											  PHPExcel_Style_Border::BORDER_MEDIUM				=> 0x02,
@@ -396,6 +399,9 @@ class PHPExcel_Writer_Excel5_Xf
 
 	/**
 	 * Map border style
+	 *
+	 * @param string $borderStyle
+	 * @return int
 	 */
 	private static function _mapBorderStyle($borderStyle) {
 		if (isset(self::$_mapBorderStyle[$borderStyle]))
@@ -403,6 +409,11 @@ class PHPExcel_Writer_Excel5_Xf
 		return 0x00;
 	}
 
+	/**
+	 * Map of BIFF2-BIFF8 codes for fill types
+	 * @static	array of int
+	 *
+	 */
 	private static $_mapFillType = array( PHPExcel_Style_Fill::FILL_NONE					=> 0x00,
 										  PHPExcel_Style_Fill::FILL_SOLID					=> 0x01,
 										  PHPExcel_Style_Fill::FILL_PATTERN_MEDIUMGRAY		=> 0x02,
@@ -427,6 +438,9 @@ class PHPExcel_Writer_Excel5_Xf
 										);
 	/**
 	 * Map fill type
+	 *
+	 * @param string $fillType
+	 * @return int
 	 */
 	private static function _mapFillType($fillType) {
 		if (isset(self::$_mapFillType[$fillType]))
@@ -434,6 +448,11 @@ class PHPExcel_Writer_Excel5_Xf
 		return 0x00;
 	}
 
+	/**
+	 * Map of BIFF2-BIFF8 codes for horizontal alignment
+	 * @static	array of int
+	 *
+	 */
 	private static $_mapHAlign = array( PHPExcel_Style_Alignment::HORIZONTAL_GENERAL			=> 0,
 										PHPExcel_Style_Alignment::HORIZONTAL_LEFT				=> 1,
 										PHPExcel_Style_Alignment::HORIZONTAL_CENTER				=> 2,
@@ -454,6 +473,11 @@ class PHPExcel_Writer_Excel5_Xf
 		return 0;
 	}
 
+	/**
+	 * Map of BIFF2-BIFF8 codes for vertical alignment
+	 * @static	array of int
+	 *
+	 */
 	private static $_mapVAlign = array( PHPExcel_Style_Alignment::VERTICAL_TOP		=> 0,
 										PHPExcel_Style_Alignment::VERTICAL_CENTER	=> 1,
 										PHPExcel_Style_Alignment::VERTICAL_BOTTOM	=> 2,
