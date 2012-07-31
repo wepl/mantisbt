@@ -42,7 +42,7 @@
  *
  * ...Page content here...
  *
- * html_page_bottom1
+ * html_page_bottom
  * 	(print_menu)
  * 	html_page_bottom1a
  * 	html_bottom_banner
@@ -248,16 +248,6 @@ function html_page_top2a() {
  * @return null
  */
 function html_page_bottom( $p_file = null ) {
-	html_page_bottom1( $p_file );
-}
-
-/**
- * Print the part of the page that comes below the page content
- * $p_file should always be the __FILE__ variable. This is passed to show source
- * @param string $p_file should always be the __FILE__ variable. This is passed to show source
- * @return null
- */
-function html_page_bottom1( $p_file = null ) {
 	if( !db_is_connected() ) {
 		return;
 	}
