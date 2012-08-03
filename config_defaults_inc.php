@@ -3485,7 +3485,7 @@ $g_show_log_threshold = ADMINISTRATOR;
 $g_global_settings = array(
 	'global_settings',
 	'allow_signup',
-	'anonymous',
+	'anonymous_login',
 	'compress_html',
 	'content_expire',
 	'cookie',
