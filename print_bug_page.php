@@ -90,7 +90,7 @@ if ( $tpl_bug->project_id != $t_selected_project ) {
 
 access_ensure_bug_level( VIEWER, $f_bug_id );
 
-$t_fields = config_get( 'bug_print_page_columns' );
+$t_fields = config_get( 'bug_print_page_columns', columns_get_default( 'bug_print_page' ) );
 $t_fields = columns_filter_disabled( $t_fields );
 
 compress_enable();
