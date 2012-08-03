@@ -952,12 +952,6 @@ $g_show_roadmap_dates = ON;
 $g_cookie_time_length = 30000000;
 
 /**
- * minutes to wait before document is stale (in minutes)
- * @global int $g_content_expire
- */
-$g_content_expire = 0;
-
-/**
  * The time (in seconds) to allow for page execution during long processes
  *  such as upgrading your database.
  * The default value of 0 indicates that the page should be allowed to
@@ -3487,7 +3481,6 @@ $g_global_settings = array(
 	'allow_signup',
 	'anonymous_login',
 	'compress_html',
-	'content_expire',
 	'cookie',
 	'crypto_master_salt',
 	'custom_headers',
