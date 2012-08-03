@@ -102,9 +102,7 @@ $row_count = count( $result );
 # for export
 $t_show_flag = gpc_get_int( 'show_flag', 0 );
 
-html_page_top1();
-html_head_end();
-html_body_begin();
+html_page_top();
 ?>
 
 <table class="width100"><tr><td class="form-title">
@@ -250,5 +248,4 @@ $f_export = implode( ',', $f_bug_arr );
 </form>
 
 <?php
-html_body_end();
-html_end();
+html_page_bottom();
