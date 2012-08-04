@@ -119,10 +119,3 @@ if( $t_finfo_exists ) {
 		array( false => 'Ensure that the fileinfo_magic_db_file configuration value points to a valid magic.db file.' )
 	);
 }
-
-$t_file_type_icons = config_get( 'file_type_icons' );
-foreach( $t_file_type_icons as $t_ext => $t_filename ) {
-	$t_file_path = dirname( dirname( dirname( __FILE__ ) ) ) . '/themes/' . config_get_global( 'theme' ) . '/images/fileicons/' . $t_filename;
-
-	check_print_test_row( "Testing icon for extension '$t_ext'...", file_exists( $t_file_path ), array( false => 'File not found: ' . $t_file_path ) );
-}

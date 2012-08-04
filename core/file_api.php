@@ -174,15 +174,17 @@ function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null 
  * @param string filename
  */
 function file_get_icon_url( $p_display_filename ) {
-	$t_file_type_icons = config_get( 'file_type_icons' );
+	$t_ext = utf8_strtolower( pathinfo( $p_display_filename, PATHINFO_EXTENSION ) );
 
-	$ext = utf8_strtolower( pathinfo( $p_display_filename, PATHINFO_EXTENSION ) );
-	if( is_blank( $ext ) || !isset( $t_file_type_icons[$ext] ) ) {
-		$ext = '?';
+	if( $t_ext == '' ) {
+		return array( 'url' => helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/fileicons/generic.png' ), 'alt' => $t_ext );
 	}
 
-	$t_name = $t_file_type_icons[$ext];
-	return array( 'url' => helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/fileicons/' . $t_name ), 'alt' => $ext );
+	if( file_exists( 'themes/' . config_get( 'theme' ) . '/images/fileicons/' . $t_ext . '.png' ) ) {
+		return array( 'url' => helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/fileicons/' . $t_ext . '.png' ), 'alt' => $t_ext );
+	} else {
+		return array( 'url' => helper_mantis_url( 'img_ext.php?ext=' . $t_ext ), 'alt' => $t_ext );
+	}
 }
 
 /**
