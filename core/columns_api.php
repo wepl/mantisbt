@@ -123,6 +123,7 @@ function columns_get_standard() {
 
 	# Overdue icon column (icons appears if an issue is beyond due_date)
 	$t_columns['overdue'] = null;
+	$t_columns['attachments'] = null;
 
 	if( OFF == config_get( 'enable_profiles' ) ) {
 		unset( $t_columns['os'] );
