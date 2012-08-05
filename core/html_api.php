@@ -34,7 +34,6 @@
  * 	html_page_top2a
  * 	html_head_end
  * 	html_body_begin
- * 	html_header
  * 	html_top_banner
  * 	html_login_info
  * 	(print_project_menu_bar)
@@ -237,7 +236,6 @@ function html_page_top2a() {
 	html_head_end();
 	html_body_begin();
 	$g_error_send_page_header = false;
-	html_header();
 	html_top_banner();
 }
 
@@ -447,18 +445,7 @@ function html_body_begin() {
 }
 
 /**
- * (9) Print the title displayed at the top of the page
- * @return null
- */
-function html_header() {
-	$t_title = config_get( 'page_title' );
-	if( !is_blank( $t_title ) ) {
-		echo '<div class="center"><span class="pagetitle">', string_display( $t_title ), '</span></div>', "\n";
-	}
-}
-
-/**
- * (10) Print a user-defined banner at the top of the page if there is one.
+ * (9) Print a user-defined banner at the top of the page if there is one.
  * @return null
  */
 function html_top_banner() {
