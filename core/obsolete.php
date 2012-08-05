@@ -194,4 +194,5 @@ config_obsolete( 'css_include_file', 'theme' );
 config_obsolete( 'css_rtl_include_file', 'theme' );
 config_obsolete( 'logo_image', 'theme' );
 config_obsolete( 'favicon_image', 'theme' );
+config_obsolete( 'sort_icon_arr', 'theme');
 config_obsolete( 'content_expire', '' );

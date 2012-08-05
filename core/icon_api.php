@@ -64,10 +64,9 @@ function print_status_icon( $p_icon ) {
  * The input $p_dir is either ASC or DESC
  * The inputs $p_sort_by and $p_field are compared to see if they match
  * If the fields match then the sort icon is printed
- * This is a convenience feature to push the comparison code into this
- * function instead of in the page(s)
- * $p_field is a constant and $p_sort_by is whatever the page happens to
- * be sorting by at the moment
+ * This is a convenience feature to push the comparison code into this function instead of in the
+ * page(s)
+ * $p_field is a constant and $p_sort_by is whatever the page happens to be sorting by at the moment
  * Multiple sort keys are not supported
  * @param int $p_dir
  * @param string $p_sort_by
@@ -76,22 +75,22 @@ function print_status_icon( $p_icon ) {
  * @access public
  */
 function print_sort_icon( $p_dir, $p_sort_by, $p_field ) {
-	$t_sort_icon_arr = config_get( 'sort_icon_arr' );
-
 	if( $p_sort_by != $p_field ) {
 		return;
 	}
 
-	if(( 'DESC' == $p_dir ) || ( DESCENDING == $p_dir ) ) {
-		$t_dir = DESCENDING;
-	} else {
-		$t_dir = ASCENDING;
+	switch( $p_dir ) {
+		case DESCENDING:
+		case 'DESC':
+			$t_icon = 'down.png';
+			break;
+		case ASCENDING:
+			$t_icon = 'up.png';
+			break;
+		default:
+			throw new MantisBT\Exception\Generic();
 	}
 
-	if( !is_blank( $t_sort_icon_arr[$t_dir] ) ) {
-		echo "<img src=\"" . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/' . $t_sort_icon_arr[$t_dir] ) . "\" alt=\"\" />";
-	} else {
-		throw new MantisBT\Exception\Generic();
-	}
+	echo "<img src=\"" . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/' . $t_icon ) . "\" alt=\"\" />";
 }
 

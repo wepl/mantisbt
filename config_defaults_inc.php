@@ -2872,15 +2872,6 @@ $g_status_icon_arr = array (
 	IMMEDIATE => 'priority_3.png'
 );
 
-/**
- * Sort direction to icon mapping
- * @global array $g_sort_icon_arr
- */
-$g_sort_icon_arr = array (
-	ASCENDING  => 'up.png',
-	DESCENDING => 'down.png'
-);
-
 /********************
  * My View Settings *
  ********************/
