@@ -816,13 +816,10 @@ function print_menu() {
 		if( !current_user_is_anonymous() ) {
 			$t_menu_options[] = '<a id="logout-link" href="' . helper_mantis_url( 'logout_page.php">' ) . lang_get( 'logout_link' ) . '</a>';
 		}
-		echo '<form method="post" action="' . helper_mantis_url( 'jump_to_bug.php" class="bug-jump-form">' );
+		echo '<form method="get" action="' . helper_mantis_url( 'view.php" class="bug-jump-form">' );
 		echo '<fieldset class="bug-jump">';
 		# CSRF protection not required here - form does not result in modifications
-
-		$t_bug_label = lang_get( 'issue_id' );
-		echo '<input type="hidden" name="bug_label" value="', $t_bug_label, '" />';
-		echo '<input type="text" name="bug_id" size="10" class="small" />&#160;';
+		echo '<input type="text" name="id" size="10" class="small" />&#160;';
 
 		echo '<input type="submit" class="button-small" value="' . lang_get( 'jump' ) . '" />&#160;';
 		echo '</fieldset>';
