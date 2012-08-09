@@ -229,8 +229,12 @@ function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $
 					(%d, %s, %d, %s, %d, %d )";
 	db_query( $query, array( $c_project_id, $p_version, $c_date_order, $p_description, $c_released, $c_obsolete ) );
 
+	$t_version_id = db_insert_id( '{project_version}' );
+
+	event_signal( 'EVENT_MANAGE_VERSION_CREATE', array( $t_version_id ) );
+
 	# db_query errors on failure so:
-	return db_insert_id( '{project_version}' );
+	return $t_version_id;
 }
 
 /**
