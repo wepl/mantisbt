@@ -465,7 +465,9 @@ function html_top_banner() {
 		if( $t_show_url ) {
 			echo '<a id="logo-link" href="', config_get( 'logo_url' ), '">';
 		}
-		echo '<img id="logo-image" alt="Mantis Bug Tracker" src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' ) . '" />';
+		$t_logo_alt = string_html_specialchars( config_get( 'window_title' ) );
+		$t_logo = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' );
+		echo '<img id="logo-image" alt="' . $t_logo_alt . '" src="' . $t_logo . '" />';
 		if( $t_show_url ) {
 			echo '</a>';
 		}
