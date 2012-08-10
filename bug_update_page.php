@@ -78,9 +78,6 @@ if ( $tpl_bug->project_id != helper_get_current_project() ) {
 	# in case the current project is not the same project of the bug we are viewing...
 	# ... override the current project. This to avoid problems with categories and handlers lists etc.
 	$g_project_override = $tpl_bug->project_id;
-	$tpl_changed_project = true;
-} else {
-	$tpl_changed_project = false;
 }
 
 if ( bug_is_readonly( $f_bug_id ) ) {
