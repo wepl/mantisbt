@@ -614,7 +614,7 @@ function summary_print_by_category() {
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
 
-	$specific_where = trim( helper_project_specific_where( $t_project_id ) );
+	$specific_where = helper_project_specific_where( $t_project_id );
 	if( '1<>1' == $specific_where ) {
 		return;
 	}
