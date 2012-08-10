@@ -191,7 +191,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 		}
 		$c_type = TIME_TRACKING;
 	} else if( is_blank( $p_bugnote_text ) ) {
-		return false;
+		throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
 	}
 
 	$t_bugnote_text = trim( $p_bugnote_text );
