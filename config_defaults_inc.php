@@ -96,63 +96,12 @@ $g_db_options = array();
  * MantisBT Path Settings *
  **************************/
 
-if ( isset ( $_SERVER['SCRIPT_NAME'] ) ) {
-	$t_protocol = 'http';
-	if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
-		$t_protocol= $_SERVER['HTTP_X_FORWARDED_PROTO'];
-	} else if ( isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER['HTTPS'] ) ) && strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
-		$t_protocol = 'https';
-	}
-
-	# $_SERVER['SERVER_PORT'] is not defined in case of php-cgi.exe
-	if ( isset( $_SERVER['SERVER_PORT'] ) ) {
-		$t_port = ':' . $_SERVER['SERVER_PORT'];
-		if ( ( ':80' == $t_port && 'http' == $t_protocol )
-		  || ( ':443' == $t_port && 'https' == $t_protocol )) {
-			$t_port = '';
-		}
-	} else {
-		$t_port = '';
-	}
-
-	if ( isset( $_SERVER['HTTP_X_FORWARDED_HOST'] ) ) { // Support ProxyPass
-		$t_hosts = explode( ',', $_SERVER['HTTP_X_FORWARDED_HOST'] );
-		$t_host = $t_hosts[0];
-	} else if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-		$t_host = $_SERVER['HTTP_HOST'];
-	} else if ( isset( $_SERVER['SERVER_NAME'] ) ) {
-		$t_host = $_SERVER['SERVER_NAME'] . $t_port;
-	} else if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
-		$t_host = $_SERVER['SERVER_ADDR'] . $t_port;
-	} else {
-		$t_host = 'localhost';
-	}
-
-	$t_self = $_SERVER['SCRIPT_NAME'];
-	$t_self = filter_var($t_self, FILTER_SANITIZE_STRING);
-	$t_path = str_replace( basename( $t_self ), '', $t_self );
-	$t_path = basename( $t_path ) == "admin" ? rtrim( dirname( $t_path ), '/\\' ) . '/' : $t_path;
-	$t_path = basename( $t_path ) == "manage" ? rtrim( dirname( $t_path ), '/\\' ) . '/' : $t_path;
-	$t_path = basename( $t_path ) == "soap" ? rtrim( dirname( dirname( $t_path ) ), '/\\' ) . '/' : $t_path;
-	if( strpos( $t_path, '&#' ) ) {
-		echo 'Can not safely determine $g_path. Please set $g_path manually in config_inc.php';
-		die;
-	}
-	$g_path	= $t_protocol . '://' . $t_host . $t_path;
-
-} else {
-	echo 'Invalid server configuration detected. Please set $g_path manually in config_inc.php.';
-	if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ( stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false ) )
-		echo ' Please try to add "fastcgi_param SCRIPT_NAME $fastcgi_script_name;" to the nginx server configuration.';
-	die;
-}
-
 /**
  * path to your installation as seen from the web browser
  * requires trailing /
  * @global string $g_path
  */
-//$g_path = 'http://localhost/mantisbt/';
+$g_path = null;
 
 /**
  * path to your images directory (for icons)
@@ -166,7 +115,7 @@ $g_icon_path = '%path%static/images/';
  * requires trailing /
  * @global string $g_short_path
  */
-$g_short_path = $t_path;
+$g_short_path = null;
 
 /**
  * absolute path to your installation.  Requires trailing / or \
@@ -3071,7 +3020,7 @@ $g_wiki_root_namespace = 'mantis';
  * URL under which the wiki engine is hosted.  Must be on the same server.
  * @global string $g_wiki_engine_url
  */
-$g_wiki_engine_url = $t_protocol . '://' . $t_host . '/%wiki_engine%/';
+//$g_wiki_engine_url = $t_protocol . '://' . $t_host . '/%wiki_engine%/';
 
 /********************
  * Recently Visited *
