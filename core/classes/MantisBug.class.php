@@ -386,6 +386,12 @@ class MantisBug extends MantisCacheable {
 					$value = strtotime($value);
 				}
 				break;
+			case 'summary':
+			case 'build':
+				if ( !$this->loading ) {
+					$value = trim( $value );
+				}
+				break;
 		}
 		$this->{$name} = $value;
 	}

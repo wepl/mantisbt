@@ -117,8 +117,6 @@ $t_bug_data->project_id			= gpc_get_int( 'project_id' );
 
 $t_bug_data->reporter_id		= auth_get_current_user_id();
 
-$t_bug_data->summary			= trim( $t_bug_data->summary );
-
 if ( access_has_project_level( config_get( 'roadmap_update_threshold' ), $t_bug_data->project_id ) ) {
 	$t_bug_data->target_version = gpc_get_string( 'target_version', '' );
 }
