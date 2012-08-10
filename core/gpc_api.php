@@ -248,11 +248,15 @@ function gpc_get_string_array( $p_var_name, $p_default = null ) {
 		throw new MantisBT\Exception\GPC_Array_Expected( $p_var_name );
 	}
 
-	$t_array = array();
-	foreach( $t_result as $key => $val ) {
-		$t_array[$key] = str_replace( "\0", "", $val );
+	if( is_array( $t_result ) ) {
+		$t_array = array();
+		foreach( $t_result as $key => $val ) {
+			$t_array[$key] = str_replace( "\0", "", $val );
+		}
+		return $t_array;
+	} else {
+		return $t_result;
 	}
-	return $t_array;
 }
 
 /**
