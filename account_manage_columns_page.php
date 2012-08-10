@@ -48,7 +48,7 @@ require_api( 'lang_api.php' );
 
 html_page_top( lang_get( 'manage_columns_config' ) );
 
-//current_user_ensure_unprotected();
+current_user_ensure_unprotected();
 
 # Define constant that will be checked by the include page.
 define ( 'ACCOUNT_COLUMNS', true );
