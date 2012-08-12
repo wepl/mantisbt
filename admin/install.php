@@ -203,6 +203,10 @@ if( $t_config_exists ) {
 	$g_db = MantisDatabase::get_driver_instance($f_db_type);
 	try {
 		$t_result = $g_db->connect( null, $f_hostname, $f_db_username, $f_db_password, $f_database_name, null );
+		$t_prefix = config_get_global( 'db_table_prefix' ) . '_';
+		$t_suffix = config_get_global( 'db_table_suffix' );
+
+		$g_db->SetPrefixes( $t_prefix, $t_suffix );
 	} catch (Exception $ex) {
 		$t_result = false;
 	}
