@@ -203,6 +203,10 @@ function install_date_migrate( $p_data) {
 			for( $i=0; $i < $t_cnt_fields; $i++ ) {
 				$t_old_value = $row[$p_data[2][$i]];
 
+				if( is_numeric( $t_old_value ) ) {
+					return 1; // Fatal: conversion may have already been run. If it has been run, proceeding will wipe timestamps from db
+				}
+
 				$t_new_value[$i] = db_unixtimestamp($t_old_value);
 				if ($t_new_value[$i] < 100000 ) {
 					$t_new_value[$i] = 1;
@@ -212,6 +216,10 @@ function install_date_migrate( $p_data) {
 			$t_values[] = $t_id;
 		} else {
 			$t_old_value = $row[$t_old_column];
+
+			if( is_numeric( $t_old_value ) ) {
+				return 1; // Fatal: conversion may have already been run. If it has been run, proceeding will wipe timestamps from db
+			}
 
 			$t_new_value = db_unixtimestamp($t_old_value);
 			if ($t_new_value < 100000 ) {
