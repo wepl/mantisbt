@@ -107,8 +107,6 @@ $t_bug_data->additional_information	= gpc_get_string( 'additional_info', config_
 $t_bug_data->due_date 				= gpc_get_string( 'due_date', '');
 if ( is_blank ( $t_bug_data->due_date ) ) {
 	$t_bug_data->due_date = date_get_null();
-} else {
-	$t_bug_data->due_date = $t_bug_data->due_date;
 }
 
 $f_file					= gpc_get_file( 'file', null );
