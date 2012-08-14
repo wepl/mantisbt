@@ -779,7 +779,7 @@ function custom_field_get_id_from_name( $p_field_name, $p_truncated_length = nul
  * @access public
  */
 function custom_field_get_linked_ids( $p_project_id = ALL_PROJECTS ) {
-	global $g_cache_cf_linked, $g_cache_custom_field;
+	global $g_cache_cf_linked;
 
 	if( !isset( $g_cache_cf_linked[$p_project_id] ) ) {
 
@@ -933,7 +933,6 @@ function custom_field_get_value( $p_field_id, $p_bug_id ) {
 
 	$row = custom_field_cache_row( $p_field_id );
 
-	$t_access_level_r = $row['access_level_r'];
 	$t_default_value = $row['default_value'];
 
 	if( !custom_field_has_read_access( $p_field_id, $p_bug_id, auth_get_current_user_id() ) ) {
@@ -1067,7 +1066,6 @@ function custom_field_validate( $p_field_id, $p_value ) {
 	$result = db_query( $query, array( $p_field_id ) );
 	$row = db_fetch_array( $result );
 
-	$t_name = $row['name'];
 	$t_type = $row['type'];
 	$t_possible_values = $row['possible_values'];
 	$t_valid_regexp = $row['valid_regexp'];

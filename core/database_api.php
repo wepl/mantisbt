@@ -129,7 +129,7 @@ function db_is_mssql() {
  */
 function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) {
 	global $g_db;
-	
+
 	if(( $p_limit != -1 ) || ( $p_offset != -1 ) ) {
 		$t_result = $g_db->SelectLimit( $p_query, $p_limit, $p_offset, $arr_parms );
 	} else {
@@ -137,7 +137,7 @@ function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) 
 	}
 
 	if( !$t_result ) {
-		throw new MantisBT\Exception\Database\QueryFailed();
+		throw new MantisBT\Exception\Database\QueryFailed( $p_query );
 		return false;
 	} else {
 		return $t_result;
@@ -150,8 +150,6 @@ function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) 
  * @return array Database result
  */
 function db_fetch_array( &$p_result ) {
-	global $g_db, $g_db_type;
-
 	return $p_result->fetch();
 }
 
@@ -210,7 +208,7 @@ function db_table_exists( $p_table_name ) {
  * @return bool indicating whether the index exists
  */
 function db_index_exists( $p_table_name, $p_index_name ) {
-	global $g_db, $g_db_schema;
+	global $g_db;
 
 	if( is_blank( $p_index_name ) || is_blank( $p_table_name ) ) {
 		return false;
@@ -237,7 +235,6 @@ function db_index_exists( $p_table_name, $p_index_name ) {
  * @return bool indicating whether the field exists
  */
 function db_field_exists( $p_field_name, $p_table_name ) {
-	global $g_db;
 	$columns = db_field_names( $p_table_name );
 	return in_array( $p_field_name, $columns );
 }
@@ -269,8 +266,6 @@ function db_prepare_bool( $p_bool ) {
  * @return string Formatted Date for DB insertion e.g. 1970-01-01 00:00:00 ready for database insertion
  */
 function db_now() {
-	global $g_db;
-
 	return time();
 }
 

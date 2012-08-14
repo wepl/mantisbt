@@ -394,7 +394,7 @@ function file_delete_attachments( $p_bug_id ) {
 	# Delete the corresponding db records
 	$t_query = "DELETE FROM $t_bug_file_table
 				  WHERE bug_id=%d";
-	$t_result = db_query( $t_query, array( $p_bug_id ) );
+	db_query( $t_query, array( $p_bug_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -440,7 +440,7 @@ function file_delete_project_files( $p_project_id ) {
 
 	# Delete the corresponding db records
 	$t_query = 'DELETE FROM {project_file} WHERE project_id=%d';
-	$t_result = db_query( $t_query, array( (int) $p_project_id ) );
+	db_query( $t_query, array( (int) $p_project_id ) );
 }
 
 /**
@@ -926,7 +926,6 @@ function file_ensure_uploaded( $p_file ) {
 function file_get_content( $p_file_id, $p_type = 'bug' ) {
 	# we handle the case where the file is attached to a bug
 	# or attached to a project as a project doc.
-	$query = '';
 	switch ( $p_type ) {
 		case 'bug':
 			$query = "SELECT * FROM {bug_file} WHERE id=%d";

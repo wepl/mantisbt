@@ -81,7 +81,7 @@ function set_overrides( $p_config ) {
  * @param int to status id
  */
 function show_flag( $p_from_status_id, $p_to_status_id ) {
-	global $t_can_change_workflow, $t_overrides, $t_file_workflow, $t_global_workflow, $t_project_workflow;
+	global $t_can_change_workflow, $t_file_workflow, $t_global_workflow, $t_project_workflow;
 	if ( $p_from_status_id <> $p_to_status_id ) {
 		$t_file = isset( $t_file_workflow['exit'][$p_from_status_id][$p_to_status_id] ) ? 1 : 0 ;
 		$t_global = isset( $t_global_workflow['exit'][$p_from_status_id][$p_to_status_id] ) ? 1 : 0 ;

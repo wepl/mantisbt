@@ -439,8 +439,6 @@ function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = 
 		}
 	}
 
-	$c_project_id = (int)$p_project_id;
-
 	$t_project_where = version_get_project_where_clause( $p_project_id, $p_inherit );
 
 	$query = "SELECT * FROM {project_version} WHERE $t_project_where";

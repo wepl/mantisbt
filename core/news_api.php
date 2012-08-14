@@ -177,8 +177,6 @@ function news_get_row( $p_news_id ) {
  * @return int news count
  */
 function news_get_count( $p_project_id, $p_sitewide = true ) {
-	$c_project_id = (int)$p_project_id;
-
 	$t_project_where = helper_project_specific_where( $p_project_id );
 
 	$t_query = "SELECT COUNT(*) FROM {news} WHERE $t_project_where";

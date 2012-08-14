@@ -264,7 +264,7 @@ function install_correct_multiselect_custom_fields_db_format() {
 			SET value = '$c_value'
 			WHERE field_id = $c_field_id
 				AND bug_id = $c_bug_id";
-		$t_update_result = db_query( $t_update_query );
+		db_query( $t_update_query );
 	}
 
 	# Remove vertical pipe | prefix and suffix from radio custom field values.
@@ -284,7 +284,7 @@ function install_correct_multiselect_custom_fields_db_format() {
 			SET value = '$c_value'
 			WHERE field_id = $c_field_id
 				AND bug_id = $c_bug_id";
-		$t_update_result = db_query( $t_update_query );
+		db_query( $t_update_query );
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
@@ -334,7 +334,7 @@ function install_stored_filter_migrate() {
 		$t_filter_string = $t_cookie_version . '#' . $t_filter_serialized;
 
 		$t_update_query = 'UPDATE {filters} SET filter_string=%s WHERE id=%d';
-		$t_update_result = db_query( $t_update_query, array( $t_filter_string, $t_row['id'] ) );
+		db_query( $t_update_query, array( $t_filter_string, $t_row['id'] ) );
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
@@ -410,10 +410,10 @@ function install_update_export_columns() {
 
 		$query = "INSERT INTO {config} (config_id, value, access_reqd, type, project_id, user_id ) VALUES ( %s,%s,%d,%d,%d,%d )";
 		$t_value = serialize( array_values( array_unique( $t_array ) ) );
-		$t_result3 = db_query( $query, array( 'export_columns', $t_value, $access_reqd, $type, $project_id, $user_id ) );
+		db_query( $query, array( 'export_columns', $t_value, $access_reqd, $type, $project_id, $user_id ) );
 
 		$query = "DELETE FROM {config} WHERE (config_id = 'csv_columns' or config_id = 'excel_columns') AND access_reqd=%d AND type=%d AND project_id=%d AND user_id=%d";
-		$t_result3 = db_query( $query, array( $access_reqd, $type, $project_id, $user_id ) );
+		db_query( $query, array( $access_reqd, $type, $project_id, $user_id ) );
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
@@ -434,10 +434,10 @@ function install_migrate_bug_text() {
 		$additional_information = $t_row['additional_information'];
 
 		$query = "UPDATE {bug} SET description=%s, steps_to_reproduce=%s, additional_information=%s WHERE bug_text_id=%d";
-		$t_result3 = db_query( $query, array( $description, $steps_to_reproduce, $additional_information, $text_id ) );
+		db_query( $query, array( $description, $steps_to_reproduce, $additional_information, $text_id ) );
 
 		$query = "DELETE FROM {bug_text} WHERE id=%d";
-		$t_result3 = db_query( $query, array( $text_id ) );
+		db_query( $query, array( $text_id ) );
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly
@@ -456,10 +456,10 @@ function install_migrate_bugnote_text() {
 		$note = $t_row['note'];
 
 		$query = "UPDATE {bugnote} SET note=%s WHERE bugnote_text_id=%d";
-		$t_result3 = db_query( $query, array( $note, $text_id ) );
+		db_query( $query, array( $note, $text_id ) );
 
 		$query = "DELETE FROM {bugnote_text} WHERE id=%d";
-		$t_result3 = db_query( $query, array( $text_id ) );
+		db_query( $query, array( $text_id ) );
 	}
 
 	# Return 2 because that's what ADOdb/DataDict does when things happen properly

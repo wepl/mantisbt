@@ -225,7 +225,7 @@ function relationship_delete( $p_relationship_id ) {
 	$c_relationship_id = (int)$p_relationship_id;
 
 	$query = "DELETE FROM {bug_relationship} WHERE id=%d";
-	$result = db_query( $query, array( $c_relationship_id ) );
+	db_query( $query, array( $c_relationship_id ) );
 }
 
 /**
@@ -238,7 +238,7 @@ function relationship_delete_all( $p_bug_id ) {
 	$query = "DELETE FROM {bug_relationship}
 				WHERE source_bug_id=%d OR
 				destination_bug_id=%d";
-	$result = db_query( $query, array( $c_bug_id, $c_bug_id ) );
+	db_query( $query, array( $c_bug_id, $c_bug_id ) );
 }
 
 /**

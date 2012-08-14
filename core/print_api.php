@@ -1152,7 +1152,7 @@ function print_view_bug_sort_link( $p_string, $p_sort_field, $p_sort, $p_dir, $p
 			}
 		} else {
 			# Otherwise always start with ASCending
-			$t_dir = 'ASC';
+			$p_dir = 'ASC';
 		}
 
 		$t_sort_field = rawurlencode( $p_sort_field );
@@ -1169,7 +1169,7 @@ function print_view_bug_sort_link( $p_string, $p_sort_field, $p_sort, $p_dir, $p
 			}
 		} else {
 			# Otherwise always start with ASCending
-			$t_dir = 'ASC';
+			$p_dir = 'ASC';
 		}
 
 		$t_sort_field = rawurlencode( $p_sort_field );
@@ -1600,7 +1600,6 @@ function get_dropdown( $p_control_array, $p_control_name, $p_match = '', $p_add_
  */
 function print_bug_attachments_list( $p_bug_id ) {
 	$t_attachments = file_get_visible_attachments( $p_bug_id );
-	$t_attachments_count = count( $t_attachments );
 	echo "\n<ul>";
 	foreach ( $t_attachments as $t_attachment ) {
 		echo "\n<li>";

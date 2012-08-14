@@ -109,7 +109,7 @@ function ldap_email( $p_user_id ) {
 
 	$t_ldap_email_field	= config_get( 'ldap_email_field' );
 
-	$t_email = ldap_get_field_from_username( $p_username, $t_ldap_email_field );
+	$t_email = ldap_get_field_from_username( $t_username, $t_ldap_email_field );
 	if ( $t_email === null ) {
 		return '';
 	}
@@ -127,7 +127,7 @@ function ldap_realname( $p_user_id ) {
 	$t_username = user_get_field( $p_user_id, 'username' );
 
 	$t_ldap_realname_field	= config_get( 'ldap_realname_field' );
-	$t_realname = ldap_get_field_from_username( $p_username, $t_ldap_realname_field );
+	$t_realname = ldap_get_field_from_username( $t_username, $t_ldap_realname_field );
 	if ( $t_realname === null ) {
 		return '';
 	}
@@ -266,8 +266,6 @@ function ldap_authenticate( $p_user_id, $p_password ) {
  * @return true: authenticated, false: failed to authenticate.
  */
 function ldap_authenticate_by_username( $p_username, $p_password ) {
-	$c_username = ldap_escape_string( $p_username );
-
 	$t_dn = ldap_get_field_from_username( $p_username, 'dn' );
 	$t_authenticated = false;
 

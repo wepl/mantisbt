@@ -87,7 +87,6 @@ function get_percentage_by_status() {
 	$t_query .= ' GROUP BY status';
 	$result = db_query( $t_query );
 
-	$t_bug_count = 0;
 	$t_status_count_array = array();
 
 	while( $row = db_fetch_array( $result ) ) {
