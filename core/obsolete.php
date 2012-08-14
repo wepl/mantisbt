@@ -197,3 +197,4 @@ config_obsolete( 'favicon_image', 'theme' );
 config_obsolete( 'sort_icon_arr', 'theme');
 config_obsolete( 'content_expire', '' );
 config_obsolete( 'page_title', 'top_include_page' );
+config_obsolete( 'icon_path', 'theme' );
