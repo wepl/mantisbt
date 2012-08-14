@@ -24,7 +24,7 @@
  * details.
  * iii) "Export Issues Columns" - These are the list of fields included when exporting an issue from
  * the bug tracker. 
- * Note: These are now shared between different types of exports - for example, the core mantisbt
+ * Note: These are now shared between different types of exports - for example, the core MantisBT
  * distribution can export to Excel and Word Documents.
  *
  * The settings defined here can be allocated to the current project, or All Projects. In addition,
