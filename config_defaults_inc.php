@@ -21,10 +21,25 @@
  * defined here, define them in a file called config_inc.php, which will
  * be loaded after this file.
  *
+ * A config_inc.php is created as part of the mantis installater with global database settings.
+ *
+ * Global Settings which can not be stored in the database and you may wish to modify have been
+ * placed at the top of this file. These settings should be modified in config_inc.php.
+ *
+ * At a minimum, if creating a config_inc file manually, set valid values for the following sections:
+ *
+ * 1) Global Settings - MantisBT Database Settings [all]
+ * 2) Global Settings - MantisBT Path Settings [$g_path and $g_short_path]
+ * 3) Global Settings - Security and Cryptography [$g_crypto_master_salt]
+ * 4) Global Settings - Email Server Settings
+ *
+ * Per-Project/User Settings follow these and can often be changed directly in the mantis user 
+ * interface, however in some cases you may still wish to use the config_inc.php to provide a 
+ * default value. Default values for these settings can also be set by storing a database entry for
+ * all users and all projects.
+ *
  * In general a value of OFF means the feature is disabled and ON means the
  * feature is enabled.  Any other cases will have an explanation.
- *
- * For more details see http://www.mantisbt.org/docs/master-1.2.x/
  *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
@@ -32,9 +47,9 @@
  * @link http://www.mantisbt.org
  */
 
-/******************************
- * MantisBT Database Settings *
- ******************************/
+/************************************************
+ * Global Settings - MantisBT Database Settings *
+ ************************************************/
 
 /**
  * hostname should be either a hostname or connection string.
@@ -92,27 +107,26 @@ $g_dsn = '';
  */
 $g_db_options = array();
 
-/**************************
- * MantisBT Path Settings *
- **************************/
+/********************************************
+ * Global Settings - MantisBT Path Settings *
+ ********************************************/
 
 /**
- * path to your installation as seen from the web browser
- * requires trailing /
+ * URL Path to your installation as seen from the web browser with a trailing slash ( / )
+ * For example, $g_path = 'http://mantis.internal/mantis/';
+ *
+ * This config entry is required.
+ *
  * @global string $g_path
  */
 $g_path = null;
 
 /**
- * path to your images directory (for icons)
- * requires trailing /
- * @global string $g_icon_path
- */
-$g_icon_path = '%path%static/images/';
-
-/**
- * Short web path without the domain name
- * requires trailing /
+ * Short web path without the domain name with a trailing slash ( / )
+ * For example, $g_short_path = '/mantis/';
+ *
+ * This config entry is required.
+ *
  * @global string $g_short_path
  */
 $g_short_path = null;
@@ -148,27 +162,70 @@ $g_library_path = $g_absolute_path . 'library/';
  */
 $g_language_path = $g_absolute_path . 'lang/';
 
-/**
- * absolute path to custom strings file.
- * This file allows overriding of strings declared in the language file, or in plugin language files
- * Two formats are supported:
- * Legacy format: $s_*
- * New format: define a $s_custom_messages array as follows:
- * $s_custom_messages = array( 'en' => array( string => string ) ) ;
- * NOTE: you can not mix/merge old/new formats within this file.
- * @global string $g_custom_strings_file
- */
-$g_custom_strings_file = $g_absolute_path . 'custom_strings_inc.php';
+/***********************************************
+ * Global Settings - Security and Cryptography *
+ ***********************************************/
 
 /**
- * Used to link to manual for User Documentation.
- * @global string $g_manual_url
+ * Master salt value used for cryptographic hashing throughout MantisBT. This
+ * value must be kept secret at all costs. You must generate a unique and
+ * random salt value for each installation of MantisBT you control. The
+ * minimum length of this string must be at least 16 characters.
+ *
+ * The value you select for this salt should be a long string generated using
+ * a secure random number generator. An example for Linux systems is:
+ *    cat /dev/urandom | head -c 64 | base64
+ * Note that the number of bits of entropy per byte of output from /dev/urandom
+ * is not 8. If you're particularly paranoid and don't mind waiting a long
+ * time, you could use /dev/random to get much closer to 8 bits of entropy per
+ * byte. Moving the mouse (if possible) while generating entropy via
+ * /dev/random will greatly improve the speed at which /dev/random produces
+ * entropy.
+ *
+ * WARNING: This configuration option has a profound impact on the security of
+ * your MantisBT installation. Failure to set this configuration option
+ * correctly could lead to your MantisBT installation being compromised. Ensure
+ * that this value remains secret. Treat it with the same security that you'd
+ * treat the password to your MantisDB database.
+ *
+ * This setting is blank by default. MantisBT will not operate in this state.
+ * Hence you are forced to change the value of this configuration option.
+ *
+ * @global string $g_crypto_master_salt
  */
-$g_manual_url = 'http://www.mantisbt.org/docs/master-1.2.x/';
+$g_crypto_master_salt = '';
 
-/**************
- * Web Server *
- **************/
+/*******************************************
+ * Global Settings - Email Server Settings *
+ *******************************************/
+
+/**
+ * This option allows you to use a remote SMTP host.
+ * One or more hosts, separated by a semicolon, can be listed.
+ * You can also specify a different port for each host by using this
+ * format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com").
+ * Hosts will be tried in order.
+ * @global string $g_smtp_host
+ */
+$g_smtp_host = 'localhost';
+
+/**
+ * These options allow you to use SMTP Authentication when you use a remote SMTP host.
+ * If smtp_username is not '' then the username
+ * and password will be used when logging in to the SMTP server.
+ * @global string $g_smtp_username
+ */
+$g_smtp_username = '';
+
+/**
+ * SMTP Server Authentication password
+ * @global string $g_smtp_password
+ */
+$g_smtp_password = '';
+ 
+/**************************************
+ * Global Settings - Session Handling *
+ **************************************/
 
 /**
  * Session handler.  Possible values:
@@ -200,38 +257,7 @@ $g_session_validation = ON;
  */
 $g_form_security_validation = ON;
 
-/*****************************
- * Security and Cryptography *
- *****************************/
 
-/**
- * Master salt value used for cryptographic hashing throughout MantisBT. This
- * value must be kept secret at all costs. You must generate a unique and
- * random salt value for each installation of MantisBT you control. The
- * minimum length of this string must be at least 16 characters.
- *
- * The value you select for this salt should be a long string generated using
- * a secure random number generator. An example for Linux systems is:
- *    cat /dev/urandom | head -c 64 | base64
- * Note that the number of bits of entropy per byte of output from /dev/urandom
- * is not 8. If you're particularly paranoid and don't mind waiting a long
- * time, you could use /dev/random to get much closer to 8 bits of entropy per
- * byte. Moving the mouse (if possible) while generating entropy via
- * /dev/random will greatly improve the speed at which /dev/random produces
- * entropy.
- *
- * WARNING: This configuration option has a profound impact on the security of
- * your MantisBT installation. Failure to set this configuration option
- * correctly could lead to your MantisBT installation being compromised. Ensure
- * that this value remains secret. Treat it with the same security that you'd
- * treat the password to your MantisDB database.
- *
- * This setting is blank by default. MantisBT will not operate in this state.
- * Hence you are forced to change the value of this configuration option.
- *
- * @global string $g_crypto_master_salt
- */
-$g_crypto_master_salt = '';
 
 /****************************
  * Signup and Lost Password *
@@ -489,29 +515,7 @@ $g_mail_priority = 3;
  */
 $g_mailer_method = 'smtp';
 
-/**
- * This option allows you to use a remote SMTP host.
- * One or more hosts, separated by a semicolon, can be listed.
- * You can also specify a different port for each host by using this
- * format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com").
- * Hosts will be tried in order.
- * @global string $g_smtp_host
- */
-$g_smtp_host = 'localhost';
 
-/**
- * These options allow you to use SMTP Authentication when you use a remote SMTP host.
- * If smtp_username is not '' then the username
- * and password will be used when logging in to the SMTP server.
- * @global string $g_smtp_username
- */
-$g_smtp_username = '';
-
-/**
- * SMTP Server Authentication password
- * @global string $g_smtp_password
- */
-$g_smtp_password = '';
 
 /**
  * This control the connection mode to SMTP server. Can be 'ssl' or 'tls'
@@ -1890,7 +1894,7 @@ $g_allow_download_own_attachments = ON;
 $g_allow_delete_own_attachments = OFF;
 
 /**********************
- * Field Visibility
+ * Field Visibility   *
  **********************/
 
 /**
@@ -3330,6 +3334,28 @@ $g_log_destination = '';
  */
 $g_show_log_threshold = ADMINISTRATOR;
 
+
+
+
+/**
+ * absolute path to custom strings file.
+ * This file allows overriding of strings declared in the language file, or in plugin language files
+ * Two formats are supported:
+ * Legacy format: $s_*
+ * New format: define a $s_custom_messages array as follows:
+ * $s_custom_messages = array( 'en' => array( string => string ) ) ;
+ * NOTE: you can not mix/merge old/new formats within this file.
+ * @global string $g_custom_strings_file
+ */
+$g_custom_strings_file = $g_absolute_path . 'custom_strings_inc.php';
+
+/**
+ * Used to link to manual for User Documentation.
+ * @global string $g_manual_url
+ */
+$g_manual_url = 'http://www.mantisbt.org/docs/master-1.2.x/';
+
+
 /**************************
  * Configuration Settings *
  **************************/
@@ -3342,6 +3368,36 @@ $g_show_log_threshold = ADMINISTRATOR;
  */
 $g_global_settings = array(
 	'global_settings',
+
+  // database settings
+	'hostname',
+	'db_username',
+	'db_password',
+	'database_name',
+	'db_schema',
+	'db_type',
+	'dsn',
+	'db_options',
+	
+	// Path Settings
+	'path',
+	'icon_path',
+	'short_path',
+	'absolute_path',
+	'core_path',
+	'class_path',
+	'library_path',
+	'language_path',
+	
+	// Security/Crypto
+	'crypto_master_salt',
+	
+	// Session Handling
+	'session_handler',
+	'session_save_path',
+	'session_validation',
+	'form_security_validation',
+
 	'allow_signup',
 	'anonymous_login',
 	'compress_html',
@@ -3351,7 +3407,6 @@ $g_global_settings = array(
 	'database_name',
 	'^db_',
 	'form_security_',
-	'hostname',
 	'html_valid_tags',
 	'language',
 	'login_method',
