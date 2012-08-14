@@ -761,6 +761,9 @@ class MantisBug extends MantisCacheable {
 		# call pre-deletion custom function
 		helper_call_custom_function( 'issue_delete_validate', array( $this->id ) );
 
+		# signal bug delete event
+		event_signal( 'EVENT_BUG_DELETED', array( $t_bug_id ) );
+
 		# log deletion of bug - removed later on in this function by history_delete
 		history_log_event_special( $this->id, BUG_DELETED, bug_format_id( $this->id ) );
 
