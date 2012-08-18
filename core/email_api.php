@@ -884,7 +884,6 @@ function email_send( $p_email_data ) {
 	$t_message = string_email_links( trim( $t_email_data->body ) );
 
 	$t_debug_email = config_get_global( 'debug_email' );
-	$t_mailer_method = config_get( 'mailer_method' );
 
 	if( is_null( $s_transport ) ) {
 		# Select the method to send mail
