@@ -472,7 +472,7 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	$t_values[] = $p_user_id;
 	$t_values[] = $p_project_id;
 
-	$query = 'UPDATE {user_pref} SET $t_pairs_string WHERE user_id=%d AND project_id=%d';
+	$query = 'UPDATE {user_pref} SET ' .$t_pairs_string . ' WHERE user_id=%d AND project_id=%d';
 	db_query( $query, $t_values );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
