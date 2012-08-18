@@ -247,7 +247,7 @@ function sponsorship_get_all_ids( $p_bug_id ) {
 /**
  * Get the amount of sponsorships for the specified id(s)
  * handles the case where $p_sponsorship_id is an array or an id.
- * @param int $p_sponsorship_id
+ * @param array|int $p_sponsorship_id
  * @return int
  */
 function sponsorship_get_amount( $p_sponsorship_id ) {
