@@ -123,8 +123,6 @@ function collapse_icon( $p_name, $p_section = '' ) {
 		return;
 	}
 
-	$t_block = ( is_blank( $p_section ) ? $p_name : $p_section . '_' . $p_name );
-
 	global $g_open_collapse_section;
 
 	if( $g_open_collapse_section === true ) {
