@@ -174,19 +174,19 @@ function relationship_get_complementary_type( $p_relationship_type ) {
 function relationship_add( $p_src_bug_id, $p_dest_bug_id, $p_relationship_type ) {
 	global $g_relationships;
 	if( $g_relationships[$p_relationship_type]['#forward'] === FALSE ) {
-		$c_src_bug_id = $p_dest_bug_id;
-		$c_dest_bug_id = $p_src_bug_id;
-		$c_relationship_type = relationship_get_complementary_type( $p_relationship_type );
+		$t_src_bug_id = $p_dest_bug_id;
+		$t_dest_bug_id = $p_src_bug_id;
+		$t_relationship_type = relationship_get_complementary_type( $p_relationship_type );
 	} else {
-		$c_src_bug_id = $p_src_bug_id;
-		$c_dest_bug_id = $p_dest_bug_id;
-		$c_relationship_type = $p_relationship_type;
+		$t_src_bug_id = $p_src_bug_id;
+		$t_dest_bug_id = $p_dest_bug_id;
+		$t_relationship_type = $p_relationship_type;
 	}
 
 	$t_bug_relationship_data = new MantisBugRelationshipData;
-	$t_bug_relationship_data->src_bug_id = $p_src_bug_id;
-	$t_bug_relationship_data->dest_bug_id = $p_dest_bug_id;
-	$t_bug_relationship_data->type = $p_relationship_type;
+	$t_bug_relationship_data->src_bug_id = $t_src_bug_id;
+	$t_bug_relationship_data->dest_bug_id = $t_dest_bug_id;
+	$t_bug_relationship_data->type = $t_relationship_type;
 	$t_bug_relationship_data->id = $t_bug_relationship_data->create();
 
 	return $t_bug_relationship_data;
