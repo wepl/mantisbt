@@ -4512,8 +4512,8 @@ function filter_db_delete_filter( $p_filter_id ) {
 		return false;
 	}
 
-	$query = 'DELETE FROM {filters} WHERE id=%d';
-	$result = db_query( $query, array( $c_filter_id ) );
+	$t_query = 'DELETE FROM {filters} WHERE id=%d';
+	db_query( $t_query, array( $c_filter_id ) );
 
 	# db_query errors on failure so:
 	return true;
@@ -4525,8 +4525,8 @@ function filter_db_delete_filter( $p_filter_id ) {
 function filter_db_delete_current_filters() {
 	$t_all_id = ALL_PROJECTS;
 
-	$query = 'DELETE FROM {filters} WHERE project_id<=%d AND name=%s';
-	$result = db_query( $query, array( $t_all_id, '' ) );
+	$t_query = 'DELETE FROM {filters} WHERE project_id<=%d AND name=%s';
+	db_query( $t_query, array( $t_all_id, '' ) );
 }
 
 /**
