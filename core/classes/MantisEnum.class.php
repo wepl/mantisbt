@@ -119,7 +119,6 @@ class MantisEnum {
 		}
 
 		$tuples = MantisEnum::getArrayOfTuples( $enumString );
-		$tuplesCount = count( $tuples );
 
 		$assocArray = array();
 
