@@ -86,7 +86,7 @@ if ( $f_username !== null ) {
 }
 
 $description = $title;
-$image_link = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' )
+$image_link = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' );
 
 # only rss 2.0
 $category = string_rss_links( project_get_name( $f_project_id ) );
