@@ -4506,7 +4506,6 @@ function filter_db_can_delete_filter( $p_filter_id ) {
  */
 function filter_db_delete_filter( $p_filter_id ) {
 	$c_filter_id = (int)$p_filter_id;
-	$t_user_id = auth_get_current_user_id();
 
 	if( !filter_db_can_delete_filter( $c_filter_id ) ) {
 		return false;
