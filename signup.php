@@ -55,7 +55,6 @@ form_security_validate( 'signup' );
 $f_username		= strip_tags( gpc_get_string( 'username' ) );
 $f_email		= strip_tags( gpc_get_string( 'email' ) );
 $f_captcha		= gpc_get_string( 'captcha', '' );
-$f_public_key	= gpc_get_string( 'public_key', '' );
 
 $f_username = trim( $f_username );
 $f_captcha = utf8_strtolower( trim( $f_captcha ) );
@@ -77,9 +76,11 @@ if( ON == config_get( 'signup_use_captcha' ) && helper_call_custom_function( 'au
 		throw new MantisBT\Exception\Missing_GD_Extension();
 	}
 
-	$t_private_key = substr( hash( 'whirlpool', 'captcha' . config_get_global( 'crypto_master_salt' ) . $f_public_key, false ), 0, 5 );
+	require_lib( 'securimage/securimage.php' );
 
-	if ( $t_private_key != $f_captcha ) {
+	$securimage = new Securimage();
+
+	if ($securimage->check($f_captcha) == false) {
 		throw new MantisBT\Exception\SignUp_Not_Matching_Captcha();
 	}
 }

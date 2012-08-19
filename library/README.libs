@@ -6,12 +6,12 @@ directory       | project         | version  | status
 -----------------------------------------------------------------
 disposable      | disposable      | 1.1.0    | unpatched
 ezc             | zeta Components | github   | unpatched
-nusoap          | nusoap          | 0.9.5    | patched: XSS vulnerabilities as per #12312
 utf8            | phputf8         | 0.5      | unpatched
+Securimage      | Securimage      | 3.2RC2   | unpatched
 
 Upstream projects
 ==================
-disposable -  http://github.com/vboctor/disposable_email_checker/tree/master
-zeta       -  http://github.com/zetacomponents
-nusoap     -  http://sourceforge.net/projects/nusoap/
-utf8       -  http://sourceforge.net/projects/phputf8
+disposable  -  http://github.com/vboctor/disposable_email_checker/tree/master
+zeta        -  http://github.com/zetacomponents
+utf8        -  http://sourceforge.net/projects/phputf8
+secureimage -  http://www.phpcaptcha.org/download/
