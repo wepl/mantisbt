@@ -177,7 +177,6 @@ function bugnote_is_user_reporter( $p_bugnote_id, $p_user_id ) {
 function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_private = false, $p_type = 0, $p_attr = '', $p_user_id = null, $p_send_email = TRUE, $p_date_submitted = 0, $p_last_modified = 0, $p_skip_bug_update = FALSE ) {
 	$c_bug_id = (int)$p_bug_id;
 	$c_time_tracking = helper_duration_to_minutes( $p_time_tracking );
-	$c_private = db_prepare_bool( $p_private );
 	$c_type = (int)$p_type;
 	$c_date_submitted = $p_date_submitted <= 0 ? db_now() : (int)$p_date_submitted;
 	$c_last_modified = $p_last_modified <= 0 ? db_now() : (int)$p_last_modified;
@@ -205,7 +204,7 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 	}
 
 	# Check for private bugnotes.
-	if( $c_private && access_has_bug_level( config_get( 'set_view_status_threshold' ), $p_bug_id, $p_user_id ) ) {
+	if( $p_private && access_has_bug_level( config_get( 'set_view_status_threshold' ), $p_bug_id, $p_user_id ) ) {
 		$t_view_state = VS_PRIVATE;
 	} else {
 		$t_view_state = VS_PUBLIC;

@@ -420,15 +420,15 @@ function custom_field_update( $p_field_id, $p_def_array ) {
 	$c_access_level_rw = (int)$p_def_array['access_level_rw'];
 	$c_length_min = (int)$p_def_array['length_min'];
 	$c_length_max = (int)$p_def_array['length_max'];
-	$c_filter_by = db_prepare_bool( $p_def_array['filter_by'] );
-	$c_display_report = db_prepare_bool( $p_def_array['display_report'] );
-	$c_display_update = db_prepare_bool( $p_def_array['display_update'] );
-	$c_display_resolved = db_prepare_bool( $p_def_array['display_resolved'] );
-	$c_display_closed = db_prepare_bool( $p_def_array['display_closed'] );
-	$c_require_report = db_prepare_bool( $p_def_array['require_report'] );
-	$c_require_update = db_prepare_bool( $p_def_array['require_update'] );
-	$c_require_resolved = db_prepare_bool( $p_def_array['require_resolved'] );
-	$c_require_closed = db_prepare_bool( $p_def_array['require_closed'] );
+	$c_filter_by = $p_def_array['filter_by'];
+	$c_display_report = $p_def_array['display_report'];
+	$c_display_update = $p_def_array['display_update'];
+	$c_display_resolved = $p_def_array['display_resolved'];
+	$c_display_closed = $p_def_array['display_closed'];
+	$c_require_report = $p_def_array['require_report'];
+	$c_require_update = $p_def_array['require_update'];
+	$c_require_resolved = $p_def_array['require_resolved'];
+	$c_require_closed = $p_def_array['require_closed'];
 
 	if( is_blank( $c_name ) ) {
 		throw new MantisBT\Exception\Empty_Field( 'name' );

@@ -4332,7 +4332,6 @@ function filter_clear_cache( $p_filter_id = null ) {
 function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $p_filter_string ) {
 	$t_user_id = auth_get_current_user_id();
 	$c_project_id = (int)$p_project_id;
-	$c_is_public = db_prepare_bool( $p_is_public, false );
 
 	# check that the user can save non current filters (if required)
 	if(( ALL_PROJECTS <= $c_project_id ) && ( !is_blank( $p_name ) ) && ( !access_has_project_level( config_get( 'stored_query_create_threshold' ) ) ) ) {
@@ -4341,7 +4340,7 @@ function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $
 
 	# ensure that we're not making this filter public if we're not allowed
 	if( !access_has_project_level( config_get( 'stored_query_create_shared_threshold' ) ) ) {
-		$c_is_public = db_prepare_bool( false );
+		$p_is_public = false;
 	}
 
 	# Do I need to update or insert this value?
@@ -4351,7 +4350,7 @@ function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $
 	$t_row = db_fetch_array( $t_result );
 	if( $t_row ) {
 		$t_query = "UPDATE {filters} SET is_public=%d, filter_string=%s WHERE id=%d";
-		db_query( $t_query, array( $c_is_public, $p_filter_string, $t_row['id'] ) );
+		db_query( $t_query, array( $p_is_public, $p_filter_string, $t_row['id'] ) );
 
 		return $t_row['id'];
 	} else {
@@ -4359,7 +4358,7 @@ function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $
 						( user_id, project_id, is_public, name, filter_string )
 					  VALUES
 						( %d, %d, %d, %s, %s )";
-		db_query( $t_query, array( $t_user_id, $c_project_id, $c_is_public, $p_name, $p_filter_string ) );
+		db_query( $t_query, array( $t_user_id, $c_project_id, $p_is_public, $p_name, $p_filter_string ) );
 
 		# Recall the query, we want the filter ID
 		$t_query = "SELECT id FROM {filters}
@@ -4563,7 +4562,7 @@ function filter_db_get_available_queries( $p_project_id = null, $p_user_id = nul
 	$result = db_query( $query, array( $t_project_id ) );
 
 	while( $t_row = db_fetch_array( $result ) ) {
-		if(( $t_row['user_id'] == $t_user_id ) || db_prepare_bool( $t_row['is_public'] ) ) {
+		if(( $t_row['user_id'] == $t_user_id ) || $t_row['is_public'] ) {
 			$t_overall_query_arr[$t_row['id']] = $t_row['name'];
 		}
 	}

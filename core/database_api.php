@@ -251,17 +251,6 @@ function db_field_names( $p_table_name ) {
 }
 
 /**
- * prepare a boolean for database insertion.
- * @param boolean boolean
- * @return int integer representing boolean
- * @deprecated db_query_bound should be used in preference to this function. This function may be removed in 1.2.0 final
- * @todo Use/Behaviour of this function should be reviewed before 1.2.0 final
- */
-function db_prepare_bool( $p_bool ) {
-	return (int) (bool) $p_bool;
-}
-
-/**
  * return current timestamp for DB
  * @return string Formatted Date for DB insertion e.g. 1970-01-01 00:00:00 ready for database insertion
  */

@@ -464,8 +464,8 @@ function string_insert_hrefs( $p_string ) {
 		$t_url_part2 = "(?:\(${t_url_chars_in_parens}*\)|\[${t_url_chars_in_brackets}*\]|${t_url_chars2})";
 		$t_url_protocol = '([[:alpha:]][-+.[:alnum:]]*):\/\/';
 
-		$s_url_regex = "/(${$t_url_protocol}(${t_url_part1}*?${t_url_part2}+))/sue";
-		$_mail_regex = email_regex_simple();
+		$s_url_regex = "/(${t_url_protocol}(${t_url_part1}*?${t_url_part2}+))/sue";
+		$s_mail_regex = email_regex_simple();
 	}
 
 	$p_string = preg_replace( $s_url_regex, "'<a href=\"'.rtrim('\\1','.').'\">\\1</a>'", $p_string );

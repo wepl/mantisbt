@@ -261,9 +261,6 @@ function project_includes_user( $p_project_id, $p_user_id ) {
  * @param bool inherit globals
  */
 function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_PUBLIC, $p_file_path = '', $p_enabled = true, $p_inherit_global = true ) {
-	$c_enabled = db_prepare_bool( $p_enabled );
-	$c_inherit_global = db_prepare_bool( $p_inherit_global );
-
 	if( is_blank( $p_name ) ) {
 		throw new MantisBT\Exception\Project_Name_Invalid();
 	}
@@ -281,7 +278,7 @@ function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_
 				  VALUES
 					( %s, %d, %d, %d, %s, %s, %d)";
 
-	db_query( $t_query, array( $p_name, (int) $p_status, $c_enabled, (int) $p_view_state, $p_file_path, $p_description, $c_inherit_global ) );
+	db_query( $t_query, array( $p_name, (int) $p_status, $p_enabled, (int) $p_view_state, $p_file_path, $p_description, $p_inherit_global ) );
 
 	# return the id of the new project
 	return db_insert_id( '{project}' );
@@ -353,8 +350,6 @@ function project_delete( $p_project_id ) {
  */
 function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_view_state, $p_file_path, $p_enabled, $p_inherit_global ) {
 	$p_project_id = (int) $p_project_id;
-	$c_enabled = db_prepare_bool( $p_enabled );
-	$c_inherit_global = db_prepare_bool( $p_inherit_global );
 
 	if( is_blank( $p_name ) ) {
 		throw new MantisBT\Exception\Project_Name_Invalid();
@@ -376,7 +371,7 @@ function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_v
 				  SET name=%s, status=%d, enabled=%d, view_state=%d,
 					file_path=%s, description=%s, inherit_global=%d
 				  WHERE id=%d";
-	db_query( $t_query, array( $p_name, (int) $p_status, $c_enabled, (int) $p_view_state, $p_file_path, $p_description, $c_inherit_global, $p_project_id ) );
+	db_query( $t_query, array( $p_name, (int) $p_status, $p_enabled, (int) $p_view_state, $p_file_path, $p_description, $p_inherit_global, $p_project_id ) );
 
 	project_clear_cache( $p_project_id );
 

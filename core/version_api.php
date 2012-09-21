@@ -213,7 +213,6 @@ function version_ensure_unique( $p_version, $p_project_id = null ) {
 function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $p_description = '', $p_date_order = null, $p_obsolete = false ) {
 	$c_project_id = (int)$p_project_id;
 	$c_released = (int)$p_released;
-	$c_obsolete = db_prepare_bool( $p_obsolete );
 
 	if( null === $p_date_order ) {
 		$c_date_order = db_now();
@@ -227,7 +226,7 @@ function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $
 					( project_id, version, date_order, description, released, obsolete )
 				  VALUES
 					(%d, %s, %d, %s, %d, %d )";
-	db_query( $query, array( $c_project_id, $p_version, $c_date_order, $p_description, $c_released, $c_obsolete ) );
+	db_query( $query, array( $c_project_id, $p_version, $c_date_order, $p_description, $c_released, $p_obsolete ) );
 
 	$t_version_id = db_insert_id( '{project_version}' );
 
@@ -257,7 +256,7 @@ function version_update( $p_version_info ) {
 	$c_old_version_name = $t_old_version_name;
 	$c_description = $p_version_info->description;
 	$c_released = $p_version_info->released;
-	$c_obsolete = db_prepare_bool( $p_version_info->obsolete );
+	$c_obsolete = $p_version_info->obsolete;
 	$c_date_order = $p_version_info->date_order;
 	$c_project_id = $p_version_info->project_id;
 
@@ -452,9 +451,8 @@ function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = 
 	}
 
 	if( $p_obsolete !== null ) {
-		$c_obsolete = db_prepare_bool( $p_obsolete );
 		$query .= ' AND obsolete = %d';
-		$query_params[] = $c_obsolete;
+		$query_params[] = $p_obsolete;
 	}
 
 	$query .= " ORDER BY date_order DESC";
@@ -492,9 +490,8 @@ function version_get_all_rows_with_subs( $p_project_id, $p_released = null, $p_o
 	if( $p_obsolete === null ) {
 		$t_obsolete_where = '';
 	} else {
-		$c_obsolete = db_prepare_bool( $p_obsolete );
 		$t_obsolete_where = "AND ( obsolete = %d )";
-		$t_query_params[] = $c_obsolete;
+		$t_query_params[] = $p_obsolete;
 	}
 
 	$query = "SELECT * FROM {project_version}

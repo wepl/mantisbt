@@ -57,8 +57,6 @@ require_api( 'utility_api.php' );
  * @return int news article id
  */
 function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
-	$c_announcement = db_prepare_bool( $p_announcement );
-
 	if( is_blank( $p_headline ) ) {
 		throw new MantisBT\Exception\Empty_Field( lang_get( 'headline' ) );
 	}
@@ -73,7 +71,7 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 	    		    view_state, announcement, headline, body )
 				VALUES
 				    ( %d, %d, %d, %d, %d, %d, %s, %s )";
-	db_query( $t_query, array( (int)$p_project_id, (int)$p_poster_id, db_now(), db_now(), (int)$p_view_state, $c_announcement, $p_headline, $p_body ) );
+	db_query( $t_query, array( (int)$p_project_id, (int)$p_poster_id, db_now(), db_now(), (int)$p_view_state, $p_announcement, $p_headline, $p_body ) );
 
 	$t_news_id = db_insert_id( '{news}' );
 
@@ -124,8 +122,6 @@ function news_delete_all( $p_project_id ) {
  * @return bool always true
  */
 function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
-	$c_announcement = db_prepare_bool( $p_announcement );
-
 	if( is_blank( $p_headline ) ) {
 		throw new MantisBT\Exception\Empty_Field( lang_get( 'headline' ) );
 	}
@@ -144,7 +140,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 					last_modified=%d
 				  WHERE id=%d";
 
-	db_query( $t_query, array( $p_view_state, $c_announcement, $p_headline, $p_body, $p_project_id, db_now(), $p_news_id ) );
+	db_query( $t_query, array( $p_view_state, $p_announcement, $p_headline, $p_body, $p_project_id, db_now(), $p_news_id ) );
 
 	# db_query errors on failure so:
 	return true;
