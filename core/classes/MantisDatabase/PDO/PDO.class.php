@@ -160,10 +160,12 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
      * @return bool success
      */
     public function execute($sql, array $params=null) {
-        //list($sql, $params) = $this->check_sql_parameters($sql, $params);
-
 		$sql = $this->PrepareSQLString($sql);
-		//var_dump($sql);
+
+		if ( $params !== null ) {
+			$params = array_map("self::PrepareSQLParam", $params);
+		}
+
         $result = true;
         $this->query_start($sql, $params);
 

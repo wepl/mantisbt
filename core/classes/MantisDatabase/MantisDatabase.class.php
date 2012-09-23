@@ -347,6 +347,18 @@ abstract class MantisDatabase {
 	}
 
 	/**
+	 * Prepare SQL parameters. This is called for each param after PrepareSQLString.
+	 * @param string SQL Query
+	 * @return string
+	 */
+	protected function PrepareSQLParam($param) {
+		if( is_bool( $param ) ) {
+			return (int)$param;
+		}
+		return $param;
+	}
+
+	/**
 	 * Legacy function - DO NOT USE
 	 * Returns a 'Null' Datetime [for installer]
 	 */
