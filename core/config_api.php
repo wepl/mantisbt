@@ -191,13 +191,13 @@ function config_get( $p_option, $p_default = null, $p_user = null, $p_project = 
  * @param string default value
  */
 function config_get_global( $p_option, $p_default = null ) {
-	global $g_cache_config_eval;
-	if( isset( $GLOBALS['g_' . $p_option] ) ) {
-		if( !isset( $g_cache_config_eval['g_' . $p_option] ) ) {
-			$t_value = config_eval( $GLOBALS['g_' . $p_option] );
-			$g_cache_config_eval['g_' . $p_option] = $t_value;
+	global $g_cache_config_eval, $MantisConfig;
+	if( isset( $MantisConfig->{$p_option} ) ) {
+		if( !isset( $g_cache_config_eval[$p_option] ) ) {
+			$t_value = config_eval( $MantisConfig->{$p_option} );
+			$g_cache_config_eval[$p_option] = $t_value;
 		} else {
-			$t_value = $g_cache_config_eval['g_' . $p_option];
+			$t_value = $g_cache_config_eval[$p_option];
 		}
 		return $t_value;
 	} else {
@@ -314,7 +314,7 @@ function config_is_set( $p_option, $p_user = null, $p_project = null ) {
 		return true;
 	}
 
-	return isset( $GLOBALS['g_' . $p_option] );
+	return isset( $MantisConfig->{$p_option} );
 }
 
 /**
@@ -402,11 +402,11 @@ function config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PR
  * @param bool override existing value if already set
  */
 function config_set_global( $p_option, $p_value, $p_override = true ) {
-	global $g_cache_config_eval;
+	global $g_cache_config_eval, $MantisConfig;
 
-	if( $p_override || !isset( $GLOBALS['g_' . $p_option] ) ) {
-		$GLOBALS['g_' . $p_option] = $p_value;
-		unset( $g_cache_config_eval['g_' . $p_option] );
+	if( $p_override || !isset( $MantisConfig->{$p_option} ) ) {
+		$MantisConfig->{$p_option} = $p_value;
+		unset( $g_cache_config_eval[$p_option] );
 	}
 
 	return true;

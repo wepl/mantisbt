@@ -641,7 +641,8 @@ if( 3 == $t_install_state ) {
 		$g_db_connected = false;
 
 		# fake out database access routines used by config_get
-		$GLOBALS['g_db_type'] = $f_db_type;
+		global $MantisConfig;
+		$MantisConfig->db_type = $f_db_type;
 
 		# database_api references this
 		require_once( dirname( __FILE__ ) . '/schema.php' );
@@ -807,12 +808,12 @@ if( 5 == $t_install_state ) {
 	</td>
 	<?php
 		$t_config = '<?php' . "\r\n";
-	$t_config .= "\t\$g_hostname = '$f_hostname';\r\n";
-	$t_config .= "\t\$g_db_type = '$f_db_type';\r\n";
-	$t_config .= "\t\$g_database_name = '$f_database_name';\r\n";
-	$t_config .= "\t\$g_db_username = '$f_db_username';\r\n";
-	$t_config .= "\t\$g_db_password = '$f_db_password';\r\n";
-	$t_config .= "\t\$g_crypto_master_salt = '" . base64_encode( crypto_generate_random_string( 32, false ) ) . "';\r\n";
+	$t_config .= "\t\$MantisConfig->hostname = '$f_hostname';\r\n";
+	$t_config .= "\t\$MantisConfig->db_type = '$f_db_type';\r\n";
+	$t_config .= "\t\$MantisConfig->database_name = '$f_database_name';\r\n";
+	$t_config .= "\t\$MantisConfig->db_username = '$f_db_username';\r\n";
+	$t_config .= "\t\$MantisConfig->db_password = '$f_db_password';\r\n";
+	$t_config .= "\t\$MantisConfig->crypto_master_salt = '" . base64_encode( crypto_generate_random_string( 32, false ) ) . "';\r\n";
 	$t_config .= "\r\n";
 	$t_write_failed = true;
 

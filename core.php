@@ -95,7 +95,7 @@ if ( $t_local_config && file_exists( $t_local_config ) ){
 	$t_config_inc_found = true;
 }
 
-if( $g_path === null || $g_short_path === null ) {
+if( $MantisConfig->path === null || $MantisConfig->short_path === null ) {
 	get_mantis_url();
 }
 
@@ -103,7 +103,7 @@ if( $g_path === null || $g_short_path === null ) {
  * Define a function to set mantis url from webserver settings
  */
 function get_mantis_url() {
-	global $g_path, $g_short_path;
+	global $MantisConfig;
 	if ( isset ( $_SERVER['SCRIPT_NAME'] ) ) {
 		$t_protocol = 'http';
 		if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
@@ -146,10 +146,10 @@ function get_mantis_url() {
 			echo 'Can not safely determine $g_path. Please set $g_path manually in config_inc.php';
 			die;
 		}
-		if( $g_path === null )
-			$g_path	= $t_protocol . '://' . $t_host . $t_path;
-		if( $g_short_path === null )
-			$g_short_path = $t_path;
+		if( $MantisConfig->path === null )
+			$MantisConfig->path	= $t_protocol . '://' . $t_host . $t_path;
+		if( $MantisConfig->short_path === null )
+			$MantisConfig->short_path = $t_path;
 	} else {
 		echo 'Invalid server configuration detected. Please set $g_path manually in config_inc.php.';
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ( stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false ) )
@@ -165,10 +165,10 @@ function get_mantis_url() {
  */
 function require_api( $p_api_name ) {
 	static $s_api_included;
-	global $g_core_path;
+	global $MantisConfig;
 	if ( !isset( $s_api_included[$p_api_name] ) ) {
 		$t_existing_globals = get_defined_vars();
-		require_once( $g_core_path . $p_api_name );
+		require_once( $MantisConfig->core_path . $p_api_name );
 		$t_new_globals = array_diff_key( get_defined_vars(), $GLOBALS, array( 't_existing_globals' => 0, 't_new_globals' => 0 ) );
 		foreach ( $t_new_globals as $t_global_name => $t_global_value ) {
 			global $$t_global_name;
@@ -185,10 +185,10 @@ function require_api( $p_api_name ) {
  */
 function require_lib( $p_library_name ) {
 	static $s_libraries_included;
-	global $g_library_path;
+	global $MantisConfig;
 	if ( !isset( $s_libraries_included[$p_library_name] ) ) {
 		$t_existing_globals = get_defined_vars();
-		require_once( $g_library_path . $p_library_name );
+		require_once( $MantisConfig->library_path . $p_library_name );
 		$t_new_globals = array_diff_key( get_defined_vars(), $GLOBALS, array( 't_existing_globals' => 0, 't_new_globals' => 0 ) );
 		foreach ( $t_new_globals as $t_global_name => $t_global_value ) {
 			global $$t_global_name;
@@ -204,8 +204,7 @@ function require_lib( $p_library_name ) {
  * @param string class name
  */
 function __autoload( $className ) {
-	global $g_class_path;
-	global $g_library_path;
+	global $MantisConfig;
 
 	$t_parts = explode( '_', $className );
 	$t_count = sizeof( $t_parts );
@@ -224,7 +223,7 @@ function __autoload( $className ) {
 	}
 	
 	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
-	$t_require_path = $g_class_path . $t_name . $t_parts[$t_count-1] . '.class.php'; 
+	$t_require_path = $MantisConfig->class_path . $t_name . $t_parts[$t_count-1] . '.class.php'; 
 
 	if ( file_exists( $t_require_path ) ) {
 		require_once( $t_require_path );
@@ -234,14 +233,14 @@ function __autoload( $className ) {
 	unset( $t_parts[$t_count-1] );
 
 	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
-	$t_require_path = $g_class_path . $t_name . $t_class . '.class.php';
+	$t_require_path = $MantisConfig->class_path . $t_name . $t_class . '.class.php';
 
 	if ( file_exists( $t_require_path ) ) {
 		require_once( $t_require_path );
 		return;
 	}
 	
-	$t_require_path = $g_class_path . $className . '.class.php';
+	$t_require_path = $MantisConfig->class_path . $className . '.class.php';
 
 	if ( file_exists( $t_require_path ) ) {
 		require_once( $t_require_path );
@@ -258,7 +257,7 @@ set_error_handler(array('MantisError', 'error_handler'));
 register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
 
 # Load UTF8-capable string functions
-define( 'UTF8', $g_library_path . 'utf8' );
+define( 'UTF8', $MantisConfig->library_path . 'utf8' );
 require_lib( 'utf8/utf8.php' );
 require_lib( 'utf8/str_pad.php' );
 
@@ -303,7 +302,7 @@ require_api( 'database_api.php' );
 require_api( 'config_api.php' );
 
 if ( !defined( 'MANTIS_MAINTENANCE_MODE' ) ) {
-	db_connect( config_get_global( 'dsn', false ), $g_hostname, $g_db_username, $g_db_password, $g_database_name, $g_db_options );
+	db_connect( config_get_global( 'dsn', false ), $MantisConfig->hostname, $MantisConfig->db_username, $MantisConfig->db_password, $MantisConfig->database_name, $MantisConfig->db_options );
 }
 
 # Initialise plugins
