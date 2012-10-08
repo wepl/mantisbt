@@ -59,7 +59,7 @@ require_api( 'utility_api.php' );
 /**
  * Generate an array of User objects from given User ID's
  *
- * @param array User IDs
+ * @param array $p_user_id_array User IDs
  * @return array
  */
 function user_cache_array_rows( $p_user_id_array ) {
@@ -73,7 +73,7 @@ function user_cache_array_rows( $p_user_id_array ) {
  * Use user_cache_row() to benefit from caching if called multiple times
  * and because if the user does exist the data may well be wanted
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool
  */
 function user_exists( $p_user_id ) {
@@ -90,7 +90,7 @@ function user_exists( $p_user_id ) {
  * if it doesn't exist then error
  *  otherwise let execution continue undisturbed
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  */
 function user_ensure_exists( $p_user_id ) {
 	if ( !user_exists( $p_user_id ) ) {
@@ -102,8 +102,8 @@ function user_ensure_exists( $p_user_id ) {
  * Check if the realname is a valid username (does not account for uniqueness)
  * Return 0 if it is invalid, The number of matches + 1
  *
- * @param string username
- * @param string realname
+ * @param string $p_username username
+ * @param string $p_realname realname
  * @return int
  */
 function user_is_realname_unique( $p_username, $p_realname ) {
@@ -258,7 +258,7 @@ function user_is_enabled( $p_user_id ) {
  * count the number of users at or greater than a specific level
  *
  * @param int Access Level [Default ANYBODY]
- * return int
+ * @return int
  */
 function user_count_level( $p_level = ANYBODY ) {
 	$query = 'SELECT COUNT(id) FROM {user} WHERE access_level>=%d';
@@ -420,6 +420,7 @@ function user_get_row( $p_user_id ) {
  * @param int User ID
  * @param string Field Name
  * @return string
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function user_get_field( $p_user_id, $p_field_name ) {
 	if( NO_USER == $p_user_id ) {
@@ -433,8 +434,7 @@ function user_get_field( $p_user_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name);
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name);
 	}
 }
 
@@ -547,6 +547,7 @@ function user_get_avatar( $p_user_id, $p_size = 80 ) {
  *
  * @param int User ID
  * @param int Project ID
+ * @return int
  */
 function user_get_access_level( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 	$t_access_level = user_get_field( $p_user_id, 'access_level' );
@@ -571,6 +572,7 @@ $g_user_accessible_projects_cache = null;
  *
  * @param int User ID
  * @param bool include disabled projects in array
+ * @return array
  */
 function user_get_accessible_projects( $p_user_id, $p_show_disabled = false ) {
 	global $g_user_accessible_projects_cache;

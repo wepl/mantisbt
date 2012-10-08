@@ -31,12 +31,12 @@ require_api( 'database_api.php' );
 
 /**
  * Add a new revision to a bug history.
- * @param MantisBug Bug Object
- * @param int User ID
- * @param int Revision Type
- * @param string Value
- * @param int Bugnote ID
- * @param int Timestamp(int)
+ * @param MantisBug $p_bug Bug Object
+ * @param int $p_user_id User ID
+ * @param int $p_type Revision Type
+ * @param string $p_value Value
+ * @param int $p_bugnote_id Bugnote ID
+ * @param int $p_timestamp Timestamp(int)
  * @return int Revision ID
  */
 function bug_revision_add( $p_bug, $p_user_id, $p_type, $p_value, $p_bugnote_id=0, $p_timestamp = null ) {

@@ -79,6 +79,7 @@ function set_overrides( $p_config ) {
  * Get the value associated with the specific action and flag.
  * @param int from status id
  * @param int to status id
+ * @return string
  */
 function show_flag( $p_from_status_id, $p_to_status_id ) {
 	global $t_can_change_workflow, $t_file_workflow, $t_global_workflow, $t_project_workflow;

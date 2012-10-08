@@ -41,8 +41,8 @@ $g_event_cache = array();
 /**
  * Declare an event of a given type.
  * Will do nothing if event already exists.
- * @param string Event name
- * @param int Event type
+ * @param string $p_name Event name
+ * @param int $p_type Event type
  * @access public
  */
 function event_declare( $p_name, $p_type = EVENT_TYPE_DEFAULT ) {
@@ -58,8 +58,8 @@ function event_declare( $p_name, $p_type = EVENT_TYPE_DEFAULT ) {
 }
 
 /**
- * Convenience function for decleare multiple events.
- * @param array Events
+ * Convenience function for declare multiple events.
+ * @param array $p_events Events
  * @access public
  */
 function event_declare_many( $p_events ) {
@@ -71,9 +71,9 @@ function event_declare_many( $p_events ) {
 /**
  * Hook a callback function to a given event.
  * A plugin's basename must be specified for proper handling of plugin callbacks.
- * @param string Event name
- * @param string Callback function
- * @param string Plugin basename
+ * @param string $p_name Event name
+ * @param string $p_callback Callback function
+ * @param string $p_plugin Plugin basename
  * @access public
  */
 function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
@@ -81,7 +81,6 @@ function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
 
 	if( !isset( $g_event_cache[$p_name] ) ) {
 		throw new MantisBT\Exception\Event_Undeclared( $p_name );
-		return null;
 	}
 
 	$g_event_cache[$p_name]['callbacks'][$p_plugin][] = $p_callback;
@@ -89,8 +88,8 @@ function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
 
 /**
  * Hook multiple callback functions to multiple events.
- * @param array Event name/callback pairs
- * @param string Plugin basename
+ * @param array $p_hooks Event name/callback pairs
+ * @param string $p_plugin Plugin basename
  * @access public
  */
 function event_hook_many( $p_hooks, $p_plugin = 0 ) {
@@ -125,11 +124,11 @@ function event_clear_callbacks() {
 
 /**
  * Signal an event to execute and handle callbacks as necessary.
- * @param string Event name
- * @param multi Event parameters
- * @param multi Event parameters Dynamic
- * @param int Event type override
- * @return multi Null if event undeclared, appropriate return value otherwise
+ * @param string $p_name Event name
+ * @param mixed $p_params Event parameters
+ * @param mixed $p_params_dynamic Event parameters Dynamic
+ * @param int $p_type Event type override
+ * @return mixed Null if event undeclared, appropriate return value otherwise
  * @access public
  */
 function event_signal( $p_name, $p_params = null, $p_params_dynamic = null, $p_type = null ) {
@@ -137,7 +136,6 @@ function event_signal( $p_name, $p_params = null, $p_params_dynamic = null, $p_t
 
 	if( !isset( $g_event_cache[$p_name] ) ) {
 		throw new MantisBT\Exception\Event_Undeclared( $p_name );
-		return null;
 	}
 
 	if( is_null( $p_type ) ) {

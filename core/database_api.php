@@ -48,13 +48,14 @@ $g_db_connected = false;
 
 /**
  * Open a connection to the database.
- * @param string Database connection string ( specified instead of other params)
- * @param string Database server hostname
- * @param string database server username
- * @param string database server password
- * @param string database name
- * @param array Database options
+ * @param string $p_dsn Database connection string ( specified instead of other params)
+ * @param string $p_hostname Database server hostname
+ * @param string $p_username database server username
+ * @param string $p_password database server password
+ * @param string $p_database_name database name
+ * @param array $p_db_options Database options
  * @return bool indicating if the connection was successful
+ * @throws MantisBT\Exception\Database\ConnectionFailed
  */
 function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password = null, $p_database_name = null, $p_db_options = null ) {
 	global $g_db_connected, $g_db;
@@ -64,8 +65,7 @@ function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password
 	$t_result = $g_db->connect( $p_dsn, $p_hostname, $p_username, $p_password, $p_database_name, $p_db_options );
 
 	if( !$t_result ) {
-		throw new MantisBT\Exception\DB_Connect_Failed();
-		return false;
+		throw new MantisBT\Exception\Database\ConnectionFailed();
 	}
 
 	$t_prefix = config_get_global( 'db_table_prefix' ) . '_';
@@ -78,7 +78,6 @@ function db_connect( $p_dsn, $p_hostname = null, $p_username = null, $p_password
 
 /**
  * Returns whether a connection to the database exists
- * @global stores database connection state
  * @return bool indicating if the a database connection has been made
  */
 function db_is_connected() {
@@ -138,7 +137,6 @@ function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) 
 
 	if( !$t_result ) {
 		throw new MantisBT\Exception\Database\QueryFailed( $p_query );
-		return false;
 	} else {
 		return $t_result;
 	}

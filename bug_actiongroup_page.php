@@ -223,7 +223,7 @@ switch ( $f_action )  {
 		break;
 
 	default:
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\UnknownException();
 }
 
 bug_group_action_print_top();

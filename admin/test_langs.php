@@ -133,9 +133,10 @@ function checklangdir( $p_path, $p_subpath = '' ) {
 /**
  * Check Language File
  *
- * @param string Path
- * @param string File
- * @param bool quiet output
+ * @param string $p_path Path
+ * @param string $p_file File
+ * @param bool $p_quiet quiet output
+ * @return bool
  */
 function checkfile( $p_path, $p_file, $p_quiet = false ) {
 		if( !$p_quiet) {
@@ -192,7 +193,8 @@ $basevariables = array();
  * Check Language File Tokens
  *
  * @param string file
- * @param bool 
+ * @param bool
+ * @return bool
  */
 function checktoken( $file, $base = false ) {
 	$in_php_code = false;

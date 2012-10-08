@@ -67,7 +67,7 @@ $g_cache_timezone = array();
 
 /**
  * set new timezone
- * @param string PHP timezone to set
+ * @param string $p_timezone PHP timezone to set
  * @return null
  * @access public
  */

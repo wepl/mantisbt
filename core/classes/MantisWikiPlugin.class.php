@@ -54,15 +54,15 @@ abstract class MantisWikiPlugin extends MantisPlugin {
 
 	/**
 	 * Generate url to Bug entry in wiki
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_bug_id bug id
 	 */
 	abstract function link_bug( $p_event, $p_bug_id );
 
 	/**
 	 * Generate url to Project entry in wiki
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_project_id project id
 	 */
 	abstract function link_project( $p_event, $p_project_id );
 }

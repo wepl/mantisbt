@@ -70,7 +70,7 @@ require_api( 'utility_api.php' );
  *    integer/digit.
  *  - Containing only digits 0-9.
  * The fallback is to use the raw bug ID without any pretty formatting applied.
- * @param int ID of the bug to pretty format
+ * @param int $p_bug_id ID of the bug to pretty format
  * @return string Pretty formatted bug ID
  */
 function relgraph_bug_format_id( $p_bug_id ) {
@@ -84,7 +84,8 @@ function relgraph_bug_format_id( $p_bug_id ) {
 /**
  * Generate a relationship graph for the given issue.
  *
- * @param int bug id
+ * @param int $p_bug_id bug id
+ * @return Graph
  */
 function relgraph_generate_rel_graph( $p_bug_id ) {
 
@@ -235,6 +236,7 @@ function relgraph_generate_rel_graph( $p_bug_id ) {
  * @param MantisBug Bug object
  * @param bool graph orientation - horizontal if true
  * @todo duplicate bug/bugid
+ * @return Digraph
  */
 function relgraph_generate_dep_graph( $p_bug_id, $p_bug = null, $p_horizontal = false ) {
 
@@ -351,6 +353,7 @@ function relgraph_generate_dep_graph( $p_bug_id, $p_bug = null, $p_horizontal = 
  * Internal function used to visit ascendant issues recursively.
  * @param array bug list
  * @param int bug id
+ * @return bool
  */
 function relgraph_add_parent( &$p_bug_list, $p_bug_id ) {
 
@@ -405,8 +408,9 @@ function relgraph_add_parent( &$p_bug_list, $p_bug_id ) {
 
 /**
  * Internal function used to visit descendant issues recursively.
- * @param array bug list
- * @param int bug id
+ * @param array $p_bug_list bug list
+ * @param int $p_bug_id bug id
+ * @return bool
  */
 function relgraph_add_child( &$p_bug_list, $p_bug_id ) {
 

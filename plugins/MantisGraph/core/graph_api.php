@@ -304,13 +304,13 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
 /**
  * Function that displays pie charts
  *
- * @param array Graph Data
- * @param string title
- * @param int width of graph in pixels
- * @param int height of graph in pixels
- * @param int jpgraph center
- * @param int jpgraph horizontal
- * @param int jpgraph vertical
+ * @param array $p_metrics Graph Data
+ * @param string $p_title title
+ * @param int $p_graph_width width of graph in pixels
+ * @param int $p_graph_height height of graph in pixels
+ * @param int $p_center jpgraph center
+ * @param int $p_poshorizontal jpgraph horizontal
+ * @param int $p_posvertical jpgraph vertical
  */
 function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_height = 350, $p_center = 0.4, $p_poshorizontal = 0.10, $p_posvertical = 0.09 ) {
 	$t_graph_font = graph_get_font();
@@ -607,7 +607,8 @@ function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p
 /**
  * Calculate total metrics
  *
- * @param array data
+ * @param array $p_metrics data
+ * @return array
  */
 function graph_total_metrics( $p_metrics ) {
 	foreach( $p_metrics['open'] as $t_enum => $t_value ) {
@@ -619,12 +620,14 @@ function graph_total_metrics( $p_metrics ) {
 /**
  * summarize metrics by a single ENUM field in the bug table
  *
- * @param string enumeration string
- * @param string enum field
+ * @param string $p_enum_string enumeration string
+ * @param string $p_enum enum field
+ * @throws MantisBT\Exception\Database\FieldNotFound
+ * @return array
  */
 function create_bug_enum_summary( $p_enum_string, $p_enum ) {
 	if( !db_field_exists( $p_enum, '{bug}' ) ) {
-		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_enum );
 	}
 
 	$t_project_id = helper_get_current_project();
@@ -646,14 +649,17 @@ function create_bug_enum_summary( $p_enum_string, $p_enum ) {
 /**
  * Function which gives the absolute values according to the status (opened/closed/resolved)
  *
- * @param string enumeration string
- * @param string enum field
+ * @param string $p_enum_string enumeration string
+ * @param string $p_enum enum field
+ * @throws MantisBT\Exception\Database\FieldNotFound
+ * @return array
  */
 function enum_bug_group( $p_enum_string, $p_enum ) {
 	if( !db_field_exists( $p_enum, '{bug}' ) ) {
-		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_enum );
 	}
 
+    $t_metrics = array();
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
 	$t_res_val = config_get( 'bug_resolved_status_threshold' );
@@ -689,6 +695,7 @@ function enum_bug_group( $p_enum_string, $p_enum ) {
 
 /**
  * Create summary table of developers
+ * @return array
  */
 function create_developer_summary() {
 	$t_project_id = helper_get_current_project();
@@ -742,6 +749,7 @@ function create_developer_summary() {
 
 /**
  * Create summary table of reporters
+ * @return array
  */
 function create_reporter_summary() {
 	global $reporter_name, $reporter_count;
@@ -780,6 +788,7 @@ function create_reporter_summary() {
 
 /**
  * Create summary table of categories
+ * @return array
  */
 function create_category_summary() {
 	global $category_name, $category_bug_count;
@@ -811,8 +820,10 @@ function create_category_summary() {
 
 /**
  * Create cumulative graph by date
+ * @return array
  */
 function create_cumulative_bydate() {
+    $t_metrics = array();
 	$t_clo_val = config_get( 'bug_closed_status_threshold' );
 	$t_res_val = config_get( 'bug_resolved_status_threshold' );
 
@@ -904,7 +915,8 @@ function create_cumulative_bydate() {
 /**
  * Get formatted date string
  *
- * @param int date
+ * @param int $p_date date
+ * @return string
  */
 function graph_date_format( $p_date ) {
 	return date( config_get( 'short_date_format' ), $p_date );
@@ -913,40 +925,41 @@ function graph_date_format( $p_date ) {
 /**
  * Check that there is enough data to create graph
  *
- * @param int bug count
- * @param string title
+ * @param int $p_bug_count bug count
+ * @param string $p_title title
  */
-function error_check( $bug_count, $title ) {
-	if( 0 == $bug_count ) {
+function error_check( $p_bug_count, $p_title ) {
+	if( 0 == $p_bug_count ) {
 		$t_graph_font = graph_get_font();
 
-		error_text( $title, plugin_lang_get( 'not_enough_data' ) );
+		error_text( $p_title, plugin_lang_get( 'not_enough_data' ) );
 	}
 }
 
 /**
  * Display Error 'graph'
  *
- * @param string title
- * @param string text
+ * @param string $p_title title
+ * @param string $p_text text
  */
-function error_text( $title, $text ) {
+function error_text( $p_title, $p_text ) {
 		if( OFF == plugin_config_get( 'eczlibrary' ) ) {
 			$graph = new CanvasGraph( 300, 380 );
+            $t_graph_font = graph_get_font();
 
-			$txt = new Text( $text, 150, 100 );
+			$txt = new Text( $p_text, 150, 100 );
 			$txt->Align( "center", "center", "center" );
 			$txt->SetFont( $t_graph_font, FS_BOLD );
-			$graph->title->Set( $title );
+			$graph->title->Set( $p_title );
 			$graph->title->SetFont( $t_graph_font, FS_BOLD );
 			$graph->AddText( $txt );
 			$graph->Stroke();
 		} else {
 			$im = imagecreate(300, 300);
-			/* @todo check: error graphs dont support utf8 */
+			/* @todo check: error graphs do not support utf8 */
 			$bg = imagecolorallocate($im, 255, 255, 255);
-			$textcolor = imagecolorallocate($im, 0, 0, 0);
-			imagestring($im, 5, 0, 0, $text, $textcolor);
+			$t_text_color = imagecolorallocate($im, 0, 0, 0);
+			imagestring($im, 5, 0, 0, $p_text, $t_text_color);
 			header('Content-type: image/png');
 			imagepng($im);
 			imagedestroy($im);

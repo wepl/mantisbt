@@ -430,8 +430,7 @@ if ( !is_blank( $t_view_all_cookie ) ) {
 		# for ftype = 0, 1, or 3, we are going to re-write the filter anyways
 		if ( !in_array( $f_type, array( 0, 1, 3 ) ) ) {
 			gpc_clear_cookie( 'view_all_cookie' );
-			throw new MantisBT\Exception\Filter_Too_Old();
-			exit; # stop here
+			throw new MantisBT\Exception\Filter\FilterTooOldToUpgrade();
 		}
 	}
 } else {
@@ -518,8 +517,7 @@ switch ( $f_type ) {
 			if ( false === $t_setting_arr ) {
 				# couldn't deserialize, if we were trying to use the filter, clear it and reload
 				gpc_clear_cookie( 'view_all_cookie' );
-				throw new MantisBT\Exception\Filter_Too_Old();
-				exit; # stop here
+				throw new MantisBT\Exception\Filter\FilterTooOldToUpgrade();
 			}
 			# Store the source query id to select the correct filter in the drop down.
 			$t_setting_arr['_source_query_id'] = $f_source_query_id;

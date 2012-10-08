@@ -361,6 +361,7 @@ abstract class MantisDatabase {
 	/**
 	 * Legacy function - DO NOT USE
 	 * Returns a 'Null' Datetime [for installer]
+     * @return string
 	 */
 	public function legacy_null_date() {
         return "1970-01-01 00:00:01";
@@ -370,11 +371,13 @@ abstract class MantisDatabase {
 	 * Legacy function - DO NOT USE
 	 * Converts a legacy datetime to a timestamp [for installer]
 	 * @param string Date
+     * @throws MantisBT\Exception\UnknownException
+     * @return int
 	 */
 	public function legacy_timestamp( $p_date ) {
 		$p_timestamp = strtotime( $p_date );
 		if ( $p_timestamp == false ) {
-			throw new MantisBT\Exception\Generic();
+			throw new MantisBT\Exception\UnknownException();
 		}
 		return $p_timestamp;
 	}

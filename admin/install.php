@@ -96,7 +96,7 @@ function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_mes
  *
  * @param string table
  * @param string data
- 
+ * @return array
  */
 function InsertData( $p_table, $p_data ) {
 	$t_query = "INSERT INTO " . $p_table . $p_data;
@@ -452,7 +452,7 @@ if( !$g_database_upgrade ) {?>
 		Hostname (for Database Server)
 	</td>
 	<td>
-		<input name="hostname" type="textbox" value="<?php echo $f_hostname?>"></input>
+		<input name="hostname" type="textbox" value="<?php echo $f_hostname?>" />
 	</td>
 </tr>
 <?php
@@ -464,7 +464,7 @@ if( !$g_database_upgrade ) {?>
 		Username (for Database)
 	</td>
 	<td>
-		<input name="db_username" type="textbox" value="<?php echo $f_db_username?>"></input>
+		<input name="db_username" type="textbox" value="<?php echo $f_db_username?>" />
 	</td>
 </tr>
 <?php
@@ -476,7 +476,7 @@ if( !$g_database_upgrade ) {?>
 		Password (for Database)
 	</td>
 	<td>
-		<input name="db_password" type="password" value="<?php echo( !is_blank( $f_db_password ) ? CONFIGURED_PASSWORD : "" )?>"></input>
+		<input name="db_password" type="password" value="<?php echo( !is_blank( $f_db_password ) ? CONFIGURED_PASSWORD : "" )?>" />
 	</td>
 </tr>
 <?php
@@ -488,7 +488,7 @@ if( !$g_database_upgrade ) {?>
 		Database name (for Database)
 	</td>
 	<td>
-		<input name="database_name" type="textbox" value="<?php echo $f_database_name?>"></input>
+		<input name="database_name" type="textbox" value="<?php echo $f_database_name?>" />
 	</td>
 </tr>
 <?php
@@ -499,7 +499,7 @@ if( !$g_database_upgrade ) {?>
 		Admin Username (to <?php echo( !$g_database_upgrade ) ? 'create Database' : 'update Database'?> if required)
 	</td>
 	<td>
-		<input name="admin_username" type="textbox" value="<?php echo $f_admin_username?>"></input>
+		<input name="admin_username" type="textbox" value="<?php echo $f_admin_username?>" />
 	</td>
 </tr>
 
@@ -508,7 +508,7 @@ if( !$g_database_upgrade ) {?>
 		Admin Password (to <?php echo( !$g_database_upgrade ) ? 'create Database' : 'update Database'?> if required)
 	</td>
 	<td>
-		<input name="admin_password" type="password" value="<?php echo $f_admin_password?>"></input>
+		<input name="admin_password" type="password" value="<?php echo $f_admin_password?>" />
 	</td>
 </tr>
 
@@ -517,7 +517,7 @@ if( !$g_database_upgrade ) {?>
 		Print SQL Queries instead of Writing to the Database
 	</td>
 	<td>
-		<input name="log_queries" type="checkbox" value="1" <?php echo( $f_log_queries ? 'checked="checked"' : '' )?>></input>
+		<input name="log_queries" type="checkbox" value="1" <?php echo( $f_log_queries ? 'checked="checked"' : '' )?> />
 	</td>
 </tr>
 
@@ -526,10 +526,10 @@ if( !$g_database_upgrade ) {?>
 		Attempt Installation
 	</td>
 	<td>
-		<input name="go" type="submit" value="Install/Upgrade Database"></input>
+		<input name="go" type="submit" value="Install/Upgrade Database" />
 	</td>
 </tr>
-<input name="install" type="hidden" value="2"></input>
+<input name="install" type="hidden" value="2" />
 
 </table>
 <?php
@@ -768,15 +768,15 @@ if( 4 == $t_install_state ) {
 	/** @todo to be written */
 	// must post data gathered to preserve it
 	?>
-		<input name="hostname" type="hidden" value="<?php echo $f_hostname?>"></input>
-		<input name="db_type" type="hidden" value="<?php echo $f_db_type?>"></input>
-		<input name="database_name" type="hidden" value="<?php echo $f_database_name?>"></input>
-		<input name="db_username" type="hidden" value="<?php echo $f_db_username?>"></input>
-		<input name="db_password" type="hidden" value="<?php echo $f_db_password?>"></input>
-		<input name="admin_username" type="hidden" value="<?php echo $f_admin_username?>"></input>
-		<input name="admin_password" type="hidden" value="<?php echo $f_admin_password?>"></input>
-		<input name="log_queries" type="hidden" value="<?php echo( $f_log_queries ? 1 : 0 )?>"></input>
-		<input name="db_exists" type="hidden" value="<?php echo( $f_db_exists ? 1 : 0 )?>"></input>
+		<input name="hostname" type="hidden" value="<?php echo $f_hostname?>" />
+		<input name="db_type" type="hidden" value="<?php echo $f_db_type?>" />
+		<input name="database_name" type="hidden" value="<?php echo $f_database_name?>" />
+		<input name="db_username" type="hidden" value="<?php echo $f_db_username?>" />
+		<input name="db_password" type="hidden" value="<?php echo $f_db_password?>" />
+		<input name="admin_username" type="hidden" value="<?php echo $f_admin_username?>" />
+		<input name="admin_password" type="hidden" value="<?php echo $f_admin_password?>" />
+		<input name="log_queries" type="hidden" value="<?php echo( $f_log_queries ? 1 : 0 )?>" />
+		<input name="db_exists" type="hidden" value="<?php echo( $f_db_exists ? 1 : 0 )?>" />
 <?php
 	# must post <input name="install" type="hidden" value="5"></input>
 	# rather than the following line
@@ -974,7 +974,7 @@ if( 7 == $t_install_state ) {
 <p><a href="../login_page.php">Continue</a> to log into Mantis</p>
 <?php
 	} else {?>
-<p>Please log in as the administrator and <a href="../manage_proj_create_page.php">create</a> your first project.</p>
+<p>Please log in as the administrator and <a href="../manage/proj_create_page.php">create</a> your first project.</p>
 
 <?php
 	}
@@ -993,17 +993,17 @@ if( $g_failed ) {
 <tr>
 	<td bgcolor="#ffffff">Please correct failed checks</td>
 	<td bgcolor="#ffffff">
-		<input name="install" type="hidden" value="<?php echo $t_install_state?>"></input>
-		<input name="hostname" type="hidden" value="<?php echo $f_hostname?>"></input>
-		<input name="db_type" type="hidden" value="<?php echo $f_db_type?>"></input>
-		<input name="database_name" type="hidden" value="<?php echo $f_database_name?>"></input>
-		<input name="db_username" type="hidden" value="<?php echo $f_db_username?>"></input>
-		<input name="db_password" type="hidden" value="<?php echo $f_db_password?>"></input>
-		<input name="admin_username" type="hidden" value="<?php echo $f_admin_username?>"></input>
-		<input name="admin_password" type="hidden" value="<?php echo $f_admin_password?>"></input>
-		<input name="log_queries" type="hidden" value="<?php echo( $f_log_queries ? 1 : 0 )?>"></input>
-		<input name="retry" type="submit" value="Retry"></input>
-		<input name="db_exists" type="hidden" value="<?php echo( $f_db_exists ? 1 : 0 )?>"></input>
+		<input name="install" type="hidden" value="<?php echo $t_install_state?>" />
+		<input name="hostname" type="hidden" value="<?php echo $f_hostname?>" />
+		<input name="db_type" type="hidden" value="<?php echo $f_db_type?>" />
+		<input name="database_name" type="hidden" value="<?php echo $f_database_name?>" />
+		<input name="db_username" type="hidden" value="<?php echo $f_db_username?>" />
+		<input name="db_password" type="hidden" value="<?php echo $f_db_password?>" />
+		<input name="admin_username" type="hidden" value="<?php echo $f_admin_username?>" />
+		<input name="admin_password" type="hidden" value="<?php echo $f_admin_password?>" />
+		<input name="log_queries" type="hidden" value="<?php echo( $f_log_queries ? 1 : 0 )?>" />
+		<input name="retry" type="submit" value="Retry" />
+		<input name="db_exists" type="hidden" value="<?php echo( $f_db_exists ? 1 : 0 )?>" />
 	</td>
 </tr>
 </table>

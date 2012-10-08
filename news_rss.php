@@ -58,17 +58,17 @@ news_ensure_enabled();
 
 # make sure RSS syndication is enabled.
 if ( OFF == config_get( 'rss_enabled' ) ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 # authenticate the user
 if ( $f_username !== null ) {
 	if ( !rss_login( $f_username, $f_key ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 } else {
 	if ( OFF == config_get( 'anonymous_login' ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 

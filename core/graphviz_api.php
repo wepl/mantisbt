@@ -341,11 +341,12 @@ class Graph {
 	 * @param string $p_format
 	 * @param bool $p_headers
 	 * @return null
+     * @throws MantisBT\Exception\UnknownException
 	 */
 	function output( $p_format = 'dot', $p_headers = false ) {
 		# Check if it is a recognized format.
 		if( !isset( $this->formats[$p_format] ) ) {
-			throw new MantisBT\Exception\Generic();
+			throw new MantisBT\Exception\UnknownException();
 		}
 
 		$t_binary = $this->formats[$p_format]['binary'];

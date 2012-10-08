@@ -49,7 +49,7 @@ require_api( 'relationship_graph_api.php' );
 auth_ensure_user_authenticated();
 
 if ( ON != config_get( 'relationship_graph_enable' ) )
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 
 $f_bug_id		= gpc_get_int( 'bug_id' );
 $f_type			= gpc_get_string( 'graph', 'relation' );

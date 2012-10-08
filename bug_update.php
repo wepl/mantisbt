@@ -167,7 +167,7 @@ if ( $t_existing_bug->status !== $t_updated_bug->status ) {
 			$t_can_bypass_status_access_thresholds = true;
 		}
 		if ( !$t_can_bypass_status_access_thresholds ) {
-			throw new MantisBT\Exception\Access_Denied();
+			throw new MantisBT\Exception\Access\AccessDenied();
 		}
 	}
 	if( $t_reopen_issue ) {
@@ -197,7 +197,7 @@ if ( $t_existing_bug->handler_id !== $t_updated_bug->handler_id ) {
 if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 	if ( $t_updated_bug->category_id === 0 &&
 	     !config_get( 'allow_no_category' ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
 	}
 }
 
@@ -238,7 +238,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 		if ( $t_cf_def[$t_cf_require_check] ) {
 			# A value for the custom field was expected however
 			# no value was given by the user.
-			throw new MantisBT\Exception\Empty_Field( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
+			throw new MantisBT\Exception\Field\EmptyField( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
 		} else {
 			# The custom field isn't compulsory and the user did
 			# not supply a value. Therefore we can just ignore this
@@ -249,7 +249,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 	}
 
 	if( !custom_field_has_write_access( $t_cf_id, $f_bug_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 
 	$t_new_custom_field_value = gpc_get_custom_field( "custom_field_$t_cf_id", $t_cf_def['type'], null );
@@ -290,7 +290,7 @@ if ( $t_bug_note->note ||
 	access_ensure_bug_level( config_get( 'add_bugnote_threshold' ), $f_bug_id );
 	if ( !$t_bug_note->note &&
 	     !config_get( 'time_tracking_without_note' ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
 	}
 	if ( $t_bug_note->view_state !== config_get( 'default_bugnote_view_status' ) ) {
 		access_ensure_bug_level( config_get( 'set_view_status_threshold' ), $f_bug_id );

@@ -52,7 +52,7 @@ $f_type = gpc_get_string( 'type' );
 $f_value = gpc_get_string( 'value' );
 
 if ( is_blank( $f_config_option ) ) {
-	throw new MantisBT\Exception\Empty_Field( 'config_option' );
+	throw new MantisBT\Exception\Field\EmptyField( 'config_option' );
 }
 
 access_ensure_global_level( config_get( 'set_configuration_threshold' ) );
@@ -130,6 +130,7 @@ print_successful_redirect( 'adm_config_report.php' );
 /**
  * Check if the passed string is a constant and return its value
  * @param string constant name
+ * @return string
  */
 function constant_replace( $p_name ) {
 	$t_result = $p_name;

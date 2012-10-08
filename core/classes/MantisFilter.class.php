@@ -62,7 +62,7 @@ abstract class MantisFilter {
 	 * Validate the filter input, returning true if input is
 	 * valid, or returning false if invalid.  Invalid inputs will
 	 * be replaced with the filter's default value.
-	 * @param multi Filter field input
+	 * @param mixed $p_filter_input Filter field input
 	 * @return boolean Input valid (true) or invalid (false)
 	 */
 	public function validate( $p_filter_input ) {
@@ -72,14 +72,14 @@ abstract class MantisFilter {
 	/**
 	 * Build the SQL query elements 'join', 'where', and 'params'
 	 * as used by core/filter_api.php to create the filter query.
-	 * @param multi Filter field input
+	 * @param mixed $p_filter_input Filter field input
 	 * @return array Keyed-array with query elements; see developer guide
 	 */
 	abstract function query( $p_filter_input );
 
 	/**
 	 * Display the current value of the filter field.
-	 * @param multi Filter field input
+	 * @param mixed $p_filter_value Filter field input
 	 * @return string Current value output
 	 */
 	abstract function display( $p_filter_value );

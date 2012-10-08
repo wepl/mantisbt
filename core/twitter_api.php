@@ -52,8 +52,9 @@ $g_twitter_enabled = null;
  * Checks if twitter is used for the current installation.
  * returns true for enabled, false otherwise.
  *
- * @return true: twitter enabled, false: otherwise.
+ * @return bool true: twitter enabled, false: otherwise.
  * @access public
+ * @throws MantisBT\Exception\PHP\ExtensionNotLoaded
  */
 function twitter_enabled() {
 	global $g_twitter_enabled;
@@ -63,7 +64,7 @@ function twitter_enabled() {
 	}
 
 	if( $g_twitter_enabled && !function_exists( 'curl_init' ) ) {
-		throw new MantisBT\Exception\Twitter_No_Curl_Ext();
+		throw new MantisBT\Exception\PHP\ExtensionNotLoaded('curl');
 	}
 
 	return $g_twitter_enabled;
@@ -72,8 +73,9 @@ function twitter_enabled() {
 /**
  * Posts a twitter update when a bug is resolved.
  *
- * @param $p_bug_id The bug id that was resolved.
+ * @param int $p_bug_id The bug id that was resolved.
  * @access public
+ * @return bool
  */
 function twitter_issue_resolved( $p_bug_id ) {
 	if( !twitter_enabled() ) {
@@ -120,6 +122,7 @@ function twitter_issue_resolved( $p_bug_id ) {
  *
  * @param $p_news_id The newly posted news id.
  * @access public
+ * @return bool
  */
 function twitter_news( $p_news_id ) {
 	if( !twitter_enabled() ) {
@@ -149,6 +152,7 @@ function twitter_news( $p_news_id ) {
  *
  * @param $p_message  The message to post.
  * @access private
+ * @return bool
  */
 function twitter_update( $p_message ) {
 	if( !twitter_enabled() ) {

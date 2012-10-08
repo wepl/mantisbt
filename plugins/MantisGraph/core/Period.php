@@ -241,18 +241,19 @@ class Period {
 	}
 
 	/**
-	* get number of days in interval
-	*
-	*/
+	 * get number of days in interval
+     * @return int
+	 */
 	function get_elapsed_days() {
 		return( $this->get_end_timestamp() - $this->get_start_timestamp() ) / ( 24 * 60 * 60 );
 	}
 
 	/**
-	* print a period selector
-	*
-	* @param string $p_control_name
-	*/
+	 * print a period selector
+	 *
+	 * @param string $p_control_name
+     * @return string
+	 */
 	function period_selector( $p_control_name ) {
 		$t_periods = array(
 			0 => plugin_lang_get( 'period_none' ),

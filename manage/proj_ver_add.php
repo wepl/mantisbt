@@ -62,7 +62,7 @@ $f_add_and_edit = gpc_get_bool( 'add_and_edit_version' );
 access_ensure_project_level( config_get( 'manage_project_threshold' ), $f_project_id );
 
 if ( is_blank( $f_version ) ) {
-	throw new MantisBT\Exception\Empty_Field();
+	throw new MantisBT\Exception\Field\EmptyField();
 }
 
 # We reverse the array so that if the user enters multiple versions

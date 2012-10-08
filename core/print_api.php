@@ -122,7 +122,6 @@ function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_a
 		header( "Location: $t_url" );
 	} else {
 		throw new MantisBT\Exception\Page_Redirection();
-		return false;
 	}
 
 	if( $p_die ) {
@@ -176,8 +175,8 @@ function print_successful_redirect( $p_redirect_to ) {
 /**
  * Print Successful operation message.
  *
- * @param string URI to redirect to
- * @param string (optional) Message to display to end user
+ * @param string $p_redirect URI to redirect to
+ * @param string $p_message (optional) Message to display to end user
  */
 function print_successful_operation( $p_redirect, $p_message = '' ) {
 	html_page_top( null, $p_redirect );
@@ -343,8 +342,7 @@ function print_tag_attach_form( $p_bug_id, $p_string = '' ) {
 	?>
 		<input type="submit" value="<?php echo lang_get( 'tag_attach' )?>" class="button" />
 		</form>
-		<?php
-		return true;
+	<?php
 }
 
 /**
@@ -360,8 +358,6 @@ function print_tag_input( $p_bug_id = 0, $p_string = '' ) {
 			<?php print_tag_option_list( $p_bug_id );?>
 		</select>
 		<?php
-
-		return true;
 }
 
 /**
@@ -780,7 +776,7 @@ function print_version_option_list( $p_version = '', $p_project_id = null, $p_re
 
 /**
  * print build option list
- * @param build
+ * @param string build
  */
 function print_build_option_list( $p_build = '' ) {
 	$t_overall_build_arr = array();
@@ -835,6 +831,7 @@ function print_enum_string_option_list( $p_enum_name, $p_val = 0 ) {
  * @param bool show current
  * @param bool add close
  * @param int project id
+ * @return array
  */
 function get_status_option_list( $p_user_auth = 0, $p_current_value = 0, $p_show_current = true, $p_add_close = false, $p_project_id = ALL_PROJECTS ) {
 	$t_config_var_value = config_get( 'status_enum_string', null, null, $p_project_id );
@@ -1151,7 +1148,7 @@ function print_view_bug_sort_link( $p_string, $p_sort_field, $p_sort, $p_dir, $p
 				$p_dir = 'ASC';
 			}
 		} else {
-			# Otherwise always start with ASCending
+			# Otherwise always start with Ascending
 			$p_dir = 'ASC';
 		}
 
@@ -1168,7 +1165,7 @@ function print_view_bug_sort_link( $p_string, $p_sort_field, $p_sort, $p_dir, $p
 				$p_dir = 'ASC';
 			}
 		} else {
-			# Otherwise always start with ASCending
+			# Otherwise always start with Ascending
 			$p_dir = 'ASC';
 		}
 
@@ -1429,6 +1426,7 @@ function print_email_link( $p_email, $p_text ) {
  *
  * @param string Email Address
  * @param string Link text to display to user
+ * @return string
  */
 function get_email_link( $p_email, $p_text ) {
 	return prepare_email_link( $p_email, $p_text );
@@ -1450,9 +1448,10 @@ function print_email_link_with_subject( $p_email, $p_text, $p_bug_id ) {
  * return the mailto: href string link instead of printing it
  * add subject line
  *
- * @param string Email Address
- * @param string Link text to display to user
- * @param string email subject line
+ * @param string $p_email Email Address
+ * @param string $p_text Link text to display to user
+ * @param string $p_subject email subject line
+ * @return string
  */
 function get_email_link_with_subject( $p_email, $p_text, $p_subject ) {
 	if( !access_has_project_level( config_get( 'show_user_email_threshold' ) ) ) {
@@ -1478,7 +1477,7 @@ function get_email_link_with_subject( $p_email, $p_text, $p_subject ) {
  *  that ends with []
  * The names and values are passed through htmlspecialchars() before being displayed
  *
- * @param array Array of Name/Value pairs for html input tags
+ * @param array $p_assoc_array Array of Name/Value pairs for html input tags
  */
 function print_hidden_inputs( $p_assoc_array ) {
 	foreach( $p_assoc_array as $t_key => $t_val ) {
@@ -1489,8 +1488,8 @@ function print_hidden_inputs( $p_assoc_array ) {
 /**
  * Print hidden html input tag <input type=hidden>
  *
- * @param string Name parameter
- * @param string Value parameter
+ * @param string $p_field_key Name parameter
+ * @param string $p_field_val Value parameter
  */
 function print_hidden_input( $p_field_key, $p_field_val ) {
 	if( is_array( $p_field_val ) ) {
@@ -1514,7 +1513,7 @@ function print_hidden_input( $p_field_key, $p_field_val ) {
 /**
  * Get icon corresponding to the specified filename
  *
- * @param string Filename for which to retrieve icon link
+ * @param string $p_filename Filename for which to retrieve icon link
  */
 function print_file_icon( $p_filename ) {
 	$t_icon = file_get_icon_url( $p_filename );
@@ -1524,8 +1523,8 @@ function print_file_icon( $p_filename ) {
 /**
  * Prints an RSS image that is hyperlinked to an RSS feed.
  *
- * @param string URI to an RSS feed
- * @param string Title to use for hyperlink
+ * @param string $p_feed_url URI to an RSS feed
+ * @param string $p_title Title to use for hyperlink
  */
 function print_rss( $p_feed_url, $p_title = '' ) {
 	echo '<a class="rss" rel="alternate" href="', htmlspecialchars( $p_feed_url ), '" title="', $p_title, '"><img src="', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/rss.png' ), '" width="16" height="16" alt="', $p_title, '" /></a>';
@@ -1558,11 +1557,12 @@ function print_recently_visited() {
 
 /**
  * print a dropdown box from input array
- * @param array
- * @param string
- * @param string
- * @param bool
- * @param bool
+ * @param array $p_control_array
+ * @param string $p_control_name
+ * @param string $p_match
+ * @param bool $p_add_any
+ * @param bool $p_multiple
+ * @return string
  */
 function get_dropdown( $p_control_array, $p_control_name, $p_match = '', $p_add_any = false, $p_multiple = false ) {
 	$t_control_array = $p_control_array;

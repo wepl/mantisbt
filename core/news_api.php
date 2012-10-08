@@ -48,21 +48,22 @@ require_api( 'utility_api.php' );
 /**
  * Add a news item
  *
- * @param int project id
- * @param int user id of poster
- * @param int View state
- * @param bool annoucement
- * @param string News Headline
- * @param string News Body
+ * @param int $p_project_id project id
+ * @param int $p_poster_id user id of poster
+ * @param int $p_view_state View state
+ * @param bool $p_announcement annoucement
+ * @param string $p_headline News Headline
+ * @param string $p_body News Body
  * @return int news article id
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
 	if( is_blank( $p_headline ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'headline' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'headline' ) );
 	}
 
 	if( is_blank( $p_body ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'body' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'body' ) );
 	}
 
 	$t_query = "INSERT
@@ -120,14 +121,15 @@ function news_delete_all( $p_project_id ) {
  * @param string news headline
  * @param string news body
  * @return bool always true
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
 	if( is_blank( $p_headline ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'headline' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'headline' ) );
 	}
 
 	if( is_blank( $p_body ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'body' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'body' ) );
 	}
 
 	# Update entry
@@ -327,6 +329,6 @@ function news_is_enabled() {
  */
 function news_ensure_enabled() {
 	if ( !news_is_enabled() ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }

@@ -47,7 +47,7 @@ require_api( 'print_api.php' );
 require_api( 'profile_api.php' );
 
 if ( !config_get( 'enable_profiles' ) ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 form_security_validate('profile_update');

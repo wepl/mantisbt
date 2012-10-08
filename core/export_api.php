@@ -51,12 +51,12 @@ require_api( 'user_api.php' );
 
 /**
  * Gets an Xml Row that contains all column titles.
- * @returns The xml row.
+ * @returns array The xml row.
  */
 function export_get_titles_row() {
 	$t_columns = export_get_columns();
-  $t_ret = array();
-  
+    $t_ret = array();
+
 	foreach( $t_columns as $t_column ) {
 		$t_custom_field = column_get_custom_field_name( $t_column );
 		if( $t_custom_field !== null ) {
@@ -72,8 +72,8 @@ function export_get_titles_row() {
 /**
  * Gets the download file name for the Excel export.  If 'All Projects' selected, default to <username>,
  * otherwise default to <projectname>.
-* @returns file name without extension
-*/
+ * @return string file name without extension
+ */
 function export_get_default_filename() {
 	$t_current_project_id = helper_get_current_project();
 
@@ -88,8 +88,8 @@ function export_get_default_filename() {
 
 /**
  * Escapes the specified column value and includes it in a Cell Xml.
- * @param $p_value The value
- * @returns The Cell Xml.
+ * @param string $p_value The value
+ * @return string The Cell Xml.
  */
 function export_prepare_string( $p_value ) {
 	$t_type = is_numeric( $p_value ) ? 'Number' : 'String';
@@ -102,7 +102,7 @@ function export_prepare_string( $p_value ) {
 
 /**
  * Gets the columns to be included in the Excel Xml export.
- * @returns column names.
+ * @return array column names.
  */
 function export_get_columns() {
 	$t_columns = helper_get_columns_to_view( COLUMNS_TARGET_EXPORT_PAGE );
@@ -111,8 +111,8 @@ function export_get_columns() {
 
 /**
  * Gets the formatted bug id value.
- * @param $p_bug_id  The bug id to be formatted.
- * @returns The bug id prefixed with 0s.
+ * @param int $p_bug_id The bug id to be formatted.
+ * @return string The bug id prefixed with 0s.
  */
 function export_format_id( $p_bug_id ) {
 	return bug_format_id( $p_bug_id );
@@ -120,8 +120,8 @@ function export_format_id( $p_bug_id ) {
 
 /**
  * Gets the formatted project id value.
- * @param $p_project_id The project id.
- * @returns The project name.
+ * @param int $p_project_id The project id.
+ * @return string The project name.
  */
 function export_format_project_id( $p_project_id ) {
 	return project_get_name( $p_project_id );
@@ -129,8 +129,8 @@ function export_format_project_id( $p_project_id ) {
 
 /**
  * Gets the formatted reporter id value.
- * @param $p_reporter_id The reporter id.
- * @returns The reporter user name.
+ * @param int $p_reporter_id The reporter id.
+ * @return string The reporter user name.
  */
 function export_format_reporter_id( $p_reporter_id ) {
 	return user_get_name( $p_reporter_id );
@@ -138,8 +138,8 @@ function export_format_reporter_id( $p_reporter_id ) {
 
 /**
  * Gets the formatted number of bug notes.
- * @param $p_bugnotes_count  The number of bug notes.
- * @returns The number of bug notes.
+ * @param int $p_bugnotes_count  The number of bug notes.
+ * @return string The number of bug notes.
  */
 function export_format_bugnotes_count( $p_bugnotes_count ) {
 	return $p_bugnotes_count;
@@ -147,8 +147,8 @@ function export_format_bugnotes_count( $p_bugnotes_count ) {
 
 /**
  * Gets the formatted handler id.
- * @param $p_handler_id The handler id.
- * @returns The handler user name or empty string.
+ * @param int $p_handler_id The handler id.
+ * @return string The handler user name or empty string.
  */
 function export_format_handler_id( $p_handler_id ) {
 	if( $p_handler_id > 0 ) {
@@ -160,8 +160,8 @@ function export_format_handler_id( $p_handler_id ) {
 
 /**
  * Gets the formatted priority.
- * @param $p_priority priority id.
- * @returns the priority text.
+ * @param int $p_priority priority id.
+ * @return string the priority text.
  */
 function export_format_priority( $p_priority ) {
 	return get_enum_element( 'priority', $p_priority );
@@ -169,8 +169,8 @@ function export_format_priority( $p_priority ) {
 
 /**
  * Gets the formatted severity.
- * @param $p_severity severity id.
- * @returns the severity text.
+ * @param int $p_severity severity id.
+ * @return string the severity text.
  */
 function export_format_severity( $p_severity ) {
 	return get_enum_element( 'severity', $p_severity );
@@ -178,8 +178,8 @@ function export_format_severity( $p_severity ) {
 
 /**
  * Gets the formatted reproducibility.
- * @param $p_reproducibility reproducibility id.
- * @returns the reproducibility text.
+ * @param int $p_reproducibility reproducibility id.
+ * @return string the reproducibility text.
  */
 function export_format_reproducibility( $p_reproducibility ) {
 	return get_enum_element( 'reproducibility', $p_reproducibility );
@@ -187,8 +187,8 @@ function export_format_reproducibility( $p_reproducibility ) {
 
 /**
  * Gets the formatted view state,
- * @param $p_view_state The view state (e.g. public vs. private)
- * @returns The view state
+ * @param int $p_view_state The view state (e.g. public vs. private)
+ * @return string The view state
  */
 function export_format_view_state( $p_view_state ) {
 	return get_enum_element( 'view_state', $p_view_state );
@@ -196,8 +196,8 @@ function export_format_view_state( $p_view_state ) {
 
 /**
  * Gets the formatted projection.
- * @param $p_projection projection id.
- * @returns the projection text.
+ * @param int $p_projection projection id.
+ * @return string the projection text.
  */
 function export_format_projection( $p_projection ) {
 	return get_enum_element( 'projection', $p_projection );
@@ -205,8 +205,8 @@ function export_format_projection( $p_projection ) {
 
 /**
  * Gets the formatted eta.
- * @param $p_eta eta id.
- * @returns the eta text.
+ * @param int $p_eta eta id.
+ * @return string the eta text.
  */
 function export_format_eta( $p_eta ) {
 	return get_enum_element( 'eta', $p_eta );
@@ -214,8 +214,8 @@ function export_format_eta( $p_eta ) {
 
 /**
  * Gets the status field.
- * @param $p_status The status field.
- * @returns the formatted status.
+ * @param int $p_status The status field.
+ * @return string the formatted status.
  */
 function export_format_status( $p_status ) {
 	return get_enum_element( 'status', $p_status );
@@ -223,8 +223,8 @@ function export_format_status( $p_status ) {
 
 /**
  * Gets the resolution field.
- * @param $p_resolution The resolution field.
- * @returns the formatted resolution.
+ * @param int $p_resolution The resolution field.
+ * @return string the formatted resolution.
  */
 function export_format_resolution( $p_resolution ) {
 	return get_enum_element( 'resolution', $p_resolution );
@@ -232,8 +232,8 @@ function export_format_resolution( $p_resolution ) {
 
 /**
  * Gets the formatted version.
- * @param $p_version The product version
- * @returns the product version.
+ * @param string $p_version The product version
+ * @return string the product version.
  */
 function export_format_version( $p_version ) {
 	return $p_version;
@@ -241,8 +241,8 @@ function export_format_version( $p_version ) {
 
 /**
  * Gets the formatted fixed in version.
- * @param $p_fixed_in_version The product fixed in version
- * @returns the fixed in version.
+ * @param string $p_fixed_in_version The product fixed in version
+ * @return string the fixed in version.
  */
 function export_format_fixed_in_version( $p_fixed_in_version ) {
 	return $p_fixed_in_version;
@@ -250,8 +250,8 @@ function export_format_fixed_in_version( $p_fixed_in_version ) {
 
 /**
  * Gets the formatted target version.
- * @param $p_target_version The target version
- * @returns the target version.
+ * @param string $p_target_version The target version
+ * @return string the target version.
  */
 function export_format_target_version( $p_target_version ) {
 	return $p_target_version;
@@ -259,8 +259,8 @@ function export_format_target_version( $p_target_version ) {
 
 /**
  * Gets the formatted category.
- * @param $p_category The category
- * @returns the category.
+ * @param int $p_category_id The category ID
+ * @return string the category.
  */
 function export_format_category_id( $p_category_id ) {
 	return category_full_name( $p_category_id, false );
@@ -268,8 +268,8 @@ function export_format_category_id( $p_category_id ) {
 
 /**
  * Gets the formatted operating system.
- * @param $p_os The operating system
- * @returns the operating system.
+ * @param string $p_os The operating system
+ * @return string the operating system.
  */
 function export_format_os( $p_os ) {
 	return $p_os;
@@ -277,8 +277,8 @@ function export_format_os( $p_os ) {
 
 /**
  * Gets the formatted operating system build (version).
- * @param $p_os The operating system build (version)
- * @returns the operating system build (version)
+ * @param string $p_os_build The operating system build (version)
+ * @return string the operating system build (version)
  */
 function export_format_os_build( $p_os_build ) {
 	return $p_os_build;
@@ -286,8 +286,8 @@ function export_format_os_build( $p_os_build ) {
 
 /**
  * Gets the formatted product build,
- * @param $p_build The product build
- * @returns the product build.
+ * @param string $p_build The product build
+ * @return string the product build.
  */
 function export_format_build( $p_build ) {
 	return $p_build;
@@ -295,8 +295,8 @@ function export_format_build( $p_build ) {
 
 /**
  * Gets the formatted platform,
- * @param $p_platform The platform
- * @returns the platform.
+ * @param string $p_platform The platform
+ * @return string the platform.
  */
 function export_format_platform( $p_platform ) {
 	return $p_platform;
@@ -304,8 +304,8 @@ function export_format_platform( $p_platform ) {
 
 /**
  * Gets the formatted date submitted.
- * @param $p_date_submitted The date submitted
- * @returns the date submitted in short date format.
+ * @param int $p_date_submitted The date submitted
+ * @return string the date submitted in short date format.
  */
 function export_format_date_submitted( $p_date_submitted ) {
 	return date( config_get( 'short_date_format' ), $p_date_submitted );
@@ -313,8 +313,8 @@ function export_format_date_submitted( $p_date_submitted ) {
 
 /**
  * Gets the formatted date last updated.
- * @param $p_last_updated The date last updated.
- * @returns the date last updated in short date format.
+ * @param int $p_last_updated The date last updated.
+ * @return string the date last updated in short date format.
  */
 function export_format_last_updated( $p_last_updated ) {
 	return date( config_get( 'short_date_format' ), $p_last_updated );
@@ -322,8 +322,8 @@ function export_format_last_updated( $p_last_updated ) {
 
 /**
  * Gets the summary field.
- * @param $p_summary The summary.
- * @returns the formatted summary.
+ * @param string $p_summary The summary.
+ * @return string The formatted summary.
  */
 function export_format_summary( $p_summary ) {
 	return $p_summary;
@@ -331,8 +331,8 @@ function export_format_summary( $p_summary ) {
 
 /**
  * Gets the formatted selection.
- * @param $p_selection The selection value
- * @returns An formatted empty string.
+ * @param mixed $p_param The selection value
+ * @return string An formatted empty string.
  */
 function export_format_selection( $p_param ) {
 	return '';
@@ -340,8 +340,8 @@ function export_format_selection( $p_param ) {
 
 /**
  * Gets the formatted description field.
- * @param $p_description The description.
- * @returns The formatted description (multi-line).
+ * @param string $p_description The description.
+ * @return string The formatted description (multi-line).
  */
 function export_format_description( $p_description ) {
 	return $p_description;
@@ -349,8 +349,8 @@ function export_format_description( $p_description ) {
 
 /**
  * Gets the formatted 'steps to reproduce' field.
- * @param $p_steps_to_reproduce The steps to reproduce.
- * @returns The formatted steps to reproduce (multi-line).
+ * @param string $p_steps_to_reproduce The steps to reproduce.
+ * @return string The formatted steps to reproduce (multi-line).
  */
 function export_format_steps_to_reproduce( $p_steps_to_reproduce ) {
 	return $p_steps_to_reproduce;
@@ -358,8 +358,8 @@ function export_format_steps_to_reproduce( $p_steps_to_reproduce ) {
 
 /**
  * Gets the formatted 'additional information' field.
- * @param $p_additional_information The additional information field.
- * @returns The formatted additional information (multi-line).
+ * @param string $p_additional_information The additional information field.
+ * @return string The formatted additional information (multi-line).
  */
 function export_format_additional_information( $p_additional_information ) {
 	return $p_additional_information;
@@ -367,10 +367,10 @@ function export_format_additional_information( $p_additional_information ) {
 
 /**
  * Gets the formatted value for the specified issue id, project and custom field.
- * @param $p_issue_id The issue id.
- * @param $p_project_id The project id.
- * @param $p_custom_field The custom field name (without 'custom_' prefix).
- * @returns The custom field value.
+ * @param int $p_issue_id The issue id.
+ * @param int $p_project_id The project id.
+ * @param string $p_custom_field The custom field name (without 'custom_' prefix).
+ * @return string The custom field value.
  */
 function export_format_custom_field( $p_issue_id, $p_project_id, $p_custom_field ) {
 	$t_field_id = custom_field_get_id_from_name( $p_custom_field );
@@ -390,8 +390,8 @@ function export_format_custom_field( $p_issue_id, $p_project_id, $p_custom_field
 
 /**
  * Gets the formatted due date.
- * @param $p_due_date The due date.
- * @returns The formatted due date.
+ * @param int $p_due_date The due date.
+ * @return string The formatted due date.
  */
 function export_format_due_date( $p_due_date ) {
 	return date( config_get( 'short_date_format' ), $p_due_date );

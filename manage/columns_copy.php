@@ -62,12 +62,12 @@ if ( $f_copy_from ) {
 	$t_src_project_id = $f_project_id;
 	$t_dst_project_id = $f_other_project_id;
 } else {
-	throw new MantisBT\Exception\Generic();
+	throw new MantisBT\Exception\UnknownException();
 }
 
 # only admins can set global defaults.for ALL_PROJECT
 if ( $f_manage_page && $t_dst_project_id == ALL_PROJECTS && !current_user_is_administrator() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 # only MANAGERS can set global defaults.for a project

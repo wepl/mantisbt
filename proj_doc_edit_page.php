@@ -53,7 +53,7 @@ require_api( 'utility_api.php' );
 if ( OFF == config_get( 'enable_project_documentation' ) ||
 	!file_is_uploading_enabled() ||
 	!file_allow_project_upload() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 $f_file_id = gpc_get_int( 'file_id' );

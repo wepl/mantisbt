@@ -173,6 +173,7 @@ function bugnote_is_user_reporter( $p_bugnote_id, $p_user_id ) {
  * @param bool $p_skip_bug_update skip bug last modification update (useful when importing bugs/bugnotes)
  * @return false|int false or indicating bugnote id added
  * @access public
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_private = false, $p_type = 0, $p_attr = '', $p_user_id = null, $p_send_email = TRUE, $p_date_submitted = 0, $p_last_modified = 0, $p_skip_bug_update = FALSE ) {
 	$c_bug_id = (int)$p_bug_id;
@@ -186,11 +187,11 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 
 	if( ON == $t_time_tracking_enabled && $c_time_tracking > 0 ) {
 		if( is_blank( $p_bugnote_text ) && OFF == $t_time_tracking_without_note ) {
-			throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
+			throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
 		}
 		$c_type = TIME_TRACKING;
 	} else if( is_blank( $p_bugnote_text ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
 	}
 
 	$t_bugnote_text = trim( $p_bugnote_text );
@@ -294,6 +295,7 @@ function bugnote_get_text( $p_bugnote_id ) {
  * @param string $p_field_name field name
  * @return string field value
  * @access public
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
 	static $t_vars;
@@ -308,7 +310,7 @@ function bugnote_get_field( $p_bugnote_id, $p_field_name ) {
 	}
 
 	if( !array_key_exists( $p_field_name, $t_vars ) ) {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 
 	$query = "SELECT $p_field_name FROM {bugnote} WHERE id=%d";
@@ -599,6 +601,7 @@ function bugnote_stats_get_events_array( $p_bug_id, $p_from, $p_to ) {
  * @param int $p_user_id Optional user id of user who added the bugnote
  * @return array array of bugnote stats
  * @access public
+ * @throws MantisBT\Exception\UnknownException
  */
 function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost, $p_user_id = ALL_USERS ) {
 	$t_params = array();
@@ -607,7 +610,7 @@ function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost
 	$c_from = strtotime( $p_from );
 
 	if ( $c_to === false || $c_from === false ) {
-		throw new MantisBT\Exception\Generic( array( $p_from, $p_to ) );
+		throw new MantisBT\Exception\UnknownException( array( $p_from, $p_to ) );
 	}
 
 	if( ALL_PROJECTS != $p_project_id ) {
@@ -662,8 +665,8 @@ function bugnote_stats_get_project_array( $p_project_id, $p_from, $p_to, $p_cost
 
 /**
  * Clear a bugnote from the cache or all bug notes if no bugnote id specified.
- * @param int bugnote id to clear (optional)
- * @return null
+ * @param int $p_bugnote_id id to clear (optional)
+ * @return bool
  * @access public
  */
 function bugnote_clear_cache( $p_bugnote_id = null ) {

@@ -139,17 +139,18 @@
 
 	/**
 	 * overloaded function
-	 * @param string property name
+	 * @param string $p_name property name
 	 * @private
 	 */
-	public function __get($name) {
-		return $this->{$name};
+	public function __get($p_name) {
+		return $this->{$p_name};
 	}
 
 	/**
 	 * return a set of users matching given field
-	 * @param string field name to search by
-	 * @param string value to search for
+	 * @param string $p_field field name to search by
+	 * @param string $p_values value to search for
+     * @return array
 	 */
 	public static function getByArray($p_field, $p_values ) {
 		if( empty( $p_values ) ) {
@@ -223,8 +224,10 @@
 	 * Cache a user row if necessary and return the cached copy
 	 * If the second parameter is true (default), trigger an error if the user can't be found.
 	 * If the second parameter is false, return false if the user can't be found.
-	 * @param string field name
-	 * @param mixed array or single value to retrieve
+	 * @param string $p_field field name
+	 * @param mixed $p_value array or single value to retrieve
+     * @throws MantisBT\Exception\UnknownException
+     * @return array|null
 	 */
 	private static function GetFromDatabase( $p_field, $p_value ) {
 		switch( $p_field ) {
@@ -238,7 +241,7 @@
 				$t_type = '%s';
 				break;
 			default:
-				throw new MantisBT\Exception\Generic();
+				throw new MantisBT\Exception\UnknownException();
 		}
 		
 		if( is_array( $p_value ) ) {
@@ -266,8 +269,9 @@
 	 * Cache a user row if necessary and return the cached copy
 	 * If the second parameter is true (default), trigger an error if the user can't be found.
 	 * If the second parameter is false, return false if the user can't be found.
-	 * @param int user id
-	 * @param bool trigger errors
+	 * @param int $p_user_id user id
+	 * @param bool $p_trigger_errors trigger errors
+     * @return array
 	 */
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
 		$t_query = 'SELECT * FROM {user} WHERE id=%d';
@@ -417,6 +421,7 @@
 	 * Check if the username is a valid username.
 	 * Return true if it is, false otherwise
 	 * @param string username
+     * @return bool
 	 */
 	private function validate_username($p_username) {
 		# The DB field is hard-coded. USERLEN should not be modified.
@@ -439,17 +444,15 @@
 
 		if( db_result( $t_result ) ) {
 			throw new MantisBT\Exception\User_Name_Not_Unique();
-			return false;
 		} else {
 			return true;
 		}
-		
-		return true;
 	}
 
 	/**
 	 * validate email address
 	 * @param string email address
+     * @return bool
 	 */
 	private function validate_email( $p_email ) {
 		email_ensure_valid( $p_email );

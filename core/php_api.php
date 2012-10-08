@@ -55,7 +55,8 @@ function php_mode() {
 
 /**
  * Returns true if the current PHP version is higher than the one specified in the given string
- * @param string php version string to check
+ * @param string $p_version_string php version string to check
+ * @return bool
  */
 function php_version_at_least( $p_version_string ) {
 	static $s_cached_version;

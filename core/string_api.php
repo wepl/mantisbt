@@ -539,6 +539,7 @@ function string_restore_valid_html_tags( $p_string, $p_multiline = true ) {
  * @param string $p_action
  * @param int $p_user_id
  * @return string
+ * @throws MantisBT\Exception\UnknownException
  */
 function string_get_bug_page( $p_action, $p_user_id = null ) {
 	if ( $p_action == 'view' ) {
@@ -553,7 +554,7 @@ function string_get_bug_page( $p_action, $p_user_id = null ) {
 		return 'bug_report_page.php';
 	}
 
-	throw new MantisBT\Exception\Generic();
+	throw new MantisBT\Exception\UnknownException();
 }
 
 /**

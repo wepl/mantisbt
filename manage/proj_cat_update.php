@@ -61,7 +61,7 @@ $f_assigned_to		= gpc_get_int( 'assigned_to', 0 );
 access_ensure_project_level( config_get( 'manage_project_threshold' ), $f_project_id );
 
 if ( is_blank( $f_name ) ) {
-	throw new MantisBT\Exception\Empty_Field();
+	throw new MantisBT\Exception\Field\EmptyField();
 }
 
 $t_row = category_get_row( $f_category_id );

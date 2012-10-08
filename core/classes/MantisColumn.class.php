@@ -46,24 +46,24 @@ abstract class MantisColumn {
 	/**
 	 * Build the SQL query elements 'join' and 'order' as used by
 	 * core/filter_api.php to create the filter sorting query.
-	 * @param string Sorting order ('ASC' or 'DESC')
+	 * @param string $p_direction Sorting order ('ASC' or 'DESC')
 	 * @return array Keyed-array with query elements; see developer guide
 	 */
-	public function sortquery( $p_dir ) {}
+	public function sortquery( $p_direction ) {}
 
 	/**
 	 * Allow plugin columns to pre-cache data for all issues
 	 * that will be shown in a given view.  This is preferable to
 	 * the alternative option of querying the database for each
 	 * issue as the display() method is called.
-	 * @param array Bug objects
+	 * @param array MantisBug objects
 	 */
 	public function cache( $p_bugs ) {}
 
 	/**
 	 * Function to display column data for a given bug row.
-	 * @param object Bug object
-	 * @param int Column display target
+	 * @param object $p_bug MantisBug object
+	 * @param int $p_columns_target Column display target
 	 */
 	abstract public function display( $p_bug, $p_columns_target );
 }

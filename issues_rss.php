@@ -68,17 +68,17 @@ $f_key = gpc_get_string( 'key', null );
 
 # make sure RSS syndication is enabled.
 if ( OFF == config_get( 'rss_enabled' ) ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 # @todo gpc_get_string seems to return '' not null
 # authenticate the user
 if ( $f_username !== null ) {
 	if ( !rss_login( $f_username, $f_key ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 } else {
 	if ( OFF == config_get( 'anonymous_login' ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 
@@ -146,7 +146,7 @@ if ( $f_filter_id == 0 ) {
 	# null will be returned if the user doesn't have access right to access the filter.
 	$t_custom_filter = filter_db_get_filter( $f_filter_id, $t_user_id );
 	if ( null === $t_custom_filter ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 
 	$t_custom_filter = filter_deserialize( $t_custom_filter );

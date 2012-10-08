@@ -881,6 +881,7 @@ function filter_get_row( $p_filter_id ) {
  * @param int $p_filter_id
  * @param string $p_field_name
  * @return string
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function filter_get_field( $p_filter_id, $p_field_name ) {
 	$row = filter_get_row( $p_filter_id );
@@ -888,8 +889,7 @@ function filter_get_field( $p_filter_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 }
 
@@ -1018,22 +1018,21 @@ function filter_get_bug_count( $p_query_clauses ) {
 
 /**
  * Get set of bug rows from given filter
- * @todo Had to make all these parameters required because we can't use
- *  call-time pass by reference anymore.  I really preferred not having
- *  to pass all the params in if you didn't want to, but I wanted to get
- *  rid of the errors for now.  If we can think of a better way later
- *  (maybe return an object) that would be great.
+ * @todo Had to make all these parameters required because we can't use call-time pass by reference anymore.
+ * I really preferred not having to pass all the params in if you didn't want to, but I wanted to get
+ *  rid of the errors for now.  If we can think of a better way later (maybe return an object) that would be great.
  *
- * @param int Page number of the page you want to see (set to the actual page on return)
- * @param int The number of bugs to see per page (set to actual on return)
+ * @param int $p_page_number Page number of the page you want to see (set to the actual page on return)
+ * @param int $p_per_page The number of bugs to see per page (set to actual on return)
  *      -1   indicates you want to see all bugs
  *      null indicates you want to use the value specified in the filter
- * @param int you don't need to give a value here, the number of pages will be stored here on return
- * @param int you don't need to give a value here, the number of bugs will be stored here on return
- * @param mixed Custom Filter to use.
- * @param int project id to use in filtering.
- * @param int user id to use as current user when filtering.
- * @param bool true/false - get sticky issues only.
+ * @param int $p_page_count you don't need to give a value here, the number of pages will be stored here on return
+ * @param int $p_bug_count you don't need to give a value here, the number of bugs will be stored here on return
+ * @param mixed $p_custom_filter Custom Filter to use.
+ * @param int $p_project_id project id to use in filtering.
+ * @param int $p_user_id user id to use as current user when filtering.
+ * @param bool $p_show_sticky true/false - get sticky issues only.
+ * @return bool
  */
 function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p_bug_count, $p_custom_filter = null, $p_project_id = null, $p_user_id = null, $p_show_sticky = null ) {
 	log_event( LOG_FILTERING, 'START NEW FILTER QUERY' );
@@ -1079,7 +1078,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 		return false;
 
 		# signify a need to create a cookie
-		# @@@ error instead?
+		# @todo error instead?
 	}
 
 	$t_view_type = $t_filter['_view_type'];
@@ -1277,7 +1276,7 @@ function filter_get_bug_rows( &$p_page_number, &$p_per_page, &$p_page_count, &$p
 	}
 
 	# limit reporter
-	# @@@ thraxisp - access_has_project_level checks greater than or equal to,
+	# @todo thraxisp - access_has_project_level checks greater than or equal to,
 	#   this assumed that there aren't any holes above REPORTER where the limit would apply
 	#
 	if(( ON === $t_limit_reporters ) && ( !access_has_project_level( REPORTER + 1, $t_project_id, $t_user_id ) ) ) {

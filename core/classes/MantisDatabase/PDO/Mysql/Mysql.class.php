@@ -81,14 +81,14 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 	 * Return whether database exists
 	 * @param string $p_name
 	 * @return bool
+     * @throws MantisBT\Exception\Database\QueryFailed
 	 */	
 	public function database_exists( $p_name ) {
 		$sql = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
 		try {
 			$t_result = $this->execute( $sql, array( $p_name ) );
 		} catch (PDOException $ex) {
-			throw new MantisBT\Exception\DatabaseException(ERROR_DB_QUERY_FAILED, $ex->getMessage());
-			return false;
+			throw new MantisBT\Exception\Database\QueryFailed($ex->getMessage());
 		}
 		if ($t_result) {
 			$t_value = $t_result->fetch();
@@ -101,11 +101,11 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 
 	/**
 	 * Get list of tables in database
-	 * @param bool $usecache
+	 * @param bool $p_use_cache
 	 * @return array
 	 */	
-	public function get_tables($usecache=true) {
-        if ($usecache and $this->tables !== null) {
+	public function get_tables($p_use_cache=true) {
+        if ($p_use_cache and $this->tables !== null) {
             return $this->tables;
         }
         $this->tables = array();
@@ -122,13 +122,13 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 
 	/**
 	 * Get indexes on table
-	 * @param string $table
+	 * @param string $p_table
 	 * @return array
 	 */
-    public function get_indexes($table) {
+    public function get_indexes($p_table) {
         $t_indexes = array();
-		$sql = "SHOW INDEXES FROM $table";
-		$t_result = $this->execute( $sql );
+		$t_sql = "SHOW INDEXES FROM $p_table";
+		$t_result = $this->execute( $t_sql );
 		
         if ($t_result) {
             while ($arr = $t_result->fetch()) {
@@ -140,25 +140,25 @@ class MantisDatabase_PDO_Mysql extends MantisDatabase_PDO {
 
 	/**
 	 * Get List of database columns for given table
-	 * @param string $table
-	 * @param bool $usecache
+	 * @param string $p_table
+	 * @param bool $p_use_cache
 	 * @return array
 	 */	
-	public function get_columns($table, $usecache=true) {
-		if ($usecache and isset($this->columns[$table])) {
-            return $this->columns[$table];
+	public function get_columns($p_table, $p_use_cache=true) {
+		if ($p_use_cache and isset($this->columns[$p_table])) {
+            return $this->columns[$p_table];
         }
 
-        $this->columns[$table] = array();
+        $this->columns[$p_table] = array();
 
-        $sql = "SHOW COLUMNS FROM $table";
+        $sql = "SHOW COLUMNS FROM $p_table";
 		$t_result = $this->execute( $sql );
         if ($t_result) {
             while ($arr = $t_result->fetch()) {
-                $this->columns[$table][] = strtolower( $arr[0] );
+                $this->columns[$p_table][] = strtolower( $arr[0] );
             }
         }
-		return $this->columns[$table];
+		return $this->columns[$p_table];
 	}
 }
 

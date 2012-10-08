@@ -55,11 +55,11 @@ require_api( 'utility_api.php' );
 /**
  * Print row in summary table
  *
- * @param string label
- * @param string count of open issues - normally string with hyperlink to filter
- * @param string count of resolved issues - normally string with hyperlink to filter
- * @param string count of closed issues - normally string with hyperlink to filter
- * @param string count of total issues - normally string with hyperlink to filter
+ * @param string $p_label label
+ * @param string $p_open count of open issues - normally string with hyperlink to filter
+ * @param string $p_resolved count of resolved issues - normally string with hyperlink to filter
+ * @param string $p_closed count of closed issues - normally string with hyperlink to filter
+ * @param string $p_total count of total issues - normally string with hyperlink to filter
  */
 function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p_total ) {
 	print( '<tr>' );
@@ -72,10 +72,11 @@ function summary_helper_print_row( $p_label, $p_open, $p_resolved, $p_closed, $p
 }
 
 /**
- * Used in summary reportsthis function prints out the summary for the given enum setting
+ * Used in summary reports - this function prints out the summary for the given enum setting
  * The enum field name is passed in through $p_enum
  *
- * @param string enum field name
+ * @param string $p_enum enum field name
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function summary_print_by_enum( $p_enum ) {
 	$t_project_id = helper_get_current_project();
@@ -88,7 +89,7 @@ function summary_print_by_enum( $p_enum ) {
 	
 	$t_vars = getClassProperties( 'MantisBug', 'protected');
 	if( !array_key_exists( $p_enum, $t_vars ) ) {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_enum );
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_enum );
 	}
 	
 	$t_filter_prefix = config_get( 'bug_count_hyperlink_prefix' );
@@ -229,10 +230,11 @@ function summary_print_by_enum( $p_enum ) {
 /**
  * prints the bugs submitted in the last X days (default is 1 day) for the current project
  *
- * @param int number of days
+ * @param int $p_num_days number of days
+ * @return int
  */
-function summary_new_bug_count_by_date( $p_time_length = 1 ) {
-	$c_time_length = (int) $p_time_length * SECONDS_PER_DAY;
+function summary_new_bug_count_by_date( $p_num_days = 1 ) {
+	$t_time_length = (int) $p_num_days * SECONDS_PER_DAY;
 
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -243,7 +245,7 @@ function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 	}
 
 	$t_query = "SELECT COUNT(*) FROM {bug}
-				WHERE " . db_helper_compare_days( "" . db_now() . "", "date_submitted", "<= $c_time_length" ) . " AND $specific_where";
+				WHERE " . db_helper_compare_days( "" . db_now() . "", "date_submitted", "<= $t_time_length" ) . " AND $specific_where";
 	$t_result = db_query( $t_query );
 	return db_result( $t_result );
 }
@@ -251,12 +253,13 @@ function summary_new_bug_count_by_date( $p_time_length = 1 ) {
 /**
  * returns the number of bugs resolved in the last X days (default is 1 day) for the current project
  *
- * @param int number of days
+ * @param int $p_num_days number of days
+ * @return int
  */
-function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
+function summary_resolved_bug_count_by_date( $p_num_days = 1 ) {
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );
 
-	$c_time_length = (int) $p_time_length * SECONDS_PER_DAY;
+	$t_time_length = (int) $p_num_days * SECONDS_PER_DAY;
 
 	$t_project_id = helper_get_current_project();
 	$t_user_id = auth_get_current_user_id();
@@ -275,7 +278,7 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 				WHERE b.status >= %d
 				AND h.old_value < %s
 				AND h.new_value >= %s
-				AND " . db_helper_compare_days( "" . db_now() . "", "date_modified", "<= $c_time_length" ) . "
+				AND " . db_helper_compare_days( "" . db_now() . "", "date_modified", "<= $t_time_length" ) . "
 				AND $specific_where";
 	$t_result = db_query( $t_query, array( $t_resolved, $t_resolved, $t_resolved ) );
 	return db_result( $t_result );
@@ -284,7 +287,7 @@ function summary_resolved_bug_count_by_date( $p_time_length = 1 ) {
 /**
  * This function shows the number of bugs submitted in the last X days
  *
- * @param array An array of integers representing days is passed in
+ * @param array $p_date_array An array of integers representing days is passed in
  */
 function summary_print_by_date( $p_date_array ) {
 	$arr_count = count( $p_date_array );
@@ -394,9 +397,7 @@ function summary_print_by_age() {
 	if( ' 1<>1' == $specific_where ) {
 		return;
 	}
-	$query = "SELECT * FROM {bug}
-				WHERE status < $t_resolved
-				AND $specific_where
+	$query = "SELECT * FROM {bug} WHERE status < $t_resolved AND $specific_where
 				ORDER BY date_submitted ASC, priority DESC";
 	$result = db_query( $query );
 
@@ -438,11 +439,9 @@ function summary_print_by_developer() {
 		return;
 	}
 
-	$query = "SELECT COUNT(id) as bugcount, handler_id, status
-				FROM {bug}
+	$query = "SELECT COUNT(id) as bugcount, handler_id, status FROM {bug}
 				WHERE handler_id>0 AND $specific_where
-				GROUP BY handler_id, status
-				ORDER BY handler_id, status";
+				GROUP BY handler_id, status ORDER BY handler_id, status";
 	$result = db_query( $query );
 
 	$t_last_handler = -1;
@@ -539,11 +538,9 @@ function summary_print_by_reporter() {
 		return;
 	}
 
-	$query = "SELECT reporter_id, COUNT(*) as num
-				FROM {bug}
+	$query = "SELECT reporter_id, COUNT(*) as num FROM {bug}
 				WHERE $specific_where
-				GROUP BY reporter_id
-				ORDER BY num DESC";
+				GROUP BY reporter_id ORDER BY num DESC";
 	$result = db_query( $query, null, $t_reporter_summary_limit );
 
 	$t_reporters = array();
@@ -558,8 +555,7 @@ function summary_print_by_reporter() {
 		$query = "SELECT COUNT(id) as bugcount, status FROM {bug}
 					WHERE reporter_id=$v_reporter_id
 					AND $specific_where
-					GROUP BY status
-					ORDER BY status";
+					GROUP BY status ORDER BY status";
 		$result2 = db_query( $query );
 
 		$last_reporter = -1;
@@ -738,10 +734,7 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 
 	# Retrieve statistics one time to improve performance.
 	if( null === $p_cache ) {
-		$query = "SELECT project_id, status, COUNT( status ) AS bugcount
-					FROM {bug}
-					GROUP BY project_id, status";
-
+		$query = "SELECT project_id, status, COUNT( status ) AS bugcount FROM {bug} GROUP BY project_id, status";
 		$result = db_query( $query );
 		$p_cache = array();
 

@@ -48,6 +48,7 @@ require_api( 'utility_api.php' );
  * @param string $p_os_build
  * @param string $p_description
  * @return int
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function profile_create( $p_user_id, $p_platform, $p_os, $p_os_build, $p_description ) {
 	$p_user_id = (int)$p_user_id;
@@ -58,17 +59,17 @@ function profile_create( $p_user_id, $p_platform, $p_os, $p_os_build, $p_descrip
 
 	# platform cannot be blank
 	if( is_blank( $p_platform ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'platform' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'platform' ) );
 	}
 
 	# os cannot be blank
 	if( is_blank( $p_os ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'operating_system' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'operating_system' ) );
 	}
 
 	# os_build cannot be blank
 	if( is_blank( $p_os_build ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'version' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'version' ) );
 	}
 
 	# Add profile
@@ -108,6 +109,7 @@ function profile_delete( $p_user_id, $p_profile_id ) {
  * delete profiles for the specified user
  * returns true when successfully deleted
  * @param int user id
+ * @return bool
  */
 function profile_delete_all( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
@@ -128,6 +130,7 @@ function profile_delete_all( $p_user_id ) {
  * @param string $p_os_build
  * @param string $p_description
  * @return true
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_build, $p_description ) {
 	if( ALL_USERS != $p_user_id ) {
@@ -136,17 +139,17 @@ function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_bu
 
 	# platform cannot be blank
 	if( is_blank( $p_platform ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'platform' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'platform' ) );
 	}
 
 	# os cannot be blank
 	if( is_blank( $p_os ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'operating_system' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'operating_system' ) );
 	}
 
 	# os_build cannot be blank
 	if( is_blank( $p_os_build ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'version' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'version' ) );
 	}
 
 	# Add item
@@ -228,6 +231,7 @@ function profile_get_all_for_user( $p_user_id ) {
  * @param string $p_field
  * @param int $p_user_id
  * @return array
+ * @throws MantisBT\Exception\UnknownException
  */
 function profile_get_field_all_for_user( $p_field, $p_user_id = null ) {
 	$c_user_id = ( $p_user_id === null ) ? auth_get_current_user_id() : $p_user_id;
@@ -242,7 +246,7 @@ function profile_get_field_all_for_user( $p_field, $p_user_id = null ) {
 			$c_field = $p_field;
 			break;
 		default:
-			throw new MantisBT\Exception\Generic();
+			throw new MantisBT\Exception\UnknownException();
 	}
 
 	$t_query = "SELECT DISTINCT $c_field FROM {user_profile}

@@ -291,14 +291,15 @@ class ImportXml_Issue implements ImportXml_Interface {
 	}
 
 	/**
-	* Return the user id in the destination tracker
-	*
-	* Current logic is: try to find the same user by username;
-	* if it fails, use $squash_userid
-	*
-	* @param string username as imported
-	* @param int fallback userid
-	*/
+     * Return the user id in the destination tracker
+	 *
+	 * Current logic is: try to find the same user by username;
+	 * if it fails, use $squash_userid
+	 *
+	 * @param string username as imported
+	 * @param int fallback userid
+     * @return int
+	 */
 	private function get_user_id( $username, $squash_userid = 0 ) {
 		$t_user_id = user_get_id_by_name( $username );
 		if( $t_user_id === false ) {

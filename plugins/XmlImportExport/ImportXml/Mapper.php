@@ -44,6 +44,7 @@ class ImportXml_Mapper {
 	 * check if entry exists within array
 	 * @param mixed type
 	 * @param mixed id
+     * @return bool
 	 */
 	public function exists( $type, $id ) {
 		return array_key_exists( $id, $this->{$type} );

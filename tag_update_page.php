@@ -68,7 +68,7 @@ if ( !( access_has_global_level( config_get( 'tag_edit_threshold' ) )
 	|| ( auth_get_current_user_id() == $t_tag_row['user_id'] )
 		&& access_has_global_level( config_get( 'tag_edit_own_threshold' ) ) ) )
 {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 html_page_top( sprintf( lang_get( 'tag_update' ), $t_name ) );

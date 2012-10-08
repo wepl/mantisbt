@@ -300,13 +300,14 @@ function sponsorship_update_bug( $p_bug_id ) {
  * if sponsorship contains a non-zero id, then update the corresponding record.
  * if sponsorship contains a zero id, search for bug_id/user_id, if found, then update the entry
  * otherwise add a new entry
- * @param int $p_sponsorship
+ * @param SponsorshipData $p_sponsorship
  * @return int
+ * @throws MantisBT\Exception\Sponsorship\SponsorshipAmountTooLow
  */
 function sponsorship_set( $p_sponsorship ) {
 	$t_min_sponsorship = config_get( 'minimum_sponsorship_amount' );
 	if( $p_sponsorship->amount < $t_min_sponsorship ) {
-		throw new MantisBT\Exception\Sponsorship_Amount_Too_Low( $p_sponsorship->amount, $t_min_sponsorship );
+		throw new MantisBT\Exception\Sponsorship\SponsorshipAmountTooLow( array( $p_sponsorship->amount, $t_min_sponsorship ) );
 	}
 
 	# if id == 0, check if the specified user is already sponsoring the bug, if so, overwrite

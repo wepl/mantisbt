@@ -80,7 +80,7 @@ if ( $f_bug_id ) {
 	$t_bug_revisions = array_reverse( bug_revision_like( $f_rev_id ), true );
 
 	if ( count( $t_bug_revisions ) < 1 ) {
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\UnknownException();
 	}
 
 	$t_bug_id = $t_bug_revisions[$f_rev_id]['bug_id'];
@@ -89,7 +89,7 @@ if ( $f_bug_id ) {
 	$t_title = lang_get( 'issue_id' ) . $t_bug_id;
 
 } else {
-	throw new MantisBT\Exception\Generic();
+	throw new MantisBT\Exception\UnknownException();
 }
 
 /**

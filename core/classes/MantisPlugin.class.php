@@ -212,10 +212,10 @@ abstract class MantisPlugin {
 	 * This callback is executed after the normal schema upgrade process has executed.
 	 * This gives your plugin the chance to convert or normalize data after an upgrade
 	 *
-	 * @todo It is possible to call php functions from within the schema upgrade itself, so I 
-	 * wonder if this is really needed?
+	 * @todo It is possible to call php functions from within the schema upgrade itself, so really needed?
 	 *
-	 * @param int Schema Version ID
+	 * @param int $p_schema Schema Version ID
+     * @return bool
 	 */
 	public function upgrade( $p_schema ) {
 		return true;
@@ -241,7 +241,7 @@ abstract class MantisPlugin {
 	/**
 	 * Constructor
 	 *
-	 * @param string basename
+	 * @param string $p_basename basename
 	 */
 	final public function __construct( $p_basename ) {
 		$this->basename = $p_basename;

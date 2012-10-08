@@ -62,8 +62,9 @@ $g_collapse_cache_token = null;
  * Marks the beginning of a collapse block's open phase.
  * This will be visible if the block is expanded, or if
  * javascript is disabled.
- * @param string Collapse block name
- * @param string Collapse block section
+ * @param string $p_name Collapse block name
+ * @param string $p_section Collapse block section
+ * @throws MantisBT\Exception\UnknownException
  */
 function collapse_open( $p_name, $p_section = '' ) {
 	global $g_current_collapse_section, $g_open_collapse_section;
@@ -73,7 +74,7 @@ function collapse_open( $p_name, $p_section = '' ) {
 
 	# make sure no other collapse section is started
 	if( $g_current_collapse_section !== null ) {
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\UnknownException();
 	}
 
 	$g_open_collapse_section = true;
@@ -87,8 +88,9 @@ function collapse_open( $p_name, $p_section = '' ) {
  * Marks the end of a collapse block's open phase and the beginning
  * of the block's closed phase.  Thi will only be visible if the
  * block have been collapsed and javascript is enabled.
- * @param string Collapse block name
- * @param string Collapse block section
+ * @param string $p_name Collapse block name
+ * @param string $p_section Collapse block section
+ * @throws MantisBT\Exception\UnknownException
  */
 function collapse_closed( $p_name, $p_section = '' ) {
 	global $g_current_collapse_section, $g_open_collapse_section;
@@ -98,7 +100,7 @@ function collapse_closed( $p_name, $p_section = '' ) {
 
 	# Make sure a section is opened, and it is the same section.
 	if( $t_block !== $g_current_collapse_section ) {
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\UnknownException();
 	}
 
 	echo '</div>';
@@ -143,6 +145,7 @@ function collapse_icon( $p_name, $p_section = '' ) {
  * Closed phase output is discarded if javascript is disabled.
  * @param string Collapse block name
  * @param string Collapse block section
+ * @throws MantisBT\Exception\UnknownException
  */
 function collapse_end( $p_name, $p_section = '' ) {
 	global $g_current_collapse_section, $g_open_collapse_section;
@@ -153,7 +156,7 @@ function collapse_end( $p_name, $p_section = '' ) {
 	# Make sure a section is opened, and it is the same section.
 	if( $t_block !== $g_current_collapse_section ) {
 		ob_end_clean();
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\UnknownException();
 	}
 
 	echo '</div>';

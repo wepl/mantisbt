@@ -290,11 +290,12 @@ class MantisBug extends MantisCacheable {
 
 	/**
 	 * Cache a bug row if necessary and return the cached copy
-	 * @param array p_bug_id id of bug to cache from mantis_bug_table
-	 * @param array p_trigger_errors set to true to trigger an error if the bug does not exist.
+	 * @param array $p_bug_id id of bug to cache from mantis_bug_table
+	 * @param array $p_trigger_errors set to true to trigger an error if the bug does not exist.
 	 * @return bool|array returns an array representing the bug row if bug exists or false if bug does not exist
 	 * @access public
 	 * @uses database_api.php
+     * @throws MantisBT\Exception\Issue\IssueNotFound
 	 */
 	function bug_cache_row( $p_bug_id, $p_trigger_errors = false ) {
 		global $g_cache_bug;
@@ -314,7 +315,7 @@ class MantisBug extends MantisCacheable {
 			$g_cache_bug[$c_bug_id] = false;
 
 			if( $p_trigger_errors ) {
-				throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
+				throw new MantisBT\Exception\Issue\IssueNotFound( $p_bug_id );
 			} else {
 				return false;
 			}
@@ -352,12 +353,13 @@ class MantisBug extends MantisCacheable {
 	/**
 	 * Overloaded Function handling property sets
 	 *
-	 * @param string name
-	 * @param string value
+	 * @param string $p_name name
+	 * @param string $p_value value
 	 * @private
+     * @throws MantisBT\Exception\Access\AccessDenied
 	 */
-	public function __set($name, $value) {
-		switch ($name) {
+	public function __set($p_name, $p_value) {
+		switch ($p_name) {
 			// integer types
 			case 'id':
 			case 'project_id':
@@ -371,51 +373,53 @@ class MantisBug extends MantisCacheable {
 			case 'resolution':
 			case 'projection':
 			case 'category_id':
-				$value = (int)$value;
+				$p_value = (int)$p_value;
 				break;
 			case 'target_version':
 				if ( !$this->loading ) {
 					# Only set target_version if user has access to do so
 					if( !access_has_project_level( config_get( 'roadmap_update_threshold' ) ) ) {
-						throw new MantisBT\Exception\Access_Denied();
+						throw new MantisBT\Exception\Access\AccessDenied();
 					}
 				}
 				break;
 			case 'due_date':
-				if ( !is_numeric( $value ) ) {
-					$value = strtotime($value);
+				if ( !is_numeric( $p_value ) ) {
+					$p_value = strtotime($p_value);
 				}
 				break;
 			case 'summary':
 			case 'build':
 				if ( !$this->loading ) {
-					$value = trim( $value );
+					$p_value = trim( $p_value );
 				}
 				break;
 		}
-		$this->{$name} = $value;
+		$this->{$p_name} = $p_value;
 	}
 
 	/**
 	 * Overloaded Function handling property get
 	 *
-	 * @param string name
+	 * @param string $p_name name
 	 * @private
+     * @return string
 	 */
-	public function __get($name) {
-		if( $this->is_extended_field($name) )
+	public function __get($p_name) {
+		if( $this->is_extended_field($p_name) )
 			$this->fetch_extended_info();
-		return $this->{$name};
+		return $this->{$p_name};
 	}
 
 	/**
 	 * Overloaded Function handling property isset
 	 *
-	 * @param string name
+	 * @param string $p_name name
 	 * @private
+     * @return bool
 	 */
-	public function __isset($name) {
-		return isset( $this->{$name} );
+	public function __isset($p_name) {
+		return isset( $this->{$p_name} );
 	}
 
 	/**
@@ -448,7 +452,7 @@ class MantisBug extends MantisCacheable {
 	/**
 	 * Returns if the field is an extended field which needs fetch_extended_info()
 	 *
-	 * @param string Field Name
+	 * @param string $p_field_name Field Name
 	 * @return boolean
 	 */
 	private function is_extended_field( $p_field_name ) {
@@ -483,25 +487,25 @@ class MantisBug extends MantisCacheable {
 
 	/**
 	 * validate current bug object for database insert/update
-	 * triggers error on failure
 	 * @param bool $p_update_extended
+     * @throws MantisBT\Exception\Field\EmptyField
 	 */
-	function validate( $p_update_extended =  true) {
+	function validate( $p_update_extended = true) {
 		# Summary cannot be blank
 		if( is_blank( $this->summary ) ) {
-			throw new MantisBT\Exception\Empty_Field( lang_get( 'summary' ) );
+			throw new MantisBT\Exception\Field\EmptyField( lang_get( 'summary' ) );
 		}
 
 		if( $p_update_extended ) {
 			# Description field cannot be empty
 			if( is_blank( $this->description ) ) {
-				throw new MantisBT\Exception\Empty_Field( lang_get( 'description' ) );
+				throw new MantisBT\Exception\Field\EmptyField( lang_get( 'description' ) );
 			}
 		}
 
 		# Make sure a category is set
 		if( 0 == $this->category_id && !config_get( 'allow_no_category' ) ) {
-			throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
+			throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
 		}
 
 		if( !is_blank( $this->duplicate_id ) && ( $this->duplicate_id != 0 ) && ( $this->id == $this->duplicate_id ) ) {
@@ -818,6 +822,7 @@ class MantisBug extends MantisCacheable {
 	 * @return bool|array returns false if not bug text found or array of bug text
 	 * @access public
 	 * @uses database_api.php
+     * @throws MantisBT\Exception\Issue\IssueNotFound
 	 */
 	function bug_text_cache_row( $p_bug_id, $p_trigger_errors = true ) {
 		$c_bug_id = (int) $p_bug_id;
@@ -829,7 +834,7 @@ class MantisBug extends MantisCacheable {
 		
 		if( !$row ) {
 			if( $p_trigger_errors ) {
-				throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
+				throw new MantisBT\Exception\Issue\IssueNotFound( $p_bug_id );
 			} else {
 				return false;
 			}

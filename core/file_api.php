@@ -52,15 +52,14 @@ $g_cache_file_count = array();
 
 /**
  * Gets the filename without the bug id prefix.
- * @param string filename
+ * @param string $p_filename filename
+ * @return string
  */
 function file_get_display_name( $p_filename ) {
 	$t_array = explode( '-', $p_filename, 2 );
 
-	# Check if it's a project document filename (doc-0000000-filename)
-	# or a bug attachment filename (0000000-filename)
-	# for newer filenames, the filename in schema is correct.
-	# This is important to handle filenames with '-'s properly
+	# Check if it's a project document filename (doc-0000000-filename) or a bug attachment filename (0000000-filename).
+	# For newer filenames, the filename in schema is correct. This is important to handle filenames with '-'s properly.
 	$t_doc_match = '/^' . config_get( 'document_files_prefix' ) . '-\d{7}-/';
 	$t_name = preg_split( $t_doc_match, $p_filename );
 	if( isset( $t_name[1] ) ) {
@@ -78,7 +77,8 @@ function file_get_display_name( $p_filename ) {
 
 /**
  * Check the number of attachments a bug has (if any)
- * @param int bug id
+ * @param int $p_bug_id bug id
+ * @return int
  */
 function file_bug_attachment_count( $p_bug_id ) {
 	global $g_cache_file_count;
@@ -120,6 +120,7 @@ function file_bug_attachment_count( $p_bug_id ) {
 /**
  * Check if a specific bug has attachments
  * @param int bug id
+ * @return bool
  */
 function file_bug_has_attachments( $p_bug_id ) {
 	if( file_bug_attachment_count( $p_bug_id ) > 0 ) {
@@ -133,6 +134,7 @@ function file_bug_has_attachments( $p_bug_id ) {
  * Check if the current user can view attachments for the specified bug.
  * @param int bug id
  * @param int user id
+ * @return bool
  */
 function file_can_view_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
 	$t_uploaded_by_me = auth_get_current_user_id() === $p_uploader_user_id;
@@ -145,6 +147,7 @@ function file_can_view_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) 
  * Check if the current user can download attachments for the specified bug.
  * @param int bug id
  * @param int user id
+ * @return bool
  */
 function file_can_download_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
 	$t_uploaded_by_me = auth_get_current_user_id() === $p_uploader_user_id;
@@ -157,6 +160,7 @@ function file_can_download_bug_attachments( $p_bug_id, $p_uploader_user_id = nul
  * Check if the current user can delete attachments from the specified bug.
  * @param int bug id
  * @param int user id
+ * @return bool
  */
 function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
 	if( bug_is_readonly( $p_bug_id ) ) {
@@ -172,6 +176,7 @@ function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null 
  * Get icon corresponding to the specified filename
  * returns an associative array with "url" and "alt" text.
  * @param string filename
+ * @return array
  */
 function file_get_icon_url( $p_display_filename ) {
 	$t_ext = utf8_strtolower( pathinfo( $p_display_filename, PATHINFO_EXTENSION ) );
@@ -192,7 +197,7 @@ function file_get_icon_url( $p_display_filename ) {
  *
  * @param string $p_path       The path.
  * @param string $p_filename   The file name.
- * @return The combined full path.
+ * @return string The combined full path.
  */
 function file_path_combine( $p_path, $p_filename ) {
 	$t_path = rtrim($p_path, '/\\') . '/' . $p_filename;
@@ -201,16 +206,16 @@ function file_path_combine( $p_path, $p_filename ) {
 }
 
 /**
- * Nomalizes the disk file path based on the following algorithm:
+ * Normalizes the disk file path based on the following algorithm:
  * 1. If disk file exists, then return as is.
  * 2. If not, and a project path is available, then check with that, if exists return it.
  * 3. If not, then use default upload path, then check with that, if exists return it.
- * 4. If disk file doesn't include a path, then return expected path based on project path or default path.
+ * 4. If disk file does not include a path, then return expected path based on project path or default path.
  * 5. Otherwise return as is.
  *
  * @param string $p_diskfile  The disk file (full path or just filename).
- * @param integer The project id - shouldn't be 0 (ALL_PROJECTS).
- * @return The normalized full path.
+ * @param integer $p_project_id The project id - shouldn't be 0 (ALL_PROJECTS).
+ * @return string The normalized full path.
  */
 function file_normalize_attachment_path( $p_diskfile, $p_project_id ) {
 	if ( file_exists( $p_diskfile ) ) {
@@ -275,7 +280,8 @@ function file_normalize_attachment_path( $p_diskfile, $p_project_id ) {
  * type - Can be "image", "text" or empty for other types.
  * alt - The alternate text to be associated with the icon.
  * icon - array with icon information, contains 'url' and 'alt' elements.
- * @param int bug id
+ * @param int $p_bug_id bug id
+ * @return array
  */
 function file_get_visible_attachments( $p_bug_id ) {
 	$t_attachment_rows = bug_get_attachments( $p_bug_id );
@@ -352,7 +358,8 @@ function file_get_visible_attachments( $p_bug_id ) {
 
 /**
  * delete all files that are associated with the given bug
- * @param int bug id
+ * @param int $p_bug_id bug id
+ * @return bool
  */
 function file_delete_attachments( $p_bug_id ) {
 	$t_method = config_get( 'file_upload_method' );
@@ -392,8 +399,7 @@ function file_delete_attachments( $p_bug_id ) {
 	}
 
 	# Delete the corresponding db records
-	$t_query = "DELETE FROM $t_bug_file_table
-				  WHERE bug_id=%d";
+	$t_query = "DELETE FROM {bug_file} WHERE bug_id=%d";
 	db_query( $t_query, array( $p_bug_id ) );
 
 	# db_query errors on failure so:
@@ -402,7 +408,7 @@ function file_delete_attachments( $p_bug_id ) {
 
 /**
  * Delete files by project
- * @param int project id
+ * @param int $p_project_id project id
  */
 function file_delete_project_files( $p_project_id ) {
 	$t_method = config_get( 'file_upload_method' );
@@ -451,13 +457,15 @@ function file_ftp_cache_cleanup() {
 
 /**
  * Connect to ftp server using configured server address, user name, and password.
+ * @throws MantisBT\Exception\FTP\ConnectionFailed
+ * @return int
  */
 function file_ftp_connect() {
 	$conn_id = ftp_connect( config_get( 'file_upload_ftp_server' ) );
 	$login_result = ftp_login( $conn_id, config_get( 'file_upload_ftp_user' ), config_get( 'file_upload_ftp_pass' ) );
 
 	if(( !$conn_id ) || ( !$login_result ) ) {
-		throw new MantisBT\Exception\FTP_Connect_Error();
+		throw new MantisBT\Exception\FTP\ConnectionFailed();
 	}
 
 	return $conn_id;
@@ -515,15 +523,17 @@ function file_delete_local( $p_filename ) {
 
 /**
  * Return the specified field value
- * @param int file id
- * @param string field name
- * @param string table name
+ * @param int $p_file_id file id
+ * @param string $p_field_name field name
+ * @param string $p_table table name
+ * @return string
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
 	$t_bug_file_table = '{' . $p_table . '_file}';
 
 	if( !db_field_exists( $p_field_name, $t_bug_file_table ) ) {
-		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_fieldname );
 	}
 
 	$query = "SELECT $p_field_name FROM $t_bug_file_table WHERE id=%d";
@@ -534,8 +544,9 @@ function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
 
 /**
  * Delete File
- * @param int file id
- * @param string table id
+ * @param int $p_file_id file id
+ * @param string $p_table table id
+ * @return bool
  */
 function file_delete( $p_file_id, $p_table = 'bug' ) {
 	$t_upload_method = config_get( 'file_upload_method' );
@@ -576,7 +587,8 @@ function file_delete( $p_file_id, $p_table = 'bug' ) {
 
 /**
  * File type check
- * @param string filename
+ * @param string $p_file_name filename
+ * @return bool
  */
 function file_type_check( $p_file_name ) {
 	$t_allowed_files = config_get( 'allowed_files' );
@@ -611,7 +623,8 @@ function file_type_check( $p_file_name ) {
 
 /**
  * clean file name by removing sensitive characters and replacing them with underscores
- * @param string filename
+ * @param string $p_filename filename
+ * @return string
  */
 function file_clean_name( $p_filename ) {
 	return preg_replace( '/[\/*?"<>|\\ :&]/', "_", $p_filename );
@@ -621,7 +634,8 @@ function file_clean_name( $p_filename ) {
  * Generate a string to use as the identifier for the file
  * It is not guaranteed to be unique and should be checked
  * The string returned should be 32 characters in length
- * @param string seed
+ * @param string $p_seed
+ * @return string
  */
 function file_generate_name( $p_seed ) {
 	return md5( $p_seed . time() );
@@ -630,8 +644,9 @@ function file_generate_name( $p_seed ) {
 /**
  * Generate a UNIQUE string to use as the identifier for the file
  * The string returned should be 64 characters in length
- * @param string seed
- * @param string filepath
+ * @param string $p_seed seed
+ * @param string $p_filepath filepath
+ * @return string
  */
 function file_generate_unique_name( $p_seed, $p_filepath ) {
 	do {
@@ -644,8 +659,9 @@ function file_generate_unique_name( $p_seed, $p_filepath ) {
 
 /**
  * Return true if the diskfile name identifier is unique, false otherwise
- * @param string name
- * @param string file path
+ * @param string $p_name name
+ * @param string $p_filepath file path
+ * @return bool
  */
 function diskfile_is_name_unique( $p_name, $p_filepath ) {
 	$c_name = $p_filepath . $p_name;
@@ -665,6 +681,7 @@ function diskfile_is_name_unique( $p_name, $p_filepath ) {
  * Return true if the file name identifier is unique, false otherwise
  * @param string name
  * @param int bug id
+ * @return bool
  */
 function file_is_name_unique( $p_name, $p_bug_id ) {
 	$query = "SELECT COUNT(*) FROM {bug_file} WHERE filename=%s AND bug_id=%d";
@@ -689,6 +706,9 @@ function file_is_name_unique( $p_name, $p_bug_id ) {
  * @param int $p_user_id user id
  * @param int $p_date_added date added
  * @param bool $p_skip_bug_update skip bug last modification update (useful when importing bug attachments)
+ * @throws MantisBT\Exception\UnknownException
+ * @throws MantisBT\Exception\File\FileDuplicate
+ * @throws MantisBT\Exception\File\FileMoveFailed
  */
 function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc = '', $p_user_id = null, $p_date_added = 0, $p_skip_bug_update = false ) {
 
@@ -702,7 +722,7 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	}
 
 	if( !file_is_name_unique( $t_file_name, $p_bug_id ) ) {
-		throw new MantisBT\Exception\Duplicate_File();
+		throw new MantisBT\Exception\File\FileDuplicate();
 	}
 
 	if( 'bug' == $p_table ) {
@@ -767,21 +787,21 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 				}
 
 				if( !move_uploaded_file( $t_tmp_file, $t_disk_file_name ) ) {
-					throw new MantisBT\Exception\File_Move_Failed();
+					throw new MantisBT\Exception\File\FileMoveFailed();
 				}
 
 				chmod( $t_disk_file_name, config_get( 'attachments_file_permissions' ) );
 
 				$c_content = "''";
 			} else {
-				throw new MantisBT\Exception\File_Duplicate();
+				throw new MantisBT\Exception\File\FileDuplicate();
 			}
 			break;
 		case DATABASE:
 			$c_content = fread( fopen( $t_tmp_file, 'rb' ), $t_file_size );
 			break;
 		default:
-			throw new MantisBT\Exception\Generic();
+			throw new MantisBT\Exception\UnknownException();
 	}
 
 	$c_id = ( 'bug' == $p_table ) ? $c_bug_id : $c_project_id;
@@ -793,7 +813,6 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	db_query( $query, array($c_id, $c_title, $c_desc, $c_unique_name, $c_new_file_name, $c_file_path, $c_file_size, $c_file_type, $c_date_added, $c_content, $c_user_id ) );
 
 	if( 'bug' == $p_table ) {
-
 		# updated the last_updated date
 		if ( !$p_skip_bug_update ) {
 			$result = bug_update_date( $p_bug_id );
@@ -819,8 +838,9 @@ function file_is_uploading_enabled() {
  * Check if the user can upload files for this project
  * return true if they can, false otherwise
  * the project defaults to the current project and the user to the current user
- * @param int project id
- * @param int user id
+ * @param int $p_project_id project id
+ * @param int $p_user_id user id
+ * @return bool
  */
 function file_allow_project_upload( $p_project_id = null, $p_user_id = null ) {
 	if( null === $p_project_id ) {
@@ -839,8 +859,9 @@ function file_allow_project_upload( $p_project_id = null, $p_user_id = null ) {
  *
  *  if the bug null (the default) we answer whether the user can
  *   upload a file to a new bug in the current project
- * @param MantisBug Bug object
- * @param int user id
+ * @param MantisBug $p_bug Bug object
+ * @param int $p_user_id user id
+ * @return bool
  */
 function file_allow_bug_upload( $p_bug = null, $p_user_id = null ) {
 	if( null === $p_user_id ) {
@@ -853,14 +874,12 @@ function file_allow_bug_upload( $p_bug = null, $p_user_id = null ) {
 	}
 
 	if( null === $p_bug ) {
-
 		# new bug
 		$t_project_id = helper_get_current_project();
 
 		# the user must be the reporter if they're reporting a new bug
 		$t_reporter = true;
 	} else {
-
 		# existing bug
 		$t_project_id = bug_get_field( $p_bug->id, 'project_id' );
 
@@ -889,8 +908,7 @@ function file_ensure_valid_upload_path( $p_upload_path ) {
 /**
  * Ensure a file was uploaded
  *
- * This function perform various checks for determining if the upload
- * was successful
+ * This function perform various checks for determining if the upload was successful
  *
  * @param array $p_file the uploaded file info, as retrieved from gpc_get_file()
  */
@@ -1015,6 +1033,8 @@ function file_get_content( $p_file_id, $p_type = 'bug' ) {
  * @param int $p_bug_id ID of bug containing attachments to be moved
  * @param int $p_project_id_to destination project ID for the bug
  * @return null
+ * @throws MantisBT\Exception\File\FileMoveFailed
+ * @throws MantisBT\Exception\File\FileDuplicate
  */
 function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 	$t_project_id_from = bug_get_field( $p_bug_id, 'project_id' );
@@ -1062,14 +1082,14 @@ function file_move_bug_attachments( $p_bug_id, $p_project_id_to ) {
 			chmod( $t_disk_file_name_from, 0775 );
 			if ( !rename( $t_disk_file_name_from, $t_disk_file_name_to ) ) {
 				if ( !copy( $t_disk_file_name_from, $t_disk_file_name_to ) ) {
-					throw new MantisBT\Exception\File_Move_Failed();
+					throw new MantisBT\Exception\File\FileMoveFailed();
 				}
 				file_delete_local( $t_disk_file_name_from );
 			}
 			chmod( $t_disk_file_name_to, config_get( 'attachments_file_permissions' ) );
 			db_query( $query_disk_attachment_update, array( $t_path_to, $c_bug_id, $t_row['id'] ) );
 		} else {
-			throw new MantisBT\Exception\File_Duplicate();
+			throw new MantisBT\Exception\File\FileDuplicate();
 		}
 	}
 }

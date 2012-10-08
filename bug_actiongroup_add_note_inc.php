@@ -95,12 +95,13 @@ function action_add_note_print_fields() {
  *
  * @param int bug id
  * @return string|null On failure: the reason why the action could not be validated. On success: null.
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function action_add_note_validate( $p_bug_id ) {
 	$f_bugnote_text = gpc_get_string( 'bugnote_text' );
 
 	if ( is_blank( $f_bugnote_text ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'bugnote' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
 	}
 
 	$t_add_bugnote_threshold = config_get( 'add_bugnote_threshold' );

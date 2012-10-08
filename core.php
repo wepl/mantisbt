@@ -206,22 +206,22 @@ function require_lib( $p_library_name ) {
 function __autoload( $className ) {
 	global $MantisConfig;
 
+    if( strstr( $className, 'MantisBT\Exception' ) ) {
+        $t_parts = explode( '\\', $className);
+        $t_class = array_pop($t_parts);
+        array_shift($t_parts);
+        $t_count = sizeof( $t_parts );
+        $t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
+        $t_require_path = $MantisConfig->class_path . $t_name . $t_class . '.class.php';
+        if ( file_exists( $t_require_path ) ) {
+            require_once( $t_require_path );
+            return;
+        }
+    }
+
 	$t_parts = explode( '_', $className );
 	$t_count = sizeof( $t_parts );
 	$t_class = $t_parts[$t_count-1];
-
-	if( strstr( $className, 'MantisBT\Exception' ) ) {
-		$name = str_replace( 'MantisBT\Exception\\', '', $className );
-		// @TODO - if this stays, check $name is only ascii+underscore
-		eval('namespace MantisBT\Exception; class ' . $name . ' extends \ErrorException{ 
-			    public function __construct($code = null, $parameters = null, Exception $previous = null)
-				{
-					parent::__construct(\'exception_' . strtolower($name) . '\', $parameters, $previous);
-				}
-			};');
-		return;
-	}
-	
 	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
 	$t_require_path = $MantisConfig->class_path . $t_name . $t_parts[$t_count-1] . '.class.php'; 
 
@@ -275,7 +275,7 @@ if( !php_version_at_least( PHP_MIN_VERSION ) ) {
 # that an error has occurred)
 if ( ( $t_output = ob_get_contents() ) != '' ) {
 	echo 'Possible Whitespace/Error in Configuration File - Aborting. Output so far follows:<br />';
-	echo var_dump( $t_output );
+	var_dump( $t_output );
 	die;
 }
 

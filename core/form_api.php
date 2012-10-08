@@ -46,7 +46,7 @@ require_api( 'session_api.php' );
  * Generate a random security token, prefixed by date, store it in the
  * user's session, and then return the string to be used as a form element
  * element with the security token as the value.
- * @param string Form name
+ * @param string $p_form_name Form name
  * @return string Security token string
  */
 function form_security_token( $p_form_name ) {
@@ -125,6 +125,7 @@ function form_security_param( $p_form_name ) {
  * are more than 3 days old will be purged.
  * @param string Form name
  * @return boolean Form is valid
+ * @throws MantisBT\Exception\Security\CSRFTokenInvalid
  */
 function form_security_validate( $p_form_name ) {
 	if ( PHP_CLI == php_mode() || OFF == config_get_global( 'form_security_validation' ) ) {
@@ -135,8 +136,7 @@ function form_security_validate( $p_form_name ) {
 
 	# Short-circuit if we don't have any tokens for the given form name
 	if( !isset( $t_tokens[$p_form_name] ) || !is_array( $t_tokens[$p_form_name] ) || count( $t_tokens[$p_form_name] ) < 1 ) {
-		throw new MantisBT\Exception\Form_Token_Invalid();
-		return false;
+		throw new MantisBT\Exception\Security\CSRFTokenInvalid();
 	}
 
 	# Get the form input
@@ -145,8 +145,7 @@ function form_security_validate( $p_form_name ) {
 
 	# No form input
 	if( '' == $t_input ) {
-		throw new MantisBT\Exception\Form_Token_Invalid();
-		return false;
+		throw new MantisBT\Exception\Security\CSRFTokenInvalid();
 	}
 
 	# Get the date claimed by the token
@@ -158,8 +157,7 @@ function form_security_validate( $p_form_name ) {
 	}
 
 	# Token does not exist
-	throw new MantisBT\Exception\Form_Token_Invalid();
-	return false;
+	throw new MantisBT\Exception\Security\CSRFTokenInvalid();
 }
 
 /**

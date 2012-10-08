@@ -51,7 +51,7 @@ form_security_validate( 'proj_doc_add' );
 
 # Check if project documentation feature is enabled.
 if ( OFF == config_get( 'enable_project_documentation' ) ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ) );
@@ -61,7 +61,7 @@ $f_description = gpc_get_string( 'description' );
 $f_file = gpc_get_file( 'file' );
 
 if ( is_blank( $f_title ) ) {
-	throw new MantisBT\Exception\Empty_Field( lang_get( 'title' ) );
+	throw new MantisBT\Exception\Field\EmptyField( lang_get( 'title' ) );
 }
 
 file_add( 0, $f_file, 'project', $f_title, $f_description );

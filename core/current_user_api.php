@@ -47,7 +47,7 @@ require_api( 'utility_api.php' );
 /**
  * Returns the access level of the current user in the current project
  *
- * @return access level code
+ * @return int access level code
  * @access public
  */
 function current_user_get_access_level() {
@@ -90,9 +90,9 @@ function current_user_get_field( $p_field_name ) {
 /**
  * Returns the specified field of the currently logged in user
  *
- * @param pref_name	Name of user preference as in the preferences table
+ * @param string $p_pref_name	Name of user preference as in the preferences table
  * 				definition.
- * @return Get the value of the specified preference for current user.
+ * @return string Get the value of the specified preference for current user.
  * @access public
  */
 function current_user_get_pref( $p_pref_name ) {
@@ -102,8 +102,9 @@ function current_user_get_pref( $p_pref_name ) {
 /**
  * Sets the specified preference for the current logged in user.
  *
- * @param pref_name		The name of the preference as in the preferences table.
- * @param pref_value	The preference new value.
+ * @param string $p_pref_name The name of the preference as in the preferences table.
+ * @param string $p_pref_value The preference new value.
+ * @return bool
  * @access public
  */
 function current_user_set_pref( $p_pref_name, $p_pref_value ) {
@@ -113,7 +114,8 @@ function current_user_set_pref( $p_pref_name, $p_pref_value ) {
 /**
  * Return the specified field of the currently logged in user
  *
- * @param project_id	The new default project id.
+ * @param int $p_project_id	The new default project id.
+ * @return bool
  * @access public
  */
 function current_user_set_default_project( $p_project_id ) {
@@ -124,8 +126,8 @@ function current_user_set_default_project( $p_project_id ) {
  * Returns an array of projects that are accessible to the current logged in
  * user.
  *
- * @param show_disabled	Include disabled projects.
- * @return an array of accessible project ids.
+ * @param bool $p_show_disabled	Include disabled projects.
+ * @return array of accessible project ids.
  * @access public
  */
 function current_user_get_accessible_projects( $p_show_disabled = false ) {
@@ -133,12 +135,12 @@ function current_user_get_accessible_projects( $p_show_disabled = false ) {
 }
 
 /**
- * Returns an array of subprojects of the specified project to which the
+ * Returns an array of sub-projects of the specified project to which the
  * currently logged in user has access to.
  *
- * @param project_id	Parent project id.
- * @param show_disabled	Include disabled projects.
- * @return an array of accessible sub-project ids.
+ * @param int $p_project_id	Parent project id.
+ * @param bool $p_show_disabled	Include disabled projects.
+ * @return array of accessible sub-project ids.
  * @access public
  */
 function current_user_get_accessible_subprojects( $p_project_id, $p_show_disabled = false ) {
@@ -146,11 +148,11 @@ function current_user_get_accessible_subprojects( $p_project_id, $p_show_disable
 }
 
 /**
- * Returns an array of subprojects of the specified project to which the
- * currently logged in user has access, including subprojects of subprojects
+ * Returns an array of sub-projects of the specified project to which the
+ * currently logged in user has access, including sub-projects of sub-projects
  *
- * @param project_id	Parent project id.
- * @return an array of accessible sub-project ids.
+ * @param int $p_project_id	Parent project id.
+ * @return array of accessible sub-project ids.
  * @access public
  */
 function current_user_get_all_accessible_subprojects( $p_project_id ) {

@@ -52,7 +52,7 @@ require_api( 'string_api.php' );
 auth_reauthenticate();
 
 if ( !config_get( 'relationship_graph_enable' ) ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 html_page_top( lang_get( 'manage_workflow_graph' ) );

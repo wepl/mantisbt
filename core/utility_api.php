@@ -150,6 +150,7 @@ function ini_get_number( $p_name ) {
  * @param int $p_direction sort direction
  * @return array sorted array
  * @access public
+ * @throws MantisBT\Exception\UnknownException
  */
 function multi_sort( $p_array, $p_key, $p_direction = ASCENDING ) {
 	if( DESCENDING == $p_direction ) {
@@ -163,7 +164,7 @@ function multi_sort( $p_array, $p_key, $p_direction = ASCENDING ) {
 		return $p_array;
 	}
 	if( !is_array( current($p_array ) ) ) {
-		throw new MantisBT\Exception\Generic( 'tried to multisort an invalid multi-dimensional array' );
+		throw new MantisBT\Exception\UnknownException( 'tried to multisort an invalid multi-dimensional array' );
 	}
 
 	// Security measure: see http://www.mantisbt.org/bugs/view.php?id=9704 for details

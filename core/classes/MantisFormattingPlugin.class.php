@@ -48,10 +48,10 @@ abstract class MantisFormattingPlugin extends MantisPlugin {
 
 	/**
 	 * Plain text processing.
-	 * @param string Event name
-	 * @param string Unformatted text
-	 * @param boolean Multiline text
-	 * @return multi Array with formatted text and multiline paramater
+	 * @param string $p_event Event name
+	 * @param string $p_string Unformatted text
+	 * @param boolean $p_multiline Multiline text
+	 * @return mixed Array with formatted text and multi-line parameter
 	 */
 	function text( $p_event, $p_string, $p_multiline = true ) {
 		return $p_string;
@@ -59,10 +59,10 @@ abstract class MantisFormattingPlugin extends MantisPlugin {
 
 	/**
 	 * Formatted text processing.
-	 * @param string Event name
-	 * @param string Unformatted text
-	 * @param boolean Multiline text
-	 * @return multi Array with formatted text and multiline paramater
+	 * @param string $p_event Event name
+	 * @param string $p_string Unformatted text
+	 * @param boolean $p_multiline Multiline text
+	 * @return mixed Array with formatted text and multi-line parameter
 	 */
 	function formatted( $p_event, $p_string, $p_multiline = true ) {
 		return $p_string;
@@ -70,8 +70,8 @@ abstract class MantisFormattingPlugin extends MantisPlugin {
 
 	/**
 	 * RSS text processing.
-	 * @param string Event name
-	 * @param string Unformatted text
+	 * @param string $p_event Event name
+	 * @param string $p_string Unformatted text
 	 * @return string Formatted text
 	 */
 	function rss( $p_event, $p_string ) {
@@ -80,8 +80,8 @@ abstract class MantisFormattingPlugin extends MantisPlugin {
 
 	/**
 	 * Email text processing.
-	 * @param string Event name
-	 * @param string Unformatted text
+	 * @param string $p_event Event name
+	 * @param string $p_string Unformatted text
 	 * @return string Formatted text
 	 */
 	function email( $p_event, $p_string ) {

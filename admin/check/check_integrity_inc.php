@@ -48,6 +48,7 @@ if( file_exists( $t_this_directory . 'integrity_commit_blobs.php' ) ) {
  * Returns the Git Object hash for given file
  *
  * @param string filename of file contained in git repository
+ * @return string
  */
 function create_git_object_hash( $p_file ) {
 	$t_hash_context = hash_init( 'sha1' );
@@ -61,6 +62,7 @@ function create_git_object_hash( $p_file ) {
  * Get git tag of object hash for given file
  * @param string filename of file contained in git repository
  * @param string object hash
+ * @return string
  */
 function get_release_containing_object_hash( $p_filename, $p_object_hash ) {
 	global $g_integrity_release_blobs;
@@ -81,6 +83,7 @@ function get_release_containing_object_hash( $p_filename, $p_object_hash ) {
  * Get commit of object hash for given file
  * @param string filename of file contained in git repository
  * @param string object hash
+ * @return string
  */
 function get_commit_containing_object_hash( $p_filename, $p_object_hash ) {
 	global $g_integrity_commit_blobs;

@@ -92,7 +92,7 @@ class MantisError
         $errorInfo = new stdClass();
         $errorInfo->time = time();
         $errorInfo->type = 'EXCEPTION';
-        $errorInfo->name = get_class($ex);
+        $errorInfo->name = 'Mantis Exception';
         $errorInfo->code = $ex->getCode();
         $errorInfo->message = $ex->getMessage();
         $errorInfo->file = $ex->getFile();
@@ -128,7 +128,6 @@ class MantisError
 		}
 
 		throw new ErrorException($t_message, $p_type, /*severity*/0, $p_file, $p_line);
-		return;
 	}
 	
 	/**
@@ -362,6 +361,7 @@ class MantisError
 	 * @param mixed
 	 * @param bool show object type
 	 * @param int current depth (for infinite loop protection)
+     * @return string
 	 */
 	public static function error_build_parameter_string( $p_param, $p_showtype = true, $p_depth = 0 ) {
 		if( $p_depth++ > 10 ) {

@@ -53,6 +53,7 @@ class SourceData {
 	/**
 	 * Get url to view issue
 	 * @param int issue id
+     * @return string
 	 */
 	public function get_issue_url( $issue_id ) {
 		return $this->urlbase . 'view.php?id=' . $issue_id;
@@ -62,6 +63,7 @@ class SourceData {
 	 * Get url to view bugnote
 	 * @param int issue id
 	 * @param int note id
+     * @return string
 	 */
 	public function get_note_url( $issue_id, $note_id ) {
 		return $this->urlbase . 'view.php?id=' . $issue_id . '#c' . $note_id;
@@ -202,6 +204,7 @@ class ImportXML {
 	 *
 	 * @param string old link tag
 	 * @param string old issue id
+     * @return string
 	 */
 	private function getReplacementString( $oldLinkTag, $oldId ) {
 		$linkTag = config_get( 'bug_link_tag' );
@@ -242,6 +245,7 @@ class ImportXML {
 	/**
 	 * Get importer object
 	 * @param element name
+     * @return ImportXml_Issue
 	 */
 	private function get_importer_object( $p_element_name ) {
 		$importer = null;
@@ -259,6 +263,7 @@ class ImportXML {
 /**
  * Convert each character of the passed string to the corresponding HTML entity.
  * @param string string to convert
+ * @return string
  */
 function htmlFullEntities( $string ) {
 	$chars = str_split( $string );
@@ -269,6 +274,7 @@ function htmlFullEntities( $string ) {
 /**
  * Get entity
  * @param string character to convert
+ * @return string
  */
 function getEntity( $char ) {
 	return '&#' . ord( $char ) . ';';

@@ -352,9 +352,9 @@ if( config_get( 'enable_email_notification' ) == ON ) {
 
 		echo "<div class=\"right\"><form id=\"mail_config_action\" method=\"post\" action=\"config_revert.php\">\n";
 		echo form_security_field( 'manage_config_revert' );
-		echo "<input name=\"revert\" type=\"hidden\" value=\"notify_flags,default_notify_flags\"></input>";
-		echo "<input name=\"project\" type=\"hidden\" value=\"$t_project\"></input>";
-		echo "<input name=\"return\" type=\"hidden\" value=\"\"></input>";
+		echo "<input name=\"revert\" type=\"hidden\" value=\"notify_flags,default_notify_flags\" />";
+		echo "<input name=\"project\" type=\"hidden\" value=\"$t_project\" />";
+		echo "<input name=\"return\" type=\"hidden\" value=\"\" />";
 		echo "<input type=\"submit\" class=\"button\" value=\"";
 		if ( ALL_PROJECTS == $t_project ) {
 			echo lang_get( 'revert_to_system' );

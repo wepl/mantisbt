@@ -51,7 +51,7 @@ require_api( 'profile_api.php' );
 require_api( 'string_api.php' );
 
 if ( !config_get( 'enable_profiles' ) ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 auth_ensure_user_authenticated();

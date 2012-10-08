@@ -42,8 +42,6 @@ require_api( 'constant_inc.php' );
 $g_cookie_secure_flag_enabled = isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER['HTTPS'] ) ) && strtolower( $_SERVER['HTTPS'] ) != 'off';
 
 /**
- * GET, POST, and Cookie API
- * ---------------
  * Retrieve a GPC variable.
  * If the variable is not set, the default is returned.
  *
@@ -51,8 +49,8 @@ $g_cookie_secure_flag_enabled = isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER
  *  you pass in *no* default then an error will be triggered if the field
  *  cannot be found
  *
- * @param string Variable name
- * @param mixed Default value
+ * @param string $p_var_name Variable name
+ * @param mixed $p_default Default value
  * @return null
  */
 function gpc_get( $p_var_name, $p_default = null ) {
@@ -66,7 +64,6 @@ function gpc_get( $p_var_name, $p_default = null ) {
 		$t_result = $p_default;
 	} else {
 		throw new MantisBT\Exception\GPC_Var_Not_Found( $p_var_name );
-		$t_result = null;
 	}
 
 	return $t_result;

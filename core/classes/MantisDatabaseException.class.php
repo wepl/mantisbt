@@ -28,11 +28,11 @@
 class MantisDatabaseException extends MantisException {
 	/**
 	 * Constructor
-	 * @param int code
-	 * @param int parameters
-	 * @param Exception Previous exception
+	 * @param int $p_code
+	 * @param int $p_parameters
+	 * @param \Exception Previous exception
 	 */
-    public function __construct($code = 0, $parameters = null, Exception $previous = null)
+    public function __construct($p_code = 0, $p_parameters = null, \Exception $previous = null)
     {
 		/* if we have some form of database exception, assume that the database don't want to treat
 		 * the database as connected in the exception handler anymore
@@ -40,6 +40,6 @@ class MantisDatabaseException extends MantisException {
 		global $g_db_connected;
 		$g_db_connected = false;
 		
-		parent::__construct($code, $parameters, $previous);
+		parent::__construct($p_code, $p_parameters, $previous);
 	}
 }

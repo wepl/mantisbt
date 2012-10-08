@@ -50,7 +50,8 @@ function check_php_version( $p_version ) {
 }
 /**
  * Check Database extensions currently supported by PHP
- * @param bool return as comma seperated list
+ * @param bool $p_list return as comma seperated list
+ * @return bool
  */
 function check_get_database_extensions( $p_list = false ) {
 	$t_ext_array = get_loaded_extensions();
@@ -167,6 +168,7 @@ function install_category_migrate() {
 /**
  * Migrate the legacy date format.
  * @param array Array: [0] = tablename, [1] id column, [2] = old column, [3] = new column
+ * @return int
  */
 function install_date_migrate( $p_data) {
 	// $p_data[0] = tablename, [1] id column, [2] = old column, [3] = new column
@@ -355,6 +357,7 @@ function install_do_nothing() {
 /**
  * Create default admin user if it does not exist
  * @param array User/password array
+ * @return int
  */
 function install_create_admin_if_not_exist( $p_data ) {
 	$t_query = "SELECT count(*) FROM {user}";

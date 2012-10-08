@@ -202,10 +202,11 @@ function access_has_global_level( $p_access_level, $p_user_id = null ) {
  * @param int $p_access_level integer representing access level
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
 function access_ensure_global_level( $p_access_level, $p_user_id = null ) {
 	if( !access_has_global_level( $p_access_level, $p_user_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 
@@ -299,10 +300,11 @@ function access_has_project_level( $p_access_level, $p_project_id = null, $p_use
  * @param int|null $p_project_id integer representing project id to check access against, defaults to null to use current project
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
 function access_ensure_project_level( $p_access_level, $p_project_id = null, $p_user_id = null ) {
 	if( !access_has_project_level( $p_access_level, $p_project_id, $p_user_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 
@@ -384,10 +386,11 @@ function access_has_bug_level( $p_access_level, $p_bug_id, $p_user_id = null ) {
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
  * @return bool whether user has access level specified
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
 function access_ensure_bug_level( $p_access_level, $p_bug_id, $p_user_id = null ) {
 	if( !access_has_bug_level( $p_access_level, $p_bug_id, $p_user_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 
@@ -426,10 +429,11 @@ function access_has_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id = 
  * @param int $p_bugnote_id integer representing bugnote id to check access against
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
  function access_ensure_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id = null ) {
 	if( !access_has_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 
@@ -463,10 +467,11 @@ function access_has_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id = 
  * @param int $p_bug_id integer representing bug id to check access against
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
  function access_ensure_can_close_bug( $p_bug_id, $p_user_id = null ) {
 	if( !access_can_close_bug( $p_bug_id, $p_user_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 
@@ -496,10 +501,11 @@ function access_has_bugnote_level( $p_access_level, $p_bugnote_id, $p_user_id = 
  * @param int $p_bug_id integer representing bug id to check access against
  * @param int|null $p_user_id integer representing user id, defaults to null to use current user
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
  function access_ensure_can_reopen_bug( $p_bug_id, $p_user_id = null ) {
 	if( !access_can_reopen_bug( $p_bug_id, $p_user_id ) ) {
-		throw new MantisBT\Exception\Access_Denied();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 }
 

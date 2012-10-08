@@ -155,11 +155,12 @@ if( file_exists( config_get_global( 'absolute_path' ) . 'custom_relationships_in
  * Return the complementary type of the provided relationship
  * @param int $p_relationship_type Relationship type
  * @return int Complementary type
+ * @throws MantisBT\Exception\UnknownException
  */
 function relationship_get_complementary_type( $p_relationship_type ) {
 	global $g_relationships;
 	if( !isset( $g_relationships[$p_relationship_type] ) ) {
-		throw new MantisBT\Exception\Generic();
+		throw new MantisBT\Exception\UnknownException();
 	}
 	return $g_relationships[$p_relationship_type]['#complementary'];
 }

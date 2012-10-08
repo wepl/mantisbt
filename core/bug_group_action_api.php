@@ -43,7 +43,8 @@ require_css( 'status_config.php' );
 
 /**
  * Initialise bug action group api
- * @param string action
+ * @param string $p_action custom action to run
+ * @throws MantisBT\Exception\UnknownException
  */
 function bug_group_action_init( $p_action ) {
 	$t_valid_actions = bug_group_action_get_commands( current_user_get_accessible_projects() );
@@ -52,12 +53,12 @@ function bug_group_action_init( $p_action ) {
 	if( !isset( $t_valid_actions[$t_action] ) &&
 		!isset( $t_valid_actions['EXT_' . $t_action] )
 		) {
-		trigger_error( ERROR_GENERIC, ERROR );
+		throw new MantisBT\Exception\UnknownException();
 	}
 
 	$t_include_file = config_get_global( 'absolute_path' ) . 'bug_actiongroup_' . $p_action . '_inc.php';
 	if( !file_exists( $t_include_file ) ) {
-		trigger_error( ERROR_GENERIC, ERROR );
+        throw new MantisBT\Exception\UnknownException();
 	} else {
 		require_once( $t_include_file );
 	}

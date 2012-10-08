@@ -106,7 +106,7 @@ if ( !( $t_ldap && config_get( 'use_ldap_realname' ) ) ) {
 # Update password if the two match and are not empty
 if ( !is_blank( $f_password ) ) {
 	if ( $f_password != $f_password_confirm ) {
-		throw new MantisBT\Exception\User_Create_Password_Mismatch();
+		throw new MantisBT\Exception\User\PasswordMismatch();
 	} else {
 		if ( !auth_does_password_match( $t_user_id, $f_password ) ) {
 			user_set_password( $t_user_id, $f_password );

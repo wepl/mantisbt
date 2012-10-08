@@ -119,10 +119,11 @@ function category_exists( $p_category_id ) {
  * @param string $p_name Category Name
  * @return int Category ID
  * @access public
+ * @throws MantisBT\Exception\Field\EmptyField
  */
  function category_add( $p_project_id, $p_name ) {
 	if( is_blank( $p_name ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
 	}
 
 	category_ensure_unique( $p_project_id, $p_name );
@@ -141,10 +142,11 @@ function category_exists( $p_category_id ) {
  * @param int $p_assigned_to User ID that category is assigned to
  * @return bool
  * @access public
+ * @throws MantisBT\Exception\Field\EmptyField
  */
  function category_update( $p_category_id, $p_name, $p_assigned_to ) {
 	if( is_blank( $p_name ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'category' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
 	}
 
 	$t_old_category = category_get_row( $p_category_id );

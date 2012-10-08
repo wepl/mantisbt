@@ -42,7 +42,7 @@ $f_file = gpc_get_string( 'file' );
 $t_matches = array();
 
 if ( !preg_match( '/^([a-zA-Z0-9_-]+)\/([a-zA-Z0-9_-]+[\/a-zA-Z0-9_-]*\.?[a-zA-Z0-9_-]*)/', $f_file, $t_matches ) ) {
-	throw new MantisBT\Exception\Generic();
+	throw new MantisBT\Exception\UnknownException();
 }
 
 $t_basename = $t_matches[1];

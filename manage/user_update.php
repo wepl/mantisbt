@@ -140,7 +140,7 @@ $t_admin_threshold = config_get_global( 'admin_site_threshold' );
 if ( user_is_administrator( $f_user_id ) &&
 	 $f_access_level < $t_admin_threshold &&
 	 user_count_level( $t_admin_threshold ) <= 1 ) {
-	throw new MantisBT\Exception\User_Change_Last_Admin();
+	throw new MantisBT\Exception\User\ProtectedLastAdministrator();
 }
 
 # Project specific access rights override global levels, hence, for users who are changed
@@ -155,17 +155,11 @@ if ( ( $f_access_level >= $t_admin_threshold ) && ( !user_is_administrator( $f_u
 #  then proceed with a full update.
 $query_params = array();
 if ( $f_protected && $t_old_protected ) {
-	$query = "UPDATE {user}
-			SET username=%s, email=%s,
-				protected=%d, realname=%s
-			WHERE id=%d";
+	$query = "UPDATE {user} SET username=%s, email=%s, protected=%d, realname=%s WHERE id=%d";
 	$query_params = array( $c_username, $c_email, $c_protected, $c_realname, $c_user_id );
 } else {
-	$query = "UPDATE {user}
-			SET username=%s, email=%s,
-				access_level=%d, enabled=%d,
-				protected=%d, realname=%s
-			WHERE id=%d";
+	$query = "UPDATE {user} SET username=%s, email=%s, access_level=%d, enabled=%d, protected=%d, realname=%s
+			  WHERE id=%d";
 	$query_params = array( $c_username, $c_email, $c_access_level, $c_enabled, $c_protected, $c_realname, $c_user_id );
 }
 
@@ -202,9 +196,9 @@ if ( $f_send_email_notification ) {
 }
 
 $t_msg = '';
-if ( $f_protected && $t_old_protected ) {				# PROTECTED
+if ( $f_protected && $t_old_protected ) {
 	$t_msg = lang_get( 'manage_user_protected_msg' );
-} else if ( $result ) {					# SUCCESS
+} else if ( $result ) {
 	$t_msg = lang_get( 'operation_successful' );
 }
 
@@ -213,7 +207,3 @@ $t_redirect_url = 'user_edit_page.php?user_id=' . $c_user_id;
 form_security_purge('manage_user_update');
 
 print_successful_operation( $t_redirect_url, $t_msg );
-
-
-
-

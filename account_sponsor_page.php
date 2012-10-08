@@ -78,12 +78,12 @@ require_api( 'version_api.php' );
 require_css( 'status_config.php' );
 
 if ( !config_get( 'enable_sponsorship' ) ) {
-	throw new MantisBT\Exception\Sponsorship_Not_Enabled();
+	throw new MantisBT\Exception\Sponsorship\SponsorshipDisabled();
 }
 
 # anonymous users are not allowed to sponsor issues
 if ( current_user_is_anonymous() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 $t_show_all = gpc_get_bool( 'show_all', false );

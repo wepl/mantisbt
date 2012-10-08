@@ -59,7 +59,7 @@ $f_project_id = gpc_get_int( 'project_id', helper_get_current_project() );
 
 # Check if project documentation feature is enabled.
 if ( OFF == config_get( 'enable_project_documentation' ) || !file_is_uploading_enabled() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 # Override the current page to make sure we get the appropriate project-specific configuration

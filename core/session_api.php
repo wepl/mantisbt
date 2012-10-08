@@ -132,6 +132,7 @@ class MantisPHPSession extends MantisSession {
 	 * get session data
 	 * @param string $p_name
 	 * @param mixed $p_default
+     * @return string
 	 */
 	function get( $p_name, $p_default=null ) {
 		if ( isset( $_SESSION[ $this->key ][ $p_name ] ) ) {

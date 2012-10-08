@@ -377,9 +377,9 @@ echo "</form>\n";
 if ( $t_show_submit && ( 0 < count( $t_overrides ) ) ) {
 	echo "<div class=\"right\"><form name=\"threshold_config_action\" method=\"post\" action=\"config_revert.php\">\n";
 	echo form_security_field( 'manage_config_revert' );
-	echo "<input name=\"revert\" type=\"hidden\" value=\"" . implode( ',', $t_overrides ) . "\"></input>";
-	echo "<input name=\"project\" type=\"hidden\" value=\"$t_project_id\"></input>";
-	echo "<input name=\"return\" type=\"hidden\" value=\"\"></input>";
+	echo "<input name=\"revert\" type=\"hidden\" value=\"" . implode( ',', $t_overrides ) . "\" />";
+	echo "<input name=\"project\" type=\"hidden\" value=\"$t_project_id\" />";
+	echo "<input name=\"return\" type=\"hidden\" value=\"\" />";
 	echo "<input type=\"submit\" class=\"button\" value=\"";
 	if ( ALL_PROJECTS == $t_project_id ) {
 		echo lang_get( 'revert_to_system' );

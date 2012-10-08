@@ -59,7 +59,7 @@ form_security_validate( 'bug_set_sponsorship' );
 
 # anonymous users are not allowed to sponsor issues
 if ( current_user_is_anonymous() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 $f_bug_id	= gpc_get_int( 'bug_id' );
@@ -73,7 +73,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 }
 
 if ( config_get( 'enable_sponsorship' ) == OFF ) {
-	throw new MantisBT\Exception\Sponsorship_Not_Enabled();
+    throw new MantisBT\Exception\Sponsorship\SponsorshipDisabled();
 }
 
 access_ensure_bug_level( config_get( 'sponsor_threshold' ), $f_bug_id );
@@ -94,12 +94,12 @@ if ( $f_amount == 0 ) {
 	if ( is_blank( user_get_email( $t_user ) ) ) {
 		throw new MantisBT\Exception\Sponsorship_Sponsor_No_Email();
 	} else {
-		$sponsorship = new SponsorshipData;
-		$sponsorship->bug_id = $f_bug_id;
-		$sponsorship->user_id = $t_user;
-		$sponsorship->amount = $f_amount;
+		$t_sponsorship = new SponsorshipData;
+		$t_sponsorship->bug_id = $f_bug_id;
+		$t_sponsorship->user_id = $t_user;
+		$t_sponsorship->amount = $f_amount;
 
-		sponsorship_set( $sponsorship );
+		sponsorship_set( $t_sponsorship );
 	}
 }
 

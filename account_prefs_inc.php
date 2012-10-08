@@ -56,10 +56,11 @@ require_api( 'utility_api.php' );
 /**
  * Display html form to edit account preferences
  *
- * @param int user id
- * @param bool error if account is protected
- * @param bool display account preferences menu
- * @param string redirect URI
+ * @param int $p_user_id user id
+ * @param bool $p_error_if_protected error if account is protected
+ * @param bool $p_accounts_menu display account preferences menu
+ * @param string $p_redirect_url redirect URI
+ * @throws MantisBT\Exception\User\ProtectedUser
  */
 function edit_account_prefs($p_user_id = null, $p_error_if_protected = true, $p_accounts_menu = true, $p_redirect_url = '') {
 	if ( null === $p_user_id ) {
@@ -74,7 +75,7 @@ function edit_account_prefs($p_user_id = null, $p_error_if_protected = true, $p_
 	# protected account check
 	if ( user_is_protected( $p_user_id ) ) {
 		if ( $p_error_if_protected ) {
-			throw new MantisBT\Exception\Protected_Account();
+			throw new MantisBT\Exception\User\ProtectedUser();
 		} else {
 			return;
 		}

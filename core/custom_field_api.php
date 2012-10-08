@@ -75,8 +75,9 @@ foreach( $g_custom_field_types as $type ) {
 
 /**
  * Return true whether to display custom field
- * @param int custom field type
- * @param string when to display
+ * @param int $p_type custom field type
+ * @param string $p_display when to display
+ * @return bool
  */
 function custom_field_allow_manage_display( $p_type, $p_display ) {
 	global $g_custom_field_type_definition;
@@ -389,7 +390,7 @@ function custom_field_create( $p_name ) {
 	$c_name = trim( $p_name );
 
 	if( is_blank( $c_name ) ) {
-		throw new MantisBT\Exception\Empty_Field( 'name' );
+		throw new MantisBT\Exception\Field\EmptyField( 'name' );
 	}
 
 	custom_field_ensure_name_unique( $c_name );
@@ -408,6 +409,7 @@ function custom_field_create( $p_name ) {
  * @param array custom field definition
  * @return bool
  * @access public
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function custom_field_update( $p_field_id, $p_def_array ) {
 	$c_field_id = (int)$p_field_id;
@@ -431,7 +433,7 @@ function custom_field_update( $p_field_id, $p_def_array ) {
 	$c_require_closed = $p_def_array['require_closed'];
 
 	if( is_blank( $c_name ) ) {
-		throw new MantisBT\Exception\Empty_Field( 'name' );
+		throw new MantisBT\Exception\Field\EmptyField( 'name' );
 	}
 
 	if(( $c_access_level_rw < $c_access_level_r ) || ( $c_length_min < 0 ) || (( $c_length_max != 0 ) && ( $c_length_min > $c_length_max ) ) ) {
@@ -906,6 +908,7 @@ function custom_field_get_definition( $p_field_id ) {
  * @param int $p_field_name custom field name
  * @return string
  * @access public
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function custom_field_get_field( $p_field_id, $p_field_name ) {
 	$row = custom_field_get_definition( $p_field_id );
@@ -913,8 +916,7 @@ function custom_field_get_field( $p_field_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 }
 

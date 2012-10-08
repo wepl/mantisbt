@@ -64,6 +64,7 @@ print_manage_config_menu( 'adm_config_report.php' );
 /**
  * Return string representing type of config variable
  * @param int CONFIG_TYPE_*
+ * @return string
  */
 function get_config_type( $p_type ) {
 	switch( $p_type ) {

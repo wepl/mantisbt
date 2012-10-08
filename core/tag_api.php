@@ -53,7 +53,7 @@ require_api( 'utility_api.php' );
 
 /**
  * Determine if a tag exists with the given ID.
- * @param integer Tag ID
+ * @param int $p_tag_id Tag ID
  * @return boolean True if tag exists
  */
 function tag_exists( $p_tag_id ) {
@@ -65,7 +65,7 @@ function tag_exists( $p_tag_id ) {
 
 /**
  * Ensure a tag exists with the given ID.
- * @param integer Tag ID
+ * @param int $p_tag_id Tag ID
  */
 function tag_ensure_exists( $p_tag_id ) {
 	if( !tag_exists( $p_tag_id ) ) {
@@ -93,11 +93,12 @@ function tag_is_unique( $p_name ) {
 
 /**
  * Ensure that a name is unique.
- * @param string Tag name
+ * @param string $p_name Tag name
+ * @throws MantisBT\Exception\Tag\TagDuplicate
  */
 function tag_ensure_unique( $p_name ) {
 	if( !tag_is_unique( $p_name ) ) {
-		throw new MantisBT\Exception\Tag_Duplicate();
+		throw new MantisBT\Exception\Tag\TagDuplicate( $p_name );
 	}
 }
 
@@ -267,6 +268,7 @@ function tag_get_by_name( $p_name ) {
  * @param integer Tag ID
  * @param string Field name
  * @return mixed Field value
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function tag_get_field( $p_tag_id, $p_field_name ) {
 	$row = tag_get( $p_tag_id );
@@ -274,8 +276,7 @@ function tag_get_field( $p_tag_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 }
 
@@ -317,10 +318,11 @@ function tag_create( $p_name, $p_user_id = null, $p_description = '' ) {
 
 /**
  * Update a tag with given name, creator, and description.
- * @param integer Tag ID
- * @param string Tag name
- * @param integer User ID
- * @param string Description
+ * @param integer $p_tag_id Tag ID
+ * @param string $p_name Tag name
+ * @param integer $p_user_id User ID
+ * @param string $p_description Description
+ * @return bool
  */
 function tag_update( $p_tag_id, $p_name, $p_user_id, $p_description ) {
 	$t_tag_row = tag_get( $p_tag_id );
@@ -353,12 +355,7 @@ function tag_update( $p_tag_id, $p_name, $p_user_id, $p_description ) {
 
 	$c_date_updated = db_now();
 
-	$t_query = "UPDATE {tag}
-					SET user_id=%d,
-						name=%s,
-						description=%s,
-						date_updated=%d
-					WHERE id=%d";
+	$t_query = "UPDATE {tag} SET user_id=%d, name=%s, description=%s, date_updated=%d WHERE id=%d";
 	db_query( $t_query, array( (int)$p_user_id, $p_name, $p_description, $c_date_updated, $p_tag_id ) );
 
 	if( $t_rename ) {
@@ -375,6 +372,7 @@ function tag_update( $p_tag_id, $p_name, $p_user_id, $p_description ) {
 /**
  * Delete a tag with the given ID.
  * @param integer Tag ID
+ * @return bool
  */
 function tag_delete( $p_tag_id ) {
 	tag_ensure_exists( $p_tag_id );
@@ -397,7 +395,7 @@ function tag_delete( $p_tag_id ) {
  * that are not associated with the bug already.
  *
  * @param int $p_bug_id  The bug id, if 0 returns all tags.
- * @returns The array of tag rows, each with id, name, and description.
+ * @return array The array of tag rows, each with id, name, and description.
  */
 function tag_get_candidates_for_bug( $p_bug_id ) {
 	$t_params = array();
@@ -522,6 +520,7 @@ function tag_get_bugs_attached( $p_tag_id ) {
  * @param integer Tag ID
  * @param integer Bug ID
  * @param integer User ID
+ * @return bool
  */
 function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 	access_ensure_bug_level( config_get( 'tag_attach_threshold' ), $p_bug_id, $p_user_id );
@@ -543,11 +542,7 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 	$c_user_id = (int)$p_user_id;
 
 	$t_query = "INSERT INTO {bug_tag}
-					( tag_id,
-					  bug_id,
-					  user_id,
-					  date_attached
-					)
+					( tag_id, bug_id, user_id, date_attached )
 					VALUES
 					( %d, %d, %d, %d )";
 	db_query( $t_query, array( $c_tag_id, $c_bug_id, $c_user_id, db_now() ) );
@@ -567,6 +562,7 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
  * @param integer Bug ID
  * @param boolean Add history entries to bug
  * @param integer User Id (or null for current logged in user)
+ * @return bool
  */
 function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id = null ) {
 	if( $p_user_id === null ) {
@@ -621,6 +617,7 @@ function tag_bug_detach_all( $p_bug_id, $p_add_history = true, $p_user_id = null
  * user has appropriate privileges.
  * @param array Tag row
  * @param integer Bug ID
+ * @return bool
  */
 function tag_display_link( $p_tag_row, $p_bug_id = 0 ) {
 	static $t_security_token = null;
@@ -650,6 +647,7 @@ function tag_display_link( $p_tag_row, $p_bug_id = 0 ) {
 /**
  * Display a list of attached tag hyperlinks separated by the configured hyperlinks.
  * @param BugData $p_bug Bug Object
+ * @return bool
  */
 function tag_display_attached( $p_bug ) {
 	$t_tag_rows = tag_bug_get_attached( $p_bug->id );

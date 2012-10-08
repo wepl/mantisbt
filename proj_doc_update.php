@@ -57,7 +57,7 @@ form_security_validate( 'proj_doc_update' );
 if ( OFF == config_get( 'enable_project_documentation' ) ||
 	!file_is_uploading_enabled() ||
 	!file_allow_project_upload() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 $f_file_id = gpc_get_int( 'file_id' );
@@ -70,7 +70,7 @@ $t_project_id = file_get_field( $f_file_id, 'project_id', 'project' );
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ), $t_project_id );
 
 if ( is_blank( $f_title ) ) {
-	throw new MantisBT\Exception\Empty_Field();
+	throw new MantisBT\Exception\Field\EmptyField( lang_get( 'title' ) );
 }
 
 $c_file_id = (int)$f_file_id;
@@ -128,7 +128,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 			break;
 		default:
 			/** @todo Such errors should be checked in the admin checks */
-			throw new MantisBT\Exception\Generic();
+			throw new MantisBT\Exception\UnknownException();
 	}
 	$query = "UPDATE {project_file}
 		SET title=%s, description=%s, date_added=%d,

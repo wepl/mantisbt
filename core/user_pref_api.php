@@ -602,6 +602,7 @@ function user_pref_get( $p_user_id, $p_project_id = ALL_PROJECTS ) {
  * @param string $p_pref_name
  * @param int $p_project_id
  * @return string
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function user_pref_get_pref( $p_user_id, $p_pref_name, $p_project_id = ALL_PROJECTS ) {
 	static $t_vars;
@@ -616,8 +617,7 @@ function user_pref_get_pref( $p_user_id, $p_pref_name, $p_project_id = ALL_PROJE
 	if( in_array( $p_pref_name, array_keys( $t_vars ), true ) ) {
 		return $t_prefs->Get( $p_pref_name );
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_pref_name );
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_pref_name );
 	}
 }
 

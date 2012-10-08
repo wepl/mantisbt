@@ -163,7 +163,8 @@ function columns_get_standard() {
 /**
  * Return default columns for given column type
  *
- * @param string column type e.g. view_issues_page
+ * @param string $p_type column type e.g. view_issues_page
+ * @return array
  */
 function columns_get_default( $p_type ) {
 	$t_columns = columns_get_standard();
@@ -387,7 +388,6 @@ function columns_ensure_valid( $p_field_name, $p_columns_to_validate, $p_columns
 	foreach( $p_columns_to_validate as $t_column ) {
 		if( !in_array( utf8_strtolower( $t_column ), $t_columns_all_lower ) ) {
 			throw new MantisBT\Exception\Columns_Invalid( $p_field_name, $t_column );
-			return false;
 		}
 	}
 

@@ -548,6 +548,7 @@ function version_get_id( $p_version, $p_project_id = null, $p_inherit = null ) {
  * @param int $p_version_id
  * @param string $p_field_name
  * @return string
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function version_get_field( $p_version_id, $p_field_name ) {
 	$row = version_cache_row( $p_version_id );
@@ -555,8 +556,7 @@ function version_get_field( $p_version_id, $p_field_name ) {
 	if( isset( $row[$p_field_name] ) ) {
 		return $row[$p_field_name];
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name);
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( array( $p_field_name ) );
 	}
 }
 

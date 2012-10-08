@@ -65,7 +65,8 @@ require_api( 'version_api.php' );
  * Checks the provided bug and determines whether it should be included in the changelog or not.
  * returns true: to include, false: to exclude.
  *
- * @param int issue id
+ * @param int $p_issue_id issue id
+ * @return bool
  */
 function custom_function_default_changelog_include_issue( $p_issue_id ) {
 	$t_issue = bug_get( $p_issue_id );
@@ -78,8 +79,8 @@ function custom_function_default_changelog_include_issue( $p_issue_id ) {
 /**
  * Prints one entry in the changelog.
  *
- * @param int issue id
- * @param int issue level
+ * @param int $p_issue_id issue id
+ * @param int $p_issue_level issue level
  */
 function custom_function_default_changelog_print_issue( $p_issue_id, $p_issue_level = 0 ) {
 	static $t_status;
@@ -110,6 +111,7 @@ function custom_function_default_changelog_print_issue( $p_issue_id, $p_issue_le
  * returns true: to include, false: to exclude.
  *
  * @param int issue id
+ * @return bool
  */
 function custom_function_default_roadmap_include_issue( $p_issue_id ) {
 	return true;
@@ -158,6 +160,7 @@ function custom_function_default_roadmap_print_issue( $p_issue_id, $p_issue_leve
  *
  * @param int issue id
  * @param int context SUMMARY_CAPTION | SUMMARY_FIELD | SUMMARY_EMAIL
+ * @return string
  */
 function custom_function_default_format_issue_summary( $p_issue_id, $p_context = 0 ) {
 	switch( $p_context ) {
@@ -267,6 +270,7 @@ function custom_function_default_auth_can_change_password() {
  *
  * @param int see COLUMNS_TARGET_* in constant_inc.php
  * @param int The user id or null for current logged in user.
+ * @return array
  */
 function custom_function_default_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAGE, $p_user_id = null ) {
 	$t_project_id = helper_get_current_project();

@@ -64,16 +64,16 @@ abstract class MantisException extends Exception
 
 	/**
 	 * Constructor
-	 * @param int code
-	 * @param int parameters
-	 * @param Exception Previous exception
+	 * @param int $p_code code
+	 * @param int $p_parameters parameters
+	 * @param \Exception $p_previous Previous exception
 	 */
-    public function __construct($code = 0, $parameters, Exception $previous = null)
+    public function __construct($p_code = 0, $p_parameters, \Exception $p_previous = null)
     {
-		$message = var_export( $parameters, true);
+		$message = var_export( $p_parameters, true);
 		
-		$this->context = $parameters;
-        parent::__construct($message, $code, $previous);
+		$this->context = $p_parameters;
+        parent::__construct($message, $p_code, $p_previous);
     }
 
 	/**
@@ -92,4 +92,3 @@ abstract class MantisException extends Exception
 		return $this->context;
 	}
 }
-?>

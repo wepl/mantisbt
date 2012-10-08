@@ -89,23 +89,24 @@ function email_queue_prepare_db( $p_email_data ) {
  * Add to email queue
  * @param EmailData $p_email_data
  * @return int
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function email_queue_add( $p_email_data ) {
 	$t_email_data = email_queue_prepare_db( $p_email_data );
 
 	# email cannot be blank
 	if( is_blank( $t_email_data->email ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'email' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'email' ) );
 	}
 
 	# subject cannot be blank
 	if( is_blank( $t_email_data->subject ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'subject' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'subject' ) );
 	}
 
 	# body cannot be blank
 	if( is_blank( $t_email_data->body ) ) {
-		throw new MantisBT\Exception\Empty_Field( lang_get( 'body' ) );
+		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'body' ) );
 	}
 
 	$c_email = $t_email_data->email;

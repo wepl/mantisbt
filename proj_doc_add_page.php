@@ -45,7 +45,7 @@ require_api( 'utility_api.php' );
 if ( OFF == config_get( 'enable_project_documentation' ) ||
 	!file_is_uploading_enabled() ||
 	!file_allow_project_upload() ) {
-	throw new MantisBT\Exception\Access_Denied();
+	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ) );

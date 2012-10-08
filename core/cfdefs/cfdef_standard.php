@@ -163,7 +163,8 @@ $g_custom_field_type_definition[ CUSTOM_FIELD_TYPE_DATE ] = array (
 
 /**
  * Prepare List Value for database storage
- * @param string value
+ * @param string $p_value value
+ * @return string
  */
 function cfdef_prepare_list_database_to_value($p_value) {
 	return rtrim( ltrim( $p_value, '|' ), '|' );
@@ -171,7 +172,8 @@ function cfdef_prepare_list_database_to_value($p_value) {
 
 /**
  * Prepare List Value for email
- * @param string value
+ * @param string $p_value value
+ * @return string
  */
 function cfdef_prepare_list_value_for_email($p_value) {
 	// strip start and end markers before converting markers to commas
@@ -180,7 +182,8 @@ function cfdef_prepare_list_value_for_email($p_value) {
 
 /**
  * Format email address for email
- * @param string value
+ * @param string $p_value value
+ * @return string
  */
 function cfdef_prepare_email_value_for_email($p_value) {
 	return 'mailto:'.$p_value;
@@ -188,7 +191,8 @@ function cfdef_prepare_email_value_for_email($p_value) {
 
 /**
  * format date value for email
- * @param int value
+ * @param int $p_value value
+ * @return string
  */
 function cfdef_prepare_date_value_for_email($p_value) {
 	if ($p_value != null) {
@@ -200,9 +204,8 @@ function cfdef_prepare_date_value_for_email($p_value) {
  * Translates the default date value entered by the creator of the custom
  * field into a date value.  For example, translate '=tomorrow' to tomorrow's
  * date.
- * @param  The default date string.
- * @return The calculated default date value if $p_value starts with '=',
- *          otherwise, returns $p_value.
+ * @param string $p_value The default date string.
+ * @return string The calculated default date value if $p_value starts with '=', otherwise, returns $p_value.
  */
 function cfdef_prepare_date_default( $p_value ) {
 	if ( is_blank( $p_value ) ) {
@@ -229,7 +232,8 @@ function cfdef_prepare_date_default( $p_value ) {
 
 /**
  * string_custom_field_value
- * @param string value
+ * @param string $p_value value
+ * @return string
  */
 function cfdef_prepare_list_value($p_value) {
 	// strip start and end markers before converting markers to commas
@@ -238,7 +242,8 @@ function cfdef_prepare_list_value($p_value) {
 
 /**
  * Prepare email value
- * @param string email address
+ * @param string $p_value email address
+ * @return string
  */
 function cfdef_prepare_email_value($p_value) {
 	return "<a href=\"mailto:" . string_attribute( $p_value ) . "\">" . string_display_line( $p_value ) . "</a>";
@@ -246,7 +251,8 @@ function cfdef_prepare_email_value($p_value) {
 
 /**
  * Prepare date value
- * @param int date timestamp
+ * @param int $p_value date timestamp
+ * @return string
  */
 function cfdef_prepare_date_value($p_value) {
 	if ($p_value != null) {
@@ -256,10 +262,10 @@ function cfdef_prepare_date_value($p_value) {
 
 /**
  * print_custom_field_input
- * @param array custom field definition
- * @param mixed custom field value
+ * @param array $p_field_def custom field definition
+ * @param mixed $p_custom_field_value custom field value
  */
-function cfdef_input_list($p_field_def, $t_custom_field_value) {
+function cfdef_input_list($p_field_def, $p_custom_field_value) {
 	$t_values = explode( '|', custom_field_prepare_possible_values( $p_field_def['possible_values'] ) );
 	$t_list_size = $t_possible_values_count = count( $t_values );
 
@@ -277,7 +283,7 @@ function cfdef_input_list($p_field_def, $t_custom_field_value) {
 		echo '<select ' . helper_get_tab_index() . ' id="custom_field_' . $p_field_def['id'] . '" name="custom_field_' . $p_field_def['id'] . '" size="' . $t_list_size . '">';
 	}
 
-	$t_selected_values = explode( '|', $t_custom_field_value );
+	$t_selected_values = explode( '|', $p_custom_field_value );
 	foreach( $t_values as $t_option ) {
 		if( in_array( $t_option, $t_selected_values, true ) ) {
 			echo '<option value="' . string_attribute( $t_option ) . '" selected="selected"> ' . string_display_line( $t_option ) . '</option>';
@@ -290,12 +296,12 @@ function cfdef_input_list($p_field_def, $t_custom_field_value) {
 
 /**
  * print_custom_field_input
- * @param array custom field definition
- * @param mixed custom field value
+ * @param array $p_field_def custom field definition
+ * @param mixed $p_custom_field_value custom field value
  */
-function cfdef_input_checkbox($p_field_def, $t_custom_field_value) {
+function cfdef_input_checkbox($p_field_def, $p_custom_field_value) {
 	$t_values = explode( '|', custom_field_prepare_possible_values( $p_field_def['possible_values'] ) );
-	$t_checked_values = explode( '|', $t_custom_field_value );
+	$t_checked_values = explode( '|', $p_custom_field_value );
 	for ($i = 0; $i < count( $t_values ); $i++) {
 		$t_input_id = 'custom_field_' . $p_field_def['id'] . '_value_' . $i;
 		$t_input_name = 'custom_field_' . $p_field_def['id'] . '[]';
@@ -308,8 +314,8 @@ function cfdef_input_checkbox($p_field_def, $t_custom_field_value) {
 
 /**
  * print_custom_field_input
- * @param array custom field definition
- * @param mixed custom field value
+ * @param array $p_field_def custom field definition
+ * @param mixed $p_custom_field_value custom field value
  */
 function cfdef_input_radio( $p_field_def, $p_custom_field_value ) {
 	$t_values = explode( '|', custom_field_prepare_possible_values( $p_field_def['possible_values'] ) );
@@ -333,24 +339,24 @@ function cfdef_input_radio( $p_field_def, $p_custom_field_value ) {
 
 /**
  * print_custom_field_input
- * @param array custom field definition
- * @param mixed custom field value
+ * @param array $p_field_def custom field definition
+ * @param mixed $p_custom_field_value custom field value
  */
-function cfdef_input_textbox($p_field_def, $t_custom_field_value) {
+function cfdef_input_textbox($p_field_def, $p_custom_field_value) {
 	echo '<input ' . helper_get_tab_index() . ' type="text" id="custom_field_' . $p_field_def['id'] . '" name="custom_field_' . $p_field_def['id'] . '" size="80"';
 	if( 0 < $p_field_def['length_max'] ) {
 		echo ' maxlength="' . $p_field_def['length_max'] . '"';
 	} else {
 		echo ' maxlength="255"';
 	}
-	echo ' value="' . string_attribute( $t_custom_field_value ) .'"></input>';
+	echo ' value="' . string_attribute( $p_custom_field_value ) .'"></input>';
 }
 
 /**
  * Prints the controls for the date selector.
  *
- * @param $p_field_def  The custom field definition.
- * @param $p_custom_field_value  The custom field value to print.
+ * @param string $p_field_def The custom field definition.
+ * @param string $p_custom_field_value The custom field value to print.
  */
 function cfdef_input_date( $p_field_def, $p_custom_field_value ) {
 	print_date_selection_set( 'custom_field_' . $p_field_def['id'], config_get( 'short_date_format' ), $p_custom_field_value, false, true );
@@ -358,7 +364,8 @@ function cfdef_input_date( $p_field_def, $p_custom_field_value ) {
 
 /**
  * value to database
- * @param string value
+ * @param string $p_value value
+ * @return string
  */
 function cfdef_prepare_list_value_to_database($p_value) {
 	if ( '' == $p_value ) {
@@ -370,7 +377,8 @@ function cfdef_prepare_list_value_to_database($p_value) {
 
 /**
  * Prepare possible values for option list
- * @param array custom field definition
+ * @param array $p_field_def custom field definition
+ * @return array|bool
  */
 function cfdef_prepare_list_distinct_values($p_field_def) {
 	$t_query = "SELECT possible_values FROM {custom_field} WHERE id=%d";

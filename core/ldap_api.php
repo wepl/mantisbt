@@ -43,11 +43,13 @@ $g_cache_ldap_field = array();
  * @param string $p_binddn
  * @param string $p_password
  * @return resource or false
+ * @throws MantisBT\Exception\LDAP\ServerConnectFailed
+ * @throws MantisBT\Exception\PHP\ExtensionNotLoaded
  */
 function ldap_connect_bind( $p_binddn = '', $p_password = '' ) {
 	if( !extension_loaded( 'ldap' ) ) {
 		log_event( LOG_LDAP, "Error: LDAP extension missing in php" );
-		throw new MantisBT\Exception\LDAP_Extension_Not_Loaded();
+		throw new MantisBT\Exception\PHP\ExtensionNotLoaded('ldap');
 	}
 
 	$t_ldap_server_cfg = config_get( 'ldap_server' );
@@ -96,7 +98,7 @@ function ldap_connect_bind( $p_binddn = '', $p_password = '' ) {
 	}
 
 	log_event( LOG_LDAP, "Connection to ldap server failed" );
-	throw new MantisBT\Exception\LDAP_Server_Connect_Failed();
+	throw new MantisBT\Exception\LDAP\ServerConnectFailed();
 }
 
 /**
@@ -160,6 +162,7 @@ function ldap_escape_string( $p_string ) {
  * @param string $p_username The user name.
  * @param string $p_field The LDAP field name.
  * @return string The field value or null if not found.
+ * @throws MantisBT\Exception\LDAP\QueryFailed
  */
 function ldap_get_field_from_username( $p_username, $p_field ) {
 	global $g_cache_ldap_field;
@@ -205,16 +208,14 @@ function ldap_get_field_from_username( $p_username, $p_field ) {
 		}
 		if( $t_sr === false ) {
 			ldap_unbind( $t_ds );
-			throw new MantisBT\Exception\LDAP_Search_Failed();
-			return null;
+			throw new MantisBT\Exception\LDAP\QueryFailed();
 		}
 	
 		# Get results
 		$t_info = ldap_get_entries( $t_ds, $t_sr );
 		if( $t_info === false ) {
 			ldap_unbind( $t_ds );
-			throw new MantisBT\Exception\LDAP_Search_Failed();
-			return null;
+			throw new MantisBT\Exception\LDAP\QueryFailed();
 		}
 		
 		switch( $t_info['count'] ) {

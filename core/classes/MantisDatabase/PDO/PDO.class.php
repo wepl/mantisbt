@@ -45,24 +45,27 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
 
 	/**
 	 * Perform PDO Connection
-	 * @param string database DSN
-	 * @param string database server hostname
-	 * @param string database username
-	 * @param string database password
-	 * @param string database name
-	 * @param array database options
+	 * @param string $p_dsn database DSN
+	 * @param string $p_database_host database server hostname
+	 * @param string $p_database_user database username
+	 * @param string $p_database_password database password
+	 * @param string $p_database_name database name
+	 * @param array $p_database_options database options
+     * @throws MantisBT\Exception\PHP\ExtensionNotLoaded
+     * @throws MantisBT\Exception\Database\QueryFailed
+     * @return bool
 	 */	
-    public function connect($dsn, $dbhost, $dbuser, $dbpass, $dbname, array $dboptions=null) {
-        $driverstatus = $this->driver_installed();
+    public function connect($p_dsn, $p_database_host, $p_database_user, $p_database_password, $p_database_name, array $p_database_options=null) {
+        $t_driver_status = $this->driver_installed();
 
-        if ($driverstatus !== true) {
-			throw new MantisBT\Exception\DB_Connect_Failed( 'PHP Support for database is not enabled' );
+        if ($t_driver_status !== true) {
+			throw new MantisBT\Exception\PHP\ExtensionNotLoaded( 'PHP Support for database is not enabled' );
         }
 
-		$this->dbhost = $dbhost;
-		$this->dbuser = $dbuser;
-		$this->dbpass = $dbpass;
-		$this->dbname = $dbname;
+		$this->dbhost = $p_database_host;
+		$this->dbuser = $p_database_user;
+		$this->dbpass = $p_database_password;
+		$this->dbname = $p_database_name;
 
         try {
             $this->pdb = new PDO($this->get_dsn(), $this->dbuser, $this->dbpass, $this->get_pdooptions());
@@ -72,8 +75,7 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
             $this->post_connect();
             return true;
         } catch (PDOException $ex) {
-            throw new MantisDatabaseException(ERROR_DB_QUERY_FAILED, $ex->getMessage());
-            return false;
+            throw new MantisBT\Exception\Database\QueryFailed($ex->getMessage());
         }
     }
 

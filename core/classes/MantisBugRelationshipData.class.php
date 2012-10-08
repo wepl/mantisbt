@@ -56,7 +56,7 @@ class MantisBugRelationshipData {
 
 	/**
 	 * Constructor
-	 * @param int id
+	 * @param int $p_id id
 	 */
 	function MantisBugRelationshipData( $p_id = 0 ) {
 		if( $p_id ) {
@@ -68,11 +68,11 @@ class MantisBugRelationshipData {
 	/**
 	 * overloaded function
 	 * @private
-	 * @param string property name
-	 * @param string value
+	 * @param string $p_name property name
+	 * @param string $p_value value
 	 */
-	public function __set($name, $value) {
-		switch ($name) {
+	public function __set($p_name, $p_value) {
+		switch ($p_name) {
 			// integer types
 			case 'id':
 			case 'src_bug_id':
@@ -80,36 +80,38 @@ class MantisBugRelationshipData {
 			case 'dest_bug_id':
 			case 'dest_project_id':
 			case 'type':
-				$value = (int)$value;
+				$p_value = (int)$p_value;
 				break;
 		}
-		$this->{$name} = $value;
+		$this->{$p_name} = $p_value;
 	}
 
 	/**
 	 * overloaded function
 	 * @private
-	 * @param string property name
+	 * @param string $p_name property name
 	 */
-	public function __get($name) {
-		return $this->{$name};
+	public function __get($p_name) {
+		return $this->{$p_name};
 	}
 
 	/**
 	 * overloaded function
 	 * @private
-	 * @param string property name
+	 * @param string $p_name property name
+     * @return bool
 	 */
-	public function __isset($name) {
-		return isset( $this->{$name} );
+	public function __isset($p_name) {
+		return isset( $this->{$p_name} );
 	}
 
 	/**
 	 * validate current object for database insert/update
+     * @throws MantisBT\Exception\Field\EmptyField
 	 */
 	function validate() {
 		if( $this->src_bug_id=== null || $this->dest_bug_id === null || $this->type === null ) {
-			throw new MantisBT\Exception\Empty_Field( );
+			throw new MantisBT\Exception\Field\EmptyField();
 		}
 	}
 

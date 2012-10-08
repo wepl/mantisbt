@@ -759,6 +759,7 @@ function auth_is_cookie_valid( $p_cookie_string ) {
  * Retrieve user id of current user
  * @return int user id
  * @access public
+ * @throws MantisBT\Exception\Access\AccessDenied
  */
 function auth_get_current_user_id() {
 	global $g_cache_current_user_id;
@@ -775,8 +776,7 @@ function auth_get_current_user_id() {
 	# and give them an Access Denied message.
 	if( !$t_user_id ) {
 		auth_clear_cookies();
-		throw new MantisBT\Exception\Access_Denied();
-		exit();
+		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 
 	$g_cache_current_user_id = $t_user_id;

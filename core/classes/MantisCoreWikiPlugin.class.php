@@ -70,7 +70,8 @@ class MantisCoreDokuwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki base url
 	 *
-	 * @param int project id
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' ) . 'doku.php?id=';
@@ -89,8 +90,9 @@ class MantisCoreDokuwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a bug
 	 *
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_bug_id bug id
+     * @return string
 	 */
 	function link_bug( $p_event, $p_bug_id ) {
 		return $this->base_url( bug_get_field( $p_bug_id, 'project_id' ) ) .  'issue:' . (int)$p_bug_id;
@@ -99,8 +101,9 @@ class MantisCoreDokuwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a project
 	 *
-	 * @param int event
-	 * @param int project id
+	 * @param int $p_event event
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function link_project( $p_event, $p_project_id ) {
 		return $this->base_url( $p_project_id ) . 'start';
@@ -127,7 +130,8 @@ class MantisCoreMediaWikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki base url
 	 *
-	 * @param int project id
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' ) . 'index.php/';
@@ -142,8 +146,9 @@ class MantisCoreMediaWikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a bug
 	 *
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_bug_id bug id
+     * @return string
 	 */	
 	function link_bug( $p_event, $p_bug_id ) {
 		return $this->base_url( bug_get_field( $p_bug_id, 'project_id' ) ) . (int)$p_bug_id;
@@ -152,8 +157,9 @@ class MantisCoreMediaWikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a project
 	 *
-	 * @param int event
-	 * @param int project id
+	 * @param int $p_event event
+	 * @param int $p_project_id project id
+     * @return string
 	 */	
 	function link_project( $p_event, $p_project_id ) {
 		return $this->base_url( $p_project_id ) . 'Main_Page';
@@ -180,7 +186,8 @@ class MantisCoreTwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki base url
 	 *
-	 * @param int project id
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' );
@@ -199,8 +206,9 @@ class MantisCoreTwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a bug
 	 *
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_bug_id bug id
+     * @return string
 	 */
 	function link_bug( $p_event, $p_bug_id ) {
 		return $this->base_url( bug_get_field( $p_bug_id, 'project_id' ) ) . 'IssueNumber' . (int)$p_bug_id;
@@ -209,8 +217,9 @@ class MantisCoreTwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a project
 	 *
-	 * @param int event
-	 * @param int project id
+	 * @param int $p_event event
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function link_project( $p_event, $p_project_id ) {
 		return $this->base_url( $p_project_id );
@@ -237,7 +246,8 @@ class MantisCoreWikkaWikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki base url
 	 *
-	 * @param int project id
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' ) . 'wikka.php?wakka=';
@@ -256,8 +266,9 @@ class MantisCoreWikkaWikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a bug
 	 *
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_bug_id bug id
+     * @return string
 	 */
 	function link_bug( $p_event, $p_bug_id ) {
 		return $this->base_url( bug_get_field( $p_bug_id, 'project_id' ) ) . 'Issue' . (int)$p_bug_id;
@@ -266,8 +277,9 @@ class MantisCoreWikkaWikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a project
 	 *
-	 * @param int event
-	 * @param int project id
+	 * @param int $p_event event
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function link_project( $p_event, $p_project_id ) {
 		return $this->base_url( $p_project_id ) . 'Start';
@@ -294,7 +306,8 @@ class MantisCoreXwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki base url
 	 *
-	 * @param int project id
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function base_url( $p_project_id=null ) {
 		$t_base = plugin_config_get( 'engine_url' );
@@ -309,8 +322,9 @@ class MantisCoreXwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a bug
 	 *
-	 * @param int event
-	 * @param int bug id
+	 * @param int $p_event event
+	 * @param int $p_bug_id bug id
+     * @return string
 	 */
 	function link_bug( $p_event, $p_bug_id ) {
 		return $this->base_url( bug_get_field( $p_bug_id, 'project_id' ) ) .  (int)$p_bug_id;
@@ -319,8 +333,9 @@ class MantisCoreXwikiPlugin extends MantisCoreWikiPlugin {
 	/**
 	 * Wiki link to a project
 	 *
-	 * @param int event
-	 * @param int project id
+	 * @param int $p_event event
+	 * @param int $p_project_id project id
+     * @return string
 	 */
 	function link_project( $p_event, $p_project_id ) {
 		return $this->base_url( $p_project_id ) . 'Main_Page';

@@ -72,8 +72,8 @@ require_api( 'utility_api.php' );
 
 /**
  * Cache a database result-set containing full contents of bug_table row.
- * @param array p_bug_database_result database row containing all columns from mantis_bug_table
- * @param array p_stats (optional) array representing bugnote stats
+ * @param array $p_bug_database_result database row containing all columns from mantis_bug_table
+ * @param array $p_stats (optional) array representing bugnote stats
  * @return array returns an array representing the bug row if bug exists
  * @access public
  */
@@ -91,7 +91,7 @@ function bug_cache_database_result( $p_bug_database_result, $p_stats = null ) {
 
 /**
  * Cache a set of bugs
- * @param array p_bug_id_array integer array representing bug ids to cache
+ * @param array $p_bug_id_array integer array representing bug ids to cache
  * @return null
  * @access public
  * @uses database_api.php
@@ -121,8 +121,8 @@ function bug_cache_array_rows( $p_bug_id_array ) {
 
 /**
  * Inject a bug into the bug cache
- * @param array p_bug_row bug row to cache
- * @param array p_stats bugnote stats to cache
+ * @param array $p_bug_row bug row to cache
+ * @param array $p_stats bugnote stats to cache
  * @return null
  * @access private
  */
@@ -140,7 +140,7 @@ function bug_add_to_cache( $p_bug_row, $p_stats = null ) {
 
 /**
  * Clear a bug from the cache or all bugs if no bug id specified.
- * @param int bug id to clear (optional)
+ * @param int $p_bug_id bug id to clear (optional)
  * @return null
  * @access public
  */
@@ -158,7 +158,7 @@ function bug_clear_cache( $p_bug_id = null ) {
 
 /**
  * Check if a bug exists
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return bool true if bug exists, false otherwise
  * @access public
  */
@@ -173,20 +173,21 @@ function bug_exists( $p_bug_id ) {
 
 /**
  * Check if a bug exists. If it doesn't then trigger an error
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return null
  * @access public
+ * @throws MantisBT\Exception\Issue\IssueNotFound
  */
 function bug_ensure_exists( $p_bug_id ) {
 	if( !bug_exists( $p_bug_id ) ) {
-		throw new MantisBT\Exception\Bug_Not_Found( $p_bug_id );
+		throw new MantisBT\Exception\Issue\IssueNotFound( $p_bug_id );
 	}
 }
 
 /**
  * check if the given user is the reporter of the bug
- * @param int p_bug_id integer representing bug id
- * @param int p_user_id integer reprenting a user id
+ * @param int $p_bug_id integer representing bug id
+ * @param int $p_user_id integer reprenting a user id
  * @return bool return true if the user is the reporter, false otherwise
  * @access public
  */
@@ -200,8 +201,8 @@ function bug_is_user_reporter( $p_bug_id, $p_user_id ) {
 
 /**
  * check if the given user is the handler of the bug
- * @param int p_bug_id integer representing bug id
- * @param int p_user_id integer reprenting a user id
+ * @param int $p_bug_id integer representing bug id
+ * @param int $p_user_id integer reprenting a user id
  * @return bool return true if the user is the handler, false otherwise
  * @access public
  */
@@ -217,7 +218,7 @@ function bug_is_user_handler( $p_bug_id, $p_user_id ) {
  * Check if the bug is readonly and shouldn't be modified
  * For a bug to be readonly the status has to be >= bug_readonly_status_threshold and
  * current user access level < update_readonly_bug_threshold.
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return bool
  * @access public
  * @uses access_api.php
@@ -238,7 +239,7 @@ function bug_is_readonly( $p_bug_id ) {
 
 /**
  * Check if a given bug is resolved
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return bool true if bug is resolved, false otherwise
  * @access public
  * @uses config_api.php
@@ -250,7 +251,7 @@ function bug_is_resolved( $p_bug_id ) {
 
 /**
  * Check if a given bug is overdue
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return bool true if bug is overdue, false otherwise
  * @access public
  * @uses database_api.php
@@ -270,8 +271,8 @@ function bug_is_overdue( $p_bug_id ) {
 
 /**
  * Validate workflow state to see if bug can be moved to requested state
- * @param int p_bug_status current bug status
- * @param int p_wanted_status new bug status
+ * @param int $p_bug_status current bug status
+ * @param int $p_wanted_status new bug status
  * @return bool
  * @access public
  * @uses config_api.php
@@ -301,14 +302,14 @@ function bug_check_workflow( $p_bug_status, $p_wanted_status ) {
  * Copy a bug from one project to another. Also make copies of issue notes, attachments, history,
  * email notifications etc.
  * @todo Not managed FTP file upload
- * @param int bug id
- * @param int target project id
- * @param bool copy custom fields
- * @param bool copy relationships
- * @param bool copy history
- * @param bool copy attachments
- * @param copy bugnotes
- * @param copy monitoring users
+ * @param int $p_bug_id bug id
+ * @param int $p_target_project_id target project id
+ * @param bool $p_copy_custom_fields copy custom fields
+ * @param bool $p_copy_relationships copy relationships
+ * @param bool $p_copy_history copy history
+ * @param bool $p_copy_attachments copy attachments
+ * @param bool $p_copy_bugnotes copy bugnotes
+ * @param bool $p_copy_monitoring_users copy monitoring users
  * @return int representing the new bugid
  * @access public
  */
@@ -505,6 +506,7 @@ function bug_get( $p_bug_id, $p_get_extended = false ) {
 /**
  * Convert row [from database] to bug object
  * @param array bug database row
+ * @return MantisBug
  */
 function bug_row_to_object( $p_row ) {
 	$t_bug_data = new MantisBug;
@@ -519,6 +521,7 @@ function bug_row_to_object( $p_row ) {
  * @param string p_fieldname field name
  * @return string
  * @access public
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function bug_get_field( $p_bug_id, $p_field_name ) {
 	$t_bug_data = new MantisBug($p_bug_id);
@@ -526,8 +529,7 @@ function bug_get_field( $p_bug_id, $p_field_name ) {
 	if( isset( $t_bug_data->{$p_field_name} ) ) {
 		return $t_bug_data->{$p_field_name};
 	} else {
-		throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
-		return '';
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 }
 
@@ -631,13 +633,15 @@ function bug_get_attachments( $p_bug_id ) {
 
 /**
  * Set the value of a bug field
- * @param int p_bug_id integer representing bug id
- * @param string p_field_name pre-defined field name
- * @param any p_value value to set
+ * @param int $p_bug_id integer representing bug id
+ * @param string $p_field_name pre-defined field name
+ * @param mixed $p_value value to set
  * @return bool (always true)
  * @access public
  * @uses database_api.php
  * @uses history_api.php
+ * @throws MantisBT\Exception\Database\FieldNotFound
+ * @throws MantisBT\Exception\UnknownException
  */
 function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 	$c_bug_id = (int)$p_bug_id;
@@ -686,13 +690,13 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 		case 'date_submitted':
 		case 'due_date':
 			if ( !is_numeric( $p_value ) ) {
-				throw new MantisBT\Exception\Generic();
+				throw new MantisBT\Exception\UnknownException();
 			}
 			$c_value = $p_value;
 			break;
 
 		default:
-			throw new MantisBT\Exception\DB_Field_Not_Found( $p_field_name );
+			throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 			break;
 	}
 
@@ -974,13 +978,14 @@ function bug_monitor( $p_bug_id, $p_user_id ) {
  * Returns the list of users monitoring the specified bug
  * 
  * @param int $p_bug_id
+ * @return array
  */
 function bug_get_monitors( $p_bug_id ) {
     if ( ! access_has_bug_level( config_get( 'show_monitor_list_threshold' ), $p_bug_id ) ) {
         return array();
     }
 
-	# get the bugnote data
+	# get the bug note data
 	$t_query = "SELECT user_id, enabled
 			FROM {bug_monitor} m, {user} u
 			WHERE m.bug_id=%d AND m.user_id = u.id

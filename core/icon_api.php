@@ -73,6 +73,7 @@ function print_status_icon( $p_icon ) {
  * @param string $p_field
  * @return null
  * @access public
+ * @throws MantisBT\Exception\UnknownException
  */
 function print_sort_icon( $p_dir, $p_sort_by, $p_field ) {
 	if( $p_sort_by != $p_field ) {
@@ -88,7 +89,7 @@ function print_sort_icon( $p_dir, $p_sort_by, $p_field ) {
 			$t_icon = 'up.png';
 			break;
 		default:
-			throw new MantisBT\Exception\Generic();
+			throw new MantisBT\Exception\UnknownException();
 	}
 
 	echo "<img src=\"" . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/' . $t_icon ) . "\" alt=\"\" />";
