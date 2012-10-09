@@ -117,8 +117,8 @@ function collapse_closed( $p_name, $p_section = '' ) {
  * Marks the location where a +/- icon is placed in output
  * for the user to toggle the collapse block status.
  * This should appear in both the open and closed phase of a block.
- * @param string Collapse block name
- * @param string Collapse block section
+ * @param string $p_name Collapse block name
+ * @param string $p_section Collapse block section
  */
 function collapse_icon( $p_name, $p_section = '' ) {
 	if( OFF == config_get( 'use_javascript' ) ) {
@@ -141,10 +141,10 @@ function collapse_icon( $p_name, $p_section = '' ) {
 }
 
 /**
- * Marks the end of a collaps block's closed phase.
+ * Marks the end of a collapse block's closed phase.
  * Closed phase output is discarded if javascript is disabled.
- * @param string Collapse block name
- * @param string Collapse block section
+ * @param string $p_name Collapse block name
+ * @param string $p_section Collapse block section
  * @throws MantisBT\Exception\UnknownException
  */
 function collapse_end( $p_name, $p_section = '' ) {
@@ -174,7 +174,7 @@ function collapse_end( $p_name, $p_section = '' ) {
 
 /**
  * Determine if a block should be displayed open by default.
- * @param string Collapse block
+ * @param string $p_block Collapse block
  * @return bool
  */
 function collapse_display( $p_block ) {

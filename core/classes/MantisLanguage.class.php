@@ -193,7 +193,7 @@ class MantisLanguage {
 	
 	/**
 	 * Ensures that a language file has been loaded
-	 * @param string the language name
+	 * @param string $p_lang the language name
 	 * @return null
 	 */
 	private static function EnsureLoaded( $p_lang ) {
@@ -204,7 +204,7 @@ class MantisLanguage {
 
 	/**
 	 * Set the active language
-	 * @param string the language name
+	 * @param string $p_lang the language name
 	 */
 	public static function ActiveLanguage( $p_lang ) {
 		self::$s_active_language = $p_lang;

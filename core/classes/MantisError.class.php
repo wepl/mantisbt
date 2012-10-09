@@ -109,11 +109,12 @@ class MantisError
 
 	/**
 	 * Implement Error handler
-	 * @param int type
-	 * @param string error
-	 * @param string file
-	 * @param int line
-	 * @param string context
+	 * @param int $p_type type
+	 * @param string $p_error error
+	 * @param string $p_file file
+	 * @param int $p_line line
+	 * @param string $p_context context
+     * @throws ErrorException
 	 */	
 	public static function error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 		if (0 == error_reporting())
@@ -227,7 +228,7 @@ class MantisError
 
 	/**
 	 * Display single error
-	 * @param object Error Object
+	 * @param object $p_error Error Object
 	 */
 	public static function display_error( $p_error) {
 		echo '<br /><div><table class="width70" cellspacing="1">';
@@ -329,7 +330,7 @@ class MantisError
 
 	/**
 	 * Print out error stack trace
-	 * @param array PHP stack trace
+	 * @param array $p_stack PHP stack trace
 	 */
 	public static function error_print_stack_trace( $p_stack ) {
 		echo '<table class="width75">';
@@ -357,10 +358,10 @@ class MantisError
 	}
 
 	/**
-	 * Print out part of error stacktrace
-	 * @param mixed
-	 * @param bool show object type
-	 * @param int current depth (for infinite loop protection)
+	 * Print out part of error stack trace
+	 * @param mixed $p_param
+	 * @param bool $p_showtype show object type
+	 * @param int $p_depth current depth (for infinite loop protection)
      * @return string
 	 */
 	public static function error_build_parameter_string( $p_param, $p_showtype = true, $p_depth = 0 ) {
@@ -434,7 +435,7 @@ class MantisError
 	 * When writing internationalized error strings, note that you can change the
 	 *  order of parameters in the string.  See the PHP manual page for the
 	 *  sprintf() function for more details.
-	 * @param array Arguments
+	 * @param array $p_args Arguments
 	 * @access public
 	 * @return null
 	 */	

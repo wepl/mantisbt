@@ -437,8 +437,8 @@ function bug_copy( $p_bug_id, $p_target_project_id = null, $p_copy_custom_fields
  * Moves an issue from a project to another.
  *
  * @todo Validate with sub-project / category inheritance scenarios.
- * @param int p_bug_id The bug to be moved.
- * @param int p_target_project_id The target project to move the bug to.
+ * @param int $p_bug_id The bug to be moved.
+ * @param int $p_target_project_id The target project to move the bug to.
  * @access public
  */
 function bug_move( $p_bug_id, $p_target_project_id ) {
@@ -468,8 +468,7 @@ function bug_move( $p_bug_id, $p_target_project_id ) {
 
 /**
  * Delete all bugs associated with a project
- * @param array p_project_id integer representing a projectid
- * @return bool always true
+ * @param array $p_project_id integer representing a projectid
  * @access public
  * @uses database_api.php
  */
@@ -485,16 +484,14 @@ function bug_delete_all( $p_project_id ) {
 	# @todo should we check the return value of each bug_delete() and
 	#  return false if any of them return false? Presumable bug_delete()
 	#  will eventually trigger an error on failure so it won't matter...
-
-	return true;
 }
 
 
 
 /**
  * Returns an object representing the specified bug
- * @param int p_bug_id integer representing bug id
- * @param bool p_get_extended included extended information (including bug_text)
+ * @param int $p_bug_id integer representing bug id
+ * @param bool $p_get_extended included extended information (including bug_text)
  * @return MantisBug Bug Object
  * @access public
  */
@@ -505,7 +502,7 @@ function bug_get( $p_bug_id, $p_get_extended = false ) {
 
 /**
  * Convert row [from database] to bug object
- * @param array bug database row
+ * @param array $p_row bug database row
  * @return MantisBug
  */
 function bug_row_to_object( $p_row ) {
@@ -517,8 +514,8 @@ function bug_row_to_object( $p_row ) {
 /**
  * return the specified field of the given bug
  *  if the field does not exist, display a warning and return ''
- * @param int p_bug_id integer representing bug id
- * @param string p_fieldname field name
+ * @param int $p_bug_id integer representing bug id
+ * @param string $p_field_name field name
  * @return string
  * @access public
  * @throws MantisBT\Exception\Database\FieldNotFound
@@ -536,8 +533,8 @@ function bug_get_field( $p_bug_id, $p_field_name ) {
 /**
  * return the bug summary
  *  this is a wrapper for the custom function
- * @param int p_bug_id integer representing bug id
- * @param int p_context representing SUMMARY_CAPTION, SUMMARY_FIELD
+ * @param int $p_bug_id integer representing bug id
+ * @param int $p_context representing SUMMARY_CAPTION, SUMMARY_FIELD
  * @return string
  * @access public
  * @uses helper_api.php
@@ -549,7 +546,7 @@ function bug_format_summary( $p_bug_id, $p_context ) {
 /**
  * return the timestamp for the most recent time at which a bugnote
  *  associated with the bug was modified
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return bool|int false or timestamp in integer format representing newest bugnote timestamp
  * @access public
  * @uses database_api.php
@@ -572,7 +569,7 @@ function bug_get_newest_bugnote_timestamp( $p_bug_id ) {
  * return the timestamp for the most recent time at which a bugnote
  *  associated with the bug was modified and the total bugnote
  *  count in one db query
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return object consisting of bugnote stats
  * @access public
  * @uses database_api.php
@@ -611,7 +608,7 @@ function bug_get_bugnote_stats( $p_bug_id ) {
  * Get array of attachments associated with the specified bug id.  The array will be
  * sorted in terms of date added (ASC).  The array will include the following fields:
  * id, title, diskfile, filename, filesize, file_type, date_added, user_id.
- * @param int p_bug_id integer representing bug id
+ * @param int $p_bug_id integer representing bug id
  * @return array array of results or null
  * @access public
  * @uses database_api.php
@@ -735,10 +732,10 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 
 /**
  * assign the bug to the given user
- * @param MantisBug Bug Object
- * @param int User id
- * @param string bugnote text
- * @param bool indicate whether bugnote is private
+ * @param MantisBug $p_bug Bug Object
+ * @param int $p_user_id User id
+ * @param string $p_bugnote_text bugnote text
+ * @param bool $p_bugnote_private indicate whether bugnote is private
  * @return null
  * @access public
  * @uses database_api.php
@@ -784,10 +781,10 @@ function bug_assign( $p_bug, $p_user_id, $p_bugnote_text = '', $p_bugnote_privat
 
 /**
  * close the given bug
- * @param BugData Bug Object
- * @param string bugnote text
- * @param bool bugnote private
- * @param string time tracking
+ * @param MantisBug $p_bug Bug Object
+ * @param string $p_bugnote_text bugnote text
+ * @param bool $p_bugnote_private bugnote private
+ * @param string $p_time_tracking time tracking
  * @return bool (always true)
  * @access public
  */
@@ -807,14 +804,14 @@ function bug_close( $p_bug, $p_bugnote_text = '', $p_bugnote_private = false, $p
 
 /**
  * resolve the given bug
- * @param MantisBug Bug Object
- * @param int resolution
- * @param string fixed in version
- * @param string bugnote text
- * @param int duplicate id
- * @param int handler id
- * @param bool private bugnote
- * @param string time tracking
+ * @param MantisBug $p_bug Bug Object
+ * @param int $p_resolution resolution
+ * @param string $p_fixed_in_version fixed in version
+ * @param string $p_bugnote_text bugnote text
+ * @param int $p_duplicate_id duplicate id
+ * @param int $p_handler_id handler id
+ * @param bool $p_bugnote_private private bugnote
+ * @param string $p_time_tracking time tracking
  * @return bool (alawys true)
  * @access public
  */
@@ -894,10 +891,10 @@ function bug_resolve( $p_bug, $p_resolution, $p_fixed_in_version = '', $p_bugnot
 
 /**
  * reopen the given bug
- * @param int p_bug_id
- * @param string p_bugnote_text
- * @param string p_time_tracking
- * @param bool p_bugnote_private
+ * @param int $p_bug_id
+ * @param string $p_bugnote_text
+ * @param string $p_time_tracking
+ * @param bool $p_bugnote_private
  * @return bool (always true)
  * @access public
  * @uses database_api.php
@@ -921,7 +918,7 @@ function bug_reopen( $p_bug_id, $p_bugnote_text = '', $p_time_tracking = '0:00',
 
 /**
  * updates the last_updated field
- * @param int p_bug_id integer representing bug ids
+ * @param int $p_bug_id integer representing bug ids
  * @return bool (always true)
  * @access public
  * @uses database_api.php
@@ -937,9 +934,9 @@ function bug_update_date( $p_bug_id ) {
 
 /**
  * enable monitoring of this bug for the user
- * @param int p_bug_id integer representing bug ids
- * @param int p_user_id integer representing user ids
- * @return true if successful, false if unsuccessful
+ * @param int $p_bug_id integer representing bug ids
+ * @param int $p_user_id integer representing user ids
+ * @return bool true if successful, false if unsuccessful
  * @access public
  * @uses database_api.php
  * @uses history_api.php
@@ -1004,8 +1001,8 @@ function bug_get_monitors( $p_bug_id ) {
 
 /**
  * Copy list of users monitoring a bug to the monitor list of a second bug
- * @param int p_source_bug_id integer representing the bug ID of the source bug
- * @param int p_dest_bug_id integer representing the bug ID of the destination bug
+ * @param int $p_source_bug_id integer representing the bug ID of the source bug
+ * @param int $p_dest_bug_id integer representing the bug ID of the destination bug
  * @return bool (always true)
  * @access public
  * @uses database_api.php
@@ -1032,8 +1029,8 @@ function bug_monitor_copy( $p_source_bug_id, $p_dest_bug_id ) {
 /**
  * disable monitoring of this bug for the user
  * if $p_user_id = null, then bug is unmonitored for all users.
- * @param int p_bug_id integer representing bug ids
- * @param int p_user_id integer representing user ids
+ * @param int $p_bug_id integer representing bug ids
+ * @param int $p_user_id integer representing user ids
  * @return bool (always true)
  * @access public
  * @uses database_api.php
@@ -1062,7 +1059,7 @@ function bug_unmonitor( $p_bug_id, $p_user_id ) {
 
 /**
  * Pads the bug id with the appropriate number of zeros.
- * @param int p_bug_id
+ * @param int $p_bug_id
  * @return string
  * @access public
  * @uses config_api.php

@@ -95,14 +95,14 @@ abstract class MantisDatabase {
 
 	/**
 	 * Set Database Table Prefixes/suffixes
-	 * @param string prefix
-	 * @param string suffix
+	 * @param string $p_prefix prefix
+	 * @param string $p_suffix suffix
 	 */
 	public function SetPrefixes( $p_prefix, $p_suffix ) {
 		self::$dbprefix = $p_prefix;
 		self::$dbsuffix = $p_suffix;
 	}
-	
+
     /**
      * Detects if all needed PHP stuff installed.
      * Note: can be used before connect()
@@ -185,13 +185,13 @@ abstract class MantisDatabase {
 
     /**
      * Called before each db query.
-     * @param string SQL Query
-     * @param array array of parameters
+     * @param string $p_sql SQL Query
+     * @param array $p_params array of parameters
      * @return void
      */
-    protected function query_start($sql, array $params=null ) {
-        $this->last_sql       = $sql;
-        $this->last_params    = $params;
+    protected function query_start($p_sql, array $p_params=null ) {
+        $this->last_sql       = $p_sql;
+        $this->last_params    = $p_params;
         $this->last_time      = microtime(true);
 
 		$this->queries++;
@@ -199,11 +199,11 @@ abstract class MantisDatabase {
 
     /**
      * Called immediately after each db query.
-     * @param mixed db specific result
+     * @param mixed $p_result db specific result
      * @return void
      */
-    protected function query_end($result) {
-        if ($result !== false) {
+    protected function query_end($p_result) {
+        if ($p_result !== false) {
             return;
         }
     }
@@ -222,25 +222,25 @@ abstract class MantisDatabase {
 
     /**
      * Return tables in database WITHOUT current prefix
-	 * @param bool whether to use internal cache of tables
+	 * @param bool $p_use_cache whether to use internal cache of tables
      * @return array of table names in lowercase and without prefix
      */
-    public abstract function get_tables($usecache=true);
+    public abstract function get_tables($p_use_cache=true);
 
     /**
      * Return table indexes - everything lowercased
-	 * @param string table name
+	 * @param string $p_table table name
      * @return array of arrays
      */
-    public abstract function get_indexes($table);
+    public abstract function get_indexes($p_table);
 
     /**
      * Returns detailed information about columns in table. This information is cached internally.
-     * @param string table name
-	 * @param bool whether to use internal cache of tables
+     * @param string $p_table table name
+	 * @param bool $p_use_cache whether to use internal cache of tables
      * @return array of database_column_info objects indexed with column names
      */
-    public abstract function get_columns($table, $usecache=true);
+    public abstract function get_columns($p_table, $p_use_cache=true);
 
 
     /**
@@ -262,7 +262,8 @@ abstract class MantisDatabase {
 
 	/**
 	 * Get Last insert ID for given table
-	 * @param string table name
+	 * @param string $p_table table name
+     */
 	abstract public function get_insert_id( $p_table );
 
     /**
@@ -294,14 +295,14 @@ abstract class MantisDatabase {
 
     /**
 	 * Perform SQL SELECT query
-     * @param string SQL query
-	 * @param int Number of results to return
-	 * @param int offset query results for paging
-     * @param array query parameters
+     * @param string $p_sql SQL query
+	 * @param int $p_limit Number of results to return
+	 * @param int $p_offset offset query results for paging
+     * @param array $p_params query parameters
      * @return bool true
      * @throws MantisDatabaseException if error
      */
-    public abstract function SelectLimit( $sql, $p_limit, $p_offset, array $arr_parms = null );
+    public abstract function SelectLimit( $p_sql, $p_limit, $p_offset, array $p_params = null );
 	
     /**
      * Returns number of queries done by this database
@@ -319,7 +320,7 @@ abstract class MantisDatabase {
 
 	/**
 	 * Given a short table name e.g. {table} returns the full sql table name
-	 * @param string table name
+	 * @param string $p_table table name
 	 * @return string
 	 */
 	public function GetTableName($p_table) {
@@ -332,11 +333,11 @@ abstract class MantisDatabase {
 
 	/**
 	 * Prepare SQL string - expand tablenames and types
-	 * @param string SQL Query
+	 * @param string $p_sql SQL Query
 	 * @return string
 	 */
-	protected function PrepareSQLString($sql) {
-		return strtr($sql, array(
+	protected function PrepareSQLString($p_sql) {
+		return strtr($p_sql, array(
 							'{' => self::$dbprefix, 
 							'}' => self::$dbsuffix,
 							'%s' => '?',
@@ -348,14 +349,14 @@ abstract class MantisDatabase {
 
 	/**
 	 * Prepare SQL parameters. This is called for each param after PrepareSQLString.
-	 * @param string SQL Query
+	 * @param string $p_param SQL Query
 	 * @return string
 	 */
-	protected function PrepareSQLParam($param) {
-		if( is_bool( $param ) ) {
-			return (int)$param;
+	protected function PrepareSQLParam($p_param) {
+		if( is_bool( $p_param ) ) {
+			return (int)$p_param;
 		}
-		return $param;
+		return $p_param;
 	}
 
 	/**
@@ -370,7 +371,7 @@ abstract class MantisDatabase {
 	/**
 	 * Legacy function - DO NOT USE
 	 * Converts a legacy datetime to a timestamp [for installer]
-	 * @param string Date
+	 * @param string $p_date Date
      * @throws MantisBT\Exception\UnknownException
      * @return int
 	 */

@@ -153,8 +153,8 @@ function user_is_realname_unique( $p_username, $p_realname ) {
  * Check if the realname is a unique
  * Trigger an error if the username is not valid
  *
- * @param string username
- * @param string realname
+ * @param string $p_username username
+ * @param string $p_realname realname
  */
 function user_ensure_realname_unique( $p_username, $p_realname ) {
 	if( 1 > user_is_realname_unique( $p_username, $p_realname ) ) {
@@ -164,8 +164,8 @@ function user_ensure_realname_unique( $p_username, $p_realname ) {
 
 /**
  * return whether user is monitoring bug for the user id and bug id
- * @param int User ID
- * @param int Bug ID
+ * @param int $p_user_id User ID
+ * @param int $p_bug_id Bug ID
  * @return bool 
  */
 function user_is_monitoring_bug( $p_user_id, $p_bug_id ) {
@@ -182,7 +182,7 @@ function user_is_monitoring_bug( $p_user_id, $p_bug_id ) {
 
 /**
  * return true if the user has access of ADMINISTRATOR or higher, false otherwise
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool
  */
 function user_is_administrator( $p_user_id ) {
@@ -202,7 +202,7 @@ function user_is_administrator( $p_user_id ) {
  * function will always return true. The anonymous user account is always
  * considered to be protected.
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool true: user is protected; false: user is not protected.
  * @access public
  */
@@ -232,18 +232,19 @@ function user_is_anonymous( $p_user_id ) {
 /**
  * Trigger an ERROR if the user account is protected
  *
- * @param int User ID
+ * @param int $p_user_id User ID
+ * @throws MantisBT\Exception\User\ProtectedUser
  */
 function user_ensure_unprotected( $p_user_id ) {
 	if( user_is_protected( $p_user_id ) ) {
-		throw new MantisBT\Exception\Protected_Account();
+		throw new MantisBT\Exception\User\ProtectedUser();
 	}
 }
 
 /**
  * return true is the user account is enabled, false otherwise
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool
  */
 function user_is_enabled( $p_user_id ) {
@@ -257,7 +258,7 @@ function user_is_enabled( $p_user_id ) {
 /**
  * count the number of users at or greater than a specific level
  *
- * @param int Access Level [Default ANYBODY]
+ * @param int $p_level Access Level [Default ANYBODY]
  * @return int
  */
 function user_count_level( $p_level = ANYBODY ) {
@@ -274,9 +275,9 @@ function user_count_level( $p_level = ANYBODY ) {
  * Create a user.
  * returns false if error, the generated cookie string if ok
  *
- * @param string username
- * @param string password
- * @param string email
+ * @param string $p_username username
+ * @param string $p_password password
+ * @param string $p_email email
  * @return string Cookie String
  */
 function user_create( $p_username, $p_password = '', $p_email = '' ) {
@@ -301,7 +302,7 @@ function user_create( $p_username, $p_password = '', $p_email = '' ) {
  * delete project-specific user access levels.
  * returns true when successfully deleted
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool Always true
  */
 function user_delete_project_specific_access_levels( $p_user_id ) {
@@ -317,7 +318,7 @@ function user_delete_project_specific_access_levels( $p_user_id ) {
  * delete a user account (account, profiles, preferences, project-specific access levels)
  * returns true when the account was successfully deleted
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool Always true
  */
 function user_delete( $p_user_id ) {
@@ -367,8 +368,8 @@ function user_delete( $p_user_id ) {
  * get a user id from a username
  * return false if the username does not exist
  *
- * @param string username
- * @return int|false
+ * @param string $p_username username
+ * @return int|bool
  */
 function user_get_id_by_name( $p_username ) {
 	$query = 'SELECT * FROM {user} WHERE username=%s';
@@ -385,7 +386,7 @@ function user_get_id_by_name( $p_username ) {
 /**
  * Get a user id from their real name
  *
- * @param string Realname
+ * @param string $p_realname Realname
  * @return array
  */
 function user_get_id_by_realname( $p_realname ) {
@@ -406,7 +407,7 @@ function user_get_id_by_realname( $p_realname ) {
 /**
  * return a user row
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return array
  */
 function user_get_row( $p_user_id ) {
@@ -417,8 +418,8 @@ function user_get_row( $p_user_id ) {
 /**
  * return the specified user field for the user id
  *
- * @param int User ID
- * @param string Field Name
+ * @param int $p_user_id User ID
+ * @param string $p_field_name Field Name
  * @return string
  * @throws MantisBT\Exception\Database\FieldNotFound
  */
@@ -441,7 +442,7 @@ function user_get_field( $p_user_id, $p_field_name ) {
 /**
  * lookup the user's email in LDAP or the db as appropriate
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return string
  */
 function user_get_email( $p_user_id ) {
@@ -458,7 +459,7 @@ function user_get_email( $p_user_id ) {
 /**
  * lookup the user's realname
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return string
  */
 function user_get_realname( $p_user_id ) {
@@ -479,7 +480,7 @@ function user_get_realname( $p_user_id ) {
  * return the username or a string "user<id>" if the user does not exist
  * if show_realname is set and real name is not empty, return it instead
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return string
  */
 function user_get_name( $p_user_id ) {
@@ -507,8 +508,8 @@ function user_get_name( $p_user_id ) {
 /**
 * Return the user avatar image URL
 * in this first implementation, only gravatar.com avatars are supported
-* @param int User ID
-* @param int pixel size of image
+* @param int $p_user_id User ID
+* @param int $p_size pixel size of image
 * @return array|bool an array( URL, width, height ) or false when the given user has no avatar
 */
 function user_get_avatar( $p_user_id, $p_size = 80 ) {
@@ -545,8 +546,8 @@ function user_get_avatar( $p_user_id, $p_size = 80 ) {
  * return the user's access level
  * account for private project and the project user lists
  *
- * @param int User ID
- * @param int Project ID
+ * @param int $p_user_id User ID
+ * @param int $p_project_id Project ID
  * @return int
  */
 function user_get_access_level( $p_user_id, $p_project_id = ALL_PROJECTS ) {
@@ -570,8 +571,8 @@ $g_user_accessible_projects_cache = null;
 /**
  * retun an array of project IDs to which the user has access
  *
- * @param int User ID
- * @param bool include disabled projects in array
+ * @param int $p_user_id User ID
+ * @param bool $p_show_disabled include disabled projects in array
  * @return array
  */
 function user_get_accessible_projects( $p_user_id, $p_show_disabled = false ) {
@@ -634,10 +635,10 @@ function user_get_accessible_projects( $p_user_id, $p_show_disabled = false ) {
 $g_user_accessible_subprojects_cache = null;
 
 /**
- * retun an array of subproject IDs of a certain project to which the user has access
- * @param int User Id
- * @param int Project ID
- * @param bool include disabled projects in array
+ * return an array of sub-project IDs of a certain project to which the user has access
+ * @param int $p_user_id User Id
+ * @param int $p_project_id Project ID
+ * @param bool $p_show_disabled include disabled projects in array
  * @return array
  */
 function user_get_accessible_subprojects( $p_user_id, $p_project_id, $p_show_disabled = false ) {
@@ -704,9 +705,9 @@ function user_get_accessible_subprojects( $p_user_id, $p_project_id, $p_show_dis
 }
 
 /**
- * retun an array of subproject IDs of all subprojects project to which the user has access
- * @param int User Id
- * @param int Project ID
+ * retun an array of sub-project IDs of all sub-projects project to which the user has access
+ * @param int $p_user_id User Id
+ * @param int $p_project_id Project ID
  * @return array
  */
 function user_get_all_accessible_subprojects( $p_user_id, $p_project_id ) {
@@ -728,9 +729,9 @@ function user_get_all_accessible_subprojects( $p_user_id, $p_project_id ) {
 }
 
 /**
- * retun an array of subproject IDs of all project to which the user has access
- * @param int User Id
- * @param int Project ID
+ * retun an array of sub-project IDs of all project to which the user has access
+ * @param int $p_user_id User Id
+ * @param int $p_project_id Project ID
  * @return array
  */
 function user_get_all_accessible_projects( $p_user_id, $p_project_id ) {
@@ -830,8 +831,8 @@ function user_get_unassigned_by_project_id( $p_project_id = null ) {
 /**
  * return the number of open assigned bugs to a user in a project
  *
- * @param int User ID
- * @param int Project ID
+ * @param int $p_user_id User ID
+ * @param int $p_project_id Project ID
  * @return int
  */
 function user_get_assigned_open_bug_count( $p_user_id, $p_project_id = ALL_PROJECTS ) {
@@ -840,8 +841,7 @@ function user_get_assigned_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );
 
 	$query = "SELECT COUNT(*) FROM {bug} WHERE $t_where_prj
-				  		status<'$t_resolved' AND
-				  		handler_id=%d";
+				  		status<'$t_resolved' AND handler_id=%d";
 	$result = db_query( $query, array( $p_user_id ) );
 
 	return db_result( $result );
@@ -850,8 +850,8 @@ function user_get_assigned_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
 /**
  * return the number of open reported bugs by a user in a project
  *
- * @param int User ID
- * @param int Project ID
+ * @param int $p_user_id User ID
+ * @param int $p_project_id Project ID
  * @return int
  */
 function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJECTS ) {
@@ -860,8 +860,7 @@ function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );
 
 	$query = "SELECT COUNT(*) FROM {bug} WHERE $t_where_prj
-						  status<'$t_resolved' AND
-						  reporter_id=%d";
+						  status<'$t_resolved' AND reporter_id=%d";
 	$result = db_query( $query, array( $p_user_id ) );
 
 	return db_result( $result );
@@ -870,8 +869,8 @@ function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
 /**
  * return a profile row
  *
- * @param int User ID
- * @param int Profile ID
+ * @param int $p_user_id User ID
+ * @param int $p_profile_id Profile ID
  * @return array 
  */
 function user_get_profile_row( $p_user_id, $p_profile_id ) {
@@ -889,7 +888,7 @@ function user_get_profile_row( $p_user_id, $p_profile_id ) {
 /**
  * Get failed login attempts
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool
  */
 function user_is_login_request_allowed( $p_user_id ) {
@@ -901,7 +900,7 @@ function user_is_login_request_allowed( $p_user_id ) {
 /**
  * Get 'lost password' in progress attempts
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool 
  */
 function user_is_lost_password_request_allowed( $p_user_id ) {
@@ -916,8 +915,8 @@ function user_is_lost_password_request_allowed( $p_user_id ) {
 /**
  * return the bug filter parameters for the specified user
  *
- * @param int User ID
- * @param int Project ID
+ * @param int $p_user_id User ID
+ * @param int $p_project_id Project ID
  * @return array 
  */
 function user_get_bug_filter( $p_user_id, $p_project_id = null ) {
@@ -945,7 +944,7 @@ function user_get_bug_filter( $p_user_id, $p_project_id = null ) {
 /**
  * Update the last_visited field to be now
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool always true
  */
 function user_update_last_visit( $p_user_id ) {
@@ -963,7 +962,7 @@ function user_update_last_visit( $p_user_id ) {
  * Increment the number of times the user has logged in
  * This function is only called from the login.php script
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool always true
  */
 function user_increment_login_count( $p_user_id ) {
@@ -978,7 +977,7 @@ function user_increment_login_count( $p_user_id ) {
 /**
  * Reset to zero the failed login attempts
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool always true
  */
 function user_reset_failed_login_count_to_zero( $p_user_id ) {
@@ -991,7 +990,7 @@ function user_reset_failed_login_count_to_zero( $p_user_id ) {
 /**
  * Increment the failed login count by 1
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool always true 
  */
 function user_increment_failed_login_count( $p_user_id ) {
@@ -1004,7 +1003,7 @@ function user_increment_failed_login_count( $p_user_id ) {
 /**
  * Reset to zero the 'lost password' in progress attempts
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool always true 
  */
 function user_reset_lost_password_in_progress_count_to_zero( $p_user_id ) {
@@ -1017,7 +1016,7 @@ function user_reset_lost_password_in_progress_count_to_zero( $p_user_id ) {
 /**
  * Increment the failed login count by 1
  *
- * @param int User ID
+ * @param int $p_user_id User ID
  * @return bool always true 
  */
 function user_increment_lost_password_in_progress_count( $p_user_id ) {
@@ -1031,9 +1030,9 @@ function user_increment_lost_password_in_progress_count( $p_user_id ) {
 /**
  * Set a user field
  *
- * @param int User ID
- * @param string Field Name
- * @param string Field Value
+ * @param int $p_user_id User ID
+ * @param string $p_field_name Field Name
+ * @param string $p_field_value Field Value
  * @return bool always true 
  */
 function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
@@ -1055,8 +1054,8 @@ function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
 
 /**
  * Set Users Default project in preferences
- * @param int User ID
- * @param int Project ID
+ * @param int $p_user_id User ID
+ * @param int $p_project_id Project ID
  * @return bool
  */
 function user_set_default_project( $p_user_id, $p_project_id ) {
@@ -1066,9 +1065,9 @@ function user_set_default_project( $p_user_id, $p_project_id ) {
 /**
  * Set the user's password to the given string, encoded as appropriate
  *
- * @param int User ID
- * @param string Password
- * @param bool Allow password change to protected accounts [optional - default false]
+ * @param int $p_user_id User ID
+ * @param string $p_password Password
+ * @param bool $p_allow_protected Allow password change to protected accounts [optional - default false]
  * @return bool always true 
  */
 function user_set_password( $p_user_id, $p_password, $p_allow_protected = false ) {
@@ -1103,8 +1102,8 @@ function user_set_password( $p_user_id, $p_password, $p_allow_protected = false 
  *  Return false if the user is protected, true if the password was
  *   successfully reset
  *
- * @param int User ID
- * @param bool send confirmation email
+ * @param int $p_user_id User ID
+ * @param bool $p_send_email send confirmation email
  * @return bool
  */
 function user_reset_password( $p_user_id, $p_send_email = true ) {

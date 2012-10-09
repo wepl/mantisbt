@@ -168,7 +168,7 @@ function sponsorship_exists( $p_sponsorship_id ) {
  * otherwise returns sponsorship id
  * @param int $p_bug_id
  * @param int $p_user_id
- * @return int|false
+ * @return int|bool
  */
 function sponsorship_get_id( $p_bug_id, $p_user_id = null ) {
 	$c_bug_id = (int)$p_bug_id;
@@ -410,7 +410,7 @@ function sponsorship_delete( $p_sponsorship_id ) {
  * updates the paid field
  * @param int $p_sponsorship_id
  * @param int $p_paid
- * @return true
+ * @return bool
  */
 function sponsorship_update_paid( $p_sponsorship_id, $p_paid ) {
 	$c_sponsorship_id = (int)$p_sponsorship_id;
@@ -430,7 +430,7 @@ function sponsorship_update_paid( $p_sponsorship_id, $p_paid ) {
 /**
  * updates the last_updated field
  * @param int $p_sponsorship_id
- * @return true
+ * @return bool
  */
 function sponsorship_update_date( $p_sponsorship_id ) {
 	$c_sponsorship_id = (int)$p_sponsorship_id;

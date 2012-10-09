@@ -305,9 +305,9 @@ function filter_get_url( $p_custom_filter ) {
 
 /**
  * Encodes a field and it's value for the filter URL.  This handles the URL encoding and arrays.
- * @param string The field name.
- * @param string The field value (can be an array)
- * @param int Field Type e.g. FILTER_TYPE_MULTI_STRING
+ * @param string $p_field_name The field name.
+ * @param string $p_field_value The field value (can be an array)
+ * @param int $p_field_type Field Type e.g. FILTER_TYPE_MULTI_STRING
  * @return string url encoded string
  */
 function filter_encode_field_and_value( $p_field_name, $p_field_value, $p_field_type=null ) {
@@ -399,9 +399,9 @@ function filter_field_is_myself( $p_field_value ) {
 
 /**
  * Filter per page
- * @param array filter
- * @param int count
- * @param int per page
+ * @param array $p_filter filter
+ * @param int $p_count count
+ * @param int $p_per_page per page
  * @return int
  */
 function filter_per_page( $p_filter, $p_count, $p_per_page ) {
@@ -414,8 +414,8 @@ function filter_per_page( $p_filter, $p_count, $p_per_page ) {
 /**
  * Use $p_count and $p_per_page to determine how many pages to split this list up into.
  * For the sake of consistency have at least one page, even if it is empty.
- * @param int count
- * @param int per page
+ * @param int $p_count count
+ * @param int $p_per_page per page
  * @return int page count
  */
 function filter_page_count( $p_count, $p_per_page ) {
@@ -429,8 +429,8 @@ function filter_page_count( $p_count, $p_per_page ) {
 /**
  * Checks to make sure $p_page_number isn't past the last page.
  * and that $p_page_number isn't before the first page
- * @param int Page number
- * @param int Page count
+ * @param int $p_page_number Page number
+ * @param int $p_page_count Page count
  * @return int
  */
 function filter_valid_page_number( $p_page_number, $p_page_count ) {
@@ -446,8 +446,8 @@ function filter_valid_page_number( $p_page_number, $p_page_count ) {
 
 /**
  * Figure out the offset into the db query, offset is which record to start querying from
- * @param int Page number
- * @param int Per page
+ * @param int $p_page_number Page number
+ * @param int $p_per_page Per page
  * @return int
  */
 function filter_offset( $p_page_number, $p_per_page ) {
@@ -798,8 +798,8 @@ function filter_get_default() {
 }
 
 /**
- * Deserialize filter string
- * @param string serialized filter
+ * De-serialize filter string
+ * @param string $p_serialized_filter serialized filter
  * @return mixed filter array
  * @see filter_ensure_valid_filter
  */
@@ -3758,8 +3758,8 @@ function print_filter_highlight_changed() {
 }
 
 /**
- *  print filter by date fields
- * @param bool hide data filter checkbox
+ * Print filter by date fields
+ * @param bool $p_hide_checkbox hide data filter checkbox
  */
 function print_filter_do_filter_by_date( $p_hide_checkbox = false ) {
 	global $t_filter;
@@ -3902,8 +3902,8 @@ function print_filter_note_user_id() {
 
 /**
  * Print plugin filter fields as defined by MantisFilter objects.
- * @param string Field name
- * @param object Filter object
+ * @param string $p_field_name Field name
+ * @param object $p_filter_object Filter object
  */
 function print_filter_plugin_field( $p_field_name, $p_filter_object ) {
 	global $t_select_modifier, $t_filter, $f_view_type;
@@ -4211,8 +4211,8 @@ function print_filter_project_id() {
 
 /**
  * Prints a multi-value filter field.
- * @param string Field name
- * @param mixed field value
+ * @param string $p_field_name Field name
+ * @param mixed $p_field_value field value
  */
 function print_multivalue_field( $p_field_name, $p_field_value ) {
 	$t_output = '';
@@ -4303,7 +4303,7 @@ function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 
 /**
  * Clear the filter cache (or just the given id if specified)
- * @param int filter id
+ * @param int $p_filter_id filter id
  * @return bool
  */
 function filter_clear_cache( $p_filter_id = null ) {
@@ -4320,10 +4320,10 @@ function filter_clear_cache( $p_filter_id = null ) {
 
 /**
  * Add a filter to the database for the current user
- * @param int Project id
- * @param bool whether filter is public or private
- * @param string filter name
- * @param string filter string
+ * @param int $p_project_id Project id
+ * @param bool $p_is_public whether filter is public or private
+ * @param string $p_name filter name
+ * @param string $p_filter_string filter string
  * @return int
  */
 function filter_db_set_for_current_user( $p_project_id, $p_is_public, $p_name, $p_filter_string ) {
@@ -4448,7 +4448,7 @@ function filter_db_get_project_current( $p_project_id, $p_user_id = null ) {
 
 /**
  * Query for the filter name using the filter id
- * @param int filter id
+ * @param int $p_filter_id filter id
  * @return string
  */
 function filter_db_get_name( $p_filter_id ) {
@@ -4472,7 +4472,7 @@ function filter_db_get_name( $p_filter_id ) {
 
 /**
  * Check if the current user has permissions to delete the stored query
- * @param int filter id
+ * @param int $p_filter_id filter id
  * @return bool
  */
 function filter_db_can_delete_filter( $p_filter_id ) {
@@ -4497,7 +4497,7 @@ function filter_db_can_delete_filter( $p_filter_id ) {
 
 /**
  * Delete the filter specified by $p_filter_id
- * @param int filter id
+ * @param int $p_filter_id filter id
  * @return bool
  */
 function filter_db_delete_filter( $p_filter_id ) {
@@ -4526,8 +4526,8 @@ function filter_db_delete_current_filters() {
 
 /**
  * Get available filters for given project and user
- * @param int project id
- * @param int user id
+ * @param int $p_project_id project id
+ * @param int $p_user_id user id
  * @return mixed
  */
 function filter_db_get_available_queries( $p_project_id = null, $p_user_id = null ) {
@@ -4572,7 +4572,7 @@ function filter_db_get_available_queries( $p_project_id = null, $p_user_id = nul
 
 /**
  * Check that the given filter name does not exceed the maximum filter length
- * @param string filter name
+ * @param string $p_name filter name
  * @return bool true when under max_length (64) and false when over
  */
 function filter_name_valid_length( $p_name ) {

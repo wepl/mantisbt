@@ -71,7 +71,7 @@ if ( is_blank( $f_username ) ) {
 }
 
 if ( user_is_anonymous( $t_user_id ) ) {
-	throw new MantisBT\Exception\Protected_Account();
+	throw new MantisBT\Exception\User\ProtectedUser();
 }
 
 bug_ensure_exists( $f_bug_id );

@@ -117,22 +117,20 @@ function db_is_mssql() {
 /**
  * execute query, requires connection to be opened
  * An error will be triggered if there is a problem executing the query.
- * @global array of previous executed queries for profiling
- * @global database connection object
- * @global boolean indicating whether queries array is populated
  * @param string $p_query Parameterlised Query string to execute
- * @param array $arr_parms Array of parameters matching $p_query
+ * @param array $p_params Array of parameters matching $p_query
  * @param int $p_limit Number of results to return
  * @param int $p_offset offset query results for paging
- * @return ADORecordSet|bool adodb result set or false if the query failed.
+ * @return ADORecordSet|bool Result set or false if the query failed.
+ * @throws MantisBT\Exception\Database\QueryFailed
  */
-function db_query( $p_query, $arr_parms = null, $p_limit = -1, $p_offset = -1 ) {
+function db_query( $p_query, $p_params = null, $p_limit = -1, $p_offset = -1 ) {
 	global $g_db;
 
 	if(( $p_limit != -1 ) || ( $p_offset != -1 ) ) {
-		$t_result = $g_db->SelectLimit( $p_query, $p_limit, $p_offset, $arr_parms );
+		$t_result = $g_db->SelectLimit( $p_query, $p_limit, $p_offset, $p_params );
 	} else {
-		$t_result = $g_db->Execute( $p_query, $arr_parms );
+		$t_result = $g_db->Execute( $p_query, $p_params );
 	}
 
 	if( !$t_result ) {
@@ -163,8 +161,8 @@ function db_result( $p_result, $p_index1 = 0 ) {
 
 /**
  * return the last inserted id for a specific database table
- * @param string a valid database table name
- * @param string field name - defaults to id
+ * @param string $p_table a valid database table name
+ * @param string $p_field field name - defaults to id
  * @return int last successful insert id
  */
 function db_insert_id( $p_table = null, $p_field = "id" ) {
@@ -239,7 +237,7 @@ function db_field_exists( $p_field_name, $p_table_name ) {
 
 /**
  * Retrieve list of fields for a given table
- * @param string valid database table name
+ * @param string $p_table_name valid database table name
  * @return array array of fields on table
  */
 function db_field_names( $p_table_name ) {

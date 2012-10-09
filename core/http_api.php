@@ -79,8 +79,8 @@ function is_browser_mobile() {
  * which are behind the times or are otherwise broken, we need to use
  * some hacky workarounds to get them to work 'nicely' with attachments and
  * inline files. See http://greenbytes.de/tech/tc2231/ for full reasoning.
- * @param string Filename
- * @param boolean Display file inline (optional, default = treat as attachment)
+ * @param string $p_filename Filename
+ * @param boolean $p_inline Display file inline (optional, default = treat as attachment)
  */
 function http_content_disposition_header( $p_filename, $p_inline = false ) {
 	if ( !headers_sent() ) {
@@ -106,7 +106,7 @@ function http_content_disposition_header( $p_filename, $p_inline = false ) {
 
 /**
  * Set caching headers that will allow or prevent browser caching.
- * @param boolean Allow caching
+ * @param boolean $p_allow_caching Allow caching
  */
 function http_caching_headers( $p_allow_caching=false ) {
 	global $g_allow_browser_cache;

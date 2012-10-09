@@ -84,7 +84,7 @@ function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcemen
 /**
  * Delete the news entry
  *
- * @param int news id
+ * @param int $p_news_id news id
  * @return bool always true
  */
 function news_delete( $p_news_id ) {
@@ -99,7 +99,7 @@ function news_delete( $p_news_id ) {
 /**
  * Delete the news entry
  *
- * @param int project id
+ * @param int $p_project_id project id
  * @return bool always true
  */
 function news_delete_all( $p_project_id ) {
@@ -114,12 +114,12 @@ function news_delete_all( $p_project_id ) {
 /**
  * Update news item
  *
- * @param int news id
- * @param int project id
- * @param int view state
- * @param bool announcement
- * @param string news headline
- * @param string news body
+ * @param int $p_news_id news id
+ * @param int $p_project_id project id
+ * @param int $p_view_state view state
+ * @param bool $p_announcement announcement
+ * @param string $p_headline news headline
+ * @param string $p_body news body
  * @return bool always true
  * @throws MantisBT\Exception\Field\EmptyField
  */
@@ -151,7 +151,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
 /**
  * Selects the news item associated with the specified id
  *
- * @param int news id
+ * @param int $p_news_id news id
  * @return array news article
  */
 function news_get_row( $p_news_id ) {
@@ -168,18 +168,18 @@ function news_get_row( $p_news_id ) {
 }
 
 /**
- * get news count (selected project plus sitewide posts)
+ * get news count (selected project plus site wide posts)
  *
- * @param int project id
- * @param bool sitewide news i.e. ALL_PROJECTS
+ * @param int $p_project_id project id
+ * @param bool $p_global site wide news i.e. ALL_PROJECTS
  * @return int news count
  */
-function news_get_count( $p_project_id, $p_sitewide = true ) {
+function news_get_count( $p_project_id, $p_global = true ) {
 	$t_project_where = helper_project_specific_where( $p_project_id );
 
 	$t_query = "SELECT COUNT(*) FROM {news} WHERE $t_project_where";
 
-	if( $p_sitewide ) {
+	if( $p_global ) {
 		$t_query .= ' OR project_id=' . ALL_PROJECTS;
 	}
 
@@ -189,17 +189,17 @@ function news_get_count( $p_project_id, $p_sitewide = true ) {
 }
 
 /**
- * get news items (selected project plus sitewide posts)
+ * get news items (selected project plus site wide posts)
  *
- * @param int project id
- * @param bool sitewide news i.e. ALL_PROJECTS
+ * @param int $p_project_id project id
+ * @param bool $p_global site wide news i.e. ALL_PROJECTS
  * @return array Array of news articles
  */
-function news_get_rows( $p_project_id, $p_sitewide = true ) {
+function news_get_rows( $p_project_id, $p_global = true ) {
 	$t_projects = current_user_get_all_accessible_subprojects( $p_project_id );
 	$t_projects[] = (int)$p_project_id;
 
-	if( $p_sitewide && ALL_PROJECTS != $p_project_id ) {
+	if( $p_global && ALL_PROJECTS != $p_project_id ) {
 		$t_projects[] = ALL_PROJECTS;
 	}
 
@@ -228,8 +228,8 @@ function news_get_rows( $p_project_id, $p_sitewide = true ) {
 /**
  * Get field from news item
  *
- * @param int news id
- * @param string field name
+ * @param int $p_news_id news id
+ * @param string $p_field_name field name
  * @return
  */
 function news_get_field( $p_news_id, $p_field_name ) {
@@ -240,7 +240,7 @@ function news_get_field( $p_news_id, $p_field_name ) {
 /**
  * Check if the specified news item is private
  *
- * @param int news id
+ * @param int $p_news_id news id
  * @return bool
  */
 function news_is_private( $p_news_id ) {
@@ -251,8 +251,8 @@ function news_is_private( $p_news_id ) {
  * Gets a limited set of news rows to be viewed on one page based on the criteria
  * defined in the configuration file.
  *
- * @param int offset
- * @param int project id
+ * @param int $p_offset offset
+ * @param int $p_project_id project id
  * @return array
  */
 function news_get_limited_rows( $p_offset, $p_project_id = null ) {

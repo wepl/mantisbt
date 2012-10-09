@@ -90,7 +90,6 @@ function profile_create( $p_user_id, $p_platform, $p_os, $p_os_build, $p_descrip
  * this API as it hides the details of id implementation from users of the API
  * @param int $p_user_id
  * @param int $p_profile_id
- * @return true
  */
 function profile_delete( $p_user_id, $p_profile_id ) {
 	if( ALL_USERS != $p_user_id ) {
@@ -100,16 +99,12 @@ function profile_delete( $p_user_id, $p_profile_id ) {
 	# Delete the profile
 	$query = 'DELETE FROM {user_profile} WHERE id=%d AND user_id=%d';
 	db_query( $query, array( $p_profile_id, $p_user_id ) );
-
-	# db_query errors on failure so:
-	return true;
 }
 
 /**
  * delete profiles for the specified user
  * returns true when successfully deleted
- * @param int user id
- * @return bool
+ * @param int $p_user_id user id
  */
 function profile_delete_all( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
@@ -117,8 +112,6 @@ function profile_delete_all( $p_user_id ) {
 	# Remove associated profiles
 	$query = 'DELETE FROM {user_profile} WHERE user_id=%d';
 	db_query( $query, array( (int)$p_user_id ) );
-
-	return true;
 }
 
 /**
@@ -129,7 +122,6 @@ function profile_delete_all( $p_user_id ) {
  * @param string $p_os
  * @param string $p_os_build
  * @param string $p_description
- * @return true
  * @throws MantisBT\Exception\Field\EmptyField
  */
 function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_build, $p_description ) {
@@ -154,15 +146,9 @@ function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_bu
 
 	# Add item
 	$query = "UPDATE {user_profile}
-				  SET platform=%s,
-				  	  os=%s,
-					  os_build=%s,
-					  description=%s
+				  SET platform=%s, os=%s, os_build=%s, description=%s
 				  WHERE id=%d AND user_id=%d";
 	$result = db_query( $query, array( $p_platform, $p_os, $p_os_build, $p_description, $p_profile_id, $p_user_id ) );
-
-	# db_query errors on failure so:
-	return true;
 }
 
 /**

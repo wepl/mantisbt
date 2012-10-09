@@ -79,8 +79,8 @@ function current_user_get_reported_open_bug_count() {
 /**
  * Returns the specified field of the currently logged in user
  *
- * @param field_name  Name of user property as in the table definition.
- * @return Get the value of the specified field for current user.
+ * @param string $p_field_name Name of user property as in the table definition.
+ * @return string Get the value of the specified field for current user.
  * @access public
  */
 function current_user_get_field( $p_field_name ) {
@@ -90,8 +90,7 @@ function current_user_get_field( $p_field_name ) {
 /**
  * Returns the specified field of the currently logged in user
  *
- * @param string $p_pref_name	Name of user preference as in the preferences table
- * 				definition.
+ * @param string $p_pref_name Name of user preference as in the preferences table definition.
  * @return string Get the value of the specified preference for current user.
  * @access public
  */
@@ -163,7 +162,7 @@ function current_user_get_all_accessible_subprojects( $p_project_id ) {
  * Returns true if the currently logged in user is has a role of administrator
  * or higher, false otherwise
  *
- * @return true: administrator; false: otherwise.
+ * @return bool true: administrator; false: otherwise.
  * @access public
  */
 function current_user_is_administrator() {
@@ -174,7 +173,7 @@ function current_user_is_administrator() {
  * Returns true if the current user is a protected user, false otherwise.
  * The $g_anonymous_account user is always considered protected.
  *
- * @return true: user is protected; false: otherwise.
+ * @return bool true: user is protected; false: otherwise.
  * @access public
  */
 function current_user_is_protected() {
@@ -184,7 +183,7 @@ function current_user_is_protected() {
 /**
  * Returns true if the current user is the anonymous user.
  *
- * @return true: user is anonymous; false: otherwise.
+ * @return bool true: user is anonymous; false: otherwise.
  * @access public
  */
 function current_user_is_anonymous() {
@@ -204,7 +203,7 @@ function current_user_ensure_unprotected() {
 /**
  * Returns the issue filter parameters for the current user
  *
- * @param int project id
+ * @param int $p_project_id project id
  * @return Active issue filter for current user or false if no filter is currently defined.
  * @access public
  */

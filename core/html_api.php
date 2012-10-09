@@ -327,7 +327,7 @@ function html_title( $p_page_title = null ) {
 
 /**
  * Require a CSS file to be in html page headers
- * @param string path to CSS stylesheet
+ * @param string $p_stylesheet_path path to CSS stylesheet
  */
 function require_css( $p_stylesheet_path ) {
 	global $g_stylesheets_included;
@@ -354,7 +354,7 @@ function html_css() {
 
 /**
  * Prints a css link
- * @param string filename
+ * @param string $p_filename filename
  * @return null
  */
 function html_css_link( $p_filename ) {
@@ -398,7 +398,7 @@ function html_meta_redirect( $p_url, $p_time = null, $p_sanitize = true ) {
 
 /**
  * Require a javascript file to be in html page headers
- * @param string path to Javascript file
+ * @param string $p_script_path path to Javascript file
  */
 function require_js( $p_script_path ) {
 	global $g_scripts_included;
@@ -863,8 +863,8 @@ function print_project_menu_bar() {
 /**
  * Print the menu bar with a list of projects to which the user has access
  * @todo check parents param - set_project.php?project_id=' . $p_parents . $t_subproject
- * @param int project id
- * @param string ??
+ * @param int $p_project_id project id
+ * @param string $p_parents
  * @return null
  */
 function print_subproject_menu_bar( $p_project_id, $p_parents = '' ) {
@@ -1302,10 +1302,10 @@ function html_status_percentage_legend() {
 
 /**
  * Print an html button inside a form
- * @param string Action
- * @param string Button Text
- * @param array Fields
- * @param string Form submit method - default post
+ * @param string $p_action Action
+ * @param string $p_button_text Button Text
+ * @param array $p_fields Fields
+ * @param string $p_method Form submit method - default post
  * @return null
  */
 function html_button( $p_action, $p_button_text, $p_fields = null, $p_method = 'post' ) {
@@ -1343,7 +1343,7 @@ function html_button( $p_action, $p_button_text, $p_fields = null, $p_method = '
 
 /**
  * Print a button to update the given bug
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_update( $p_bug ) {
@@ -1357,7 +1357,7 @@ function html_button_bug_update( $p_bug ) {
  * This code is similar to print_status_option_list except
  * there is no masking, except for the current state
  *
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_change_status( $p_bug ) {
@@ -1398,11 +1398,10 @@ function html_button_bug_change_status( $p_bug ) {
 
 /**
  * Print Assign To: combo box of possible handlers
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_assign_to( $p_bug ) {
-
 	# make sure status is allowed of assign would cause auto-set-status
 	$t_status = $p_bug->status;
 
@@ -1497,7 +1496,7 @@ function html_button_bug_assign_to( $p_bug ) {
 
 /**
  * Print a button to move the given bug to a different project
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_move( $p_bug ) {
@@ -1508,7 +1507,7 @@ function html_button_bug_move( $p_bug ) {
 
 /**
  * Print a button to move the given bug to a different project
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_create_child( $p_bug ) {
@@ -1519,7 +1518,7 @@ function html_button_bug_create_child( $p_bug ) {
 
 /**
  * Print a button to reopen the given bug
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_reopen( $p_bug ) {
@@ -1533,7 +1532,7 @@ function html_button_bug_reopen( $p_bug ) {
 
 /**
  * Print a button to monitor the given bug
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_monitor( $p_bug ) {
@@ -1543,9 +1542,9 @@ function html_button_bug_monitor( $p_bug ) {
 }
 
 /**
- * Print a button to unmonitor the given bug
- * no reason to ever disallow someone from unmonitoring a bug
- * @param BugData $p_bug Bug Object
+ * Print a button to un-monitor the given bug
+ * no reason to ever disallow someone from un-monitoring a bug
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_unmonitor( $p_bug ) {
@@ -1554,7 +1553,7 @@ function html_button_bug_unmonitor( $p_bug ) {
 
 /**
  * Print a button to stick the given bug
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_stick( $p_bug ) {
@@ -1564,8 +1563,8 @@ function html_button_bug_stick( $p_bug ) {
 }
 
 /**
- * Print a button to unstick the given bug
- * @param BugData $p_bug Bug Object
+ * Print a button to un-stick the given bug
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_unstick( $p_bug ) {
@@ -1576,7 +1575,7 @@ function html_button_bug_unstick( $p_bug ) {
 
 /**
  * Print a button to delete the given bug
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_button_bug_delete( $p_bug ) {
@@ -1587,7 +1586,7 @@ function html_button_bug_delete( $p_bug ) {
 
 /**
  * Print all buttons for view bug pages
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return null
  */
 function html_buttons_view_bug_page( $p_bug ) {

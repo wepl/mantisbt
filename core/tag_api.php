@@ -76,7 +76,7 @@ function tag_ensure_exists( $p_tag_id ) {
 /**
  * Determine if a given name is unique (not already used).
  * Uses a case-insensitive search of the database for existing tags with the same name.
- * @param string Tag name
+ * @param string $p_name Tag name
  * @return boolean True if name is unique
  */
 function tag_is_unique( $p_name ) {
@@ -111,9 +111,9 @@ function tag_ensure_unique( $p_name ) {
  * which by default only includes the valid tag name itself.
  * The prefix parameter is optional, but allows you to prefix the regex
  * check, which is useful for filters, etc.
- * @param string Tag name
- * @param array Array reference for regex matches
- * @param string Prefix regex pattern
+ * @param string $p_name Tag name
+ * @param array $p_matches Array reference for regex matches
+ * @param string $p_prefix Prefix regex pattern
  * @return boolean True if the name is valid
  */
 function tag_name_is_valid( $p_name, &$p_matches, $p_prefix = '' ) {
@@ -124,7 +124,7 @@ function tag_name_is_valid( $p_name, &$p_matches, $p_prefix = '' ) {
 
 /**
  * Ensure a tag name is valid.
- * @param string Tag name
+ * @param string $p_name Tag name
  */
 function tag_ensure_name_is_valid( $p_name ) {
 	$t_matches = array();
@@ -135,8 +135,8 @@ function tag_ensure_name_is_valid( $p_name ) {
 
 /**
  * Compare two tag rows based on tag name.
- * @param array Tag row 1
- * @param array Tag row 2
+ * @param array $p_tag1 Tag row 1
+ * @param array $p_tag2 Tag row 2
  * @return integer -1 when Tag 1 < Tag 2, 1 when Tag 1 > Tag 2, 0 otherwise
  */
 function tag_cmp_name( $p_tag1, $p_tag2 ) {
@@ -190,7 +190,7 @@ function tag_parse_string( $p_string ) {
  * row of information returned.  If the tag does not exist, a row is returned with
  * id = -1 and the tag name, and if the name is invalid, a row is returned with
  * id = -2 and the tag name.  The resulting array is then sorted by tag name.
- * @param string Filter string to parse
+ * @param string $p_string Filter string to parse
  * @return array Rows of tags parsed from filter string
  */
 function tag_parse_filters( $p_string ) {
@@ -227,7 +227,7 @@ function tag_parse_filters( $p_string ) {
 
 /**
  * Return a tag row for the given ID.
- * @param integer Tag ID
+ * @param integer $p_tag_id Tag ID
  * @return array Tag row
  */
 function tag_get( $p_tag_id ) {
@@ -247,8 +247,8 @@ function tag_get( $p_tag_id ) {
 
 /**
  * Return a tag row for the given name.
- * @param string Tag name
- * @return Tag row
+ * @param string $p_name Tag name
+ * @return array|bool Tag row
  */
 function tag_get_by_name( $p_name ) {
 	$t_query = "SELECT * FROM {tag} WHERE " . db_helper_like( 'name' );
@@ -265,9 +265,9 @@ function tag_get_by_name( $p_name ) {
 
 /**
  * Return a single field from a tag row for the given ID.
- * @param integer Tag ID
- * @param string Field name
- * @return mixed Field value
+ * @param integer $p_tag_id Tag ID
+ * @param string $p_field_name Field name
+ * @return array Field value
  * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function tag_get_field( $p_tag_id, $p_field_name ) {
@@ -283,9 +283,9 @@ function tag_get_field( $p_tag_id, $p_field_name ) {
 /**
  * Create a tag with the given name, creator, and description.
  * Defaults to the currently logged in user, and a blank description.
- * @param string Tag name
- * @param integer User ID
- * @param string Description
+ * @param string $p_name Tag name
+ * @param integer $p_user_id User ID
+ * @param string $p_description Description
  * @return integer Tag ID
  */
 function tag_create( $p_name, $p_user_id = null, $p_description = '' ) {
@@ -303,12 +303,7 @@ function tag_create( $p_name, $p_user_id = null, $p_description = '' ) {
 	$c_date_created = db_now();
 
 	$t_query = "INSERT INTO {tag}
-				( user_id,
-				  name,
-				  description,
-				  date_created,
-				  date_updated
-				)
+				( user_id, name, description, date_created, date_updated )
 				VALUES
 				( %d, %s, %s, %d, %d )";
 
@@ -371,7 +366,7 @@ function tag_update( $p_tag_id, $p_name, $p_user_id, $p_description ) {
 
 /**
  * Delete a tag with the given ID.
- * @param integer Tag ID
+ * @param integer $p_tag_id Tag ID
  * @return bool
  */
 function tag_delete( $p_tag_id ) {
@@ -439,8 +434,8 @@ function tag_get_candidates_for_bug( $p_bug_id ) {
 
 /**
  * Determine if a tag is attached to a bug.
- * @param integer Tag ID
- * @param integer Bug ID
+ * @param integer $p_tag_id Tag ID
+ * @param integer $p_bug_id Bug ID
  * @return boolean True if the tag is attached
  */
 function tag_bug_is_attached( $p_tag_id, $p_bug_id ) {
@@ -454,8 +449,8 @@ function tag_bug_is_attached( $p_tag_id, $p_bug_id ) {
 
 /**
  * Return the tag attachment row.
- * @param integer Tag ID
- * @param integer Bug ID
+ * @param int $p_tag_id Tag ID
+ * @param int $p_bug_id Bug ID
  * @return array Tag attachment row
  */
 function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
@@ -474,7 +469,7 @@ function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
 
 /**
  * Return an array of tags attached to a given bug sorted by tag name.
- * @param Bug ID
+ * @param int $p_bug_id Bug ID
  * @return array Array of tag rows with attachement information
  */
 function tag_bug_get_attached( $p_bug_id ) {
@@ -498,7 +493,7 @@ function tag_bug_get_attached( $p_bug_id ) {
 
 /**
  * Return an array of bugs that a tag is attached to.
- * @param integer Tag ID
+ * @param int $p_tag_id Tag ID
  * @return array Array of bug ID's.
  */
 function tag_get_bugs_attached( $p_tag_id ) {
@@ -517,9 +512,9 @@ function tag_get_bugs_attached( $p_tag_id ) {
 
 /**
  * Attach a tag to a bug.
- * @param integer Tag ID
- * @param integer Bug ID
- * @param integer User ID
+ * @param integer $p_tag_id Tag ID
+ * @param integer $p_bug_id Bug ID
+ * @param integer $p_user_id User ID
  * @return bool
  */
 function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
@@ -558,10 +553,10 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 
 /**
  * Detach a tag from a bug.
- * @param integer Tag ID
- * @param integer Bug ID
- * @param boolean Add history entries to bug
- * @param integer User Id (or null for current logged in user)
+ * @param integer $p_tag_id Tag ID
+ * @param integer $p_bug_id Bug ID
+ * @param boolean $p_add_history Add history entries to bug
+ * @param integer $p_user_id User Id (or null for current logged in user)
  * @return bool
  */
 function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id = null ) {
@@ -600,9 +595,9 @@ function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id
 
 /**
  * Detach all tags from a given bug.
- * @param integer Bug ID
- * @param boolean Add history entries to bug
- * @param integer User Id (or null for current logged in user)
+ * @param integer $p_bug_id Bug ID
+ * @param boolean $p_add_history Add history entries to bug
+ * @param integer $p_user_id User Id (or null for current logged in user)
  */
 function tag_bug_detach_all( $p_bug_id, $p_add_history = true, $p_user_id = null ) {
 	$t_tags = tag_bug_get_attached( $p_bug_id );
@@ -615,8 +610,8 @@ function tag_bug_detach_all( $p_bug_id, $p_add_history = true, $p_user_id = null
  * Display a tag hyperlink.
  * If a bug ID is passed, the tag link will include a detach link if the
  * user has appropriate privileges.
- * @param array Tag row
- * @param integer Bug ID
+ * @param array $p_tag_row Tag row
+ * @param integer $p_bug_id Bug ID
  * @return bool
  */
 function tag_display_link( $p_tag_row, $p_bug_id = 0 ) {
@@ -646,7 +641,7 @@ function tag_display_link( $p_tag_row, $p_bug_id = 0 ) {
 
 /**
  * Display a list of attached tag hyperlinks separated by the configured hyperlinks.
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @return bool
  */
 function tag_display_attached( $p_bug ) {
@@ -668,7 +663,7 @@ function tag_display_attached( $p_bug ) {
 
 /**
  * Get the number of bugs a given tag is attached to.
- * @param integer Tag ID
+ * @param integer $p_tag_id Tag ID
  * @return integer Number of attached bugs
  */
 function tag_stats_attached( $p_tag_id ) {
@@ -685,8 +680,8 @@ function tag_stats_attached( $p_tag_id ) {
  * Returns a list of tags that are the most related to the given tag,
  * based on the number of times they have been attached to the same bugs.
  * Defaults to a list of five tags.
- * @param integer Tag ID
- * @param integer List size
+ * @param integer $p_tag_id Tag ID
+ * @param integer $p_limit List size
  * @return array Array of tag rows, with share count added
  */
 function tag_stats_related( $p_tag_id, $p_limit = 5 ) {

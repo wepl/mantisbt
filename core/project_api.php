@@ -103,7 +103,7 @@ function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 
 /**
  * Cache project data for array of project ids
- * @param array project ids
+ * @param array $p_project_id_array project ids
  */
 function project_cache_array_rows( $p_project_id_array ) {
 	global $g_cache_project, $g_cache_project_missing;
@@ -182,14 +182,12 @@ function project_clear_cache( $p_project_id = null ) {
 /**
  * check to see if project exists by id
  * return true if it does, false otherwise
- * @param int project id
+ * @param int $p_project_id project id
  * @return bool
  */
 function project_exists( $p_project_id ) {
-	# we're making use of the caching function here.  If we
-	#  succeed in caching the project then it exists and is
-	#  now cached for use by later function calls.  If we can't
-	#  cache it we return false.
+	# we're making use of the caching function here.  If we succeed in caching the project then it exists and is
+	# now cached for use by later function calls.  If we can't cache it we return false.
 	if( false == project_cache_row( $p_project_id, false ) ) {
 		return false;
 	} else {
@@ -201,7 +199,7 @@ function project_exists( $p_project_id ) {
  * check to see if project exists by id
  * if it doesn't exist then error
  * otherwise let execution continue undisturbed
- * @param int project id
+ * @param int $p_project_id project id
  */
 function project_ensure_exists( $p_project_id ) {
 	if( !project_exists( $p_project_id ) ) {
@@ -346,14 +344,14 @@ function project_delete( $p_project_id ) {
 
 /**
  * Update a project
- * @param int project id
- * @param string name
- * @param string description
- * @param int status
- * @param int view state
- * @param string file path
- * @param bool enabled
- * @param bool inherit globals
+ * @param int $p_project_id project id
+ * @param string $p_name name
+ * @param string $p_description description
+ * @param int $p_status status
+ * @param int $p_view_state view state
+ * @param string $p_file_path file path
+ * @param bool $p_enabled enabled
+ * @param bool $p_inherit_globals inherit globals
  * @return bool
  */
 function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_view_state, $p_file_path, $p_enabled, $p_inherit_global ) {
@@ -389,8 +387,8 @@ function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_v
 
 /**
  * Copy custom fields
- * @param int destination id
- * @param int source id
+ * @param int $p_destination_id destination id
+ * @param int $p_source_id source id
  */
 function project_copy_custom_fields( $p_destination_id, $p_source_id ) {
 	$t_custom_field_ids = custom_field_get_linked_ids( $p_source_id );

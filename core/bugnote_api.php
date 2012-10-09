@@ -171,7 +171,7 @@ function bugnote_is_user_reporter( $p_bugnote_id, $p_user_id ) {
  * @param int $p_date_submitted date submitted (defaults to now())
  * @param int $p_last_modified last modification date (defaults to now())
  * @param bool $p_skip_bug_update skip bug last modification update (useful when importing bugs/bugnotes)
- * @return false|int false or indicating bugnote id added
+ * @return bool|int false or indicating bugnote id added
  * @access public
  * @throws MantisBT\Exception\Field\EmptyField
  */
@@ -337,7 +337,7 @@ function bugnote_get_latest_id( $p_bug_id ) {
  * Bugnotes are sorted by date_submitted according to 'bugnote_order' configuration setting.
  * Return BugnoteData class object with raw values from the tables except the field
  * last_modified - it is UNIX_TIMESTAMP.
- * @param BugData $p_bug Bug Object
+ * @param MantisBug $p_bug Bug Object
  * @param int $p_user_bugnote_order sort order
  * @param int $p_user_bugnote_limit number of bugnotes to display to user
  * @param int $p_user_id user id

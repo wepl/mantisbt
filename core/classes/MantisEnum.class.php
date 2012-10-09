@@ -78,8 +78,7 @@ class MantisEnum {
 	 * @param string $enumString The standard enum string.
 	 * @param string $localizedEnumString  The localized enum string.
 	 * @param integer $value  The value to lookup.
-	 *
-	 * @return the label or the decorated value to represent not found.
+	 * @return string the label or the decorated value to represent not found.
 	 */
 	public static function getLocalizedLabel( $enumString, $localizedEnumString, $value ) {
 		if ( !MantisEnum::hasValue( $enumString, $value ) ) {
@@ -111,7 +110,7 @@ class MantisEnum {
 	 * are the array indices and the labels are the array values.
 	 *
 	 * @param string $enumString
-	 * @return associate array indexed by labels.
+	 * @return array associate array indexed by labels.
 	 */
 	public static function getAssocArrayIndexedByValues( $enumString ) {
 		if( isset( self::$_cacheAssocArrayIndexedByValues[$enumString] ) ) {
@@ -152,7 +151,7 @@ class MantisEnum {
 	 * are the array indices and the values are the array values.
 	 *
 	 * @param string $enumString
-	 * @return associate array indexed by labels.
+	 * @return array associate array indexed by labels.
 	 */
 	public static function getAssocArrayIndexedByLabels( $enumString ) {
 		return array_flip( MantisEnum::getAssocArrayIndexedByValues( $enumString ) );
@@ -171,56 +170,56 @@ class MantisEnum {
 	/**
 	 * Checks if the specified enum string contains the specified value.
 	 *
-	 * @param string $enumString  The enumeration string.
-	 * @param integer $value      The value to chec,
+	 * @param string $p_enumString  The enumeration string.
+	 * @param integer $p_value  The value to check,
 	 * @return bool true if found, false otherwise.
 	 */
-	public static function hasValue( $enumString, $value ) {
-		$assocArray = MantisEnum::getAssocArrayIndexedByValues( $enumString );
-		$valueAsInteger = (int)$value;
-		return isset( $assocArray[$valueAsInteger] );
+	public static function hasValue( $p_enumString, $p_value ) {
+		$t_assocArray = MantisEnum::getAssocArrayIndexedByValues( $p_enumString );
+		$t_valueAsInteger = (int)$p_value;
+		return isset( $t_assocArray[$t_valueAsInteger] );
 	}
 
 	/**
 	 * Breaks up an enum string into num:value elements
 	 *
-	 * @param string $enumString enum string
+	 * @param string $p_enum_string enum string
 	 * @return array array of num:value elements
 	 */
-	private static function getArrayOfTuples( $enumString ) {
-		if ( strlen( trim( $enumString ) ) == 0 ) {
+	private static function getArrayOfTuples( $p_enum_string ) {
+		if ( strlen( trim( $p_enum_string ) ) == 0 ) {
 			return array();
 		}
 
-		$rawArray = explode( MantisEnum::TUPLE_SEPARATOR, $enumString );
-		$trimmedArray = array();
+		$t_rawArray = explode( MantisEnum::TUPLE_SEPARATOR, $p_enum_string );
+		$t_trimmedArray = array();
 
-		foreach ( $rawArray as $tuple ) {
-			$trimmedArray[] = trim( $tuple );
+		foreach ( $t_rawArray as $t_tuple ) {
+			$t_trimmedArray[] = trim( $t_tuple );
 		}
 
-		return $trimmedArray;
+		return $t_trimmedArray;
 	}
 
 	/**
 	 * Given one num:value pair it will return both in an array
 	 * num will be first (element 0) value second (element 1)
 	 *
-	 * @param string $tuple a num:value pair
+	 * @param string $p_tuple a num:value pair
 	 * @return array array(value, label)
 	 */
-	private static function getArrayForTuple( $tuple ) {
-		return explode( MantisEnum::VALUE_LABEL_SEPARATOR, $tuple );
+	private static function getArrayForTuple( $p_tuple ) {
+		return explode( MantisEnum::VALUE_LABEL_SEPARATOR, $p_tuple );
 	}
 
 	/**
 	 * Given a value it decorates it and returns it as the label.
 	 *
-	 * @param integer The value (e.g. 50).
-	 * @return The decorated value (e.g. @50@).
+	 * @param integer $p_value The value (e.g. 50).
+	 * @return string The decorated value (e.g. @50@).
 	 */
-	private static function getLabelForUnknownValue( $value ) {
-		$valueAsInteger = (int)$value;
+	private static function getLabelForUnknownValue( $p_value ) {
+		$valueAsInteger = (int)$p_value;
 		return '@' . $valueAsInteger . '@';
 	}
 }

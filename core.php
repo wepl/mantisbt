@@ -161,7 +161,7 @@ function get_mantis_url() {
 /**
  * Define an API inclusion function to replace require_once
  *
- * @param string api file name
+ * @param string $p_api_name api file name
  */
 function require_api( $p_api_name ) {
 	static $s_api_included;
@@ -181,7 +181,7 @@ function require_api( $p_api_name ) {
 /**
  * Define an API inclusion function to replace require_once
  *
- * @param string lib file name
+ * @param string $p_library_name lib file name
  */
 function require_lib( $p_library_name ) {
 	static $s_libraries_included;
@@ -201,13 +201,13 @@ function require_lib( $p_library_name ) {
 /**
  * Define an autoload function to automatically load classes when referenced
  *
- * @param string class name
+ * @param string $p_class class name
  */
-function __autoload( $className ) {
+function __autoload( $p_class ) {
 	global $MantisConfig;
 
-    if( strstr( $className, 'MantisBT\Exception' ) ) {
-        $t_parts = explode( '\\', $className);
+    if( strstr( $p_class, 'MantisBT\Exception' ) ) {
+        $t_parts = explode( '\\', $p_class);
         $t_class = array_pop($t_parts);
         array_shift($t_parts);
         $t_count = sizeof( $t_parts );
@@ -219,7 +219,7 @@ function __autoload( $className ) {
         }
     }
 
-	$t_parts = explode( '_', $className );
+	$t_parts = explode( '_', $p_class );
 	$t_count = sizeof( $t_parts );
 	$t_class = $t_parts[$t_count-1];
 	$t_name = implode( DIRECTORY_SEPARATOR, $t_parts ) . DIRECTORY_SEPARATOR;
@@ -240,7 +240,7 @@ function __autoload( $className ) {
 		return;
 	}
 	
-	$t_require_path = $MantisConfig->class_path . $className . '.class.php';
+	$t_require_path = $MantisConfig->class_path . $p_class . '.class.php';
 
 	if ( file_exists( $t_require_path ) ) {
 		require_once( $t_require_path );

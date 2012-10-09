@@ -84,30 +84,30 @@ class VersionData {
 
 	/**
 	 * Overloaded function
-	 * @param string property name
-	 * @param string value
+	 * @param string $p_name property name
+	 * @param string $p_value value
 	 * @private
 	 */
-	public function __set($name, $value) {
-		switch ($name) {
+	public function __set($p_name, $p_value) {
+		switch ($p_name) {
 			case 'date_order':
-				if( !is_numeric($value) ) {
-					if( $value == '' ) {
-						$value = date_get_null();
+				if( !is_numeric($p_value) ) {
+					if( $p_value == '' ) {
+						$p_value = date_get_null();
 					}  else {
-						$value = strtotime( $value );
-						if ( $value === false ) {
+						$p_value = strtotime( $p_value );
+						if ( $p_value === false ) {
 							throw new MantisBT\Exception\Invalid_Date_Format();
 						}
 					}
 				}
 		}
-		$this->$name = $value;
+		$this->$p_name = $p_value;
 	}
 
 	/**
 	 * Overloaded function
-	 * @param string property name
+	 * @param string $p_name property name
 	 * @private
 	 */
 	public function __get( $p_name ) {
@@ -238,8 +238,7 @@ function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $
 
 /**
  * Update the definition of a version
- * @param VersionData @p_version_info
- * @return true
+ * @param VersionData $p_version_info
  */
 function version_update( $p_version_info ) {
 	version_ensure_exists( $p_version_info->id );
@@ -309,16 +308,12 @@ function version_update( $p_version_info ) {
 		 * @todo We probably need to update the saved filters too?
 		 */
 	}
-
-	// db_query errors on failure so:
-	return true;
 }
 
 /**
  * Remove a version from the project
  * @param int $p_version_id
  * @param string $p_new_version
- * @return true
  */
 function version_remove( $p_version_id, $p_new_version = '' ) {
 	$c_version_id = (int)$p_version_id;
@@ -349,15 +344,12 @@ function version_remove( $p_version_id, $p_new_version = '' ) {
 	$query = "UPDATE {bug} SET target_version=%s
 				  WHERE ( project_id IN ( $t_project_list ) ) AND ( target_version=%s)";
 	db_query( $query, array( $p_new_version, $t_old_version ) );
-
-	# db_query errors on failure so:
-	return true;
 }
 
 /**
  * Remove all versions associated with a project
  * @param int $p_project_id
- * @return true
+ * @return bool
  */
 function version_remove_all( $p_project_id ) {
 	$c_project_id = (int)$p_project_id;
@@ -418,10 +410,10 @@ function version_cache_array_rows( $p_project_id_array ) {
 
 /**
  * Return all versions for the specified project
- * @param int project id
- * @param int include released
- * @param bool include obsolete
- * @param bool inherit versions
+ * @param int $p_project_id project id
+ * @param int $p_released include released
+ * @param bool $p_obsolete include obsolete
+ * @param bool $p_inherit inherit versions
  * @return array Array of version rows (in array format)
  */
 function version_get_all_rows( $p_project_id, $p_released = null, $p_obsolete = false, $p_inherit = null ) {

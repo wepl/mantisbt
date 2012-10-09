@@ -184,12 +184,12 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
 
     /**
 	 * Processing that occurs before query is executed
-	 * @param string SQL query
-	 * @param array parameters
+	 * @param string $p_sql SQL query
+	 * @param array $p_params parameters
      */
-    protected function query_start($sql, array $params=null) {
+    protected function query_start($p_sql, array $p_params=null) {
         $this->lastError = null;
-        parent::query_start($sql, $params);
+        parent::query_start($p_sql, $p_params);
     }
 
     /**

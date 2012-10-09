@@ -96,7 +96,7 @@ abstract class MantisSession {
 class MantisPHPSession extends MantisSession {
 	/**
 	 * Constructor
-	 * @param int session id
+	 * @param int $p_session_id session id
 	 */
 	function __construct( $p_session_id=null ) {
 		global $g_cookie_secure_flag_enabled;
@@ -178,7 +178,7 @@ class MantisPHPSession extends MantisSession {
 
 /**
  * Initialize the appropriate session handler.
- * @param string Session ID
+ * @param string $p_session_id Session ID
  */
 function session_init( $p_session_id=null ) {
 	global $g_session;
@@ -203,7 +203,7 @@ function session_init( $p_session_id=null ) {
  * Validate the legitimacy of a session.
  * Checks may include last-known IP address, or more.
  * Triggers an error when the session is invalid.
- * @param object Session object
+ * @param object $p_session Session object
  */
 function session_validate( $p_session ) {
 	$t_user_ip = '';
@@ -232,8 +232,8 @@ function session_validate( $p_session ) {
 
 /**
  * Get arbitrary data from the session.
- * @param string Session variable name
- * @param mixed Default value
+ * @param string $p_name Session variable name
+ * @param mixed $p_default Default value
  * @return mixed Session variable
  */
 function session_get( $p_name, $p_default = null ) {
@@ -245,8 +245,8 @@ function session_get( $p_name, $p_default = null ) {
 
 /**
  * Get an integer from the session.
- * @param string Session variable name
- * @param mixed Default value
+ * @param string $p_name Session variable name
+ * @param mixed $p_default Default value
  * @return int Session variable
  */
 function session_get_int( $p_name, $p_default = null ) {
@@ -257,8 +257,8 @@ function session_get_int( $p_name, $p_default = null ) {
 
 /**
  * Get a boolean from the session.
- * @param string Session variable name
- * @param mixed Default value
+ * @param string $p_name Session variable name
+ * @param mixed $p_default Default value
  * @return boolean Session variable
  */
 function session_get_bool( $p_name, $p_default = null ) {
@@ -269,8 +269,8 @@ function session_get_bool( $p_name, $p_default = null ) {
 
 /**
  * Get a string from the session.
- * @param string Session variable name
- * @param mixed Default value
+ * @param string $p_name Session variable name
+ * @param mixed $p_default Default value
  * @return string Session variable
  */
 function session_get_string( $p_name, $p_default = null ) {
@@ -281,8 +281,8 @@ function session_get_string( $p_name, $p_default = null ) {
 
 /**
  * Set a session variable.
- * @param string Session variable name
- * @param mixed Variable value
+ * @param string $p_name Session variable name
+ * @param mixed $p_value Variable value
  */
 function session_set( $p_name, $p_value ) {
 	global $g_session;
@@ -291,7 +291,7 @@ function session_set( $p_name, $p_value ) {
 
 /**
  * Delete a session variable.
- * @param string Session variable name
+ * @param string $p_name Session variable name
  */
 function session_delete( $p_name ) {
 	global $g_session;

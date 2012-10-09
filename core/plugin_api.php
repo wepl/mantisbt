@@ -54,8 +54,8 @@ $g_plugin_current = array();
 
 # Public API #####
 /**
- * Get the currently executing plugin's basename.
- * @return string Plugin basename, or null if no current plugin
+ * Get the currently executing plugin's base name.
+ * @return string Plugin base name, or null if no current plugin
  */
 function plugin_get_current() {
 	global $g_plugin_current;
@@ -64,16 +64,16 @@ function plugin_get_current() {
 
 /**
  * Add the current plugin to the stack
- * @param string Plugin basename
+ * @param string $p_base_name Plugin base name
  */
-function plugin_push_current( $p_basename ) {
+function plugin_push_current( $p_base_name ) {
 	global $g_plugin_current;
-	array_unshift( $g_plugin_current, $p_basename );
+	array_unshift( $g_plugin_current, $p_base_name );
 }
 
 /**
  * Remove the current plugin from the stack
- * @return string Plugin basename, or null if no current plugin
+ * @return string Plugin base name, or null if no current plugin
  */
 function plugin_pop_current() {
 	global $g_plugin_current;
@@ -84,14 +84,14 @@ function plugin_pop_current() {
  * Get the URL to the plugin wrapper page.
  * @param string $p_page Page name
  * @param bool $p_redirect return url for redirection
- * @param string $p_basename Plugin basename (defaults to current plugin)
+ * @param string $p_base_name Plugin base name (defaults to current plugin)
  * @return string
  */
-function plugin_page( $p_page, $p_redirect = false, $p_basename = null ) {
-	if( is_null( $p_basename ) ) {
+function plugin_page( $p_page, $p_redirect = false, $p_base_name = null ) {
+	if( is_null( $p_base_name ) ) {
 		$t_current = plugin_get_current();
 	} else {
-		$t_current = $p_basename;
+		$t_current = $p_base_name;
 	}
 	if( $p_redirect ) {
 		return 'plugin.php?page=' . $t_current . '/' . $p_page;
@@ -103,12 +103,12 @@ function plugin_page( $p_page, $p_redirect = false, $p_basename = null ) {
 /**
  * Return a path to a plugin file.
  * @param string $p_filename File name
- * @param string $p_basename Plugin basename
+ * @param string $p_base_name Plugin base name
  * @return mixed File path or false if FNF
  */
-function plugin_file_path( $p_filename, $p_basename ) {
+function plugin_file_path( $p_filename, $p_base_name ) {
 	$t_file_path = config_get( 'plugin_path' );
-	$t_file_path .= $p_basename . '/';
+	$t_file_path .= $p_base_name . '/';
 	$t_file_path .= 'files/' . $p_filename;
 
 	return( is_file( $t_file_path ) ? $t_file_path : false );
@@ -116,16 +116,16 @@ function plugin_file_path( $p_filename, $p_basename ) {
 
 /**
  * Get the URL to the plugin wrapper file page.
- * @param string file name
- * @param bool return url for redirection
- * @param string Plugin basename (defaults to current plugin)
+ * @param string $p_file file name
+ * @param bool $p_redirect return url for redirection
+ * @param string $p_base_name Plugin base name (defaults to current plugin)
  * @return string
  */
-function plugin_file( $p_file, $p_redirect = false, $p_basename = null ) {
-	if( is_null( $p_basename ) ) {
+function plugin_file( $p_file, $p_redirect = false, $p_base_name = null ) {
+	if( is_null( $p_base_name ) ) {
 		$t_current = plugin_get_current();
 	} else {
-		$t_current = $p_basename;
+		$t_current = $p_base_name;
 	}
 	if( $p_redirect ) {
 		return 'plugin_file.php?file=' . $t_current . '/' . $p_file;
@@ -136,8 +136,8 @@ function plugin_file( $p_file, $p_redirect = false, $p_basename = null ) {
 
 /**
  * Include the contents of a file as output.
- * @param string File name
- * @param string Plugin basename
+ * @param string $p_filename File name
+ * @param string $p_basename Plugin basename
  * @throws MantisBT\Exception\UnknownException
  */
 function plugin_file_include( $p_filename, $p_basename = null ) {
@@ -191,11 +191,11 @@ function plugin_config_get( $p_option, $p_default = null, $p_global = false ) {
 
 /**
  * Set a plugin configuration option in the database.
- * @param string Configuration option name
- * @param multi Option value
- * @param int User ID
- * @param int Project ID
- * @param int Access threshold
+ * @param string $p_option Configuration option name
+ * @param mixed $p_value Option value
+ * @param int $p_user User ID
+ * @param int $p_project Project ID
+ * @param int $p_access Access threshold
  */
 function plugin_config_set( $p_option, $p_value, $p_user = NO_USER, $p_project = ALL_PROJECTS, $p_access = DEFAULT_ACCESS_LEVEL ) {
 	if( $p_access == DEFAULT_ACCESS_LEVEL ) {
@@ -210,9 +210,9 @@ function plugin_config_set( $p_option, $p_value, $p_user = NO_USER, $p_project =
 
 /**
  * Delete a plugin configuration option from the database.
- * @param string Configuration option name
- * @param int User ID
- * @param int Project ID
+ * @param string $p_option Configuration option name
+ * @param int $p_user User ID
+ * @param int $p_project Project ID
  */
 function plugin_config_delete( $p_option, $p_user = ALL_USERS, $p_project = ALL_PROJECTS ) {
 	$t_basename = plugin_get_current();
@@ -223,7 +223,7 @@ function plugin_config_delete( $p_option, $p_user = ALL_USERS, $p_project = ALL_
 
 /**
  * Set plugin default values to global values without overriding anything.
- * @param array Array of configuration option name/value pairs.
+ * @param array $p_options Array of configuration option name/value pairs.
  */
 function plugin_config_defaults( $p_options ) {
 	if( !is_array( $p_options ) ) {
@@ -243,8 +243,8 @@ function plugin_config_defaults( $p_options ) {
 /**
  * Get a language string for the plugin.
  * Automatically prepends plugin_<basename> to the string requested.
- * @param string Language string name
- * @param string Plugin basename
+ * @param string $p_name Language string name
+ * @param string $p_basename Plugin basename
  * @return string Language string
  */
 function plugin_lang_get( $p_name, $p_basename = null ) {
@@ -261,12 +261,12 @@ function plugin_lang_get( $p_name, $p_basename = null ) {
 
 /**
  * log history event from plugin
- * @param int bug id
- * @param string field name
- * @param string old value
- * @param string new value
- * @param int user id
- * @param string plugin basename
+ * @param int $p_bug_id bug id
+ * @param string $p_field_name field name
+ * @param string $p_old_value old value
+ * @param string $p_new_value new value
+ * @param int $p_user_id user id
+ * @param string $p_basename plugin basename
  */
 function plugin_history_log( $p_bug_id, $p_field_name, $p_old_value, $p_new_value = '', $p_user_id = null, $p_basename = null ) {
 	if( is_null( $p_basename ) ) {
@@ -539,7 +539,7 @@ function plugin_priority( $p_base_name ) {
 
 /**
  * Determine if a given plugin is installed.
- * @param string Plugin basename
+ * @param string $p_basename Plugin basename
  * @return boolean True if plugin is installed
  */
 function plugin_is_installed( $p_basename ) {
@@ -557,7 +557,7 @@ function plugin_is_installed( $p_basename ) {
 
 /**
  * Install a plugin to the database.
- * @param string Plugin basename
+ * @param string $p_basename Plugin basename
  * @return null
  */
 function plugin_install( $p_plugin ) {
@@ -588,7 +588,7 @@ function plugin_install( $p_plugin ) {
 
 /**
  * Determine if an installed plugin needs to upgrade its schema.
- * @param string Plugin basename
+ * @param string $p_plugin Plugin basename
  * @return boolean True if plugin needs schema ugrades.
  */
 function plugin_needs_upgrade( $p_plugin ) {
@@ -605,8 +605,8 @@ function plugin_needs_upgrade( $p_plugin ) {
 
 /**
  * Upgrade an installed plugin's schema.
- * @param string Plugin basename
- * @return multi True if upgrade completed, null if problem
+ * @param string $p_plugin Plugin basename
+ * @return mixed True if upgrade completed, null if problem
  */
 function plugin_upgrade( $p_plugin ) {
 	access_ensure_global_level( config_get_global( 'manage_plugin_threshold' ) );
@@ -670,7 +670,7 @@ function plugin_upgrade( $p_plugin ) {
 
 /**
  * Uninstall a plugin from the database.
- * @param string Plugin basename
+ * @param string $p_plugin Plugin basename
  */
 function plugin_uninstall( $p_plugin ) {
 	access_ensure_global_level( config_get_global( 'manage_plugin_threshold' ) );
@@ -719,8 +719,8 @@ function plugin_find_all() {
 
 /**
  * Load a plugin's core class file.
- * @param string Plugin basename
- * @param string Child filename
+ * @param string $p_basename Plugin basename
+ * @param string $p_child Child filename
  * @return bool
  */
 function plugin_include( $p_basename, $p_child = null ) {
@@ -743,9 +743,9 @@ function plugin_include( $p_basename, $p_child = null ) {
 /**
  * Register a plugin with MantisBT.
  * The plugin class must already be loaded before calling.
- * @param string Plugin classname without 'Plugin' postfix
- * @param bool return
- * @param string child filename
+ * @param string $p_basename Plugin classname without 'Plugin' postfix
+ * @param bool $p_return return
+ * @param string $p_child child filename
  * @return mixed
  */
 function plugin_register( $p_basename, $p_return = false, $p_child = null ) {
@@ -860,7 +860,7 @@ function plugin_init_installed() {
 
 /**
  * Initialize a single plugin.
- * @param string Plugin basename
+ * @param string $p_basename Plugin basename
  * @return boolean True if plugin initialized, false otherwise.
  */
 function plugin_init( $p_basename ) {

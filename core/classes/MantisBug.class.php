@@ -212,8 +212,8 @@ class MantisBug extends MantisCacheable {
 
 	/**
 	 * Constructor for Mantis Bug Object
-	 * @param int bug id
-	 * @param bool whether get extended properties
+	 * @param int $p_bug_id bug id
+	 * @param bool $p_get_extended whether get extended properties
 	 */
 	function MantisBug( $p_bug_id=0, $p_get_extended = false ) {
 		if( self::$fields === null ) {
@@ -266,7 +266,7 @@ class MantisBug extends MantisCacheable {
 	 * @todo include reporter name and handler name, the problem is that
 	 *      handler can be 0, in this case no corresponding name will be
 	 *      found.  Use equivalent of (+) in Oracle.
-	 * @param int p_bug_id integer representing bug id
+	 * @param int $p_bug_id integer representing bug id
 	 * @return array
 	 * @access public
 	 */
@@ -280,7 +280,7 @@ class MantisBug extends MantisCacheable {
 
 	/**
 	 * Returns the record of the specified bug
-	 * @param int p_bug_id integer representing bug id
+	 * @param int $p_bug_id integer representing bug id
 	 * @return array
 	 * @access public
 	 */
@@ -597,8 +597,8 @@ class MantisBug extends MantisCacheable {
 	/**
 	 * Update a bug from the given data structure
 	 *  If the third parameter is true, also update the longer strings table
-	 * @param bool p_update_extended
-	 * @param bool p_bypass_email Default false, set to true to avoid generating emails (if sending elsewhere)
+	 * @param bool $p_update_extended
+	 * @param bool $p_bypass_email Default false, set to true to avoid generating emails (if sending elsewhere)
 	 * @return bool (always true)
 	 * @access public
 	 */
@@ -817,8 +817,8 @@ class MantisBug extends MantisCacheable {
 
 	/**
 	 * Cache a bug text row if necessary and return the cached copy
-	 * @param int p_bug_id integer bug id to retrieve text for
-	 * @param bool p_trigger_errors If the second parameter is true (default), trigger an error if bug text not found.
+	 * @param int $p_bug_id integer bug id to retrieve text for
+	 * @param bool $p_trigger_errors If the second parameter is true (default), trigger an error if bug text not found.
 	 * @return bool|array returns false if not bug text found or array of bug text
 	 * @access public
 	 * @uses database_api.php

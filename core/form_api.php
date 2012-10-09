@@ -81,7 +81,7 @@ function form_security_token( $p_form_name ) {
 
 /**
  * Get a hidden form element containing a generated form security token.
- * @param string Form name
+ * @param string $p_form_name Form name
  * @return string Hidden form element to output
  */
 function form_security_field( $p_form_name ) {
@@ -101,7 +101,7 @@ function form_security_field( $p_form_name ) {
 
 /**
  * Get a URL parameter containing a generated form security token.
- * @param string Form name
+ * @param string $p_form_name Form name
  * @return string Hidden form element to output
  */
 function form_security_param( $p_form_name ) {
@@ -123,7 +123,7 @@ function form_security_param( $p_form_name ) {
  * Validate the security token for the given form name based on tokens
  * stored in the user's session.  While checking stored tokens, any that
  * are more than 3 days old will be purged.
- * @param string Form name
+ * @param string $p_form_name Form name
  * @return boolean Form is valid
  * @throws MantisBT\Exception\Security\CSRFTokenInvalid
  */
@@ -163,7 +163,7 @@ function form_security_validate( $p_form_name ) {
 /**
  * Purge form security tokens that are older than 3 days, or used
  * for form validation.
- * @param string Form name
+ * @param string $p_form_name Form name
  */
 function form_security_purge( $p_form_name ) {
 	if ( PHP_CLI == php_mode() || OFF == config_get_global( 'form_security_validation' ) ) {

@@ -110,7 +110,7 @@ function custom_function_default_changelog_print_issue( $p_issue_id, $p_issue_le
  * Checks the provided bug and determines whether it should be included in the roadmap or not.
  * returns true: to include, false: to exclude.
  *
- * @param int issue id
+ * @param int $p_issue_id issue id
  * @return bool
  */
 function custom_function_default_roadmap_include_issue( $p_issue_id ) {
@@ -120,8 +120,8 @@ function custom_function_default_roadmap_include_issue( $p_issue_id ) {
 /**
  * Prints one entry in the roadmap.
  *
- * @param int issue id
- * @param int issue level
+ * @param int $p_issue_id issue id
+ * @param int $p_issue_level issue level
  */
 function custom_function_default_roadmap_print_issue( $p_issue_id, $p_issue_level = 0 ) {
 	static $t_status;
@@ -158,8 +158,8 @@ function custom_function_default_roadmap_print_issue( $p_issue_id, $p_issue_leve
 /**
  * format the bug summary.
  *
- * @param int issue id
- * @param int context SUMMARY_CAPTION | SUMMARY_FIELD | SUMMARY_EMAIL
+ * @param int $p_issue_id issue id
+ * @param int $p_context context SUMMARY_CAPTION | SUMMARY_FIELD | SUMMARY_EMAIL
  * @return string
  */
 function custom_function_default_format_issue_summary( $p_issue_id, $p_context = 0 ) {
@@ -186,9 +186,9 @@ function custom_function_default_format_issue_summary( $p_issue_id, $p_context =
  * to change the status.
  * In case of invalid data, this function should call trigger_error()
  *
- * @param int issue number that can be used to get the existing state
- * @param MantisBug is an object (MantisBug) with the appropriate fields updated
- * @param string Bugnote text
+ * @param int $p_issue_id issue number that can be used to get the existing state
+ * @param MantisBug $p_new_issue_data is an object (MantisBug) with the appropriate fields updated
+ * @param string $p_bugnote_text Bugnote text
  */
 function custom_function_default_issue_update_validate( $p_issue_id, $p_new_issue_data, $p_bugnote_text ) {
 }
@@ -197,7 +197,7 @@ function custom_function_default_issue_update_validate( $p_issue_id, $p_new_issu
  * Hook to notify after an issue has been updated.
  * In case of errors, this function should call trigger_error()
  *
- * @param int the issue number that can be used to get the existing state
+ * @param int $p_issue_id the issue number that can be used to get the existing state
  */
 function custom_function_default_issue_update_notify( $p_issue_id ) {
 }
@@ -207,7 +207,7 @@ function custom_function_default_issue_update_notify( $p_issue_id ) {
  * Verify that the proper fields are set before proceeding to create an issue
  * In case of errors, this function should call trigger_error()
  *
- * @param MantisBug object (MantisBug) with the appropriate fields updated
+ * @param MantisBug $p_new_issue_data object (MantisBug) with the appropriate fields updated
  */
 function custom_function_default_issue_create_validate( $p_new_issue_data ) {
 }
@@ -216,7 +216,7 @@ function custom_function_default_issue_create_validate( $p_new_issue_data ) {
  * Hook to notify after aa issue has been created.
  * In case of errors, this function should call trigger_error()
  *
- * @param int the issue number that can be used to get the existing state
+ * @param int $p_issue_id the issue number that can be used to get the existing state
  */
 function custom_function_default_issue_create_notify( $p_issue_id ) {
 }
@@ -226,7 +226,7 @@ function custom_function_default_issue_create_notify( $p_issue_id ) {
  * Verify that the issue can be deleted before the actual deletion.
  * In the case that the issue should not be deleted, this function should call trigger_error().
  *
- * @param int the issue number that can be used to get the existing state
+ * @param int $p_issue_id the issue number that can be used to get the existing state
  */
 function custom_function_default_issue_delete_validate( $p_issue_id ) {
 }
@@ -234,7 +234,7 @@ function custom_function_default_issue_delete_validate( $p_issue_id ) {
 /**
  * Hook to notify after an issue has been deleted.
  *
- * @param MantisBug Issue data (MantisBug) that reflects the last status of the
+ * @param MantisBug $p_issue_data Issue data (MantisBug) that reflects the last status of the
  * issue before it was deleted.
  */
 function custom_function_default_issue_delete_notify( $p_issue_data ) {
@@ -268,8 +268,8 @@ function custom_function_default_auth_can_change_password() {
  *   current project.  In case of "All Projects, the field will be empty where it is
  *   not applicable.
  *
- * @param int see COLUMNS_TARGET_* in constant_inc.php
- * @param int The user id or null for current logged in user.
+ * @param int $p_columns_target see COLUMNS_TARGET_* in constant_inc.php
+ * @param int $p_user_id The user id or null for current logged in user.
  * @return array
  */
 function custom_function_default_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAGE, $p_user_id = null ) {
@@ -291,8 +291,8 @@ function custom_function_default_get_columns_to_view( $p_columns_target = COLUMN
 /**
  * Print the title of a column given its name.
  *
- * @param string custom_xxx for custom field xxx, or otherwise field name as in bug table.
- * @param int see COLUMNS_TARGET_* in constant_inc.php
+ * @param string $p_column custom_xxx for custom field xxx, or otherwise field name as in bug table.
+ * @param int $p_columns_target see COLUMNS_TARGET_* in constant_inc.php
  */
 function custom_function_default_print_column_title( $p_column, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	global $t_sort, $t_dir;
@@ -345,9 +345,9 @@ function custom_function_default_print_column_title( $p_column, $p_columns_targe
  * Print the value of the custom field (if the field is applicable to the project of
  * the specified issue and the current user has read access to it.
  * see custom_function_default_print_column_title() for rules about column names.
- * @param string name of field to show in the column.
- * @param BugData bug object
- * @param int see COLUMNS_TARGET_* in constant_inc.php
+ * @param string $p_column name of field to show in the column.
+ * @param MantisBug $p_bug bug object
+ * @param int $p_columns_target see COLUMNS_TARGET_* in constant_inc.php
  */
 function custom_function_default_print_column_value( $p_column, $p_bug, $p_columns_target = COLUMNS_TARGET_VIEW_PAGE ) {
 	if( COLUMNS_TARGET_EXPORT_PAGE == $p_columns_target ) {
@@ -495,7 +495,7 @@ function custom_function_default_enum_categories() {
  * and the context.  The printing of the buttons will typically call html_button() from
  * html_api.php.  For each button, this function needs to generate the enclosing '<td>' and '</td>'.
  *
- * @param int bug id
+ * @param int $p_bug_id bug id
  */
 function custom_function_default_print_bug_view_page_custom_buttons( $p_bug_id ) {
 }

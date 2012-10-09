@@ -232,9 +232,9 @@ function relgraph_generate_rel_graph( $p_bug_id ) {
 
 /**
  * Generate a dependency relationship graph for the given issue.
- * @param int bug id
- * @param MantisBug Bug object
- * @param bool graph orientation - horizontal if true
+ * @param int $p_bug_id bug id
+ * @param MantisBug $p_bug Bug object
+ * @param bool $p_horizontal graph orientation - horizontal if true
  * @todo duplicate bug/bugid
  * @return Digraph
  */
@@ -351,8 +351,8 @@ function relgraph_generate_dep_graph( $p_bug_id, $p_bug = null, $p_horizontal = 
 
 /**
  * Internal function used to visit ascendant issues recursively.
- * @param array bug list
- * @param int bug id
+ * @param array $p_bug_list bug list
+ * @param int $p_bug_id bug id
  * @return bool
  */
 function relgraph_add_parent( &$p_bug_list, $p_bug_id ) {
@@ -491,8 +491,8 @@ function relgraph_output_image( $p_graph ) {
 /**
  * Outputs an image map in XHTML format using the <map> element for the given
  * relationship graph.
- * @param Graph Relationship graph object generated from relgraph_generate_graph_for_bug()
- * @param string The XHTML name attribute to apply to the containing <map> element
+ * @param Graph $p_graph Relationship graph object generated from relgraph_generate_graph_for_bug()
+ * @param string $p_name The XHTML name attribute to apply to the containing <map> element
  * @return null
  */
 function relgraph_output_map( $p_graph, $p_name ) {
@@ -503,12 +503,12 @@ function relgraph_output_map( $p_graph, $p_name ) {
 
 /**
  * Internal function used to add a bug to the given graph.
- * @param Graph Graph object
- * @param int bug id
- * @param MantisBug bug object
+ * @param Graph $p_graph Graph object
+ * @param int $p_bug_id bug id
+ * @param MantisBug $p_bug bug object
  * @todo duplicate or not - bug / bugid?
- * @param string url
- * @param bool highlight
+ * @param string $p_url url
+ * @param bool $p_highlight highlight
  */
 function relgraph_add_bug_to_graph( &$p_graph, $p_bug_id, $p_bug, $p_url = null, $p_highlight = false ) {
 	$t_node_attributes = array();

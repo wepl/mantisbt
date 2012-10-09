@@ -119,7 +119,7 @@ function file_bug_attachment_count( $p_bug_id ) {
 
 /**
  * Check if a specific bug has attachments
- * @param int bug id
+ * @param int $p_bug_id bug id
  * @return bool
  */
 function file_bug_has_attachments( $p_bug_id ) {
@@ -132,8 +132,8 @@ function file_bug_has_attachments( $p_bug_id ) {
 
 /**
  * Check if the current user can view attachments for the specified bug.
- * @param int bug id
- * @param int user id
+ * @param int $p_bug_id bug id
+ * @param int $p_uploader_user_id user id
  * @return bool
  */
 function file_can_view_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
@@ -145,8 +145,8 @@ function file_can_view_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) 
 
 /**
  * Check if the current user can download attachments for the specified bug.
- * @param int bug id
- * @param int user id
+ * @param int $p_bug_id bug id
+ * @param int $p_uploader_user_id user id
  * @return bool
  */
 function file_can_download_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
@@ -158,8 +158,8 @@ function file_can_download_bug_attachments( $p_bug_id, $p_uploader_user_id = nul
 
 /**
  * Check if the current user can delete attachments from the specified bug.
- * @param int bug id
- * @param int user id
+ * @param int $p_bug_id bug id
+ * @param int $p_uploader_user_id user id
  * @return bool
  */
 function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null ) {
@@ -175,7 +175,7 @@ function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null 
 /**
  * Get icon corresponding to the specified filename
  * returns an associative array with "url" and "alt" text.
- * @param string filename
+ * @param string $p_display_filename filename
  * @return array
  */
 function file_get_icon_url( $p_display_filename ) {
@@ -195,8 +195,8 @@ function file_get_icon_url( $p_display_filename ) {
 /**
  * Combines a path and a file name making sure that the separator exists.
  *
- * @param string $p_path       The path.
- * @param string $p_filename   The file name.
+ * @param string $p_path The path.
+ * @param string $p_filename The file name.
  * @return string The combined full path.
  */
 function file_path_combine( $p_path, $p_filename ) {
@@ -473,9 +473,9 @@ function file_ftp_connect() {
 
 /**
  * Put a file to the ftp server.
- * @param int Resource id
- * @param string remote filename
- * @param string local filename
+ * @param int $p_conn_id Resource id
+ * @param string $p_remote_filename remote filename
+ * @param string $p_local_filename local filename
  */
 function file_ftp_put( $p_conn_id, $p_remote_filename, $p_local_filename ) {
 	helper_begin_long_process();
@@ -484,9 +484,9 @@ function file_ftp_put( $p_conn_id, $p_remote_filename, $p_local_filename ) {
 
 /**
  * Get a file from the ftp server.
- * @param int Resource id
- * @param string local filename
- * @param string remote filename
+ * @param int $p_conn_id Resource id
+ * @param string $p_local_filename local filename
+ * @param string $p_remote_filename remote filename
  */
 function file_ftp_get( $p_conn_id, $p_local_filename, $p_remote_filename ) {
 	helper_begin_long_process();
@@ -495,8 +495,8 @@ function file_ftp_get( $p_conn_id, $p_local_filename, $p_remote_filename ) {
 
 /**
  * Delete a file from the ftp server
- * @param int Resource id
- * @param string filename
+ * @param int $p_conn_id Resource id
+ * @param string $p_filename filename
  */
 function file_ftp_delete( $p_conn_id, $p_filename ) {
 	@ftp_delete( $p_conn_id, $p_filename );
@@ -504,7 +504,7 @@ function file_ftp_delete( $p_conn_id, $p_filename ) {
 
 /**
  * Disconnect from the ftp server
- * @param int Resource id
+ * @param int $p_conn_id Resource id
  */
 function file_ftp_disconnect( $p_conn_id ) {
 	ftp_quit( $p_conn_id );
@@ -512,7 +512,7 @@ function file_ftp_disconnect( $p_conn_id ) {
 
 /**
  * Delete a local file even if it is read-only.
- * @param string filename
+ * @param string $p_filename
  */
 function file_delete_local( $p_filename ) {
 	if( file_exists( $p_filename ) ) {
@@ -533,7 +533,7 @@ function file_get_field( $p_file_id, $p_field_name, $p_table = 'bug' ) {
 	$t_bug_file_table = '{' . $p_table . '_file}';
 
 	if( !db_field_exists( $p_field_name, $t_bug_file_table ) ) {
-		throw new MantisBT\Exception\Database\FieldNotFound( $p_fieldname );
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 
 	$query = "SELECT $p_field_name FROM $t_bug_file_table WHERE id=%d";
@@ -679,8 +679,8 @@ function diskfile_is_name_unique( $p_name, $p_filepath ) {
 
 /**
  * Return true if the file name identifier is unique, false otherwise
- * @param string name
- * @param int bug id
+ * @param string $p_name name
+ * @param int $p_bug_id bug id
  * @return bool
  */
 function file_is_name_unique( $p_name, $p_bug_id ) {
@@ -897,7 +897,7 @@ function file_allow_bug_upload( $p_bug = null, $p_user_id = null ) {
 
 /**
  * checks whether the specified upload path exists and is writable
- * @param string upload path
+ * @param string $p_upload_path upload path
  */
 function file_ensure_valid_upload_path( $p_upload_path ) {
 	if( !file_exists( $p_upload_path ) || !is_dir( $p_upload_path ) || !is_writable( $p_upload_path ) || !is_readable( $p_upload_path ) ) {

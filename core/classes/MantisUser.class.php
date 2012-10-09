@@ -110,9 +110,9 @@
 
 	/**
 	 * Constructor
-	 * @param string username
-	 * @param string password
-	 * @param string email
+	 * @param string $p_username username
+	 * @param string $p_password password
+	 * @param string $p_email email
 	 */
 	function MantisUser( $p_username = null, $p_password = null, $p_email = null ) {
 		if( self::$fields === null ) {
@@ -171,7 +171,7 @@
 	
 	/**
 	 * Get MantisUser by username
-	 * @param string user name
+	 * @param string $p_name user name
 	 * @return MantisUser
 	 */
 	public static function getByUserName($p_name) {
@@ -188,7 +188,7 @@
 
 	/**
 	 * Get MantisUser by cookiestring
-	 * @param string cookie string
+	 * @param string $p_cookie cookie string
 	 * @return MantisUser
 	 */
 	public static function getByCookieString($p_cookie) {
@@ -205,7 +205,7 @@
 
 	/**
 	 * Get MantisUser by user id
-	 * @param string user id
+	 * @param string $p_user_id user id
 	 * @return MantisUser
 	 */
 	public static function getByUserID($p_user_id) {
@@ -313,30 +313,30 @@
 
 	/**
 	 * overloaded function
-	 * @param string name
-	 * @param string value
+	 * @param string $p_name name
+	 * @param string $p_value value
 	 * @private
 	 */
-	public function __set($name, $p_value) {
-		if( in_array( $name, self::$fields) ){
+	public function __set($p_name, $p_value) {
+		if( in_array( $p_name, self::$fields) ){
 			if( $this->loading ) {
-				switch ($name) {
+				switch ($p_name) {
 					case 'id':
 						$this->user_id = (int)$p_value;
 						break;
 					default:
-						$this->{$name} = $p_value;
+						$this->{$p_name} = $p_value;
 				}
 				return;
 			}
 
-			switch ($name) {
+			switch ($p_name) {
 				case 'id':
 					$this->user_id = (int)$p_value;
 					break;
 				case 'username':
 					//if( self::validate_username($p_value ) ) {
-						$this->{$name} = $p_value;
+						$this->{$p_name} = $p_value;
 					//} else {
 					//	throw new MantisBT\Exception\User_Name_Invalid();
 					//}
@@ -344,14 +344,14 @@
 				case 'email':
 					$p_value = trim($p_value);
 					//if( self::validate_email($p_value ) ) {
-						$this->{$name} = $p_value;
+						$this->{$p_name} = $p_value;
 					//}
 					break;
 				case 'password':
-					$this->{$name} = auth_process_plain_password( $p_value );
+					$this->{$p_name} = auth_process_plain_password( $p_value );
 					break;
 				default:
-					$this->{$name} = $p_value;
+					$this->{$p_name} = $p_value;
 					break;
 			}			
 		}
@@ -420,7 +420,7 @@
 	/** 
 	 * Check if the username is a valid username.
 	 * Return true if it is, false otherwise
-	 * @param string username
+	 * @param string $p_username username
      * @return bool
 	 */
 	private function validate_username($p_username) {
@@ -451,7 +451,7 @@
 
 	/**
 	 * validate email address
-	 * @param string email address
+	 * @param string $p_email email address
      * @return bool
 	 */
 	private function validate_email( $p_email ) {

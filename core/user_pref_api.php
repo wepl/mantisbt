@@ -239,23 +239,23 @@ class UserPreferences {
 
 	/**
 	 * Overloaded function
-	 * @param string Property name
-	 * @param string Value
+	 * @param string $p_name Property name
+	 * @param string $p_value Value
 	 * @access private
 	 */
-	public function __set($name, $value) {
-		switch ($name) {
+	public function __set($p_name, $p_value) {
+		switch ($p_name) {
 			case 'timezone':
-				if( $value == '' ) {
-					$value = null;
+				if( $p_value == '' ) {
+					$p_value = null;
 				}
 		}
-		$this->$name = $value;
+		$this->$p_name = $p_value;
 	}
 
 	/**
 	 * Overloaded function
-	 * @param string Property name
+	 * @param string $p_string Property name
 	 * @access private
 	 */
 	public function __get( $p_string ) {
@@ -267,7 +267,7 @@ class UserPreferences {
 
 	/**
 	 * Public Get() function
-	 * @param string Property
+	 * @param string $p_string Property
 	 */
 	function Get( $p_string ) {
 		if( is_null( $this->$p_string ) ) {
@@ -293,7 +293,7 @@ $g_cache_current_user_pref = array();
  * @param int $p_user_id
  * @param int $p_project_id
  * @param bool $p_trigger_errors
- * @return false|array
+ * @return bool|array
  */
 function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigger_errors = true ) {
 	global $g_cache_user_pref;
@@ -373,7 +373,7 @@ function user_pref_cache_array_rows( $p_user_id_array, $p_project_id = ALL_PROJE
  * Clear the user preferences cache (or just the given id if specified)
  * @param $p_user_id
  * @param $p_project_id
- * @return true
+ * @return bool
  */
 function user_pref_clear_cache( $p_user_id = null, $p_project_id = null ) {
 	global $g_cache_user_pref;
@@ -409,7 +409,7 @@ function user_pref_exists( $p_user_id, $p_project_id = ALL_PROJECTS ) {
  * @param int $p_user_id
  * @param int $p_project_id
  * @param UserPreferences $p_prefs
- * @return true
+ * @return bool
  */
 function user_pref_insert( $p_user_id, $p_project_id, $p_prefs ) {
 	static $t_vars;
@@ -449,7 +449,6 @@ function user_pref_insert( $p_user_id, $p_project_id, $p_prefs ) {
  * @param int $p_user_id
  * @param int $p_project_id
  * @param UserPreferences $p_prefs
- * @return true
  */
 function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	static $t_vars;
@@ -476,9 +475,6 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
 	db_query( $query, $t_values );
 
 	user_pref_clear_cache( $p_user_id, $p_project_id );
-
-	# db_query errors on failure so:
-	return true;
 }
 
 /**
@@ -486,7 +482,7 @@ function user_pref_update( $p_user_id, $p_project_id, $p_prefs ) {
  * returns true if the prefs were successfully deleted
  * @param int $p_user_id
  * @param int $p_project_id
- * @return true
+ * @return bool
  */
 function user_pref_delete( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 	user_ensure_unprotected( $p_user_id );
@@ -508,7 +504,7 @@ function user_pref_delete( $p_user_id, $p_project_id = ALL_PROJECTS ) {
  *  call user_pref_delete() for each one and the code is short so that's
  *  what we do
  * @param int $p_user_id
- * @return true
+ * @return bool
  */
 function user_pref_delete_all( $p_user_id ) {
 	user_ensure_unprotected( $p_user_id );
@@ -530,7 +526,7 @@ function user_pref_delete_all( $p_user_id ) {
  *  call user_pref_delete() for each one and the code is short so that's
  *  what we do
  * @param $p_project_id
- * @return true
+ * @return bool
  */
 function user_pref_delete_project( $p_project_id ) {
 	$t_query = 'DELETE FROM {user_pref} WHERE project_id=%d';
@@ -641,16 +637,14 @@ function user_pref_get_language( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 /**
  * Set a user preference
  *
- * By getting the prefs for the project first we deal fairly well with defaults.
- *  If there are currently no prefs for that project, the ALL_PROJECTS prefs will
- *  be returned so we end up storing a new set of prefs for the given project
- *  based on the prefs for ALL_PROJECTS.  If there isn't even an entry for
- *  ALL_PROJECTS, we'd get returned a default UserPreferences object to modify.
+ * By getting the preferences for the project first we deal fairly well with defaults. If there are currently no
+ * preferences for that project, the ALL_PROJECTS preferences will be returned so we end up storing a new set of
+ * preferences for the given project based on the preferences for ALL_PROJECTS.  If there isn't even an entry for
+ * ALL_PROJECTS, we'd get returned a default UserPreferences object to modify.
  * @param int $p_user_id
  * @param string $p_pref_name
  * @param string $p_pref_value
  * @param int $p_project_id
- * @return true
  */
 function user_pref_set_pref( $p_user_id, $p_pref_name, $p_pref_value, $p_project_id = ALL_PROJECTS ) {
 	$t_prefs = user_pref_get( $p_user_id, $p_project_id );
@@ -658,8 +652,6 @@ function user_pref_set_pref( $p_user_id, $p_pref_name, $p_pref_value, $p_project
 	$t_prefs->$p_pref_name = $p_pref_value;
 
 	user_pref_set( $p_user_id, $t_prefs, $p_project_id );
-
-	return true;
 }
 
 /**
@@ -668,7 +660,7 @@ function user_pref_set_pref( $p_user_id, $p_pref_name, $p_pref_value, $p_project
  * @param int $p_user_id
  * @param UserPreferences $p_prefs
  * @param int $p_project_id
- * @return true
+ * @return bool
  */
 function user_pref_set( $p_user_id, $p_prefs, $p_project_id = ALL_PROJECTS ) {
 	if( user_pref_exists( $p_user_id, $p_project_id ) ) {

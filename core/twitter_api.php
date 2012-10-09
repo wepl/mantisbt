@@ -120,7 +120,7 @@ function twitter_issue_resolved( $p_bug_id ) {
 /**
  * Posts a twitter update when a news entry is submitted.
  *
- * @param $p_news_id The newly posted news id.
+ * @param int $p_news_id The newly posted news id.
  * @access public
  * @return bool
  */
@@ -150,7 +150,7 @@ function twitter_news( $p_news_id ) {
 /**
  * Posts an update to twitter
  *
- * @param $p_message  The message to post.
+ * @param string $p_message The message to post.
  * @access private
  * @return bool
  */

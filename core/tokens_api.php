@@ -125,9 +125,8 @@ function token_set( $p_type, $p_value, $p_expiry = TOKEN_EXPIRY, $p_user_id = nu
 
 /**
  * Touch a token to update its expiration time.
- * @param integer Token ID
- * @param integer Token expiration in seconds
- * @return always true
+ * @param integer $p_token_id Token ID
+ * @param integer $p_expiry Token expiration in seconds
  */
 function token_touch( $p_token_id, $p_expiry = TOKEN_EXPIRY ) {
 	token_ensure_exists( $p_token_id );
@@ -137,15 +136,12 @@ function token_touch( $p_token_id, $p_expiry = TOKEN_EXPIRY ) {
 
 	$t_query = 'UPDATE {tokens} SET expiry=%d WHERE id=%d';
 	db_query( $t_query, array( $c_token_expiry, $c_token_id ) );
-
-	return true;
 }
 
 /**
  * Delete a token.
  * @param integer $p_type Token type
  * @param integer $p_user_id User ID or null for current logged in user.
- * @return always true
  */
 function token_delete( $p_type, $p_user_id = null ) {
 	$c_type = (int)$p_type;
@@ -153,14 +149,11 @@ function token_delete( $p_type, $p_user_id = null ) {
 
 	$t_query = 'DELETE FROM {tokens} WHERE type=%d AND owner=%d';
 	db_query( $t_query, array( $c_type, $c_user_id ) );
-
-	return true;
 }
 
 /**
  * Delete all tokens owned by a specified user.
  * @param integer $p_user_id User ID or null for current logged in user.
- * @return bool always true
  */
 function token_delete_by_owner( $p_user_id = null ) {
 	if( $p_user_id == null ) {
@@ -169,20 +162,17 @@ function token_delete_by_owner( $p_user_id = null ) {
 		$c_user_id = (int)$p_user_id;
 	}
 
-
 	# Remove
 	$t_query = 'DELETE FROM {tokens} WHERE owner=%d';
 	db_query( $t_query, array( $c_user_id ) );
-
-	return true;
 }
 
 /**
  * Create a token.
- * @param integer Token type
- * @param string Token value
- * @param integer Token expiration in seconds
- * @param integer User ID
+ * @param integer $p_type Token type
+ * @param string $p_value Token value
+ * @param integer $p_expiry Token expiration in seconds
+ * @param integer $p_user_id User ID
  * @return integer Token ID
  */
 function token_create( $p_type, $p_value, $p_expiry = TOKEN_EXPIRY, $p_user_id = null ) {

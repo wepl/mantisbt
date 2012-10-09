@@ -173,9 +173,9 @@ function print_year_option_list( $p_year = 0 ) {
 
 /**
  * Print html option tags for year in a select list
- * @param int Current Year
- * @param int First Year to display
- * @param int Last Year to display
+ * @param int $p_year Current Year
+ * @param int $p_start First Year to display
+ * @param int $p_end Last Year to display
  * @return null
  * @access public
  */
