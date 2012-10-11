@@ -108,10 +108,10 @@ function graph_get_font() {
 /**
  * Generate Bar Graph
  *
- * @param array Graph Data
- * @param string title
- * @param int width of graph in pixels
- * @param int height of graph in pixels
+ * @param array $p_metrics Graph Data
+ * @param string $p_title title
+ * @param int $p_graph_width width of graph in pixels
+ * @param int $p_graph_height height of graph in pixels
  */
 function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_height = 400 ) {
 	$t_graph_font = graph_get_font();
@@ -186,11 +186,11 @@ function graph_bar( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_he
 /**
  * Function which displays the charts using the absolute values according to the status (opened/closed/resolved)
  *
- * @param array Graph Data
- * @param string title
- * @param int width of graph in pixels
- * @param int height of graph in pixels
- * @param int jpgraph baseline
+ * @param array $p_metrics Graph Data
+ * @param string $p_title title
+ * @param int $p_graph_width width of graph in pixels
+ * @param int $p_graph_height height of graph in pixels
+ * @param int $p_baseline jpgraph baseline
  */
 function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_height = 400, $p_baseline = 100 ) {
 
@@ -382,9 +382,9 @@ function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_he
 /**
  * Cumulative line graph
  *
- * @param array Graph Data
- * @param int width of graph in pixels
- * @param int height of graph in pixels
+ * @param array $p_metrics Graph Data
+ * @param int $p_graph_width width of graph in pixels
+ * @param int $p_graph_height height of graph in pixels
  */
 function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_height = 380 ) {
 
@@ -508,11 +508,11 @@ function graph_cumulative_bydate( $p_metrics, $p_graph_width = 300, $p_graph_hei
 /**
  * Line Chart by date
  *
- * @param array Graph Data
- * @param array labels
- * @param string title
- * @param int width of graph in pixels
- * @param int height of graph in pixels
+ * @param array $p_metrics Graph Data
+ * @param array $p_labels labels
+ * @param string $p_title title
+ * @param int $p_graph_width width of graph in pixels
+ * @param int $p_graph_height height of graph in pixels
  */
 function graph_bydate( $p_metrics, $p_labels, $p_title, $p_graph_width = 300, $p_graph_height = 380 ) {
 	$t_graph_font = graph_get_font();

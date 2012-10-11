@@ -184,10 +184,14 @@ foreach ( $t_plugins_installed as $t_basename => $t_plugin ) {
 	if ( 'MantisCore' == $t_basename ) {
 		echo '<td>&#160;</td><td>&#160;</td>';
 	} else if ( $t_forced ) {
-		echo '<td class="center">','<select disabled="disabled">',print_plugin_priority_list( $t_priority ),'</select>','</td>';
+		echo '<td class="center">','<select disabled="disabled">';
+        print_plugin_priority_list( $t_priority );
+        echo '</select>','</td>';
 		echo '<td class="center">','<input type="checkbox" checked="checked" disabled="disabled"/>','</td>';
 	} else {
-		echo '<td class="center">','<select name="priority_',$t_basename,'">',print_plugin_priority_list( $t_priority ),'</select>','</td>';
+		echo '<td class="center">','<select name="priority_',$t_basename,'">';
+        print_plugin_priority_list( $t_priority );
+        echo '</select>','</td>';
 		echo '<td class="center">','<input type="checkbox" name="protected_',$t_basename,'" '.( $t_protected ? 'checked="checked" ' : '').'/>','</td>';
 	}
 	echo '<td class="center">';

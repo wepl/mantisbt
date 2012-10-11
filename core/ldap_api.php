@@ -264,7 +264,7 @@ function ldap_authenticate( $p_user_id, $p_password ) {
  *
  * @param string $p_username The user name.
  * @param string $p_password The password.
- * @return true: authenticated, false: failed to authenticate.
+ * @return bool true: authenticated, false: failed to authenticate.
  */
 function ldap_authenticate_by_username( $p_username, $p_password ) {
 	$t_dn = ldap_get_field_from_username( $p_username, 'dn' );

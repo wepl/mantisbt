@@ -47,7 +47,7 @@ if( file_exists( $t_this_directory . 'integrity_commit_blobs.php' ) ) {
 /**
  * Returns the Git Object hash for given file
  *
- * @param string filename of file contained in git repository
+ * @param string $p_file filename of file contained in git repository
  * @return string
  */
 function create_git_object_hash( $p_file ) {
@@ -60,8 +60,8 @@ function create_git_object_hash( $p_file ) {
 
 /**
  * Get git tag of object hash for given file
- * @param string filename of file contained in git repository
- * @param string object hash
+ * @param string $p_filename filename of file contained in git repository
+ * @param string $p_object_hash object hash
  * @return string
  */
 function get_release_containing_object_hash( $p_filename, $p_object_hash ) {
@@ -102,10 +102,10 @@ function get_commit_containing_object_hash( $p_filename, $p_object_hash ) {
 /**
  * Check File integrity of local files against release
  *
- * @param string directory
- * @param string base directory
- * @param string relative path prefix
- * @param array files to ignore
+ * @param string $p_directory directory
+ * @param string $p_base_directory base directory
+ * @param string $p_relative_path_prefix relative path prefix
+ * @param array $p_ignore_files files to ignore
  * @return null;
  */
 function check_file_integrity_recursive( $p_directory, $p_base_directory, $p_relative_path_prefix = '', $p_ignore_files = array() ) {

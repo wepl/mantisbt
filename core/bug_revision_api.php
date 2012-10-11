@@ -99,6 +99,7 @@ function bug_revision_exists( $p_revision_id ) {
  * Get a row of data for a given revision ID.
  * @param int $p_revision_id Revision ID
  * @return array Revision data row
+ * @throws MantisBT\Exception\Issue\Revision\RevisionNotFound
  */
 function bug_revision_get( $p_revision_id ) {
 	$t_query = 'SELECT * FROM {bug_revision} WHERE id=%d';
@@ -106,7 +107,7 @@ function bug_revision_get( $p_revision_id ) {
 
 	$t_row = db_fetch_array( $t_result );
 	if ( !$t_row ) {
-		throw new MantisBT\Exception\Bug_Revision_Not_Found();
+		throw new MantisBT\Exception\Issue\Revision\RevisionNotFound();
 	}
 
 	return $t_row;
@@ -114,7 +115,7 @@ function bug_revision_get( $p_revision_id ) {
 
 /**
  * Get the name of the type of a bug revision.
- * @param int Revision type ID (see constant_inc.php for possible values)
+ * @param int $p_revision_type_id Revision type ID (see constant_inc.php for possible values)
  * @return string Name of the type of the bug revision
  */
 function bug_revision_get_type_name( $p_revision_type_id ) {
@@ -291,6 +292,7 @@ function bug_revision_list( $p_bug_id, $p_type=REV_ANY, $p_bugnote_id=0 ) {
  * given revision ID.
  * @param int $p_rev_id Revision ID
  * @return array|null Array of Revision rows
+ * @throws MantisBT\Exception\Issue\Revision\RevisionNotFound
  */
 function bug_revision_like( $p_rev_id ) {
 	$t_query = 'SELECT bug_id, bugnote_id, type FROM {bug_revision} WHERE id=%d';
@@ -299,7 +301,7 @@ function bug_revision_like( $p_rev_id ) {
 	$t_row = db_fetch_array( $t_result );
 	
 	if ( !$t_row ) {
-		throw new MantisBT\Exception\Bug_Revision_Not_Found();
+		throw new MantisBT\Exception\Issue\Revision\RevisionNotFound();
 	}
 
 	$t_bug_id = $t_row['bug_id'];

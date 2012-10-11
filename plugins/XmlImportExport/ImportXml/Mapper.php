@@ -32,42 +32,43 @@ class ImportXml_Mapper {
 
 	/**
 	 * add
-	 * @param mixed type
-	 * @param mixed old
-	 * @param mixed new
+	 * @param mixed $p_type type
+	 * @param mixed $p_old old
+	 * @param mixed $p_new new
 	 */
-	public function add( $type, $old, $new ) {
-		$this->{$type}[ $old ] = $new;
+	public function add( $p_type, $p_old, $p_new ) {
+		$this->{$p_type}[ $p_old ] = $p_new;
 	}
 
 	/**
 	 * check if entry exists within array
-	 * @param mixed type
-	 * @param mixed id
+	 * @param mixed $p_type type
+	 * @param mixed $p_id id
      * @return bool
 	 */
-	public function exists( $type, $id ) {
-		return array_key_exists( $id, $this->{$type} );
+	public function exists( $p_type, $p_id ) {
+		return array_key_exists( $p_id, $this->{$p_type} );
 	}
 
 	/**
 	 * get new id
-	 * @param mixed type
-	 * @param mixed old
+	 * @param mixed $p_type type
+	 * @param mixed $p_old old
+     * @return mixed
 	 */
-	public function getNewID( $type, $old ) {
-		if( $this->exists( $type, $old ) ) {
-			return $this->{$type}[ $old ];
+	public function getNewID( $p_type, $p_old ) {
+		if( $this->exists( $p_type, $p_old ) ) {
+			return $this->{$p_type}[ $p_old ];
 		} else {
-			return $old;
+			return $p_old;
 		}
 	}
 
 	/**
 	 * get all by type
-	 * @param mixed type
+	 * @param mixed $p_type type
 	 */
-	public function getAll( $type ) {
-		return $this->{$type};
+	public function getAll( $p_type ) {
+		return $this->{$p_type};
 	}
 }

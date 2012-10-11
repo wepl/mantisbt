@@ -239,7 +239,7 @@ $t_user_count = count( $t_users );
 <div id="manage-user-div" class="form-container">
 	<h2><?php echo lang_get( 'manage_accounts_title' ) ?></h2> [<?php echo $t_total_user_count ?>]
 	<?php print_button( 'user_create_page.php', lang_get( 'create_new_account_link' ) ) ?>
-	<?php if ( $f_filter === 'UNUSED' ) echo print_button( 'user_prune.php', lang_get( 'prune_accounts' ) ); ?>
+	<?php if ( $f_filter === 'UNUSED' ) print_button( 'user_prune.php', lang_get( 'prune_accounts' ) ); ?>
 	<form id="manage-user-filter" method="post" action="user_page.php">
 		<fieldset>
 			<?php # CSRF protection not required here - form does not result in modifications ?>

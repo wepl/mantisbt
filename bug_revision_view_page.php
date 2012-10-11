@@ -95,7 +95,7 @@ if ( $f_bug_id ) {
 /**
  * Show Bug revision
  *
- * @param array Bug Revision Data
+ * @param array $p_revision Bug Revision Data
  * @return null
  */
 function show_revision( $p_revision ) {

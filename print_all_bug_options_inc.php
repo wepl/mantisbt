@@ -83,9 +83,9 @@ function get_field_names()
 
 /**
  * Edit Printing preferences
- * @param int user id
- * @param bool error if account protected
- * @param string redirect url
+ * @param int $p_user_id user id
+ * @param bool $p_error_if_protected error if account protected
+ * @param string $p_redirect_url redirect url
  */
 function edit_printing_prefs( $p_user_id = null, $p_error_if_protected = true, $p_redirect_url = '' )
 {

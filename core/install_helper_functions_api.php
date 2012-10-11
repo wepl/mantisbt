@@ -356,7 +356,7 @@ function install_do_nothing() {
 
 /**
  * Create default admin user if it does not exist
- * @param array User/password array
+ * @param array $p_data User/password array
  * @return int
  */
 function install_create_admin_if_not_exist( $p_data ) {

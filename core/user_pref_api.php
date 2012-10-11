@@ -660,13 +660,12 @@ function user_pref_set_pref( $p_user_id, $p_pref_name, $p_pref_value, $p_project
  * @param int $p_user_id
  * @param UserPreferences $p_prefs
  * @param int $p_project_id
- * @return bool
  */
 function user_pref_set( $p_user_id, $p_prefs, $p_project_id = ALL_PROJECTS ) {
 	if( user_pref_exists( $p_user_id, $p_project_id ) ) {
-		return user_pref_update( $p_user_id, $p_project_id, $p_prefs );
+		user_pref_update( $p_user_id, $p_project_id, $p_prefs );
 	} else {
-		return user_pref_insert( $p_user_id, $p_project_id, $p_prefs );
+		user_pref_insert( $p_user_id, $p_project_id, $p_prefs );
 	}
 }
 

@@ -74,10 +74,11 @@ function category_exists( $p_category_id ) {
  * Trigger an error if it does not
  * @param int $p_category_id category id
  * @access public
+ * @throws MantisBT\Exception\Issue\Category\CategoryNotFound
  */
  function category_ensure_exists( $p_category_id ) {
 	if( !category_exists( $p_category_id ) ) {
-		throw new MantisBT\Exception\Category_Not_Found();
+		throw new MantisBT\Exception\Issue\Category\CategoryNotFound();
 	}
 }
 
@@ -106,10 +107,11 @@ function category_exists( $p_category_id ) {
  * @param string $p_name Category Name
  * @return null
  * @access public
+ * @throws MantisBT\Exception\Issue\Category\CategoryDuplicate
  */
  function category_ensure_unique( $p_project_id, $p_name ) {
 	if( !category_is_unique( $p_project_id, $p_name ) ) {
-		throw new MantisBT\Exception\Category_Duplicate();
+		throw new MantisBT\Exception\Issue\Category\CategoryDuplicate();
 	}
 }
 
@@ -499,8 +501,8 @@ function category_cache_array_rows( $p_cat_id_array ) {
 /**
  * Given a category id and a field name, this function returns the field value.
  * An error will be triggered for a non-existent category id or category id = 0.
- * @param int category id
- * @param string field name
+ * @param int $p_category_id category id
+ * @param string $p_field_name field name
  * @return string field value
  * @access public
  */
@@ -549,9 +551,9 @@ function category_get_field( $p_category_id, $p_field_name ) {
 
 /**
  * Retrieves category name (including project name if required)
- * @param string category id
- * @param bool show project details
- * @param int current project id override
+ * @param string $p_category_id category id
+ * @param bool $p_show_project show project details
+ * @param int $p_current_project current project id override
  * @return string category full name
  * @access public
  */

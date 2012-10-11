@@ -245,10 +245,10 @@ function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=
 
 /**
  * Get enum row
- * @param string caption
- * @param string threshold
- * @param string enum
- * @param bool all projects only
+ * @param string $p_caption caption
+ * @param string $p_threshold threshold
+ * @param string $p_enum enum
+ * @param bool $p_all_projects_only all projects only
  */
 function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects_only=false ) {
 	global $t_user, $t_project_id, $t_show_submit, $t_access_levels;

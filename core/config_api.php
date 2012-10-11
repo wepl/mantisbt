@@ -481,9 +481,9 @@ function config_can_delete( $p_option ) {
 /**
  * delete the config entry
  *
- * @param string config option
- * @param int user id
- * @param int project id
+ * @param string $p_option config option
+ * @param int $p_user user id
+ * @param int $p_project project id
  */
 function config_delete( $p_option, $p_user = ALL_USERS, $p_project = ALL_PROJECTS ) {
 	global $g_cache_config, $g_cache_config_access;

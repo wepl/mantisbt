@@ -1257,8 +1257,8 @@ function email_format_bug_message( $p_visible_bug_data ) {
  * if $p_visible_bug_data contains specified attribute the function
  * returns concatenated translated attribute name and original
  * attribute value. Else return empty string.
- * @param array Visible Bug Data array
- * @param string Attribute ID
+ * @param array $p_visible_bug_data Visible Bug Data array
+ * @param string $p_attribute_id Attribute ID
  * @return string
  */
 function email_format_attribute( $p_visible_bug_data, $p_attribute_id ) {

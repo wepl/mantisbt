@@ -605,7 +605,7 @@ function plugin_needs_upgrade( $p_plugin ) {
 
 /**
  * Upgrade an installed plugin's schema.
- * @param string $p_plugin Plugin basename
+ * @param MantisPlugin $p_plugin Plugin basename
  * @return mixed True if upgrade completed, null if problem
  */
 function plugin_upgrade( $p_plugin ) {
@@ -670,7 +670,7 @@ function plugin_upgrade( $p_plugin ) {
 
 /**
  * Uninstall a plugin from the database.
- * @param string $p_plugin Plugin basename
+ * @param MantisPlugin $p_plugin Plugin basename
  */
 function plugin_uninstall( $p_plugin ) {
 	access_ensure_global_level( config_get_global( 'manage_plugin_threshold' ) );

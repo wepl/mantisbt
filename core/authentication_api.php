@@ -565,7 +565,7 @@ function auth_is_cookie_string_unique( $p_cookie_string ) {
  * if no user is logged in and anonymous login is enabled, returns cookie for anonymous user
  * otherwise returns '' (an empty string)
  *
- * @param boolean auto-login anonymous user
+ * @param boolean $p_login_anonymous auto-login anonymous user
  * @return string current user login cookie string
  * @access public
  */
@@ -609,7 +609,7 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 
 /**
  * Set authentication tokens for secure session.
- * @param integer User ID
+ * @param integer $p_user_id User ID
  * @access public
  */
 function auth_set_tokens( $p_user_id ) {
@@ -655,8 +655,8 @@ function auth_reauthenticate() {
 
 /**
  * Generate the intermediate authentication page.
- * @param integer User ID
- * @param string Username
+ * @param integer $p_user_id User ID
+ * @param string $p_username Username
  * @return bool
  * @access public
  */
@@ -795,7 +795,7 @@ function auth_http_prompt() {
 	header( 'WWW-Authenticate: Basic realm="' . lang_get( 'http_auth_realm' ) . '"' );
 	header( 'status: 401 Unauthorized' );
 
-	echo '<p class="center error-msg">' . error_string( ERROR_ACCESS_DENIED ) . '</p>';
+	echo '<p class="center error-msg">' . lang_get( 'access_denied' ) . '</p>';
 	print_bracket_link( 'main_page.php', lang_get( 'proceed' ) );
 
 	exit;

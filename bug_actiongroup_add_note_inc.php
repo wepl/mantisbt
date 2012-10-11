@@ -93,7 +93,7 @@ function action_add_note_print_fields() {
 /**
  * Validates the action on the specified bug id.
  *
- * @param int bug id
+ * @param int $p_bug_id bug id
  * @return string|null On failure: the reason why the action could not be validated. On success: null.
  * @throws MantisBT\Exception\Field\EmptyField
  */
@@ -121,7 +121,7 @@ function action_add_note_validate( $p_bug_id ) {
 /**
  * Executes the custom action on the specified bug id.
  *
- * @param $p_bug_id  The bug id to execute the custom action on.
+ * @param int $p_bug_id The bug id to execute the custom action on.
  * @return null Previous validation ensures that this function doesn't fail. Therefore we can always return null to indicate no errors occurred.
  */
 function action_add_note_process( $p_bug_id ) {

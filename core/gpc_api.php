@@ -92,6 +92,7 @@ function gpc_isset( $p_var_name ) {
  * @param string $p_var_name
  * @param string $p_default (optional)
  * @return string|null
+ * @throws MantisBT\Exception\Validation\ArrayNotExpected
  */
 function gpc_get_string( $p_var_name, $p_default = null ) {
 
@@ -101,7 +102,7 @@ function gpc_get_string( $p_var_name, $p_default = null ) {
 	$t_result = call_user_func_array( 'gpc_get', $args );
 
 	if( is_array( $t_result ) ) {
-		throw new MantisBT\Exception\GPC_Array_Unexpected( $p_var_name );
+		throw new MantisBT\Exception\Validation\ArrayNotExpected( $p_var_name );
 	}
 
 	return str_replace( "\0","",$t_result );
@@ -114,6 +115,7 @@ function gpc_get_string( $p_var_name, $p_default = null ) {
  * @param string $p_var_name
  * @param int $p_default (optional)
  * @return int|null
+ * @throws MantisBT\Exception\Validation\ArrayNotExpected
  */
 function gpc_get_int( $p_var_name, $p_default = null ) {
 	# Don't pass along a default unless one was given to us
@@ -122,7 +124,7 @@ function gpc_get_int( $p_var_name, $p_default = null ) {
 	$t_result = call_user_func_array( 'gpc_get', $args );
 
 	if( is_array( $t_result ) ) {
-		throw new MantisBT\Exception\GPC_Array_Unexpected( $p_var_name );
+		throw new MantisBT\Exception\Validation\ArrayNotExpected( $p_var_name );
 	}
 	$t_val = str_replace( ' ', '', trim( $t_result ) );
 	if( !preg_match( "/^-?([0-9])*$/", $t_val ) ) {
@@ -138,6 +140,7 @@ function gpc_get_int( $p_var_name, $p_default = null ) {
  * @param string $p_var_name
  * @param bool $p_default (optional)
  * @return bool|null
+ * @throws MantisBT\Exception\Validation\ArrayNotExpected
  */
 function gpc_get_bool( $p_var_name, $p_default = false ) {
 	$t_result = gpc_get( $p_var_name, $p_default );
@@ -146,7 +149,7 @@ function gpc_get_bool( $p_var_name, $p_default = false ) {
 		return $p_default;
 	} else {
 		if( is_array( $t_result ) ) {
-			throw new MantisBT\Exception\GPC_Array_Unexpected( $p_var_name );
+			throw new MantisBT\Exception\Validation\ArrayNotExpected( $p_var_name );
 		}
 
 		return gpc_string_to_bool( $t_result );
@@ -233,6 +236,7 @@ function gpc_get_custom_field( $p_var_name, $p_custom_field_type, $p_default = n
  * @param string $p_var_name
  * @param array $p_default
  * @return array
+ * @throws MantisBT\Exception\Validation\ArrayExpected
  */
 function gpc_get_string_array( $p_var_name, $p_default = null ) {
 	# Don't pass along a default unless one was given to us
@@ -242,7 +246,7 @@ function gpc_get_string_array( $p_var_name, $p_default = null ) {
 
 	# If we the result isn't the default we were given or an array, error
 	if( !((( 1 < func_num_args() ) && ( $t_result === $p_default ) ) || is_array( $t_result ) ) ) {
-		throw new MantisBT\Exception\GPC_Array_Expected( $p_var_name );
+		throw new MantisBT\Exception\Validation\ArrayExpected( $p_var_name );
 	}
 
 	if( is_array( $t_result ) ) {
@@ -263,6 +267,7 @@ function gpc_get_string_array( $p_var_name, $p_default = null ) {
  * @param string $p_var_name
  * @param array $p_default
  * @return array
+ * @throws MantisBT\Exception\Validation\ArrayExpected
  */
 function gpc_get_int_array( $p_var_name, $p_default = null ) {
 	# Don't pass along a default unless one was given to us
@@ -272,7 +277,7 @@ function gpc_get_int_array( $p_var_name, $p_default = null ) {
 
 	# If we the result isn't the default we were given or an array, error
 	if( !((( 1 < func_num_args() ) && ( $t_result === $p_default ) ) || is_array( $t_result ) ) ) {
-		throw new MantisBT\Exception\GPC_Array_Expected( $p_var_name );
+		throw new MantisBT\Exception\Validation\ArrayExpected( $p_var_name );
 	}
 
 	$t_count = count( $t_result );
@@ -289,6 +294,7 @@ function gpc_get_int_array( $p_var_name, $p_default = null ) {
  * @param string $p_var_name
  * @param string $p_default
  * @return array
+ * @throws MantisBT\Exception\Validation\ArrayExpected
  */
 function gpc_get_bool_array( $p_var_name, $p_default = null ) {
 	# Don't pass along a default unless one was given to us
@@ -298,7 +304,7 @@ function gpc_get_bool_array( $p_var_name, $p_default = null ) {
 
 	# If we the result isn't the default we were given or an array, error
 	if( !((( 1 < func_num_args() ) && ( $t_result === $p_default ) ) || is_array( $t_result ) ) ) {
-		throw new MantisBT\Exception\GPC_Array_Expected( $p_var_name );
+		throw new MantisBT\Exception\Validation\ArrayExpected( $p_var_name );
 	}
 
 	$t_count = count( $t_result );

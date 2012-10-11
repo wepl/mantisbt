@@ -103,11 +103,10 @@ function current_user_get_pref( $p_pref_name ) {
  *
  * @param string $p_pref_name The name of the preference as in the preferences table.
  * @param string $p_pref_value The preference new value.
- * @return bool
  * @access public
  */
 function current_user_set_pref( $p_pref_name, $p_pref_value ) {
-	return user_pref_set_pref( auth_get_current_user_id(), $p_pref_name, $p_pref_value );
+	user_pref_set_pref( auth_get_current_user_id(), $p_pref_name, $p_pref_value );
 }
 
 /**

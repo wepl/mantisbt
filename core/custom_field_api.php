@@ -385,6 +385,7 @@ function custom_field_has_write_access( $p_field_id, $p_bug_id, $p_user_id = nul
  * @param string $p_name custom field name
  * @return int custom field id
  * @access public
+ * @throws MantisBT\Exception\Field\EmptyField
  */
 function custom_field_create( $p_name ) {
 	$c_name = trim( $p_name );
@@ -406,7 +407,7 @@ function custom_field_create( $p_name ) {
  * Update the field definition
  * return true on success, false on failure
  * @param int $p_field_id custom field id
- * @param array custom field definition
+ * @param array $p_def_array custom field definition
  * @return bool
  * @access public
  * @throws MantisBT\Exception\Field\EmptyField
@@ -1242,10 +1243,10 @@ function custom_field_default_to_value( $p_value, $p_type ) {
 /**
  * Set the value of a custom field for a given bug
  * return true on success, false on failure
- * @param int custom field id
- * @param int bug id
- * @param mixed new custom field value
- * @param boolean create history logs for new values
+ * @param int $p_field_id custom field id
+ * @param int $p_bug_id bug id
+ * @param mixed $p_value new custom field value
+ * @param boolean $p_log_insert create history logs for new values
  * @return bool
  * @access public
  */
@@ -1344,9 +1345,9 @@ function print_custom_field_input( $p_field_def, $p_bug_id = null ) {
 
 /**
  * Prepare a string containing a custom field value for display
- * @param array contains the definition of the custom field
- * @param int contains the id of the field
- * @param int contains the bug id to display the custom field value for
+ * @param array $p_def contains the definition of the custom field
+ * @param int $p_field_id contains the id of the field
+ * @param int $p_bug_id contains the bug id to display the custom field value for
  * @return string
  * @access public
  */

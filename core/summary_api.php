@@ -715,9 +715,9 @@ function summary_print_by_category() {
  * print bug counts by project
  * @todo check p_cache
  *
- * @param array Array of project id's
- * @param int level
- * @param int cache
+ * @param array $p_projects Array of project id's
+ * @param int $p_level level
+ * @param int $p_cache cache
  */
 function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = null ) {
 	$t_project_id = helper_get_current_project();
@@ -793,7 +793,7 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 /**
  * Print developer / resolution report
  *
- * @param string resolution enum string
+ * @param string $p_resolution_enum_string resolution enum string
  */
 function summary_print_developer_resolution( $p_resolution_enum_string ) {
 	$t_project_id = helper_get_current_project();
@@ -897,7 +897,7 @@ function summary_print_developer_resolution( $p_resolution_enum_string ) {
 /**
  * Print reporter / resolution report
  *
- * @param string resolution enum string
+ * @param string $p_resolution_enum_string resolution enum string
  */
 function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );
@@ -1012,8 +1012,8 @@ function summary_print_reporter_resolution( $p_resolution_enum_string ) {
 /**
  * Print reporter effectiveness report
  *
- * @param string severity enum string
- * @param string resolution enum string
+ * @param string $p_severity_enum_string severity enum string
+ * @param string $p_resolution_enum_string resolution enum string
  */
 function summary_print_reporter_effectiveness( $p_severity_enum_string, $p_resolution_enum_string ) {
 	$t_reporter_summary_limit = config_get( 'reporter_summary_limit' );

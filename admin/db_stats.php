@@ -32,8 +32,8 @@ html_page_top();
 /**
  * Output HTML Table Row
  *
- * @param string Row Description
- * @param string Row Value
+ * @param string $p_description Row Description
+ * @param string $p_value Row Value
  */
 function print_info_row( $p_description, $p_value ) {
 	echo '<tr>';
@@ -45,7 +45,7 @@ function print_info_row( $p_description, $p_value ) {
 /**
  * Function to get row count for a given table
  *
- * @param string table name
+ * @param string $p_table table name
  * @return int row count
  */
 function helper_table_row_count( $p_table ) {

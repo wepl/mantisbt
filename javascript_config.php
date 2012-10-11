@@ -29,7 +29,7 @@ require_api( 'config_api.php' );
 
 /**
  * Print array of config option->values for javascript
- * @param string config option
+ * @param string $p_config_key config option
  */
 function print_config_value( $p_config_key ) {
 	echo "config['" . $p_config_key . "'] = '" . addslashes( config_get( $p_config_key ) ) . "';\n";
@@ -37,8 +37,7 @@ function print_config_value( $p_config_key ) {
 
 /**
  * Send correct MIME Content-Type header for JavaScript content.
- * See http://www.rfc-editor.org/rfc/rfc4329.txt for details on why
- * application/javasscript is the correct MIME type.
+ * See http://www.rfc-editor.org/rfc/rfc4329.txt for details on why application/javascript is the correct MIME type.
  */
 header( 'Content-Type: application/javascript; charset=UTF-8' );
 

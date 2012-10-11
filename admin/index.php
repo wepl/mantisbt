@@ -33,8 +33,8 @@ html_page_top( 'MantisBT Administration' );
 /**
  * Print Check result - information only
  *
- * @param string description
- * @param string information
+ * @param string $p_description description
+ * @param string $p_value information
  */
 function print_info_row( $p_description, $p_value ) {
 	echo '<tr>';

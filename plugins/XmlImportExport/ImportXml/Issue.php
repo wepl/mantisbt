@@ -59,42 +59,42 @@ class ImportXml_Issue implements ImportXml_Interface {
 
 	/**
 	 * Constructor
-	 * @param bool keep category
-	 * @param int category id
+	 * @param bool $p_keepCategory keep category
+	 * @param int $p_defaultCategory category id
 	 */
-	public function __construct( $keepCategory, $defaultCategory ) {
+	public function __construct( $p_keepCategory, $p_defaultCategory ) {
 		$this->newbug_ = new MantisBug;
-		$this->keepCategory_ = $keepCategory;
-		$this->defaultCategory_ = $defaultCategory;
+		$this->keepCategory_ = $p_keepCategory;
+		$this->defaultCategory_ = $p_defaultCategory;
 	}
 
 	/**
 	 * Read stream until current item finishes, processing the data found
-	 * @param XMLreader XML Reader
+	 * @param XMLreader $p_reader XML Reader
 	 */
-	public function process( XMLreader $reader ) {
+	public function process( XMLreader $p_reader ) {
 		//print "\nImportIssue process()\n";
 		$t_project_id = helper_get_current_project(); // TODO: category_get_id_by_name could work by default on current project
 		$userId = auth_get_current_user_id( );
 
-		$depth = $reader->depth;
-		while( $reader->read() &&
-				($reader->depth > $depth ||
-				 $reader->nodeType != XMLReader::END_ELEMENT)) {
-			if( $reader->nodeType == XMLReader::ELEMENT ) {
-				switch( $reader->localName ) {
+		$depth = $p_reader->depth;
+		while( $p_reader->read() &&
+				($p_reader->depth > $depth ||
+				 $p_reader->nodeType != XMLReader::END_ELEMENT)) {
+			if( $p_reader->nodeType == XMLReader::ELEMENT ) {
+				switch( $p_reader->localName ) {
 					case 'reporter':
-						$t_old_id = $reader->getAttribute( 'id' );
-						$reader->read( );
-						$this->newbug_->reporter_id = $this->get_user_id( $reader->value, $userId );
+						$t_old_id = $p_reader->getAttribute( 'id' );
+						$p_reader->read( );
+						$this->newbug_->reporter_id = $this->get_user_id( $p_reader->value, $userId );
 
 						//echo "reporter: old id = $t_old_id - new id = {$this->newbug_->reporter_id}\n";
 						break;
 
 					case 'handler':
-						$t_old_id = $reader->getAttribute( 'id' );
-						$reader->read( );
-						$this->newbug_->handler_id = $this->get_user_id( $reader->value, $userId );
+						$t_old_id = $p_reader->getAttribute( 'id' );
+						$p_reader->read( );
+						$this->newbug_->handler_id = $this->get_user_id( $p_reader->value, $userId );
 
 						//echo "handler: old id = $t_old_id - new id = {$this->newbug_->handler_id}\n";
 						break;
@@ -105,10 +105,10 @@ class ImportXml_Issue implements ImportXml_Interface {
 						// TODO: if we port the import/export code to 1.1.x, this needs to be
 						//       improved to cope with the different cases (1.1 => 1.2, 1.2 => 1.1 etc)
 						if( version_compare( MANTIS_VERSION, '1.2', '>' ) === true ) {
-							$reader->read( );
+							$p_reader->read( );
 
 							if( $this->keepCategory_ ) {
-								$t_category_id = category_get_id_by_name( $reader->value, $t_project_id );
+								$t_category_id = category_get_id_by_name( $p_reader->value, $t_project_id );
 								if( $t_category_id !== false ) {
 									$this->newbug_->category_id = $t_category_id;
 								}
@@ -126,10 +126,10 @@ class ImportXml_Issue implements ImportXml_Interface {
 					case 'severity':
 					case 'status':
 					case 'view_state':
-						$t_field = $reader->localName;
-						$t_id = $reader->getAttribute( 'id' );
-						$reader->read( );
-						$t_value = $reader->value;
+						$t_field = $p_reader->localName;
+						$t_id = $p_reader->getAttribute( 'id' );
+						$p_reader->read( );
+						$t_value = $p_reader->value;
 
 						// Here we assume ids have the same meaning in both installations
 						// TODO add a check for customized values
@@ -137,8 +137,8 @@ class ImportXml_Issue implements ImportXml_Interface {
 						break;
 
 					case 'id':
-						$reader->read( );
-						$this->old_id_ = $reader->value;
+						$p_reader->read( );
+						$this->old_id_ = $p_reader->value;
 						break;
 
 					case 'project';
@@ -149,19 +149,19 @@ class ImportXml_Issue implements ImportXml_Interface {
 					case 'custom_fields':
 						// store custom fields
 						$i = -1;
-						$depth_cf = $reader->depth;
-						while ( $reader->read() &&
-						        ( $reader->depth > $depth_cf ||
-						          $reader->nodeType != XMLReader::END_ELEMENT ) ) {
-							if ( $reader->nodeType == XMLReader::ELEMENT ) {
-								if ($reader->localName == 'custom_field') {
+						$depth_cf = $p_reader->depth;
+						while ( $p_reader->read() &&
+						        ( $p_reader->depth > $depth_cf ||
+						          $p_reader->nodeType != XMLReader::END_ELEMENT ) ) {
+							if ( $p_reader->nodeType == XMLReader::ELEMENT ) {
+								if ($p_reader->localName == 'custom_field') {
 									$i++;
 								}
-								switch ( $reader->localName ) {
+								switch ( $p_reader->localName ) {
 									default:
-										$field = $reader->localName;
-										$reader->read( );
-										$t_custom_fields[$i]->$field = $reader->value;
+										$field = $p_reader->localName;
+										$p_reader->read( );
+										$t_custom_fields[$i]->$field = $p_reader->value;
 								}
 							}
 						}
@@ -170,31 +170,31 @@ class ImportXml_Issue implements ImportXml_Interface {
 					case 'bugnotes':
 						// store bug notes
 						$i = -1;
-						$depth_bn = $reader->depth;
-						while ( $reader->read() &&
-						        ( $reader->depth > $depth_bn ||
-						          $reader->nodeType != XMLReader::END_ELEMENT ) ) {
-							if ( $reader->nodeType == XMLReader::ELEMENT ) {
-								if ($reader->localName == 'bugnote') {
+						$depth_bn = $p_reader->depth;
+						while ( $p_reader->read() &&
+						        ( $p_reader->depth > $depth_bn ||
+						          $p_reader->nodeType != XMLReader::END_ELEMENT ) ) {
+							if ( $p_reader->nodeType == XMLReader::ELEMENT ) {
+								if ($p_reader->localName == 'bugnote') {
 									$i++;
 								}
-								switch ( $reader->localName ) {
+								switch ( $p_reader->localName ) {
 									case 'reporter':
-										$t_old_id = $reader->getAttribute( 'id' );
-										$reader->read( );
-										$t_bugnotes[$i]->reporter_id = $this->get_user_id( $reader->value, $userId );
+										$t_old_id = $p_reader->getAttribute( 'id' );
+										$p_reader->read( );
+										$t_bugnotes[$i]->reporter_id = $this->get_user_id( $p_reader->value, $userId );
 										break;
 
 									case 'view_state':
-										$t_old_id = $reader->getAttribute( 'id' );
-										$reader->read( );
-										$t_bugnotes[$i]->private = $reader->value == VS_PRIVATE ? true : false;
+										$t_old_id = $p_reader->getAttribute( 'id' );
+										$p_reader->read( );
+										$t_bugnotes[$i]->private = $p_reader->value == VS_PRIVATE ? true : false;
 										break;
 
 									default:
-										$field = $reader->localName;
-										$reader->read( );
-										$t_bugnotes[$i]->$field = $reader->value;
+										$field = $p_reader->localName;
+										$p_reader->read( );
+										$t_bugnotes[$i]->$field = $p_reader->value;
 								}
 							}
 						}
@@ -203,30 +203,30 @@ class ImportXml_Issue implements ImportXml_Interface {
 					case 'attachments':
 						// store attachments
 						$i = -1;
-						$depth_att = $reader->depth;
-						while ( $reader->read() &&
-						        ( $reader->depth > $depth_att ||
-						          $reader->nodeType != XMLReader::END_ELEMENT ) ) {
-							if ( $reader->nodeType == XMLReader::ELEMENT ) {
-								if ($reader->localName == 'attachment') {
+						$depth_att = $p_reader->depth;
+						while ( $p_reader->read() &&
+						        ( $p_reader->depth > $depth_att ||
+						          $p_reader->nodeType != XMLReader::END_ELEMENT ) ) {
+							if ( $p_reader->nodeType == XMLReader::ELEMENT ) {
+								if ($p_reader->localName == 'attachment') {
 									$i++;
 								}
-								switch ( $reader->localName ) {
+								switch ( $p_reader->localName ) {
 									default:
-										$field = $reader->localName;
-										$reader->read( );
-										$t_attachments[$i]->$field = $reader->value;
+										$field = $p_reader->localName;
+										$p_reader->read( );
+										$t_attachments[$i]->$field = $p_reader->value;
 								}
 							}
 						}
 						break;
 
 					default:
-						$field = $reader->localName;
+						$field = $p_reader->localName;
 
 						//echo "using default handler for field: $field\n";
-						$reader->read( );
-						$this->newbug_->$field = $reader->value;
+						$p_reader->read( );
+						$this->newbug_->$field = $p_reader->value;
 				}
 			}
 		}
@@ -294,21 +294,21 @@ class ImportXml_Issue implements ImportXml_Interface {
      * Return the user id in the destination tracker
 	 *
 	 * Current logic is: try to find the same user by username;
-	 * if it fails, use $squash_userid
+	 * if it fails, use $p_squash_userid
 	 *
-	 * @param string username as imported
-	 * @param int fallback userid
+	 * @param string $p_username username as imported
+	 * @param int $p_squash_userid fallback userid
      * @return int
 	 */
-	private function get_user_id( $username, $squash_userid = 0 ) {
-		$t_user_id = user_get_id_by_name( $username );
+	private function get_user_id( $p_username, $p_squash_userid = 0 ) {
+		$t_user_id = user_get_id_by_name( $p_username );
 		if( $t_user_id === false ) {
 			// user not found by username -> check real name
 			// keep in mind that the setting config_get( 'show_realname' ) may differ between import and export system!
-			$t_user_id = user_get_id_by_realname( $username );
+			$t_user_id = user_get_id_by_realname( $p_username );
 			if ( $t_user_id === false ) {
 				//not found
-				$t_user_id = $squash_userid;
+				$t_user_id = $p_squash_userid;
 			}
 		}
 		return $t_user_id;

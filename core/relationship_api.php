@@ -728,11 +728,11 @@ function relationship_get_summary_text( $p_bug_id ) {
 }
 
 /**
- * print HTML relationship listbox
- * @param int Relationship Type (default -1)
- * @param string List box name (default "rel_type")
- * @param boolInclude an ANY option in list box (default false)
- * @param bool Include a NONE option in list box (default false)
+ * print HTML relationship list box
+ * @param int $p_default_rel_type Relationship Type (default -1)
+ * @param string $p_select_name List box name (default "rel_type")
+ * @param bool $p_include_any Include an ANY option in list box (default false)
+ * @param bool $p_include_none Include a NONE option in list box (default false)
  * @return null
  */
 function relationship_list_box( $p_default_rel_type = -1, $p_select_name = "rel_type", $p_include_any = false, $p_include_none = false ) {
@@ -760,7 +760,7 @@ function relationship_list_box( $p_default_rel_type = -1, $p_select_name = "rel_
 
 /**
  * print HTML relationship form
- * @param int Bug id
+ * @param int $p_bug_id Bug id
  * @return null
  */
 function relationship_view_box( $p_bug_id ) {

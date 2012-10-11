@@ -1056,10 +1056,9 @@ function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
  * Set Users Default project in preferences
  * @param int $p_user_id User ID
  * @param int $p_project_id Project ID
- * @return bool
  */
 function user_set_default_project( $p_user_id, $p_project_id ) {
-	return user_pref_set_pref( $p_user_id, 'default_project', (int) $p_project_id );
+	user_pref_set_pref( $p_user_id, 'default_project', (int) $p_project_id );
 }
 
 /**

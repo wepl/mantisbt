@@ -33,22 +33,19 @@ $f_move_type = gpc_get( 'doc' );
 /**
  * Get File Path prefix
  *
- * @param string file path
+ * @param string $p_file_path file path
  * @return string
  */
-function get_prefix( $file_path ) {
-	if( substr( $file_path, 0, 1 ) == '/' ) {
-
+function get_prefix( $p_file_path ) {
+	if( substr( $p_file_path, 0, 1 ) == '/' ) {
 		# Unix absolute
 		return '';
 	}
-	if( substr( $file_path, 0, 1 ) == '\\' ) {
-
+	if( substr( $p_file_path, 0, 1 ) == '\\' ) {
 		# Windows absolute
 		return '';
 	}
-	if( substr( $file_path, 1, 2 ) == ':\\' ) {
-
+	if( substr( $p_file_path, 1, 2 ) == ':\\' ) {
 		# Windows absolute
 		return '';
 	}
@@ -67,7 +64,7 @@ function get_prefix( $file_path ) {
  * Re-running this is safe because the data
  * is not removed from the database until it is successfully copied.
  *
- * @param string source - either attachment or project
+ * @param string $p_source source - either attachment or project
  * @return null
  */
 function upgrade_move_att2disk( $p_source ) {

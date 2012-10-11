@@ -812,8 +812,8 @@ function bug_close( $p_bug, $p_bugnote_text = '', $p_bugnote_private = false, $p
  * @param int $p_handler_id handler id
  * @param bool $p_bugnote_private private bugnote
  * @param string $p_time_tracking time tracking
- * @return bool (alawys true)
  * @access public
+ * @throws MantisBT\Exception\Issue\IssueDuplicateSelf
  */
 function bug_resolve( $p_bug, $p_resolution, $p_fixed_in_version = '', $p_bugnote_text = '', $p_duplicate_id = null, $p_handler_id = null, $p_bugnote_private = false, $p_time_tracking = '0:00' ) {
 	$c_resolution = (int) $p_resolution;
@@ -826,7 +826,7 @@ function bug_resolve( $p_bug, $p_resolution, $p_fixed_in_version = '', $p_bugnot
 	$t_duplicate = !is_blank( $p_duplicate_id ) && ( $p_duplicate_id != 0 );
 	if( $t_duplicate ) {
 		if( $p_bug->id == $p_duplicate_id ) {
-			throw new MantisBT\Exception\Bug_Duplicate_Self();
+			throw new MantisBT\Exception\Issue\IssueDuplicateSelf();
 
 			# never returns
 		}
@@ -885,8 +885,6 @@ function bug_resolve( $p_bug, $p_resolution, $p_fixed_in_version = '', $p_bugnot
 	email_relationship_child_resolved( $p_bug->id );
 
 	twitter_issue_resolved( $p_bug->id );
-
-	return true;
 }
 
 /**

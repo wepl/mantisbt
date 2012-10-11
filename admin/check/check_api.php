@@ -44,11 +44,11 @@ function check_init_error_handler() {
 
 /**
  * Implement Error handler for check framework
- * @param int type
- * @param string error
- * @param string file
- * @param int line
- * @param string context
+ * @param int $p_type type
+ * @param string $p_error error
+ * @param string $p_file file
+ * @param int $p_line line
+ * @param string $p_context context
  */
 function check_error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 	global $g_errors_raised;
@@ -149,7 +149,7 @@ function check_print_info_row( $p_description, $p_info = null ) {
 
 /**
  * Print Check Test Result
- * @param int BAD|GOOD|WARN
+ * @param int $p_result BAD|GOOD|WARN
  */
 function check_print_test_result( $p_result ) {
 	global $g_alternate_row, $g_failed_test, $g_passed_test_with_warnings;
@@ -170,9 +170,10 @@ function check_print_test_result( $p_result ) {
 
 /**
  * Print Check Test Row
- * @param string description
- * @param bool pass
- * @param string information
+ * @param string $p_description description
+ * @param bool $p_pass pass
+ * @param string $p_info information
+ * @return bool
  */
 function check_print_test_row( $p_description, $p_pass, $p_info = null ) {
 	global $g_alternate_row, $g_show_all;

@@ -371,11 +371,11 @@ function checktoken( $file, $base = false ) {
 
 /**
  * Error handler for language file checks
- * @param int type
- * @param string error
- * @param string file
- * @param int line
- * @param string context
+ * @param int $p_type type
+ * @param string $p_error error
+ * @param string $p_file file
+ * @param int $p_line line
+ * @param string $p_context context
  */
 function lang_error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 	print_error( "error handler thrown: " . $p_type . '<br />' . $p_error . '<br />' . $p_file . '<br />' . $p_line . '<br />' . $p_context );
@@ -384,7 +384,7 @@ function lang_error_handler( $p_type, $p_error, $p_file, $p_line, $p_context ) {
 /**
  * Print Language File error
  *
- * @param string error string
+ * @param string $p_string error string
  */
 function print_error( $p_string ) {
 	echo '<p class="error-msg">ERROR: ', $p_string, '</p>';

@@ -50,7 +50,7 @@ print_manage_config_menu( 'adm_permissions_report.php' );
 
 /**
  * Get section header for permissions report
- * @param string section name
+ * @param string $p_section_name section name
  * @return string
  */
 function get_section_begin_apr( $p_section_name ) {

@@ -51,7 +51,7 @@ if ( isset( $t_current_font_selected[$t_current_font] ) ) {
 /**
  * Prints checked="checked" to the end of a HTML <option> tag if the supplied
  * font name matches the current font configuration value.
- * @param string The name of the font to check
+ * @param string $p_font_name The name of the font to check
  * @return string Either checked="checked" for a match or otherwise an empty string
  */
 function print_font_checked( $p_font_name ) {

@@ -75,7 +75,7 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
             $this->post_connect();
             return true;
         } catch (PDOException $ex) {
-            throw new MantisBT\Exception\Database\QueryFailed($ex->getMessage());
+            throw new MantisBT\Exception\Database\ConnectionFailed( array( $ex->getCode(), $ex->getMessage() ) );
         }
     }
 

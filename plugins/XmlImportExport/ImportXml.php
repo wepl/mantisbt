@@ -61,12 +61,12 @@ class SourceData {
 
 	/**
 	 * Get url to view bugnote
-	 * @param int issue id
-	 * @param int note id
+	 * @param int $p_issue_id issue id
+	 * @param int $p_note_id note id
      * @return string
 	 */
-	public function get_note_url( $issue_id, $note_id ) {
-		return $this->urlbase . 'view.php?id=' . $issue_id . '#c' . $note_id;
+	public function get_note_url( $p_issue_id, $p_note_id ) {
+		return $this->urlbase . 'view.php?id=' . $p_issue_id . '#c' . $p_note_id;
 	}
 }
 
@@ -115,13 +115,13 @@ class ImportXML {
 	/**
 	  * Constructor
 	  *
-	  * @param string name of the file to read
+	  * @param string $p_filename name of the file to read
 	  * @param string conversion strategy; one of "renumber", "link" or "disable"
 	  * @param string alternative conversion strategy when "renumber" does not apply
 	  * @param string keepy category
 	  * @param string default category
 	  */
-	public function __construct( $filename, $strategy, $fallback, $keepCategory, $defaultCategory ) {
+	public function __construct( $p_filename, $strategy, $fallback, $keepCategory, $defaultCategory ) {
 		$this->source_ = new SourceData;
 		$this->reader_ = new XMLReader( );
 		$this->itemsMap_ = new ImportXml_Mapper;
@@ -130,7 +130,7 @@ class ImportXML {
 		$this->keepCategory_ = $keepCategory;
 		$this->defaultCategory_ = $defaultCategory;
 
-		$this->reader_->open( $filename['tmp_name'] );
+		$this->reader_->open( $p_filename['tmp_name'] );
 	}
 
 	/**
@@ -202,34 +202,34 @@ class ImportXML {
 	/**
 	 * Compute and return the new link
 	 *
-	 * @param string old link tag
-	 * @param string old issue id
+	 * @param string $p_oldLinkTag old link tag
+	 * @param string $p_oldId old issue id
      * @return string
 	 */
-	private function getReplacementString( $oldLinkTag, $oldId ) {
+	private function getReplacementString( $p_oldLinkTag, $p_oldId ) {
 		$linkTag = config_get( 'bug_link_tag' );
 
 		$replacement = '';
 		switch( $this->strategy_ ) {
 			case 'link':
-				$replacement = $this->source_->get_issue_url( $oldId );
+				$replacement = $this->source_->get_issue_url( $p_oldId );
 				break;
 
 			case 'disable':
-				$replacement = htmlFullEntities( $oldLinkTag ) . $oldId;
+				$replacement = htmlFullEntities( $p_oldLinkTag ) . $p_oldId;
 				break;
 
 			case 'renumber':
-				if( $this->itemsMap_->exists( 'issue', $oldId ) ) {
+				if( $this->itemsMap_->exists( 'issue', $p_oldId ) ) {
 					// regular renumber
-					$replacement = $linkTag . $this->itemsMap_->getNewID( 'issue', $oldId );
+					$replacement = $linkTag . $this->itemsMap_->getNewID( 'issue', $p_oldId );
 				} else {
 					// fallback strategy
 					if( $this->fallback_ == 'link' ) {
-						$replacement = $this->source_->get_issue_url( $oldId );
+						$replacement = $this->source_->get_issue_url( $p_oldId );
 					}
 					if( $this->fallback_ == 'disable' ) {
-						$replacement = htmlFullEntities( $oldLinkTag ) . $oldId;
+						$replacement = htmlFullEntities( $p_oldLinkTag ) . $p_oldId;
 					}
 				}
 				break;
@@ -238,7 +238,6 @@ class ImportXML {
 				echo "Unknown method";
 		}
 
-		//echo "$oldId -> $replacement\n"; // DEBUG
 		return $replacement;
 	}
 
