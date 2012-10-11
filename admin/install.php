@@ -51,9 +51,9 @@ function print_info_row( $p_description, $p_info = null ) {
 /**
  * Print Test result
  *
- * @param int Result - BAD|GOOD
- * @param bool Fail installation or soft warning
- * @param string Message to display to user
+ * @param int $p_result Result - BAD|GOOD
+ * @param bool $p_hard_fail Fail installation or soft warning
+ * @param string $p_message Message to display to user
  */
 function print_test_result( $p_result, $p_hard_fail = true, $p_message = '' ) {
 	global $g_failed;
@@ -94,8 +94,8 @@ function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_mes
 /**
  * create an SQLArray to insert data
  *
- * @param string table
- * @param string data
+ * @param string $p_table table
+ * @param string $p_data data
  * @return array
  */
 function InsertData( $p_table, $p_data ) {
@@ -173,7 +173,7 @@ if( 0 == $t_install_state ) {
 <?php
 }
 
-$t_config_filename = $g_absolute_path . 'config_inc.php';
+$t_config_filename = config_get_global( 'absolute_path' ) . 'config_inc.php';
 $t_config_exists = file_exists( $t_config_filename );
 $f_hostname = null;
 $f_db_type = null;
@@ -322,28 +322,31 @@ if( 2 == $t_install_state ) {
 	</td>
 	<?php
 		$t_db_open = false;
+		$t_message = '';
 
 		$g_db = MantisDatabase::get_driver_instance($f_db_type);
 		try {
 			$t_result = $g_db->connect( null, $f_hostname, $f_admin_username, $f_admin_password, null, null );
 		} catch (Exception $ex) {
+			$t_message = $ex->GetMessage();
 			$t_result = false;
 		}
 
-	if( $t_result ) {
+		if( $t_result ) {
 		# check if db exists for the admin
 		try {
 			$t_result = @$g_db->Connect( null, $f_hostname, $f_admin_username, $f_admin_password, $f_database_name, null );
 		} catch (Exception $ex) {
+			$t_message = $ex->GetMessage();
 			$t_result = false;
 		}
 		if( $t_result ) {
 			$t_db_open = true;
 			$f_db_exists = true;
 		}
-			print_test_result( GOOD );
+		print_test_result( GOOD );
 	} else {
-		print_test_result( BAD, true, 'Does administrative user have access to the database? ( ' . $ex->GetMessage() . ' )' );
+		print_test_result( BAD, true, 'Does administrative user have access to the database? ( ' . $t_message . ' )' );
 	}
 	?>
 </tr>
