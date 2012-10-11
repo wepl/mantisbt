@@ -185,7 +185,10 @@ class MantisDatabaseDict {
 	{
 		global $g_db;
 		foreach($sql as $line) {
-			$g_db->execute($line);
+			$t_ret = $g_db->execute($line);
+			if( $t_ret === false ) {
+				return 1;
+			}
 		}
 		return 2;
 	}
