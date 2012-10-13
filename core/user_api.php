@@ -86,9 +86,8 @@ function user_exists( $p_user_id ) {
 }
 
 /**
- * check to see if project exists by id
- * if it doesn't exist then error
- *  otherwise let execution continue undisturbed
+ * check to see if user exists by id
+ * if the user does not exist, throw a user not found exception
  *
  * @param int $p_user_id User ID
  */
