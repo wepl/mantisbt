@@ -425,8 +425,7 @@ function user_get_row( $p_user_id ) {
  */
 function user_get_field( $p_user_id, $p_field_name ) {
 	if( NO_USER == $p_user_id ) {
-		trigger_error( 'user_get_field() for NO_USER', WARNING );
-		return '@null@';
+		throw new MantisBT\Exception\User_By_UserID_Not_Found( array( $p_user_id ) );
 	}
 
 	$t_user = MantisUser::getByUserID( $p_user_id );
