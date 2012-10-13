@@ -82,8 +82,8 @@ $f_reopen_flag = gpc_get_int( 'reopen_flag', OFF );
 
 $t_current_user_id = auth_get_current_user_id();
 
-if ( !( ( access_has_bug_level( access_get_status_threshold( $f_new_status, bug_get_field( $f_bug_id, 'project_id' ) ), $f_bug_id ) ) ||
-			( ( bug_get_field( $f_bug_id, 'reporter_id' ) == $t_current_user_id ) &&
+if ( !( ( access_has_bug_level( access_get_status_threshold( $f_new_status, $t_bug->project_id ), $f_bug_id ) ) ||
+			( ( $t_bug->reporter_id == $t_current_user_id ) &&
 					( ( ON == config_get( 'allow_reporter_reopen' ) ) ||
 							( ON == config_get( 'allow_reporter_close' ) ) ) ) ||
 			( ( ON == $f_reopen_flag ) && ( access_has_bug_level( config_get( 'reopen_bug_threshold' ), $f_bug_id ) ) )
@@ -100,7 +100,7 @@ if ( $t_can_update_due_date ) {
 }
 
 # get new issue handler if set, otherwise default to original handler
-$f_handler_id = gpc_get_int( 'handler_id', bug_get_field( $f_bug_id, 'handler_id' ) );
+$f_handler_id = gpc_get_int( 'handler_id', $t_bug->handler_id );
 
 if ( config_get( 'bug_assigned_status' ) == $f_new_status ) {
 	$t_bug_sponsored = sponsorship_get_amount( sponsorship_get_all_ids( $f_bug_id ) ) > 0;
@@ -256,7 +256,7 @@ if ( $t_closed == $f_new_status ) {
 	$t_custom_status_label = "closed";
 }
 
-$t_related_custom_field_ids = custom_field_get_linked_ids( bug_get_field( $f_bug_id, 'project_id' ) );
+$t_related_custom_field_ids = custom_field_get_linked_ids( $t_bug->project_id );
 
 foreach( $t_related_custom_field_ids as $t_id ) {
 	$t_def = custom_field_get_definition( $t_id );
@@ -312,8 +312,8 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 	</th>
 	<td>
 		<select name="fixed_in_version">
-			<?php print_version_option_list( bug_get_field( $f_bug_id, 'fixed_in_version' ),
-							bug_get_field( $f_bug_id, 'project_id' ), VERSION_ALL ) ?>
+			<?php print_version_option_list( $t_bug->fixed_in_version,
+							$t_bug->project_id, VERSION_ALL ) ?>
 		</select>
 	</td>
 </tr>
