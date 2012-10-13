@@ -106,6 +106,7 @@ $g_cache_name_to_id_map = array();
  * @param bool $p_trigger_errors indicates whether to trigger an error if the field is not found
  * @return array array representing custom field
  * @access public
+ * @throws MantisBT\Exception\CustomField\FieldNotFound
  */
 function custom_field_cache_row( $p_field_id, $p_trigger_errors = true ) {
 	global $g_cache_custom_field, $g_cache_name_to_id_map;
@@ -121,7 +122,7 @@ function custom_field_cache_row( $p_field_id, $p_trigger_errors = true ) {
 	
 	if( !$t_row ) {
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Custom_Field_Not_Found( 'Custom ' . $p_field_id );
+			throw new MantisBT\Exception\CustomField\FieldNotFound( 'Custom ' . $p_field_id );
 		} else {
 			return false;
 		}
@@ -411,6 +412,8 @@ function custom_field_create( $p_name ) {
  * @return bool
  * @access public
  * @throws MantisBT\Exception\Field\EmptyField
+ * @throws MantisBT\Exception\CustomField\NameNotUnique
+ * @throws MantisBT\Exception\CustomField\InvalidDefinition
  */
 function custom_field_update( $p_field_id, $p_def_array ) {
 	$c_field_id = (int)$p_field_id;
@@ -438,11 +441,11 @@ function custom_field_update( $p_field_id, $p_def_array ) {
 	}
 
 	if(( $c_access_level_rw < $c_access_level_r ) || ( $c_length_min < 0 ) || (( $c_length_max != 0 ) && ( $c_length_min > $c_length_max ) ) ) {
-		throw new MantisBT\Exception\Custom_Field_Invalid_Definition();
+		throw new MantisBT\Exception\CustomField\InvalidDefinition();
 	}
 
 	if( !custom_field_is_name_unique( $c_name, $c_field_id ) ) {
-		throw new MantisBT\Exception\Custom_Field_Name_Not_Unique();
+		throw new MantisBT\Exception\CustomField\NameNotUnique();
 	}
 
 	$t_update_something = false;
@@ -619,11 +622,9 @@ function custom_field_update( $p_field_id, $p_def_array ) {
 		custom_field_clear_cache( $p_field_id );
 	} else {
 		return false;
-
 		# there is nothing to update...
 	}
 
-	# db_query errors on failure so:
 	return true;
 }
 
@@ -1319,6 +1320,7 @@ function custom_field_set_sequence( $p_field_id, $p_project_id, $p_sequence ) {
  * @param array $p_field_def custom field definition
  * @param int $p_bug_id bug id
  * @access public
+ * @throws MantisBT\Exception\CustomField\InvalidDefinition
  */
 function print_custom_field_input( $p_field_def, $p_bug_id = null ) {
 	if( null === $p_bug_id ) {
@@ -1339,7 +1341,7 @@ function print_custom_field_input( $p_field_def, $p_bug_id = null ) {
 	if( isset( $g_custom_field_type_definition[$p_field_def['type']]['#function_print_input'] ) ) {
 		call_user_func( $g_custom_field_type_definition[$p_field_def['type']]['#function_print_input'], $p_field_def, $t_custom_field_value );
 	} else {
-		throw new MantisBT\Exception\Custom_Field_Invalid_Definition();
+		throw new MantisBT\Exception\CustomField\InvalidDefinition();
 	}
 }
 

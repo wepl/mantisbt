@@ -461,6 +461,7 @@ function relationship_same_type_exists( $p_src_bug_id, $p_dest_bug_id, $p_rel_ty
  * @param int $p_relationship_id Relationship id
  * @param int $p_bug_id Bug Id
  * @return int Complementary bug id
+ * @throws MantisBT\Exception\Issue\Relationship\RelationshipNotFound
  */
 function relationship_get_linked_bug_id( $p_relationship_id, $p_bug_id ) {
 
@@ -474,18 +475,19 @@ function relationship_get_linked_bug_id( $p_relationship_id, $p_bug_id ) {
 		return $t_bug_relationship_data->src_bug_id;
 	}
 
-	throw new MantisBT\Exception\Relationship_Not_Found();
+	throw new MantisBT\Exception\Issue\Relationship\RelationshipNotFound();
 }
 
 /**
  * get class description of a relationship (source side)
  * @param int $p_relationship_type Relationship type
  * @return string Relationship description
+ * @throws MantisBT\Exception\Issue\Relationship\RelationshipNotFound
  */
 function relationship_get_description_src_side( $p_relationship_type ) {
 	global $g_relationships;
 	if( !isset( $g_relationships[$p_relationship_type] ) ) {
-		throw new MantisBT\Exception\Relationship_Not_Found();
+		throw new MantisBT\Exception\Issue\Relationship\RelationshipNotFound();
 	}
 	return lang_get( $g_relationships[$p_relationship_type]['#description'] );
 }
@@ -494,11 +496,12 @@ function relationship_get_description_src_side( $p_relationship_type ) {
  * get class description of a relationship (destination side)
  * @param int $p_relationship_type Relationship type
  * @return string Relationship description
+ * @throws MantisBT\Exception\Issue\Relationship\RelationshipNotFound
  */
 function relationship_get_description_dest_side( $p_relationship_type ) {
 	global $g_relationships;
 	if( !isset( $g_relationships[$p_relationship_type] ) || !isset( $g_relationships[$g_relationships[$p_relationship_type]['#complementary']] ) ) {
-		throw new MantisBT\Exception\Relationship_Not_Found();
+		throw new MantisBT\Exception\Issue\Relationship\RelationshipNotFound();
 	}
 	return lang_get( $g_relationships[$g_relationships[$p_relationship_type]['#complementary']]['#description'] );
 }

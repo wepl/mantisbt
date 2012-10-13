@@ -52,6 +52,7 @@ $g_cookie_secure_flag_enabled = isset( $_SERVER['HTTPS'] ) && ( !empty( $_SERVER
  * @param string $p_var_name Variable name
  * @param mixed $p_default Default value
  * @return null
+ * @throws MantisBT\Exception\Validation\GPCNotFound
  */
 function gpc_get( $p_var_name, $p_default = null ) {
 	if( isset( $_POST[$p_var_name] ) ) {
@@ -63,7 +64,7 @@ function gpc_get( $p_var_name, $p_default = null ) {
 		# check for a default passed in (allowing null)
 		$t_result = $p_default;
 	} else {
-		throw new MantisBT\Exception\GPC_Var_Not_Found( $p_var_name );
+		throw new MantisBT\Exception\Validation\GPCNotFound( $p_var_name );
 	}
 
 	return $t_result;

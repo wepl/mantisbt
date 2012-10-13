@@ -52,7 +52,7 @@ abstract class MantisDatabase_PDO extends MantisDatabase {
 	 * @param string $p_database_name database name
 	 * @param array $p_database_options database options
      * @throws MantisBT\Exception\PHP\ExtensionNotLoaded
-     * @throws MantisBT\Exception\Database\QueryFailed
+     * @throws MantisBT\Exception\Database\ConnectionFailed
      * @return bool
 	 */	
     public function connect($p_dsn, $p_database_host, $p_database_user, $p_database_password, $p_database_name, array $p_database_options=null) {

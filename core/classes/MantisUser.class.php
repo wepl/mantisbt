@@ -422,6 +422,7 @@
 	 * Return true if it is, false otherwise
 	 * @param string $p_username username
      * @return bool
+     * @throws MantisBT\Exception\User\UserNameNotUnique
 	 */
 	private function validate_username($p_username) {
 		# The DB field is hard-coded. USERLEN should not be modified.
@@ -443,7 +444,7 @@
 		$t_result = db_query( $t_query, array( $p_username ), 1 );
 
 		if( db_result( $t_result ) ) {
-			throw new MantisBT\Exception\User_Name_Not_Unique();
+			throw new MantisBT\Exception\User\UserNameNotUnique();
 		} else {
 			return true;
 		}
