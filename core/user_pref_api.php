@@ -294,6 +294,7 @@ $g_cache_current_user_pref = array();
  * @param int $p_project_id
  * @param bool $p_trigger_errors
  * @return bool|array
+ * @throws MantisBT\Exception\User\UserPreferencesNotFound
  */
 function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigger_errors = true ) {
 	global $g_cache_user_pref;
@@ -309,7 +310,7 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 	
 	if( !$t_row ) {
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\User_Prefs_Not_Found();
+			throw new MantisBT\Exception\User\UserPreferencesNotFound();
 		} else {
 			$g_cache_user_pref[(int)$p_user_id][(int)$p_project_id] = false;
 			return false;

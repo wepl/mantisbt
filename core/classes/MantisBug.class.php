@@ -300,22 +300,22 @@ class MantisBug extends MantisCacheable {
 	function bug_cache_row( $p_bug_id, $p_trigger_errors = false ) {
 		global $g_cache_bug;
 
+        $p_bug_id = (int) $p_bug_id;
+
 		if( isset( $g_cache_bug[$p_bug_id] ) ) {
 			return $g_cache_bug[$p_bug_id];
 		}
 
-		$c_bug_id = (int) $p_bug_id;
-
 		$t_query = 'SELECT * FROM {bug} WHERE id=%d';
-		$t_result = db_query( $t_query, array( $c_bug_id ) );
+		$t_result = db_query( $t_query, array( $p_bug_id ) );
 
 		$t_row = db_fetch_array( $t_result );
 		
 		if( !$t_row ) {
-			$g_cache_bug[$c_bug_id] = false;
+			$g_cache_bug[$p_bug_id] = false;
 
 			if( $p_trigger_errors ) {
-				throw new MantisBT\Exception\Issue\IssueNotFound( $p_bug_id );
+				throw new MantisBT\Exception\Issue\IssueNotFound( array( $p_bug_id ) );
 			} else {
 				return false;
 			}
@@ -766,7 +766,7 @@ class MantisBug extends MantisCacheable {
 		helper_call_custom_function( 'issue_delete_validate', array( $this->id ) );
 
 		# signal bug delete event
-		event_signal( 'EVENT_BUG_DELETED', array( $t_bug_id ) );
+		event_signal( 'EVENT_BUG_DELETED', array( $this->id ) );
 
 		# log deletion of bug - removed later on in this function by history_delete
 		history_log_event_special( $this->id, BUG_DELETED, bug_format_id( $this->id ) );

@@ -153,10 +153,11 @@ function email_is_valid( $p_email ) {
  * throw an exception otherwise
  * @param string $p_email
  * @return null
+ * @throws MantisBT\Exception\Email\AddressInvalid
  */
 function email_ensure_valid( $p_email ) {
 	if( !email_is_valid( $p_email ) ) {
-		throw new MantisBT\Exception\Email_Invalid();
+		throw new MantisBT\Exception\Email\AddressInvalid();
 	}
 }
 
@@ -178,10 +179,11 @@ function email_is_disposable( $p_email ) {
  * trigger an ERROR if it isn't
  * @param string $p_email
  * @return null
+ * @throws MantisBT\Exception\Email\DisposableAddressNotAllowed
  */
 function email_ensure_not_disposable( $p_email ) {
 	if( email_is_disposable( $p_email ) ) {
-		throw new MantisBT\Exception\Email_Disposable();
+		throw new MantisBT\Exception\Email\DisposableAddressNotAllowed();
 	}
 }
 

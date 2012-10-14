@@ -70,6 +70,7 @@ $g_cache_timezone = array();
  * @param string $p_timezone PHP timezone to set
  * @return null
  * @access public
+ * @throws MantisBT\Exception\PHP\TimezoneUpdateFailed
  */
 function date_set_timezone( $p_timezone ) {
 	global $g_cache_timezone;
@@ -77,8 +78,7 @@ function date_set_timezone( $p_timezone ) {
 	array_push( $g_cache_timezone, date_default_timezone_get() );
 
 	if( !date_default_timezone_set( $p_timezone ) ) {
-		// unable to set timezone
-		throw new MantisBT\Exception\Updating_Timezone();
+		throw new MantisBT\Exception\PHP\TimezoneUpdateFailed();
 	}
 }
 
@@ -86,6 +86,7 @@ function date_set_timezone( $p_timezone ) {
  * restore previous timezone
  * @return null
  * @access public
+ * @throws MantisBT\Exception\PHP\TimezoneUpdateFailed
  */
 function date_restore_timezone( ) {
 	global $g_cache_timezone;
@@ -97,8 +98,7 @@ function date_restore_timezone( ) {
 	}
 
 	if( !date_default_timezone_set( $t_timezone ) ) {
-		// unable to set timezone
-		throw new MantisBT\Exception\Updating_Timezone();
+		throw new MantisBT\Exception\PHP\TimezoneUpdateFailed();
 	}
 }
 
