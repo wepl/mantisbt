@@ -117,6 +117,7 @@ function gpc_get_string( $p_var_name, $p_default = null ) {
  * @param int $p_default (optional)
  * @return int|null
  * @throws MantisBT\Exception\Validation\ArrayNotExpected
+ * @throws MantisBT\Exception\Validation\NumberExpected
  */
 function gpc_get_int( $p_var_name, $p_default = null ) {
 	# Don't pass along a default unless one was given to us
@@ -129,7 +130,7 @@ function gpc_get_int( $p_var_name, $p_default = null ) {
 	}
 	$t_val = str_replace( ' ', '', trim( $t_result ) );
 	if( !preg_match( "/^-?([0-9])*$/", $t_val ) ) {
-		throw new MantisBT\Exception\GPC_Not_Number( $p_var_name );
+		throw new MantisBT\Exception\Validation\NumberExpected( $p_var_name );
 	}
 
 	return (int) $t_val;
@@ -323,6 +324,7 @@ function gpc_get_bool_array( $p_var_name, $p_default = null ) {
  * @param string $p_var_name
  * @param string $p_default
  * @return string
+ * @throws MantisBT\Exception\Validation\GPCNotFound
  */
 function gpc_get_cookie( $p_var_name, $p_default = null ) {
 	if( isset( $_COOKIE[$p_var_name] ) ) {
@@ -332,7 +334,7 @@ function gpc_get_cookie( $p_var_name, $p_default = null ) {
 		# check for a default passed in (allowing null)
 		$t_result = $p_default;
 	} else {
-		throw new MantisBT\Exception\GPC_Var_Not_Found( $p_var_name );
+		throw new MantisBT\Exception\Validation\GPCNotFound( $p_var_name );
 	}
 
 	return $t_result;
@@ -410,6 +412,7 @@ function gpc_clear_cookie( $p_name, $p_path = null, $p_domain = null ) {
  * @param string $p_var_name Variable name
  * @param mixed $p_default Default value
  * @return mixed
+ * @throws MantisBT\Exception\Validation\GPCNotFound
  */
 function gpc_get_file( $p_var_name, $p_default = null ) {
 	if( isset( $_FILES[$p_var_name] ) ) {
@@ -419,7 +422,7 @@ function gpc_get_file( $p_var_name, $p_default = null ) {
 		# check for a default passed in (allowing null)
 		$t_result = $p_default;
 	} else {
-		throw new MantisBT\Exception\GPC_Var_Not_Found( $p_var_name );
+		throw new MantisBT\Exception\Validation\GPCNotFound( $p_var_name );
 	}
 
 	return $t_result;

@@ -107,6 +107,7 @@ $g_cache_sponsorships = array();
  * @param int $p_sponsorship_id
  * @param bool $p_trigger_errors
  * @return array
+ * @throws MantisBT\Exception\Sponsorship\SponsorshipNotFound
  */
 function sponsorship_cache_row( $p_sponsorship_id, $p_trigger_errors = true ) {
 	global $g_cache_sponsorships;
@@ -126,7 +127,7 @@ function sponsorship_cache_row( $p_sponsorship_id, $p_trigger_errors = true ) {
 		$g_cache_sponsorships[$c_sponsorship_id] = false;
 
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Sponsorship_Not_Found( $p_sponsorship_id );
+			throw new MantisBT\Exception\Sponsorship\SponsorshipNotFound( $p_sponsorship_id );
 		} else {
 			return false;
 		}

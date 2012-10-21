@@ -1031,11 +1031,12 @@ function user_increment_lost_password_in_progress_count( $p_user_id ) {
  * @param int $p_user_id User ID
  * @param string $p_field_name Field Name
  * @param string $p_field_value Field Value
- * @return bool always true 
+ * @return bool always true
+ * @throws MantisBT\Exception\Database\FieldNotFound
  */
 function user_set_field( $p_user_id, $p_field_name, $p_field_value ) {
 	if( !db_field_exists( $p_field_name, '{user}' ) ) {
-		throw new MantisBT\Exception\Database_Field_Does_Not_Exist();
+		throw new MantisBT\Exception\Database\FieldNotFound( $p_field_name );
 	}
 
 	if( $p_field_name != 'protected' ) {

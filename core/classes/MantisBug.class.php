@@ -489,6 +489,7 @@ class MantisBug extends MantisCacheable {
 	 * validate current bug object for database insert/update
 	 * @param bool $p_update_extended
      * @throws MantisBT\Exception\Field\EmptyField
+     * @throws MantisBT\Exception\Issue\IssueDuplicateSelf
 	 */
 	function validate( $p_update_extended = true) {
 		# Summary cannot be blank
@@ -509,7 +510,7 @@ class MantisBug extends MantisCacheable {
 		}
 
 		if( !is_blank( $this->duplicate_id ) && ( $this->duplicate_id != 0 ) && ( $this->id == $this->duplicate_id ) ) {
-			throw new MantisBT\Exception\Bug_Duplicate_Self();
+			throw new MantisBT\Exception\Issue\IssueDuplicateSelf();
 			# never returns
 		}
 	}

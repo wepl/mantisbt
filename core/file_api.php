@@ -911,26 +911,29 @@ function file_ensure_valid_upload_path( $p_upload_path ) {
  * This function perform various checks for determining if the upload was successful
  *
  * @param array $p_file the uploaded file info, as retrieved from gpc_get_file()
+ * @throws MantisBT\Exception\File\FileNoUpload
+ * @throws MantisBT\Exception\File\FileTooBig
+ * @throws MantisBT\Exception\File\FileUploadFailed
  */
 function file_ensure_uploaded( $p_file ) {
 	switch( $p_file['error'] ) {
 		case UPLOAD_ERR_INI_SIZE:
 		case UPLOAD_ERR_FORM_SIZE:
-			throw new MantisBT\Exception\File_Too_Big();
+			throw new MantisBT\Exception\File\FileTooBig();
 			break;
 		case UPLOAD_ERR_PARTIAL:
 		case UPLOAD_ERR_NO_FILE:
-			throw new MantisBT\Exception\No_Upload_Failure();
+			throw new MantisBT\Exception\File\FileNoUpload();
 			break;
 		default:
 			break;
 	}
 
 	if(( '' == $p_file['tmp_name'] ) || ( '' == $p_file['name'] ) ) {
-		throw new MantisBT\Exception\No_Upload_Failure();
+		throw new MantisBT\Exception\File\FileNoUpload();
 	}
 	if( !is_readable( $p_file['tmp_name'] ) ) {
-		throw new MantisBT\Exception\Upload_Failure();
+		throw new MantisBT\Exception\File\FileUploadFailed();
 	}
 }
 

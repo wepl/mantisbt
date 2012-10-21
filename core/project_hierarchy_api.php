@@ -41,10 +41,11 @@ $g_cache_show_disabled = null;
  * @param int $p_parent_id Parent project ID
  * @param bool $p_inherit_parent Whether or not the child project inherits from the parent project
  * @return null
+ * @throws MantisBT\Exception\Project\RecursiveHierarchyNotAllowed
  */
 function project_hierarchy_add( $p_child_id, $p_parent_id, $p_inherit_parent = true ) {
 	if( in_array( $p_parent_id, project_hierarchy_get_all_subprojects( $p_child_id ) ) ) {
-		throw new MantisBT\Exception\Project_Recursive_Hierarchy();
+		throw new MantisBT\Exception\Project\RecursiveHierarchyNotAllowed();
 	}
 
 	$t_query = "INSERT INTO {project_hierarchy}

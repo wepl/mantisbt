@@ -58,10 +58,11 @@ function token_exists( $p_token_id ) {
  * Make sure a token exists.
  * @param integer $p_token_id Token ID
  * @return boolean True if token exists
+ * @throws MantisBT\Exception\Token\TokenNotFound
  */
 function token_ensure_exists( $p_token_id ) {
 	if( !token_exists( $p_token_id ) ) {
-		throw new MantisBT\Exception\Token_Not_Found();
+		throw new MantisBT\Exception\Token\TokenNotFound();
 	}
 
 	return true;

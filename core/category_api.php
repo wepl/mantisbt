@@ -531,6 +531,7 @@ function category_get_field( $p_category_id, $p_field_name ) {
  * @param bool $p_trigger_errors trigger error on failure
  * @return bool
  * @access public
+ * @throws MantisBT\Exception\Project\Category\CategoryNotFound
  */
  function category_get_id_by_name( $p_category_name, $p_project_id, $p_trigger_errors = true ) {
 	$t_project_name = project_get_name( $p_project_id );
@@ -540,7 +541,7 @@ function category_get_field( $p_category_id, $p_field_name ) {
 	$t_id = db_result( $t_result );
 	if( $t_id ) {
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Category_Not_Found_For_Project( $p_category_name, $t_project_name );
+			throw new MantisBT\Exception\Project\Category\CategoryNotFound( $p_category_name, $t_project_name );
 		} else {
 			return false;
 		}

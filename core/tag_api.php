@@ -66,10 +66,11 @@ function tag_exists( $p_tag_id ) {
 /**
  * Ensure a tag exists with the given ID.
  * @param int $p_tag_id Tag ID
+ * @throws MantisBT\Exception\Tag\TagNotFound
  */
 function tag_ensure_exists( $p_tag_id ) {
 	if( !tag_exists( $p_tag_id ) ) {
-		throw new MantisBT\Exception\Tag_Not_Found( $p_tag_id );
+		throw new MantisBT\Exception\Tag\TagNotFound( $p_tag_id );
 	}
 }
 
@@ -125,11 +126,12 @@ function tag_name_is_valid( $p_name, &$p_matches, $p_prefix = '' ) {
 /**
  * Ensure a tag name is valid.
  * @param string $p_name Tag name
+ * @throws MantisBT\Exception\Tag\TagNameNotValid
  */
 function tag_ensure_name_is_valid( $p_name ) {
 	$t_matches = array();
 	if( !tag_name_is_valid( $p_name, $t_matches ) ) {
-		throw new MantisBT\Exception\Tag_Name_Invalid();
+		throw new MantisBT\Exception\Tag\TagNameNotValid();
 	}
 }
 
@@ -452,6 +454,7 @@ function tag_bug_is_attached( $p_tag_id, $p_bug_id ) {
  * @param int $p_tag_id Tag ID
  * @param int $p_bug_id Bug ID
  * @return array Tag attachment row
+ * @throws MantisBT\Exception\Issue\Tag\TagNotAttached
  */
 function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
 	$c_tag_id = (int)$p_tag_id;
@@ -462,7 +465,7 @@ function tag_bug_get_row( $p_tag_id, $p_bug_id ) {
 
 	$t_row = db_fetch_array( $result );
 	if( !$t_row ) {
-		throw new MantisBT\Exception\Tag_Not_Attached();
+		throw new MantisBT\Exception\Issue\Tag\TagNotAttached();
 	}
 	return $t_row;
 }
@@ -516,6 +519,7 @@ function tag_get_bugs_attached( $p_tag_id ) {
  * @param integer $p_bug_id Bug ID
  * @param integer $p_user_id User ID
  * @return bool
+ * @throws MantisBT\Exception\Issue\Tag\TagAlreadyAttached
  */
 function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 	access_ensure_bug_level( config_get( 'tag_attach_threshold' ), $p_bug_id, $p_user_id );
@@ -523,7 +527,7 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
 	tag_ensure_exists( $p_tag_id );
 
 	if( tag_bug_is_attached( $p_tag_id, $p_bug_id ) ) {
-		throw new MantisBT\Exception\Tag_Already_Attached();
+		throw new MantisBT\Exception\Issue\Tag\TagAlreadyAttached();
 	}
 
 	if( null == $p_user_id ) {
@@ -558,6 +562,7 @@ function tag_bug_attach( $p_tag_id, $p_bug_id, $p_user_id = null ) {
  * @param boolean $p_add_history Add history entries to bug
  * @param integer $p_user_id User Id (or null for current logged in user)
  * @return bool
+ * @throws MantisBT\Exception\Issue\Tag\TagNotAttached
  */
 function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id = null ) {
 	if( $p_user_id === null ) {
@@ -567,7 +572,7 @@ function tag_bug_detach( $p_tag_id, $p_bug_id, $p_add_history = true, $p_user_id
 	}
 
 	if( !tag_bug_is_attached( $p_tag_id, $p_bug_id ) ) {
-		throw new MantisBT\Exception\Tag_Not_Attached();
+		throw new MantisBT\Exception\Issue\Tag\TagNotAttached();
 	}
 
 	$t_tag_row = tag_bug_get_row( $p_tag_id, $p_bug_id);

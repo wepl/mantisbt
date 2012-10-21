@@ -87,6 +87,7 @@ class VersionData {
 	 * @param string $p_name property name
 	 * @param string $p_value value
 	 * @private
+     * @throws MantisBT\Exception\Validation\DateFormatInvalid
 	 */
 	public function __set($p_name, $p_value) {
 		switch ($p_name) {
@@ -97,7 +98,7 @@ class VersionData {
 					}  else {
 						$p_value = strtotime( $p_value );
 						if ( $p_value === false ) {
-							throw new MantisBT\Exception\Invalid_Date_Format();
+							throw new MantisBT\Exception\Validation\DateFormatInvalid();
 						}
 					}
 				}
@@ -125,6 +126,7 @@ $g_cache_versions = array();
  * @param int $p_version_id
  * @param bool $p_trigger_errors
  * @return array
+ * @throws MantisBT\Exception\Issue\Version\VersionNotFound
  */
 function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 	global $g_cache_versions;
@@ -144,7 +146,7 @@ function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 		$g_cache_versions[$c_version_id] = false;
 
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Version_Not_Found( $p_version_id );
+			throw new MantisBT\Exception\Issue\Version\VersionNotFound( $p_version_id );
 		} else {
 			return false;
 		}
@@ -181,10 +183,11 @@ function version_is_unique( $p_version, $p_project_id = null ) {
  * Check whether the version exists
  * Trigger an error if it does not
  * @param int $p_version_id
+ * @throws MantisBT\Exception\Issue\Version\VersionNotFound
  */
 function version_ensure_exists( $p_version_id ) {
 	if( !version_exists( $p_version_id ) ) {
-		throw new MantisBT\Exception\Version_Not_Found( $p_version_id );
+		throw new MantisBT\Exception\Issue\Version\VersionNotFound( $p_version_id );
 	}
 }
 
@@ -193,10 +196,11 @@ function version_ensure_exists( $p_version_id ) {
  * Trigger an error if it is not
  * @param string $p_version
  * @param int $p_project_id
+ * @throws MantisBT\Exception\Issue\Version\VersionDuplicate
  */
 function version_ensure_unique( $p_version, $p_project_id = null ) {
 	if( !version_is_unique( $p_version, $p_project_id ) ) {
-		throw new MantisBT\Exception\Version_Duplicate();
+		throw new MantisBT\Exception\Issue\Version\VersionDuplicate();
 	}
 }
 
@@ -239,6 +243,7 @@ function version_add( $p_project_id, $p_version, $p_released = VERSION_FUTURE, $
 /**
  * Update the definition of a version
  * @param VersionData $p_version_info
+ * @throws MantisBT\Exception\Issue\Version\VersionDuplicate
  */
 function version_update( $p_version_info ) {
 	version_ensure_exists( $p_version_info->id );
@@ -247,7 +252,7 @@ function version_update( $p_version_info ) {
 
 	# check for duplicates
 	if(( utf8_strtolower( $t_old_version_name ) != utf8_strtolower( $p_version_info->version ) ) && !version_is_unique( $p_version_info->version, $p_version_info->project_id ) ) {
-		throw new MantisBT\Exception\Version_Duplicate();
+		throw new MantisBT\Exception\Issue\Version\VersionDuplicate();
 	}
 
 	$c_version_id = $p_version_info->id;

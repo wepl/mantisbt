@@ -66,6 +66,7 @@ $g_cache_project_all = false;
  * @param int $p_project_id project id
  * @param bool $p_trigger_errors trigger errors
  * @return mixed
+ * @throws MantisBT\Exception\Project\ProjectNotFound
  */
 function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 	global $g_cache_project, $g_cache_project_missing;
@@ -90,7 +91,7 @@ function project_cache_row( $p_project_id, $p_trigger_errors = true ) {
 		$g_cache_project_missing[(int) $p_project_id] = true;
 
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Project_Not_Found( $p_project_id );
+			throw new MantisBT\Exception\Project\ProjectNotFound( $p_project_id );
 		} else {
 			return false;
 		}
@@ -197,13 +198,14 @@ function project_exists( $p_project_id ) {
 
 /**
  * check to see if project exists by id
- * if it doesn't exist then error
+ * if it does not exist then error
  * otherwise let execution continue undisturbed
  * @param int $p_project_id project id
+ * @throws MantisBT\Exception\Project\ProjectNotFound
  */
 function project_ensure_exists( $p_project_id ) {
 	if( !project_exists( $p_project_id ) ) {
-		throw new MantisBT\Exception\Project_Not_Found( $p_project_id );
+		throw new MantisBT\Exception\Project\ProjectNotFound( $p_project_id );
 	}
 }
 
@@ -228,10 +230,11 @@ function project_is_name_unique( $p_name ) {
  * if it doesn't exist then error
  * otherwise let execution continue undisturbed
  * @param string $p_name project name
+ * @throws MantisBT\Exception\Project\ProjectNameNotUnique
  */
 function project_ensure_name_unique( $p_name ) {
 	if( !project_is_name_unique( $p_name ) ) {
-		throw new MantisBT\Exception\Project_Name_Not_Unique();
+		throw new MantisBT\Exception\Project\ProjectNameNotUnique();
 	}
 }
 
@@ -262,11 +265,12 @@ function project_includes_user( $p_project_id, $p_user_id ) {
  * @param string $p_file_path file path
  * @param bool $p_enabled enabled
  * @param bool $p_inherit_globals inherit globals
+ * @throws MantisBT\Exception\Project\ProjectNameNotValid
  * @return int
  */
 function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_PUBLIC, $p_file_path = '', $p_enabled = true, $p_inherit_global = true ) {
 	if( is_blank( $p_name ) ) {
-		throw new MantisBT\Exception\Project_Name_Invalid();
+		throw new MantisBT\Exception\Project\ProjectNameNotValid();
 	}
 
 	project_ensure_name_unique( $p_name );
@@ -352,13 +356,14 @@ function project_delete( $p_project_id ) {
  * @param string $p_file_path file path
  * @param bool $p_enabled enabled
  * @param bool $p_inherit_globals inherit globals
+ * @throws MantisBT\Exception\Project\ProjectNameNotValid
  * @return bool
  */
 function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_view_state, $p_file_path, $p_enabled, $p_inherit_global ) {
 	$p_project_id = (int) $p_project_id;
 
 	if( is_blank( $p_name ) ) {
-		throw new MantisBT\Exception\Project_Name_Invalid();
+		throw new MantisBT\Exception\Project\ProjectNameNotValid();
 	}
 
 	$t_old_name = project_get_field( $p_project_id, 'name' );

@@ -739,10 +739,11 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
  * @return null
  * @access public
  * @uses database_api.php
+ * @throws MantisBT\Exception\Access\InsufficientAccessLevel
  */
 function bug_assign( $p_bug, $p_user_id, $p_bugnote_text = '', $p_bugnote_private = false ) {
 	if(( $p_user_id != NO_USER ) && !access_has_bug_level( config_get( 'handle_bug_threshold' ), $p_bug->id, $p_user_id ) ) {
-		throw new MantisBT\Exception\User_Does_Not_Have_Req_Access();
+		throw new MantisBT\Exception\Access\InsufficientAccessLevel();
 	}
 
 	# extract current information into history variables

@@ -613,6 +613,7 @@ function email_monitor_added( $p_bug_id, $p_user_id ) {
  * @param int $p_related_bug_id
  * @param int $p_rel_type
  * @return null
+ * @throws MantisBT\Exception\Issue\Relationship\RelationshipNotFound
  */
 function email_relationship_added( $p_bug_id, $p_related_bug_id, $p_rel_type ) {
 	log_event( LOG_EMAIL, sprintf( 'Relationship added: Issue #%d, related issue %d, relationship type %s.', $p_bug_id, $p_related_bug_id, $p_rel_type ) );
@@ -621,7 +622,7 @@ function email_relationship_added( $p_bug_id, $p_related_bug_id, $p_rel_type ) {
 	$t_opt[] = bug_format_id( $p_related_bug_id );
 	global $g_relationships;
 	if( !isset( $g_relationships[$p_rel_type] ) ) {
-		throw new MantisBT\Exception\Relationship_Not_Found();
+		throw new MantisBT\Exception\Issue\Relationship\RelationshipNotFound();
 	}
 	email_generic( $p_bug_id, 'relation', $g_relationships[$p_rel_type]['#notify_added'], $t_opt );
 }

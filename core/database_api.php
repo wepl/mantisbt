@@ -134,7 +134,7 @@ function db_query( $p_query, $p_params = null, $p_limit = -1, $p_offset = -1 ) {
 	}
 
 	if( !$t_result ) {
-		throw new MantisBT\Exception\Database\QueryFailed( $p_query );
+		throw new MantisBT\Exception\Database\QueryFailed( array( 1,1,$p_query ) );
 	} else {
 		return $t_result;
 	}

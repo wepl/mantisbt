@@ -191,6 +191,7 @@ function config_get( $p_option, $p_default = null, $p_user = null, $p_project = 
  * @param string $p_option config option
  * @param string $p_default default value
  * @return string
+ * @throws MantisBT\Exception\Configuration\OptionNotFound
  */
 function config_get_global( $p_option, $p_default = null ) {
 	global $g_cache_config_eval, $MantisConfig;
@@ -205,7 +206,7 @@ function config_get_global( $p_option, $p_default = null ) {
 	} else {
 		// throw exception if config option does not exist unless default value supplied
 		if( null === $p_default ) {
-			throw new MantisBT\Exception\Config_Opt_Not_Found( $p_option );
+			throw new MantisBT\Exception\Configuration\OptionNotFound( $p_option );
 		}
 		return $p_default;
 	}

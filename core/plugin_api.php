@@ -557,14 +557,15 @@ function plugin_is_installed( $p_basename ) {
 
 /**
  * Install a plugin to the database.
- * @param string $p_basename Plugin basename
+ * @param MantisPlugin $p_plugin Plugin basename
  * @return null
+ * @throws MantisBT\Exception\Plugin\PluginAlreadyInstalled
  */
 function plugin_install( $p_plugin ) {
 	access_ensure_global_level( config_get_global( 'manage_plugin_threshold' ) );
 
 	if( plugin_is_installed( $p_plugin->basename ) ) {
-		throw new MantisBT\Exception\Plugin_Already_Installed();
+		throw new MantisBT\Exception\Plugin\PluginAlreadyInstalled();
 	}
 
 	plugin_push_current( $p_plugin->basename );
@@ -607,6 +608,7 @@ function plugin_needs_upgrade( $p_plugin ) {
  * Upgrade an installed plugin's schema.
  * @param MantisPlugin $p_plugin Plugin basename
  * @return mixed True if upgrade completed, null if problem
+ * @throws MantisBT\Exception\Plugin\PluginUpgradeFailed
  */
 function plugin_upgrade( $p_plugin ) {
 	access_ensure_global_level( config_get_global( 'manage_plugin_threshold' ) );
@@ -657,7 +659,7 @@ function plugin_upgrade( $p_plugin ) {
 		if( 2 == $t_status ) {
 			plugin_config_set( 'schema', $i );
 		} else {
-			throw new MantisBT\Exception\Plugin_Upgrade_Failed( $i );
+			throw new MantisBT\Exception\Plugin\PluginUpgradeFailed( $i );
 		}
 
 		$i++;

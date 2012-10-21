@@ -38,11 +38,12 @@ require_api( 'utility_api.php' );
  * is produced to protect against invalid configuration impacting the security
  * of the MantisBT installation.
  * @return null
+ * @throws MantisBT\Exception\Security\MasterSaltInvalid
  */
 function crypto_init() {
 	if ( !defined( 'MANTIS_MAINTENANCE_MODE' ) ) {
 		if ( strlen( config_get_global( 'crypto_master_salt' ) ) < 16 ) {
-			throw new MantisBT\Exception\Crypto_Master_Salt_Invalid();
+			throw new MantisBT\Exception\Security\MasterSaltInvalid();
 		}
 	}
 	return;
@@ -134,11 +135,12 @@ function crypto_generate_random_string( $p_bytes, $p_require_strong_generator = 
  * source of randomness should always be used.
  * @param int $p_bytes Number of bytes of strong randomness required
  * @return string Raw binary string containing the requested number of bytes of random output
+ * @throws MantisBT\Exception\Security\CSPRNGNotAvailable
  */
 function crypto_generate_strong_random_string( $p_bytes ) {
 	$t_random_string = crypto_generate_random_string( $p_bytes, true );
 	if ( $t_random_string === null ) {
-		throw new MantisBT\Exception\Crypto_Can_Not_Generate_Strong_Randomness();
+		throw new MantisBT\Exception\Security\CSPRNGNotAvailable();
 	}
 	return $t_random_string;
 }

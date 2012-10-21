@@ -71,6 +71,7 @@ class ImportXml_Issue implements ImportXml_Interface {
 	/**
 	 * Read stream until current item finishes, processing the data found
 	 * @param XMLreader $p_reader XML Reader
+     * @throws MantisBT\Exception\CustomField\NotLinkedToProject
 	 */
 	public function process( XMLreader $p_reader ) {
 		//print "\nImportIssue process()\n";
@@ -242,7 +243,7 @@ class ImportXml_Issue implements ImportXml_Interface {
 					custom_field_set_value( $t_custom_field->id, $this->new_id_, $t_custom_field->value );
 				}
 				else {
-					throw new MantisBT\Exception\Custom_Field_Not_Linked_To_Project( $t_custom_field->name, $t_custom_field_id );
+					throw new MantisBT\Exception\CustomField\NotLinkedToProject( $t_custom_field->name, $t_custom_field_id );
 				}
 			}
 		}

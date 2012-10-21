@@ -93,6 +93,7 @@ require_api( 'version_api.php' );
  * @param boolean $p_sanitize apply string_sanitize_url to passed url
  * @param boolean $p_absolute indicate if url is absolute
  * @return boolean
+ * @throws MantisBT\Exception\PHP\HeadersAlreadySent
  */
 function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_absolute = false ) {
 	if( MantisError::error_handled() ) {
@@ -116,12 +117,12 @@ function print_header_redirect( $p_url, $p_die = true, $p_sanitize = false, $p_a
 
 	$t_url = string_prepare_header( $t_url );
 
-	# don't send more headers if they have already been sent (guideweb)
+	# don't send more headers if they have already been sent
 	if( !headers_sent() ) {
 		header( 'Content-Type: text/html; charset=utf-8' );
 		header( "Location: $t_url" );
 	} else {
-		throw new MantisBT\Exception\Page_Redirection();
+		throw new MantisBT\Exception\PHP\HeadersAlreadySent();
 	}
 
 	if( $p_die ) {

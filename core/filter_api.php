@@ -4275,6 +4275,7 @@ $g_cache_filter_db_filters = array();
  * @param int $p_filter_id
  * @param bool $p_trigger_errors
  * @return mixed
+ * @throws MantisBT\Exception\Filter\FilterNotFound
  */
 function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 	global $g_cache_filter;
@@ -4290,7 +4291,7 @@ function filter_cache_row( $p_filter_id, $p_trigger_errors = true ) {
 	
 	if( !$t_row ) {
 		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Filter_Not_Found( $p_filter_id );
+			throw new MantisBT\Exception\Filter\FilterNotFound( $p_filter_id );
 		} else {
 			return false;
 		}

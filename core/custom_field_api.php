@@ -250,12 +250,13 @@ function custom_field_type( $p_field_id ) {
  * @param int $p_field_id custom field id
  * @return bool
  * @access public
+ * @throws MantisBT\Exception\CustomField\FieldNotFound
  */
 function custom_field_ensure_exists( $p_field_id ) {
 	if( custom_field_exists( $p_field_id ) ) {
 		return true;
 	} else {
-		throw new MantisBT\Exception\Custom_Field_Not_Found( 'Custom ' . $p_field_id );
+		throw new MantisBT\Exception\CustomField\FieldNotFound( 'Custom ' . $p_field_id );
 	}
 }
 
@@ -291,12 +292,13 @@ function custom_field_is_name_unique( $p_name, $p_custom_field_id = null ) {
  * @param string $p_name Custom field name
  * @return bool
  * @access public
+ * @throws MantisBT\Exception\CustomField\NameNotUnique
  */
 function custom_field_ensure_name_unique( $p_name ) {
 	if( custom_field_is_name_unique( $p_name ) ) {
 		return true;
 	} else {
-		throw new MantisBT\Exception\Custom_Field_Name_Not_Unique();
+		throw new MantisBT\Exception\CustomField\NameNotUnique();
 	}
 }
 

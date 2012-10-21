@@ -75,12 +75,13 @@ function event_declare_many( $p_events ) {
  * @param string $p_callback Callback function
  * @param string $p_plugin Plugin basename
  * @access public
+ * @throws MantisBT\Exception\Plugin\EventNotDeclared
  */
 function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
 	global $g_event_cache;
 
 	if( !isset( $g_event_cache[$p_name] ) ) {
-		throw new MantisBT\Exception\Event_Undeclared( $p_name );
+		throw new MantisBT\Exception\Plugin\EventNotDeclared( $p_name );
 	}
 
 	$g_event_cache[$p_name]['callbacks'][$p_plugin][] = $p_callback;
@@ -130,12 +131,13 @@ function event_clear_callbacks() {
  * @param int $p_type Event type override
  * @return mixed Null if event undeclared, appropriate return value otherwise
  * @access public
+ * @throws MantisBT\Exception\Plugin\EventNotDeclared
  */
 function event_signal( $p_name, $p_params = null, $p_params_dynamic = null, $p_type = null ) {
 	global $g_event_cache;
 
 	if( !isset( $g_event_cache[$p_name] ) ) {
-		throw new MantisBT\Exception\Event_Undeclared( $p_name );
+		throw new MantisBT\Exception\Plugin\EventNotDeclared( $p_name );
 	}
 
 	if( is_null( $p_type ) ) {

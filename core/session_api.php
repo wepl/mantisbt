@@ -133,6 +133,7 @@ class MantisPHPSession extends MantisSession {
 	 * @param string $p_name
 	 * @param mixed $p_default
      * @return string
+     * @throws MantisBT\Exception\Session\SessionVariableNotFound
 	 */
 	function get( $p_name, $p_default=null ) {
 		if ( isset( $_SESSION[ $this->key ][ $p_name ] ) ) {
@@ -143,7 +144,7 @@ class MantisPHPSession extends MantisSession {
 			return $p_default;
 		}
 
-		throw new MantisBT\Exception\Session_Var_Not_Found( $p_name );
+		throw new MantisBT\Exception\Session\SessionVariableNotFound( $p_name );
 
 	}
 
@@ -179,6 +180,7 @@ class MantisPHPSession extends MantisSession {
 /**
  * Initialize the appropriate session handler.
  * @param string $p_session_id Session ID
+ * @throws MantisBT\Exception\Session\SessionHandlerInvalid
  */
 function session_init( $p_session_id=null ) {
 	global $g_session;
@@ -190,7 +192,7 @@ function session_init( $p_session_id=null ) {
 		case 'memcached':
 			# Not yet implemented
 		default:
-			throw new MantisBT\Exception\Session_Handler_Invalid();
+			throw new MantisBT\Exception\Session\SessionHandlerInvalid();
 			break;
 	}
 

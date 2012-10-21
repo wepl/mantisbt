@@ -139,6 +139,7 @@ class MantisLanguage {
 	 * @param string $p_lang
 	 * @param bool $p_error default: true - error if string not found
 	 * @return string
+     * @throws MantisBT\Exception\Language\LanguageStringNotFound
 	 */
 	public static function Get( $p_string, $p_lang = null, $p_error = true ) {
 		# If no specific language is requested, we'll
@@ -181,7 +182,7 @@ class MantisLanguage {
 			// Step 5 - string didn't exist, try fall back to english:
 			if( $t_lang == 'english' ) {
 				if( $p_error ) {
-					throw new MantisBT\Exception\Lang_String_Not_Found( $p_string );
+					throw new MantisBT\Exception\Language\LanguageStringNotFound( $p_string );
 				}
 				return '';
 			} else {
