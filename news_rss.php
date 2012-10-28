@@ -117,7 +117,7 @@ $date = (string) date( 'r' );
 # add missing : in the O part of the date.  PHP 5 supports a 'c' format which will output the format
 # exactly as we want it.
 # // 2002-10-02T10:00:00-0500 -> // 2002-10-02T10:00:00-05:00
-#$base = utf8_substr( $base, 0, 22 ) . ':' . utf8_substr( $base, -2 );
+#$base = mb_substr( $base, 0, 22 ) . ':' . mb_substr( $base, -2 );
 
 $news_rows = news_get_limited_rows( 0 /* offset */, $f_project_id );
 $t_news_count = count( $news_rows );

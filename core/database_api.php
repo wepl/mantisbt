@@ -187,9 +187,9 @@ function db_table_exists( $p_table_name ) {
 	$t_tables = db_get_table_list();
 
 	# Can't use in_array() since it is case sensitive
-	$t_table_name = utf8_strtolower( $p_table_name );
+	$t_table_name = mb_strtolower( $p_table_name );
 	foreach( $t_tables as $t_current_table ) {
-		if( utf8_strtolower( $t_current_table ) == $t_table_name ) {
+		if( mb_strtolower( $t_current_table ) == $t_table_name ) {
 			return true;
 		}
 	}
@@ -215,9 +215,9 @@ function db_index_exists( $p_table_name, $p_index_name ) {
 	$t_indexes = $g_db->get_indexes( $p_table_name );
 
 	# Can't use in_array() since it is case sensitive
-	$t_index_name = utf8_strtolower( $p_index_name );
+	$t_index_name = mb_strtolower( $p_index_name );
 	foreach( $t_indexes as $t_current_index_name => $t_current_index_obj ) {
-		if( utf8_strtolower( $t_current_index_name ) == $t_index_name ) {
+		if( mb_strtolower( $t_current_index_name ) == $t_index_name ) {
 			return true;
 		}
 	}

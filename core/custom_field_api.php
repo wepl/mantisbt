@@ -753,7 +753,7 @@ function custom_field_get_id_from_name( $p_field_name, $p_truncated_length = nul
 		return $g_cache_name_to_id_map[$p_field_name];
 	}
 
-	if(( null === $p_truncated_length ) || ( utf8_strlen( $p_field_name ) != $p_truncated_length ) ) {
+	if(( null === $p_truncated_length ) || ( mb_strlen( $p_field_name ) != $p_truncated_length ) ) {
 		$t_query = "SELECT id FROM {custom_field} WHERE name = %s";
 	} else {
 		/** @todo This is to handle the case where we only have a truncated part of the name.  This happens in the case where
@@ -1080,7 +1080,7 @@ function custom_field_validate( $p_field_id, $p_value ) {
 	$t_default_value = $row['default_value'];
 
 	$t_valid = true;
-	$t_length = utf8_strlen( $p_value );
+	$t_length = mb_strlen( $p_value );
 	switch ($t_type) {
 		case CUSTOM_FIELD_TYPE_STRING:
 			# Regular expression string validation

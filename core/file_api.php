@@ -179,7 +179,7 @@ function file_can_delete_bug_attachments( $p_bug_id, $p_uploader_user_id = null 
  * @return array
  */
 function file_get_icon_url( $p_display_filename ) {
-	$t_ext = utf8_strtolower( pathinfo( $p_display_filename, PATHINFO_EXTENSION ) );
+	$t_ext = mb_strtolower( pathinfo( $p_display_filename, PATHINFO_EXTENSION ) );
 
 	if( $t_ext == '' ) {
 		return array( 'url' => helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/fileicons/generic.png' ), 'alt' => $t_ext );

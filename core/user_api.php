@@ -511,7 +511,7 @@ function user_get_name( $p_user_id ) {
 * @return array|bool an array( URL, width, height ) or false when the given user has no avatar
 */
 function user_get_avatar( $p_user_id, $p_size = 80 ) {
-	$t_email = utf8_strtolower( user_get_email( $p_user_id ) );
+	$t_email = mb_strtolower( user_get_email( $p_user_id ) );
 	if( is_blank( $t_email ) ) {
 		$t_result = false;
 	} else {
@@ -808,10 +808,10 @@ function user_get_unassigned_by_project_id( $p_project_id = null ) {
         if(( isset( $t_row['realname'] ) ) && ( $t_row['realname'] <> '' ) && $t_show_realname ) {
             $t_user_name = string_attribute( $t_row['realname'] );
             if( $t_sort_by_last_name ) {
-                $t_sort_name_bits = explode( ' ', utf8_strtolower( $t_user_name ), 2 );
+                $t_sort_name_bits = explode( ' ', mb_strtolower( $t_user_name ), 2 );
                 $t_sort_name = ( isset( $t_sort_name_bits[1] ) ? $t_sort_name_bits[1] . ', ' : '' ) . $t_sort_name_bits[0];
             } else {
-                $t_sort_name = utf8_strtolower( $t_user_name );
+                $t_sort_name = mb_strtolower( $t_user_name );
             }
         }
         $t_display[] = $t_user_name;

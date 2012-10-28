@@ -426,7 +426,7 @@
 	 */
 	private function validate_username($p_username) {
 		# The DB field is hard-coded. USERLEN should not be modified.
-		if( utf8_strlen( $p_username ) > USERLEN ) {
+		if( mb_strlen( $p_username ) > USERLEN ) {
 			return false;
 		}
 

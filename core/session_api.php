@@ -185,7 +185,7 @@ class MantisPHPSession extends MantisSession {
 function session_init( $p_session_id=null ) {
 	global $g_session;
 
-	switch( utf8_strtolower( config_get_global( 'session_handler' ) ) ) {
+	switch( mb_strtolower( config_get_global( 'session_handler' ) ) ) {
 		case 'php':
 			$g_session = new MantisPHPSession( $p_session_id );
 			break;

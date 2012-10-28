@@ -393,7 +393,7 @@ function auth_does_password_match( $p_user_id, $p_test_password ) {
 
 			# Check for migration to another login method and test whether the password was encrypted
 			# with our previously insecure implemention of the CRYPT method
-			if(( $t_login_method != $t_configured_login_method ) || (( CRYPT == $t_configured_login_method ) && utf8_substr( $t_password, 0, 2 ) == utf8_substr( $p_test_password, 0, 2 ) ) ) {
+			if(( $t_login_method != $t_configured_login_method ) || (( CRYPT == $t_configured_login_method ) && mb_substr( $t_password, 0, 2 ) == mb_substr( $p_test_password, 0, 2 ) ) ) {
 				user_set_password( $p_user_id, $p_test_password, true );
 			}
 
@@ -443,7 +443,7 @@ function auth_does_password_match( $p_user_id, $p_test_password ) {
 	}
 
 	# cut this off to PASSLEN characters which the largest possible string in the database
-	return utf8_substr( $t_processed_password, 0, PASSLEN );
+	return mb_substr( $t_processed_password, 0, PASSLEN );
 }
 
 /**
