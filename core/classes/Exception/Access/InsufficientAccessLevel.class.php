@@ -38,9 +38,9 @@ class InsufficientAccessLevel extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_user_does_not_have_req_access');
+            $t_message = _('User does not have required access level.');
         } else {
-            $t_message = vsprintf( lang_get('exception_user_does_not_have_req_access'), $p_parameters);
+            $t_message = vsprintf( _('User does not have required access level.'), $p_parameters);
         }
 		parent::__construct($t_message, 401, $p_previous);
 	}

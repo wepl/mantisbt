@@ -38,9 +38,9 @@ class FileNoUpload extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_file_no_upload_failure');
+            $t_message = _('No file was uploaded. Please go back and Choose a file before pressing Upload.');
         } else {
-            $t_message = vsprintf( lang_get('exception_file_no_upload_failure'), $p_parameters);
+            $t_message = vsprintf( _('No file was uploaded. Please go back and Choose a file before pressing Upload.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

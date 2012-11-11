@@ -153,6 +153,7 @@ function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement,
  *
  * @param int $p_news_id news id
  * @return array news article
+ * @throws MantisBT\Exception\News\NewsItemNotFound
  */
 function news_get_row( $p_news_id ) {
 	$t_query = "SELECT * FROM {news} WHERE id=%d";
@@ -161,7 +162,7 @@ function news_get_row( $p_news_id ) {
 	$row = db_fetch_array( $result );
 	
 	if( !$row ) {
-		throw new MantisBT\Exception\News_Not_Found();
+		throw new MantisBT\Exception\News\NewsItemNotFound();
 	} else {
 		return $row;
 	}

@@ -71,8 +71,8 @@ function get_section_begin_apr( $p_section_name ) {
 
 /**
  * Get row for permissions report
- * @param string caption
- * @param int access level
+ * @param string $p_caption caption
+ * @param int $p_access_level access level
  * @return string
  */
 function get_capability_row( $p_caption, $p_access_level ) {

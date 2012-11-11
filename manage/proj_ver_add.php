@@ -87,7 +87,7 @@ foreach ( $t_versions as $t_version ) {
 		#  ones we can.  The others already exist so it isn't really
 		#  an error.
 
-		throw new MantisBT\Exception\Version_Duplicate();
+		throw new MantisBT\Exception\Issue\Version\VersionDuplicate();
 	}
 }
 

@@ -38,9 +38,9 @@ class OptionInvalidValue extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_config_opt_invalid');
+            $t_message = _('Configuration option "%1$s" has invalid value "%2$s".');
         } else {
-            $t_message = vsprintf( lang_get('exception_config_opt_invalid'), $p_parameters);
+            $t_message = vsprintf( _('Configuration option "%1$s" has invalid value "%2$s".'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

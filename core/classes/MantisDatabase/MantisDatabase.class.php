@@ -146,29 +146,28 @@ abstract class MantisDatabase {
     /**
      * Connect to db
      * Must be called before other methods.
-	 * @param string Database DSN
-     * @param string Database host name
-     * @param string Database Username
-     * @param string Database Password
-     * @param string Database name
-     * @param array driver specific options
+	 * @param string $p_dsn Database DSN
+     * @param string $p_db_host Database host name
+     * @param string $p_db_user Database Username
+     * @param string $p_db_pass Database Password
+     * @param string $p_db_name Database name
+     * @param array $p_db_options driver specific options
      * @return bool true
      * @throws MantisDatabaseException if error
      */
-    public abstract function connect($dsn, $dbhost, $dbuser, $dbpass, $dbname, array $dboptions=null);
+    public abstract function connect($p_dsn, $p_db_host, $p_db_user, $p_db_pass, $p_db_name, array $p_db_options=null);
 
 
     /**
      * Attempt to create the database
-     * @param string $dbhost
-     * @param string $dbuser
-     * @param string $dbpass
-     * @param string $dbname
-     * @param array driver specific options
-     *
+     * @param string $p_db_host Database host name
+     * @param string $p_db_user Database Username
+     * @param string $p_db_pass Database Password
+     * @param string $p_db_name Database name
+     * @param array $p_db_options driver specific options
      * @return bool success
      */
-    public function create_database($dbhost, $dbuser, $dbpass, $dbname, array $dboptions=null) {
+    public function create_database($p_db_host, $p_db_user, $p_db_pass, $p_db_name, array $p_db_options=null) {
         return false;
     }
 

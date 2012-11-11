@@ -38,9 +38,9 @@ class FileTooBig extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_file_too_big');
+            $t_message = _('File upload failed. This is likely because the filesize was larger than is currently allowed by this PHP installation.');
         } else {
-            $t_message = vsprintf( lang_get('exception_file_too_big'), $p_parameters);
+            $t_message = vsprintf( _('File upload failed. This is likely because the filesize was larger than is currently allowed by this PHP installation.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

@@ -38,9 +38,9 @@ class IssueDuplicateSelf extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_bug_duplicate_self');
+            $t_message = _('You cannot set an issue as a duplicate of itself.');
         } else {
-            $t_message = vsprintf( lang_get('exception_bug_duplicate_self'), $p_parameters);
+            $t_message = vsprintf( _('You cannot set an issue as a duplicate of itself.'), $p_parameters);
         }
         parent::__construct($t_message, 400, $p_previous);
     }

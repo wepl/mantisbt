@@ -99,7 +99,7 @@ access_ensure_global_level( $t_user['access_level'] );
 # check that the username is unique
 if ( 0 != strcasecmp( $t_old_username, $f_username )
 	&& false == user_is_name_unique( $f_username ) ) {
-	throw new MantisBT\Exception\User_Name_Not_Unique();
+	throw new MantisBT\Exception\User\UserNameNotUnique();
 }
 
 user_ensure_name_valid( $f_username );

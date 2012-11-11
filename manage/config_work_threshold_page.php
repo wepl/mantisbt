@@ -69,7 +69,7 @@ $t_overrides = array();
 
 /**
  * Set overrides
- * @param string config value
+ * @param string $p_config config value
  */
 function set_overrides( $p_config ) {
    global $t_overrides;
@@ -80,7 +80,7 @@ function set_overrides( $p_config ) {
 
 /**
  * Section header
- * @param string section name
+ * @param string $p_section_name section name
  */
 function get_section_begin_mcwt( $p_section_name ) {
 	global $t_access_levels;
@@ -98,9 +98,9 @@ function get_section_begin_mcwt( $p_section_name ) {
 
 /**
  * Get row
- * @param string caption
- * @param string threshold
- * @param bool all projects only
+ * @param string $p_caption caption
+ * @param string $p_threshold threshold
+ * @param bool $p_all_projects_only all projects only
  */
 function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=false ) {
 	global $t_user, $t_project_id, $t_show_submit, $t_access_levels;
@@ -190,9 +190,9 @@ function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=fals
 
 /**
  * Get boolean row
- * @param string caption
- * @param string threshold
- * @param bool all projects only
+ * @param string $p_caption caption
+ * @param string $p_threshold threshold
+ * @param bool $p_all_projects_only all projects only
  */
 function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=false ) {
 	global $t_user, $t_project_id, $t_show_submit, $t_access_levels;

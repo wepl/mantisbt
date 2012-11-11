@@ -38,9 +38,9 @@ class ProtectedLastAdministrator extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_user_change_last_admin');
+            $t_message = _('You cannot remove or demote the last administrator account. To perform the action you requested, you first need to create another administrator account.');
         } else {
-            $t_message = vsprintf( lang_get('exception_user_change_last_admin'), $p_parameters);
+            $t_message = vsprintf( _('You cannot remove or demote the last administrator account. To perform the action you requested, you first need to create another administrator account.'), $p_parameters);
         }
         parent::__construct($t_message, 401, $p_previous);
     }

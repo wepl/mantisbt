@@ -380,6 +380,8 @@ function column_get_title( $p_column ) {
  * @param array $p_columns_all - The list of all valid columns.
  * @return bool
  * @access public
+ * @throws MantisBT\Exception\Column\ColumnInvalid
+ * @throws MantisBT\Exception\Column\ColumnDuplicate
  */
 function columns_ensure_valid( $p_field_name, $p_columns_to_validate, $p_columns_all ) {
 	$t_columns_all_lower = array_map( 'mb_strtolower', $p_columns_all );
@@ -387,7 +389,7 @@ function columns_ensure_valid( $p_field_name, $p_columns_to_validate, $p_columns
 	# Check for invalid fields
 	foreach( $p_columns_to_validate as $t_column ) {
 		if( !in_array( mb_strtolower( $t_column ), $t_columns_all_lower ) ) {
-			throw new MantisBT\Exception\Columns_Invalid( $p_field_name, $t_column );
+			throw new MantisBT\Exception\Column\ColumnInvalid( $p_field_name, $t_column );
 		}
 	}
 
@@ -396,7 +398,7 @@ function columns_ensure_valid( $p_field_name, $p_columns_to_validate, $p_columns
 	foreach( $p_columns_to_validate as $t_column ) {
 		$t_column_lower = mb_strtolower( $t_column );
 		if( in_array( $t_column, $t_columns_no_duplicates ) ) {
-			throw new MantisBT\Exception\Columns_Duplicate( $p_field_name, $t_column );
+			throw new MantisBT\Exception\Column\ColumnDuplicate( $p_field_name, $t_column );
 		} else {
 			$t_columns_no_duplicates[] = $t_column_lower;
 		}

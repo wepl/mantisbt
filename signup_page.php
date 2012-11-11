@@ -92,7 +92,7 @@ $t_public_key = crypto_generate_uri_safe_nonce( 64 );
 			if( ON == config_get( 'signup_use_captcha' ) && ( true == $t_allow_passwd ) ) {
 				# captcha image requires GD library and related option to ON
 				if( !extension_loaded('gd') ) {
-					throw new MantisBT\Exception\Missing_GD_Extension();
+					throw new MantisBT\Exception\PHP\ExtensionNotLoaded( 'gd' );
 				}
 
 				echo '<div class="field-container">';

@@ -38,9 +38,9 @@ class UserNameNotUnique extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_user_name_not_unique');
+            $t_message = _('That username is already being used. Please go back and select another one.');
         } else {
-            $t_message = vsprintf( lang_get('exception_user_name_not_unique'), $p_parameters);
+            $t_message = vsprintf( _('That username is already being used. Please go back and select another one.'), $p_parameters);
         }
         parent::__construct($t_message, 401, $p_previous);
     }

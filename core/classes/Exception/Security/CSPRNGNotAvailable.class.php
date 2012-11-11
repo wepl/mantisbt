@@ -38,9 +38,9 @@ class CSPRNGNotAvailable extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_crypto_can_not_generate_strong_randomness');
+            $t_message = _('Unable to find a source of strong randomness for cryptographic purposes.');
         } else {
-            $t_message = vsprintf( lang_get('exception_crypto_can_not_generate_strong_randomness'), $p_parameters);
+            $t_message = vsprintf( _('Unable to find a source of strong randomness for cryptographic purposes.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

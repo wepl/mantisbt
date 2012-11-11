@@ -38,9 +38,9 @@ class SessionHandlerInvalid extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_session_handler_invalid');
+            $t_message = _('Invalid session handler.');
         } else {
-            $t_message = vsprintf( lang_get('exception_session_handler_invalid'), $p_parameters);
+            $t_message = vsprintf( _('Invalid session handler.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

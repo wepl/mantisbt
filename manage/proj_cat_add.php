@@ -77,7 +77,7 @@ foreach ( $t_names as $t_name ) {
 		#  ones we can.  The others already exist so it isn't really
 		#  an error.
 
-		throw new MantisBT\Exception\Category_Duplicate();
+		throw new MantisBT\Exception\Issue\Category\CategoryDuplicate();
 	}
 }
 

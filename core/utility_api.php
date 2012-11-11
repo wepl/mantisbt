@@ -172,7 +172,7 @@ function multi_sort( $p_array, $p_key, $p_direction = ASCENDING ) {
 		$t_function = create_function( '$a, $b', "return $t_factor * strnatcasecmp( \$a['" . $p_key . "'], \$b['" . $p_key . "'] );" );
 		uasort( $p_array, $t_function );
 	} else {
-		throw new MantisBT\Exception\Invalid_Sort_Field();
+		throw new MantisBT\Exception\UnknownException();
 	}
 	return $p_array;
 }

@@ -16,8 +16,6 @@
 
 namespace MantisBT\Locale;
 use \Locale;
-use MantisBT\Exception\Locale\LocaleNotProvidedByUserAgent;
-use MantisBT\Exception\Locale\LocalesNotSupported;
 
 class LocaleManager {
 	private $textDomains = array();
@@ -36,11 +34,12 @@ class LocaleManager {
 	 * that are locale names to try. The order of the strings in the array
 	 * is important as the first valid locale name in the array will be
 	 * used.
+	 * @throws MantisBT\Exception\Locale\LocaleNotProvidedByUserAgent
 	 */
 	public function setLocale($newLocales = null) {
 		if ($newLocales === null) {
 			if (!$_SERVER['HTTP_ACCEPT_LANGUAGE'])
-				throw new LocaleNotProvidedByUser();
+				throw new MantisBT\Exception\Locale\LocaleNotProvidedByUserAgent();
 			$newLocales = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		}
 		$result = setlocale(LC_ALL, $newLocales);

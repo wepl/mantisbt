@@ -38,9 +38,9 @@ class ProtectedUser extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_protected_account');
+            $t_message = _('This account is protected. You are not allowed to access this until the account protection is lifted.');
         } else {
-            $t_message = vsprintf( lang_get('exception_protected_account'), $p_parameters);
+            $t_message = vsprintf( _('This account is protected. You are not allowed to access this until the account protection is lifted.'), $p_parameters);
         }
         parent::__construct($t_message, 401, $p_previous);
     }

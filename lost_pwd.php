@@ -58,7 +58,7 @@ form_security_validate( 'lost_pwd' );
 if( OFF == config_get( 'lost_password_feature' ) ||
 	OFF == config_get( 'send_reset_password' ) ||
 	OFF == config_get( 'enable_email_notification' ) ) {
-		throw new MantisBT\Exception\Lost_Password_Not_Enabled();
+		throw new MantisBT\Exception\Authentication\LostPasswordDisabled();
 }
 
 # force logout on the current user if already authenticated
@@ -82,13 +82,13 @@ if ( !$row ) {
 }
 
 if( is_blank( $f_email ) ) {
-	throw new MantisBT\Exception\Lost_Password_No_Email_Specified();
+	throw new MantisBT\Exception\Authentication\LostPasswordBlankEmail();
 }
 
 $t_user_id = $row['id'];
 
 if( user_is_protected( $t_user_id ) ) {
-	throw new MantisBT\Exception\Protected_Account();
+	throw new MantisBT\Exception\User\ProtectedUser();
 }
 
 if( !user_is_lost_password_request_allowed( $t_user_id ) ) {

@@ -38,9 +38,9 @@ class NotLinkedToProject extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_custom_field_not_linked_to_project');
+            $t_message = _('Custom field "%1$s" (id %2$s) not linked to currently active project.');
         } else {
-            $t_message = vsprintf( lang_get('exception_custom_field_not_linked_to_project'), $p_parameters);
+            $t_message = vsprintf( _('Custom field "%1$s" (id %2$s) not linked to currently active project.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

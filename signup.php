@@ -73,7 +73,7 @@ if ( OFF == config_get_global( 'allow_signup' ) ) {
 # captcha image requires GD library and related option to ON
 if( ON == config_get( 'signup_use_captcha' ) && helper_call_custom_function( 'auth_can_change_password', array() ) ) {
 	if( !extension_loaded('gd') ) {
-		throw new MantisBT\Exception\Missing_GD_Extension();
+		throw new MantisBT\Exception\PHP\ExtensionNotLoaded( 'gd' );
 	}
 
 	require_lib( 'securimage/securimage.php' );

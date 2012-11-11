@@ -38,9 +38,9 @@ class MasterSaltInvalid extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_crypto_master_salt_invalid');
+            $t_message = _('For security reasons MantisBT will not operate when $g_crypto_master_salt is not specified correctly in config_inc.php.');
         } else {
-            $t_message = vsprintf( lang_get('exception_crypto_master_salt_invalid'), $p_parameters);
+            $t_message = vsprintf( _('For security reasons MantisBT will not operate when $g_crypto_master_salt is not specified correctly in config_inc.php.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

@@ -38,9 +38,9 @@ class FileMoveFailed extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_file_move_failed');
+            $t_message = _('Uploaded file could not be moved to the file storage directory. Directory either does not exist or not writable to webserver.');
         } else {
-            $t_message = vsprintf( lang_get('exception_file_move_failed'), $p_parameters);
+            $t_message = vsprintf( _('Uploaded file could not be moved to the file storage directory. Directory either does not exist or not writable to webserver.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

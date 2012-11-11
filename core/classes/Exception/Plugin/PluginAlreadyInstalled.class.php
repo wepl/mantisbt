@@ -38,9 +38,9 @@ class PluginAlreadyInstalled extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_plugin_already_installed');
+            $t_message = _('Plugin is already installed.');
         } else {
-            $t_message = vsprintf( lang_get('exception_plugin_already_installed'), $p_parameters);
+            $t_message = vsprintf( _('Plugin is already installed.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

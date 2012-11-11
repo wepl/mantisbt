@@ -38,9 +38,9 @@ class ProjectNameNotValid extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_project_name_invalid');
+            $t_message = _('Invalid project name specified. Project names cannot be blank.');
         } else {
-            $t_message = vsprintf( lang_get('exception_project_name_invalid'), $p_parameters);
+            $t_message = vsprintf( _('Invalid project name specified. Project names cannot be blank.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

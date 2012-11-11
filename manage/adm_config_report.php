@@ -63,7 +63,7 @@ print_manage_config_menu( 'adm_config_report.php' );
 
 /**
  * Return string representing type of config variable
- * @param int CONFIG_TYPE_*
+ * @param int $p_type CONFIG_TYPE_*
  * @return string
  */
 function get_config_type( $p_type ) {
@@ -82,8 +82,8 @@ function get_config_type( $p_type ) {
 
 /**
  * Print out a given config value as a string
- * @param int CONFIG_TYPE_*
- * @param string config value
+ * @param int $p_type CONFIG_TYPE_*
+ * @param string $p_value config value
  */
 function print_config_value_as_string( $p_type, $p_value ) {
 	$t_corrupted = false;

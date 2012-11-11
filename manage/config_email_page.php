@@ -84,27 +84,27 @@ function array_merge_recursive2( $p_array1, $p_array2 ) {
  * on action "new", i.e. notify administrators on new bugs which can be
  * ON or OFF.
  *
- * @param string action
- * @param string flag
+ * @param string $p_action action
+ * @param string $p_flag flag
  * @return string
  */
-function get_notify_flag( $action, $flag ) {
+function get_notify_flag( $p_action, $p_flag ) {
 	global $t_notify_flags, $t_default_notify_flags;
 
-	$val = OFF;
-	if ( isset ( $t_notify_flags[$action][$flag] ) ) {
-		$val = $t_notify_flags[$action][$flag];
-	} else if ( isset ( $t_default_notify_flags[$flag] ) ) {
-		$val = $t_default_notify_flags[$flag];
+	$t_val = OFF;
+	if ( isset ( $t_notify_flags[$p_action][$p_flag] ) ) {
+		$t_val = $t_notify_flags[$p_action][$p_flag];
+	} else if ( isset ( $t_default_notify_flags[$p_flag] ) ) {
+		$t_val = $t_default_notify_flags[$p_flag];
 	}
-	return $val;
+	return $t_val;
 }
 
 /**
  * Return CSS for flag
  *
- * @param string action
- * @param string flag
+ * @param string $p_action action
+ * @param string $p_flag flag
  * @return string
  */
 function colour_notify_flag ( $p_action, $p_flag ) {
@@ -131,8 +131,8 @@ function colour_notify_flag ( $p_action, $p_flag ) {
 /**
  * Get the value associated with the specific action and flag.
  *
- * @param string action
- * @param string flag
+ * @param string $p_action action
+ * @param string $p_flag flag
  * @return string
  */
 function show_notify_flag( $p_action, $p_flag ) {
@@ -150,8 +150,8 @@ function show_notify_flag( $p_action, $p_flag ) {
 /**
  * Get CSS for threshold flags
  *
- * @param string action
- * @param string flag
+ * @param string $p_access access
+ * @param string $p_action action
  * @return string
  */
 function colour_threshold_flag ( $p_access, $p_action ) {
@@ -177,8 +177,8 @@ function colour_threshold_flag ( $p_access, $p_action ) {
 /**
  * HTML for Show notify threshold
  *
- * @param string action
- * @param string flag
+ * @param string $p_access access
+ * @param string $p_action action
  * @return string
  */
 function show_notify_threshold( $p_access, $p_action ) {
@@ -197,7 +197,7 @@ function show_notify_threshold( $p_access, $p_action ) {
 /**
  * HTML for email section
  *
- * @param string section name
+ * @param string $p_section_name section name
  */
 function get_section_begin_for_email( $p_section_name ) {
 	$t_access_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );
@@ -220,8 +220,8 @@ function get_section_begin_for_email( $p_section_name ) {
 /**
  * HTML for Row
  *
- * @param string caption
- * @param string message type
+ * @param string $p_caption caption
+ * @param string $p_message_type message type
  */
 function get_capability_row_for_email( $p_caption, $p_message_type ) {
 	$t_access_levels = MantisEnum::getValues( config_get( 'access_levels_enum_string' ) );

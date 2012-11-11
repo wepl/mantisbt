@@ -116,10 +116,10 @@ class ImportXML {
 	  * Constructor
 	  *
 	  * @param string $p_filename name of the file to read
-	  * @param string conversion strategy; one of "renumber", "link" or "disable"
-	  * @param string alternative conversion strategy when "renumber" does not apply
-	  * @param string keepy category
-	  * @param string default category
+	  * @param string $strategy conversion strategy; one of "renumber", "link" or "disable"
+	  * @param string $fallback alternative conversion strategy when "renumber" does not apply
+	  * @param string $keepCategory keep category
+	  * @param string $defaultCategory default category
 	  */
 	public function __construct( $p_filename, $strategy, $fallback, $keepCategory, $defaultCategory ) {
 		$this->source_ = new SourceData;
@@ -243,7 +243,7 @@ class ImportXML {
 
 	/**
 	 * Get importer object
-	 * @param element name
+	 * @param element $p_element_name name
      * @return ImportXml_Issue
 	 */
 	private function get_importer_object( $p_element_name ) {

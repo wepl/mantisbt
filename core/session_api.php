@@ -206,6 +206,7 @@ function session_init( $p_session_id=null ) {
  * Checks may include last-known IP address, or more.
  * Triggers an error when the session is invalid.
  * @param object $p_session Session object
+ * @throws MantisBT\Exception\Session\SessionInvalid
  */
 function session_validate( $p_session ) {
 	$t_user_ip = '';
@@ -221,13 +222,7 @@ function session_validate( $p_session ) {
 		# Check a continued session request
 		if ( $t_user_ip != $t_last_ip ) {
 			session_clean();
-
-			trigger_error( ERROR_SESSION_NOT_VALID, WARNING );
-
-			$t_url = config_get_global( 'path' ) . config_get_global( 'default_home_page' );
-			echo "\t<meta http-equiv=\"Refresh\" content=\"4;URL=$t_url\" />\n";
-
-			die();
+            throw new MantisBT\Exception\Session\SessionInvalid();
 		}
 	}
 }

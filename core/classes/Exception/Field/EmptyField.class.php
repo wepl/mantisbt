@@ -38,9 +38,9 @@ class EmptyField extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_empty_field');
+            $t_message = _('A necessary field "%1$s" was empty. Please recheck your inputs.');
         } else {
-            $t_message = vsprintf( lang_get('exception_empty_field'), $p_parameters);
+            $t_message = vsprintf( _('A necessary field "%1$s" was empty. Please recheck your inputs.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

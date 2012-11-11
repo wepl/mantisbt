@@ -69,12 +69,12 @@ class MantisGraphPlugin extends MantisPlugin  {
 	}
 
 	/**
-	 * class autoloader
-	 * @param string class name
+	 * class auto loader
+	 * @param string $p_class class name
 	 */
-	public static function autoload( $className ) {
+	public static function autoload( $p_class ) {
 		if (class_exists( 'ezcBase' ) ) {
-			ezcBase::autoload( $className );
+			ezcBase::autoload( $p_class );
 		}
 	}
 

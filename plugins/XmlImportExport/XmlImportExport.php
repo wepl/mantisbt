@@ -77,7 +77,7 @@ class XmlImportExportPlugin extends MantisPlugin {
 	function install() {
 		$result = extension_loaded("xmlreader") && extension_loaded("xmlwriter");
 		if ( ! $result ) {
-			throw new MantisBT\Exception\Plugin_Install_Failed( plugin_lang_get( 'error_no_xml' ) );
+			throw new MantisBT\Exception\Plugin\PluginInstallationFailed( plugin_lang_get( 'error_no_xml' ) );
 		}
 		return $result;
 	}

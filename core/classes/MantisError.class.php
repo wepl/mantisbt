@@ -35,7 +35,6 @@ class MantisError
 		
 	/**
 	 * Indicates if an error/exception has been handled
-	 * Note: this also indicates additional shutdown functions have been setup.
 	 */
 	private static $_handled = false;
 	
@@ -198,7 +197,7 @@ class MantisError
 		echo '<div align="center">';
 		if ( !self::$_fatal ) {
 			try {
-				echo lang_get( 'error_no_proceed' );
+				echo _( 'Please use the "Back" button in your web browser to return to the previous page. There you can correct whatever problems were identified in this error or select another action. You can also click an option from the menu bar to go directly to a new section.' );
 			} catch (Exception $e) {
 			}
 		}

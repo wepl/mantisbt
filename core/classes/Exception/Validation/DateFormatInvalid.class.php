@@ -38,9 +38,9 @@ class DateFormatInvalid extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_invalid_date_format');
+            $t_message = _('Invalid date format.');
         } else {
-            $t_message = vsprintf( lang_get('exception_invalid_date_format'), $p_parameters);
+            $t_message = vsprintf( _('Invalid date format.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

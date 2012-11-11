@@ -97,7 +97,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 	$t_file_size = filesize( $v_tmp_name );
 	$t_max_file_size = (int)min( ini_get_number( 'upload_max_filesize' ), ini_get_number( 'post_max_size' ), config_get( 'max_file_size' ) );
 	if ( $t_file_size > $t_max_file_size ) {
-		throw new MantisBT\Exception\File_Too_Big();
+		throw new MantisBT\Exception\File\FileTooBig();
 	}
 	$c_file_size = (int)$t_file_size;
 
@@ -117,7 +117,7 @@ if ( is_uploaded_file( $v_tmp_name ) ) {
 				file_delete_local( $t_disk_file_name );
 			}
 			if ( !move_uploaded_file( $v_tmp_name, $t_disk_file_name ) ) {
-				throw new MantisBT\Exception\File_Move_Failed();
+				throw new MantisBT\Exception\File\FileMoveFailed();
 			}
 			chmod( $t_disk_file_name, config_get( 'attachments_file_permissions' ) );
 

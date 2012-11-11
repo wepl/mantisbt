@@ -38,9 +38,9 @@ class CSRFTokenInvalid extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_form_token_invalid');
+            $t_message = _('Invalid form security token. Did you submit the form twice by accident?');
         } else {
-            $t_message = vsprintf( lang_get('exception_form_token_invalid'), $p_parameters);
+            $t_message = vsprintf( _('Invalid form security token. Did you submit the form twice by accident?'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

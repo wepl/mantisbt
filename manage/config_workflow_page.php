@@ -66,7 +66,7 @@ $t_overrides = array();
 
 /**
  * Set overrides
- * @param string config value
+ * @param string $p_config config value
  */
 function set_overrides( $p_config ) {
    global $t_overrides;
@@ -77,8 +77,8 @@ function set_overrides( $p_config ) {
 
 /**
  * Get the value associated with the specific action and flag.
- * @param int from status id
- * @param int to status id
+ * @param int $p_from_status_id from status id
+ * @param int $p_to_status_id to status id
  * @return string
  */
 function show_flag( $p_from_status_id, $p_to_status_id ) {
@@ -128,7 +128,7 @@ function show_flag( $p_from_status_id, $p_to_status_id ) {
 
 /**
  * section header
- * @param string section name
+ * @param string $p_section_name section name
  */
 function section_begin( $p_section_name ) {
 	$t_enum_statuses = MantisEnum::getValues( config_get( 'status_enum_string' ) );
@@ -150,7 +150,7 @@ function section_begin( $p_section_name ) {
 
 /**
  * Print row
- * @param int from status
+ * @param int $p_from_status from status
  */
 function capability_row( $p_from_status ) {
 	global $t_file_workflow, $t_global_workflow, $t_project_workflow, $t_can_change_workflow;
@@ -198,7 +198,7 @@ function section_end() {
 
 /**
  * threshold section begin
- * @param string section name
+ * @param string $p_section_name section name
  */
 function threshold_begin( $p_section_name ) {
 	echo '<table class="width100">';
@@ -211,7 +211,7 @@ function threshold_begin( $p_section_name ) {
 
 /**
  * threshold section row
- * @param string threshold
+ * @param string $p_threshold threshold
  */
 function threshold_row( $p_threshold ) {
 	global $t_access, $t_can_change_flags;
@@ -260,7 +260,7 @@ function threshold_end() {
 
 /**
  * access begin
- * @param string section name
+ * @param string $p_section_name section name
  */
 function access_begin( $p_section_name ) {
 	echo '<table class="width100">';

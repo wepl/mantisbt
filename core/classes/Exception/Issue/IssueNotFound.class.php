@@ -38,9 +38,9 @@ class IssueNotFound extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_bug_not_found');
+            $t_message = _('Issue %1$d not found.');
         } else {
-            $t_message = vsprintf( lang_get('exception_bug_not_found'), $p_parameters);
+            $t_message = vsprintf( _('Issue %1$d not found.'), $p_parameters);
         }
         parent::__construct($t_message, 404, $p_previous);
     }

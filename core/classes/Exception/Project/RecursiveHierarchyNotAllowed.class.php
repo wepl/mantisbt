@@ -38,9 +38,9 @@ class RecursiveHierarchyNotAllowed extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_project_recursive_hierarchy');
+            $t_message = _('That operation would create a loop in the subproject hierarchy.');
         } else {
-            $t_message = vsprintf( lang_get('exception_project_recursive_hierarchy'), $p_parameters);
+            $t_message = vsprintf( _('That operation would create a loop in the subproject hierarchy.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

@@ -869,7 +869,8 @@ function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
  *
  * @param int $p_user_id User ID
  * @param int $p_profile_id Profile ID
- * @return array 
+ * @return array
+ * @throws MantisBT\Exception\User\UserProfileNotFound
  */
 function user_get_profile_row( $p_user_id, $p_profile_id ) {
 	$query = 'SELECT * FROM {user_profile} WHERE id=%d AND user_id=%d';
@@ -877,7 +878,7 @@ function user_get_profile_row( $p_user_id, $p_profile_id ) {
 
 	$row = db_fetch_array( $result );
 	if( !$row ) {
-		throw new MantisBT\Exception\User_Profile_Not_Found();
+		throw new MantisBT\Exception\User\UserProfileNotFound();
 	}
 
 	return $row;

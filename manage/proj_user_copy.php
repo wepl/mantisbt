@@ -59,8 +59,7 @@ if ( $f_copy_from ) {
 	$t_src_project_id = $f_project_id;
 	$t_dst_project_id = $f_other_project_id;
 } else {
-	/** @todo Should this become a separate error? */
-	throw new MantisBT\Exception\Category_No_Action();
+	throw new MantisBT\Exception\Field\EmptyField( 'copy_from|copy_to' );
 }
 
 # We should check both since we are in the project section and an

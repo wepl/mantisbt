@@ -38,9 +38,9 @@ class TokenNotFound extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_token_not_found');
+            $t_message = _('Token could not be found.');
         } else {
-            $t_message = vsprintf( lang_get('exception_token_not_found'), $p_parameters);
+            $t_message = vsprintf( _('Token could not be found.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

@@ -38,9 +38,9 @@ class UserPreferencesNotFound extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_user_prefs_not_found');
+            $t_message = _('Preferences could not be found for this user.');
         } else {
-            $t_message = vsprintf( lang_get('exception_user_prefs_not_found'), $p_parameters);
+            $t_message = vsprintf( _('Preferences could not be found for this user.'), $p_parameters);
         }
         parent::__construct($t_message, 401, $p_previous);
     }

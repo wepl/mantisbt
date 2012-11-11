@@ -38,9 +38,9 @@ class FieldNotFound extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_custom_field_not_found');
+            $t_message = _('Custom field not found.');
         } else {
-            $t_message = vsprintf( lang_get('exception_custom_field_not_found'), $p_parameters);
+            $t_message = vsprintf( _('Custom field not found.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

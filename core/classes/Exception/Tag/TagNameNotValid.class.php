@@ -38,9 +38,9 @@ class TagNameNotValid extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_tag_name_invalid');
+            $t_message = _('That tag name is invalid.');
         } else {
-            $t_message = vsprintf( lang_get('exception_tag_name_invalid'), $p_parameters);
+            $t_message = vsprintf( _('That tag name is invalid.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

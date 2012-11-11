@@ -389,7 +389,3 @@ $s_messages = array(
 	'view_account_title' => 'Brukarinformasjon',
 	'manage_user' => 'Handsam brukar',
 );
-
-
-$MANTIS_ERROR[ERROR_BUG_NOT_FOUND] = 'Fann ikkje sak %1$d';
-$MANTIS_ERROR[ERROR_CATEGORY_NOT_FOUND] = 'Fann ikkje kategorien.';

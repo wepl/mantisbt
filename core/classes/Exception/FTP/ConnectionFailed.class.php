@@ -38,9 +38,9 @@ class ConnectionFailed extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_ftp_connect_error');
+            $t_message = _('Unable to connect to FTP server.');
         } else {
-            $t_message = vsprintf( lang_get('exception_ftp_connect_error'), $p_parameters);
+            $t_message = vsprintf( _('Unable to connect to FTP server.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

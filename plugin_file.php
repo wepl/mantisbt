@@ -50,7 +50,7 @@ $t_file = $t_matches[2];
 
 global $g_plugin_cache;
 if ( !isset( $g_plugin_cache[$t_basename] ) ) {
-	throw new MantisBT\Exception\Plugin_Not_Registered();
+	throw new MantisBT\Exception\Plugin\PluginNotRegistered();
 }
 
 plugin_file_include( $t_file, $t_basename );

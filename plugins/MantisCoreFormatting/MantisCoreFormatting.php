@@ -125,8 +125,8 @@ class MantisCoreFormattingPlugin extends MantisFormattingPlugin {
 
 	/**
 	 * RSS text processing.
-	 * @param string Event name
-	 * @param string Unformatted text
+	 * @param string $p_event Event name
+	 * @param string $p_string Unformatted text
 	 * @return string Formatted text
 	 */
 	function rss( $p_event, $p_string ) {

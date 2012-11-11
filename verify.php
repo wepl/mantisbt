@@ -47,7 +47,7 @@ require_api( 'user_api.php' );
 if ( OFF == config_get( 'allow_signup' ) &&
 	OFF == config_get( 'lost_password_feature' ) &&
 	OFF == config_get( 'send_reset_password' ) ) {
-	throw new MantisBT\Exception\Lost_Password_Not_Enabled();
+	throw new MantisBT\Exception\Authentication\LostPasswordDisabled();
 }
 
 $f_user_id = gpc_get_string('id');

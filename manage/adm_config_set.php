@@ -64,12 +64,12 @@ if ( $f_project_id != ALL_PROJECTS ) {
 # make sure that configuration option specified is a valid one.
 $t_not_found_value = '***CONFIG OPTION NOT FOUND***';
 if ( config_get_global( $f_config_option, $t_not_found_value ) === $t_not_found_value ) {
-	throw new MantisBT\Exception\Config_Opt_Not_Found( $f_config_option );
+	throw new MantisBT\Exception\Configuration\OptionNotFound( $f_config_option );
 }
 
 # make sure that configuration option specified can be stored in the database
 if ( !config_can_set_in_database( $f_config_option ) ) {
-	throw new MantisBT\Exception\Config_Opt_Cant_Be_Set_In_Db( $f_config_option );
+	throw new MantisBT\Exception\Configuration\OptionCanNotBeSetInDatabase( $f_config_option );
 }
 
 if ( $f_type === 'default' ) {
@@ -129,7 +129,7 @@ print_successful_redirect( 'adm_config_report.php' );
 
 /**
  * Check if the passed string is a constant and return its value
- * @param string constant name
+ * @param string $p_name constant name
  * @return string
  */
 function constant_replace( $p_name ) {

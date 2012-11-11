@@ -38,9 +38,9 @@ class ProjectNameNotUnique extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_project_name_not_unique');
+            $t_message = _('A project with that name already exists. Please go back and enter a different name.');
         } else {
-            $t_message = vsprintf( lang_get('exception_project_name_not_unique'), $p_parameters);
+            $t_message = vsprintf( _('A project with that name already exists. Please go back and enter a different name.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

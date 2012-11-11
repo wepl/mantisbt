@@ -38,9 +38,9 @@ class HeadersAlreadySent extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_page_redirection');
+            $t_message = _('Page redirection error, ensure that there are no spaces outside the PHP block (&lt;?php ?&gt;) in config_inc.php or custom_*.php files.');
         } else {
-            $t_message = vsprintf( lang_get('exception_page_redirection'), $p_parameters);
+            $t_message = vsprintf( _('Page redirection error, ensure that there are no spaces outside the PHP block (&lt;?php ?&gt;) in config_inc.php or custom_*.php files.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

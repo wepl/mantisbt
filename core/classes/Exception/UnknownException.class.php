@@ -38,9 +38,9 @@ class UnknownException extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_generic');
+            $t_message = _('An error occurred during this action. You may wish to report this error to your local administrator.');
         } else {
-            $t_message = vsprintf( lang_get('exception_generic'), $p_parameters);
+            $t_message = vsprintf( _('An error occurred during this action. You may wish to report this error to your local administrator.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

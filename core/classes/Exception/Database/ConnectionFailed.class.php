@@ -38,9 +38,9 @@ class ConnectionFailed extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_db_connect_failed');
+            $t_message = _('Database connection failed. Error received from database was #%1$d: %2$s.');
         } else {
-            $t_message = vsprintf( lang_get('exception_db_connect_failed'), $p_parameters);
+            $t_message = vsprintf( _('Database connection failed. Error received from database was #%1$d: %2$s.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

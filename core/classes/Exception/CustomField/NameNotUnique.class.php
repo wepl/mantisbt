@@ -38,9 +38,9 @@ class NameNotUnique extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_custom_field_name_not_unique');
+            $t_message = _('This is a duplicate name.');
         } else {
-            $t_message = vsprintf( lang_get('exception_custom_field_name_not_unique'), $p_parameters);
+            $t_message = vsprintf( _('This is a duplicate name.'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

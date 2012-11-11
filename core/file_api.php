@@ -709,6 +709,9 @@ function file_is_name_unique( $p_name, $p_bug_id ) {
  * @throws MantisBT\Exception\UnknownException
  * @throws MantisBT\Exception\File\FileDuplicate
  * @throws MantisBT\Exception\File\FileMoveFailed
+ * @throws MantisBT\Exception\File\FileTypeNotAllowed
+ * @throws MantisBT\Exception\File\FileNoUpload
+ * @throws MantisBT\Exception\File\FileTooBig
  */
 function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc = '', $p_user_id = null, $p_date_added = 0, $p_skip_bug_update = false ) {
 
@@ -718,7 +721,7 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 	$c_date_added = $p_date_added <= 0 ? db_now() : (int)$p_date_added;
 
 	if( !file_type_check( $t_file_name ) ) {
-		throw new MantisBT\Exception\File_Not_Allowed();
+		throw new MantisBT\Exception\File\FileTypeNotAllowed();
 	}
 
 	if( !file_is_name_unique( $t_file_name, $p_bug_id ) ) {
@@ -764,11 +767,11 @@ function file_add( $p_bug_id, $p_file, $p_table = 'bug', $p_title = '', $p_desc 
 
 	$t_file_size = filesize( $t_tmp_file );
 	if( 0 == $t_file_size ) {
-		throw new MantisBT\Exception\No_Upload_Failure();
+		throw new MantisBT\Exception\File\FileNoUpload();
 	}
 	$t_max_file_size = (int) min( ini_get_number( 'upload_max_filesize' ), ini_get_number( 'post_max_size' ), config_get( 'max_file_size' ) );
 	if( $t_file_size > $t_max_file_size ) {
-		throw new MantisBT\Exception\File_Too_Big();
+		throw new MantisBT\Exception\File\FileTooBig();
 	}
 	$c_file_size = (int)$t_file_size;
 
@@ -898,10 +901,11 @@ function file_allow_bug_upload( $p_bug = null, $p_user_id = null ) {
 /**
  * checks whether the specified upload path exists and is writable
  * @param string $p_upload_path upload path
+ * @throws MantisBT\Exception\File\InvalidUploadPath
  */
 function file_ensure_valid_upload_path( $p_upload_path ) {
 	if( !file_exists( $p_upload_path ) || !is_dir( $p_upload_path ) || !is_writable( $p_upload_path ) || !is_readable( $p_upload_path ) ) {
-		throw new MantisBT\Exception\File_Invalid_Upload_Path();
+		throw new MantisBT\Exception\File\InvalidUploadPath();
 	}
 }
 

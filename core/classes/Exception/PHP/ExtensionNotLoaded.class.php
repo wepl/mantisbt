@@ -38,9 +38,9 @@ class ExtensionNotLoaded extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_php_extension_not_loaded');
+            $t_message = _('PHP Extension Not Loaded: %s');
         } else {
-            $t_message = vsprintf( lang_get('exception_php_extension_not_loaded'), $p_parameters);
+            $t_message = vsprintf( _('PHP Extension Not Loaded: %s'), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }
