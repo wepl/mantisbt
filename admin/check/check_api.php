@@ -121,7 +121,7 @@ function check_print_error_rows() {
 /**
  * Print section header
  *
- * @param string heading
+ * @param string $p_heading heading
  */
 function check_print_section_header_row( $p_heading ) {
 ?>
@@ -134,8 +134,8 @@ function check_print_section_header_row( $p_heading ) {
 /**
  * Print Check result - information only
  *
- * @param string description
- * @param string information
+ * @param string $p_description description
+ * @param string $p_info information
  */
 function check_print_info_row( $p_description, $p_info = null ) {
 	global $g_alternate_row, $g_show_all;
@@ -204,9 +204,10 @@ function check_print_test_row( $p_description, $p_pass, $p_info = null ) {
 
 /**
  * Print Check Test Warning Row
- * @param string description
- * @param bool pass
- * @param string information
+ * @param string $p_description description
+ * @param bool $p_pass pass
+ * @param string $p_info information
+ * @return bool
  */
 function check_print_test_warn_row( $p_description, $p_pass, $p_info = null ) {
 	global $g_alternate_row, $g_show_all;

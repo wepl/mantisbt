@@ -152,7 +152,7 @@ function tag_cmp_name( $p_tag1, $p_tag2 ) {
  * row of information returned.  If the tag does not exist, a row is returned with
  * id = -1 and the tag name, and if the name is invalid, a row is returned with
  * id = -2 and the tag name.  The resulting array is then sorted by tag name.
- * @param string Input string to parse
+ * @param string $p_string Input string to parse
  * @return array Rows of tags parsed from input string
  */
 function tag_parse_string( $p_string ) {

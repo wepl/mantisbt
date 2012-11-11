@@ -158,8 +158,8 @@ function plugin_file_include( $p_filename, $p_basename = null ) {
 /**
  * Given a base table name for a plugin, add appropriate prefix and suffix.
  * Convenience for plugin schema definitions.
- * @param string Table name
- * @param string Plugin basename (defaults to current plugin)
+ * @param string $p_name Table name
+ * @param string $p_basename Plugin basename (defaults to current plugin)
  * @return string Full table name
  */
 function plugin_table( $p_name, $p_basename = null ) {

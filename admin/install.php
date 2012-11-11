@@ -40,8 +40,8 @@ $g_database_upgrade = false;
 /**
  * Print Check result - information only
  *
- * @param string description
- * @param string information
+ * @param string $p_description description
+ * @param string $p_info information
  */
 function print_info_row( $p_description, $p_info = null ) {
 	echo "\t<tr>\n\t\t<td bgcolor=\"#ffffff\">$p_description</td>\n";
@@ -79,10 +79,10 @@ function print_test_result( $p_result, $p_hard_fail = true, $p_message = '' ) {
 /**
  * Print Test result
  *
- * @param string Test Description
- * @param int Result - BAD|GOOD
- * @param bool Fail installation or soft warning
- * @param string Message to display to user
+ * @param string $p_test_description Test Description
+ * @param int $p_result Result - BAD|GOOD
+ * @param bool $p_hard_fail Fail installation or soft warning
+ * @param string $p_message Message to display to user
  */
 function print_test( $p_test_description, $p_result, $p_hard_fail = true, $p_message = '' ) {
 

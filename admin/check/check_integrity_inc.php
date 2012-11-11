@@ -81,8 +81,8 @@ function get_release_containing_object_hash( $p_filename, $p_object_hash ) {
 
 /**
  * Get commit of object hash for given file
- * @param string filename of file contained in git repository
- * @param string object hash
+ * @param string $p_filename filename of file contained in git repository
+ * @param string $p_object_hash object hash
  * @return string
  */
 function get_commit_containing_object_hash( $p_filename, $p_object_hash ) {

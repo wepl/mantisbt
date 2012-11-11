@@ -203,7 +203,7 @@ function current_user_ensure_unprotected() {
  * Returns the issue filter parameters for the current user
  *
  * @param int $p_project_id project id
- * @return Active issue filter for current user or false if no filter is currently defined.
+ * @return mixed Active issue filter for current user or false if no filter is currently defined.
  * @access public
  */
 function current_user_get_bug_filter( $p_project_id = null ) {

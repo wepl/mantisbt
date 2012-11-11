@@ -121,7 +121,7 @@ function db_is_mssql() {
  * @param array $p_params Array of parameters matching $p_query
  * @param int $p_limit Number of results to return
  * @param int $p_offset offset query results for paging
- * @return ADORecordSet|bool Result set or false if the query failed.
+ * @return object|bool Result set or false if the query failed.
  * @throws MantisBT\Exception\Database\QueryFailed
  */
 function db_query( $p_query, $p_params = null, $p_limit = -1, $p_offset = -1 ) {
@@ -142,7 +142,7 @@ function db_query( $p_query, $p_params = null, $p_limit = -1, $p_offset = -1 ) {
 
 /**
  * Retrieve the next row returned from a specific database query
- * @param bool|ADORecordSet $p_result Database Query Record Set to retrieve next result for.
+ * @param bool|object $p_result Database Query Record Set to retrieve next result for.
  * @return array Database result
  */
 function db_fetch_array( &$p_result ) {
@@ -151,7 +151,7 @@ function db_fetch_array( &$p_result ) {
 
 /**
  * Retrieve a result returned from a specific database query
- * @param bool|ADORecordSet $p_result Database Query Record Set to retrieve next result for.
+ * @param bool|object $p_result Database Query Record Set to retrieve next result for.
  * @param int $p_index1 Column to retrieve (optional)
  * @return mixed Database result
  */

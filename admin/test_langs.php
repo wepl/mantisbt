@@ -100,8 +100,8 @@ if( function_exists( 'opendir' ) && function_exists( 'readdir' ) ) {
 /**
  * Check directory of language files
  *
- * @param string path
- * @param string sub path
+ * @param string $p_path path
+ * @param string $p_subpath sub path
  */
 function checklangdir( $p_path, $p_subpath = '' ) {
 	$p_path = $p_path . DIRECTORY_SEPARATOR . $p_subpath . DIRECTORY_SEPARATOR;
@@ -192,8 +192,8 @@ $basevariables = array();
 /**
  * Check Language File Tokens
  *
- * @param string file
- * @param bool
+ * @param string $file file
+ * @param bool $base
  * @return bool
  */
 function checktoken( $file, $base = false ) {
