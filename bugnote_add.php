@@ -62,7 +62,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 }
 
 if ( bug_is_readonly( $t_bug->id ) ) {
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $t_bug->id );
+	throw new MantisBT\Exception\Issue\IssueReadOnly( $t_bug->id );
 }
 
 access_ensure_bug_level( config_get( 'add_bugnote_threshold' ), $t_bug->id );

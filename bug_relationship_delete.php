@@ -73,7 +73,7 @@ access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );
 
 # bug is not read-only...
 if ( bug_is_readonly( $f_bug_id ) ) {
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $f_bug_id );
+	throw new MantisBT\Exception\Issue\IssueReadOnly( $f_bug_id );
 }
 
 # retrieve the destination bug of the relationship

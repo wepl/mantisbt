@@ -78,7 +78,7 @@ foreach( $f_dest_bug_id_array as $f_dest_bug_id ) {
 
 	# bug is not read-only...
 	if ( bug_is_readonly( $f_src_bug_id ) ) {
-		throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $f_src_bug_id );
+		throw new MantisBT\Exception\Issue\IssueReadOnly( $f_src_bug_id );
 	}
 
 	# user can access to the related bug at least as viewer...
@@ -98,7 +98,7 @@ foreach( $f_dest_bug_id_array as $f_dest_bug_id ) {
 
 	if ( $t_old_id_relationship == -1 ) {
 		# the relationship type is exactly the same of the new one. No sense to proceed
-		throw new MantisBT\Exception\Relationship_Already_Exists();
+		throw new MantisBT\Exception\Issue\Relationship\RelationshipDuplicate();
 	}
 	else if ( $t_old_id_relationship > 0 ) {
 		# there is already a relationship between them -> we have to update it and not to add a new one

@@ -79,7 +79,7 @@ access_ensure_project_level( config_get('report_bug_threshold' ) );
 
 if( isset( $_GET['posted'] ) && empty( $_FILE ) && empty( $_POST ) ) {
 	# _POST/_FILES are not populated if you exceed size limit
-	throw new MantisBT\Exception\File_Too_Big();
+	throw new MantisBT\Exception\File\FileTooBig();
 }
 
 $t_bug_data = new MantisBug;
@@ -154,7 +154,7 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 		throw new MantisBT\Exception\Field\EmptyField( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ) );
 	}
 	if ( !custom_field_validate( $t_id, gpc_get_custom_field( "custom_field_$t_id", $t_def['type'], NULL ) ) ) {
-		throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ));
+		throw new MantisBT\Exception\Field\InvalidValue( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ));
 	}
 }
 
@@ -181,7 +181,7 @@ foreach( $t_related_custom_field_ids as $t_id ) {
 
 	$t_def = custom_field_get_definition( $t_id );
 	if( !custom_field_set_value( $t_id, $t_bug_id, gpc_get_custom_field( "custom_field_$t_id", $t_def['type'], '' ), false ) ) {
-		throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ));
+		throw new MantisBT\Exception\Field\InvalidValue( lang_get_defaulted( custom_field_get_field( $t_id, 'name' ) ));
 	}
 }
 

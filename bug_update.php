@@ -78,7 +78,7 @@ access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );
 # Check if the bug is in a read-only state and whether the current user has
 # permission to update read-only bugs.
 if ( bug_is_readonly( $f_bug_id ) ) {
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $f_bug_id );
+	throw new MantisBT\Exception\Issue\IssueReadOnly( $f_bug_id );
 }
 
 $t_updated_bug = clone $t_existing_bug;
@@ -150,7 +150,7 @@ if ( ( $t_resolve_issue || $t_close_issue ) &&
 if ( $t_existing_bug->status !== $t_updated_bug->status ) {
 	access_ensure_bug_level( config_get( 'update_bug_status_threshold' ), $f_bug_id );
 	if ( !bug_check_workflow( $t_existing_bug->status, $t_updated_bug->status ) ) {
-		throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get( 'status' ) );
+		throw new MantisBT\Exception\Field\InvalidValue( lang_get( 'status' ) );
 	}
 	if ( !access_has_bug_level( access_get_status_threshold( $t_updated_bug->status, $t_updated_bug->project_id ), $f_bug_id ) ) {
 		# The reporter may be allowed to close or reopen the issue regardless.
@@ -206,7 +206,7 @@ if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 if ( $t_existing_bug->resolution !== $t_updated_bug->resolution &&
      $t_updated_bug->resolution >= config_get( 'bug_resolution_fixed_threshold' ) &&
      $t_updated_bug->status < $t_resolved_status ) {
-	throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get( 'resolution' ) );
+	throw new MantisBT\Exception\Field\InvalidValue( lang_get( 'resolution' ) );
 }
 
 # Ensure that the user has permission to change the target version of the issue.
@@ -260,7 +260,7 @@ foreach ( $t_related_custom_field_ids as $t_cf_id ) {
 	# modified such that old values that were once OK are now considered
 	# invalid.
 	if ( !custom_field_validate( $t_cf_id, $t_new_custom_field_value ) ) {
-		throw new MantisBT\Exception\Custom_Field_Invalid_Value( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
+		throw new MantisBT\Exception\Field\InvalidValue( lang_get_defaulted( custom_field_get_field( $t_cf_id, 'name' ) ) );
 	}
 
 	# Remember the new custom field values so we can set them when updating

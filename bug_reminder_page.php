@@ -57,7 +57,7 @@ if( $t_bug->project_id != helper_get_current_project() ) {
 }
 
 if ( bug_is_readonly( $f_bug_id ) ) {
-	throw new MantisBT\Exception\Bug_Read_Only_Action_Denied( $f_bug_id );
+	throw new MantisBT\Exception\Issue\IssueReadOnly( $f_bug_id );
 }
 
 access_ensure_bug_level( config_get( 'bug_reminder_threshold' ), $f_bug_id );

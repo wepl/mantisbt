@@ -56,7 +56,7 @@ $f_file		= gpc_get_file( 'file', -1 );
 
 if ( $f_bug_id == -1 && $f_file	== -1 ) {
 	# _POST/_FILES does not seem to get populated if you exceed size limit so check if bug_id is -1
-	throw new MantisBT\Exception\File_Too_Big();
+	throw new MantisBT\Exception\File\FileTooBig();
 }
 
 form_security_validate( 'bug_file_add' );

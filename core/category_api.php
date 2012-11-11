@@ -260,6 +260,7 @@ function category_exists( $p_category_id ) {
  * @param int $p_category_id Category id
  * @return array array containing category details
  * @access public
+ * @throws MantisBT\Exception\Issue\Category\CategoryNotFound
  */
  function category_get_row( $p_category_id ) {
 	global $g_category_cache;
@@ -271,7 +272,7 @@ function category_exists( $p_category_id ) {
 	$t_result = db_query( $t_query, array( $p_category_id ) );
 	$t_row = db_fetch_array( $t_result );
 	if( !$t_row ) {
-		throw new MantisBT\Exception\Category_Not_Found();
+		throw new MantisBT\Exception\Issue\Category\CategoryNotFound();
 	}
 
 	$g_category_cache[$p_category_id] = $t_row;

@@ -134,10 +134,11 @@ function bugnote_exists( $p_bugnote_id ) {
  * return true if the bugnote exists, raise an error if not
  * @param int $p_bugnote_id bugnote id
  * @access public
+ * @throws MantisBT\Exception\Issue\Note\NoteNotFound
  */
 function bugnote_ensure_exists( $p_bugnote_id ) {
 	if( !bugnote_exists( $p_bugnote_id ) ) {
-		throw new MantisBT\Exception\BugNote_Not_Found();
+		throw new MantisBT\Exception\Issue\Note\NoteNotFound();
 	}
 }
 
