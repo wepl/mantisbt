@@ -118,14 +118,14 @@ if ( !is_blank( $f_password ) ) {
 form_security_purge('account_update');
 
 if ( $t_email_updated ) {
-	print_successful_operation( $t_redirect, lang_get( 'email_updated' ) );
+	print_successful_operation( $t_redirect, _( 'E-mail address successfully updated' ) );
 }
 
 if ( $t_password_updated ) {
-	print_successful_operation( $t_redirect, lang_get( 'password_updated' ) );
+	print_successful_operation( $t_redirect, _( 'Password successfully updated' ) );
 }
 
 if ( $t_realname_updated ) {
-	print_successful_operation( $t_redirect, lang_get( 'realname_updated' ) );
+	print_successful_operation( $t_redirect, _( 'Real name successfully updated' ) );
 }
 

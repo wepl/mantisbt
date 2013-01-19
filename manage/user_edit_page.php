@@ -85,14 +85,14 @@ print_manage_menu();
 <div id="edit-user-div" class="form-container">
 	<form id="edit-user-form" method="post" action="user_update.php">
 		<fieldset>
-			<legend><span><?php echo lang_get( 'edit_user_title' ) ?></span></legend>
+			<legend><span><?php echo _( 'Edit User' ) ?></span></legend>
 			<?php echo form_security_field( 'manage_user_update' ) ?>
 			<!-- Title -->
 			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
 
 			<!-- Username -->
 			<div class="field-container">
-				<label for="edit-username"><span><?php echo lang_get( 'username_label' ) ?></span></label>
+				<label for="edit-username"><span><?php echo _( 'Username:' ) ?></span></label>
 				<span class="input"><input id="edit-username" type="text" size="16" maxlength="<?php echo USERLEN;?>" name="username" value="<?php echo string_attribute( $t_user['username'] ) ?>" /></span>
 				<span class="label-style"></span>
 			</div>
@@ -101,13 +101,13 @@ print_manage_menu();
 			<div class="field-container"><?php
 			if ( $t_ldap && ON == config_get( 'use_ldap_realname' ) ) {
 				# With LDAP
-				echo '<span class="display-label"><span>' . lang_get( 'realname_label' ) . '</span></span>';
+				echo '<span class="display-label"><span>' . _( 'Real Name:' ) . '</span></span>';
 				echo '<span class="input">';
 				echo string_display_line( user_get_realname( $t_user_id ) );
 				echo '</span>';
 			} else {
 				# Without LDAP ?>
-				<label for="edit-realname"><span><?php echo lang_get( 'realname_label' ) ?></span></label>
+				<label for="edit-realname"><span><?php echo _( 'Real Name:' ) ?></span></label>
 				<span class="input"><input id="edit-realname" type="text" size="16" maxlength="<?php echo REALLEN;?>" name="realname" value="<?php echo string_attribute( $t_user['realname'] ) ?>" /></span><?php
 			}
 		?>
@@ -117,11 +117,11 @@ print_manage_menu();
 			<div class="field-container"><?php
 			if ( $t_ldap && ON == config_get( 'use_ldap_email' ) ) {
 				# With LDAP
-				echo '<span class="display-label"><span>' . lang_get( 'email_label' ) . '</span></span>';
+				echo '<span class="display-label"><span>' . _( 'E-mail:' ) . '</span></span>';
 				echo '<span class="input">' . string_display_line( user_get_email( $t_user_id ) ) . '</span>';
 			} else {
 				# Without LDAP
-				echo '<label for="email-field"><span>' . lang_get( 'email_label' ) . '</span></label>';
+				echo '<label for="email-field"><span>' . _( 'E-mail:' ) . '</span></label>';
 				echo '<span class="input">';
 				print_email_input( 'email', $t_user['email'] );
 				echo '</span>';
@@ -130,7 +130,7 @@ print_manage_menu();
 			</div>
 			<!-- Access Level -->
 			<div class="field-container">
-				<label for="edit-access-level"><span><?php echo lang_get( 'access_level_label' ) ?></span></label>
+				<label for="edit-access-level"><span><?php echo _( 'Access Level:' ) ?></span></label>
 				<span class="select">
 					<select id="edit-access-level" name="access_level"><?php
 						$t_access_level = $t_user['access_level'];
@@ -144,25 +144,25 @@ print_manage_menu();
 			</div>
 			<!-- Enabled Checkbox -->
 			<div class="field-container">
-				<label for="edit-enabled"><span><?php echo lang_get( 'enabled_label' ) ?></span></label>
+				<label for="edit-enabled"><span><?php echo _( 'Enabled:' ) ?></span></label>
 				<span class="checkbox"><input id="edit-enabled" type="checkbox" name="enabled" <?php check_checked( $t_user['enabled'], ON ); ?> /></span>
 				<span class="label-style"></span>
 			</div>
 			<!-- Protected Checkbox -->
 			<div class="field-container">
-				<label for="edit-protected"><span><?php echo lang_get( 'protected_label' ) ?></span></label>
+				<label for="edit-protected"><span><?php echo _( 'Protected:' ) ?></span></label>
 				<span class="checkbox"><input id="edit-protected" type="checkbox" name="protected" <?php check_checked( $t_user['protected'], ON ); ?> /></span>
 				<span class="label-style"></span>
 			</div><?php
 			if ( config_get( 'enable_email_notification' ) == ON ) {
 				echo '<div class="field-container">';
-				echo '<label for="send-email"><span>' . lang_get( 'notify_user' ) . '</span></label>';
+				echo '<label for="send-email"><span>' . _( 'Notify User' ) . '</span></label>';
 				echo '<span class="checkbox"><input id="send-email" type="checkbox" name="send_email_notification" checked="checked" /></span>';
 				echo '<span class="label-style"></span>';
 				echo '</div>';
 			} ?>
 			<!-- Submit Button -->
-			<span class="submit-button"><input type="submit" class="button" value="<?php echo lang_get( 'update_user_button' ) ?>" /></span>
+			<span class="submit-button"><input type="submit" class="button" value="<?php echo _( 'Update User' ) ?>" /></span>
 		</fieldset>
 	</form>
 </div>
@@ -173,7 +173,7 @@ print_manage_menu();
 		<fieldset>
 		<?php echo form_security_field( 'manage_user_reset' ) ?>
 		<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
-			<span><input type="submit" class="button" value="<?php echo lang_get( 'reset_password_button' ) ?>" /></span>
+			<span><input type="submit" class="button" value="<?php echo _( 'Reset Password' ) ?>" /></span>
 		</fieldset>
 	</form>
 <?php } ?>
@@ -184,7 +184,7 @@ print_manage_menu();
 		<fieldset>
 			<?php echo form_security_field( 'manage_user_delete' ) ?>
 			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
-			<span><input type="submit" class="button" value="<?php echo lang_get( 'delete_user_button' ) ?>" /></span>
+			<span><input type="submit" class="button" value="<?php echo _( 'Delete User' ) ?>" /></span>
 		</fieldset>
 	</form>
 <?php } ?>
@@ -194,9 +194,9 @@ print_manage_menu();
 <div class="important-msg">
 <?php
 	if ( ( ON == config_get( 'send_reset_password' ) ) && ( ON == config_get( 'enable_email_notification' ) ) ) {
-		echo lang_get( 'reset_password_msg' );
+		echo _( 'Reset Password sends the confirmation URL via e-mail.' );
 	} else {
-		echo lang_get( 'reset_password_msg2' );
+		echo _( 'Reset Password resets the password to be blank.' );
 	}
 ?>
 </div>
@@ -207,9 +207,9 @@ print_manage_menu();
     !user_is_administrator( $t_user_id ) ) {
 ?>
 <div class="form-container">
-	<h2><?php echo lang_get( 'add_user_title' ) ?></h2>
+	<h2><?php echo _( 'Add user to project' ) ?></h2>
 	<div class="field-container">
-		<span class="display-label"><span><?php echo lang_get( 'assigned_projects_label' ) ?></span></span>
+		<span class="display-label"><span><?php echo _( 'Assigned Projects:' ) ?></span></span>
 		<div class="input"><?php print_project_user_list( $t_user['user_id'] ) ?></div>
 		<span class="label-style"></span>
 	</div>
@@ -218,7 +218,7 @@ print_manage_menu();
 			<?php echo form_security_field( 'manage_user_proj_add' ) ?>
 			<input type="hidden" name="user_id" value="<?php echo $t_user['user_id'] ?>" />
 			<div class="field-container">
-				<label for="add-user-project-id"><span><?php echo lang_get( 'unassigned_projects_label' ) ?></span></label>
+				<label for="add-user-project-id"><span><?php echo _( 'Unassigned Projects:' ) ?></span></label>
 				<span class="select">
 					<select id="add-user-project-id" name="project_id[]" multiple="multiple" size="5">
 						<?php print_project_user_list_option_list2( $t_user['user_id'] ) ?>
@@ -227,7 +227,7 @@ print_manage_menu();
 				<span class="label-style"></span>
 			</div>
 			<div class="field-container">
-				<label for="add-user-project-access"><span><?php echo lang_get( 'access_level_label' ) ?></span></label>
+				<label for="add-user-project-access"><span><?php echo _( 'Access Level:' ) ?></span></label>
 				<span class="select">
 					<select id="add-user-project-access" name="access_level">
 						<?php print_project_access_levels_option_list( config_get( 'default_new_account_access_level' ) ) ?>
@@ -235,7 +235,7 @@ print_manage_menu();
 				</span>
 				<span class="label-style"></span>
 			</div>
-			<span class="submit-button"><input type="submit" class="button" value="<?php echo lang_get( 'add_user_button' ) ?>" /></span>
+			<span class="submit-button"><input type="submit" class="button" value="<?php echo _( 'Add User' ) ?>" /></span>
 		</fieldset>
 	</form>
 </div><?php

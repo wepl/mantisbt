@@ -38,9 +38,9 @@ class TimezoneUpdateFailed extends ExceptionAbstract
     public function __construct($p_parameters = null, \Exception $p_previous = null)
     {
         if ($p_parameters === null) {
-            $t_message = lang_get('exception_updating_timezone');
+            $t_message = _( 'Unable to update timezone.' );
         } else {
-            $t_message = vsprintf( lang_get('exception_updating_timezone'), $p_parameters);
+            $t_message = vsprintf( _( 'Unable to update timezone.' ), $p_parameters);
         }
         parent::__construct($t_message, 500, $p_previous);
     }

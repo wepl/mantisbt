@@ -164,7 +164,7 @@ if ( ( $f_new_status >= $t_resolved ) && ( ( $f_new_status < $t_closed ) || ( $t
 <!-- Resolution -->
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'resolution' ) ?>
+		<?php echo _( 'Resolution' ) ?>
 	</th>
 	<td>
 		<select name="resolution">
@@ -193,7 +193,7 @@ if ( $f_new_status >= $t_resolved
 <!-- Duplicate ID -->
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'duplicate_id' ) ?>
+		<?php echo _( 'Duplicate ID' ) ?>
 	</th>
 	<td>
 		<input type="text" name="duplicate_id" maxlength="10" />
@@ -212,7 +212,7 @@ if ( access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get
 <!-- Assigned To -->
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'assigned_to' ) ?>
+		<?php echo _( 'Assigned To' ) ?>
 	</th>
 	<td>
 		<select name="handler_id">
@@ -232,7 +232,7 @@ if ( access_has_bug_level( config_get( 'update_bug_assign_threshold', config_get
 ?>
 <tr>
 	<th class="category">
-		<?php lang_get( 'due_date' ) ?>
+		<?php _( 'Due Date' ) ?>
 	</th>
 	<td>
 		<?php echo "<input " . helper_get_tab_index() . " type=\"text\" id=\"due_date\" name=\"due_date\" class=\"datetime\" size=\"20\" maxlength=\"16\" value=\"" . $t_date_to_display . "\" />" ?>
@@ -308,7 +308,7 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 <!-- Fixed in Version -->
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'fixed_in_version' ) ?>
+		<?php echo _( 'Fixed in Version' ) ?>
 	</th>
 	<td>
 		<select name="fixed_in_version">
@@ -325,7 +325,7 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 <!-- Bugnote -->
 <tr id="bug-change-status-note">
 	<th class="category">
-		<?php echo lang_get( 'add_bugnote_title' ) ?>
+		<?php echo _( 'Add Note' ) ?>
 	</th>
 	<td class="center">
 		<textarea name="bugnote_text" cols="80" rows="10"></textarea>
@@ -334,7 +334,7 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 <?php if ( access_has_bug_level( config_get( 'private_bugnote_threshold' ), $f_bug_id ) ) { ?>
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'view_status' ) ?>
+		<?php echo _( 'View Status' ) ?>
 	</th>
 	<td>
 <?php
@@ -343,7 +343,7 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 ?>
 			<input type="checkbox" name="private" <?php check_checked( $t_default_bugnote_view_status, VS_PRIVATE ); ?> />
 <?php
-			echo lang_get( 'private' );
+			echo _( 'private' );
 		} else {
 			echo get_enum_element( 'project_view_state', $t_default_bugnote_view_status );
 		}

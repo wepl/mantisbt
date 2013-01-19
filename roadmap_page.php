@@ -80,14 +80,14 @@ function print_version_header( $p_version_row ) {
 	if ( config_get( 'show_roadmap_dates' ) ) {
 		$t_version_timestamp = $p_version_row['date_order'];
 
-		$t_scheduled_release_date = ' (' . lang_get( 'scheduled_release' ) . ' ' . string_display_line( date( config_get( 'short_date_format' ), $t_version_timestamp ) ) . ')';
+		$t_scheduled_release_date = ' (' . _( 'Scheduled For Release' ) . ' ' . string_display_line( date( config_get( 'short_date_format' ), $t_version_timestamp ) ) . ')';
 	} else {
 		$t_scheduled_release_date = '';
 	}
 
 	echo '<tt>';
-	echo '<br />', $t_release_title, $t_scheduled_release_date, lang_get( 'word_separator' );
-    print_bracket_link( 'view_all_set.php?type=1&amp;temporary=y&amp;' . FILTER_PROPERTY_PROJECT_ID . '=' . $t_project_id . '&amp;' . filter_encode_field_and_value( FILTER_PROPERTY_TARGET_VERSION, $t_version_name ), lang_get( 'view_bugs_link' ) );
+	echo '<br />', $t_release_title, $t_scheduled_release_date, _( '&#32;' );
+    print_bracket_link( 'view_all_set.php?type=1&amp;temporary=y&amp;' . FILTER_PROPERTY_PROJECT_ID . '=' . $t_project_id . '&amp;' . filter_encode_field_and_value( FILTER_PROPERTY_TARGET_VERSION, $t_version_name ), _( 'View Issues' ) );
     echo '<br />';
 
 	$t_release_title_without_hyperlinks = $t_project_name . ' - ' . $t_version_name . $t_scheduled_release_date;
@@ -99,7 +99,7 @@ function print_version_header( $p_version_row ) {
  * @param string $p_project_name project name
  */
 function print_project_header_roadmap( $p_project_name ) {
-	echo '<br /><span class="pagetitle">', string_display( $p_project_name ), ' - ', lang_get( 'roadmap' ), '</span><br />';
+	echo '<br /><span class="pagetitle">', string_display( $p_project_name ), ' - ', _( 'Roadmap' ), '</span><br />';
 }
 
 $t_user_id = auth_get_current_user_id();
@@ -165,7 +165,7 @@ if ( ALL_PROJECTS == $t_project_id ) {
 	array_unshift( $t_project_ids, $t_project_id );
 }
 
-html_page_top( lang_get( 'roadmap' ) );
+html_page_top( _( 'Roadmap' ) );
 
 $t_project_index = 0;
 
@@ -348,7 +348,7 @@ foreach( $t_project_ids as $t_project_id ) {
 
 		if ( $t_issues_planned > 0 ) {
 			echo '<br />';
-			echo sprintf( lang_get( 'resolved_progress' ), $t_issues_resolved, $t_issues_planned, $t_progress );
+			echo sprintf( _( '%1 of %2 issue(s) resolved. Progress (%3%%).' ), $t_issues_resolved, $t_issues_planned, $t_progress );
 			echo '<br /></tt>';
 		}
 	}

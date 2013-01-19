@@ -79,7 +79,7 @@ if ( $f_project_id != ALL_PROJECTS ) {
 
 # construct rss file
 $about = config_get( 'path' );
-$title = string_rss_links( config_get( 'window_title' ) . ' - ' . lang_get( 'news' ) );
+$title = string_rss_links( config_get( 'window_title' ) . ' - ' . _( 'News' ) );
 
 if ( $f_username !== null ) {
 	$title .= " - ($f_username)";

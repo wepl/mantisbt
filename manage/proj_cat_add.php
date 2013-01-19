@@ -57,7 +57,7 @@ $f_name			= gpc_get_string( 'name' );
 access_ensure_project_level( config_get( 'manage_project_threshold' ), $f_project_id );
 
 if ( is_blank( $f_name ) ) {
-	throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
+	throw new MantisBT\Exception\Field\EmptyField( _( 'Category' ) );
 }
 
 $t_names = explode( '|', $f_name );

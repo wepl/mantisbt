@@ -104,7 +104,7 @@ html_page_top2a();
 <table class="width50" cellspacing="1">
 <tr>
 	<td class="center">
-		<strong><?php echo lang_get( 'signup_done_title' ) ?></strong><br/>
+		<strong><?php echo _( 'Account registration processed.' ) ?></strong><br/>
 		<?php echo "[$f_username - $f_email] " ?>
 	</td>
 </tr>
@@ -119,7 +119,7 @@ html_page_top2a();
 </tr>
 </table>
 <br />
-<?php print_bracket_link( 'login_page.php', lang_get( 'proceed' ) ); ?>
+<?php print_bracket_link( 'login_page.php', _( 'Proceed' ) ); ?>
 </div>
 
 <?php

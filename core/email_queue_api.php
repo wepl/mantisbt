@@ -96,7 +96,7 @@ function email_queue_add( $p_email_data ) {
 
 	# email cannot be blank
 	if( is_blank( $t_email_data->email ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'email' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'E-mail' ) );
 	}
 
 	# subject cannot be blank
@@ -106,7 +106,7 @@ function email_queue_add( $p_email_data ) {
 
 	# body cannot be blank
 	if( is_blank( $t_email_data->body ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'body' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Body' ) );
 	}
 
 	$c_email = $t_email_data->email;

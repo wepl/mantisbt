@@ -494,19 +494,19 @@ class MantisBug extends MantisCacheable {
 	function validate( $p_update_extended = true) {
 		# Summary cannot be blank
 		if( is_blank( $this->summary ) ) {
-			throw new MantisBT\Exception\Field\EmptyField( lang_get( 'summary' ) );
+			throw new MantisBT\Exception\Field\EmptyField( _( 'Summary' ) );
 		}
 
 		if( $p_update_extended ) {
 			# Description field cannot be empty
 			if( is_blank( $this->description ) ) {
-				throw new MantisBT\Exception\Field\EmptyField( lang_get( 'description' ) );
+				throw new MantisBT\Exception\Field\EmptyField( _( 'Description' ) );
 			}
 		}
 
 		# Make sure a category is set
 		if( 0 == $this->category_id && !config_get( 'allow_no_category' ) ) {
-			throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
+			throw new MantisBT\Exception\Field\EmptyField( _( 'Category' ) );
 		}
 
 		if( !is_blank( $this->duplicate_id ) && ( $this->duplicate_id != 0 ) && ( $this->id == $this->duplicate_id ) ) {

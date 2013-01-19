@@ -469,7 +469,7 @@ function project_get_field( $p_project_id, $p_field_name, $p_trigger_errors = tr
  */
 function project_get_name( $p_project_id, $p_trigger_errors = true ) {
 	if( ALL_PROJECTS == $p_project_id ) {
-		return lang_get( 'all_projects' );
+		return _( 'All Projects' );
 	} else {
 		return project_get_field( $p_project_id, 'name', $p_trigger_errors );
 	}

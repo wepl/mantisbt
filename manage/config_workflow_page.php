@@ -53,7 +53,7 @@ require_api( 'workflow_api.php' );
 
 auth_reauthenticate();
 
-html_page_top( lang_get( 'manage_workflow_config' ) );
+html_page_top( _( 'Workflow Transitions' ) );
 
 print_manage_menu( 'adm_permissions_report.php' );
 print_manage_config_menu( 'manage_config_workflow_page.php' );
@@ -135,16 +135,16 @@ function section_begin( $p_section_name ) {
 	echo '<table class="width100">';
 	echo '<tr><td class="form-title-caps" colspan="' . ( count( $t_enum_statuses ) + 2 ) . '">'
 		. $p_section_name . '</td></tr>' . "\n";
-	echo '<tr><td class="form-title" width="30%" rowspan="2">' . lang_get( 'current_status' ) . '</td>';
+	echo '<tr><td class="form-title" width="30%" rowspan="2">' . _( 'Current Status' ) . '</td>';
 	echo '<td class="form-title" style="text-align:center" colspan="' . ( count( $t_enum_statuses ) + 1 ) . '">'
-		. lang_get( 'next_status' ) . '</td></tr>';
+		. _( 'Next Status' ) . '</td></tr>';
 	echo "\n<tr>";
 
 	foreach( $t_enum_statuses as $t_status ) {
 		echo '<td class="form-title" style="text-align:center">&#160;' . string_no_break( MantisEnum::getLabel( lang_get( 'status_enum_string' ), $t_status ) ) . '&#160;</td>';
 	}
 
-	echo '<td class="form-title" style="text-align:center">' . lang_get( 'custom_field_default_value' ) . '</td>';
+	echo '<td class="form-title" style="text-align:center">' . _( 'Default Value' ) . '</td>';
 	echo '</tr>' . "\n";
 }
 
@@ -203,9 +203,9 @@ function section_end() {
 function threshold_begin( $p_section_name ) {
 	echo '<table class="width100">';
 	echo '<tr><td class="form-title" colspan="3">' . $p_section_name . '</td></tr>' . "\n";
-	echo '<tr><td class="form-title" width="30%">' . lang_get( 'threshold' ) . '</td>';
-	echo '<td class="form-title" >' . lang_get( 'status_level' ) . '</td>';
-	echo '<td class="form-title" >' . lang_get( 'alter_level' ) . '</td></tr>';
+	echo '<tr><td class="form-title" width="30%">' . _( 'Threshold' ) . '</td>';
+	echo '<td class="form-title" >' . _( 'Status' ) . '</td>';
+	echo '<td class="form-title" >' . _( 'Who can alter this value' ) . '</td></tr>';
 	echo "\n";
 }
 
@@ -266,7 +266,7 @@ function access_begin( $p_section_name ) {
 	echo '<table class="width100">';
 	echo '<tr><td class="form-title" colspan="2">'
 		. $p_section_name . '</td></tr>' . "\n";
-	echo '<tr><td class="form-title" colspan="2">' . lang_get( 'access_change' ) . '</td></tr>';
+	echo '<tr><td class="form-title" colspan="2">' . _( 'Minimum Access Level to Change to this Status' ) . '</td></tr>';
 }
 
 /**
@@ -358,7 +358,7 @@ $t_enum_status = config_get( 'status_enum_string' );
 $t_status_arr  = MantisEnum::getAssocArrayIndexedByValues( $t_enum_status );
 
 $t_extra_enum_status = '0:non-existent,' . $t_enum_status;
-$t_lang_enum_status = '0:' . lang_get( 'non_existent' ) . ',' . lang_get( 'status_enum_string' );
+$t_lang_enum_status = '0:' . _( 'non-existent' ) . ',' . lang_get( 'status_enum_string' );
 $t_all_status = explode( ',', $t_extra_enum_status);
 
 # gather all versions of the workflow
@@ -372,7 +372,7 @@ foreach ( $t_status_arr as $t_status => $t_label ) {
 	if ( isset( $t_project_workflow['exit'][$t_status][$t_status] ) ) {
 		$t_validation_result .= '<tr><td>'
 						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FFED4F">' . lang_get( 'superfluous' ) . '</td>';
+						. '</td><td bgcolor="#FFED4F">' . _( 'Arc from status to itself is implied, and need not be given explicitly' ) . '</td>';
 	}
 }
 
@@ -381,7 +381,7 @@ foreach ( $t_status_arr as $t_status => $t_status_label) {
 	if ( ( 0 == count( $t_project_workflow['entry'][$t_status] ) ) && ( 0 < count( $t_project_workflow['exit'][$t_status] ) ) ){
 		$t_validation_result .= '<tr><td>'
 						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FF0088">' . lang_get( 'unreachable' ) . '</td>';
+						. '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue into this status' ) . '</td>';
 	}
 }
 
@@ -390,7 +390,7 @@ foreach ( $t_status_arr as $t_status => $t_status_label ) {
 	if ( ( 0 == count( $t_project_workflow['exit'][$t_status] ) ) && ( 0 < count( $t_project_workflow['entry'][$t_status] ) ) ){
 		$t_validation_result .= '<tr><td>'
 						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FF0088">' . lang_get( 'no_exit' ) . '</td>';
+						. '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue out of this status' ) . '</td>';
 	}
 }
 
@@ -399,7 +399,7 @@ foreach ( $t_status_arr as $t_status => $t_status_label ) {
 	if ( ( 0 == count( $t_project_workflow['exit'][$t_status] ) ) && ( 0 == count( $t_project_workflow['entry'][$t_status] ) ) ){
 		$t_validation_result .= '<tr><td>'
 						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FF0088">' . lang_get( 'unreachable' ) . '<br />' . lang_get( 'no_exit' ) . '</td>';
+						. '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue into this status' ) . '<br />' . _( 'You cannot move an issue out of this status' ) . '</td>';
 	}
 }
 
@@ -409,19 +409,19 @@ echo form_security_field( 'manage_config_workflow_set' );
 echo '</fieldset>';
 
 if ( ALL_PROJECTS == $t_project ) {
-	$t_project_title = lang_get( 'config_all_projects' );
+	$t_project_title = _( 'Note: These configurations affect all projects, unless overridden at the project level.' );
 } else {
-	$t_project_title = sprintf( lang_get( 'config_project' ) , string_display( project_get_name( $t_project ) ) );
+	$t_project_title = sprintf( _( 'Note: These configurations affect only the %1 project.' ) , string_display( project_get_name( $t_project ) ) );
 }
 echo '<p class="bold">' . $t_project_title . '</p>' . "\n";
-echo '<p>' . lang_get( 'colour_coding' ) . '<br />';
+echo '<p>' . _( 'In the table below, the following color code applies:' ) . '<br />';
 if ( ALL_PROJECTS <> $t_project ) {
-	echo '<span class="colour-project">' . lang_get( 'colour_project' ) .'</span><br />';
+	echo '<span class="colour-project">' . _( 'Project setting overrides others.' ) .'</span><br />';
 }
-echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
+echo '<span class="colour-global">' . _( 'All Project settings override default configuration.' ) . '</span></p>';
 
 # show the settings used to derive the table
-threshold_begin( lang_get( 'workflow_thresholds' ) );
+threshold_begin( _( 'Thresholds that Affect Workflow' ) );
 if ( !is_array( config_get( 'bug_submit_status' ) ) ) {
 	threshold_row( 'bug_submit_status' );
 }
@@ -432,42 +432,42 @@ echo '<br />';
 
 if ( '' <> $t_validation_result ) {
 	echo '<table class="width100">';
-	echo '<tr><td class="form-title" colspan="3">' . lang_get( 'validation' ) . '</td></tr>' . "\n";
-	echo '<tr><td class="form-title" width="30%">' . lang_get( 'status' ) . '</td>';
-	echo '<td class="form-title" >' . lang_get( 'comment' ) . '</td></tr>';
+	echo '<tr><td class="form-title" colspan="3">' . _( 'Workflow Validation' ) . '</td></tr>' . "\n";
+	echo '<tr><td class="form-title" width="30%">' . _( 'Status' ) . '</td>';
+	echo '<td class="form-title" >' . _( 'Validation Comment' ) . '</td></tr>';
 	echo "\n";
 	echo $t_validation_result;
 	echo '</table><br /><br />';
 }
 
 # display the graph as a matrix
-section_begin( lang_get( 'workflow' ) );
+section_begin( _( 'Workflow' ) );
 foreach ( $t_status_arr as $t_from_status => $t_from_label) {
 	capability_row( $t_from_status );
 }
 section_end();
 
 if ( $t_can_change_workflow ) {
-	echo '<p>' . lang_get( 'workflow_change_access_label' );
+	echo '<p>' . _( 'Who can change workflow:' );
 	echo '<select name="workflow_access">';
 	print_enum_string_option_list( 'access_levels', config_get_access( 'status_enum_workflow' ) );
 	echo '</select> </p><br />';
 }
 
 # display the access levels required to move an issue
-access_begin( lang_get( 'access_levels' ) );
+access_begin( _( 'Access Levels' ) );
 access_row();
 section_end();
 
 if ( $t_access >= config_get_access( 'set_status_threshold' ) ) {
-	echo '<p>' . lang_get( 'access_change_access_label' );
+	echo '<p>' . _( 'Who can change access levels:' );
 	echo '<select name="status_access">';
 	print_enum_string_option_list( 'access_levels', config_get_access( 'set_status_threshold' ) );
 	echo '</select> </p><br />';
 }
 
 if ( $t_can_change_flags ) {
-	echo "<input type=\"submit\" class=\"button\" value=\"" . lang_get( 'change_configuration' ) . "\" />\n";
+	echo "<input type=\"submit\" class=\"button\" value=\"" . _( 'Update Configuration' ) . "\" />\n";
 	echo "</form>\n";
 
 	if ( 0 < count( $t_overrides ) ) {
@@ -479,9 +479,9 @@ if ( $t_can_change_flags ) {
 		echo "<input name=\"return\" type=\"hidden\" value=\"\" />";
 		echo "<input type=\"submit\" class=\"button\" value=\"";
 		if ( ALL_PROJECTS == $t_project ) {
-			echo lang_get( 'revert_to_system' );
+			echo _( 'Delete All Projects Settings' );
 		} else {
-			echo lang_get( 'revert_to_all_project' );
+			echo _( 'Delete Project Specific Settings' );
 		}
 		echo "\" />\n";
 		echo '</fieldset>';

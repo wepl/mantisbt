@@ -60,13 +60,13 @@ $f_return = strip_tags( gpc_get_string( 'return', 'custom_field_page.php' ) );
 $t_definition = custom_field_get_definition( $f_field_id );
 
 if( 0 < count( custom_field_get_project_ids( $f_field_id ) ) ) {
-	helper_ensure_confirmed( lang_get( 'confirm_used_custom_field_deletion' ) .
-		'<br/>' . lang_get( 'custom_field_label' ) . lang_get( 'word_separator' ) . string_attribute( $t_definition['name'] ),
-		lang_get( 'field_delete_button' ) );
+	helper_ensure_confirmed( _( 'This field is currently linked to at least one project. If you continue all values for this field will be permanently deleted. This action cannot be undone. If you do not want to delete this field, hit the Back button in your browser. To proceed, click the button below' ) .
+		'<br/>' . _( 'Field:' ) . _( '&#32;' ) . string_attribute( $t_definition['name'] ),
+		_( 'Delete Field' ) );
 } else {
-	helper_ensure_confirmed( lang_get( 'confirm_custom_field_deletion' ) .
-		'<br/>' . lang_get( 'custom_field_label' ) . lang_get( 'word_separator' ) . string_attribute( $t_definition['name'] ),
-		lang_get( 'field_delete_button' ) );
+	helper_ensure_confirmed( _( 'Are you sure you want to delete this custom field and all associated values?' ) .
+		'<br/>' . _( 'Field:' ) . _( '&#32;' ) . string_attribute( $t_definition['name'] ),
+		_( 'Delete Field' ) );
 }
 
 custom_field_destroy( $f_field_id );

@@ -188,11 +188,11 @@ function bugnote_add( $p_bug_id, $p_bugnote_text, $p_time_tracking = '0:00', $p_
 
 	if( ON == $t_time_tracking_enabled && $c_time_tracking > 0 ) {
 		if( is_blank( $p_bugnote_text ) && OFF == $t_time_tracking_without_note ) {
-			throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
+			throw new MantisBT\Exception\Field\EmptyField( _( 'Note' ) );
 		}
 		$c_type = TIME_TRACKING;
 	} else if( is_blank( $p_bugnote_text ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Note' ) );
 	}
 
 	$t_bugnote_text = trim( $p_bugnote_text );

@@ -89,7 +89,7 @@ if ( current_user_is_anonymous() ) {
 $t_show_all = gpc_get_bool( 'show_all', false );
 
 # start the page
-html_page_top( lang_get( 'my_sponsorship' ) );
+html_page_top( _( 'My Sponsorships' ) );
 
 $t_project = helper_get_current_project();
 ?>
@@ -97,7 +97,7 @@ $t_project = helper_get_current_project();
 <table class="width100" cellspacing="1">
 <tr>
 	<td class="form-title">
-		<?php echo lang_get( 'my_sponsorship' ) ?>
+		<?php echo _( 'My Sponsorships' ) ?>
 	</td>
 	<td class="right">
 		<?php print_account_menu( 'account_sponsor_page.php' ) ?>
@@ -128,7 +128,7 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 
 $t_sponsor_count = count( $t_sponsors );
 if ( $t_sponsor_count === 0 ) {
-	echo '<p>' . lang_get( 'no_own_sponsored' ) . '</p>';
+	echo '<p>' . _( 'You have not sponsored any issues.' ) . '</p>';
 } else {
 ?>
 
@@ -150,18 +150,18 @@ if ( $t_sponsor_count === 0 ) {
 	<!-- Headings -->
 	<tr>
 		<td class="form-title" colspan="9">
-			<?php echo lang_get( 'own_sponsored' ) ?>
+			<?php echo _( 'Issues You have Sponsored:' ) ?>
 		</td>
 	</tr>
 	<tr>
-		<td class="form-title"><?php echo lang_get( 'email_bug' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_project' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'fixed_in_version' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_status' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_handler' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_summary' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'amount' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'status' ) ?></td>
+		<td class="form-title"><?php echo _( 'Issue ID' ) ?></td>
+		<td class="form-title"><?php echo _( 'Project' ) ?></td>
+		<td class="form-title"><?php echo _( 'Fixed in Version' ) ?></td>
+		<td class="form-title"><?php echo _( 'Status' ) ?></td>
+		<td class="form-title"><?php echo _( 'Assigned To' ) ?></td>
+		<td class="form-title"><?php echo _( 'Summary' ) ?></td>
+		<td class="form-title"><?php echo _( 'Amount' ) ?></td>
+		<td class="form-title"><?php echo _( 'Status' ) ?></td>
 		<td class="form-title">&#160;</td>
 	</tr>
 <?php
@@ -177,7 +177,7 @@ if ( $t_sponsor_count === 0 ) {
 		$t_resolution = string_attribute( get_enum_element( 'resolution', $t_bug->resolution ) );
 		$t_version_id = version_get_id( $t_bug->fixed_in_version, $t_bug->project_id );
 		if ( ( false !== $t_version_id ) && ( VERSION_RELEASED == version_get_field( $t_version_id, 'released' ) ) ) {
-			$t_released_label = '<a title="' . lang_get( 'released' ) . '">' . $t_bug->fixed_in_version . '</a>';
+			$t_released_label = '<a title="' . _( 'Released' ) . '">' . $t_bug->fixed_in_version . '</a>';
 		} else {
 			$t_released_label = $t_bug->fixed_in_version;
 		}
@@ -194,7 +194,7 @@ if ( $t_sponsor_count === 0 ) {
 		# summary
 		echo '<td>' . string_display_line( $t_bug->summary );
 		if ( VS_PRIVATE == $t_bug->view_state ) {
-			printf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), lang_get( 'private' ), lang_get( 'private' ) );
+			printf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), _( 'private' ), _( 'private' ) );
 		}
 		echo '</td>';
 
@@ -221,13 +221,13 @@ if ( $t_sponsor_count === 0 ) {
 <!-- Totals -->
 <tr>
 	<td colspan="5"></td>
-	<td><?php echo lang_get( 'total_owing' ) ?></td>
+	<td><?php echo _( 'Total Owing' ) ?></td>
 	<td class="right"><?php echo sponsorship_format_amount( $t_total_owing ) ?></td>
 	<td colspan="2"></td>
 </tr>
 <tr>
 	<td colspan="5"></td>
-	<td><?php echo lang_get( 'total_paid' ) ?></td>
+	<td><?php echo _( 'Total Paid' ) ?></td>
 	<td class="right"><?php echo sponsorship_format_amount( $t_total_paid ) ?></td>
 	<td colspan="2"></td>
 </tr>
@@ -251,7 +251,7 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 
 $t_sponsor_count = count( $t_sponsors );
 if ( $t_sponsor_count === 0 ) {
-	echo '<p>' . lang_get( 'no_sponsored' ) . '</p>';
+	echo '<p>' . _( 'No sponsored issues Assigned To yourself were found.' ) . '</p>';
 } else {
 ?>
 
@@ -275,18 +275,18 @@ if ( $t_sponsor_count === 0 ) {
 	<!-- Headings -->
 	<tr>
 		<td class="form-title" colspan="8">
-			<?php echo lang_get( 'issues_handled' ) ?>
+			<?php echo _( 'Sponsored Issues You Have Been Assigned To:' ) ?>
 		</td>
 	</tr>
 	<tr>
-		<td class="form-title"><?php echo lang_get( 'email_bug' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_project' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'fixed_in_version' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_status' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'email_summary' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'sponsor' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'amount' ) ?></td>
-		<td class="form-title"><?php echo lang_get( 'status' ) ?></td>
+		<td class="form-title"><?php echo _( 'Issue ID' ) ?></td>
+		<td class="form-title"><?php echo _( 'Project' ) ?></td>
+		<td class="form-title"><?php echo _( 'Fixed in Version' ) ?></td>
+		<td class="form-title"><?php echo _( 'Status' ) ?></td>
+		<td class="form-title"><?php echo _( 'Summary' ) ?></td>
+		<td class="form-title"><?php echo _( 'Sponsor' ) ?></td>
+		<td class="form-title"><?php echo _( 'Amount' ) ?></td>
+		<td class="form-title"><?php echo _( 'Status' ) ?></td>
 	</tr>
 <?php
 	$t_bug_list = array();
@@ -303,7 +303,7 @@ if ( $t_sponsor_count === 0 ) {
 		$t_resolution = string_attribute( get_enum_element( 'resolution', $t_bug->resolution ) );
 		$t_version_id = version_get_id( $t_bug->fixed_in_version, $t_bug->project_id );
 		if ( ( false !== $t_version_id ) && ( VERSION_RELEASED == version_get_field( $t_version_id, 'released' ) ) ) {
-			$t_released_label = '<a title="' . lang_get( 'released' ) . '">' . $t_bug->fixed_in_version . '</a>';
+			$t_released_label = '<a title="' . _( 'Released' ) . '">' . $t_bug->fixed_in_version . '</a>';
 		} else {
 			$t_released_label = $t_bug->fixed_in_version;
 		}
@@ -317,7 +317,7 @@ if ( $t_sponsor_count === 0 ) {
 		# summary
 		echo '<td>' . string_display_line( $t_bug->summary );
 		if ( VS_PRIVATE == $t_bug->view_state ) {
-			printf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), lang_get( 'private' ), lang_get( 'private' ) );
+			printf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), _( 'private' ), _( 'private' ) );
 		}
 		echo '</td>';
 
@@ -343,13 +343,13 @@ if ( $t_sponsor_count === 0 ) {
 <!-- Totals -->
 <tr>
 	<td colspan="5"></td>
-	<td><?php echo lang_get( 'total_owing' ) ?></td>
+	<td><?php echo _( 'Total Owing' ) ?></td>
 	<td class="right"><?php echo sponsorship_format_amount( $t_total_owing ) ?></td>
 	<td></td>
 </tr>
 <tr>
 	<td colspan="5"></td>
-	<td><?php echo lang_get( 'total_paid' ) ?></td>
+	<td><?php echo _( 'Total Paid' ) ?></td>
 	<td class="right"><?php echo sponsorship_format_amount( $t_total_paid ) ?></td>
 	<td></td>
 </tr>
@@ -359,7 +359,7 @@ if ( $t_sponsor_count === 0 ) {
 		<td colspan="5">&#160;</td>
 		<!-- Update Button -->
 		<td colspan="2">
-			<input type="submit" class="button" value="<?php echo lang_get( 'update_sponsorship_button' ) ?>" />
+			<input type="submit" class="button" value="<?php echo _( 'Change Payment Status' ) ?>" />
 		</td>
 	</tr>
 </table>

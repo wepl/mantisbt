@@ -39,4 +39,4 @@ if ( $t_token == null ) {
 	$t_metrics = unserialize( $t_token );
 }
 
-graph_bar( $t_metrics, lang_get( 'by_status' ), $f_width, $f_width * $t_ar );
+graph_bar( $t_metrics, _( 'By Status' ), $f_width, $f_width * $t_ar );

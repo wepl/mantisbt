@@ -120,7 +120,7 @@ foreach ( $t_orct_arr as $t_orct_s ) {
 	$t_orcttab .= '</td>';
 }
 
-html_page_top( lang_get( 'summary_link' ) );
+html_page_top( _( 'Summary' ) );
 ?>
 
 <br />
@@ -131,7 +131,7 @@ print_summary_submenu(); ?>
 <table class="width100" cellspacing="1">
 <tr>
 	<td class="form-title" colspan="2">
-		<?php echo lang_get( 'summary_title' ) ?>
+		<?php echo _( 'Summary' ) ?>
 	</td>
 </tr>
 <tr>
@@ -141,7 +141,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'by_project' ) ?>
+				<?php echo _( 'By Project' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -154,7 +154,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'by_status' ) ?>
+				<?php echo _( 'By Status' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -166,7 +166,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'by_severity' ) ?>
+				<?php echo _( 'By Severity' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -178,7 +178,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'by_category' ) ?>
+				<?php echo _( 'By Category' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -190,12 +190,12 @@ print_summary_submenu(); ?>
 		<table class="width100">
 		<tr>
 			<td class="form-title" colspan="5">
-				<?php echo lang_get( 'time_stats' ) ?>
+				<?php echo _( 'Time Stats For Resolved Issues (days)' ) ?>
 			</td>
 		</tr>
 		<tr class="row-1">
 			<td>
-				<?php echo lang_get( 'longest_open_bug' ) ?>
+				<?php echo _( 'Longest open issue' ) ?>
 			</td>
 			<td>
 				<?php
@@ -207,7 +207,7 @@ print_summary_submenu(); ?>
 		</tr>
 		<tr class="row-2">
 			<td>
-				<?php echo lang_get( 'longest_open' ) ?>
+				<?php echo _( 'Longest open' ) ?>
 			</td>
 			<td>
 				<?php echo $t_largest_diff ?>
@@ -215,7 +215,7 @@ print_summary_submenu(); ?>
 		</tr>
 		<tr class="row-1">
 			<td>
-				<?php echo lang_get( 'average_time' ) ?>
+				<?php echo _( 'Average time' ) ?>
 			</td>
 			<td>
 				<?php echo $t_average_time ?>
@@ -223,7 +223,7 @@ print_summary_submenu(); ?>
 		</tr>
 		<tr class="row-2">
 			<td>
-				<?php echo lang_get( 'total_time' ) ?>
+				<?php echo _( 'Total time' ) ?>
 			</td>
 			<td>
 				<?php echo $t_total_time ?>
@@ -236,7 +236,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'developer_stats' ) ?>
+				<?php echo _( 'Developer Stats' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -249,10 +249,10 @@ print_summary_submenu(); ?>
 	<td>
 		<table class="width100" cellspacing="1">
 		<tr>
-			<td class="form-title"><?php echo lang_get( 'by_date' ); ?></td>
-			<td class="right"><?php echo lang_get( 'opened' ); ?></td>
-			<td class="right"><?php echo lang_get( 'resolved' ); ?></td>
-			<td class="right"><?php echo lang_get( 'balance' ); ?></td>
+			<td class="form-title"><?php echo _( 'By Date (days)' ); ?></td>
+			<td class="right"><?php echo _( 'Opened' ); ?></td>
+			<td class="right"><?php echo _( 'Resolved' ); ?></td>
+			<td class="right"><?php echo _( 'Balance' ); ?></td>
 		</tr>
 		<?php summary_print_by_date( config_get( 'date_partitions' ) ) ?>
 		</table>
@@ -261,8 +261,8 @@ print_summary_submenu(); ?>
 
 		<table class="width100" cellspacing="1">
 		<tr>
-			<td class="form-title"><?php echo lang_get( 'most_active' ); ?></td>
-			<td class="right"><?php echo lang_get( 'score' ); ?></td>
+			<td class="form-title"><?php echo _( 'Most Active' ); ?></td>
+			<td class="right"><?php echo _( 'Score' ); ?></td>
 		</tr>
 		<?php summary_print_by_activity() ?>
 		</table>
@@ -271,8 +271,8 @@ print_summary_submenu(); ?>
 
 		<table class="width100" cellspacing="1">
 		<tr>
-			<td class="form-title" width="86%"><?php echo lang_get( 'longest_open' ); ?></td>
-			<td class="right" width="14%"><?php echo lang_get( 'days' ); ?></td>
+			<td class="form-title" width="86%"><?php echo _( 'Longest open' ); ?></td>
+			<td class="right" width="14%"><?php echo _( 'Days' ); ?></td>
 		</tr>
 		<?php summary_print_by_age() ?>
 		</table>
@@ -282,7 +282,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'by_resolution' ) ?>
+				<?php echo _( 'By Resolution' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -294,7 +294,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'by_priority' ) ?>
+				<?php echo _( 'By Priority' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -306,7 +306,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'reporter_stats' ) ?>
+				<?php echo _( 'Reporter Stats' ) ?>
 			</td>
 			<?php echo $t_orcttab ?>
 		</tr>
@@ -318,16 +318,16 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'reporter_effectiveness' ) ?>
+				<?php echo _( 'Reporter Effectiveness' ) ?>
 			</td>
 			<td>
-				<?php echo lang_get( 'severity' ) ?>
+				<?php echo _( 'Severity' ) ?>
 			</td>
 			<td>
-				<?php echo lang_get( 'errors' ) ?>
+				<?php echo _( 'False' ) ?>
 			</td>
 			<td>
-				<?php echo lang_get( 'total' ) ?>
+				<?php echo _( 'Total' ) ?>
 			</td>
 		</tr>
 		<?php summary_print_reporter_effectiveness( config_get( 'severity_enum_string' ), config_get( 'resolution_enum_string' ) ) ?>
@@ -340,7 +340,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'reporter_by_resolution' ) ?>
+				<?php echo _( 'Reporter By Resolution' ) ?>
 			</td>
 			<?php
 			$t_resolutions = MantisEnum::getValues( config_get( 'resolution_enum_string' ) );
@@ -349,7 +349,7 @@ print_summary_submenu(); ?>
 				echo '<td>', get_enum_element( 'resolution', $t_resolution ), '</td>';
 			}
 
-			echo '<td>', lang_get( 'percentage_errors' ), '</td>';
+			echo '<td>', _( '% False' ), '</td>';
 			?>
 		</tr>
 		<?php summary_print_reporter_resolution( config_get( 'resolution_enum_string' ) ) ?>
@@ -362,7 +362,7 @@ print_summary_submenu(); ?>
 		<table class="width100" cellspacing="1">
 		<tr>
 			<td class="form-title" colspan="1">
-				<?php echo lang_get( 'developer_by_resolution' ) ?>
+				<?php echo _( 'Developer By Resolution' ) ?>
 			</td>
 			<?php
 			$t_resolutions = MantisEnum::getValues( config_get( 'resolution_enum_string' ) );
@@ -371,7 +371,7 @@ print_summary_submenu(); ?>
 				echo '<td>', get_enum_element( 'resolution', $t_resolution ), '</td>';
 			}
 
-			echo '<td>', lang_get( 'percentage_fixed' ), '</td>';
+			echo '<td>', _( '% Fixed' ), '</td>';
 			?>
 		</tr>
 		<?php summary_print_developer_resolution( config_get( 'resolution_enum_string' ) ) ?>

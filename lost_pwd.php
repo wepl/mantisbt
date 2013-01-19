@@ -112,7 +112,7 @@ html_page_top();
 <table class="width50" cellspacing="1">
 <tr>
 	<td class="center">
-		<strong><?php echo lang_get( 'lost_password_done_title' ) ?></strong>
+		<strong><?php echo _( 'Password Message Sent' ) ?></strong>
 	</td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@ html_page_top();
 </tr>
 </table>
 <br />
-<?php print_bracket_link( 'login_page.php', lang_get( 'proceed' ) ); ?>
+<?php print_bracket_link( 'login_page.php', _( 'Proceed' ) ); ?>
 </div>
 
 <?php

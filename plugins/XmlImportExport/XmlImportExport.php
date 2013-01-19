@@ -32,8 +32,8 @@ class XmlImportExportPlugin extends MantisPlugin {
 	 *  A method that populates the plugin information and minimum requirements.
 	 */
 	function register( ) {
-		$this->name = plugin_lang_get( 'title' );
-		$this->description = plugin_lang_get( 'description' );
+		$this->name = plugin__( 'Title' );
+		$this->description = plugin__( 'Description' );
 		$this->page = '';
 
 		$this->version = '1.0';

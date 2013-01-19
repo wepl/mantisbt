@@ -25,7 +25,7 @@
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-html_page_top( plugin_lang_get( 'title' ) );
+html_page_top( plugin__( 'Title' ) );
 
 print_manage_menu( );
 
@@ -77,7 +77,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<td class="form-title" colspan="3">
-		<?php echo plugin_lang_get( 'title' ) . ': ' . plugin_lang_get( 'config' )?>
+		<?php echo plugin__( 'Title' ) . ': ' . plugin_lang_get( 'config' )?>
 	</td>
 </tr>
 
@@ -86,7 +86,7 @@ function print_font_checked( $p_font_name ) {
 		<?php echo plugin_lang_get( 'library' )?>
 	</th>
 	<td class="center">
-		<label><input type="radio" name="eczlibrary" value="1" <?php echo( ON == plugin_config_get( 'eczlibrary' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get('bundled')?></label>
+		<label><input type="radio" name="eczlibrary" value="1" <?php echo( ON == plugin_config_get( 'eczlibrary' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get( 'bundled' )?></label>
 	</td>
 	<td class="center">
 		<label><input type="radio" name="eczlibrary" value="0" <?php echo( OFF == plugin_config_get( 'eczlibrary' ) ) ? 'checked="checked" ' : ''?>/>JpGraph</label>
@@ -164,16 +164,16 @@ function print_font_checked( $p_font_name ) {
 		<br /><span class="small"><?php echo plugin_lang_get( 'jpgraph_antialias_info' )?></span>
 	</td>
 	<td class="center">
-		<label><input type="radio" name="jpgraph_antialias" value="1" <?php echo( ON == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get('enabled')?></label>
+		<label><input type="radio" name="jpgraph_antialias" value="1" <?php echo( ON == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get( 'enabled' )?></label>
 	</td>
 	<td class="center">
-		<label><input type="radio" name="jpgraph_antialias" value="0" <?php echo( OFF == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get('disabled')?></label>
+		<label><input type="radio" name="jpgraph_antialias" value="0" <?php echo( OFF == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get( 'disabled' )?></label>
 	</td>
 </tr>
 
 <tr>
 	<td class="center" colspan="3">
-		<input type="submit" class="button" value="<?php echo lang_get( 'change_configuration' )?>" />
+		<input type="submit" class="button" value="<?php echo _( 'Update Configuration' )?>" />
 	</td>
 </tr>
 

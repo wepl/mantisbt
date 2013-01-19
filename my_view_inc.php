@@ -480,7 +480,7 @@ for( $i = 0;$i < $t_count; $i++ ) {
 	echo '<br />';
 
 	if( !bug_is_readonly( $t_bug->id ) && access_has_bug_level( $t_update_bug_threshold, $t_bug->id ) ) {
-		echo '<a class="edit" href="' . string_get_bug_update_url( $t_bug->id ) . '"><img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/update.png' ) . '" alt="' . lang_get( 'update_bug_button' ) . '" /></a>';
+		echo '<a class="edit" href="' . string_get_bug_update_url( $t_bug->id ) . '"><img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/update.png' ) . '" alt="' . _( 'Edit' ) . '" /></a>';
 	}
 
 	if( ON == config_get( 'show_priority_text' ) ) {
@@ -491,13 +491,13 @@ for( $i = 0;$i < $t_count; $i++ ) {
 
 	if ( $t_attachment_count > 0 ) {
 		$t_href = string_get_bug_view_url( $t_bug->id ) . '#attachments';
-		$t_href_title = sprintf( lang_get( 'view_attachments_for_issue' ), $t_attachment_count, $t_bug->id );
-		$t_alt_text = $t_attachment_count . lang_get( 'word_separator' ) . lang_get( 'attachments' );
+		$t_href_title = sprintf( _( 'View %1 attachment(s) for issue #%2' ), $t_attachment_count, $t_bug->id );
+		$t_alt_text = $t_attachment_count . _( '&#32;' ) . _( 'attachment(s)' );
 		echo "<a class=\"attachments\" href=\"$t_href\" title=\"$t_href_title\"><img src=\"" . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/attachment.png' ) . "\" alt=\"$t_alt_text\" title=\"$t_alt_text\" /></a>";
 	}
 
 	if( VS_PRIVATE == $t_bug->view_state ) {
-		echo '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" width="8" height="15" alt="' . lang_get( 'private' ) . '" />';
+		echo '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" width="8" height="15" alt="' . _( 'private' ) . '" />';
 	}
 	?>
 		</span>
@@ -511,7 +511,7 @@ for( $i = 0;$i < $t_count; $i++ ) {
 				echo '<span class="small project">[', string_html_specialchars( string_display_line( project_get_name( $t_bug->project_id ) ) ), '] </span>';
 			}
 			$t_bug_url = string_get_bug_view_url( $t_bug->id, null );
-			$t_bug_url_title = string_html_specialchars( sprintf( lang_get( 'label' ), lang_get( 'issue_id' ) . $t_bug->id ) . lang_get( 'word_separator' ) . $t_bug->summary );
+			$t_bug_url_title = string_html_specialchars( sprintf( _( '%1$s:' ), _( 'Issue #' ) . $t_bug->id ) . _( '&#32;' ) . $t_bug->summary );
 			echo "<span class=\"small summary\"><a href=\"$t_bug_url\" title=\"$t_bug_url_title\">$t_summary</a></span><br />";
 	?>
 		<?php

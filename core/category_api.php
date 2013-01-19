@@ -125,7 +125,7 @@ function category_exists( $p_category_id ) {
  */
  function category_add( $p_project_id, $p_name ) {
 	if( is_blank( $p_name ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Category' ) );
 	}
 
 	category_ensure_unique( $p_project_id, $p_name );
@@ -148,7 +148,7 @@ function category_exists( $p_category_id ) {
  */
  function category_update( $p_category_id, $p_name, $p_assigned_to ) {
 	if( is_blank( $p_name ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Category' ) );
 	}
 
 	$t_old_category = category_get_row( $p_category_id );
@@ -562,7 +562,7 @@ function category_get_field( $p_category_id, $p_field_name ) {
 function category_full_name( $p_category_id, $p_show_project = true, $p_current_project = null ) {
 	if( 0 == $p_category_id ) {
 		# No Category
-		return lang_get( 'no_category' );
+		return _( '(No Category)' );
 	} else {
 		$t_row = category_get_row( $p_category_id );
 		$t_project_id = $t_row['project_id'];

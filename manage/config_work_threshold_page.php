@@ -53,7 +53,7 @@ require_api( 'user_api.php' );
 
 auth_reauthenticate();
 
-html_page_top( lang_get( 'manage_threshold_config' ) );
+html_page_top( _( 'Workflow Thresholds' ) );
 
 print_manage_menu( 'adm_permissions_report.php' );
 print_manage_config_menu( 'config_work_threshold_page.php' );
@@ -87,9 +87,9 @@ function get_section_begin_mcwt( $p_section_name ) {
 
 	echo '<table class="width100">';
 	echo '<tr><td class="form-title" colspan="' . ( count( $t_access_levels ) + 2 ) . '">' . $p_section_name . '</td></tr>' . "\n";
-	echo '<tr><td class="form-title" width="40%" rowspan="2">' . lang_get( 'perm_rpt_capability' ) . '</td>';
-	echo '<td class="form-title" style="text-align:center"  width="40%" colspan="' . count( $t_access_levels ) . '">' . lang_get( 'access_levels' ) . '</td>';
-	echo '<td class="form-title" style="text-align:center" rowspan="2">&#160;' . lang_get( 'alter_level' ) . '&#160;</td></tr><tr>';
+	echo '<tr><td class="form-title" width="40%" rowspan="2">' . _( 'Capability' ) . '</td>';
+	echo '<td class="form-title" style="text-align:center"  width="40%" colspan="' . count( $t_access_levels ) . '">' . _( 'Access Levels' ) . '</td>';
+	echo '<td class="form-title" style="text-align:center" rowspan="2">&#160;' . _( 'Who can alter this value' ) . '&#160;</td></tr><tr>';
 	foreach( $t_access_levels as $t_access_level => $t_access_label ) {
 		echo '<td class="form-title" style="text-align:center">&#160;' . MantisEnum::getLabel( lang_get( 'access_levels_enum_string' ), $t_access_level ) . '&#160;</td>';
 	}
@@ -306,70 +306,70 @@ function get_section_end() {
 echo "<br /><br />\n";
 
 if ( ALL_PROJECTS == $t_project_id ) {
-	$t_project_title = lang_get( 'config_all_projects' );
+	$t_project_title = _( 'Note: These configurations affect all projects, unless overridden at the project level.' );
 } else {
-	$t_project_title = sprintf( lang_get( 'config_project' ) , string_display( project_get_name( $t_project_id ) ) );
+	$t_project_title = sprintf( _( 'Note: These configurations affect only the %1 project.' ) , string_display( project_get_name( $t_project_id ) ) );
 }
 echo '<p class="bold">' . $t_project_title . '</p>' . "\n";
-echo '<p>' . lang_get( 'colour_coding' ) . '<br />';
+echo '<p>' . _( 'In the table below, the following color code applies:' ) . '<br />';
 if ( ALL_PROJECTS <> $t_project_id ) {
-	echo '<span class="colour-project">' . lang_get( 'colour_project' ) .'</span><br />';
+	echo '<span class="colour-project">' . _( 'Project setting overrides others.' ) .'</span><br />';
 }
-echo '<span class="colour-global">' . lang_get( 'colour_global' ) . '</span></p>';
+echo '<span class="colour-global">' . _( 'All Project settings override default configuration.' ) . '</span></p>';
 
 echo "<form id=\"mail_config_action\" method=\"post\" action=\"config_work_threshold_set.php\">\n";
 echo form_security_field( 'manage_config_work_threshold_set' );
 
 # Issues
-get_section_begin_mcwt( lang_get( 'issues' ) );
-get_capability_row( lang_get( 'report_issue' ), 'report_bug_threshold' );
-get_capability_enum( lang_get( 'submit_status' ), 'bug_submit_status', 'status' );
-get_capability_row( lang_get( 'update_issue' ), 'update_bug_threshold' );
-get_capability_boolean( lang_get( 'allow_reporter_close' ), 'allow_reporter_close' );
-get_capability_row( lang_get( 'monitor_issue' ), 'monitor_bug_threshold' );
-get_capability_row( lang_get( 'handle_issue' ), 'handle_bug_threshold' );
-get_capability_row( lang_get( 'assign_issue' ), 'update_bug_assign_threshold' );
-get_capability_row( lang_get( 'move_issue' ), 'move_bug_threshold', true );
-get_capability_row( lang_get( 'delete_issue' ), 'delete_bug_threshold' );
-get_capability_row( lang_get( 'reopen_issue' ), 'reopen_bug_threshold' );
-get_capability_boolean( lang_get( 'allow_reporter_reopen' ), 'allow_reporter_reopen' );
-get_capability_enum( lang_get( 'reopen_status' ), 'bug_reopen_status', 'status' );
-get_capability_enum( lang_get( 'reopen_resolution' ), 'bug_reopen_resolution', 'resolution' );
-get_capability_enum( lang_get( 'resolved_status' ), 'bug_resolved_status_threshold', 'status' );
-get_capability_enum( lang_get( 'readonly_status' ), 'bug_readonly_status_threshold', 'status' );
-get_capability_row( lang_get( 'update_readonly_issues' ), 'update_readonly_bug_threshold' );
-get_capability_row( lang_get( 'update_issue_status' ), 'update_bug_status_threshold' );
-get_capability_row( lang_get( 'view_private_issues' ), 'private_bug_threshold' );
-get_capability_row( lang_get( 'set_view_status' ), 'set_view_status_threshold' );
-get_capability_row( lang_get( 'update_view_status' ), 'change_view_status_threshold' );
-get_capability_row( lang_get( 'show_list_of_users_monitoring_issue' ), 'show_monitor_list_threshold' );
-get_capability_boolean( lang_get( 'set_status_assigned' ), 'auto_set_status_to_assigned' );
-get_capability_enum( lang_get( 'assigned_status' ), 'bug_assigned_status', 'status' );
+get_section_begin_mcwt( _( 'Issues' ) );
+get_capability_row( _( 'Report an issue' ), 'report_bug_threshold' );
+get_capability_enum( _( 'Status to which a new issue is set' ), 'bug_submit_status', 'status' );
+get_capability_row( _( 'Update an issue' ), 'update_bug_threshold' );
+get_capability_boolean( _( 'Allow Reporter to close Issue' ), 'allow_reporter_close' );
+get_capability_row( _( 'Monitor an issue' ), 'monitor_bug_threshold' );
+get_capability_row( _( 'Handle an issue' ), 'handle_bug_threshold' );
+get_capability_row( _( 'Assign an issue' ), 'update_bug_assign_threshold' );
+get_capability_row( _( 'Move an issue' ), 'move_bug_threshold', true );
+get_capability_row( _( 'Delete an issue' ), 'delete_bug_threshold' );
+get_capability_row( _( 'Reopen an issue' ), 'reopen_bug_threshold' );
+get_capability_boolean( _( 'Allow Reporter to re-open Issue' ), 'allow_reporter_reopen' );
+get_capability_enum( _( 'Status to which a reopened issue is set' ), 'bug_reopen_status', 'status' );
+get_capability_enum( _( 'Resolution to which a reopened issue is set' ), 'bug_reopen_resolution', 'resolution' );
+get_capability_enum( _( 'Status where an issue is considered resolved' ), 'bug_resolved_status_threshold', 'status' );
+get_capability_enum( _( 'Status where an issue becomes read only' ), 'bug_readonly_status_threshold', 'status' );
+get_capability_row( _( 'Update readonly issues' ), 'update_readonly_bug_threshold' );
+get_capability_row( _( 'Update issue status' ), 'update_bug_status_threshold' );
+get_capability_row( _( 'View private issues' ), 'private_bug_threshold' );
+get_capability_row( _( 'Set view state when reporting a new issue or note' ), 'set_view_status_threshold' );
+get_capability_row( _( 'Change view state of existing issue or note' ), 'change_view_status_threshold' );
+get_capability_row( _( 'Show list of users monitoring issue' ), 'show_monitor_list_threshold' );
+get_capability_boolean( _( 'Set status on assignment of Handler' ), 'auto_set_status_to_assigned' );
+get_capability_enum( _( 'Status to set auto-assigned issues to' ), 'bug_assigned_status', 'status' );
 get_capability_boolean( lang_get( 'limit_access' ), 'limit_reporters', true );
 get_section_end();
 
 # Notes
-get_section_begin_mcwt( lang_get( 'notes' ) );
-get_capability_row( lang_get( 'add_notes' ), 'add_bugnote_threshold' );
+get_section_begin_mcwt( _( 'Notes' ) );
+get_capability_row( _( 'Add notes' ), 'add_bugnote_threshold' );
 get_capability_row( lang_get( 'edit_others_bugnotes' ), 'update_bugnote_threshold' );
-get_capability_row( lang_get( 'edit_own_bugnotes' ), 'bugnote_user_edit_threshold' );
+get_capability_row( _( 'Edit own notes' ), 'bugnote_user_edit_threshold' );
 get_capability_row( lang_get( 'delete_others_bugnotes' ), 'delete_bugnote_threshold' );
-get_capability_row( lang_get( 'delete_own_bugnotes' ), 'bugnote_user_delete_threshold' );
+get_capability_row( _( 'Delete own notes' ), 'bugnote_user_delete_threshold' );
 get_capability_row( lang_get( 'view_private_notes' ), 'private_bugnote_threshold' );
-get_capability_row( lang_get( 'change_view_state_own_bugnotes' ), 'bugnote_user_change_view_state_threshold' );
+get_capability_row( _( 'Change view state of own notes' ), 'bugnote_user_change_view_state_threshold' );
 get_section_end();
 
 # Others
-get_section_begin_mcwt( lang_get('others' ) );
-get_capability_row( lang_get( 'view' ) . ' ' . lang_get( 'changelog_link' ), 'view_changelog_threshold' );
-get_capability_row( lang_get( 'view' ) . ' ' . lang_get( 'assigned_to' ), 'view_handler_threshold' );
-get_capability_row( lang_get( 'view' ) . ' ' . lang_get( 'bug_history' ), 'view_history_threshold' );
-get_capability_row( lang_get( 'send_reminders' ), 'bug_reminder_threshold' );
+get_section_begin_mcwt( _( 'Others' ) );
+get_capability_row( _( 'View' ) . ' ' . _( 'Change Log' ), 'view_changelog_threshold' );
+get_capability_row( _( 'View' ) . ' ' . _( 'Assigned To' ), 'view_handler_threshold' );
+get_capability_row( _( 'View' ) . ' ' . _( 'Issue History' ), 'view_history_threshold' );
+get_capability_row( _( 'Send reminders' ), 'bug_reminder_threshold' );
 get_section_end();
 
 
 if ( $t_show_submit ) {
-	echo "<input type=\"submit\" class=\"button\" value=\"" . lang_get( 'change_configuration' ) . "\" />\n";
+	echo "<input type=\"submit\" class=\"button\" value=\"" . _( 'Update Configuration' ) . "\" />\n";
 }
 
 echo "</form>\n";
@@ -382,9 +382,9 @@ if ( $t_show_submit && ( 0 < count( $t_overrides ) ) ) {
 	echo "<input name=\"return\" type=\"hidden\" value=\"\" />";
 	echo "<input type=\"submit\" class=\"button\" value=\"";
 	if ( ALL_PROJECTS == $t_project_id ) {
-		echo lang_get( 'revert_to_system' );
+		echo _( 'Delete All Projects Settings' );
 	} else {
-	echo lang_get( 'revert_to_all_project' );
+	echo _( 'Delete Project Specific Settings' );
 	}
 	echo "\" />\n";
 	echo "</form></div>\n";

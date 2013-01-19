@@ -150,7 +150,7 @@ if ( ( $t_resolve_issue || $t_close_issue ) &&
 if ( $t_existing_bug->status !== $t_updated_bug->status ) {
 	access_ensure_bug_level( config_get( 'update_bug_status_threshold' ), $f_bug_id );
 	if ( !bug_check_workflow( $t_existing_bug->status, $t_updated_bug->status ) ) {
-		throw new MantisBT\Exception\Field\InvalidValue( lang_get( 'status' ) );
+		throw new MantisBT\Exception\Field\InvalidValue( _( 'Status' ) );
 	}
 	if ( !access_has_bug_level( access_get_status_threshold( $t_updated_bug->status, $t_updated_bug->project_id ), $f_bug_id ) ) {
 		# The reporter may be allowed to close or reopen the issue regardless.
@@ -197,7 +197,7 @@ if ( $t_existing_bug->handler_id !== $t_updated_bug->handler_id ) {
 if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 	if ( $t_updated_bug->category_id === 0 &&
 	     !config_get( 'allow_no_category' ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'category' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Category' ) );
 	}
 }
 
@@ -206,7 +206,7 @@ if ( $t_existing_bug->category_id !== $t_updated_bug->category_id ) {
 if ( $t_existing_bug->resolution !== $t_updated_bug->resolution &&
      $t_updated_bug->resolution >= config_get( 'bug_resolution_fixed_threshold' ) &&
      $t_updated_bug->status < $t_resolved_status ) {
-	throw new MantisBT\Exception\Field\InvalidValue( lang_get( 'resolution' ) );
+	throw new MantisBT\Exception\Field\InvalidValue( _( 'Resolution' ) );
 }
 
 # Ensure that the user has permission to change the target version of the issue.
@@ -290,7 +290,7 @@ if ( $t_bug_note->note ||
 	access_ensure_bug_level( config_get( 'add_bugnote_threshold' ), $f_bug_id );
 	if ( !$t_bug_note->note &&
 	     !config_get( 'time_tracking_without_note' ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'bugnote' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Note' ) );
 	}
 	if ( $t_bug_note->view_state !== config_get( 'default_bugnote_view_status' ) ) {
 		access_ensure_bug_level( config_get( 'set_view_status_threshold' ), $f_bug_id );

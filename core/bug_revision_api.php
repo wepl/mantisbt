@@ -122,16 +122,16 @@ function bug_revision_get_type_name( $p_revision_type_id ) {
 	$t_type_name = '';
 	switch( $p_revision_type_id ) {
 		case REV_DESCRIPTION:
-			$t_type_name = lang_get( 'description' );
+			$t_type_name = _( 'Description' );
 			break;
 		case REV_STEPS_TO_REPRODUCE:
-			$t_type_name = lang_get( 'steps_to_reproduce' );
+			$t_type_name = _( 'Steps To Reproduce' );
 			break;
 		case REV_ADDITIONAL_INFO:
-			$t_type_name = lang_get( 'additional_information' );
+			$t_type_name = _( 'Additional Information' );
 			break;
 		case REV_BUGNOTE:
-			$t_type_name = lang_get( 'bugnote' );
+			$t_type_name = _( 'Note' );
 			break;
 	}
 	return $t_type_name;

@@ -99,7 +99,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 <?php
 		collapse_icon( 'bugnotestats' );
 ?>
-		<?php echo lang_get( 'time_tracking' ) ?>
+		<?php echo _( 'Time tracking' ) ?>
 	</td>
 </tr>
 <tr class="row-2">
@@ -120,7 +120,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 
 <tr class="row-2">
 	<td>
-		<?php echo lang_get( 'username' ) ?>:
+		<?php echo _( 'Username' ) ?>:
 		<select name="reporter_id">
 			<option value="0" selected="selected"></option>
 			<?php print_reporter_option_list( $f_reporter_id, $f_project_id ) ?>
@@ -132,7 +132,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 <?php if ( $t_cost_col ) { ?>
 <tr class="row-2">
 	<td>
-		<?php echo lang_get( 'time_tracking_cost_label' ) ?>
+		<?php echo _( 'Cost:' ) ?>
 		<input type="text" name="bugnote_cost" value="<?php echo $f_bugnote_cost ?>" />
 	</td>
 </tr>
@@ -140,7 +140,7 @@ if ( ON == config_get( 'time_tracking_with_billing' ) ) {
 <tr>
         <td class="center" colspan="2">
 				<input type="hidden" name="id" value="<?php echo isset( $f_bug_id ) ? $f_bug_id : 0 ?>" />
-                <input type="submit" class="button" name="get_bugnote_stats_button" value="<?php echo lang_get( 'time_tracking_get_info_button' ) ?>" />
+                <input type="submit" class="button" name="get_bugnote_stats_button" value="<?php echo _( 'Get Time Tracking Information' ) ?>" />
         </td>
 </tr>
 
@@ -162,14 +162,14 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 <table class="width100" cellspacing="0">
 <tr class="row-category-history">
 	<td class="small-caption">
-		<?php echo lang_get( 'username' ) ?>
+		<?php echo _( 'Username' ) ?>
 	</td>
 	<td class="small-caption">
-		<?php echo lang_get( 'time_tracking' ) ?>
+		<?php echo _( 'Time tracking' ) ?>
 	</td>
 <?php if ( $t_cost_col) { ?>
 	<td class="small-caption">
-		<?php echo lang_get( 'time_tracking_cost' ) ?>
+		<?php echo _( 'Cost' ) ?>
 	</td>
 <?php } ?>
 
@@ -188,7 +188,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 
 		$t_item['sum_time_tracking'] = db_minutes_to_hhmm( $t_item['sum_time_tracking'] );
 		if ( $t_item['bug_id'] != $t_prev_id) {
-			$t_link = sprintf( lang_get( 'label' ), string_get_bug_view_link( $t_item['bug_id'] ) ) . lang_get( 'word_separator' ) . string_display( $t_item['summary'] );
+			$t_link = sprintf( _( '%1$s:' ), string_get_bug_view_link( $t_item['bug_id'] ) ) . _( '&#32;' ) . string_display( $t_item['summary'] );
 			echo '<tr class="row-category-history"><td colspan="4">' . $t_link . "</td></tr>";
 			$t_prev_id = $t_item['bug_id'];
 		}
@@ -210,7 +210,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 ?>
 <tr>
 	<td class="small-caption">
-		<?php echo lang_get( 'total_time' ); ?>
+		<?php echo _( 'Total time' ); ?>
 	</td>
 	<td class="small-caption">
 		<?php echo db_minutes_to_hhmm( $t_sum_in_minutes ); ?>
@@ -229,14 +229,14 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 <table class="width100" cellspacing="0">
 <tr class="row-category-history">
         <td class="small-caption">
-                <?php echo lang_get( 'username' ) ?>
+                <?php echo _( 'Username' ) ?>
         </td>
         <td class="small-caption">
-                <?php echo lang_get( 'time_tracking' ) ?>
+                <?php echo _( 'Time Tracking' ) ?>
         </td>
 <?php if ( $t_cost_col) { ?>
         <td class="small-caption">
-                <?php echo lang_get( 'time_tracking_cost' ) ?>
+                <?php echo _( 'Cost' ) ?>
         </td>
 <?php } ?>
 </tr>
@@ -259,7 +259,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 <?php } ?>
 <tr>
         <td class="small-caption">
-                <?php echo lang_get( 'total_time' ); ?>
+                <?php echo _( 'Total time' ); ?>
         </td>
         <td class="small-caption">
                 <?php echo db_minutes_to_hhmm( $t_sum_in_minutes ); ?>
@@ -278,7 +278,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 <tr>
 	<td class="form-title" colspan="4">
 		<?php collapse_icon( 'bugnotestats' );
-		echo lang_get( 'time_tracking' ) ?>
+		echo _( 'Time Tracking' ) ?>
 	</td>
 </tr>
 </table>

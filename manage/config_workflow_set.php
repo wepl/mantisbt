@@ -94,7 +94,7 @@ if( config_get_access( 'status_enum_workflow' ) <= $t_access ) {
 			$t_first = false;
 		} else {
 			# error default state isn't in the matrix
-			echo '<p>' . sprintf( lang_get( 'default_not_in_flow' ), get_enum_element( 'status', $t_default ), get_enum_element( 'status', $t_state ) )  . '</p>';
+			echo '<p>' . sprintf( _( 'The default status of %1 is not selected in the next statuses for %2. It will be ignored.' ), get_enum_element( 'status', $t_default ), get_enum_element( 'status', $t_state ) )  . '</p>';
 			$t_first = true;
 		}
 		if ( isset( $t_matrix[$t_state] ) ) {

@@ -59,11 +59,11 @@ require_api( 'utility_api.php' );
  */
 function news_create( $p_project_id, $p_poster_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
 	if( is_blank( $p_headline ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'headline' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Headline' ) );
 	}
 
 	if( is_blank( $p_body ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'body' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Body' ) );
 	}
 
 	$t_query = "INSERT
@@ -125,11 +125,11 @@ function news_delete_all( $p_project_id ) {
  */
 function news_update( $p_news_id, $p_project_id, $p_view_state, $p_announcement, $p_headline, $p_body ) {
 	if( is_blank( $p_headline ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'headline' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Headline' ) );
 	}
 
 	if( is_blank( $p_body ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'body' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Body' ) );
 	}
 
 	# Update entry

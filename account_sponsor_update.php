@@ -79,4 +79,4 @@ foreach ( $t_bug_list as $t_bug ) {
 
 form_security_purge( 'account_sponsor_update' );
 
-print_successful_operation( 'account_sponsor_page.php', lang_get( 'payment_updated' ) );
+print_successful_operation( 'account_sponsor_page.php', _( 'Payment information updated.' ) );

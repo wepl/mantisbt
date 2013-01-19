@@ -68,7 +68,7 @@ form_security_purge('manage_user_reset');
 
 if ( false == $t_result ) {
 	# PROTECTED
-	$t_msg = lang_get( 'account_reset_protected_msg' );
+	$t_msg = _( 'Account protected. Cannot reset the password.' );
 } else {
 	# SUCCESS
 	if ( ( ON == config_get( 'send_reset_password' ) ) && ( ON == config_get( 'enable_email_notification' ) ) ) {
@@ -76,7 +76,7 @@ if ( false == $t_result ) {
 		$t_msg = lang_get( 'account_reset_msg' );
 	} else {
 		# email notification disabled, then set the password to blank
-		$t_msg = lang_get( 'account_reset_msg2' );
+		$t_msg = _( 'Account password has been set to blank...' );
 	}
 }
 

@@ -39,4 +39,4 @@ if ( $t_token == null ) {
 	$t_metrics = graph_total_metrics( unserialize( $t_token ) );
 }
 
-graph_bar( $t_metrics, lang_get( 'by_priority' ), $f_width, $f_width * $t_ar );
+graph_bar( $t_metrics, _( 'By Priority' ), $f_width, $f_width * $t_ar );

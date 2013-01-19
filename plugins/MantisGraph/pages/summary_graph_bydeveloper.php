@@ -32,4 +32,4 @@ $f_width = gpc_get_int( 'width', 300 );
 $t_ar = plugin_config_get( 'bar_aspect' );
 
 	$t_metrics = create_developer_summary();
-graph_group( $t_metrics, lang_get( 'by_developer' ), $f_width, $f_width * $t_ar );
+graph_group( $t_metrics, _( 'By Developer' ), $f_width, $f_width * $t_ar );

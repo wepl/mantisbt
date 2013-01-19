@@ -70,7 +70,7 @@ $t_project_id = file_get_field( $f_file_id, 'project_id', 'project' );
 access_ensure_project_level( config_get( 'upload_project_file_threshold' ), $t_project_id );
 
 if ( is_blank( $f_title ) ) {
-	throw new MantisBT\Exception\Field\EmptyField( lang_get( 'title' ) );
+	throw new MantisBT\Exception\Field\EmptyField( _( 'Title' ) );
 }
 
 $c_file_id = (int)$f_file_id;

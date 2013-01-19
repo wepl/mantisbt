@@ -149,7 +149,7 @@ for ($t_now = time() - $t_incr; $t_now >= $t_start; $t_now -= $t_incr) {
 ksort($t_view_status);
 /* @todo - these should probably be separate strings, but in the summary page context,
 	the string is used as the title for all columns */
-$t_label_string = lang_get('orct'); //use the (open/resolved/closed/total) label
+$t_label_string = lang_get( 'orct' ); //use the (open/resolved/closed/total) label
 $t_label_strings = explode('/', mb_substr($t_label_string, 1, strlen($t_label_string)-2));
 
 // add headers for table
@@ -159,7 +159,7 @@ if ($f_show_as_table) {
 	html_head_begin();
 	html_css();
 	html_content_type();
-	html_title( lang_get( 'by_status' ) );
+	html_title( _( 'By Status' ) );
 	html_head_end();
 	html_body_begin();
 	echo '<table class="width100"><tr><td></td>';
@@ -234,5 +234,5 @@ if ($f_show_as_table) {
 	html_body_end();
 	html_end();
 } else {
-	graph_bydate( $t_metrics, $t_labels, lang_get( 'by_status' ), $f_width, $f_width * $t_ar );
+	graph_bydate( $t_metrics, $t_labels, _( 'By Status' ), $f_width, $f_width * $t_ar );
 }

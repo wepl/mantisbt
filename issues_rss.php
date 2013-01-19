@@ -108,7 +108,7 @@ if ( $f_project_id !== 0 ) {
 	$title .= ' - ' . $category;
 }
 
-$title .= ' - ' . lang_get( 'issues' );
+$title .= ' - ' . _( 'Issues' );
 
 if ( $f_username !== null ) {
 	$title .= " - ($f_username)";
@@ -164,7 +164,7 @@ for ( $i = 0; $i < $t_issues_count; $i++ ) {
 	$title = bug_format_id( $t_bug->id ) . ': ' . $t_bug->summary;
 
 	if ( $t_bug->view_state == VS_PRIVATE ) {
-		$title .= ' [' . lang_get( 'private' ) . ']';
+		$title .= ' [' . _( 'private' ) . ']';
 	}
 
 	$description = string_rss_links( $t_bug->description );

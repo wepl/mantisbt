@@ -59,17 +59,17 @@ function profile_create( $p_user_id, $p_platform, $p_os, $p_os_build, $p_descrip
 
 	# platform cannot be blank
 	if( is_blank( $p_platform ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'platform' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'platform' ) );
 	}
 
 	# os cannot be blank
 	if( is_blank( $p_os ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'operating_system' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Operating System' ) );
 	}
 
 	# os_build cannot be blank
 	if( is_blank( $p_os_build ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'version' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Version' ) );
 	}
 
 	# Add profile
@@ -131,17 +131,17 @@ function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_bu
 
 	# platform cannot be blank
 	if( is_blank( $p_platform ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'platform' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'platform' ) );
 	}
 
 	# os cannot be blank
 	if( is_blank( $p_os ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'operating_system' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Operating System' ) );
 	}
 
 	# os_build cannot be blank
 	if( is_blank( $p_os_build ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'version' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Version' ) );
 	}
 
 	# Add item

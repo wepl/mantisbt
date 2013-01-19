@@ -68,8 +68,8 @@ html_page_top();
 ?>
 
 <div class="success-msg"><?php
-	echo lang_get( 'operation_successful' ) . '<br />';
-	print_bracket_link( 'news_menu_page.php', lang_get( 'proceed' ) ); ?>
+	echo _( 'Operation successful' ) . '<br />';
+	print_bracket_link( 'news_menu_page.php', _( 'Proceed' ) ); ?>
 </div><?php
 
 print_news_entry_from_row( $t_news_row );

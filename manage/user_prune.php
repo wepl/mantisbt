@@ -67,7 +67,7 @@ while ( $t_row = db_fetch_array( $t_result ) ) {
 
 $t_user_count = count( $t_users );
 if ( $t_user_count > 0 )
-	helper_ensure_confirmed( lang_get( 'confirm_account_pruning' ), lang_get( 'prune_accounts_button' ) );
+	helper_ensure_confirmed( _( 'Are you sure you want to delete old accounts that have never logged in?' ), _( 'Prune' ) );
 
 for ( $i = 0; $i < $t_user_count; $i++ ) {
 	$t_user = $t_users[$i];

@@ -77,9 +77,9 @@ if ( auth_get_current_user_id() == $f_user_id ) {
 	print_header_redirect( 'account_delete.php?account_delete_token=' . form_security_token( 'account_delete' ), true, false );
 }
 
-helper_ensure_confirmed( lang_get( 'delete_account_sure_msg' ) .
-	'<br/>' . lang_get( 'username_label' ) . lang_get( 'word_separator' ) . $t_user['username'],
-	lang_get( 'delete_account_button' ) );
+helper_ensure_confirmed( _( 'Are you sure you wish to delete this account?' ) .
+	'<br/>' . _( 'Username:' ) . _( '&#32;' ) . $t_user['username'],
+	_( 'Delete Account' ) );
 
 user_delete( $f_user_id );
 

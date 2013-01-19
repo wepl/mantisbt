@@ -197,7 +197,7 @@ if ( $tpl_show_due_date ) {
 # don't index bug report page
 html_robots_noindex();
 
-html_page_top( lang_get( 'report_bug_link' ) );
+html_page_top( _( 'Report Issue' ) );
 
 print_recently_visited();
 ?>
@@ -210,7 +210,7 @@ print_recently_visited();
 		<td class="form-title" colspan="2">
 			<input type="hidden" name="m_id" value="<?php echo $f_master_bug_id ?>" />
 			<input type="hidden" name="project_id" value="<?php echo $t_project_id ?>" />
-			<?php echo lang_get( 'enter_report_details_title' ) ?>
+			<?php echo _( 'Enter Report Details' ) ?>
 		</td>
 	</tr>
 <?php
@@ -223,7 +223,7 @@ print_recently_visited();
 			<?php
 			echo config_get( 'allow_no_category' ) ? '' : '<span class="required">*</span>';
 			echo '<label for="category_id">';
-			echo lang_get( 'category' );
+			echo _( 'Category' );
 			echo '</label>';
 			?>
 		</th>
@@ -245,7 +245,7 @@ print_recently_visited();
 
 	<tr>
 		<th class="category">
-			<label for="reproducibility"><?php echo lang_get( 'reproducibility' ) ?></label>
+			<label for="reproducibility"><?php echo _( 'Reproducibility' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="reproducibility" name="reproducibility">
@@ -260,7 +260,7 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<label for="severity"><?php echo lang_get( 'severity' ) ?></label>
+			<label for="severity"><?php echo _( 'Severity' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="severity" name="severity">
@@ -275,7 +275,7 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<label for="priority"><?php echo lang_get( 'priority' ) ?></label>
+			<label for="priority"><?php echo _( 'Priority' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="priority" name="priority">
@@ -295,7 +295,7 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<label for="due_date"><?php echo lang_get( 'due_date' ) ?></label>
+			<label for="due_date"><?php echo _( 'Due Date' ) ?></label>
 		</th>
 		<td>
 			<?php echo "<input " . helper_get_tab_index() . " type=\"text\" id=\"due_date\" name=\"due_date\" class=\"datetime\" size=\"20\" maxlength=\"16\" value=\"" . $t_date_to_display . "\" />" ?>
@@ -305,7 +305,7 @@ print_recently_visited();
 <?php if ( $tpl_show_platform || $tpl_show_os || $tpl_show_os_version ) { ?>
 	<tr>
 		<th class="category">
-			<label for="profile_id"><?php echo lang_get( 'select_profile' ) ?></label>
+			<label for="profile_id"><?php echo _( 'Select Profile' ) ?></label>
 		</th>
 		<td>
 			<?php if (count(profile_get_all_for_user( auth_get_current_user_id() )) > 0) { ?>
@@ -319,14 +319,14 @@ print_recently_visited();
 		<td colspan="2" class="none">
 			<?php if( ON == config_get( 'use_javascript' ) ) { ?>
 				<?php collapse_open( 'profile' ); collapse_icon('profile'); ?>
-				<?php echo lang_get( 'or_fill_in' ); ?>
+				<?php echo _( 'Or Fill In' ); ?>
 			<table class="width90" cellspacing="0">
 					<?php } else { ?>
-						<?php echo lang_get( 'or_fill_in' ); ?>
+						<?php echo _( 'Or Fill In' ); ?>
 					<?php } ?>
 					<tr>
 						<th class="category">
-							<label for="platform"><?php echo lang_get( 'platform' ) ?></label>
+							<label for="platform"><?php echo _( 'platform' ) ?></label>
 						</th>
 						<td>
 							<?php if ( config_get( 'allow_freetext_in_profile_fields' ) == OFF ) { ?>
@@ -343,7 +343,7 @@ print_recently_visited();
 					</tr>
 					<tr>
 						<th class="category">
-							<label for="os"><?php echo lang_get( 'os' ) ?></label>
+							<label for="os"><?php echo _( 'OS' ) ?></label>
 						</th>
 						<td>
 							<?php if ( config_get( 'allow_freetext_in_profile_fields' ) == OFF ) { ?>
@@ -360,7 +360,7 @@ print_recently_visited();
 					</tr>
 					<tr>
 						<th class="category">
-							<label for="os_build"><?php echo lang_get( 'os_version' ) ?></label>
+							<label for="os_build"><?php echo _( 'OS Version' ) ?></label>
 						</th>
 						<td>
 							<?php
@@ -379,7 +379,7 @@ print_recently_visited();
 					</tr>
 			<?php if( ON == config_get( 'use_javascript' ) ) { ?>
 			</table>
-			<?php collapse_closed( 'profile' ); collapse_icon('profile'); echo lang_get( 'or_fill_in' );?>
+			<?php collapse_closed( 'profile' ); collapse_icon('profile'); echo _( 'Or Fill In' );?>
 			<?php collapse_end( 'profile' ); ?>
 		<?php } ?>
 		</td>
@@ -395,7 +395,7 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<label for="product_version"><?php echo lang_get( 'product_version' ) ?></label>
+			<label for="product_version"><?php echo _( 'Product Version' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="product_version" name="product_version">
@@ -409,7 +409,7 @@ print_recently_visited();
 <?php if ( $tpl_show_product_build ) { ?>
 	<tr>
 		<th class="category">
-			<label for="build"><?php echo lang_get( 'product_build' ) ?></label>
+			<label for="build"><?php echo _( 'Product Build' ) ?></label>
 		</th>
 		<td>
 			<input <?php echo helper_get_tab_index() ?> type="text" id="build" name="build" size="32" maxlength="32" value="<?php echo string_attribute( $f_build ) ?>" />
@@ -420,7 +420,7 @@ print_recently_visited();
 <?php if ( $tpl_show_handler ) { ?>
 	<tr>
 		<th class="category">
-			<label for="handler_id"><?php echo lang_get( 'assign_to' ) ?></label>
+			<label for="handler_id"><?php echo _( 'Assign To' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="handler_id" name="handler_id">
@@ -435,7 +435,7 @@ print_recently_visited();
 	if ( $tpl_show_target_version ) { ?>
 	<tr>
 		<th class="category">
-			<label for="target_version"><?php echo lang_get( 'target_version' ) ?></label>
+			<label for="target_version"><?php echo _( 'Target Version' ) ?></label>
 		</th>
 		<td>
 			<select <?php echo helper_get_tab_index() ?> id="target_version" name="target_version">
@@ -447,7 +447,7 @@ print_recently_visited();
 <?php event_signal( 'EVENT_REPORT_BUG_FORM', array( $t_project_id ) ) ?>
 	<tr>
 		<th class="category">
-			<span class="required">*</span><label for="summary"><?php echo lang_get( 'summary' ) ?></label>
+			<span class="required">*</span><label for="summary"><?php echo _( 'Summary' ) ?></label>
 		</th>
 		<td>
 			<input <?php echo helper_get_tab_index() ?> type="text" id="summary" name="summary" size="105" maxlength="128" value="<?php echo string_attribute( $f_summary ) ?>" />
@@ -455,7 +455,7 @@ print_recently_visited();
 	</tr>
 	<tr>
 		<th class="category">
-			<span class="required">*</span><label for="description"><?php echo lang_get( 'description' ) ?></label>
+			<span class="required">*</span><label for="description"><?php echo _( 'Description' ) ?></label>
 		</th>
 		<td>
 			<textarea <?php echo helper_get_tab_index() ?> id="description" name="description" cols="80" rows="10"><?php echo string_textarea( $f_description ) ?></textarea>
@@ -465,7 +465,7 @@ print_recently_visited();
 <?php if ( $tpl_show_steps_to_reproduce ) { ?>
 		<tr>
 			<th class="category">
-				<label for="steps_to_reproduce"><?php echo lang_get( 'steps_to_reproduce' ) ?></label>
+				<label for="steps_to_reproduce"><?php echo _( 'Steps To Reproduce' ) ?></label>
 			</th>
 			<td>
 				<textarea <?php echo helper_get_tab_index() ?> id="steps_to_reproduce" name="steps_to_reproduce" cols="80" rows="10"><?php echo string_textarea( $f_steps_to_reproduce ) ?></textarea>
@@ -476,7 +476,7 @@ print_recently_visited();
 <?php if ( $tpl_show_additional_info ) { ?>
 	<tr>
 		<th class="category">
-			<label for="additional_info"><?php echo lang_get( 'additional_information' ) ?></label>
+			<label for="additional_info"><?php echo _( 'Additional Information' ) ?></label>
 		</th>
 		<td>
 			<textarea <?php echo helper_get_tab_index() ?> id="additional_info" name="additional_info" cols="80" rows="10"><?php echo string_textarea( $f_additional_info ) ?></textarea>
@@ -513,8 +513,8 @@ print_recently_visited();
 ?>
 	<tr>
 		<td class="category">
-			<label for="file"><?php echo lang_get( 'upload_file' ) ?></label><br />
-			<span class="small"><?php echo lang_get( 'max_file_size_label' ) . lang_get( 'word_separator' ) . number_format( $t_max_file_size/1000 ) ?>k</span>
+			<label for="file"><?php echo _( 'Upload File' ) ?></label><br />
+			<span class="small"><?php echo lang_get( 'max_file_size_label' ) . _( '&#32;' ) . number_format( $t_max_file_size/1000 ) ?>k</span>
 		</td>
 		<td>
 			<input type="hidden" name="max_file_size" value="<?php echo $t_max_file_size ?>" />
@@ -528,11 +528,11 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<?php echo lang_get( 'view_status' ) ?>
+			<?php echo _( 'View Status' ) ?>
 		</th>
 		<td>
-			<label><input <?php echo helper_get_tab_index() ?> type="radio" name="view_state" value="<?php echo VS_PUBLIC ?>" <?php check_checked( $f_view_state, VS_PUBLIC ) ?> /> <?php echo lang_get( 'public' ) ?></label>
-			<label><input <?php echo helper_get_tab_index() ?> type="radio" name="view_state" value="<?php echo VS_PRIVATE ?>" <?php check_checked( $f_view_state, VS_PRIVATE ) ?> /> <?php echo lang_get( 'private' ) ?></label>
+			<label><input <?php echo helper_get_tab_index() ?> type="radio" name="view_state" value="<?php echo VS_PUBLIC ?>" <?php check_checked( $f_view_state, VS_PUBLIC ) ?> /> <?php echo _( 'public' ) ?></label>
+			<label><input <?php echo helper_get_tab_index() ?> type="radio" name="view_state" value="<?php echo VS_PRIVATE ?>" <?php check_checked( $f_view_state, VS_PRIVATE ) ?> /> <?php echo _( 'private' ) ?></label>
 		</td>
 	</tr>
 	<?php
@@ -542,11 +542,11 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<?php echo lang_get( 'relationship_with_parent' ) ?>
+			<?php echo _( 'Relationship with the parent issue' ) ?>
 		</th>
 		<td>
 			<?php relationship_list_box( /* none */ -2, "rel_type", false, true ) ?>
-			<?php echo '<strong>' . lang_get( 'bug' ) . ' ' . bug_format_id( $f_master_bug_id ) . '</strong>' ?>
+			<?php echo '<strong>' . _( 'issue' ) . ' ' . bug_format_id( $f_master_bug_id ) . '</strong>' ?>
 		</td>
 	</tr>
 <?php
@@ -554,18 +554,18 @@ print_recently_visited();
 ?>
 	<tr>
 		<th class="category">
-			<?php echo lang_get( 'report_stay' ) ?>
+			<?php echo _( 'Report Stay' ) ?>
 		</th>
 		<td>
-			<label><input <?php echo helper_get_tab_index() ?> type="checkbox" id="report_stay" name="report_stay" <?php check_checked( $f_report_stay ) ?> /> <?php echo lang_get( 'check_report_more_bugs' ) ?></label>
+			<label><input <?php echo helper_get_tab_index() ?> type="checkbox" id="report_stay" name="report_stay" <?php check_checked( $f_report_stay ) ?> /> <?php echo _( 'check to report more issues' ) ?></label>
 		</td>
 	</tr>
 	<tr>
 		<td class="left">
-			<span class="required"> * <?php echo lang_get( 'required' ) ?></span>
+			<span class="required"> * <?php echo _( 'required' ) ?></span>
 		</td>
 		<td class="center">
-			<input <?php echo helper_get_tab_index() ?> type="submit" class="button" value="<?php echo lang_get( 'submit_report_button' ) ?>" />
+			<input <?php echo helper_get_tab_index() ?> type="submit" class="button" value="<?php echo _( 'Submit Report' ) ?>" />
 		</td>
 	</tr>
 </table>

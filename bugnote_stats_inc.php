@@ -88,7 +88,7 @@ $f_get_bugnote_stats_button = gpc_get_string( 'get_bugnote_stats_button', '' );
 	<td class="form-title" colspan="4">
 <?php
 	collapse_icon( 'bugnotestats' );
-	echo lang_get( 'time_tracking' ) ?>
+	echo _( 'Time Tracking' ) ?>
 	</td>
 </tr>
 <tr class="row-2">
@@ -108,7 +108,7 @@ $f_get_bugnote_stats_button = gpc_get_string( 'get_bugnote_stats_button', '' );
 </tr>
 <tr>
         <td class="center" colspan="2">
-                <input type="submit" class="button" name="get_bugnote_stats_button" value="<?php echo lang_get( 'time_tracking_get_info_button' ) ?>" />
+                <input type="submit" class="button" name="get_bugnote_stats_button" value="<?php echo _( 'Get Time Tracking Information' ) ?>" />
         </td>
 </tr>
 
@@ -124,10 +124,10 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 <table class="width100" cellspacing="0">
 <tr class="row-category-history">
 	<td class="small-caption">
-		<?php echo lang_get( 'username' ) ?>
+		<?php echo _( 'Username' ) ?>
 	</td>
 	<td class="small-caption">
-		<?php echo lang_get( 'time_tracking' ) ?>
+		<?php echo _( 'Time Tracking' ) ?>
 	</td>
 </tr>
 <?php
@@ -148,7 +148,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 <?php } # end for loop ?>
 <tr>
 	<td class="small-caption">
-		<?php echo lang_get( 'total_time' ) ?>
+		<?php echo _( 'Total time' ) ?>
 	</td>
 	<td class="small-caption">
 		<?php echo db_minutes_to_hhmm ( $t_sum_in_minutes ) ?>
@@ -165,7 +165,7 @@ if ( !is_blank( $f_get_bugnote_stats_button ) ) {
 	<td class="form-title" colspan="4">
 		<?php
 			collapse_icon( 'bugnotestats' );
-			echo lang_get( 'time_tracking' ) ?>
+			echo _( 'Time Tracking' ) ?>
 	</td>
 </tr>
 </table>

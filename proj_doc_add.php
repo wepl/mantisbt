@@ -61,7 +61,7 @@ $f_description = gpc_get_string( 'description' );
 $f_file = gpc_get_file( 'file' );
 
 if ( is_blank( $f_title ) ) {
-	throw new MantisBT\Exception\Field\EmptyField( lang_get( 'title' ) );
+	throw new MantisBT\Exception\Field\EmptyField( _( 'Title' ) );
 }
 
 file_add( 0, $f_file, 'project', $f_title, $f_description );

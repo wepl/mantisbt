@@ -71,7 +71,7 @@ $t_bug_count = db_result( db_query( $t_query, array( $f_category_id ) ) );
 
 # Confirm with the user
 helper_ensure_confirmed( sprintf( lang_get( 'category_delete_sure_msg' ), string_display_line( $t_name ), $t_bug_count ),
-	lang_get( 'delete_category_button' ) );
+	_( 'Delete Category' ) );
 
 category_remove( $f_category_id );
 

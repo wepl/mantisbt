@@ -115,9 +115,9 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
 				if ( !access_can_close_bug( $t_bug_id ) ) {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+					$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 				} else {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+					$t_failed_ids[$t_bug_id] = _( 'This issue cannot be changed to the requested status' );
 				}
 			}
 			break;
@@ -125,7 +125,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 			if ( access_has_bug_level( config_get( 'delete_bug_threshold' ), $t_bug_id ) ) {
 				$t_bug->delete();
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'MOVE':
@@ -135,7 +135,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				bug_move( $t_bug_id, $f_project_id );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'COPY':
@@ -144,7 +144,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 			if ( access_has_project_level( config_get( 'report_bug_threshold' ), $f_project_id ) ) {
 				bug_copy( $t_bug_id, $f_project_id, true, true, true, true, true, true );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'ASSIGN':
@@ -165,9 +165,9 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
 				if ( bug_check_workflow($t_status, $t_assign_status ) ) {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+					$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 				} else {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+					$t_failed_ids[$t_bug_id] = _( 'This issue cannot be changed to the requested status' );
 				}
 			}
 			break;
@@ -184,9 +184,9 @@ foreach( $f_bug_arr as $t_bug_id ) {
 			} else {
 				if ( ( $t_status < $t_resolved_status ) &&
 						bug_check_workflow($t_status, $t_resolved_status ) ) {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+					$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 				} else {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+					$t_failed_ids[$t_bug_id] = _( 'This issue cannot be changed to the requested status' );
 				}
 			}
 			break;
@@ -197,7 +197,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				bug_set_field( $t_bug_id, 'priority', $f_priority );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'UP_STATUS':
@@ -215,10 +215,10 @@ foreach( $f_bug_arr as $t_bug_id ) {
 
 					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 				} else {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_status' );
+					$t_failed_ids[$t_bug_id] = _( 'This issue cannot be changed to the requested status' );
 				}
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'UP_CATEGORY':
@@ -229,10 +229,10 @@ foreach( $f_bug_arr as $t_bug_id ) {
 					bug_set_field( $t_bug_id, 'category_id', $f_category_id );
 					helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 				} else {
-					$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_category' );
+					$t_failed_ids[$t_bug_id] = _( 'This issue cannot be changed to the requested category' );
 				}
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'UP_FIXED_IN_VERSION':
@@ -250,7 +250,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 			}
 
 			if ( !$t_success ) {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'UP_TARGET_VERSION':
@@ -268,7 +268,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 			}
 
 			if ( !$t_success ) {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'VIEW_STATUS':
@@ -278,7 +278,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				bug_set_field( $t_bug_id, 'view_state', $f_view_status );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'SET_STICKY':
@@ -289,7 +289,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 				bug_set_field( $t_bug_id, 'sticky', intval( !$f_sticky ) );
 				helper_call_custom_function( 'issue_update_notify', array( $t_bug_id ) );
 			} else {
-				$t_failed_ids[$t_bug_id] = lang_get( 'bug_actiongroup_access' );
+				$t_failed_ids[$t_bug_id] = _( 'You did not have appropriate permissions to perform that action.' );
 			}
 			break;
 		case 'CUSTOM':
@@ -321,13 +321,13 @@ if ( count( $t_failed_ids ) > 0 ) {
 
 	echo '<div><br />';
 	echo '<table class="width75">';
-	$separator = lang_get( 'word_separator' );
+	$separator = _( '&#32;' );
 	foreach( $t_failed_ids as $t_id => $t_reason ) {
-		$label = sprintf( lang_get( 'label' ), string_get_bug_view_link( $t_id ) ) . $separator;
+		$label = sprintf( _( '%1$s:' ), string_get_bug_view_link( $t_id ) ) . $separator;
 		printf( "<tr><td width=\"50%%\">%s%s</td><td>%s</td></tr>\n", $label, bug_get_field( $t_id, 'summary' ), $t_reason );
 	}
 	echo '</table><br />';
-	print_bracket_link( $t_redirect_url, lang_get( 'proceed' ) );
+	print_bracket_link( $t_redirect_url, _( 'Proceed' ) );
 	echo '</div>';
 
 	html_page_bottom();

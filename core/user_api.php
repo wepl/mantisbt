@@ -485,7 +485,7 @@ function user_get_name( $p_user_id ) {
 	try {
 		$t_user = MantisUser::getByUserID( $p_user_id );
 	} catch ( MantisBT\Exception\User_By_UserID_Not_Found $e ) {
-		return lang_get( 'prefix_for_deleted_users' ) . (int) $p_user_id;
+		return _( 'user' ) . (int) $p_user_id;
 	}
 
 	if( ON == config_get( 'show_realname' ) ) {

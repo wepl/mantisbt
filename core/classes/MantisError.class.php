@@ -419,7 +419,7 @@ class MantisError
 		}
 
 		if( $t_error == '' ) {
-			return lang_get( 'missing_error_string' ) . $p_error;
+			return _( 'Missing Error String' ) . $p_error;
 		}
 		
 		# ripped from string_api
