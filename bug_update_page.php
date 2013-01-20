@@ -19,7 +19,7 @@
  *
  * @package MantisBT
  * @copyright Copyright (C) 2000 - 2002  Kenzaburo Ito - kenito@300baud.org
- * @copyright Copyright (C) 2002 - 2012  MantisBT Team - mantisbt-dev@lists.sourceforge.net
+ * @copyright Copyright 2002 - 2013  MantisBT Team - mantisbt-dev@lists.sourceforge.net
  * @link http://www.mantisbt.org
  *
  * @uses core.php
@@ -387,7 +387,7 @@ if ( $tpl_show_status || $tpl_show_resolution ) {
 	if ( $tpl_show_status ) {
 		# Status
 		echo '<th class="category"><label for="status">' . _( 'Status' ) . '</label></th>';
-		echo '<td class="', MantisEnum::getLabel( config_get('status_enum_string' ), $tpl_bug->status ), '-color">';
+		echo '<td class="', get_enum_element( config_get('status_enum_string' ), $tpl_bug->status ), '-color">';
 		print_status_option_list( 'status', $tpl_bug->status,
 							( $tpl_bug->reporter_id == auth_get_current_user_id() &&
 									( ON == config_get( 'allow_reporter_close' ) ) ), $tpl_bug->project_id );
