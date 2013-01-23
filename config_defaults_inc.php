@@ -3438,4 +3438,16 @@ $MantisConfig->global_settings = array(
 	'_url$',
 	'show_friendly_errors',
 	'debug_email',
+
+	// cookie settings
+	'bug_list_cookie',
+	'string_cookie',
+	'cookie_path',
+	'logout_cookie',
+	'cookie_version',
+	'view_all_cookie',
+	'cookie_time_length',
+	'cookie_domain',
+	'project_cookie',
+	'manage_cookie',
 );
