@@ -321,9 +321,9 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 		$g_cache_user_pref[(int)$p_user_id] = array();
 	}
 
-	$g_cache_user_pref[(int)$p_user_id][(int)$p_project_id] = $row;
+	$g_cache_user_pref[(int)$p_user_id][(int)$p_project_id] = $t_row;
 
-	return $row;
+	return $t_row;
 }
 
 /**
