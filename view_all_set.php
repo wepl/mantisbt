@@ -419,7 +419,7 @@ if ( ( $f_type == 3 ) && ( $f_source_query_id == -1 ) ) {
 
 */
 # Set new filter values.  These are stored in a cookie
-$t_view_all_cookie_id = gpc_get_cookie( config_get( 'view_all_cookie' ), '' );
+$t_view_all_cookie_id = gpc_get_cookie( config_get_global( 'view_all_cookie' ), '' );
 $t_view_all_cookie = filter_db_get_filter( $t_view_all_cookie_id );
 
 # process the cookie if it exists, it may be blank in a new install
@@ -438,7 +438,7 @@ if ( !is_blank( $t_view_all_cookie ) ) {
 	$f_type = 1;
 }
 
-$t_cookie_version = config_get( 'cookie_version' );
+$t_cookie_version = config_get_global( 'cookie_version' );
 $t_default_show_changed = config_get( 'default_show_changed' );
 
 # Clear the source query id.  Since we have entered new filter criteria.
@@ -606,7 +606,7 @@ if ( !$f_temp_filter ) {
 	$t_row_id = filter_db_set_for_current_user( $t_project_id, false, '', $t_settings_string );
 
 	# set cookie values
-	gpc_set_cookie( config_get( 'view_all_cookie' ), $t_row_id, time()+config_get( 'cookie_time_length' ), config_get( 'cookie_path' ) );
+	gpc_set_cookie( config_get_global( 'view_all_cookie' ), $t_row_id, time()+config_get_global( 'cookie_time_length' ), config_get_global( 'cookie_path' ) );
 }
 
 # redirect to print_all or view_all page

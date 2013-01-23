@@ -464,12 +464,12 @@ function filter_offset( $p_page_number, $p_per_page ) {
 function filter_ensure_valid_filter( $p_filter_arr ) {
 	# extend current filter to add information passed via POST
 	if( !isset( $p_filter_arr['_version'] ) ) {
-		$p_filter_arr['_version'] = config_get( 'cookie_version' );
+		$p_filter_arr['_version'] = config_get_global( 'cookie_version' );
 	}
 	$t_cookie_vers = (int) mb_substr( $p_filter_arr['_version'], 1 );
-	if( mb_substr( config_get( 'cookie_version' ), 1 ) > $t_cookie_vers ) {
+	if( mb_substr( config_get_global( 'cookie_version' ), 1 ) > $t_cookie_vers ) {
 		# if the version is old, update it
-		$p_filter_arr['_version'] = config_get( 'cookie_version' );
+		$p_filter_arr['_version'] = config_get_global( 'cookie_version' );
 	}
 	if( !isset( $p_filter_arr['_view_type'] ) ) {
 		$p_filter_arr['_view_type'] = gpc_get_string( 'view_type', 'simple' );
@@ -824,7 +824,7 @@ function filter_deserialize( $p_serialized_filter ) {
 	} else {
 		return false;
 	}
-	if( $t_filter_array['_version'] != config_get( 'cookie_version' ) ) {
+	if( $t_filter_array['_version'] != config_get_global( 'cookie_version' ) ) {
 
 		# if the version is not new enough, update it using defaults
 		return filter_ensure_valid_filter( $t_filter_array );
@@ -838,7 +838,7 @@ function filter_deserialize( $p_serialized_filter ) {
  * @return bool
  */
 function filter_is_cookie_valid() {
-	$t_view_all_cookie_id = gpc_get_cookie( config_get( 'view_all_cookie' ), '' );
+	$t_view_all_cookie_id = gpc_get_cookie( config_get_global( 'view_all_cookie' ), '' );
 	$t_view_all_cookie = filter_db_get_filter( $t_view_all_cookie_id );
 
 	# check to see if the cookie does not exist
@@ -860,7 +860,7 @@ function filter_is_cookie_valid() {
 	} else {
 		return false;
 	}
-	if( $t_filter_cookie_arr['_version'] != config_get( 'cookie_version' ) ) {
+	if( $t_filter_cookie_arr['_version'] != config_get_global( 'cookie_version' ) ) {
 		return false;
 	}
 
