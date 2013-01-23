@@ -45,8 +45,6 @@
  * @uses php_api.php
  * @uses user_pref_api.php
  * @uses wiki_api.php
- * @uses utf8/utf8.php
- * @uses utf8/str_pad.php
  */
 
 /**
@@ -255,11 +253,6 @@ spl_autoload_register( '__autoload' );
 set_exception_handler(array('MantisError', 'exception_handler'));
 set_error_handler(array('MantisError', 'error_handler'));
 register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
-
-# Load UTF8-capable string functions
-define( 'UTF8', $MantisConfig->library_path . 'utf8' );
-require_lib( 'utf8/utf8.php' );
-require_lib( 'utf8/str_pad.php' );
 
 # Include PHP compatibility file
 require_api( 'php_api.php' );
