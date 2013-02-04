@@ -254,6 +254,29 @@ set_exception_handler(array('MantisError', 'exception_handler'));
 set_error_handler(array('MantisError', 'error_handler'));
 register_shutdown_function(array('MantisError', 'shutdown_error_handler'));
 
+/* Guess the current locale from the Accept-Language header or fall back to
+ * the default locale defined in config_inc.php. The core gettext text domain
+ * will also be loaded so strings from here on in are translated into the
+ * user's preferred language.
+ *
+ * TODO: also check for a locale override provided by a user cookie?
+ *
+ * TODO: make mention of a user override that is applied later on once a user
+ *       identifies themselves by logging in?
+ */
+//use Locale\LocaleManager;
+
+$localeManager = new Locale();
+
+//try {
+//	$localeManager->setLocale();
+//} catch (LocaleNotSupportedByUser $e) {
+//	$localeManager->setLocale($g_default_locale);
+//}
+
+//$localeManager->addTextDomain('core', LOCALE_PATH);
+textdomain('core');
+
 # Include PHP compatibility file
 require_api( 'php_api.php' );
 

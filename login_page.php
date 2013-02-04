@@ -146,7 +146,7 @@ if( $f_error || $f_cookie_error ) {
 				( LDAP != config_get_global( 'login_method' ) ) &&
 				( ON == config_get( 'enable_email_notification' ) )
 			) {
-				echo '<li><a href="signup_page.php">', lang_get( 'signup_link' ), '</a></li>';
+				echo '<li><a href="signup_page.php">', _( 'Signup' ), '</a></li>';
 			}
 			# lost password feature disabled or reset password via email disabled -> stop here!
 			if ( ( LDAP != config_get_global( 'login_method' ) ) &&

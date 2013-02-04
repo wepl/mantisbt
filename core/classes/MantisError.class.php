@@ -179,7 +179,9 @@ class MantisError
 
 		
 		# We need to ensure compression is off - otherwise the compression headers are output.
-		compress_disable();	
+		if( function_exists('compress_disable' ) ) {
+			compress_disable();
+		}
 
 		# then clean the buffer, leaving output buffering on.
 		if( $t_oblen > 0 ) {
@@ -191,7 +193,9 @@ class MantisError
 		echo '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >';
 		echo '<head><title>Error Page</title>';
 		echo '<style>table.width70		{ width: 70%;  border: solid 1px #000000; }</style></head><body>';
-		echo '<p align="center"><img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' ) . '" /></p>';
+		if( function_exists( 'helper_mantis_url' ) ) {
+			echo '<p align="center"><img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' ) . '" /></p>';
+		}
 		echo '<hr />';
 
 		echo '<div align="center">';
@@ -233,7 +237,7 @@ class MantisError
 		echo '<br /><div><table class="width70" cellspacing="1">';
 		echo '<tr><td class="form-title">' . $p_error->name . '</td></tr>';
 		if ( !self::$_fatal ) {
-			echo '<tr><td><p class="center" style="color:red">' . nl2br( lang_get_defaulted( $p_error->message ) ) . '</p></td></tr>';
+			echo '<tr><td><p class="center" style="color:red">' . nl2br( _( $p_error->message ) ) . '</p></td></tr>';
 		} else {
 			echo '<tr><td><p class="center" style="color:red">' . nl2br( $p_error->message ) . '</p></td></tr>';
 		}

@@ -825,23 +825,41 @@ function string_normalize( $p_string ) {
  * @return string
  */
 function string_get_field_name( $p_string ) {
-	$t_map = array(
-		'attachment_count' => 'attachments',
-		'category_id' => 'category',
-		'handler_id' => 'assigned_to',
-		'id' => 'email_bug',
-		'last_updated' => 'updated',
-		'project_id' => 'email_project',
-		'reporter_id' => 'reporter',
-		'view_state' => 'view_status',
-		'bugnotes_count' => 'bugnote',
-	);
-
-	$t_string = $p_string;
-	if( isset( $t_map[$p_string] ) ) {
-		$t_string = $t_map[$p_string];
+	/* TODO L10N: make sure this switch statement accounts for all possible field names */
+	switch( $p_string ) {
+		case 'attachment_count':
+			$t_translated = _('Attachment(s)');
+			break;
+		case 'category_id':
+			$t_translated = _('Category');
+			break;
+		case 'handler_id':
+			$t_translated = _('Assigned To');
+			break;
+		case 'id':
+			$t_translated = _('Issue ID');
+			break;
+		case 'last_updated':
+			$t_translated = _('Updated');
+			break;
+		case 'project_id':
+			$t_translated = _('Project');
+			break;
+		case 'reporter_id':
+			$t_translated = _('Reporter');
+			break;
+		case 'view_state':
+			$t_translated = _('View Status');
+			break;
+		case bugnotes_count:
+			$t_translated = _('Bug Note(s)');
+			break;
+		default:
+			$t_translated = $p_string;
+			break;
 	}
-	return lang_get_defaulted( $t_string );
+
+	return $t_translated;
 }
 
 /**

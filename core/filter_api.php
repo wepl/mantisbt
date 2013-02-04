@@ -3079,7 +3079,8 @@ function filter_draw_selection_area2( $p_page_number, $p_for_screen = true, $p_e
 					if( isset( $t_accessible_custom_fields_names[$i] ) ) {
 						$t_fields .= '<td class="small-caption"> ';
 						$t_fields .= '<a href="' . $t_filters_url . 'custom_field_' . $t_accessible_custom_fields_ids[$i] . '[]" id="custom_field_' . $t_accessible_custom_fields_ids[$i] . '_filter"' . $t_dynamic_filter_expander_class . '>';
-						$t_fields .= string_display( lang_get_defaulted( $t_accessible_custom_fields_names[$i] ) );
+						/* TODO L10N: translation support for custom field names */
+						$t_fields .= string_display_line( $t_accessible_custom_fields_names[$i] );
 						$t_fields .= '</a> </td> ';
 					}
 					$t_output = '';
@@ -3261,12 +3262,17 @@ function filter_draw_selection_area2( $p_page_number, $p_for_screen = true, $p_e
 				}
 				$t_sort = $t_sort_fields[$i];
 				if( strpos( $t_sort, 'custom_' ) === 0 ) {
-					$t_field_name = string_display( lang_get_defaulted( mb_substr( $t_sort, 7 ) ) ); // 7 = length of 'custom_'
+					/* TODO L10N: translation support for custom field names */
+					$t_field_name = string_display( mb_substr( $t_sort, mb_strlen( 'custom_' ) ) );
 				} else {
 					$t_field_name = string_get_field_name( $t_sort );
 				}
 
-				echo $t_field_name . ' ' . lang_get( 'bugnote_order_' . mb_strtolower( $t_dir_fields[$i] ) );
+				if (mb_strtolower($t_dir_fields[$i]) === 'asc') {
+					echo $t_field_name . ' ' . _('Ascending');
+				} else {
+					echo $t_field_name . ' ' . _('Descending');
+				}
 				echo '<input type="hidden" name="', FILTER_PROPERTY_SORT_FIELD_NAME, '_', $i, '" value="', $t_sort_fields[$i], '" />';
 				echo '<input type="hidden" name="', FILTER_PROPERTY_SORT_DIRECTION, '_', $i, '" value="', $t_dir_fields[$i], '" />';
 			}
@@ -4019,7 +4025,8 @@ function print_filter_show_sort() {
 	for( $i = 0;$i < $t_n_fields;$i++ ) {
 		if( !in_array( $t_fields[$i], array( 'selection', 'edit', 'attachment' ) ) ) {
 			if( strpos( $t_fields[$i], 'custom_' ) === 0 ) {
-				$t_field_name = string_display( lang_get_defaulted( mb_substr( $t_fields[$i], 7 ) ) ); // 7 = length of 'custom_'
+				/* TODO L10N: translation support for custom field names */
+				$t_field_name = string_display( mb_substr( $t_fields[$i], mb_strlen( 'custom_' ) ) );
 			} else {
 				$t_field_name = string_get_field_name( $t_fields[$i] );
 			}
@@ -4075,7 +4082,7 @@ function print_filter_show_sort() {
 		}
 		echo '</select>';
 	} else {
-		echo lang_get_defaulted( 'last_updated' ) . _( 'Descending' );
+		echo _('Last Updated Descending');
 		echo '<input type="hidden" name="', FILTER_PROPERTY_SORT_FIELD_NAME, '_1" value="last_updated" />';
 		echo '<input type="hidden" name="', FILTER_PROPERTY_SORT_DIRECTION, '_1" value="DESC" />';
 	}

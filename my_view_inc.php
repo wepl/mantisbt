@@ -407,7 +407,35 @@ if( helper_get_current_project() == 0 ) {
 
 $t_filter = array_merge( $c_filter[$t_box_title], $t_filter );
 
-$box_title = lang_get( 'my_view_title_' . $t_box_title );
+switch ($t_box_title) {
+	case 'unassigned':
+		$box_title = _('Unassigned');
+		break;
+	case 'recent_mod':
+		$box_title = _('Recently Modified');
+		break;
+	case 'reported':
+		$box_title = _('Reported by Me');
+		break;
+	case 'assigned':
+		$box_title = _('Assigned to Me (Unresolved)');
+		break;
+	case 'resolved':
+		$box_title = _('Resolved');
+		break;
+	case 'monitored':
+		$box_title = _('Monitored by Me');
+		break;
+	case 'feedback':
+		$box_title =  _('Awaiting Feedback from Me');
+		break;
+	case 'verify':
+		$box_title = _('Awaiting Confirmation of Resolution from Me');
+		break;
+	case 'my_comments':
+		$box_title = _('Issues I Have Commented On');
+		break;
+}
 
 # -- ====================== BUG LIST ========================= --
 ?>
