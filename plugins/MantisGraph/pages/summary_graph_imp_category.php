@@ -47,7 +47,7 @@ $t_token = token_set( TOKEN_GRAPH, serialize( $t_metrics ) );
 <table class="width100" cellspacing="1">
 <tr>
 	<td class="form-title">
-		<?php echo plugin_lang_get( 'graph_imp_category_title' ) ?>
+		<?php echo d___('plugin_MantisGraph', 'Synthesis graphs by category') ?>
 	</td>
 </tr>
 <tr>

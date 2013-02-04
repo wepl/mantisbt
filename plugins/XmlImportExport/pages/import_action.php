@@ -42,7 +42,7 @@ $importer = new ImportXML( $f_file, $f_strategy, $f_fallback, $f_keepcategory, $
 
 form_security_purge( 'plugin_xml_import_action' );
 
-html_page_top( plugin_lang_get( 'import' ) );
+html_page_top( d___('plugin_XmlImportExport', 'Import issues') );
 
 print_manage_menu( 'import_issues_page.php' );
 

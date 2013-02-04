@@ -25,7 +25,7 @@
 auth_reauthenticate( );
 access_ensure_global_level( config_get( 'manage_plugin_threshold' ) );
 
-html_page_top( plugin__( 'Title' ) );
+html_page_top( d___('plugin_MantisGraph', 'Mantis Graphs') );
 
 print_manage_menu( );
 
@@ -77,16 +77,16 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<td class="form-title" colspan="3">
-		<?php echo plugin__( 'Title' ) . ': ' . plugin_lang_get( 'config' )?>
+		<?php echo d___('plugin_MantisGraph', 'Mantis Graphs') . ': ' . d___('plugin_MantisGraph', 'Configuration')?>
 	</td>
 </tr>
 
 <tr>
 	<th class="category">
-		<?php echo plugin_lang_get( 'library' )?>
+		<?php echo d___('plugin_MantisGraph', 'Graph library to use')?>
 	</th>
 	<td class="center">
-		<label><input type="radio" name="eczlibrary" value="1" <?php echo( ON == plugin_config_get( 'eczlibrary' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get( 'bundled' )?></label>
+		<label><input type="radio" name="eczlibrary" value="1" <?php echo( ON == plugin_config_get( 'eczlibrary' ) ) ? 'checked="checked" ' : ''?>/><?php echo d___('plugin_MantisGraph', 'Bundled')?></label>
 	</td>
 	<td class="center">
 		<label><input type="radio" name="eczlibrary" value="0" <?php echo( OFF == plugin_config_get( 'eczlibrary' ) ) ? 'checked="checked" ' : ''?>/>JpGraph</label>
@@ -97,7 +97,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<th class="category">
-		<?php echo plugin_lang_get( 'window_width' )?>
+		<?php echo d___('plugin_MantisGraph', 'Graph width (in pixels)')?>
 	</th>
 	<td class="center" colspan="2">
 		<input type="text" name="window_width" value="<?php echo plugin_config_get( 'window_width' )?>" />
@@ -106,7 +106,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<th class="category">
-		<?php echo plugin_lang_get( 'bar_aspect' )?>
+		<?php echo d___('plugin_MantisGraph', 'Bar graph aspect ratio (height/width)')?>
 	</th>
 	<td class="center" colspan="2">
 		<input type="text" name="bar_aspect" value="<?php echo plugin_config_get( 'bar_aspect' )?>" />
@@ -115,7 +115,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<th class="category">
-		<?php echo plugin_lang_get( 'summary_graphs_per_row' )?>
+		<?php echo d___('plugin_MantisGraph', 'Graphs to display per row on the advanced summary page')?>
 	</th>
 	<td class="center" colspan="2">
 		<input type="text" name="summary_graphs_per_row" value="<?php echo plugin_config_get( 'summary_graphs_per_row' )?>" />
@@ -124,7 +124,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<th class="category">
-		<?php echo plugin_lang_get( 'font' )?>
+		<?php echo d___('plugin_MantisGraph', 'Font')?>
 	</th>
 	<td style="vertical-align: top">
 		Sans-serif:<br />
@@ -149,8 +149,8 @@ function print_font_checked( $p_font_name ) {
 <?php if ( current_user_is_administrator() ) {?>
 <tr>
 	<td class="category">
-		<?php echo plugin_lang_get( 'jpgraph_path' )?>
-		<br /><span class="small"><?php echo plugin_lang_get( 'jpgraph_path_default' )?></span>
+		<?php echo d___('plugin_MantisGraph', 'JpGraph library system path')?>
+		<br /><span class="small"><?php echo d___('plugin_MantisGraph', 'Leave blank for default: {mantisroot}/library/jpgraph')?></span>
 	</td>
 	<td class="center" colspan="2">
 		<input type="text" name="jpgraph_path" value="<?php echo plugin_config_get( 'jpgraph_path' )?>" />
@@ -160,14 +160,14 @@ function print_font_checked( $p_font_name ) {
 
 <tr>
 	<td class="category">
-		<?php echo plugin_lang_get( 'jpgraph_antialias' )?>
-		<br /><span class="small"><?php echo plugin_lang_get( 'jpgraph_antialias_info' )?></span>
+		<?php echo d___('plugin_MantisGraph', 'JpGraph anti-aliasing')?>
+		<br /><span class="small"><?php echo d___('plugin_MantisGraph', 'Anti-aliasing improves the visual appearance of certain graphs at the expense of performance (up to 8x slower)')?></span>
 	</td>
 	<td class="center">
-		<label><input type="radio" name="jpgraph_antialias" value="1" <?php echo( ON == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get( 'enabled' )?></label>
+		<label><input type="radio" name="jpgraph_antialias" value="1" <?php echo( ON == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo d___('plugin_MantisGraph', 'On')?></label>
 	</td>
 	<td class="center">
-		<label><input type="radio" name="jpgraph_antialias" value="0" <?php echo( OFF == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo plugin_lang_get( 'disabled' )?></label>
+		<label><input type="radio" name="jpgraph_antialias" value="0" <?php echo( OFF == plugin_config_get( 'jpgraph_antialias' ) ) ? 'checked="checked" ' : ''?>/><?php echo d___('plugin_MantisGraph', 'Off')?></label>
 	</td>
 </tr>
 

@@ -33,7 +33,6 @@
  * @uses event_api.php
  * @uses helper_api.php
  * @uses history_api.php
- * @uses lang_api.php
  */
 
 require_api( 'access_api.php' );
@@ -43,7 +42,6 @@ require_api( 'database_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
-require_api( 'lang_api.php' );
 
 # Cache variables #####
 
@@ -241,25 +239,6 @@ function plugin_config_defaults( $p_options ) {
 }
 
 /**
- * Get a language string for the plugin.
- * Automatically prepends plugin_<basename> to the string requested.
- * @param string $p_name Language string name
- * @param string $p_basename Plugin basename
- * @return string Language string
- */
-function plugin_lang_get( $p_name, $p_basename = null ) {
-	if( is_null( $p_basename ) ) {
-		$t_basename = plugin_get_current();
-	} else {
-		$t_basename = $p_basename;
-	}
-
-	$t_name = 'plugin_' . $t_basename . '_' . $p_name;
-
-	return lang_get( $t_name );
-}
-
-/**
  * log history event from plugin
  * @param int $p_bug_id bug id
  * @param string $p_field_name field name
@@ -278,24 +257,6 @@ function plugin_history_log( $p_bug_id, $p_field_name, $p_old_value, $p_new_valu
 	$t_field_name = $t_basename . '_' . $p_field_name;
 
 	history_log_event_direct( $p_bug_id, $t_field_name, $p_old_value, $p_new_value, $p_user_id, PLUGIN_HISTORY );
-}
-
-/**
- * Trigger a plugin-specific error with the given name and type.
- * @param string $p_error_name Error name
- * @param int $p_error_type Error type
- * @param string $p_basename Plugin basename
- */
-function plugin_error( $p_error_name, $p_error_type = ERROR, $p_basename = null ) {
-	if( is_null( $p_basename ) ) {
-		$t_basename = plugin_get_current();
-	} else {
-		$t_basename = $p_basename;
-	}
-
-	$t_error_code = "plugin_${t_basename}_${p_error_name}";
-
-	trigger_error( $t_error_code, $p_error_type );
 }
 
 /**
@@ -751,6 +712,7 @@ function plugin_include( $p_basename, $p_child = null ) {
  * @return mixed
  */
 function plugin_register( $p_basename, $p_return = false, $p_child = null ) {
+	global $localeManager;
 	global $g_plugin_cache;
 
 	$t_basename = is_null( $p_child ) ? $p_basename : $p_child;
@@ -771,6 +733,11 @@ function plugin_register( $p_basename, $p_return = false, $p_child = null ) {
 		# Make sure the class exists and that it's of the right type.
 		if( class_exists( $t_classname ) && is_subclass_of( $t_classname, 'MantisPlugin' ) ) {
 			plugin_push_current( is_null( $p_child ) ? $p_basename : $p_child );
+
+			# Load the plugin's default text domain
+			$t_locale_path = config_get( 'plugin_path' );
+			$t_locale_path .= $p_basename . '/locale/';
+			$localeManager->addTextDomain('plugin_' . $p_basename, $t_locale_path);
 
 			$t_plugin = new $t_classname( is_null( $p_child ) ? $p_basename : $p_child );
 
