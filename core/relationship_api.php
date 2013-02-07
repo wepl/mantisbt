@@ -644,7 +644,10 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
 	$t_relationship_info_text .= "\n";
 
 	if( $p_html_preview == false ) {
-		$t_relationship_info_html = '<tr class="' . MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status ) . '-color">' . $t_relationship_info_html . '</tr>' . "\n";
+		# choose color based on status
+		$status_label = html_get_status_css_class( $t_bug->status, auth_get_current_user_id(), $t_bug->project_id );
+
+		$t_relationship_info_html = '<tr class="' . $status_label . '">' . $t_relationship_info_html . '</tr>' . "\n";
 	} else {
 		$t_relationship_info_html = '<tr>' . $t_relationship_info_html . '</tr>';
 	}

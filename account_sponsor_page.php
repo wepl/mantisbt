@@ -182,7 +182,10 @@ if ( $t_sponsor_count === 0 ) {
 			$t_released_label = $t_bug->fixed_in_version;
 		}
 
-		echo '<tr class="' . MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status ) . '-color">';
+		# choose color based on status
+		$status_label = html_get_status_css_class( $t_bug->status, auth_get_current_user_id(), $t_bug->project_id );
+
+		echo '<tr class="' . $status_label .  '">';
 		echo '<td><a href="' . string_get_bug_view_url( $row['bug'] ) . '">' . bug_format_id( $row['bug'] ) . '</a></td>';
 		echo '<td>' . project_get_field( $t_bug->project_id, 'name' ) . '&#160;</td>';
 		echo '<td class="right">' . $t_released_label . '&#160;</td>';
@@ -308,7 +311,10 @@ if ( $t_sponsor_count === 0 ) {
 			$t_released_label = $t_bug->fixed_in_version;
 		}
 
-		echo '<tr class="' . MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status ) . '-color">';
+		# choose color based on status
+		$status_label = html_get_status_css_class( $t_bug->status, auth_get_current_user_id(), $t_bug->project_id );
+
+		echo '<tr class="' . $status_label .  '">';
 		echo '<td><a href="' . string_get_bug_view_url( $row['bug'] ) . '">' . bug_format_id( $row['bug'] ) . '</a></td>';
 		echo '<td>' . project_get_field( $t_bug->project_id, 'name' ) . '&#160;</td>';
 		echo '<td class="right">' . $t_released_label . '&#160;</td>';

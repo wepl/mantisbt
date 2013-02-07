@@ -387,7 +387,11 @@ if ( $tpl_show_status || $tpl_show_resolution ) {
 	if ( $tpl_show_status ) {
 		# Status
 		echo '<th class="category"><label for="status">' . _( 'Status' ) . '</label></th>';
-		echo '<td class="', get_enum_element( config_get('status_enum_string' ), $tpl_bug->status ), '-color">';
+		
+		# choose color based on status
+		$status_label = html_get_status_css_class( $tpl_bug->status );
+
+		echo '<td class="' . $status_label .  '">';
 		print_status_option_list( 'status', $tpl_bug->status,
 							( $tpl_bug->reporter_id == auth_get_current_user_id() &&
 									( ON == config_get( 'allow_reporter_close' ) ) ), $tpl_bug->project_id );

@@ -1208,7 +1208,7 @@ function html_status_legend() {
 	}
 
 	$t_status_array = MantisEnum::getAssocArrayIndexedByValues( config_get( 'status_enum_string' ) );
-	$t_status_names = MantisEnum::getAssocArrayIndexedByValues( lang_get( 'status_enum_string' ) );
+	$t_status_names = MantisEnum::getAssocArrayIndexedByValues( _( config_get( 'status_enum_string' ) ) );
 	$enum_count = count( $t_status_array );
 
 	# read through the list and eliminate unused ones for the selected project
@@ -1668,4 +1668,13 @@ function html_buttons_view_bug_page( $p_bug ) {
 	helper_call_custom_function( 'print_bug_view_page_custom_buttons', array( $p_bug_id ) );
 
 	echo '</tr></table>';
+}
+
+/**
+ * get the css class name for the given status, user and project
+ * @param int $p_status
+ * @return string
+ */
+function html_get_status_css_class( $p_status, $p_user = null, $p_project = null ) {
+	return string_attribute( MantisEnum::getLabel( config_get('status_enum_string', null, $p_user, $p_project ), $p_status ) . '-color' );
 }

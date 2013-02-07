@@ -474,7 +474,11 @@ if ( $tpl_show_status || $tpl_show_resolution ) {
 	# Status
 	if ( $tpl_show_status ) {
 		echo '<th class="bug-status category">', _( 'Status' ), '</th>';
-		echo '<td class="bug-status ', MantisEnum::getLabel( config_get('status_enum_string' ), $tpl_bug->status ), '-color">', $tpl_status, '</td>';
+
+		# choose color based on status
+		$status_label = html_get_status_css_class( $tpl_bug->status );
+
+		echo '<td class="bug-status ', $status_label, '">', $tpl_status, '</td>';
 	} else {
 		$t_spacer += 2;
 	}

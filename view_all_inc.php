@@ -200,7 +200,10 @@ function write_bug_rows ( $p_rows )
 			$t_in_stickies = false;
 		}
 
-		echo '<tr class="', MantisEnum::getLabel( config_get('status_enum_string' ), $t_row->status ), '-color">';
+		# choose color based on status
+		$status_label = html_get_status_css_class( $t_row->status, auth_get_current_user_id(), $t_row->project_id );
+
+		echo '<tr class="' . $status_label . '">';
 
 		foreach( $t_columns as $t_column ) {
 			$t_column_value_function = 'print_column_value';

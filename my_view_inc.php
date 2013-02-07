@@ -477,7 +477,7 @@ for( $i = 0;$i < $t_count; $i++ ) {
 	$t_last_updated = date( config_get( 'normal_date_format' ), $t_bug->last_updated );
 
 	# choose color based on status
-	$status_label = MantisEnum::getLabel( config_get('status_enum_string' ), $t_bug->status );
+	$status_label = html_get_status_css_class( $t_bug->status, auth_get_current_user_id(), $t_bug->project_id );
 
 	# Check for attachments
 	$t_attachment_count = 0;
@@ -497,7 +497,7 @@ for( $i = 0;$i < $t_count; $i++ ) {
     }
 	?>
 
-<tr class="my-buglist-bug <?php echo $t_bug_class?> <?php echo $status_label . '-color'; ?>">
+<tr class="my-buglist-bug <?php echo $t_bug_class?> <?php echo $status_label ?>">
 	<?php
 	# -- Bug ID and details link + Pencil shortcut --?>
 	<td class="center nowrap my-buglist-id">
