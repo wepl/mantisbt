@@ -32,7 +32,6 @@
  * @uses email_api.php
  * @uses event_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses user_api.php
  * @uses utility_api.php
  */
@@ -46,7 +45,6 @@ require_api( 'constant_inc.php' );
 require_api( 'email_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 

@@ -38,7 +38,6 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses last_visited_api.php
  * @uses news_api.php
  * @uses prepare_api.php
@@ -67,7 +66,6 @@ require_api( 'file_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'last_visited_api.php' );
 require_api( 'news_api.php' );
 require_api( 'prepare_api.php' );

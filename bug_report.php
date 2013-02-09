@@ -38,7 +38,7 @@
  * @uses helper_api.php
  * @uses history_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses last_visited_api.php
  * @uses print_api.php
  * @uses profile_api.php
@@ -64,7 +64,6 @@ require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'last_visited_api.php' );
 require_api( 'print_api.php' );
 require_api( 'profile_api.php' );

@@ -35,7 +35,7 @@
  * @uses database_api.php
  * @uses event_api.php
  * @uses helper_api.php
- * @uses lang_api.php
+
  * @uses prepare_api.php
  * @uses print_api.php
  * @uses string_api.php
@@ -58,7 +58,6 @@ require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
@@ -176,7 +175,7 @@ $num_notes = count( $t_bugnotes );
 		<span class="small bugnote-date-submitted"><?php echo date( $t_normal_date_format, $t_bugnote->date_submitted ); ?></span><br />
 		<?php
 		if ( $t_bugnote_modified ) {
-			echo '<span class="small bugnote-last-modified">' . lang_get( 'last_edited') . _( '&#32;' ) . date( $t_normal_date_format, $t_bugnote->last_modified ) . '</span><br />';
+			echo '<span class="small bugnote-last-modified">' . _('Last edited:') . _( '&#32;' ) . date( $t_normal_date_format, $t_bugnote->last_modified ) . '</span><br />';
 			$t_revision_count = bug_revision_count( $f_bug_id, REV_BUGNOTE, $t_bugnote->id );
 			if ( $t_revision_count >= 1) {
 				$t_view_num_revisions_text = sprintf( _( 'View %1 revisions' ), $t_revision_count );

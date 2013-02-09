@@ -43,14 +43,12 @@
  * @uses authentication_api.php
  * @uses current_user_api.php
  * @uses html_api.php
- * @uses lang_api.php
  */
 
 require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'current_user_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 
 #============ Parameters ============
 # (none)

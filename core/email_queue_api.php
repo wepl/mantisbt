@@ -25,13 +25,12 @@
  *
  * @uses constant_api.php
  * @uses database_api.php
- * @uses lang_api.php
+
  * @uses utility_api.php
  */
 
 require_api( 'constant_inc.php' );
 require_api( 'database_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'utility_api.php' );
 
 /**
@@ -101,7 +100,7 @@ function email_queue_add( $p_email_data ) {
 
 	# subject cannot be blank
 	if( is_blank( $t_email_data->subject ) ) {
-		throw new MantisBT\Exception\Field\EmptyField( lang_get( 'subject' ) );
+		throw new MantisBT\Exception\Field\EmptyField( _( 'Subject' ) );
 	}
 
 	# body cannot be blank

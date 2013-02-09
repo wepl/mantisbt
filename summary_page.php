@@ -31,7 +31,7 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  * @uses summary_api.php
  * @uses user_api.php
@@ -46,7 +46,6 @@ require_api( 'database_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'summary_api.php' );
 require_api( 'user_api.php' );
@@ -111,7 +110,7 @@ $t_largest_diff 	= number_format( $t_largest_diff / SECONDS_PER_DAY, 2 );
 $t_total_time		= number_format( $t_total_time / SECONDS_PER_DAY, 2 );
 $t_average_time 	= number_format( $t_average_time / SECONDS_PER_DAY, 2 );
 
-$t_orct_arr = preg_split( '/[\)\/\(]/', lang_get( 'orct' ), -1, PREG_SPLIT_NO_EMPTY );
+$t_orct_arr = preg_split( '/[\)\/\(]/', _('(open/resolved/closed/total)'), -1, PREG_SPLIT_NO_EMPTY );
 
 $t_orcttab = "";
 foreach ( $t_orct_arr as $t_orct_s ) {

@@ -33,7 +33,7 @@
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  * @uses string_api.php
  * @uses utility_api.php
@@ -51,7 +51,6 @@ require_api( 'custom_field_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
@@ -145,7 +144,7 @@ switch ( $f_action )  {
 	case 'SET_STICKY' :
 		$t_finished 			= true;
 		$t_question_title		= _( 'Are you sure you wish to set/unset these issues sticky?' );
-		$t_button_title 		= lang_get( 'set_sticky_group_bugs_button' );
+		$t_button_title 		= _('Set/Unset Sticky');
 		break;
 
 	# ...else we define the variables used in the form
@@ -217,7 +216,8 @@ switch ( $f_action )  {
 
 	case 'CUSTOM' :
 		$t_custom_field_def = custom_field_get_definition( $t_custom_field_id );
-		$t_question_title = sprintf( _( 'Update %1$s' ), lang_get_defaulted( $t_custom_field_def['name'] ) );
+		/* TODO L10N: translation support for custom field names */
+		$t_question_title = sprintf( _('Update %1'), $t_custom_field_def['name'] );
 		$t_button_title = $t_question_title;
 		$t_form = "custom_field_$t_custom_field_id";
 		break;

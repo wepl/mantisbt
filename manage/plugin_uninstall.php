@@ -28,7 +28,7 @@
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
- * @uses lang_api.php
+
  * @uses plugin_api.php
  * @uses print_api.php
  */
@@ -43,7 +43,6 @@ require_api( 'config_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'plugin_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );

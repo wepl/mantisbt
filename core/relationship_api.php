@@ -73,7 +73,6 @@
  * @uses database_api.php
  * @uses form_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses prepare_api.php
  * @uses print_api.php
  * @uses project_api.php
@@ -90,7 +89,6 @@ require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'prepare_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
@@ -678,7 +676,7 @@ function relationship_get_summary_html( $p_bug_id ) {
 
 	if( !is_blank( $t_summary ) ) {
 		if( relationship_can_resolve_bug( $p_bug_id ) == false ) {
-			$t_summary .= '<tr class="row-2"><td colspan="' . ( 5 + $t_show_project ) . '"><strong>' . lang_get( 'relationship_warning_blocking_bugs_not_resolved' ) . '</strong></td></tr>';
+			$t_summary .= '<tr class="row-2"><td colspan="' . ( 5 + $t_show_project ) . '"><strong>' . _('Not all the children of this issue are yet resolved or closed.') . '</strong></td></tr>';
 		}
 		$t_summary = '<table width="100%" cellpadding="0" cellspacing="1">' . $t_summary . '</table>';
 	}

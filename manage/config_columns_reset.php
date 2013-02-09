@@ -26,7 +26,7 @@
  * @uses config_api.php
  * @uses form_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  */
 
@@ -35,7 +35,6 @@ require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'form_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 
 form_security_validate( 'manage_config_columns_reset' );

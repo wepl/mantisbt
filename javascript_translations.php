@@ -22,11 +22,10 @@
  * @copyright Copyright 2002 - 2013  MantisBT Team - mantisbt-dev@lists.sourceforge.net
  * @link http://www.mantisbt.org
  *
- * @uses lang_api.php
+
  */
 
 require_once( 'core.php' );
-require_api( 'lang_api.php' );
 
 /**
  * Print Language translation for javascript

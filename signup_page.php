@@ -28,7 +28,7 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  * @uses utility_api.php
  */
@@ -40,7 +40,6 @@ require_api( 'crypto_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'utility_api.php' );
 require_css( 'login.css' );
@@ -114,7 +113,7 @@ $t_public_key = crypto_generate_uri_safe_nonce( 64 );
 				echo '</span>';
 			}
 			?>
-			<span id="signup-info"><?php echo lang_get( 'signup_info' ); ?></span>
+			<span id="signup-info"><?php echo _('On completion of this form and verification of your answers, you will be sent a confirmation e-mail to the e-mail address you specified. Using the confirmation e-mail, you will be able to activate your account. If you fail to activate your account within seven days, it will be purged. You must specify a valid e-mail address in order to receive the account confirmation e-mail.'); ?></span>
 			<span class="submit-button"><input type="submit" class="button" value="<?php echo _( 'Signup' ) ?>" /></span>
 		</fieldset>
 	</form>

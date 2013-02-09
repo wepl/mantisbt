@@ -30,7 +30,7 @@
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  * @uses user_api.php
  * @uses utility_api.php
@@ -45,7 +45,6 @@ require_api( 'email_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
@@ -111,9 +110,9 @@ html_page_top2a();
 <tr>
 	<td>
 		<br/>
-		<?php echo lang_get( 'password_emailed_msg' ) ?>
+		<?php echo _('Congratulations. You have registered successfully. You are now being sent a confirmation e-mail to verify your e-mail address. Visiting the link sent to you in this e-mail will activate your account.') ?>
 		<br /><br/>
-		<?php echo lang_get( 'no_reponse_msg') ?>
+		<?php echo _('You will have seven days to complete the account confirmation process; if you fail to complete account confirmation within seven days, this newly-registered account may be purged.') ?>
 		<br/><br/>
 	</td>
 </tr>

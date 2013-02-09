@@ -34,7 +34,7 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  * @uses relationship_api.php
  * @uses sponsorship_api.php
@@ -54,7 +54,6 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'relationship_api.php' );
 require_api( 'sponsorship_api.php' );
@@ -152,7 +151,7 @@ print_recently_visited();
 <?php
 	if ( $f_new_status >= $t_resolved ) {
 		if ( relationship_can_resolve_bug( $f_bug_id ) == false ) {
-			echo "<tr><td colspan=\"2\">" . lang_get( 'relationship_warning_blocking_bugs_not_resolved_2' ) . "</td></tr>";
+			echo "<tr><td colspan=\"2\">" . _('Attention: Not all the children of this issue are yet resolved or closed. Before resolving/closing a parent issue, all the issues related as child with this one should be resolved or closed.') . "</td></tr>";
 		}
 	}
 ?>
@@ -357,7 +356,7 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 <?php if ( access_has_bug_level( config_get( 'time_tracking_edit_threshold' ), $f_bug_id ) ) { ?>
 <tr>
 	<th class="category">
-		<?php echo lang_get( 'time_tracking' ) ?>
+		<?php echo _('Time tracking') ?>
 	</th>
 	<td>
 		<input type="text" name="time_tracking" size="5" value="hh:mm" />

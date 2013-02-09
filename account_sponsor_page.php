@@ -49,7 +49,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses project_api.php
  * @uses sponsorship_api.php
@@ -69,7 +68,6 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'project_api.php' );
 require_api( 'sponsorship_api.php' );
@@ -376,9 +374,7 @@ if ( $t_sponsor_count === 0 ) {
 <br />
 <div>
 <?php
-html_button ( 'account_sponsor_page.php',
-	lang_get( ( $t_show_all ? 'sponsor_hide' : 'sponsor_show' ) ),
-	array( 'show_all' => ( $t_show_all ? 0 : 1 ) ) );
+html_button ( 'account_sponsor_page.php', $t_show_all ? _('Hide Resolved and Paid') : _('Show All'), array( 'show_all' => ( $t_show_all ? 0 : 1 ) ) );
 ?>
 </div>
 

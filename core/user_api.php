@@ -31,7 +31,7 @@
  * @uses email_api.php
  * @uses filter_api.php
  * @uses helper_api.php
- * @uses lang_api.php
+
  * @uses ldap_api.php
  * @uses project_api.php
  * @uses project_hierarchy_api.php
@@ -48,7 +48,6 @@ require_api( 'database_api.php' );
 require_api( 'email_api.php' );
 require_api( 'filter_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'ldap_api.php' );
 require_api( 'project_api.php' );
 require_api( 'project_hierarchy_api.php' );

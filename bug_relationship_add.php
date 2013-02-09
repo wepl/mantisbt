@@ -33,7 +33,6 @@
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses history_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses relationship_api.php
  */
@@ -48,7 +47,6 @@ require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'relationship_api.php' );
 
@@ -102,7 +100,7 @@ foreach( $f_dest_bug_id_array as $f_dest_bug_id ) {
 	}
 	else if ( $t_old_id_relationship > 0 ) {
 		# there is already a relationship between them -> we have to update it and not to add a new one
-		helper_ensure_confirmed( _( 'There is already a relationship between the two issues. Are you sure you want to replace it?' ), lang_get( 'replace_relationship_button' ) );
+		helper_ensure_confirmed( _( 'There is already a relationship between the two issues. Are you sure you want to replace it?' ), _('Replace') );
 
 		# Update the relationship
 		relationship_update( $t_old_id_relationship, $f_src_bug_id, $f_dest_bug_id, $f_rel_type );

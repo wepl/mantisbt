@@ -31,7 +31,6 @@
  * @uses database_api.php
  * @uses gpc_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses string_api.php
  * @uses user_api.php
@@ -46,7 +45,6 @@ require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
 require_api( 'user_api.php' );
@@ -209,9 +207,9 @@ if ( ( 0 < $t_db_version ) &&
 		( $t_db_version != $t_upgrades_reqd ) ) {
 
 	if ( $t_db_version < $t_upgrades_reqd ) {
-		$t_warnings[] = lang_get( 'error_database_version_out_of_date_2' );
+		$t_warnings[] = _('Warning: The database structure may be out of date. Please upgrade via admin/install.php before logging in.');
 	} else {
-		$t_warnings[] = lang_get( 'error_code_version_out_of_date' );
+		$t_warnings[] = _('Warning: The database structure is more up-to-date than the code installed. Please upgrade the code.');
 	}
 }
 

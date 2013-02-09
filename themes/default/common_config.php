@@ -27,7 +27,6 @@
  */
 
 @require_once( dirname( dirname( dirname( __FILE__ ) ) ) . '/core.php' );
-require_api( 'lang_api.php' );
 require_api( 'config_api.php' );
 
 /**

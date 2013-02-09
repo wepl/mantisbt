@@ -32,7 +32,6 @@
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses html_api.php
- * @uses lang_api.php
  * @uses print_api.php
  * @uses user_api.php
  * @uses utility_api.php
@@ -47,7 +46,6 @@ require_api( 'email_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
@@ -118,7 +116,7 @@ html_page_top();
 <tr>
 	<td>
 		<br/>
-		<?php echo lang_get( 'reset_request_in_progress_msg' ) ?>
+		<?php echo _('If you supplied the correct username and e-mail address for your account, we will now have sent a confirmation message to that e-mail address. Once the message has been received, follow the instructions provided to change the password on your account.') ?>
 		<br/><br/>
 	</td>
 </tr>

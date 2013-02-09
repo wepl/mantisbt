@@ -520,7 +520,6 @@ class MantisBug extends MantisCacheable {
 	 * @return int integer representing the bug id that was created
 	 * @access public
 	 * @uses database_api.php
-	 * @uses lang_api.php
 	 */
 	function create() {
 		self::validate( true );

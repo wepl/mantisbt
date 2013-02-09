@@ -38,7 +38,7 @@
  * @uses file_api.php
  * @uses helper_api.php
  * @uses history_api.php
- * @uses lang_api.php
+
  * @uses relationship_api.php
  * @uses sponsorship_api.php
  * @uses tag_api.php
@@ -62,7 +62,6 @@ require_api( 'event_api.php' );
 require_api( 'file_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'relationship_api.php' );
 require_api( 'sponsorship_api.php' );
 require_api( 'tag_api.php' );

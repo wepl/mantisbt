@@ -37,7 +37,6 @@
  * @uses event_api.php
  * @uses helper_api.php
  * @uses history_api.php
- * @uses lang_api.php
  * @uses logging_api.php
  * @uses project_api.php
  * @uses relationship_api.php
@@ -62,7 +61,6 @@ require_api( 'email_queue_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'history_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'logging_api.php' );
 require_api( 'project_api.php' );
 require_api( 'relationship_api.php' );

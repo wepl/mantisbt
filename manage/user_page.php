@@ -32,7 +32,7 @@
  * @uses helper_api.php
  * @uses html_api.php
  * @uses icon_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  * @uses string_api.php
  * @uses utility_api.php
@@ -48,7 +48,6 @@ require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
 require_api( 'icon_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
@@ -65,7 +64,7 @@ $f_filter = mb_strtoupper( gpc_get_string( 'filter', config_get( 'default_manage
 $f_page_number		= gpc_get_int( 'page_number', 1 );
 
 $t_cookie_name = config_get_global( 'manage_cookie' );
-$t_lock_image = '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" width="8" height="15" alt="' . lang_get( 'protected' ) . '" />';
+$t_lock_image = '<img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ) . '" width="8" height="15" alt="' . _('Protected') . '" />';
 $c_filter = '';
 
 # Clean up the form variables
@@ -271,7 +270,7 @@ $t_user_count = count( $t_users );
 				print_sort_icon( $c_dir, $c_sort, 'access_level' ); ?>
 			</td>
 			<td><?php
-				print_manage_user_sort_link(  'user_page.php', lang_get( 'enabled' ), 'enabled', $c_dir, $c_sort, $c_hide, $c_filter );
+				print_manage_user_sort_link(  'user_page.php', _('Enabled'), 'enabled', $c_dir, $c_sort, $c_hide, $c_filter );
 				print_sort_icon( $c_dir, $c_sort, 'enabled' ); ?>
 			</td>
 			<td><?php

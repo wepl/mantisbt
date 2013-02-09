@@ -68,7 +68,6 @@
  * @uses filter_constants_inc.php
  * @uses form_api.php
  * @uses helper_api.php
- * @uses lang_api.php
  * @uses news_api.php
  * @uses php_api.php
  * @uses print_api.php
@@ -92,7 +91,6 @@ require_api( 'filter_api.php' );
 require_api( 'filter_constants_inc.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'news_api.php' );
 require_api( 'php_api.php' );
 require_api( 'print_api.php' );

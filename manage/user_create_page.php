@@ -30,7 +30,7 @@
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses print_api.php
  */
 
@@ -42,7 +42,6 @@ require_api( 'constant_inc.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'print_api.php' );
 
 auth_reauthenticate();
@@ -102,12 +101,12 @@ print_manage_menu( 'user_create_page.php' );
 				<span class="label-style"></span>
 			</div>
 			<div class="field-container">
-				<label for="user-enabled"><span><?php echo lang_get( 'enabled' ) ?></span></label>
+				<label for="user-enabled"><span><?php echo _('Enabled') ?></span></label>
 				<span class="checkbox"><input type="checkbox" id="user-enabled" name="enabled" checked="checked" /></span>
 				<span class="label-style"></span>
 			</div>
 			<div class="field-container">
-				<label for="user-protected"><span><?php echo lang_get( 'protected' ) ?></span></label>
+				<label for="user-protected"><span><?php echo _('Protected') ?></span></label>
 				<span class="checkbox"><input type="checkbox" id="user-protected" name="protected" /></span>
 				<span class="label-style"></span>
 			</div>

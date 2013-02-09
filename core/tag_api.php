@@ -32,7 +32,7 @@
  * @uses database_api.php
  * @uses form_api.php
  * @uses history_api.php
- * @uses lang_api.php
+
  * @uses string_api.php
  * @uses user_api.php
  * @uses utility_api.php
@@ -46,7 +46,6 @@ require_api( 'constant_inc.php' );
 require_api( 'database_api.php' );
 require_api( 'form_api.php' );
 require_api( 'history_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'string_api.php' );
 require_api( 'user_api.php' );
 require_api( 'utility_api.php' );

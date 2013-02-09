@@ -28,7 +28,7 @@
  * @uses constant_inc.php
  * @uses helper_api.php
  * @uses html_api.php
- * @uses lang_api.php
+
  * @uses string_api.php
  */
 
@@ -38,7 +38,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'string_api.php' );
 
 access_ensure_project_level( config_get( 'manage_configuration_threshold' ) );

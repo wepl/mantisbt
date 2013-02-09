@@ -31,7 +31,7 @@
  * @uses constant_inc.php
  * @uses custom_field_api.php
  * @uses helper_api.php
- * @uses lang_api.php
+
  * @uses project_api.php
  * @uses user_api.php
  */
@@ -44,7 +44,6 @@ require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'helper_api.php' );
-require_api( 'lang_api.php' );
 require_api( 'project_api.php' );
 require_api( 'user_api.php' );
 

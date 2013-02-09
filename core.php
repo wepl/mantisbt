@@ -39,7 +39,6 @@
  * @uses database_api.php
  * @uses event_api.php
  * @uses http_api.php
- * @uses lang_api.php
  * @uses mantis_offline.php
  * @uses plugin_api.php
  * @uses php_api.php
@@ -370,12 +369,6 @@ if ( file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'custom_functions_
 # Set HTTP response headers
 require_api( 'http_api.php' );
 http_all_headers();
-
-# Push default language to speed calls to lang_get
-if ( !defined( 'LANG_LOAD_DISABLED' ) ) {
-	require_api( 'lang_api.php' );
-	lang_push( lang_get_default() );
-}
 
 # Signal plugins that the core system is loaded
 if ( !defined( 'PLUGINS_DISABLED' ) && !defined( 'MANTIS_MAINTENANCE_MODE' ) ) {
