@@ -475,7 +475,7 @@ function user_get_realname( $p_user_id ) {
 
 /**
  * return the username or a string "user<id>" if the user does not exist
- * if show_realname is set and real name is not empty, return it instead
+ * if show_user_realname_threshold is set and real name is not empty, return it instead
  *
  * @param int $p_user_id User ID
  * @return string
@@ -487,7 +487,7 @@ function user_get_name( $p_user_id ) {
 		return _( 'user' ) . (int) $p_user_id;
 	}
 
-	if( ON == config_get( 'show_realname' ) ) {
+	if( access_has_project_level( config_get( 'show_user_realname_threshold' ) ) ) {
 		if( is_blank( $t_user->realname ) ) {
 			return $t_user->username;
 		} else {
@@ -797,7 +797,7 @@ function user_get_unassigned_by_project_id( $p_project_id = null ) {
     $t_display = array();
     $t_sort = array();
     $t_users = array();
-    $t_show_realname = ( ON == config_get( 'show_realname' ) );
+    $t_show_realname = ( access_has_project_level( config_get( 'show_user_realname_threshold', null, null, $p_project_id ), $p_project_id ) );
     $t_sort_by_last_name = ( ON == config_get( 'sort_by_last_name' ) );
 
 	while( $t_row = db_fetch_array( $t_result ) ) {

@@ -861,12 +861,6 @@ $MantisConfig->show_product_version = AUTO;
 $MantisConfig->show_version_dates_threshold = NOBODY;
 
 /**
- * show users with their real name or not
- * @global int $g_show_realname
- */
-$MantisConfig->show_realname = OFF;
-
-/**
  * leave off for now
  * @global int $g_differentiate_duplicates
  */

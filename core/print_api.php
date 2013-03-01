@@ -281,7 +281,7 @@ function print_user_option_list( $p_user_id, $p_project_id = null, $p_access = A
 
 	$t_display = array();
 	$t_sort = array();
-	$t_show_realname = ( ON == config_get( 'show_realname' ) );
+	$t_show_realname = ( access_has_project_level( config_get( 'show_user_realname_threshold', null, null, $p_project_id ) ) );
 	$t_sort_by_last_name = ( ON == config_get( 'sort_by_last_name' ) );
 	foreach( $t_users as $t_user ) {
 		$t_user_name = string_attribute( $t_user['username'] );

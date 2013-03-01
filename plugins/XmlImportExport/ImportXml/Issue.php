@@ -305,7 +305,7 @@ class ImportXml_Issue implements ImportXml_Interface {
 		$t_user_id = user_get_id_by_name( $p_username );
 		if( $t_user_id === false ) {
 			// user not found by username -> check real name
-			// keep in mind that the setting config_get( 'show_realname' ) may differ between import and export system!
+			// keep in mind that the setting config_get( 'show_user_realname_threshold' ) may differ between import and export system!
 			$t_user_id = user_get_id_by_realname( $p_username );
 			if ( $t_user_id === false ) {
 				//not found

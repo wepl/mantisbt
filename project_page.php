@@ -112,7 +112,7 @@ if ( !is_blank( $t_description ) ) {
 $t_access_level_for_dev_team = config_get( 'development_team_threshold' );
 
 $t_users = project_get_all_user_rows( $f_project_id, $t_access_level_for_dev_team );
-$t_show_real_names = config_get( 'show_realname' ) == ON;
+$t_show_real_names = access_has_project_level( config_get( 'show_user_realname_threshold', null, null, $f_project_id ) );
 
 if ( count( $t_users ) > 0 ) {
 	echo '<h2>', _( 'Development Team' ), '</h2>';
