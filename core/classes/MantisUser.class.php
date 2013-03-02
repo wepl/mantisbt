@@ -168,12 +168,13 @@
 		
 		return $t_users;
 	}
-	
-	/**
-	 * Get MantisUser by username
-	 * @param string $p_name user name
-	 * @return MantisUser
-	 */
+
+     /**
+      * Get MantisUser by username
+      * @param string $p_name user name
+      * @throws MantisBT\Exception\User_By_UserName_Not_Found
+      * @return MantisUser
+      */
 	public static function getByUserName($p_name) {
 		$t_row = self::GetFromDatabase( 'username', $p_name );
 		if ( $t_row === null ) {
@@ -186,11 +187,12 @@
 		return $t_user;
 	}
 
-	/**
-	 * Get MantisUser by cookiestring
-	 * @param string $p_cookie cookie string
-	 * @return MantisUser
-	 */
+     /**
+      * Get MantisUser by cookiestring
+      * @param string $p_cookie cookie string
+      * @throws MantisBT\Exception\User_By_Cookie_Not_Found
+      * @return MantisUser
+      */
 	public static function getByCookieString($p_cookie) {
 		$t_row = self::GetFromDatabase( 'cookie_string', $p_cookie );
 		if ( $t_row === null ) {
@@ -203,11 +205,12 @@
 		return $t_user;
 	}
 
-	/**
-	 * Get MantisUser by user id
-	 * @param string $p_user_id user id
-	 * @return MantisUser
-	 */
+     /**
+      * Get MantisUser by user id
+      * @param string $p_user_id user id
+      * @throws MantisBT\Exception\User_By_UserID_Not_Found
+      * @return MantisUser
+      */
 	public static function getByUserID($p_user_id) {
 		$t_row = self::GetFromDatabase( 'id', $p_user_id );
 		if ( $t_row === null ) {
@@ -263,16 +266,17 @@
 				return null;
 			}
 		}
-	}	
-	
-	/**
-	 * Cache a user row if necessary and return the cached copy
-	 * If the second parameter is true (default), trigger an error if the user can't be found.
-	 * If the second parameter is false, return false if the user can't be found.
-	 * @param int $p_user_id user id
-	 * @param bool $p_trigger_errors trigger errors
-     * @return array
-	 */
+	}
+
+     /**
+      * Cache a user row if necessary and return the cached copy
+      * If the second parameter is true (default), trigger an error if the user can't be found.
+      * If the second parameter is false, return false if the user can't be found.
+      * @param int $p_user_id user id
+      * @param bool $p_trigger_errors trigger errors
+      * @throws MantisBT\Exception\User_By_ID_Not_Found
+      * @return array
+      */
 	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
 		$t_query = 'SELECT * FROM {user} WHERE id=%d';
 		$t_result = db_query( $t_query, array( $p_user_id ) );

@@ -263,8 +263,9 @@ function project_includes_user( $p_project_id, $p_user_id ) {
  * @param int $p_view_state view state
  * @param string $p_file_path file path
  * @param bool $p_enabled enabled
- * @param bool $p_inherit_globals inherit globals
+ * @param bool $p_inherit_global
  * @throws MantisBT\Exception\Project\ProjectNameNotValid
+ * @internal param bool $p_inherit_globals inherit globals
  * @return int
  */
 function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_PUBLIC, $p_file_path = '', $p_enabled = true, $p_inherit_global = true ) {
@@ -354,8 +355,9 @@ function project_delete( $p_project_id ) {
  * @param int $p_view_state view state
  * @param string $p_file_path file path
  * @param bool $p_enabled enabled
- * @param bool $p_inherit_globals inherit globals
+ * @param $p_inherit_global
  * @throws MantisBT\Exception\Project\ProjectNameNotValid
+ * @internal param bool $p_inherit_globals inherit globals
  * @return bool
  */
 function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_view_state, $p_file_path, $p_enabled, $p_inherit_global ) {

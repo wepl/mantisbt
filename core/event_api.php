@@ -73,9 +73,9 @@ function event_declare_many( $p_events ) {
  * A plugin's basename must be specified for proper handling of plugin callbacks.
  * @param string $p_name Event name
  * @param string $p_callback Callback function
- * @param string $p_plugin Plugin basename
- * @access public
+ * @param int|string $p_plugin Plugin basename
  * @throws MantisBT\Exception\Plugin\EventNotDeclared
+ * @access public
  */
 function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
 	global $g_event_cache;
@@ -90,7 +90,7 @@ function event_hook( $p_name, $p_callback, $p_plugin = 0 ) {
 /**
  * Hook multiple callback functions to multiple events.
  * @param array $p_hooks Event name/callback pairs
- * @param string $p_plugin Plugin basename
+ * @param int|string $p_plugin Plugin basename
  * @access public
  */
 function event_hook_many( $p_hooks, $p_plugin = 0 ) {
@@ -222,8 +222,9 @@ function event_type_execute( $p_event, $p_callbacks, $p_params ) {
  * return values will be echoed to the client, separated by a given string.
  * If there are no callbacks, then nothing will be sent as output.
  * @param string $p_event Event name
- * @param array $p_callback Array of callback function/plugin base name key/value pairs
+ * @param $p_callbacks
  * @param mixed $p_params Output separator (if single string) or indexed array of pre, mid, and post strings
+ * @internal param array $p_callback Array of callback function/plugin base name key/value pairs
  * @access public
  */
 function event_type_output( $p_event, $p_callbacks, $p_params = null ) {

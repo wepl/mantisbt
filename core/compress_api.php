@@ -91,10 +91,9 @@ function compress_start_handler() {
 		#  headers from being sent if there's a blank line in an included file
 		ob_start( 'compress_handler' );
 	} else if ( ini_get_bool( 'zlib.output_compression' ) == true ) {
-		if( defined( 'COMPRESSION_DISABLED' ) ) {
-			return;
+		if( !defined( 'COMPRESSION_DISABLED' ) ) {
+            ob_start();
 		}
-		ob_start();
 	}
 }
 

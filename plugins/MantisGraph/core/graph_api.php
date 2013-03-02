@@ -308,9 +308,9 @@ function graph_group( $p_metrics, $p_title = '', $p_graph_width = 350, $p_graph_
  * @param string $p_title title
  * @param int $p_graph_width width of graph in pixels
  * @param int $p_graph_height height of graph in pixels
- * @param int $p_center jpgraph center
- * @param int $p_poshorizontal jpgraph horizontal
- * @param int $p_posvertical jpgraph vertical
+ * @param float|int $p_center jpgraph center
+ * @param float|int $p_poshorizontal jpgraph horizontal
+ * @param float|int $p_posvertical jpgraph vertical
  */
 function graph_pie( $p_metrics, $p_title = '', $p_graph_width = 500, $p_graph_height = 350, $p_center = 0.4, $p_poshorizontal = 0.10, $p_posvertical = 0.09 ) {
 	$t_graph_font = graph_get_font();

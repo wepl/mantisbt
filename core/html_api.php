@@ -1671,6 +1671,8 @@ function html_buttons_view_bug_page( $p_bug ) {
 /**
  * get the css class name for the given status, user and project
  * @param int $p_status
+ * @param null $p_user
+ * @param null $p_project
  * @return string
  */
 function html_get_status_css_class( $p_status, $p_user = null, $p_project = null ) {

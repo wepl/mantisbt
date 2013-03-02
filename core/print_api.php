@@ -488,7 +488,7 @@ function print_news_string_by_news_id( $p_news_id ) {
 
 /**
  * Print User option list for assigned to field
- * @param int $p_user_id user id
+ * @param int|string $p_user_id user id
  * @param int $p_project_id project id
  * @param int $p_threshold access level
  */
@@ -503,10 +503,10 @@ function print_assign_to_option_list( $p_user_id = '', $p_project_id = null, $p_
 /**
  * List projects that the current user has access to.
  *
- * @param integer $p_project_id 	The current project id or null to use cookie.
+ * @param integer $p_project_id     The current project id or null to use cookie.
  * @param bool $p_include_all_projects  true: include "All Projects", otherwise false.
  * @param mixed $p_filter_project_id  The id of a project to exclude or null.
- * @param string $p_trace  The current project trace, identifies the sub-project via a path from top to bottom.
+ * @param bool|string $p_trace The current project trace, identifies the sub-project via a path from top to bottom.
  * @return void
  */
 function print_project_option_list( $p_project_id = null, $p_include_all_projects = true, $p_filter_project_id = null, $p_trace = false ) {

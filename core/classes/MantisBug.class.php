@@ -286,17 +286,17 @@ class MantisBug extends MantisCacheable {
 	 */
 	function bug_get_row( $p_bug_id ) {
 		return $this->bug_cache_row( $p_bug_id );
-	}	
+	}
 
-	/**
-	 * Cache a bug row if necessary and return the cached copy
-	 * @param array $p_bug_id id of bug to cache from mantis_bug_table
-	 * @param array $p_trigger_errors set to true to trigger an error if the bug does not exist.
-	 * @return bool|array returns an array representing the bug row if bug exists or false if bug does not exist
-	 * @access public
-	 * @uses database_api.php
+    /**
+     * Cache a bug row if necessary and return the cached copy
+     * @param array $p_bug_id id of bug to cache from mantis_bug_table
+     * @param array|bool $p_trigger_errors set to true to trigger an error if the bug does not exist.
      * @throws MantisBT\Exception\Issue\IssueNotFound
-	 */
+     * @return bool|array returns an array representing the bug row if bug exists or false if bug does not exist
+     * @access public
+     * @uses database_api.php
+     */
 	function bug_cache_row( $p_bug_id, $p_trigger_errors = false ) {
 		global $g_cache_bug;
 
@@ -594,14 +594,15 @@ class MantisBug extends MantisCacheable {
 		return $this->id;
 	}
 
-	/**
-	 * Update a bug from the given data structure
-	 *  If the third parameter is true, also update the longer strings table
-	 * @param bool $p_update_extended
-	 * @param bool $p_bypass_email Default false, set to true to avoid generating emails (if sending elsewhere)
-	 * @return bool (always true)
-	 * @access public
-	 */
+    /**
+     * Update a bug from the given data structure
+     *  If the third parameter is true, also update the longer strings table
+     * @param bool $p_update_extended
+     * @param bool $p_bypass_mail
+     * @internal param bool $p_bypass_email Default false, set to true to avoid generating emails (if sending elsewhere)
+     * @return bool (always true)
+     * @access public
+     */
 	function update( $p_update_extended = false, $p_bypass_mail = false ) {
 		self::validate( $p_update_extended );
 

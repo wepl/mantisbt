@@ -74,6 +74,7 @@ function user_cache_array_rows( $p_user_id_array ) {
  *
  * @param int $p_user_id User ID
  * @return bool
+ * @throws MantisBT\Exception\User_By_UserID_Not_Found
  */
 function user_exists( $p_user_id ) {
 	try {
@@ -89,6 +90,7 @@ function user_exists( $p_user_id ) {
  * if the user does not exist, throw a user not found exception
  *
  * @param int $p_user_id User ID
+ * @throws MantisBT\Exception\User_By_ID_Not_Found
  */
 function user_ensure_exists( $p_user_id ) {
 	if ( !user_exists( $p_user_id ) ) {
@@ -153,6 +155,7 @@ function user_is_realname_unique( $p_username, $p_realname ) {
  *
  * @param string $p_username username
  * @param string $p_realname realname
+ * @throws MantisBT\Exception\User_Real_Match_User
  */
 function user_ensure_realname_unique( $p_username, $p_realname ) {
 	if( 1 > user_is_realname_unique( $p_username, $p_realname ) ) {
@@ -418,8 +421,9 @@ function user_get_row( $p_user_id ) {
  *
  * @param int $p_user_id User ID
  * @param string $p_field_name Field Name
- * @return string
+ * @throws MantisBT\Exception\User_By_UserID_Not_Found
  * @throws MantisBT\Exception\Database\FieldNotFound
+ * @return string
  */
 function user_get_field( $p_user_id, $p_field_name ) {
 	if( NO_USER == $p_user_id ) {

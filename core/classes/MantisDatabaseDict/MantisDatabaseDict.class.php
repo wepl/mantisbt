@@ -242,18 +242,19 @@ class MantisDatabaseDict {
 		}
 		return $sql;
 	}
-	
-	/**
-	 * Change the definition of one column
-	 *
-	 * As some DBM's can't do that on there own, you need to supply the complete defintion of the new table,
-	 * to allow, recreating the table and copying the content over to the new table
-	 * @param string $tabname table-name
-	 * @param string $flds column-name and type for the changed column
-	 * @param string $tableflds='' complete defintion of the new table, eg. for postgres, default ''
-	 * @param array/string $tableoptions='' options for the new table see CreateTableSQL, default ''
-	 * @return array with SQL strings
-	 */
+
+    /**
+     * Change the definition of one column
+     *
+     * As some DBM's can't do that on there own, you need to supply the complete defintion of the new table,
+     * to allow, recreating the table and copying the content over to the new table
+     * @param string $tabname table-name
+     * @param string $flds column-name and type for the changed column
+     * @param string $tableflds='' complete defintion of the new table, eg. for postgres, default ''
+     * @param string $tableoptions
+     * @internal param $array /string $tableoptions='' options for the new table see CreateTableSQL, default ''
+     * @return array with SQL strings
+     */
 	function AlterColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
 	{
 		$tabname = $this->TableName ($tabname);
@@ -299,18 +300,19 @@ class MantisDatabaseDict {
 		}
 		return array(sprintf($this->renameColumn,$tabname,$this->NameQuote($oldcolumn),$this->NameQuote($newcolumn),$column_def));
 	}
-		
-	/**
-	 * Drop one column
-	 *
-	 * Some DBM's can't do that on there own, you need to supply the complete defintion of the new table,
-	 * to allow, recreating the table and copying the content over to the new table
-	 * @param string $tabname table-name
-	 * @param string $flds column-name and type for the changed column
-	 * @param string $tableflds='' complete defintion of the new table, eg. for postgres, default ''
-	 * @param array/string $tableoptions='' options for the new table see CreateTableSQL, default ''
-	 * @return array with SQL strings
-	 */
+
+    /**
+     * Drop one column
+     *
+     * Some DBM's can't do that on there own, you need to supply the complete defintion of the new table,
+     * to allow, recreating the table and copying the content over to the new table
+     * @param string $tabname table-name
+     * @param string $flds column-name and type for the changed column
+     * @param string $tableflds='' complete defintion of the new table, eg. for postgres, default ''
+     * @param string $tableoptions
+     * @internal param $array /string $tableoptions='' options for the new table see CreateTableSQL, default ''
+     * @return array with SQL strings
+     */
 	function DropColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
 	{
 		$tabname = $this->TableName ($tabname);

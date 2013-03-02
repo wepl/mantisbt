@@ -105,9 +105,8 @@ function ini_get_bool( $p_name ) {
 				return true;
 				break;
 		}
-	} else {
-		return (bool) $t_result;
 	}
+	return (bool) $t_result;
 }
 
 /**
