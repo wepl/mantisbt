@@ -117,7 +117,7 @@ function current_user_set_pref( $p_pref_name, $p_pref_value ) {
  * @access public
  */
 function current_user_set_default_project( $p_project_id ) {
-	return user_set_default_project( auth_get_current_user_id(), $p_project_id );
+	user_set_default_project( auth_get_current_user_id(), $p_project_id );
 }
 
 /**
