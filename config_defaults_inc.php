@@ -3390,7 +3390,6 @@ $MantisConfig->global_settings = array(
 	
 	// Path Settings
 	'path',
-	'icon_path',
 	'short_path',
 	'absolute_path',
 	'core_path',

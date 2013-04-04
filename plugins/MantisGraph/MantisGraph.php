@@ -108,12 +108,13 @@ class MantisGraphPlugin extends MantisPlugin  {
 	 * generate summary submenu
 	 */
 	function summary_submenu( ) {
-		return array( '<a href="' . helper_mantis_url( 'summary_page.php' ) . '"><img src="' . $t_icon_path . 'synthese.gif" alt="" />' . d___('plugin_MantisGraph', 'Synthesis') . '</a>',
-			'<a href="' . plugin_page( 'summary_graph_imp_status.php' ) . '"><img src="' . $t_icon_path . 'synthgraph.gif" alt="" />' . d___('plugin_MantisGraph', 'Per state') . '</a>',
-			'<a href="' . plugin_page( 'summary_graph_imp_priority.php' ) . '"><img src="' . $t_icon_path . 'synthgraph.gif" alt="" />' . d___('plugin_MantisGraph', 'Per priority') . '</a>',
-			'<a href="' . plugin_page( 'summary_graph_imp_severity.php' ) . '"><img src="' . $t_icon_path . 'synthgraph.gif" alt="" />' . d___('plugin_MantisGraph', 'Per severity') . '</a>',
-			'<a href="' . plugin_page( 'summary_graph_imp_category.php' ) . '"><img src="' . $t_icon_path . 'synthgraph.gif" alt="" />' . d___('plugin_MantisGraph', 'Per category') . '</a>',
-			'<a href="' . plugin_page( 'summary_graph_imp_resolution.php' ) . '"><img src="' . $t_icon_path . 'synthgraph.gif" alt="" />' . d___('plugin_MantisGraph', 'Per resolution') . '</a>',
+		$t_url = helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/' );
+		return array( '<a href="' . helper_mantis_url( 'summary_page.php' ) . '"><img src="' . $t_url . 'synthese.png" alt="" />' . d___('plugin_MantisGraph', 'Synthesis') . '</a>',
+			'<a href="' . plugin_page( 'summary_graph_imp_status.php' ) . '"><img src="' . $t_url . 'synthgraph.png" alt="" />' . d___('plugin_MantisGraph', 'Per state') . '</a>',
+			'<a href="' . plugin_page( 'summary_graph_imp_priority.php' ) . '"><img src="' . $t_url . 'synthgraph.png" alt="" />' . d___('plugin_MantisGraph', 'Per priority') . '</a>',
+			'<a href="' . plugin_page( 'summary_graph_imp_severity.php' ) . '"><img src="' . $t_url . 'synthgraph.png" alt="" />' . d___('plugin_MantisGraph', 'Per severity') . '</a>',
+			'<a href="' . plugin_page( 'summary_graph_imp_category.php' ) . '"><img src="' . $t_url . 'synthgraph.png" alt="" />' . d___('plugin_MantisGraph', 'Per category') . '</a>',
+			'<a href="' . plugin_page( 'summary_graph_imp_resolution.php' ) . '"><img src="' . $t_url . 'synthgraph.png" alt="" />' . d___('plugin_MantisGraph', 'Per resolution') . '</a>',
  		);
 	}
 }

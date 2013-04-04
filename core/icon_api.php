@@ -86,6 +86,7 @@ function print_sort_icon( $p_dir, $p_sort_by, $p_field ) {
 			$t_icon = 'down.png';
 			break;
 		case ASCENDING:
+		case 'ASC':
 			$t_icon = 'up.png';
 			break;
 		default:
