@@ -40,7 +40,7 @@ class LocaleManager {
 		if ($newLocales === null) {
 			if (!$_SERVER['HTTP_ACCEPT_LANGUAGE'])
 				throw new MantisBT\Exception\Locale\LocaleNotProvidedByUserAgent();
-			$newLocales = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			$newLocales = LocaleManager::getParsedAcceptLanguageHeader();
 		}
 		$result = setlocale(LC_ALL, $newLocales);
 		if ($result === false) {
@@ -71,7 +71,7 @@ class LocaleManager {
 	 * @TODO: Cater for the "*" catch-all so we know with certainty whether
 	 *        the browser can accept any language as a fall back.
 	 */
-	public function getParsedAcceptLanguageHeader() {
+	public static function getParsedAcceptLanguageHeader() {
 		$languageTags = array();
 
 		/* Ensure that the browser has sent an Accept-Language header */
