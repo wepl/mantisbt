@@ -109,7 +109,7 @@ print_manage_menu( 'proj_edit_page.php' );
 				<span class="label-style"></span>
 			</div>
 			<div class="field-container">
-				<label for="project-enabled"><span><?php echo lang_get( 'enabled' ) ?></span></label>
+				<label for="project-enabled"><span><?php echo _('Enabled') ?></span></label>
 				<span class="checkbox"><input type="checkbox" id="project-enabled" name="enabled" <?php check_checked( $row['enabled'], ON ); ?> /></span>
 				<span class="label-style"></span>
 			</div>
@@ -205,8 +205,8 @@ if ( access_has_global_level ( config_get( 'delete_project_threshold' ) ) ) { ?>
 				<tr class="row-category">
 					<th><?php echo _( 'Name' ) ?></th>
 					<th><?php echo _( 'Status' ) ?></th>
-					<th><?php echo lang_get( 'enabled' ) ?></th>
-					<th><?php echo lang_get( 'inherit' ) ?></th>
+					<th><?php echo _('Enabled') ?></th>
+					<th><?php echo _('Inherit Categories') ?></th>
 					<th><?php echo _( 'View Status' ) ?></th>
 					<th><?php echo _( 'Description' ) ?></th>
 					<th colspan="2"><?php echo _( 'Actions' ) ?></th>

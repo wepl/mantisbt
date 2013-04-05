@@ -69,7 +69,7 @@ $t_query = "SELECT COUNT(id) FROM {bug} WHERE category_id=%d";
 $t_bug_count = db_result( db_query( $t_query, array( $f_category_id ) ) );
 
 # Confirm with the user
-helper_ensure_confirmed( sprintf( lang_get( 'category_delete_sure_msg' ), string_display_line( $t_name ), $t_bug_count ),
+helper_ensure_confirmed( sprintf( _('Are you sure you want to delete this category? Category %1 contains %2 issues.'), string_display_line( $t_name ), $t_bug_count ),
 	_( 'Delete Category' ) );
 
 category_remove( $f_category_id );

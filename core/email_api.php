@@ -449,9 +449,9 @@ function email_signup( $p_user_id, $p_password, $p_confirm_hash, $p_admin_name =
 
 	//if( $p_admin_created && $p_admin_name) {
 	if( $p_admin_name ) {
-		$intro_text = sprintf( lang_get( 'new_account_greeting_admincreated' ), $p_admin_name, $t_username );
+		$intro_text = sprintf( _('The user %1 has created an account for you with username %2. In order to complete your registration, visit the following URL (make sure it is entered as the single line) and set your own access password:'), $p_admin_name, $t_username );
 	} else {
-		$intro_text = sprintf( lang_get( 'new_account_greeting' ), $t_username );
+		$intro_text = sprintf( _('Thank you for registering. You have an account with username %1. In order to complete your registration, visit the following URL (make sure it is entered as the single line) and set your own access password:'), $t_username );
 	}
 
 	$t_message = $intro_text . "\n\n" . string_get_confirm_hash_url( $p_user_id, $p_confirm_hash ) . "\n\n" . _( 'If you did not request any registration, ignore this message and nothing will happen.' ) . "\n\n" . _( 'Do not reply to this message' );
@@ -490,7 +490,7 @@ function email_send_confirm_hash_url( $p_user_id, $p_confirm_hash ) {
 
 	$t_subject = '[' . config_get( 'window_title' ) . '] ' . _( 'Password Reset' );
 
-	$t_message = lang_get( 'reset_request_msg' ) . " \n\n" . string_get_confirm_hash_url( $p_user_id, $p_confirm_hash ) . " \n\n" . _( 'Username:' ) . ' ' . $t_username . " \n" . _( 'Remote IP address:' ) . ' ' . $_SERVER["REMOTE_ADDR"] . " \n\n" . _( 'Do not reply to this message' );
+	$t_message = _('Someone (presumably you) requested a password change through e-mail verification. If this was not you, ignore this message and nothing will happen. If you requested this verification, visit the following URL to change your password:') . " \n\n" . string_get_confirm_hash_url( $p_user_id, $p_confirm_hash ) . " \n\n" . _('Username:') . ' ' . $t_username . " \n" . _('Remote IP address:') . ' ' . $_SERVER["REMOTE_ADDR"] . " \n\n" . _('Do not reply to this message');	
 
 	# Send password reset regardless of mail notification prefs
 	# or else users won't be able to receive their reset pws
@@ -1217,7 +1217,7 @@ function email_format_bug_message( $p_visible_bug_data ) {
 		$t_bugnote_link = string_process_bugnote_link( config_get( 'bugnote_link_tag' ) . $t_bugnote->id, false, false, true );
 
 		if( $t_bugnote->time_tracking > 0 ) {
-			$t_time_tracking = ' ' . lang_get( 'time_tracking' ) . ' ' . db_minutes_to_hhmm( $t_bugnote->time_tracking ) . "\n";
+			$t_time_tracking = ' ' . _('Time tracking') . ' ' . db_minutes_to_hhmm( $t_bugnote->time_tracking ) . "\n";
 		} else {
 			$t_time_tracking = '';
 		}

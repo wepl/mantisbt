@@ -96,7 +96,7 @@ print_manage_menu( 'proj_page.php' );
 				print_sort_icon( $t_direction, $f_sort, 'status' ); ?>
 			</td>
 			<td><?php
-				print_manage_project_sort_link( 'proj_page.php', lang_get( 'enabled' ), 'enabled', $t_direction, $f_sort );
+				print_manage_project_sort_link( 'proj_page.php', _( 'Enabled' ), 'enabled', $t_direction, $f_sort );
 				print_sort_icon( $t_direction, $f_sort, 'enabled' ); ?>
 			</td>
 			<td><?php

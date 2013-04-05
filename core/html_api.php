@@ -915,29 +915,29 @@ function print_summary_submenu() {
  */
 function print_manage_menu( $p_page = '' ) {
 	if( access_has_global_level( config_get( 'manage_user_threshold' ) ) ) {
-		$t_pages['user_page.php'] = array( 'url'   => 'manage/user_page.php', 'label' => 'manage_users_link' );
+		$t_pages['user_page.php'] = array( 'url'   => 'manage/user_page.php', 'label' => _('Manage Users') );
 	}
 	if( access_has_project_level( config_get( 'manage_project_threshold' ) ) ) {
-		$t_pages['proj_page.php'] = array( 'url'   => 'manage/proj_page.php', 'label' => 'manage_projects_link' );
+		$t_pages['proj_page.php'] = array( 'url'   => 'manage/proj_page.php', 'label' => _('Manage Projects') );
 	}
 	if( access_has_project_level( config_get( 'tag_edit_threshold' ) ) ) {
-		$t_pages['tags_page.php'] = array( 'url'   => 'manage/tags_page.php', 'label' => 'manage_tags_link' );
+		$t_pages['tags_page.php'] = array( 'url'   => 'manage/tags_page.php', 'label' => _('Manage Tags') );
 	}
 	if( access_has_global_level( config_get( 'manage_custom_fields_threshold' ) ) ) {
-		$t_pages['custom_field_page.php'] = array( 'url'   => 'manage/custom_field_page.php', 'label' => 'manage_custom_field_link' );
+		$t_pages['custom_field_page.php'] = array( 'url'   => 'manage/custom_field_page.php', 'label' => _('Manage Custom Fields') );
 	}
 	if( access_has_global_level( config_get( 'manage_global_profile_threshold' ) ) ) {
-		$t_pages['prof_menu_page.php'] = array( 'url'   => 'manage/prof_menu_page.php', 'label' => 'manage_global_profiles_link' );
+		$t_pages['prof_menu_page.php'] = array( 'url'   => 'manage/prof_menu_page.php', 'label' => _('Manage Global Profiles') );
 	}
 	if( access_has_global_level( config_get( 'manage_plugin_threshold' ) ) ) {
-		$t_pages['plugin_page.php'] = array( 'url'   => 'manage/plugin_page.php', 'label' => 'manage_plugin_link' );
+		$t_pages['plugin_page.php'] = array( 'url'   => 'manage/plugin_page.php', 'label' => _('Manage Plugins') );
 	}
 
 	if ( access_has_project_level( config_get( 'manage_configuration_threshold' ) ) ) {
 		if ( access_has_global_level( config_get( 'view_configuration_threshold' ) ) ) {
-			$t_pages['adm_config_report.php'] = array( 'url'   => 'manage/adm_config_report.php', 'label' => 'manage_config_link' );
+			$t_pages['adm_config_report.php'] = array( 'url'   => 'manage/adm_config_report.php', 'label' => _('Manage Configuration') );
 		} else {
-			$t_pages['adm_permissions_report.php'] = array( 'url'   => 'manage/adm_permissions_report.php', 'label' => 'manage_config_link' );
+			$t_pages['adm_permissions_report.php'] = array( 'url'   => 'manage/adm_permissions_report.php', 'label' => _('Manage Configuration') );
 		}
 	}
 	# Remove the link from the current page
@@ -946,6 +946,7 @@ function print_manage_menu( $p_page = '' ) {
 	}
 
 	# Plugin / Event added options
+	/* @todo L10N: ensure that plugins are sending label as an already-translated string, not an old lang_api lookup key! */
 	$t_event_menu_options = event_signal( 'EVENT_MENU_MANAGE' );
 	$t_menu_options = array();
 	foreach( $t_event_menu_options as $t_plugin => $t_plugin_menu_options ) {
@@ -964,9 +965,9 @@ function print_manage_menu( $p_page = '' ) {
 	echo '<ul class="menu">';
 	foreach( $t_pages AS $t_page ) {
 		if( $t_page['url'] == '' ) {
-			echo "\t" . '<li>' . lang_get( $t_page['label'] ) . '</li>' . "\n";
+			echo "\t" . '<li>' . $t_page['label'] . '</li>' . "\n";
 		} else {
-			echo "\t" . '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>' . "\n";
+			echo "\t" . '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . $t_page['label'] . '</a></li>' . "\n";
 		}
 	}
 
@@ -993,28 +994,28 @@ function print_manage_config_menu( $p_page = '' ) {
 
 	if ( access_has_global_level( config_get( 'view_configuration_threshold' ) ) ) {
 		$t_pages['adm_config_report.php'] = array( 'url'   => 'manage/adm_config_report.php',
-		                                           'label' => 'configuration_report' );
+		                                           'label' => _('Configuration Report') );
 	}
 
 	$t_pages['adm_permissions_report.php'] = array( 'url'   => 'manage/adm_permissions_report.php',
-	                                                'label' => 'permissions_summary_report' );
+	                                                'label' => _('Permissions Report') );
 
 	$t_pages['manage_config_work_threshold_page.php'] = array( 'url'   => 'manage/config_work_threshold_page.php',
-	                                                           'label' => 'manage_threshold_config' );
+	                                                           'label' => _('Workflow Thresholds') );
 
 	$t_pages['manage_config_workflow_page.php'] = array( 'url'   => 'manage/config_workflow_page.php',
-	                                                     'label' => 'manage_workflow_config' );
+	                                                     'label' => _('Workflow Transitions') );
 
 	if ( config_get( 'relationship_graph_enable' ) ) {
 		$t_pages['manage_config_workflow_graph_page.php'] = array( 'url'   => 'manage/config_workflow_graph_page.php',
-		                                                           'label' => 'manage_workflow_graph' );
+		                                                           'label' => _('Workflow Graph') );
 	}
 
 	$t_pages['manage_config_email_page.php'] = array( 'url'   => 'manage/config_email_page.php',
-	                                                  'label' => 'manage_email_config' );
+	                                                  'label' => _('E-mail Notifications') );
 
 	$t_pages['manage_config_columns_page.php'] = array( 'url'   => 'manage/config_columns_page.php',
-	                                                    'label' => 'manage_columns_config' );
+	                                                    'label' => _('Manage Columns') );
 
 	# Remove the link from the current page
 	if ( isset( $t_pages[$p_page] ) ) {
@@ -1022,6 +1023,7 @@ function print_manage_config_menu( $p_page = '' ) {
 	}
 
 	# Plugin / Event added options
+	/* TODO L10N: ensure that plugins are sending label as an already-translated string, not an old lang_api lookup key! */
 	$t_event_menu_options = event_signal( 'EVENT_MENU_MANAGE_CONFIG' );
 	$t_menu_options = array();
 	foreach ( $t_event_menu_options as $t_plugin => $t_plugin_menu_options ) {
@@ -1040,9 +1042,9 @@ function print_manage_config_menu( $p_page = '' ) {
 	echo '<ul class="menu">';
 	foreach ( $t_pages as $t_page ) {
 		if( $t_page['url'] == '' ) {
-			echo '<li>', lang_get( $t_page['label'] ), '</li>';
+			echo '<li>' . $t_page['label'] . '</li>';
 		} else {
-			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>';
+			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . $t_page['label'] . '</a></li>';
 		}
 	}
 
@@ -1060,16 +1062,16 @@ function print_manage_config_menu( $p_page = '' ) {
  * @return null
  */
 function print_account_menu( $p_page = '' ) {
-	$t_pages['account_page.php'] = array( 'url'=>'account_page.php', 'label'=>'account_link' );
-	$t_pages['account_prefs_page.php'] = array( 'url'=>'account_prefs_page.php', 'label'=>'change_preferences_link' );
-	$t_pages['account_manage_columns_page.php'] = array( 'url'=>'account_manage_columns_page.php', 'label'=>'manage_columns_config' );
+	$t_pages['account_page.php'] = array( 'url'=>'account_page.php', 'label' => _('My Account') );
+	$t_pages['account_prefs_page.php'] = array( 'url'=>'account_prefs_page.php', 'label' => _('Preferences') );
+	$t_pages['account_manage_columns_page.php'] = array( 'url'=>'account_manage_columns_page.php', 'label' => _('Manage Columns') );
 
 	if( config_get ( 'enable_profiles' ) == ON && access_has_project_level( config_get( 'add_profile_threshold' ) ) ) {
-		$t_pages['account_prof_menu_page.php'] = array( 'url'=>'account_prof_menu_page.php', 'label'=>'manage_profiles_link' );
+		$t_pages['account_prof_menu_page.php'] = array( 'url'=>'account_prof_menu_page.php', 'label' => _('Profiles') );
 	}
 
 	if( config_get( 'enable_sponsorship' ) == ON && access_has_project_level( config_get( 'view_sponsorship_total_threshold' ) ) && !current_user_is_anonymous() ) {
-		$t_pages['account_sponsor_page.php'] = array( 'url'=>'account_sponsor_page.php', 'label'=>'my_sponsorship' );
+		$t_pages['account_sponsor_page.php'] = array( 'url'=>'account_sponsor_page.php', 'label' => _('My Sponsorships') );
 	}
 
 	# Remove the link from the current page
@@ -1078,6 +1080,7 @@ function print_account_menu( $p_page = '' ) {
 	}
 
 	# Plugin / Event added options
+	/* @TODO L10N: ensure that plugins are sending label as an already-translated string, not an old lang_api lookup key! */
 	$t_event_menu_options = event_signal( 'EVENT_MENU_ACCOUNT' );
 	$t_menu_options = array();
 	foreach( $t_event_menu_options as $t_plugin => $t_plugin_menu_options ) {
@@ -1096,9 +1099,9 @@ function print_account_menu( $p_page = '' ) {
 	echo '<ul class="menu">';
 	foreach ( $t_pages as $t_page ) {
 		if( $t_page['url'] == '' ) {
-			echo '<li>', lang_get( $t_page['label'] ), '</li>';
+			echo '<li>' . $t_page['label'] . '</li>';
 		} else {
-			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>';
+			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . $t_page['label'] . '</a></li>';
 		}
 	}
 
@@ -1117,10 +1120,10 @@ function print_account_menu( $p_page = '' ) {
  */
 function print_doc_menu( $p_page = '' ) {
 	$t_documentation_html = config_get( 'manual_url' );
-	$t_pages[$t_documentation_html] = array( 'url'=>$t_documentation_html, 'label'=>'user_documentation' );
-	$t_pages['proj_doc_page.php'] = array( 'url'=>'proj_doc_page.php', 'label'=>'project_documentation' );
+	$t_pages[$t_documentation_html] = array( 'url'=>$t_documentation_html, 'label' => _('User Documentation') );
+	$t_pages['proj_doc_page.php'] = array( 'url'=>'proj_doc_page.php', 'label' => _('Project Documentation') );
 	if( file_allow_project_upload() ) {
-		$t_pages['proj_doc_add_page.php'] = array( 'url'=>'proj_doc_add_page.php', 'label'=>'add_file' );
+		$t_pages['proj_doc_add_page.php'] = array( 'url'=>'proj_doc_add_page.php', 'label' => _('Add File') );
 	}
 
 	# Remove the link from the current page
@@ -1132,9 +1135,9 @@ function print_doc_menu( $p_page = '' ) {
 	echo '<ul class="menu">';
 	foreach ( $t_pages as $t_page ) {
 		if( $t_page['url'] == '' ) {
-			echo '<li>', lang_get( $t_page['label'] ), '</li>';
+			echo '<li>' . $t_page['label'] . '</li>';
 		} else {
-			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>';
+			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . $t_page['label'] . '</a></li>';
 		}
 	}
 	echo '</ul>';
@@ -1148,6 +1151,7 @@ function print_doc_menu( $p_page = '' ) {
  */
 function print_summary_menu( $p_page = '' ) {
 	# Plugin / Event added options
+	/* @TODO L10N: ensure that plugins are sending label as an already-translated string, not an old lang_api lookup key! */
 	$t_event_menu_options = event_signal( 'EVENT_MENU_SUMMARY' );
 	$t_menu_options = array();
 	foreach( $t_event_menu_options as $t_plugin => $t_plugin_menu_options ) {
@@ -1162,8 +1166,8 @@ function print_summary_menu( $p_page = '' ) {
 		}
 	}
 
-	$t_pages['print_all_bug_page.php'] = array( 'url'=>'print_all_bug_page.php', 'label'=>'print_all_bug_page_link' );
-	$t_pages['summary_page.php'] = array( 'url'=>'summary_page.php', 'label'=>'summary_link' );
+	$t_pages['print_all_bug_page.php'] = array( 'url'=>'print_all_bug_page.php', 'label' => _('Print Reports') );
+	$t_pages['summary_page.php'] = array( 'url'=>'summary_page.php', 'label' => _('Summary') );
 	# Remove the link from the current page
 	if ( isset( $t_pages[$p_page] ) ) {
 		$t_pages[$p_page]['url'] = '';
@@ -1174,9 +1178,9 @@ function print_summary_menu( $p_page = '' ) {
 
 	foreach ( $t_pages as $t_page ) {
 		if( $t_page['url'] == '' ) {
-			echo '<li>', lang_get( $t_page['label'] ), '</li>';
+			echo '<li>' . $t_page['label'] . '</li>';
 		} else {
-			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . lang_get( $t_page['label'] ) . '</a></li>';
+			echo '<li><a href="'. helper_mantis_url( $t_page['url'] ) .'">' . $t_page['label'] . '</a></li>';
 		}
 	}
 

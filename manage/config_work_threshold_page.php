@@ -90,7 +90,7 @@ function get_section_begin_mcwt( $p_section_name ) {
 	echo '<td class="form-title" style="text-align:center"  width="40%" colspan="' . count( $t_access_levels ) . '">' . _( 'Access Levels' ) . '</td>';
 	echo '<td class="form-title" style="text-align:center" rowspan="2">&#160;' . _( 'Who can alter this value' ) . '&#160;</td></tr><tr>';
 	foreach( $t_access_levels as $t_access_level => $t_access_label ) {
-		echo '<td class="form-title" style="text-align:center">&#160;' . MantisEnum::getLabel( lang_get( 'access_levels_enum_string' ), $t_access_level ) . '&#160;</td>';
+		echo '<td class="form-title" style="text-align:center">&#160;' . get_enum_element( 'access_levels', $t_access_level ) . '&#160;</td>';
 	}
 	echo '</tr>' . "\n";
 }
@@ -181,7 +181,7 @@ function get_capability_row( $p_caption, $p_threshold, $p_all_projects_only=fals
 		print_enum_string_option_list( 'access_levels', config_get_access( $p_threshold ) );
 		echo '</select> </td>';
 	} else {
-		echo '<td>' . MantisEnum::getLabel( lang_get( 'access_levels_enum_string' ), config_get_access( $p_threshold ) ) . '&#160;</td>';
+		echo '<td>' . get_enum_element( 'access_levels', config_get_access( $p_threshold ) ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";
@@ -236,7 +236,7 @@ function get_capability_boolean( $p_caption, $p_threshold, $p_all_projects_only=
 		print_enum_string_option_list( 'access_levels', config_get_access( $p_threshold ) );
 		echo '</select> </td>';
 	} else {
-		echo '<td>' . MantisEnum::getLabel( lang_get( 'access_levels_enum_string' ), config_get_access( $p_threshold ) ) . '&#160;</td>';
+		echo '<td>' . get_enum_element( 'access_levels', config_get_access( $p_threshold ) ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";
@@ -280,7 +280,7 @@ function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects
 		echo '</select></td><td colspan="' . ( count( $t_access_levels ) - 3 ) . '"></td>';
 		$t_show_submit = true;
 	} else {
-		$t_value = MantisEnum::getLabel( lang_get( $p_enum . '_enum_string' ), config_get( $p_threshold ) ) . '&#160;';
+		$t_value = get_enum_element( $p_enum, config_get( $p_threshold ) ) . '&#160;';
 		echo '<td class="left" colspan="3"' . $t_colour . '>' . $t_value . '</td><td colspan="' . ( count( $t_access_levels ) - 3 ) . '"></td>';
 	}
 
@@ -289,7 +289,7 @@ function get_capability_enum( $p_caption, $p_threshold, $p_enum, $p_all_projects
 		print_enum_string_option_list( 'access_levels', config_get_access( $p_threshold ) );
 		echo '</select> </td>';
 	} else {
-		echo '<td>' . MantisEnum::getLabel( lang_get( 'access_levels_enum_string' ), config_get_access( $p_threshold ) ) . '&#160;</td>';
+		echo '<td>' . get_enum_element( 'access_levels', config_get_access( $p_threshold ) ) . '&#160;</td>';
 	}
 
 	echo '</tr>' . "\n";
@@ -344,17 +344,17 @@ get_capability_row( _( 'Change view state of existing issue or note' ), 'change_
 get_capability_row( _( 'Show list of users monitoring issue' ), 'show_monitor_list_threshold' );
 get_capability_boolean( _( 'Set status on assignment of Handler' ), 'auto_set_status_to_assigned' );
 get_capability_enum( _( 'Status to set auto-assigned issues to' ), 'bug_assigned_status', 'status' );
-get_capability_boolean( lang_get( 'limit_access' ), 'limit_reporters', true );
+get_capability_boolean( _('Limit reporter\'s access to their own issues'), 'limit_reporters', true );
 get_section_end();
 
 # Notes
 get_section_begin_mcwt( _( 'Notes' ) );
 get_capability_row( _( 'Add notes' ), 'add_bugnote_threshold' );
-get_capability_row( lang_get( 'edit_others_bugnotes' ), 'update_bugnote_threshold' );
+get_capability_row( _('Edit others\' notes'), 'update_bugnote_threshold' );
 get_capability_row( _( 'Edit own notes' ), 'bugnote_user_edit_threshold' );
-get_capability_row( lang_get( 'delete_others_bugnotes' ), 'delete_bugnote_threshold' );
+get_capability_row( _('Delete others\' notes'), 'delete_bugnote_threshold' );
 get_capability_row( _( 'Delete own notes' ), 'bugnote_user_delete_threshold' );
-get_capability_row( lang_get( 'view_private_notes' ), 'private_bugnote_threshold' );
+get_capability_row( _('View others\' private notes'), 'private_bugnote_threshold' );
 get_capability_row( _( 'Change view state of own notes' ), 'bugnote_user_change_view_state_threshold' );
 get_section_end();
 

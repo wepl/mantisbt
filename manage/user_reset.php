@@ -66,13 +66,13 @@ $t_result = user_reset_password( $f_user_id );
 form_security_purge('manage_user_reset');
 
 if ( false == $t_result ) {
-	# PROTECTED
+	# Protected Account
 	$t_msg = _( 'Account protected. Cannot reset the password.' );
 } else {
-	# SUCCESS
+	# Successful Password Reset
 	if ( ( ON == config_get( 'send_reset_password' ) ) && ( ON == config_get( 'enable_email_notification' ) ) ) {
 		# send the new random password via email
-		$t_msg = lang_get( 'account_reset_msg' );
+		$t_msg = _('A confirmation request has been sent to the selected user\'s e-mail address. Using this, the user will be able to change their password.');
 	} else {
 		# email notification disabled, then set the password to blank
 		$t_msg = _( 'Account password has been set to blank...' );

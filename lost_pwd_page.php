@@ -62,7 +62,7 @@ html_page_top2a();
 			<legend><span><?php echo _( 'Password Reset' ); ?></span></legend>
 			 <ul id="login-links">
 				<li><a href="login_page.php"><?php echo _( 'Login' ); ?></a></li>
-				<li><a href="signup_page.php"><?php echo lang_get( 'signup_link' ); ?></a></li>
+				<li><a href="signup_page.php"><?php echo _('Signup for a new account'); ?></a></li>
             </ul>
 			<?php
 			echo form_security_field( 'lost_pwd' );
@@ -79,7 +79,7 @@ html_page_top2a();
 				<span class="input"><?php print_email_input( 'email', '' ) ?></span>
 				<span class="label-style"></span>
 			</div>
-			<span id="lost-password-msg"><?php echo lang_get( 'lost_password_info' ); ?></span>
+			<span id="lost-password-msg"><?php echo _('To reinstate your lost password, please supply the name and e-mail address for the account. If the data corresponds to a valid account, you will be sent a special URL via e-mail that contains a validation code for your account. Please follow this link to change your password.'); ?></span>
 			<span class="submit-button"><input type="submit" class="button" value="<?php echo _( 'Submit' ) ?>" /></span><?php
 			} else {
 				echo '<span id="no-password-msg">';

@@ -233,7 +233,22 @@ function threshold_row( $p_threshold ) {
 		}
 	}
 
-	echo '<tr><td>' . lang_get( 'desc_' . $p_threshold ) . '</td>';
+	switch ($p_threshold) {
+		case 'bug_submit_status':
+			$t_threshold_label = _('Status to which a new issue is set');
+			break;
+		case 'bug_reopen_status':
+			$t_threshold_label = _('Status to which reopened issues are set');
+			break;
+		case 'bug_resolved_status_threshold':
+			$t_threshold_label = _('Status where an issue is considered resolved');
+			break;
+		case 'bug_closed_status_threshold':
+			$t_threshold_label = _('Status where an issue is considered closed');
+			break;
+	}
+
+	echo '<tr><td>' . $t_threshold_label . '</td>';
 	if ( $t_can_change_threshold ) {
 		echo '<td' . $t_colour . '><select name="threshold_' . $p_threshold . '">';
 		print_enum_string_option_list( 'status', $t_project );
