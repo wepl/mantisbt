@@ -559,13 +559,11 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
 	$t_summary_wrap_at = mb_strlen( config_get( 'email_separator2' ) ) - 28;
 
 	if( $p_bug_id == $p_relationship->src_bug_id ) {
-
 		# root bug is in the src side, related bug in the dest side
 		$t_related_bug_id = $p_relationship->dest_bug_id;
 		$t_related_project_name = project_get_name( $p_relationship->dest_project_id );
 		$t_relationship_descr = relationship_get_description_src_side( $p_relationship->type );
 	} else {
-
 		# root bug is in the dest side, related bug in the src side
 		$t_related_bug_id = $p_relationship->src_bug_id;
 		$t_related_project_name = project_get_name( $p_relationship->src_project_id );
@@ -582,79 +580,76 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
 		return '';
 	}
 
-	if( $p_html_preview == false ) {
-		$t_td = '<td>';
-	} else {
-		$t_td = '<td class="print">';
-	}
-
 	# get the information from the related bug and prepare the link
 	$t_bug = bug_get( $t_related_bug_id, false );
 	$t_status_string = get_enum_element( 'status', $t_bug->status );
 	$t_resolution_string = get_enum_element( 'resolution', $t_bug->resolution );
 
-	$t_relationship_info_html = $t_td . string_no_break( $t_relationship_descr ) . '&#160;</td>';
-	if( $p_html_preview == false ) {
-		$t_relationship_info_html .= '<td><a href="' . string_get_bug_view_url( $t_related_bug_id ) . '">' . string_display_line( bug_format_id( $t_related_bug_id ) ) . '</a></td>';
-		$t_relationship_info_html .= '<td><span class="issue-status" title="' . string_attribute( $t_resolution_string ) . '">' . string_display_line( $t_status_string ) . '</span></td>';
-	} else {
-		$t_relationship_info_html .= $t_td . string_display_line( bug_format_id( $t_related_bug_id ) ) . '</td>';
-		$t_relationship_info_html .= $t_td . string_display_line( $t_status_string ) . '&#160;</td>';
-	}
-
-	$t_relationship_info_text = mb_str_pad( $t_relationship_descr, 20 );
-	$t_relationship_info_text .= mb_str_pad( bug_format_id( $t_related_bug_id ), 8 );
-
-	# get the handler name of the related bug
-	$t_relationship_info_html .= $t_td;
-	if( $t_bug->handler_id > 0 ) {
-		$t_relationship_info_html .= string_no_break( prepare_user_name( $t_bug->handler_id ) );
-	}
-	$t_relationship_info_html .= '&#160;</td>';
-
-	# add project name
-	if( $p_show_project ) {
-		$t_relationship_info_html .= $t_td . string_display_line( $t_related_project_name ) . '&#160;</td>';
-	}
-
-	# add summary
- 	if( $p_html == true ) {
- 		$t_relationship_info_html .= $t_td . string_display_line_links( $t_bug->summary );
- 		if( VS_PRIVATE == $t_bug->view_state ) {
- 			$t_relationship_info_html .= sprintf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), _( 'private' ), _( 'private' ) );
- 		}
-  	} else {
- 		if( mb_strlen( $t_bug->summary ) <= $t_summary_wrap_at ) {
- 			$t_relationship_info_text .= string_email_links( $t_bug->summary );
- 		} else {
- 			$t_relationship_info_text .= mb_substr( string_email_links( $t_bug->summary ), 0, $t_summary_wrap_at - 3 ) . '...';
- 		}
-	}
-
-	# add delete link if bug not read only and user has access level
- 	if( !bug_is_readonly( $p_bug_id ) && !current_user_is_anonymous() && ( $p_html_preview == false ) ) {
- 		if( access_has_bug_level( config_get( 'update_bug_threshold' ), $p_bug_id ) ) {
-			$t_relationship_info_html .= ' [<a class="small" href="bug_relationship_delete.php?bug_id=' . $p_bug_id . '&amp;rel_id=' . $p_relationship->id . htmlspecialchars( form_security_param( 'bug_relationship_delete' ) ) . '">' . _( 'Delete' ) . '</a>]';
-		}
-	}
-
-	$t_relationship_info_html .= '&#160;</td>';
-	$t_relationship_info_text .= "\n";
-
-	if( $p_html_preview == false ) {
-		# choose color based on status
-		$status_label = html_get_status_css_class( $t_bug->status, auth_get_current_user_id(), $t_bug->project_id );
-
-		$t_relationship_info_html = '<tr class="' . $status_label . '">' . $t_relationship_info_html . '</tr>' . "\n";
-	} else {
-		$t_relationship_info_html = '<tr>' . $t_relationship_info_html . '</tr>';
-	}
-
 	if( $p_html == true ) {
-		return $t_relationship_info_html;
+		if( $p_html_preview == false ) {
+			$t_td = '<td>';
+		} else {
+			$t_td = '<td class="print">';
+		}
+
+		$t_relationship_info = $t_td . string_no_break( $t_relationship_descr ) . '&#160;</td>';
+		if( $p_html_preview == false ) {
+			$t_relationship_info .= '<td><a href="' . string_get_bug_view_url( $t_related_bug_id ) . '">' . string_display_line( bug_format_id( $t_related_bug_id ) ) . '</a></td>';
+			$t_relationship_info .= '<td><span class="issue-status" title="' . string_attribute( $t_resolution_string ) . '">' . string_display_line( $t_status_string ) . '</span></td>';
+		} else {
+			$t_relationship_info .= $t_td . string_display_line( bug_format_id( $t_related_bug_id ) ) . '</td>';
+			$t_relationship_info .= $t_td . string_display_line( $t_status_string ) . '&#160;</td>';
+		}
+
+		# get the handler name of the related bug
+		$t_relationship_info .= $t_td;
+		if( $t_bug->handler_id > 0 ) {
+			$t_relationship_info .= string_no_break( prepare_user_name( $t_bug->handler_id ) );
+		}
+		$t_relationship_info .= '&#160;</td>';
+
+		// add project name
+		if( $p_show_project ) {
+			$t_relationship_info .= $t_td . string_display_line( $t_related_project_name ) . '&#160;</td>';
+		}
+
+		// add summary
+		$t_relationship_info .= $t_td . string_display_line_links( $t_bug->summary );
+		if( VS_PRIVATE == $t_bug->view_state ) {
+			$t_relationship_info .= sprintf( ' <img src="%s" alt="(%s)" title="%s" />', helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/protected.png' ), _( 'private' ), _( 'private' ) );
+		}
+
+		# add delete link if bug not read only and user has access level
+		if( !bug_is_readonly( $p_bug_id ) && !current_user_is_anonymous() && ( $p_html_preview == false ) ) {
+			if( access_has_bug_level( config_get( 'update_bug_threshold' ), $p_bug_id ) ) {
+				$t_relationship_info .= ' [<a class="small" href="bug_relationship_delete.php?bug_id=' . $p_bug_id . '&amp;rel_id=' . $p_relationship->id . htmlspecialchars( form_security_param( 'bug_relationship_delete' ) ) . '">' . _( 'Delete' ) . '</a>]';
+			}
+		}
+
+		$t_relationship_info .= '&#160;</td>';
+
+		if( $p_html_preview == false ) {
+			# choose color based on status
+			$status_label = html_get_status_css_class( $t_bug->status, auth_get_current_user_id(), $t_bug->project_id );
+
+			$t_relationship_info = '<tr class="' . $status_label . '">' . $t_relationship_info . '</tr>' . "\n";
+		} else {
+			$t_relationship_info = '<tr>' . $t_relationship_info . '</tr>';
+		}
 	} else {
-		return $t_relationship_info_text;
+		$t_relationship_info = mb_str_pad( $t_relationship_descr, 20 );
+		$t_relationship_info .= mb_str_pad( bug_format_id( $t_related_bug_id ), 8 );
+
+		// add summary
+		if( mb_strlen( $t_bug->summary ) <= $t_summary_wrap_at ) {
+			$t_relationship_info .= string_email_links( $t_bug->summary );
+		} else {
+			$t_relationship_info .= mb_substr( string_email_links( $t_bug->summary ), 0, $t_summary_wrap_at - 3 ) . '...';
+		}
+		$t_relationship_info .= "\n";
 	}
+
+	return $t_relationship_info;
 }
 
 /**
