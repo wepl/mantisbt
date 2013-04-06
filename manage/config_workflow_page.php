@@ -372,7 +372,6 @@ $t_enum_status = config_get( 'status_enum_string' );
 $t_status_arr  = MantisEnum::getAssocArrayIndexedByValues( $t_enum_status );
 
 $t_extra_enum_status = '0:non-existent,' . $t_enum_status;
-$t_lang_enum_status = '0:' . _( 'non-existent' ) . ',' . lang_get( 'status_enum_string' );
 $t_all_status = explode( ',', $t_extra_enum_status);
 
 # gather all versions of the workflow
@@ -384,36 +383,52 @@ $t_project_workflow = workflow_parse( config_get( 'status_enum_workflow' ) );
 $t_validation_result = '';
 foreach ( $t_status_arr as $t_status => $t_label ) {
 	if ( isset( $t_project_workflow['exit'][$t_status][$t_status] ) ) {
-		$t_validation_result .= '<tr><td>'
-						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FFED4F">' . _( 'Arc from status to itself is implied, and need not be given explicitly' ) . '</td>';
+		$t_validation_result .= '<tr><td>';
+		if( $t_status == 0 ) {
+			$t_validation_result .= _( '0:non-existent' );
+		} else {
+			$t_validation_result .= get_enum_element( 'status', $t_status );
+		}
+		$t_validation_result .= '</td><td bgcolor="#FFED4F">' . _( 'Arc from status to itself is implied, and need not be given explicitly' ) . '</td>';
 	}
 }
 
 # check for entry == 0 without exit == 0, unreachable state
 foreach ( $t_status_arr as $t_status => $t_status_label) {
 	if ( ( 0 == count( $t_project_workflow['entry'][$t_status] ) ) && ( 0 < count( $t_project_workflow['exit'][$t_status] ) ) ){
-		$t_validation_result .= '<tr><td>'
-						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue into this status' ) . '</td>';
+		$t_validation_result .= '<tr><td>';
+		if( $t_status == 0 ) {
+			$t_validation_result .= _( '0:non-existent' );
+		} else {
+			$t_validation_result .= get_enum_element( 'status', $t_status );
+		}
+		$t_validation_result .= '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue into this status' ) . '</td>';
 	}
 }
 
 # check for exit == 0 without entry == 0, unleaveable state
 foreach ( $t_status_arr as $t_status => $t_status_label ) {
 	if ( ( 0 == count( $t_project_workflow['exit'][$t_status] ) ) && ( 0 < count( $t_project_workflow['entry'][$t_status] ) ) ){
-		$t_validation_result .= '<tr><td>'
-						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue out of this status' ) . '</td>';
+		$t_validation_result .= '<tr><td>';
+		if( $t_status == 0 ) {
+			$t_validation_result .= _( '0:non-existent' );
+		} else {
+			$t_validation_result .= get_enum_element( 'status', $t_status );
+		}
+		$t_validation_result .= '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue out of this status' ) . '</td>';
 	}
 }
 
 # check for exit == 0 and entry == 0, isolated state
 foreach ( $t_status_arr as $t_status => $t_status_label ) {
 	if ( ( 0 == count( $t_project_workflow['exit'][$t_status] ) ) && ( 0 == count( $t_project_workflow['entry'][$t_status] ) ) ){
-		$t_validation_result .= '<tr><td>'
-						. MantisEnum::getLabel( $t_lang_enum_status, $t_status )
-						. '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue into this status' ) . '<br />' . _( 'You cannot move an issue out of this status' ) . '</td>';
+		$t_validation_result .= '<tr><td>';
+		if( $t_status == 0 ) {
+			$t_validation_result .= _( '0:non-existent' );
+		} else {
+			$t_validation_result .= get_enum_element( 'status', $t_status );
+		}
+		$t_validation_result .= '</td><td bgcolor="#FF0088">' . _( 'You cannot move an issue into this status' ) . '<br />' . _( 'You cannot move an issue out of this status' ) . '</td>';
 	}
 }
 
