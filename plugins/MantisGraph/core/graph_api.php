@@ -677,7 +677,7 @@ function enum_bug_group( $p_enum_string, $p_enum ) {
 
 		# Calculates the number of bugs closed and puts the results in a table
 		$query = "SELECT COUNT(*) FROM {bug}
-					WHERE $p_enum=%d AND status=%d $specific_where";
+					WHERE $p_enum=%d AND status>=%d $specific_where";
 		$result2 = db_query( $query, array( $t_value, $t_clo_val ) );
 		$t_metrics['closed'][$t_label] = db_result( $result2 );
 
