@@ -291,11 +291,10 @@ $g_cache_current_user_pref = array();
  *
  * @param int $p_user_id
  * @param int $p_project_id
- * @param bool $p_trigger_errors
  * @return bool|array
  * @throws MantisBT\Exception\User\UserPreferencesNotFound
  */
-function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigger_errors = true ) {
+function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 	global $g_cache_user_pref;
 
 	if( isset( $g_cache_user_pref[(int)$p_user_id][(int)$p_project_id] ) ) {
@@ -308,12 +307,7 @@ function user_pref_cache_row( $p_user_id, $p_project_id = ALL_PROJECTS, $p_trigg
 	$t_row = db_fetch_array( $t_result );
 	
 	if( !$t_row ) {
-		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\User\UserPreferencesNotFound();
-		} else {
-			$g_cache_user_pref[(int)$p_user_id][(int)$p_project_id] = false;
-			return false;
-		}
+		throw new MantisBT\Exception\User\UserPreferencesNotFound();
 	}
 
 	if( !isset( $g_cache_user_pref[(int)$p_user_id] ) ) {
@@ -397,11 +391,14 @@ function user_pref_clear_cache( $p_user_id = null, $p_project_id = null ) {
  * @return bool
  */
 function user_pref_exists( $p_user_id, $p_project_id = ALL_PROJECTS ) {
-	if( false === user_pref_cache_row( $p_user_id, $p_project_id, false ) ) {
+	try {
+		if( user_pref_cache_row( $p_user_id, $p_project_id ) !== false ) {
+			return true;
+		}
+	} catch ( MantisBT\Exception\User\UserPreferencesNotFound $e) {
 		return false;
-	} else {
-		return true;
 	}
+	return false;
 }
 
 /**
@@ -554,34 +551,34 @@ function user_pref_get( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 
 	$t_prefs = new UserPreferences( $p_user_id, $p_project_id );
 
-	$row = user_pref_cache_row( $p_user_id, $p_project_id, false );
-
-	# If the user has no preferences for the given project
-	if( false === $row ) {
+	try {
+		$t_row = user_pref_cache_row( $p_user_id, $p_project_id );
+	} catch ( MantisBT\Exception\User\UserPreferencesNotFound $e ) {
+		# If the user has no preferences for the given project
 		if( ALL_PROJECTS != $p_project_id ) {
 			# Try to get the prefs for ALL_PROJECTS (the defaults)
-			$row = user_pref_cache_row( $p_user_id, ALL_PROJECTS, false );
+			$t_row = user_pref_cache_row( $p_user_id, ALL_PROJECTS, false );
 		}
 
-		# If $row is still false (the user doesn't have default preferences)
-		if( false === $row ) {
+		# If $t_row is still false (the user doesn't have default preferences)
+		if( false === $t_row ) {
 			# We use an empty array
-			$row = array();
-		}
+			$t_row = array();
+		}	
 	}
 
 	if ($t_vars == null ) {
 		$t_vars = getClassProperties( 'UserPreferences', 'protected');
 	}
 
-	$t_row_keys = array_keys( $row );
+	$t_row_keys = array_keys( $t_row );
 
 	# Check each variable in the class
 	foreach( $t_vars as $var => $val ) {
 		# If we got a field from the DB with the same name
 		if( in_array( $var, $t_row_keys, true ) ) {
 			# Store that value in the object
-			$t_prefs->$var = $row[$var];
+			$t_prefs->$var = $t_row[$var];
 		}
 	}
 	if ( auth_is_user_authenticated() && auth_get_current_user_id() == $p_user_id ) {
