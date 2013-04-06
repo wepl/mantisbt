@@ -60,7 +60,7 @@ function get_section_begin_apr( $p_section_name ) {
 	$t_output .= '<tr><td class="form-title">' . _( 'Capability' ) . '</td>';
 
 	foreach( $t_access_levels as $t_access_level ) {
-		$t_output .= '<td class="form-title" style="text-align:center">&#160;' . MantisEnum::getLabel( _( '10:viewer,25:reporter,40:updater,55:developer,70:manager,90:administrator' ), $t_access_level ) . '&#160;</td>';
+		$t_output .= '<td class="form-title" style="text-align:center">&#160;' . get_enum_element( 'access_levels', $t_access_level ) . '&#160;</td>';
 	}
 
 	$t_output .= '</tr>' . "\n";

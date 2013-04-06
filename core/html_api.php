@@ -498,7 +498,7 @@ function html_login_info() {
 		echo '	<span id="logged-anon-label">' . _( 'Anonymous' ) . '</span>' . "\n";
 		echo '	<span id="login-link"><a href="' . helper_mantis_url( 'login_page.php?return=' . $t_return_page ) . '">' . _( 'Login' ) . '</a></span>' . "\n";
 		if( config_get_global( 'allow_signup' ) == ON ) {
-			echo '	<span id="signup-link"><a href="' . helper_mantis_url( 'signup_page.php' ) . '">' . lang_get( 'signup_link' ) . '</a></span>' . "\n";
+			echo '	<span id="signup-link"><a href="' . helper_mantis_url( 'signup_page.php' ) . '">' . _('Signup for a new account') . '</a></span>' . "\n";
 		}
 	} else {
 		echo '	<span id="logged-in-label">' . _( 'Logged in as' ) . '</span>' . "\n";
@@ -679,7 +679,8 @@ function prepare_custom_menu_options( $p_config ) {
 	foreach( $t_custom_menu_options as $t_custom_option ) {
 		$t_access_level = $t_custom_option[1];
 		if( access_has_project_level( $t_access_level ) ) {
-			$t_caption = string_html_specialchars( lang_get_defaulted( $t_custom_option[0] ) );
+			/* @TODO L10N: translation support for custom menu options */
+			$t_caption = string_html_specialchars( /*langget*/ ( $t_custom_option[0] ) );
 			$t_link = string_attribute( $t_custom_option[2] );
 			$t_options[] = "<a href=\"$t_link\">$t_caption</a>";
 		}

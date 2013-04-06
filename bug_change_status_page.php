@@ -122,7 +122,7 @@ if ( config_get( 'bug_assigned_status' ) == $f_new_status ) {
 	}
 }
 
-$t_status_label = str_replace( " ", "_", MantisEnum::getLabel( config_get( 'status_enum_string' ), $f_new_status ) );
+$t_status_label = str_replace( " ", "_", get_enum_element( 'status', $f_new_status ) );
 $t_resolved = config_get( 'bug_resolved_status_threshold' );
 $t_closed = config_get( 'bug_closed_status_threshold' );
 
@@ -144,7 +144,7 @@ print_recently_visited();
 	<td class="form-title" colspan="2">
 		<input type="hidden" name="bug_id" value="<?php echo $f_bug_id ?>" />
 		<input type="hidden" name="status" value="<?php echo $f_new_status ?>" />
-		<?php echo lang_get( $t_status_label . '_bug_title' ) ?>
+		<?php echo ___( 'Change Status: ' . $t_status_label ); ?>
 	</td>
 </tr>
 
@@ -371,7 +371,7 @@ if ( ( $t_resolved <= $f_new_status ) ) {
 <!-- Submit Button -->
 <tr>
 	<td class="center" colspan="2">
-		<input type="submit" class="button" value="<?php echo lang_get( $t_status_label . '_bug_button' ) ?>" />
+		<input type="submit" class="button" value="<?php echo ___( $t_status_label ) ?>" />
 	</td>
 </tr>
 
