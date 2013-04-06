@@ -124,11 +124,10 @@ $g_cache_versions = array();
  * if the version can't be found.  If the second parameter is
  * false, return false if the version can't be found.
  * @param int $p_version_id
- * @param bool $p_trigger_errors
  * @return array
  * @throws MantisBT\Exception\Issue\Version\VersionNotFound
  */
-function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
+function version_cache_row( $p_version_id ) {
 	global $g_cache_versions;
 
 	$c_version_id = (int)$p_version_id;
@@ -143,13 +142,7 @@ function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
 	$row = db_fetch_array( $result );
 	
 	if( !$row ) {
-		$g_cache_versions[$c_version_id] = false;
-
-		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Issue\Version\VersionNotFound( $p_version_id );
-		} else {
-			return false;
-		}
+		throw new MantisBT\Exception\Issue\Version\VersionNotFound( $p_version_id );
 	}
 
 	$g_cache_versions[$c_version_id] = $row;
@@ -165,7 +158,12 @@ function version_cache_row( $p_version_id, $p_trigger_errors = true ) {
  * @return bool
  */
 function version_exists( $p_version_id ) {
-	return version_cache_row( $p_version_id, false ) !== false;
+	try {
+		version_cache_row( $p_version_id );
+	} catch ( MantisBT\Exception\Issue\Version\VersionNotFound $e ) {
+		return false;
+	}
+	return true;
 }
 
 /**
