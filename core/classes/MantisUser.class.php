@@ -273,11 +273,10 @@
       * If the second parameter is true (default), trigger an error if the user can't be found.
       * If the second parameter is false, return false if the user can't be found.
       * @param int $p_user_id user id
-      * @param bool $p_trigger_errors trigger errors
       * @throws MantisBT\Exception\User_By_ID_Not_Found
       * @return array
       */
-	function user_cache_row( $p_user_id, $p_trigger_errors = true ) {
+	function user_cache_row( $p_user_id ) {
 		$t_query = 'SELECT * FROM {user} WHERE id=%d';
 		$t_result = db_query( $t_query, array( $p_user_id ) );
 
@@ -286,10 +285,7 @@
 		if ( $t_row ) {
 			return $t_row;	
 		} else {
-			if( $p_trigger_errors ) {
-				throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
-			}
-			return false;
+			throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
 		}
 	}
 	

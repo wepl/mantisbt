@@ -69,9 +69,6 @@ function user_cache_array_rows( $p_user_id_array ) {
  * check to see if user exists by id
  * return true if it does, false otherwise
  *
- * Use user_cache_row() to benefit from caching if called multiple times
- * and because if the user does exist the data may well be wanted
- *
  * @param int $p_user_id User ID
  * @return bool
  * @throws MantisBT\Exception\User_By_UserID_Not_Found
