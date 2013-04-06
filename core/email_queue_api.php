@@ -113,13 +113,7 @@ function email_queue_add( $p_email_data ) {
 	$c_body = $t_email_data->body;
 	$c_metadata = serialize( $t_email_data->metadata );
 
-	$t_query = "INSERT INTO {email}
-				    ( email,
-				      subject,
-					  body,
-					  submitted,
-					  metadata)
-				  VALUES ( %s, %s, %s, %d, %s )";
+	$t_query = "INSERT INTO {email} ( email, subject, body, submitted, metadata) VALUES ( %s, %s, %s, %d, %s )";
 	db_query( $t_query, array( $c_email, $c_subject, $c_body, db_now(), $c_metadata ) );
 
 	return db_insert_id( '{email}', 'email_id' );

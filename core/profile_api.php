@@ -72,10 +72,8 @@ function profile_create( $p_user_id, $p_platform, $p_os, $p_os_build, $p_descrip
 	}
 
 	# Add profile
-	$query = "INSERT INTO {user_profile}
-				    ( user_id, platform, os, os_build, description )
-				  VALUES
-				    ( %d, %s, %s, %s, %s )";
+	$query = "INSERT INTO {user_profile} ( user_id, platform, os, os_build, description )
+				  VALUES ( %d, %s, %s, %s, %s )";
 	db_query( $query, array( $p_user_id, $p_platform, $p_os, $p_os_build, $p_description ) );
 
 	return db_insert_id( '{user_profile}' );
@@ -144,8 +142,7 @@ function profile_update( $p_user_id, $p_profile_id, $p_platform, $p_os, $p_os_bu
 	}
 
 	# Add item
-	$query = "UPDATE {user_profile}
-				  SET platform=%s, os=%s, os_build=%s, description=%s
+	$query = "UPDATE {user_profile} SET platform=%s, os=%s, os_build=%s, description=%s
 				  WHERE id=%d AND user_id=%d";
 	$result = db_query( $query, array( $p_platform, $p_os, $p_os_build, $p_description, $p_profile_id, $p_user_id ) );
 }
@@ -234,9 +231,7 @@ function profile_get_field_all_for_user( $p_field, $p_user_id = null ) {
 			throw new MantisBT\Exception\UnknownException();
 	}
 
-	$t_query = "SELECT DISTINCT $c_field FROM {user_profile}
-				  WHERE ( user_id=%d ) OR ( user_id = 0 )
-				  ORDER BY $c_field";
+	$t_query = "SELECT DISTINCT $c_field FROM {user_profile} WHERE ( user_id=%d ) OR ( user_id = 0 ) ORDER BY $c_field";
 	$t_result = db_query( $t_query, array( $c_user_id ) );
 
 	$t_rows = array();
@@ -259,8 +254,7 @@ function profile_get_all_for_project( $p_project_id ) {
 	# using up.* causes an SQL error on MS SQL since up.description is of type text
 	$t_query = "SELECT DISTINCT(up.id), up.user_id, up.platform, up.os, up.os_build
 				  FROM {user_profile} up, {bug} b
-				  WHERE $t_project_where
-				  AND up.id = b.profile_id
+				  WHERE $t_project_where AND up.id = b.profile_id
 				  ORDER BY up.platform, up.os, up.os_build";
 	$t_result = db_query( $t_query );
 

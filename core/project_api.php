@@ -281,10 +281,8 @@ function project_create( $p_name, $p_description, $p_status, $p_view_state = VS_
 		file_ensure_valid_upload_path( $p_file_path );
 	}
 
-	$t_query = "INSERT INTO {project}
-					( name, status, enabled, view_state, file_path, description, inherit_global )
-				  VALUES
-					( %s, %d, %d, %d, %s, %s, %d)";
+	$t_query = "INSERT INTO {project} ( name, status, enabled, view_state, file_path, description, inherit_global )
+				  VALUES ( %s, %d, %d, %d, %s, %s, %d)";
 
 	db_query( $t_query, array( $p_name, (int) $p_status, $p_enabled, (int) $p_view_state, $p_file_path, $p_description, $p_inherit_global ) );
 
@@ -379,10 +377,8 @@ function project_update( $p_project_id, $p_name, $p_description, $p_status, $p_v
 		file_ensure_valid_upload_path( $p_file_path );
 	}
 
-	$t_query = "UPDATE {project}
-				  SET name=%s, status=%d, enabled=%d, view_state=%d,
-					file_path=%s, description=%s, inherit_global=%d
-				  WHERE id=%d";
+	$t_query = "UPDATE {project} SET name=%s, status=%d, enabled=%d, view_state=%d, file_path=%s, description=%s, inherit_global=%d
+				WHERE id=%d";
 	db_query( $t_query, array( $p_name, (int) $p_status, $p_enabled, (int) $p_view_state, $p_file_path, $p_description, $p_inherit_global, $p_project_id ) );
 
 	project_clear_cache( $p_project_id );
@@ -596,9 +592,7 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 	}
 
 	if( $p_include_global_users ) {
-		$t_query = "SELECT id, username, realname, access_level
-				FROM {user} WHERE enabled = %d
-					AND access_level $t_global_access_clause";
+		$t_query = "SELECT id, username, realname, access_level FROM {user} WHERE enabled = %d AND access_level $t_global_access_clause";
 
 		$t_result = db_query( $t_query, array( $t_on ) );
 		while( $t_row = db_fetch_array( $t_result ) ) {
@@ -650,10 +644,7 @@ function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 		$c_access_level = (int)( user_get_access_level( $p_user_id ) );
 	}
 
-	$t_query = "INSERT INTO {project_user_list}
-				    ( project_id, user_id, access_level )
-				  VALUES
-				    ( %d, %d, %d)";
+	$t_query = "INSERT INTO {project_user_list} ( project_id, user_id, access_level ) VALUES ( %d, %d, %d)";
 
 	db_query( $t_query, array( $p_project_id, $p_user_id, $p_access_level ) );
 
