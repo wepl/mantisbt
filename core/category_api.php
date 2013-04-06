@@ -527,26 +527,20 @@ function category_get_field( $p_category_id, $p_field_name ) {
  * category with that name.
  * @param string $p_category_name category name
  * @param int $p_project_id project id
- * @param bool $p_trigger_errors trigger error on failure
  * @return bool
  * @access public
  * @throws MantisBT\Exception\Project\Category\CategoryNotFound
  */
- function category_get_id_by_name( $p_category_name, $p_project_id, $p_trigger_errors = true ) {
+ function category_get_id_by_name( $p_category_name, $p_project_id ) {
 	$t_project_name = project_get_name( $p_project_id );
 
 	$t_query = 'SELECT id FROM {category} WHERE name=%s AND project_id=%d';
 	$t_result = db_query( $t_query, array( $p_category_name, (int) $p_project_id ) );
 	$t_id = db_result( $t_result );
-	if( $t_id ) {
-		if( $p_trigger_errors ) {
-			throw new MantisBT\Exception\Project\Category\CategoryNotFound( $p_category_name, $t_project_name );
-		} else {
-			return false;
-		}
+	if( $t_id > 0 ) {
+		return $t_id;
 	}
-
-	return $t_id;
+	throw new MantisBT\Exception\Project\Category\CategoryNotFound( $p_category_name, $t_project_name );
 }
 
 /**

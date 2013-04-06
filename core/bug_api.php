@@ -455,8 +455,9 @@ function bug_move( $p_bug_id, $p_target_project_id ) {
 	if ( $t_category_project_id != ALL_PROJECTS ) {
 		// Map by name
 		$t_category_name = category_get_field( $t_category_id, 'name' );
-		$t_target_project_category_id = category_get_id_by_name( $t_category_name, $p_target_project_id, /* triggerErrors */ false );
-		if ( $t_target_project_category_id === false ) {
+		try {
+			$t_target_project_category_id = category_get_id_by_name( $t_category_name, $p_target_project_id );
+		} catch ( MantisBT\Exception\Project\Category\CategoryNotFound $e ) {
 			// Use default category after moves, since there is no match by name.
 			$t_target_project_category_id = config_get( 'default_category_for_moves' );
 		}
