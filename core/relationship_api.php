@@ -100,7 +100,7 @@ $g_relationships = array();
 $g_relationships[BUG_DEPENDANT] = array(
 	'#forward' => TRUE,
 	'#complementary' => BUG_BLOCKS,
-	'#description' => 'dependant_on',
+	'#description' => 'parent of',
 	'#notify_added' => 'email_notification_title_for_action_dependant_on_relationship_added',
 	'#notify_deleted' => 'email_notification_title_for_action_dependant_on_relationship_deleted',
 	'#edge_style' => array(
@@ -111,7 +111,7 @@ $g_relationships[BUG_DEPENDANT] = array(
 $g_relationships[BUG_BLOCKS] = array(
 	'#forward' => FALSE,
 	'#complementary' => BUG_DEPENDANT,
-	'#description' => 'blocks',
+	'#description' => 'child of',
 	'#notify_added' => 'email_notification_title_for_action_blocks_relationship_added',
 	'#notify_deleted' => 'email_notification_title_for_action_blocks_relationship_deleted',
 	'#edge_style' => array(
@@ -122,7 +122,7 @@ $g_relationships[BUG_BLOCKS] = array(
 $g_relationships[BUG_DUPLICATE] = array(
 	'#forward' => TRUE,
 	'#complementary' => BUG_HAS_DUPLICATE,
-	'#description' => 'duplicate_of',
+	'#description' => 'duplicate of',
 	'#notify_added' => 'email_notification_title_for_action_duplicate_of_relationship_added',
 	'#notify_deleted' => 'email_notification_title_for_action_duplicate_of_relationship_deleted',
 	'#edge_style' => array(
@@ -133,14 +133,14 @@ $g_relationships[BUG_DUPLICATE] = array(
 $g_relationships[BUG_HAS_DUPLICATE] = array(
 	'#forward' => FALSE,
 	'#complementary' => BUG_DUPLICATE,
-	'#description' => 'has_duplicate',
+	'#description' => 'has duplicate',
 	'#notify_added' => 'email_notification_title_for_action_has_duplicate_relationship_added',
 	'#notify_deleted' => 'email_notification_title_for_action_has_duplicate_relationship_deleted',
 );
 $g_relationships[BUG_RELATED] = array(
 	'#forward' => TRUE,
 	'#complementary' => BUG_RELATED,
-	'#description' => 'related_to',
+	'#description' => 'related to',
 	'#notify_added' => 'email_notification_title_for_action_related_to_relationship_added',
 	'#notify_deleted' => 'email_notification_title_for_action_related_to_relationship_deleted',
 );
@@ -487,7 +487,7 @@ function relationship_get_description_src_side( $p_relationship_type ) {
 	if( !isset( $g_relationships[$p_relationship_type] ) ) {
 		throw new MantisBT\Exception\Issue\Relationship\RelationshipNotFound();
 	}
-	return lang_get( $g_relationships[$p_relationship_type]['#description'] );
+	return ___( $g_relationships[$p_relationship_type]['#description'] );
 }
 
 /**
@@ -501,7 +501,7 @@ function relationship_get_description_dest_side( $p_relationship_type ) {
 	if( !isset( $g_relationships[$p_relationship_type] ) || !isset( $g_relationships[$g_relationships[$p_relationship_type]['#complementary']] ) ) {
 		throw new MantisBT\Exception\Issue\Relationship\RelationshipNotFound();
 	}
-	return lang_get( $g_relationships[$g_relationships[$p_relationship_type]['#complementary']]['#description'] );
+	return ___( $g_relationships[$g_relationships[$p_relationship_type]['#complementary']]['#description'] );
 }
 
 /**
@@ -755,7 +755,7 @@ function relationship_list_box( $p_default_rel_type = -1, $p_select_name = "rel_
 
 	foreach( $g_relationships as $type => $relationship ) {
 		?>
-<option value="<?php echo $type?>"<?php echo( $p_default_rel_type == $type ? ' selected="selected"' : '' )?>><?php echo lang_get( $relationship['#description'] )?></option>
+<option value="<?php echo $type?>"<?php echo( $p_default_rel_type == $type ? ' selected="selected"' : '' )?>><?php echo ___( $relationship['#description'] )?></option>
 <?php
 	}?>
 </select>
