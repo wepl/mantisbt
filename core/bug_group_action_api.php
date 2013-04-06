@@ -308,9 +308,9 @@ function bug_group_action_get_commands( $p_project_ids = null ) {
 	foreach( $t_custom_group_actions as $t_custom_group_action ) {
 		# use label if provided to get the localized text, otherwise fallback to action name.
 		if( isset( $t_custom_group_action['label'] ) ) {
-			$t_commands[$t_custom_group_action['action']] = lang_get_defaulted( $t_custom_group_action['label'] );
+			$t_commands[$t_custom_group_action['action']] = ___( $t_custom_group_action['label'] );
 		} else {
-			$t_commands[$t_custom_group_action['action']] = lang_get_defaulted( $t_custom_group_action['action'] );
+			$t_commands[$t_custom_group_action['action']] = $t_custom_group_action['action'];
 		}
 	}
 
