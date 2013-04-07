@@ -375,6 +375,10 @@ abstract class MantisDatabase {
      * @return int
 	 */
 	public function legacy_timestamp( $p_date ) {
+		if( $p_date == '0000-00-00 00:00:00' ) {
+			return 0;
+		}
+
 		$p_timestamp = strtotime( $p_date );
 		if ( $p_timestamp == false ) {
 			throw new MantisBT\Exception\UnknownException();
