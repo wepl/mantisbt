@@ -364,7 +364,7 @@ array('mysql' => 'ENGINE=MyISAM DEFAULT CHARSET=utf8', 'pgsql' => 'WITHOUT OIDS'
 	enabled			L		NOTNULL DEFAULT '0'
 	", array( 'mysql' => 'ENGINE=MyISAM DEFAULT CHARSET=utf8', 'pgsql' => 'WITHOUT OIDS' ) ) );
 /* 65 */ $upgrade[] = array('AlterColumnSQL', array( '{user_pref}', "redirect_delay 	I NOTNULL DEFAULT 0" ) );
-/* 66 */ $upgrade[] = array('AlterColumnSQL', array( '{custom_field}', "possible_values X NOTNULL DEFAULT ''" ) );
+/* 66 */ $upgrade[] = array('AlterColumnSQL', array( '{custom_field}', "possible_values X NOTNULL" ) );
 /* 67 */ $upgrade[] = array( 'CreateTableSQL', array( '{category}', "
 	id				I		UNSIGNED NOTNULL PRIMARY AUTOINCREMENT,
 	project_id		I		UNSIGNED NOTNULL DEFAULT '0',
