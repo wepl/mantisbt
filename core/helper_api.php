@@ -430,10 +430,11 @@ function helper_project_specific_where( $p_project_id, $p_user_id = null ) {
  * @param int $p_columns_target
  * @param bool $p_viewable_only
  * @param int $p_user_id
+ * @param int $p_project_id
  * @return array
  */
-function helper_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAGE, $p_viewable_only = true, $p_user_id = null ) {
-	$t_columns = helper_call_custom_function( 'get_columns_to_view', array( $p_columns_target, $p_user_id ) );
+function helper_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAGE, $p_viewable_only = true, $p_user_id = null, $p_project_id = null ) {
+	$t_columns = helper_call_custom_function( 'get_columns_to_view', array( $p_columns_target, $p_user_id, $p_project_id ) );
 
 	if( !$p_viewable_only ) {
 		return $t_columns;
@@ -449,17 +450,20 @@ function helper_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAG
 		$t_keys_to_remove[] = 'overdue';
 	}
 
-	if( $p_columns_target == COLUMNS_TARGET_EXPORT_PAGE || OFF == config_get( 'show_attachment_indicator' ) ) {
+	if( $p_project_id === null ) {
+		$t_current_project_id = helper_get_current_project();
+	} else {
+		$t_current_project_id = $p_project_id;
+	}
+	if( $p_columns_target == COLUMNS_TARGET_EXPORT_PAGE || OFF == config_get( 'show_attachment_indicator', null, $p_user_id, $t_current_project_id ) ) {
 		$t_keys_to_remove[] = 'attachment';
 	}
 
-	$t_current_project_id = helper_get_current_project();
-
-	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'view_handler_threshold' ), $t_current_project_id ) ) {
+	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'view_handler_threshold', null, $p_user_id, $t_current_project_id ), $t_current_project_id ) ) {
 		$t_keys_to_remove[] = 'handler_id';
 	}
 
-	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'roadmap_view_threshold' ), $t_current_project_id ) ) {
+	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'roadmap_view_threshold', null, $p_user_id, $t_current_project_id ), $t_current_project_id ) ) {
 		$t_keys_to_remove[] = 'target_version';
 	}
 
