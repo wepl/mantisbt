@@ -29,7 +29,7 @@
 class MantisDatabaseDict {
 	var $dropTable = 'DROP TABLE %s';
 	var $renameTable = 'RENAME TABLE %s TO %s'; 
-	var $dropIndex = 'DROP INDEX %s';
+	var $dropIndex = 'DROP INDEX %s ON %s';
 	var $addCol = ' ADD';
 	var $alterCol = ' MODIFY';
 	var $dropCol = ' DROP COLUMN';
@@ -226,7 +226,7 @@ class MantisDatabaseDict {
 	{
 		$tabname = $this->TableName ($tabname);
 		$sql = array();
-		//var_dump($flds); die;
+
 		list($lines,$pkey,$idxs) = $this->_GenFields($flds);
 		// genfields can return FALSE at times
 		if ($lines  == null) $lines = array();
@@ -259,7 +259,7 @@ class MantisDatabaseDict {
 	{
 		$tabname = $this->TableName ($tabname);
 		$sql = array();
-		//var_dump($flds);
+
 		list($lines,$pkey,$idxs) = $this->_GenFields($flds);
 		
 		// genfields can return FALSE at times
@@ -452,7 +452,7 @@ class MantisDatabaseDict {
 		$sql = array();
 		
 		if ( isset($idxoptions['REPLACE']) || isset($idxoptions['DROP']) ) {
-			$sql[] = sprintf ($this->dropIndex, $idxname);
+			$sql[] = sprintf ($this->dropIndex, $idxname, $tabname);
 			if ( isset($idxoptions['DROP']) )
 				return $sql;
 		}
