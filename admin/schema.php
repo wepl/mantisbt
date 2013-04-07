@@ -532,13 +532,13 @@ array('mysql' => 'ENGINE=MyISAM DEFAULT CHARSET=utf8', 'pgsql' => 'WITHOUT OIDS'
 /* 185 */ $upgrade[] = array( 'AlterColumnSQL', array( '{custom_field_string}', "value XL NULL DEFAULT NULL " ) );
 /* 186 */ $upgrade[] = array( 'UpdateFunction', "update_export_columns", array() );
 /* 187 */ $upgrade[] = array( 'AlterColumnSQL', array( '{user}', "username C(255) NOTNULL DEFAULT ''" ) );
-/* 188 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug}', "description XL NOTNULL DEFAULT ''" ) );
-/* 189 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug}', "steps_to_reproduce XL NOTNULL DEFAULT ''" ) );
-/* 190 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug}', "additional_information XL NOTNULL DEFAULT ''" ) );
+/* 188 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug}', "description XL NOTNULL" ) );
+/* 189 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug}', "steps_to_reproduce XL NOTNULL" ) );
+/* 190 */ $upgrade[] = array( 'AddColumnSQL', array( '{bug}', "additional_information XL NOTNULL" ) );
 /* 191 */ $upgrade[] = array( 'UpdateFunction', "migrate_bug_text", array() );
 /* 192 */ $upgrade[] = array( 'DropTableSQL', array( '{bug_text}' ) );
 /* 193 */ $upgrade[] = array( 'DropColumnSQL', array( '{bug}', "bug_text_id" ) );
-/* 194 */ $upgrade[] = array( 'AddColumnSQL', array( '{bugnote}', "note XL NOTNULL DEFAULT ''" ) );
+/* 194 */ $upgrade[] = array( 'AddColumnSQL', array( '{bugnote}', "note XL NOTNULL" ) );
 /* 195 */ $upgrade[] = array( 'UpdateFunction', "migrate_bugnote_text", array() );
 /* 196 */ $upgrade[] = array( 'DropTableSQL', array( '{bugnote_text}' ) );
 /* 197 */ $upgrade[] = array( 'DropColumnSQL', array( '{bugnote}', "bugnote_text_id" ) );
