@@ -71,12 +71,12 @@ function user_cache_array_rows( $p_user_id_array ) {
  *
  * @param int $p_user_id User ID
  * @return bool
- * @throws MantisBT\Exception\User_By_UserID_Not_Found
+ * @throws MantisBT\Exception\User\UserNotFound
  */
 function user_exists( $p_user_id ) {
 	try {
 		$t_user = MantisUser::getByUserID( $p_user_id );
-	} catch ( MantisBT\Exception\User_By_UserID_Not_Found $e ) {
+	} catch ( MantisBT\Exception\User\UserNotFound $e ) {
 		return false;
 	}
 	return true;
@@ -87,11 +87,11 @@ function user_exists( $p_user_id ) {
  * if the user does not exist, throw a user not found exception
  *
  * @param int $p_user_id User ID
- * @throws MantisBT\Exception\User_By_ID_Not_Found
+ * @throws MantisBT\Exception\User\UserNotFound
  */
 function user_ensure_exists( $p_user_id ) {
 	if ( !user_exists( $p_user_id ) ) {
-		throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
+		throw new MantisBT\Exception\User\UserNotFound( $p_user_id );
 	}
 }
 
@@ -418,13 +418,13 @@ function user_get_row( $p_user_id ) {
  *
  * @param int $p_user_id User ID
  * @param string $p_field_name Field Name
- * @throws MantisBT\Exception\User_By_UserID_Not_Found
+ * @throws MantisBT\Exception\User\UserNotFound
  * @throws MantisBT\Exception\Database\FieldNotFound
  * @return string
  */
 function user_get_field( $p_user_id, $p_field_name ) {
 	if( NO_USER == $p_user_id ) {
-		throw new MantisBT\Exception\User_By_UserID_Not_Found( array( $p_user_id ) );
+		throw new MantisBT\Exception\User\UserNotFound( array( $p_user_id ) );
 	}
 
 	$t_user = MantisUser::getByUserID( $p_user_id );
@@ -484,7 +484,7 @@ function user_get_realname( $p_user_id ) {
 function user_get_name( $p_user_id ) {
 	try {
 		$t_user = MantisUser::getByUserID( $p_user_id );
-	} catch ( MantisBT\Exception\User_By_UserID_Not_Found $e ) {
+	} catch ( MantisBT\Exception\User\UserNotFound $e ) {
 		return _( 'user' ) . (int) $p_user_id;
 	}
 

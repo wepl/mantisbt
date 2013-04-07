@@ -172,13 +172,13 @@
      /**
       * Get MantisUser by username
       * @param string $p_name user name
-      * @throws MantisBT\Exception\User_By_UserName_Not_Found
+      * @throws MantisBT\Exception\User\UserNotFound
       * @return MantisUser
       */
 	public static function getByUserName($p_name) {
 		$t_row = self::GetFromDatabase( 'username', $p_name );
 		if ( $t_row === null ) {
-			throw new MantisBT\Exception\User_By_UserName_Not_Found( $p_name );
+			throw new MantisBT\Exception\User\UserNotFound( $p_name );
 		}
 		
 		$t_user = new MantisUser();
@@ -190,13 +190,13 @@
      /**
       * Get MantisUser by cookiestring
       * @param string $p_cookie cookie string
-      * @throws MantisBT\Exception\User_By_Cookie_Not_Found
+      * @throws MantisBT\Exception\User\UserNotFound
       * @return MantisUser
       */
 	public static function getByCookieString($p_cookie) {
 		$t_row = self::GetFromDatabase( 'cookie_string', $p_cookie );
 		if ( $t_row === null ) {
-			throw new MantisBT\Exception\User_By_Cookie_Not_Found( $p_cookie );
+			throw new MantisBT\Exception\User\UserNotFound();
 		}
 		
 		$t_user = new MantisUser();
@@ -208,13 +208,13 @@
      /**
       * Get MantisUser by user id
       * @param string $p_user_id user id
-      * @throws MantisBT\Exception\User_By_UserID_Not_Found
+      * @throws MantisBT\Exception\User\UserNotFound
       * @return MantisUser
       */
 	public static function getByUserID($p_user_id) {
 		$t_row = self::GetFromDatabase( 'id', $p_user_id );
 		if ( $t_row === null ) {
-			throw new MantisBT\Exception\User_By_UserID_Not_Found( $p_user_id );
+			throw new MantisBT\Exception\User\UserNotFound( $p_user_id );
 		}
 		
 		$t_user = new MantisUser();
@@ -273,7 +273,7 @@
       * If the second parameter is true (default), trigger an error if the user can't be found.
       * If the second parameter is false, return false if the user can't be found.
       * @param int $p_user_id user id
-      * @throws MantisBT\Exception\User_By_ID_Not_Found
+      * @throws MantisBT\Exception\User\UserNotFound
       * @return array
       */
 	function user_cache_row( $p_user_id ) {
@@ -285,7 +285,7 @@
 		if ( $t_row ) {
 			return $t_row;	
 		} else {
-			throw new MantisBT\Exception\User_By_ID_Not_Found( $p_user_id );
+			throw new MantisBT\Exception\User\UserNotFound( $p_user_id );
 		}
 	}
 	
