@@ -246,7 +246,7 @@ function columns_plugin_cache_issue_data( $p_bugs ) {
  * @return array array of columns
  * @access public
  */
-function columns_get_all( $p_project_id = null ) {
+function columns_get_all( $p_project_id = null, $p_user_id = null ) {
 	$t_columns = columns_get_standard();
 
 	# add plugin columns
@@ -259,9 +259,15 @@ function columns_get_all( $p_project_id = null ) {
 		$t_project_id = $p_project_id;
 	}
 
-	$t_related_custom_field_ids = custom_field_get_linked_ids( $t_project_id );
+	if( $p_user_id === null ) {
+		$t_user_id = auth_get_current_user_id();
+	} else {
+		$t_user_id = $p_user_id;
+	}
+
+	$t_related_custom_field_ids = custom_field_get_linked_ids( $t_project_id, $t_user_id );
 	foreach( $t_related_custom_field_ids as $t_id ) {
-		if( !custom_field_has_read_access_by_project_id( $t_id, $t_project_id ) ) {
+		if( !custom_field_has_read_access_by_project_id( $t_id, $t_project_id, $t_user_id ) ) {
 			continue;
 		}
 

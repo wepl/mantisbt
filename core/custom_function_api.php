@@ -287,7 +287,7 @@ function custom_function_default_get_columns_to_view( $p_columns_target = COLUMN
 		$t_columns = config_get( 'print_issues_page_columns', columns_get_default( 'print_issues_page' ), $p_user_id, $t_project_id );
 	}
 
-	$t_columns = columns_remove_invalid( $t_columns, columns_get_all( $t_project_id ) );
+	$t_columns = columns_remove_invalid( $t_columns, columns_get_all( $t_project_id, $p_user_id ) );
 
 	return $t_columns;
 }

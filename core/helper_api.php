@@ -459,11 +459,11 @@ function helper_get_columns_to_view( $p_columns_target = COLUMNS_TARGET_VIEW_PAG
 		$t_keys_to_remove[] = 'attachment';
 	}
 
-	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'view_handler_threshold', null, $p_user_id, $t_current_project_id ), $t_current_project_id ) ) {
+	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'view_handler_threshold', null, $p_user_id, $t_current_project_id ), $t_current_project_id, $p_user_id ) ) {
 		$t_keys_to_remove[] = 'handler_id';
 	}
 
-	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'roadmap_view_threshold', null, $p_user_id, $t_current_project_id ), $t_current_project_id ) ) {
+	if( $t_current_project_id != ALL_PROJECTS && !access_has_project_level( config_get( 'roadmap_view_threshold', null, $p_user_id, $t_current_project_id ), $t_current_project_id, $p_user_id ) ) {
 		$t_keys_to_remove[] = 'target_version';
 	}
 

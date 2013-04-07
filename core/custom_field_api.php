@@ -50,15 +50,6 @@ require_api( 'project_api.php' );
 require_api( 'string_api.php' );
 require_api( 'utility_api.php' );
 
-# ## Custom Fields API ###
-# *******************************************
-#	TODO
-#	- add an object to store field data like BugData and UserPrefs ?
-#	- add caching functions like user, bug, etc
-#	- make existing api functions use caching functions
-#	- add functions to return individual db columns for a field definition
-# *******************************************
-
 $g_custom_field_types[CUSTOM_FIELD_TYPE_STRING] = 'standard';
 $g_custom_field_types[CUSTOM_FIELD_TYPE_NUMERIC] = 'standard';
 $g_custom_field_types[CUSTOM_FIELD_TYPE_FLOAT] = 'standard';
@@ -202,8 +193,7 @@ function custom_field_is_linked( $p_field_id, $p_project_id ) {
 	}
 
 	# figure out if this bug_id/field_id combination exists
-	$t_query = "SELECT COUNT(*) FROM {custom_field_project}
-				WHERE field_id=%d AND project_id=%d";
+	$t_query = "SELECT COUNT(*) FROM {custom_field_project} WHERE field_id=%d AND project_id=%d";
 	$t_result = db_query( $t_query, array( $p_field_id, $p_project_id ) );
 	$t_count = db_result( $t_result );
 
@@ -781,10 +771,11 @@ function custom_field_get_id_from_name( $p_field_name, $p_truncated_length = nul
  *
  * The ids will be sorted based on the sequence number associated with the binding
  * @param int $p_project_id project id
+ * @param int $p_user_id user id
  * @return array
  * @access public
  */
-function custom_field_get_linked_ids( $p_project_id = ALL_PROJECTS ) {
+function custom_field_get_linked_ids( $p_project_id = ALL_PROJECTS, $p_user_id = null ) {
 	global $g_cache_cf_linked;
 
 	if( !isset( $g_cache_cf_linked[$p_project_id] ) ) {
@@ -792,7 +783,11 @@ function custom_field_get_linked_ids( $p_project_id = ALL_PROJECTS ) {
 		$p_project_id = (int) $p_project_id;
 
 		if( ALL_PROJECTS == $p_project_id ) {
-			$t_user_id = auth_get_current_user_id();
+			if( $p_user_id === null ) {
+				$t_user_id = auth_get_current_user_id();
+			} else {
+				$t_user_id = (int) $p_user_id;
+			}
 			$t_pub = VS_PUBLIC;
 			$t_priv = VS_PRIVATE;
 

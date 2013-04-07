@@ -457,10 +457,12 @@ function filter_offset( $p_page_number, $p_per_page ) {
  * Make sure that our filters are entirely correct and complete (it is possible that they are not).
  * We need to do this to cover cases where we don't have complete control over the filters given.s
  * @param array $p_filter_arr
+ * @param int $p_user_id Optional user id to verify current filter against (normally current user)
+ * @param int $p_project_id Optional project id to verify current filter against (normally current project)
  * @return mixed
  * @todo function needs to be abstracted
  */
-function filter_ensure_valid_filter( $p_filter_arr ) {
+function filter_ensure_valid_filter( $p_filter_arr, $p_user_id = null, $p_project_id = null ) {
 	# extend current filter to add information passed via POST
 	if( !isset( $p_filter_arr['_version'] ) ) {
 		$p_filter_arr['_version'] = config_get_global( 'cookie_version' );
@@ -474,13 +476,13 @@ function filter_ensure_valid_filter( $p_filter_arr ) {
 		$p_filter_arr['_view_type'] = gpc_get_string( 'view_type', 'simple' );
 	}
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_ISSUES_PER_PAGE] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_ISSUES_PER_PAGE] = gpc_get_int( FILTER_PROPERTY_ISSUES_PER_PAGE, config_get( 'default_limit_view' ) );
+		$p_filter_arr[FILTER_PROPERTY_ISSUES_PER_PAGE] = gpc_get_int( FILTER_PROPERTY_ISSUES_PER_PAGE, config_get( 'default_limit_view', null, $p_user_id, $p_project_id ) );
 	}
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_HIGHLIGHT_CHANGED] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_HIGHLIGHT_CHANGED] = config_get( 'default_show_changed' );
+		$p_filter_arr[FILTER_PROPERTY_HIGHLIGHT_CHANGED] = config_get( 'default_show_changed', null, $p_user_id, $p_project_id );
 	}
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_STICKY] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_STICKY] = gpc_string_to_bool( config_get( 'show_sticky_issues' ) );
+		$p_filter_arr[FILTER_PROPERTY_STICKY] = gpc_string_to_bool( config_get( 'show_sticky_issues', null, $p_user_id, $p_project_id ) );
 	}
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_SORT_FIELD_NAME] ) ) {
 		$p_filter_arr[FILTER_PROPERTY_SORT_FIELD_NAME] = "last_updated";
@@ -488,31 +490,18 @@ function filter_ensure_valid_filter( $p_filter_arr ) {
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_SORT_DIRECTION] ) ) {
 		$p_filter_arr[FILTER_PROPERTY_SORT_DIRECTION] = "DESC";
 	}
-
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_PLATFORM] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_PLATFORM] = array(
-			0 => META_FILTER_ANY,
-		);
+		$p_filter_arr[FILTER_PROPERTY_PLATFORM] = array( 0 => META_FILTER_ANY, );
 	}
-
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_OS] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_OS] = array(
-			0 => META_FILTER_ANY,
-		);
+		$p_filter_arr[FILTER_PROPERTY_OS] = array( 0 => META_FILTER_ANY, );
 	}
-
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_OS_BUILD] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_OS_BUILD] = array(
-			0 => META_FILTER_ANY,
-		);
+		$p_filter_arr[FILTER_PROPERTY_OS_BUILD] = array( 0 => META_FILTER_ANY, );
 	}
-
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_PROJECT_ID] ) ) {
-		$p_filter_arr[FILTER_PROPERTY_PROJECT_ID] = array(
-			0 => META_FILTER_CURRENT,
-		);
+		$p_filter_arr[FILTER_PROPERTY_PROJECT_ID] = array( 0 => META_FILTER_CURRENT, );
 	}
-
 	if( !isset( $p_filter_arr[FILTER_PROPERTY_START_MONTH] ) ) {
 		$p_filter_arr[FILTER_PROPERTY_START_MONTH] = gpc_get_string( FILTER_PROPERTY_START_MONTH, date( 'm' ) );
 	}
@@ -612,7 +601,7 @@ function filter_ensure_valid_filter( $p_filter_arr ) {
 	}
 
 	# validate sorting
-	$t_fields = helper_get_columns_to_view();
+	$t_fields = helper_get_columns_to_view( COLUMNS_TARGET_VIEW_PAGE, true, $p_user_id, $p_project_id);
 	$t_n_fields = count( $t_fields );
 	for( $i = 0;$i < $t_n_fields;$i++ ) {
 		if( isset( $t_fields[$i] ) && in_array( $t_fields[$i], array( 'selection', 'edit', 'attachment' ) ) ) {
@@ -673,23 +662,17 @@ function filter_ensure_valid_filter( $p_filter_arr ) {
 		if( !isset( $p_filter_arr[$t_multi_field_name] ) ) {
 			if( FILTER_PROPERTY_HIDE_STATUS == $t_multi_field_name ) {
 				$p_filter_arr[$t_multi_field_name] = array(
-					config_get( 'hide_status_default' ),
+					config_get( 'hide_status_default', null, $p_user_id, $p_project_id ),
 				);
 			}
 			else if( 'custom_fields' == $t_multi_field_name ) {
-				$p_filter_arr[$t_multi_field_name] = array(
-					$f_custom_fields_data,
-				);
+				$p_filter_arr[$t_multi_field_name] = array( $f_custom_fields_data, );
 			} else {
-				$p_filter_arr[$t_multi_field_name] = array(
-					META_FILTER_ANY,
-				);
+				$p_filter_arr[$t_multi_field_name] = array( META_FILTER_ANY, );
 			}
 		} else {
 			if( !is_array( $p_filter_arr[$t_multi_field_name] ) ) {
-				$p_filter_arr[$t_multi_field_name] = array(
-					$p_filter_arr[$t_multi_field_name],
-				);
+				$p_filter_arr[$t_multi_field_name] = array( $p_filter_arr[$t_multi_field_name], );
 			}
 			$t_checked_array = array();
 			foreach( $p_filter_arr[$t_multi_field_name] as $t_filter_value ) {
@@ -754,40 +737,18 @@ function filter_get_default() {
 	$t_default_show_changed = config_get( 'default_show_changed' );
 
 	$t_filter = array(
-		FILTER_PROPERTY_CATEGORY_ID => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_SEVERITY => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_STATUS => array(
-			'0' => META_FILTER_ANY,
-		),
+		FILTER_PROPERTY_CATEGORY_ID => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_SEVERITY => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_STATUS => array( '0' => META_FILTER_ANY, ),
 		FILTER_PROPERTY_HIGHLIGHT_CHANGED => $t_default_show_changed,
-		FILTER_PROPERTY_REPORTER_ID => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_HANDLER_ID => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_PROJECT_ID => array(
-			'0' => META_FILTER_CURRENT,
-		),
-		FILTER_PROPERTY_RESOLUTION => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_BUILD => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_VERSION => array(
-			'0' => META_FILTER_ANY,
-		),
-		FILTER_PROPERTY_HIDE_STATUS => array(
-			'0' => $t_hide_status_default,
-		),
-		FILTER_PROPERTY_MONITOR_USER_ID => array(
-			'0' => META_FILTER_ANY,
-		),
+		FILTER_PROPERTY_REPORTER_ID => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_HANDLER_ID => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_PROJECT_ID => array( '0' => META_FILTER_CURRENT, ),
+		FILTER_PROPERTY_RESOLUTION => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_BUILD => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_VERSION => array( '0' => META_FILTER_ANY, ),
+		FILTER_PROPERTY_HIDE_STATUS => array( '0' => $t_hide_status_default, ),
+		FILTER_PROPERTY_MONITOR_USER_ID => array( '0' => META_FILTER_ANY, ),
 		FILTER_PROPERTY_SORT_FIELD_NAME => 'last_updated',
 		FILTER_PROPERTY_SORT_DIRECTION => 'DESC',
 		FILTER_PROPERTY_ISSUES_PER_PAGE => config_get( 'default_limit_view' ),
@@ -799,10 +760,12 @@ function filter_get_default() {
 /**
  * De-serialize filter string
  * @param string $p_serialized_filter serialized filter
+ * @param int $p_user_id user id
+ * @param int $p_project_id project id
  * @return mixed filter array
  * @see filter_ensure_valid_filter
  */
-function filter_deserialize( $p_serialized_filter ) {
+function filter_deserialize( $p_serialized_filter, $p_user_id = null, $p_project_id = null ) {
 	if( is_blank( $p_serialized_filter ) ) {
 		return false;
 	}
@@ -826,7 +789,7 @@ function filter_deserialize( $p_serialized_filter ) {
 	if( $t_filter_array['_version'] != config_get_global( 'cookie_version' ) ) {
 
 		# if the version is not new enough, update it using defaults
-		return filter_ensure_valid_filter( $t_filter_array );
+		return filter_ensure_valid_filter( $t_filter_array, $p_user_id, $p_project_id );
 	}
 
 	return $t_filter_array;

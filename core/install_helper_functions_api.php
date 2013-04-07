@@ -321,7 +321,7 @@ function install_stored_filter_migrate() {
 	$t_query = "SELECT * FROM {filters}";
 	$t_result = db_query( $t_query );
 	while( $t_row = db_fetch_array( $t_result ) ) {
-		$t_filter_arr = filter_deserialize( $t_row['filter_string'] );
+		$t_filter_arr = filter_deserialize( $t_row['filter_string'], $t_row['user_id'], $t_row['project_id'] );
 		foreach( $t_filter_fields AS $t_old=>$t_new ) {
 			if ( isset( $t_filter_arr[$t_old] ) ) {
 				$t_value = $t_filter_arr[$t_old];
