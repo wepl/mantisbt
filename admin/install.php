@@ -788,7 +788,7 @@ if( 4 == $t_install_state ) {
 
 # all checks have passed, install the database
 if( 5 == $t_install_state ) {
-	$t_config_filename = $g_absolute_path . 'config_inc.php';
+	$t_config_filename = $MantisConfig->absolute_path . 'config_inc.php';
 	$t_config_exists = file_exists( $t_config_filename );
 	?>
 <table width="100%" cellpadding="10" cellspacing="1">
@@ -839,7 +839,7 @@ if( 5 == $t_install_state ) {
 			( $f_database_name != config_get( 'database_name', '') ) ||
 			( $f_db_username != config_get( 'db_username', '' ) ) ||
 			( $f_db_password != config_get( 'db_password', '' ) ) ) {
-			print_test_result( BAD, false, 'file ' . $g_absolute_path . 'config_inc.php' . ' already exists and has different settings' );
+			print_test_result( BAD, false, 'file ' . $MantisConfig->absolute_path . 'config_inc.php' . ' already exists and has different settings' );
 		} else {
 			print_test_result( GOOD, false );
 			$t_write_failed = false;
@@ -850,7 +850,7 @@ if( 5 == $t_install_state ) {
 <?php
 	if( true == $t_write_failed ) {
 		echo '<tr><table width="50%" cellpadding="10" cellspacing="1">';
-		echo '<tr><td>Please add the following lines to ' . $g_absolute_path . 'config_inc.php before continuing to the database upgrade check:</td></tr>';
+		echo '<tr><td>Please add the following lines to ' . $MantisConfig->absolute_path . 'config_inc.php before continuing to the database upgrade check:</td></tr>';
 		echo '<tr><td><pre>' . htmlentities( $t_config ) . '</pre></td></tr></table></tr>';
 	}
 	?>
