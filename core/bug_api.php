@@ -705,7 +705,7 @@ function bug_set_field( $p_bug_id, $p_field_name, $p_value ) {
 	}
 
 	# Update fields
-	$query = 'UPDATE {bug} SET $p_field_name=%s WHERE id=%d';
+	$query = 'UPDATE {bug} SET ' . $p_field_name . '=%s WHERE id=%d';
 	db_query( $query, array( $c_value, $c_bug_id ) );
 
 	# updated the last_updated date
