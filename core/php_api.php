@@ -75,7 +75,7 @@ function mb_str_pad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_
 			break;
 		case STR_PAD_BOTH:
 			$pad_amount_left = floor($pad_length / 2);
-			$pad_amount_right = ceil($pad_legnth / 2);
+			$pad_amount_right = ceil($pad_length / 2);
 			$repetitions_left = ceil($pad_amount_left / $pad_string_length);
 			$repetitions_right = ceil($pad_amount_right / $pad_string_length);
 			$padding_left = mb_substr(str_repeat($pad_string, $repetitions_left), 0, $pad_amount_left);
