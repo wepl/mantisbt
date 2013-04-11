@@ -157,8 +157,7 @@ if ( $f_protected && $t_old_protected ) {
 	$query = "UPDATE {user} SET username=%s, email=%s, protected=%d, realname=%s WHERE id=%d";
 	$query_params = array( $c_username, $c_email, $c_protected, $c_realname, $c_user_id );
 } else {
-	$query = "UPDATE {user} SET username=%s, email=%s, access_level=%d, enabled=%d, protected=%d, realname=%s
-			  WHERE id=%d";
+	$query = "UPDATE {user} SET username=%s, email=%s, access_level=%d, enabled=%d, protected=%d, realname=%s WHERE id=%d";
 	$query_params = array( $c_username, $c_email, $c_access_level, $c_enabled, $c_protected, $c_realname, $c_user_id );
 }
 

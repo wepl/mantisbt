@@ -564,7 +564,7 @@ if( 3 == $t_install_state ) {
 			print_test_result( GOOD );
 			$t_db_open = true;
 		} else {
-			$dict = new MantisDatabaseDict( $g_db );
+			$dict = MantisDatabaseDict::get_driver_instance($f_db_type);
 
 			$sqlarray = $dict->CreateDatabase( $f_database_name );
 				$ret = $dict->ExecuteSQLarray( $sqlarray );
@@ -676,7 +676,7 @@ if( 3 == $t_install_state ) {
 			}
 
 			$g_db->SetPrefixes( 'mantis_', '_table' );
-			$dict = new MantisDatabaseDict( $g_db );
+			$dict = MantisDatabaseDict::get_driver_instance($f_db_type);
 			$t_sql = true;
 			$t_target = $upgrade[$i][1][0];
 			if( $upgrade[$i][0] == 'InsertData' ) {

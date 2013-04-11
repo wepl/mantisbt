@@ -551,6 +551,7 @@ function user_pref_get( $p_user_id, $p_project_id = ALL_PROJECTS ) {
 
 	$t_prefs = new UserPreferences( $p_user_id, $p_project_id );
 
+	$t_row = false;
 	try {
 		$t_row = user_pref_cache_row( $p_user_id, $p_project_id );
 	} catch ( MantisBT\Exception\User\UserPreferencesNotFound $e ) {

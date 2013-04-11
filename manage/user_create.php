@@ -74,6 +74,10 @@ if ( is_blank( $f_username ) ) {
 	throw new MantisBT\Exception\Field\EmptyField();
 }
 
+if ( $f_password != $f_password_verify ) {
+	throw new MantisBT\Exception\User\PasswordMismatch();
+}
+
 # Check the name for validity here so we do it before promting to use a
 #  blank password (don't want to prompt the user if the process will fail
 #  anyway)
@@ -81,10 +85,6 @@ if ( is_blank( $f_username ) ) {
 $t_realname = string_normalize( $f_realname );
 user_ensure_name_valid( $f_username );
 user_ensure_realname_unique( $f_username, $f_realname );
-
-if ( $f_password != $f_password_verify ) {
-	throw new MantisBT\Exception\User\PasswordMismatch();
-}
 
 email_ensure_not_disposable( $f_email );
 

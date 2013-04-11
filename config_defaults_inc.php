@@ -3033,7 +3033,7 @@ $MantisConfig->wiki_root_namespace = 'mantis';
  * URL under which the wiki engine is hosted.  Must be on the same server.
  * @global string $g_wiki_engine_url
  */
-//$g_wiki_engine_url = $t_protocol . '://' . $t_host . '/%wiki_engine%/';
+$MantisConfig->wiki_engine_url = '/%wiki_engine%/';
 
 /********************
  * Recently Visited *

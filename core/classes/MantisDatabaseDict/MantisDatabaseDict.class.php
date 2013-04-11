@@ -44,7 +44,22 @@ class MantisDatabaseDict {
 	var $blobSize = 100; 	/// any varchar/char field this size or greater is treated as a blob
 							/// in other words, we use a text area for editting.
 	
-	
+
+    /**
+     * Loads and returns a database instance with the specified type and library.
+     * @param string $type database type of the driver (e.g. pdo_pgsql)
+     * @return MantisDatabase driver object or null if error
+     */
+    public static function get_driver_instance($type) {
+		$t_type = explode( '_', $type );
+		switch( strtolower( $t_type[0] ) ) {
+			case 'pdo':
+				$t_driver_type = 'PDO';
+		}
+        $classname = 'MantisDatabaseDict_' . ucfirst($t_type[1]);
+        return new $classname();
+    }
+
 	function quotesplit( $s, $splitter=',', $restore_quotes=0 ) { 
 		// hack because i'm a bad programmer - replace doubled "s with a ' 
 		//$s = str_replace('""', "'", $s); 
