@@ -53,11 +53,8 @@ $f_time_tracking	= gpc_get_string( 'time_tracking', '0:00' );
 $f_bugnote_text	= gpc_get_string( 'bugnote_text', '' );
 
 $t_bug = bug_get( $f_bug_id, true );
-if( $t_bug->project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_bug->project_id;
-}
+
+MantisContext::SetProject( $t_bug->project_id );
 
 if ( bug_is_readonly( $t_bug->id ) ) {
 	throw new MantisBT\Exception\Issue\IssueReadOnly( $t_bug->id );
@@ -91,6 +88,8 @@ if ( config_get( 'reassign_on_feedback' ) &&
 		bug_set_field( $t_bug->id, 'status', config_get( 'bug_submit_status' ) );
 	}
 }
+
+MantisContext::PopProject();
 
 form_security_purge( 'bugnote_add' );
 

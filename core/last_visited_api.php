@@ -26,7 +26,6 @@
  * @uses bug_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses tokens_api.php
  */
@@ -34,7 +33,6 @@
 require_api( 'bug_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'tokens_api.php' );
 
@@ -45,7 +43,7 @@ require_api( 'tokens_api.php' );
  * @access public
  */
 function last_visited_enabled() {
-	return !( 0 == config_get( 'recently_visited_count' ) || current_user_is_anonymous() );
+	return !( 0 == config_get( 'recently_visited_count' ) || user_is_anonymous( auth_get_current_user_id() ) );
 }
 
 /**

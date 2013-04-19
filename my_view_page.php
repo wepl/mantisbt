@@ -29,7 +29,6 @@
  * @uses compress_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
@@ -45,7 +44,6 @@ require_api( 'category_api.php' );
 require_api( 'compress_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
@@ -67,8 +65,8 @@ html_robots_noindex();
 
 html_page_top1( _( 'My View' ) );
 
-if ( current_user_get_pref( 'refresh_delay' ) > 0 ) {
-	html_meta_redirect( 'my_view_page.php', current_user_get_pref( 'refresh_delay' )*60 );
+if ( user_pref_get_pref( auth_get_current_user_id(), 'refresh_delay' ) > 0 ) {
+	html_meta_redirect( 'my_view_page.php', user_pref_get_pref( auth_get_current_user_id(), 'refresh_delay' )*60 );
 }
 
 html_page_top2();
@@ -116,18 +114,18 @@ while (list ($t_box_title, $t_box_display) = each ($t_boxes)) {
 	}
 
 	# don't display "Assigned to Me" bugs to users that bugs can't be assigned to
-	else if ( $t_box_title == 'assigned' && ( current_user_is_anonymous() OR user_get_assigned_open_bug_count( $t_current_user_id, $t_project_id ) == 0 ) ) {
+	else if ( $t_box_title == 'assigned' && ( user_is_anonymous( auth_get_current_user_id() ) OR user_get_assigned_open_bug_count( $t_current_user_id, $t_project_id ) == 0 ) ) {
 		$t_number_of_boxes = $t_number_of_boxes - 1;
 	}
 
 	# don't display "Monitored by Me" bugs to users that can't monitor bugs
-	else if ( $t_box_title == 'monitored' && ( current_user_is_anonymous() OR !access_has_project_level( config_get( 'monitor_bug_threshold' ), $t_project_id, $t_current_user_id ) ) ) {
+	else if ( $t_box_title == 'monitored' && ( user_is_anonymous( auth_get_current_user_id() ) OR !access_has_project_level( config_get( 'monitor_bug_threshold' ), $t_project_id, $t_current_user_id ) ) ) {
 		$t_number_of_boxes = $t_number_of_boxes - 1;
 	}
 
 	# don't display "Reported by Me" bugs to users that can't report bugs
 	else if ( in_array( $t_box_title, array( 'reported', 'feedback', 'verify' ) ) &&
-			( current_user_is_anonymous() OR !access_has_project_level( config_get( 'report_bug_threshold' ), $t_project_id, $t_current_user_id ) ) ) {
+			( user_is_anonymous( auth_get_current_user_id() ) OR !access_has_project_level( config_get( 'report_bug_threshold' ), $t_project_id, $t_current_user_id ) ) ) {
 		$t_number_of_boxes = $t_number_of_boxes - 1;
 	}
 

@@ -43,7 +43,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses helper_api.php
  * @uses print_api.php
@@ -55,7 +54,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'print_api.php' );
@@ -65,7 +63,7 @@ form_security_validate('account_delete');
 
 auth_ensure_user_authenticated();
 
-current_user_ensure_unprotected();
+user_ensure_unprotected();
 
 # Only allow users to delete their own accounts if allow_account_delete = ON or
 # the user has permission to manage user accounts.
@@ -76,7 +74,7 @@ if ( OFF == config_get( 'allow_account_delete' ) &&
 
 # check that we are not deleting the last administrator account
 $t_admin_threshold = config_get_global( 'admin_site_threshold' );
-if ( current_user_is_administrator() &&
+if ( user_is_administrator( auth_get_current_user_id() ) &&
      user_count_level( $t_admin_threshold ) <= 1 ) {
 	throw new MantisBT\Exception\User\ProtectedLastAdministrator();
 }

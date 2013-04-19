@@ -61,8 +61,7 @@ if ( OFF == config_get( 'enable_project_documentation' ) || !file_is_uploading_e
 	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
-# Override the current page to make sure we get the appropriate project-specific configuration
-$g_project_override = $f_project_id;
+MantisContext::SetProject( $f_project_id );
 
 $t_user_id = auth_get_current_user_id();
 $t_pub = VS_PUBLIC;

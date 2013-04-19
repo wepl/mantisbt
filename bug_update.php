@@ -65,9 +65,7 @@ form_security_validate( 'bug_update' );
 $f_bug_id = gpc_get_int( 'bug_id' );
 $t_existing_bug = bug_get( $f_bug_id, true );
 
-if ( helper_get_current_project() !== $t_existing_bug->project_id ) {
-	$g_project_override = $t_existing_bug->project_id;
-}
+MantisContext::SetProject( $t_existing_bug->project_id );
 
 # Ensure that the user has permission to update bugs. This check also factors
 # in whether the user has permission to view private bugs. The

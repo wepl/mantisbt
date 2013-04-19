@@ -233,7 +233,10 @@ function user_is_anonymous( $p_user_id ) {
  * @param int $p_user_id User ID
  * @throws MantisBT\Exception\User\ProtectedUser
  */
-function user_ensure_unprotected( $p_user_id ) {
+function user_ensure_unprotected( $p_user_id = null ) {
+	if( $p_user_id === null ) {
+		$p_user_id = MantisContext::GetUser();
+	}
 	if( user_is_protected( $p_user_id ) ) {
 		throw new MantisBT\Exception\User\ProtectedUser();
 	}
@@ -548,7 +551,13 @@ function user_get_avatar( $p_user_id, $p_size = 80 ) {
  * @param int $p_project_id Project ID
  * @return int
  */
-function user_get_access_level( $p_user_id, $p_project_id = ALL_PROJECTS ) {
+function user_get_access_level( $p_user_id = null, $p_project_id = null ) {
+	if( $p_user_id === null ) {
+		$p_user_id = MantisContext::GetUser();
+	}
+	if( $p_project_id === null ) {
+		$p_project_id = MantisContext::GetProject();
+	}
 	$t_access_level = user_get_field( $p_user_id, 'access_level' );
 
 	if( user_is_administrator( $p_user_id ) ) {
@@ -833,7 +842,13 @@ function user_get_unassigned_by_project_id( $p_project_id = null ) {
  * @param int $p_project_id Project ID
  * @return int
  */
-function user_get_assigned_open_bug_count( $p_user_id, $p_project_id = ALL_PROJECTS ) {
+function user_get_assigned_open_bug_count( $p_user_id = null, $p_project_id = null ) {
+	if( $p_user_id === null ) {
+		$p_user_id = MantisContext::GetUser();
+	}
+	if( $p_project_id === null ) {
+		$p_project_id = MantisContext::GetProject();
+	}
 	$t_where_prj = helper_project_specific_where( $p_project_id, $p_user_id ) . ' AND';
 
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );
@@ -852,7 +867,13 @@ function user_get_assigned_open_bug_count( $p_user_id, $p_project_id = ALL_PROJE
  * @param int $p_project_id Project ID
  * @return int
  */
-function user_get_reported_open_bug_count( $p_user_id, $p_project_id = ALL_PROJECTS ) {
+function user_get_reported_open_bug_count( $p_user_id = null, $p_project_id = null ) {
+	if( $p_user_id === null ) {
+		$p_user_id = MantisContext::GetUser();
+	}
+	if( $p_project_id === null ) {
+		$p_project_id = MantisContext::GetProject();
+	}
 	$t_where_prj = helper_project_specific_where( $p_project_id, $p_user_id ) . ' AND';
 
 	$t_resolved = config_get( 'bug_resolved_status_threshold' );

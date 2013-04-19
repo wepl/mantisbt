@@ -27,7 +27,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses event_api.php
  * @uses form_api.php
  * @uses gpc_api.php
@@ -43,7 +42,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'event_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
@@ -80,7 +78,7 @@ if ( !strcmp( $f_file_path, config_get( 'absolute_path_default_upload_folder' ) 
 
 $t_project_id = project_create( strip_tags( $f_name ), $f_description, $f_status, $f_view_state, $f_file_path, true, $f_inherit_global );
 
-if ( ( $f_view_state == VS_PRIVATE ) && ( false === current_user_is_administrator() ) ) {
+if ( ( $f_view_state == VS_PRIVATE ) && ( false === user_is_administrator( auth_get_current_user_id() ) ) ) {
 	$t_access_level = access_get_global_level();
 	$t_current_user_id = auth_get_current_user_id();
 	project_add_user( $t_project_id, $t_current_user_id, $t_access_level );

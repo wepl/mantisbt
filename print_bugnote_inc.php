@@ -28,7 +28,6 @@
  * @uses bugnote_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses gpc_api.php
 
@@ -46,7 +45,6 @@ require_api( 'authentication_api.php' );
 require_api( 'bugnote_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'print_api.php' );
@@ -64,7 +62,7 @@ if ( !access_has_bug_level( config_get( 'private_bugnote_threshold' ), $f_bug_id
 	$t_restriction = 'AND view_state=' . VS_PUBLIC;
 
 # get the bugnote data
-$t_bugnote_order = current_user_get_pref( 'bugnote_order' );
+$t_bugnote_order = user_pref_get_pref( auth_get_current_user_id(), 'bugnote_order' );
 
 $t_query = "SELECT * FROM {bugnote}
 		WHERE bug_id=%d $t_restriction

@@ -70,7 +70,7 @@ if ( plugin_config_get( 'font' ) != $f_font ) {
 	}
 }
 
-if ( current_user_is_administrator() ) {
+if ( user_is_administrator( auth_get_current_user_id() ) ) {
 	$f_jpgraph_path = gpc_get_string( 'jpgraph_path', '' );
 	if ( plugin_config_get( 'jpgraph_path' ) != $f_jpgraph_path ) {
 		plugin_config_set( 'jpgraph_path', $f_jpgraph_path );

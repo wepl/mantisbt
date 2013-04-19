@@ -26,7 +26,6 @@
  * @uses authentication_api.php
  * @uses compress_api.php
  * @uses config_api.php
- * @uses current_user_api.php
  * @uses filter_api.php
  * @uses gpc_api.php
  * @uses html_api.php
@@ -40,7 +39,6 @@ require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'compress_api.php' );
 require_api( 'config_api.php' );
-require_api( 'current_user_api.php' );
 require_api( 'filter_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
@@ -87,8 +85,8 @@ html_robots_noindex();
 
 html_page_top1( _( 'View Issues' ) );
 
-if ( current_user_get_pref( 'refresh_delay' ) > 0 ) {
-	html_meta_redirect( 'view_all_bug_page.php?page_number='.$f_page_number, current_user_get_pref( 'refresh_delay' )*60 );
+if ( user_pref_get_pref( auth_get_current_user_id(), 'refresh_delay' ) > 0 ) {
+	html_meta_redirect( 'view_all_bug_page.php?page_number='.$f_page_number, user_pref_get_pref( auth_get_current_user_id(), 'refresh_delay' )*60 );
 }
 
 html_page_top2();

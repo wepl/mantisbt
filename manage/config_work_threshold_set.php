@@ -26,7 +26,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
@@ -38,7 +37,6 @@ require_once( '../core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
@@ -52,7 +50,7 @@ auth_reauthenticate();
 $t_redirect_url = 'config_work_threshold_page.php';
 $t_project = helper_get_current_project();
 
-$t_access = current_user_get_access_level();
+$t_access = user_get_access_level();
 
 /**
  * set row

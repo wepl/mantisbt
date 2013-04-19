@@ -28,7 +28,6 @@
  * @uses config_api.php
  * @uses constant_inc.php
  * @uses crypto_api.php
- * @uses current_user_api.php
  * @uses helper_api.php
  * @uses user_api.php
  */
@@ -37,7 +36,6 @@ require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'crypto_api.php' );
-require_api( 'current_user_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'user_api.php' );
 
@@ -108,7 +106,7 @@ function rss_login( $p_username, $p_key ) {
  */
 function rss_get_issues_feed_url( $p_project_id = null, $p_username = null, $p_filter_id = null, $p_relative = true ) {
 	if( $p_username === null ) {
-		$t_username = current_user_get_field( 'username' );
+		$t_username = user_get_field( auth_get_current_user_id(), 'username' );
 	} else {
 		$t_username = $p_username;
 	}
@@ -157,7 +155,7 @@ function rss_get_issues_feed_url( $p_project_id = null, $p_username = null, $p_f
  */
 function rss_get_news_feed_url( $p_project_id = null, $p_username = null, $p_relative = true ) {
 	if( $p_username === null ) {
-		$t_username = current_user_get_field( 'username' );
+		$t_username = user_get_field( auth_get_current_user_id(), 'username' );
 	} else {
 		$t_username = $p_username;
 	}

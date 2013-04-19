@@ -26,7 +26,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses event_api.php
  * @uses helper_api.php
  * @uses html_api.php
@@ -38,7 +37,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
@@ -67,7 +65,7 @@ print_manage_menu();
 			<td colspan="2"></td>
 		</tr>
 	<?php
-	$t_is_admin = current_user_is_administrator();
+	$t_is_admin = user_is_administrator( auth_get_current_user_id() );
 	if ( $t_is_admin ) {
 	?>
 		<tr>

@@ -27,7 +27,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses gpc_api.php
  * @uses html_api.php
@@ -41,7 +40,6 @@ require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
@@ -51,7 +49,7 @@ require_api( 'user_api.php' );
 require_api( 'utility_api.php' );
 require_css( 'login.css' );
 
-if ( auth_is_user_authenticated() && !current_user_is_anonymous() ) {
+if ( auth_is_user_authenticated() && !user_is_anonymous( auth_get_current_user_id() ) ) {
 	print_header_redirect( config_get( 'default_home_page' ) );
 }
 

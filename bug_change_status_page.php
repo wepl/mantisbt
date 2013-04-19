@@ -70,11 +70,7 @@ $tpl_show_page_header = false;
 $tpl_force_readonly = true;
 $tpl_fields_config_option = 'bug_change_status_page_columns';
 
-if( $t_bug->project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_bug->project_id;
-}
+MantisContext::SetProject( $t_bug->project_id );
 
 $f_new_status = gpc_get_int( 'new_status' );
 $f_reopen_flag = gpc_get_int( 'reopen_flag', OFF );

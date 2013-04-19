@@ -27,7 +27,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses gpc_api.php
  * @uses html_api.php
  * @uses print_api.php
@@ -41,7 +40,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
 require_api( 'print_api.php' );
@@ -254,25 +252,15 @@ function helper_begin_long_process( $p_ignore_abort = false ) {
 	return $t_timeout;
 }
 
-# this allows pages to override the current project settings.
-#  This typically applies to the view bug pages where the "current"
-#  project as used by the filters, etc, does not match the bug being viewed.
-$g_project_override = null;
-$g_cache_current_project = null;
-
 /**
  * Return the current project id as stored in a cookie
  *  If no cookie exists, the user's default project is returned
  * @return int
  */
 function helper_get_current_project() {
-	global $g_project_override, $g_cache_current_project;
-
-	if( $g_project_override !== null ) {
-		return $g_project_override;
-	}
-
-	if( $g_cache_current_project === null ) {
+	try {
+		return MantisContext::GetProject();
+	} catch ( /*MantisBT\Exception\Context\MissingContext*/ Exception $e) {
 		$t_cookie_name = config_get_global( 'project_cookie' );
 
 		$t_project_id = gpc_get_cookie( $t_cookie_name, null );
@@ -288,9 +276,9 @@ function helper_get_current_project() {
 		if( !project_exists( $t_project_id ) || ( 0 == project_get_field( $t_project_id, 'enabled' ) ) || !access_has_project_level( VIEWER, $t_project_id ) ) {
 			$t_project_id = ALL_PROJECTS;
 		}
-		$g_cache_current_project = (int) $t_project_id;
+		MantisContext::SetProject( (int) $t_project_id );
 	}
-	return $g_cache_current_project;
+	return MantisContext::GetProject();
 }
 
 /**
@@ -306,7 +294,7 @@ function helper_get_current_project_trace() {
 	$t_project_id = gpc_get_cookie( $t_cookie_name, null );
 
 	if( null === $t_project_id ) {
-		$t_bottom = current_user_get_pref( 'default_project' );
+		$t_bottom = user_pref_get_pref( auth_get_current_user_id(), 'default_project' );
 		$t_project_id = array(
 			$t_bottom,
 		);

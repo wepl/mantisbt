@@ -26,7 +26,6 @@
  * @uses access_api.php
  * @uses authentication_api.php
  * @uses config_api.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses print_api.php
@@ -37,7 +36,6 @@ require_once( '../core.php' );
 require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'print_api.php' );
@@ -51,7 +49,7 @@ $f_project_id = gpc_get_int( 'project_id' );
 
 access_ensure_project_level( config_get( 'manage_project_threshold' ), $f_project_id );
 
-$t_subproject_ids = current_user_get_accessible_subprojects( $f_project_id, true );
+$t_subproject_ids = user_get_accessible_subprojects( auth_get_current_user_id(), $f_project_id, true );
 foreach ( $t_subproject_ids as $t_subproject_id ) {
 	$f_inherit_child = gpc_get_bool( 'inherit_child_' . $t_subproject_id, false );
 	project_hierarchy_update( $t_subproject_id, $f_project_id, $f_inherit_child );

@@ -28,7 +28,6 @@
  * @uses collapse_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses helper_api.php
 
@@ -46,7 +45,6 @@ require_api( 'bug_api.php' );
 require_api( 'collapse_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'print_api.php' );
@@ -61,7 +59,7 @@ if ( ( config_get( 'enable_sponsorship' ) == ON ) && ( access_has_bug_level( con
 	$t_sponsorship_ids = sponsorship_get_all_ids( $f_bug_id );
 
 	$t_sponsorships_exist = count( $t_sponsorship_ids ) > 0;
-	$t_can_sponsor = !bug_is_readonly( $f_bug_id ) && !current_user_is_anonymous();
+	$t_can_sponsor = !bug_is_readonly( $f_bug_id ) && !user_is_anonymous( auth_get_current_user_id() );
 
 	$t_show_sponsorships = $t_sponsorships_exist || $t_can_sponsor;
 } else {

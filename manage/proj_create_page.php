@@ -26,7 +26,6 @@
  * @uses access_api.php
  * @uses authentication_api.php
  * @uses config_api.php
- * @uses current_user_api.php
  * @uses event_api.php
  * @uses form_api.php
  * @uses gpc_api.php
@@ -39,7 +38,6 @@ require_once( '../core.php' );
 require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
-require_api( 'current_user_api.php' );
 require_api( 'event_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
@@ -111,7 +109,7 @@ $f_parent_id = gpc_get( 'parent_id', null );
 			if ( config_get( 'allow_file_upload' ) ) {
 				$t_default_upload_path = '';
 				# Don't reveal the absolute path to non-administrators for security reasons
-				if ( current_user_is_administrator() ) {
+				if ( user_is_administrator( auth_get_current_user_id() ) ) {
 					$t_default_upload_path = config_get( 'absolute_path_default_upload_folder' );
 				}
 			?>

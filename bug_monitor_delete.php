@@ -68,11 +68,7 @@ if ( user_is_anonymous( $t_user_id ) ) {
 
 bug_ensure_exists( $f_bug_id );
 
-if( $t_bug->project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_bug->project_id;
-}
+MantisContext::SetProject( $t_bug->project_id );
 
 if ( $t_logged_in_user_id == $t_user_id ) {
 	access_ensure_bug_level( config_get( 'monitor_bug_threshold' ), $f_bug_id );

@@ -27,7 +27,6 @@
  * @uses config_api.php
  * @uses constant_inc.php
  * @uses crypto_api.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
@@ -46,7 +45,6 @@ require_api( 'access_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
 require_api( 'crypto_api.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
@@ -78,12 +76,6 @@ $g_cache_anonymous_user_cookie_string = null;
 $g_cache_cookie_valid = null;
 
 /**
- *
- * @global array $g_cache_current_user_id
- */
-$g_cache_current_user_id = null;
-
-/**
  * Check that there is a user logged-in and authenticated
  * If the user's account is disabled they will be logged out
  * If there is no user logged in, redirect to the login page
@@ -97,7 +89,7 @@ function auth_ensure_user_authenticated( $p_return_page = '' ) {
 	if( auth_is_user_authenticated() ) {
 		# check for access enabled
 		#  This also makes sure the cookie is valid
-		if( OFF == current_user_get_field( 'enabled' ) ) {
+		if( OFF == user_get_field( auth_get_current_user_id(), 'enabled' ) ) {
 			print_header_redirect( 'logout_page.php' );
 		}
 	} else {
@@ -284,7 +276,7 @@ function auth_attempt_login( $p_username, $p_password, $p_perm_login = false ) {
  * @access public
  */
 function auth_attempt_script_login( $p_username, $p_password = null ) {
-	global $g_script_login_cookie, $g_cache_current_user_id;
+	global $g_script_login_cookie;
 
 	$t_user_id = user_get_id_by_name( $p_username );
 
@@ -315,7 +307,7 @@ function auth_attempt_script_login( $p_username, $p_password = null ) {
 	$g_script_login_cookie = $t_user['cookie_string'];
 
 	# cache user id for future reference
-	$g_cache_current_user_id = $t_user_id;
+	MantisContext::SetUser( $t_user_id );
 
 	return true;
 }
@@ -326,10 +318,10 @@ function auth_attempt_script_login( $p_username, $p_password = null ) {
  * @access public
  */
 function auth_logout() {
-	global $g_cache_current_user_id, $g_cache_cookie_valid;
+	global $g_cache_cookie_valid;
 
+	throw new Exception( 'todo - call 	MantisContext::POPUser( $t_user_id );');
 	# clear cached userid
-	$g_cache_current_user_id = null;
 	$g_cache_cookie_valid = null;
 
 	# clear cookies, if they were set
@@ -592,7 +584,7 @@ function auth_get_current_user_cookie( $p_login_anonymous=true ) {
 						$t_cookie = $t_row['cookie_string'];
 
 						$g_cache_anonymous_user_cookie_string = $t_cookie;
-						$g_cache_current_user_id = $t_row['id'];
+						MantisContext::SetUser( (int) $t_row['id'] );
 					}
 				}
 			} else {
@@ -722,8 +714,6 @@ function auth_reauthenticate_page( $p_user_id, $p_username ) {
  * @access public
  */
 function auth_is_cookie_valid( $p_cookie_string ) {
-	global $g_cache_current_user_id;
-
 	# fail if DB isn't accessible
 	if( !db_is_connected() ) {
 		return false;
@@ -732,11 +722,6 @@ function auth_is_cookie_valid( $p_cookie_string ) {
 	# fail if cookie is blank
 	if( '' === $p_cookie_string ) {
 		return false;
-	}
-
-	# succeeed if user has already been authenticated
-	if( null !== $g_cache_current_user_id ) {
-		return true;
 	}
 
 	# look up cookie in the database to see if it is valid
@@ -759,10 +744,9 @@ function auth_is_cookie_valid( $p_cookie_string ) {
  * @throws MantisBT\Exception\Access\AccessDenied
  */
 function auth_get_current_user_id() {
-	global $g_cache_current_user_id;
-
-	if( null !== $g_cache_current_user_id ) {
-		return $g_cache_current_user_id;
+	try {
+		MantisContext::GetUser();
+	} catch ( /*MantisBT\Exception\Context\MissingContext*/ Exception $e) {
 	}
 
 	$t_cookie_string = auth_get_current_user_cookie();
@@ -776,7 +760,7 @@ function auth_get_current_user_id() {
 		throw new MantisBT\Exception\Access\AccessDenied();
 	}
 
-	$g_cache_current_user_id = $t_user_id;
+	MantisContext::SetUser( $t_user_id );
 
 	return $t_user_id;
 }

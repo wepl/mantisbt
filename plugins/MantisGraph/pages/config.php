@@ -146,7 +146,7 @@ function print_font_checked( $p_font_name ) {
 
 <tr class="spacer"><td></td></tr>
 
-<?php if ( current_user_is_administrator() ) {?>
+<?php if ( user_is_administrator( auth_get_current_user_id() ) ) {?>
 <tr>
 	<td class="category">
 		<?php echo d___('plugin_MantisGraph', 'JpGraph library system path')?>

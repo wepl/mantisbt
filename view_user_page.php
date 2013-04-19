@@ -109,7 +109,7 @@ html_page_top();
 	<div class="field-container">
 		<span class="display-label"><span><?php echo _( 'Last Visit' ) ?></span></span>
 		<span class="display-value"><span>
-			<?php echo date( config_get( 'normal_date_format' ), current_user_get_field( 'last_visit' ) ) ?>
+			<?php echo date( config_get( 'normal_date_format' ), user_get_field( auth_get_current_user_id(), 'last_visit' ) ) ?>
 		</span></span>
 		<span class="label-style"></span>
 	</div>

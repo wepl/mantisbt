@@ -76,7 +76,7 @@ foreach( $f_bug_arr as $t_bug_id ) {
 $t_failed_ids = array();
 
 foreach( $t_projects_bugs as $t_project_id => $t_bugs ) {
-	$g_project_override = $t_project_id;
+	MantisContext::SetProject( $t_project_id );
 	foreach( $t_bugs as $t_bug_id ) {
 		$t_fail_reason = bug_group_action_validate( $f_action, $t_bug_id );
 		if( $t_fail_reason !== null ) {
@@ -89,9 +89,8 @@ foreach( $t_projects_bugs as $t_project_id => $t_bugs ) {
 			}
 		}
 	}
+	MantisContext::PopProject();
 }
-
-$g_project_override = null;
 
 form_security_purge( $t_form_name );
 

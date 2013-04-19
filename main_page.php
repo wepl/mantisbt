@@ -28,7 +28,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
  * @uses html_api.php
@@ -42,7 +41,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
@@ -65,22 +63,22 @@ if ( OFF != $t_rss_enabled && news_is_enabled() ) {
 
 html_page_top( _( 'Main' ) );
 
-if ( !current_user_is_anonymous() ) {
+if ( !user_is_anonymous( auth_get_current_user_id() ) ) {
 	$t_current_user_id = auth_get_current_user_id();
 	$t_hide_status = config_get( 'bug_resolved_status_threshold' );
 	echo '<div class="quick-summary-left">';
 	echo _( 'Open and assigned to me:' ) . _( '&#32;' );
-	print_link( "view_all_set.php?type=1&handler_id=$t_current_user_id&hide_status=$t_hide_status", current_user_get_assigned_open_bug_count(), false, 'subtle' );
+	print_link( "view_all_set.php?type=1&handler_id=$t_current_user_id&hide_status=$t_hide_status", user_get_assigned_open_bug_count(), false, 'subtle' );
 	echo '</div>';
 
 	echo '<div class="quick-summary-right">';
 	echo _( 'Open and reported by me:' ) . _( '&#32;' );
-	print_link( "view_all_set.php?type=1&reporter_id=$t_current_user_id&hide_status=$t_hide_status", current_user_get_reported_open_bug_count(), false, 'subtle' );
+	print_link( "view_all_set.php?type=1&reporter_id=$t_current_user_id&hide_status=$t_hide_status", user_get_reported_open_bug_count(), false, 'subtle' );
 	echo '</div>';
 
 	echo '<div class="quick-summary-left">';
 	echo _( 'Last Visit:' ) . _( '&#32;' );
-	echo date( config_get( 'normal_date_format' ), current_user_get_field( 'last_visit' ) );
+	echo date( config_get( 'normal_date_format' ), user_get_field( auth_get_current_user_id(), 'last_visit' ) );
 	echo '</div>';
 }
 

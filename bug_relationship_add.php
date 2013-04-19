@@ -85,11 +85,8 @@ foreach( $f_dest_bug_id_array as $f_dest_bug_id ) {
 	}
 
 	$t_bug = bug_get( $f_src_bug_id, true );
-	if( $t_bug->project_id != helper_get_current_project() ) {
-		# in case the current project is not the same project of the bug we are viewing...
-		# ... override the current project. This to avoid problems with categories and handlers lists etc.
-		$g_project_override = $t_bug->project_id;
-	}
+
+	MantisContext::SetProject( $t_bug->project_id );
 
 	# check if there is other relationship between the bugs...
 	$t_old_id_relationship = relationship_same_type_exists( $f_src_bug_id, $f_dest_bug_id, $f_rel_type );

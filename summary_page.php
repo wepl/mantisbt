@@ -52,8 +52,7 @@ require_api( 'user_api.php' );
 
 $f_project_id = gpc_get_int( 'project_id', helper_get_current_project() );
 
-# Override the current page to make sure we get the appropriate project-specific configuration
-$g_project_override = $f_project_id;
+MantisContext::SetProject( $f_project_id );
 
 access_ensure_project_level( config_get( 'view_summary_threshold' ) );
 

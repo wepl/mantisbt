@@ -30,7 +30,6 @@
  * @uses config_api.php
  * @uses collapse_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses custom_field_api.php
  * @uses database_api.php
  * @uses email_api.php
@@ -58,7 +57,6 @@ require_api( 'category_api.php' );
 require_api( 'config_api.php' );
 require_api( 'collapse_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'database_api.php' );
 require_api( 'email_api.php' );
@@ -510,7 +508,7 @@ function print_assign_to_option_list( $p_user_id = '', $p_project_id = null, $p_
  * @return void
  */
 function print_project_option_list( $p_project_id = null, $p_include_all_projects = true, $p_filter_project_id = null, $p_trace = false ) {
-	$t_project_ids = current_user_get_accessible_projects();
+	$t_project_ids = user_get_accessible_projects( auth_get_current_user_id() );
 	project_cache_array_rows( $t_project_ids );
 
 	if( $p_include_all_projects ) {
@@ -541,7 +539,7 @@ function print_project_option_list( $p_project_id = null, $p_include_all_project
  */
 function print_subproject_option_list( $p_parent_id, $p_project_id = null, $p_filter_project_id = null, $p_trace = false, $p_parents = array() ) {
 	array_push( $p_parents, $p_parent_id );
-	$t_project_ids = current_user_get_accessible_subprojects( $p_parent_id );
+	$t_project_ids = user_get_accessible_subprojects( auth_get_current_user_id(), $p_parent_id );
 	$t_project_count = count( $t_project_ids );
 	for( $i = 0;$i < $t_project_count;$i++ ) {
 		$t_full_id = $t_id = $t_project_ids[$i];

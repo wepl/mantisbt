@@ -28,7 +28,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses html_api.php
@@ -41,7 +40,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'html_api.php' );
@@ -54,7 +52,7 @@ if ( !config_get( 'enable_profiles' ) ) {
 
 auth_ensure_user_authenticated();
 
-current_user_ensure_unprotected();
+user_ensure_unprotected();
 
 $f_profile_id	= gpc_get_int( 'profile_id' );
 

@@ -25,7 +25,6 @@
  * @uses core.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses filter_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
@@ -40,7 +39,6 @@
 require_once( 'core.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'filter_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
@@ -66,7 +64,7 @@ if ( ALL_PROJECTS != $t_bottom ) {
 
 # Set default project
 if ( $f_make_default ) {
-	current_user_set_default_project( $t_top );
+	user_set_default_project( auth_get_current_user_id(), $t_top );
 }
 
 helper_set_current_project( $f_project_id );

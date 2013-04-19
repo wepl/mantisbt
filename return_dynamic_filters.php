@@ -58,7 +58,7 @@ if( $t_filter === false ) {
 	$t_filter = filter_get_default();
 }
 $t_project_id = helper_get_current_project();
-$t_current_user_access_level = current_user_get_access_level();
+$t_current_user_access_level = user_get_access_level();
 $t_accessible_custom_fields_ids = array();
 $t_accessible_custom_fields_names = array();
 $t_accessible_custom_fields_types = array();

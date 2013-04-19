@@ -31,7 +31,6 @@
  * @uses collapse_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses event_api.php
  * @uses helper_api.php
@@ -54,7 +53,6 @@ require_api( 'bugnote_api.php' );
 require_api( 'collapse_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'event_api.php' );
 require_api( 'helper_api.php' );
@@ -70,7 +68,7 @@ $t_user_id = auth_get_current_user_id();
 access_cache_matrix_project( helper_get_current_project() );
 
 # get the bugnote data
-$t_bugnote_order = current_user_get_pref( 'bugnote_order' );
+$t_bugnote_order = user_pref_get_pref( auth_get_current_user_id(), 'bugnote_order' );
 $t_bug = bug_get( $f_bug_id );
 $t_bugnotes = bugnote_get_all_visible_bugnotes( $t_bug, $t_bugnote_order, 0, $t_user_id );
 

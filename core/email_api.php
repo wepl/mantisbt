@@ -30,7 +30,6 @@
  * @uses category_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses custom_field_api.php
  * @uses database_api.php
  * @uses email_queue_api.php
@@ -54,7 +53,6 @@ require_api( 'bugnote_api.php' );
 require_api( 'category_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'database_api.php' );
 require_api( 'email_queue_api.php' );
@@ -1036,7 +1034,7 @@ function email_bug_reminder( $p_recipients, $p_bug_id, $p_message ) {
 		$result[] = user_get_name( $t_recipient );
 
 		if( access_has_project_level( config_get( 'show_user_email_threshold' ), $t_project_id, $t_recipient ) ) {
-			$t_sender_email = ' <' . current_user_get_field( 'email' ) . '>';
+			$t_sender_email = ' <' . user_get_field( auth_get_current_user_id(), 'email' ) . '>';
 		} else {
 			$t_sender_email = '';
 		}

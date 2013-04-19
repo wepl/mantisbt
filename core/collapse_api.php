@@ -26,7 +26,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses gpc_api.php
  * @uses tokens_api.php
  * @uses utility_api.php
@@ -35,7 +34,6 @@
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'tokens_api.php' );
 require_api( 'utility_api.php' );
@@ -195,7 +193,7 @@ function collapse_display( $p_block ) {
 function collapse_cache_token() {
 	global $g_collapse_cache_token;
 
-	if( !auth_is_user_authenticated() || current_user_is_anonymous() ) {
+	if( !auth_is_user_authenticated() || user_is_anonymous( auth_get_current_user_id() ) ) {
 		$g_collapse_cache_token = array();
 		return;
 	}

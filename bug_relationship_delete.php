@@ -61,11 +61,8 @@ $f_rel_id = gpc_get_int( 'rel_id' );
 $f_bug_id = gpc_get_int( 'bug_id' );
 
 $t_bug = bug_get( $f_bug_id, true );
-if( $t_bug->project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_bug->project_id;
-}
+
+MantisContext::SetProject( $t_bug->project_id );
 
 # user has access to update the bug...
 access_ensure_bug_level( config_get( 'update_bug_threshold' ), $f_bug_id );

@@ -26,7 +26,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
@@ -41,7 +40,6 @@ require_once( '../core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
@@ -57,7 +55,7 @@ html_page_top( _( 'Workflow Transitions' ) );
 print_manage_menu( 'adm_permissions_report.php' );
 print_manage_config_menu( 'manage_config_workflow_page.php' );
 
-$t_access = current_user_get_access_level();
+$t_access = user_get_access_level();
 $t_project = helper_get_current_project();
 $t_can_change_workflow = $t_access >= config_get_access( 'status_enum_workflow' );
 $t_can_change_flags = $t_can_change_workflow;

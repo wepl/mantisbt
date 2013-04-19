@@ -88,12 +88,8 @@ if ( $t_multiple_projects ) {
 	$t_project_id = ALL_PROJECTS;
 	$t_projects[ALL_PROJECTS] = ALL_PROJECTS;
 }
-# override the project if necessary
-if( $t_project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_project_id;
-}
+
+MantisContext::SetProject( $t_project_id );
 
 define( 'BUG_ACTIONGROUP_INC_ALLOW', true );
 

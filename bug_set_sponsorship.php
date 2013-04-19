@@ -28,7 +28,6 @@
  * @uses bug_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
@@ -45,7 +44,6 @@ require_api( 'authentication_api.php' );
 require_api( 'bug_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
@@ -57,7 +55,7 @@ require_api( 'utility_api.php' );
 form_security_validate( 'bug_set_sponsorship' );
 
 # anonymous users are not allowed to sponsor issues
-if ( current_user_is_anonymous() ) {
+if ( user_is_anonymous( auth_get_current_user_id() ) ) {
 	throw new MantisBT\Exception\Access\AccessDenied();
 }
 
@@ -65,11 +63,8 @@ $f_bug_id	= gpc_get_int( 'bug_id' );
 $f_amount	= gpc_get_int( 'amount' );
 
 $t_bug = bug_get( $f_bug_id, true );
-if( $t_bug->project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_bug->project_id;
-}
+
+MantisContext::SetProject( $t_bug->project_id );
 
 if ( config_get( 'enable_sponsorship' ) == OFF ) {
     throw new MantisBT\Exception\Sponsorship\SponsorshipDisabled();

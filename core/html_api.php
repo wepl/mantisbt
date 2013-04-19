@@ -377,7 +377,7 @@ function html_meta_redirect( $p_url, $p_time = null, $p_sanitize = true ) {
 	}
 
 	if( null === $p_time ) {
-		$p_time = current_user_get_pref( 'redirect_delay' );
+		$p_time = user_pref_get_pref( auth_get_current_user_id(), 'redirect_delay' );
 	}
 
 	$t_url = config_get( 'path' );
@@ -481,13 +481,13 @@ function html_top_banner() {
  * @return null
  */
 function html_login_info() {
-	$t_username = current_user_get_field( 'username' );
-	$t_access_level = get_enum_element( 'access_levels', current_user_get_access_level() );
+	$t_username = user_get_field( auth_get_current_user_id(), 'username' );
+	$t_access_level = get_enum_element( 'access_levels', user_get_access_level() );
 	$t_now = date( config_get( 'complete_date_format' ) );
-	$t_realname = current_user_get_field( 'realname' );
+	$t_realname = user_get_field( auth_get_current_user_id(), 'realname' );
 
 	echo '<div id="login-info">' . "\n";
-	if( current_user_is_anonymous() ) {
+	if( user_is_anonymous( auth_get_current_user_id() ) ) {
 		$t_return_page = $_SERVER['SCRIPT_NAME'];
 		if( isset( $_SERVER['QUERY_STRING'] ) ) {
 			$t_return_page .= '?' . $_SERVER['QUERY_STRING'];
@@ -512,12 +512,12 @@ function html_login_info() {
 
 
 	$t_show_project_selector = true;
-	if( count( current_user_get_accessible_projects() ) == 1 ) {
+	if( count( user_get_accessible_projects( auth_get_current_user_id() ) ) == 1 ) {
 
 		// >1
-		$t_project_ids = current_user_get_accessible_projects();
+		$t_project_ids = user_get_accessible_projects( auth_get_current_user_id() );
 		$t_project_id = (int) $t_project_ids[0];
-		if( count( current_user_get_accessible_subprojects( $t_project_id ) ) == 0 ) {
+		if( count( user_get_accessible_subprojects( auth_get_current_user_id(), $t_project_id ) ) == 0 ) {
 			$t_show_project_selector = false;
 		}
 	}
@@ -575,7 +575,7 @@ function html_footer( $p_file = null ) {
 	#  2) we don't invalidate the user cache immediately after fetching it
 	#  3) don't do this on the password verification or update page, as it causes the
 	#    verification comparison to fail
-	if ( auth_is_user_authenticated() && !current_user_is_anonymous() && !( is_page_name( 'verify.php' ) || is_page_name( 'account_update.php' ) ) ) {
+	if ( auth_is_user_authenticated() && !user_is_anonymous( auth_get_current_user_id() ) && !( is_page_name( 'verify.php' ) || is_page_name( 'account_update.php' ) ) ) {
 		$t_user_id = auth_get_current_user_id();
 		user_update_last_visit( $t_user_id );
 	}
@@ -695,7 +695,7 @@ function prepare_custom_menu_options( $p_config ) {
  */
 function print_menu() {
 	if( auth_is_user_authenticated() ) {
-		$t_protected = current_user_get_field( 'protected' );
+		$t_protected = user_get_field( auth_get_current_user_id(), 'protected' );
 		$t_current_project = helper_get_current_project();
 
 		$t_menu_options = array();
@@ -794,7 +794,7 @@ function print_menu() {
 		if ( news_is_enabled() && access_has_project_level( config_get( 'manage_news_threshold' ) ) ) {
 
 			# Admin can edit news for All Projects (site-wide)
-			if( ALL_PROJECTS != helper_get_current_project() || current_user_is_administrator() ) {
+			if( ALL_PROJECTS != helper_get_current_project() || user_is_administrator( auth_get_current_user_id() ) ) {
 				$t_menu_options[] = '<a href="' . helper_mantis_url( 'news_menu_page.php">' ) . _( 'Edit News' ) . '</a>';
 			} else {
 				$t_menu_options[] = '<a href="' . helper_mantis_url( 'login_select_proj_page.php">' ) . _( 'Edit News' ) . '</a>';
@@ -814,7 +814,7 @@ function print_menu() {
 		}
 
 		# Logout (no if anonymously logged in)
-		if( !current_user_is_anonymous() ) {
+		if( !user_is_anonymous( auth_get_current_user_id() ) ) {
 			$t_menu_options[] = '<a id="logout-link" href="' . helper_mantis_url( 'logout_page.php">' ) . _( 'Logout' ) . '</a>';
 		}
 		echo '<form method="get" action="' . helper_mantis_url( 'view.php" class="bug-jump-form">' );
@@ -842,7 +842,7 @@ function print_menu() {
  * @return null
  */
 function print_project_menu_bar() {
-	$t_project_ids = current_user_get_accessible_projects();
+	$t_project_ids = user_get_accessible_projects( auth_get_current_user_id() );
 
 	echo '<table class="width100" cellspacing="0">';
 	echo '<tr>';
@@ -867,7 +867,7 @@ function print_project_menu_bar() {
  * @return null
  */
 function print_subproject_menu_bar( $p_project_id, $p_parents = '' ) {
-	$t_subprojects = current_user_get_accessible_subprojects( $p_project_id );
+	$t_subprojects = user_get_accessible_subprojects( auth_get_current_user_id(), $p_project_id );
 	$t_char = ':';
 	foreach( $t_subprojects as $t_subproject ) {
 		echo $t_char . ' <a href="' . helper_mantis_url( 'set_project.php?project_id=' . $p_parents . $t_subproject ) . '">' . string_html_specialchars( project_get_field( $t_subproject, 'name' ) ) . '</a>';
@@ -1071,7 +1071,7 @@ function print_account_menu( $p_page = '' ) {
 		$t_pages['account_prof_menu_page.php'] = array( 'url'=>'account_prof_menu_page.php', 'label' => _('Profiles') );
 	}
 
-	if( config_get( 'enable_sponsorship' ) == ON && access_has_project_level( config_get( 'view_sponsorship_total_threshold' ) ) && !current_user_is_anonymous() ) {
+	if( config_get( 'enable_sponsorship' ) == ON && access_has_project_level( config_get( 'view_sponsorship_total_threshold' ) ) && !user_is_anonymous( auth_get_current_user_id() ) ) {
 		$t_pages['account_sponsor_page.php'] = array( 'url'=>'account_sponsor_page.php', 'label' => _('My Sponsorships') );
 	}
 
@@ -1621,7 +1621,7 @@ function html_buttons_view_bug_page( $p_bug ) {
 	}
 
 	# MONITOR/UNMONITOR button
-	if( !current_user_is_anonymous() ) {
+	if( !user_is_anonymous( auth_get_current_user_id() ) ) {
 		echo '<td class="center">';
 		if( user_is_monitoring_bug( auth_get_current_user_id(), $p_bug_id ) ) {
 			html_button_bug_unmonitor( $p_bug );

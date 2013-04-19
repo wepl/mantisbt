@@ -92,13 +92,10 @@ foreach( $f_bug_arr as $t_bug_id ) {
 	bug_ensure_exists( $t_bug_id );
 	$t_bug = bug_get( $t_bug_id, true );
 
-	if( $t_bug->project_id != helper_get_current_project() ) {
-		# in case the current project is not the same project of the bug we are viewing...
-		# ... override the current project. This to avoid problems with categories and handlers lists etc.
-		$g_project_override = $t_bug->project_id;
-		/** @todo (thraxisp) the next line goes away if the cache was smarter and used project */
-		config_flush_cache(); # flush the config cache so that configs are refetched
-	}
+	MantisContext::SetProject( $t_bug->project_id );
+	/** @todo (thraxisp) the next line goes away if the cache was smarter and used project */
+	// @TODO ?!!!?
+	config_flush_cache(); # flush the config cache so that configs are refetched
 
 	$t_status = $t_bug->status;
 

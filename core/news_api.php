@@ -27,7 +27,6 @@
  * @uses access_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses helper_api.php
 
@@ -38,7 +37,6 @@
 require_api( 'access_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'twitter_api.php' );
@@ -196,7 +194,7 @@ function news_get_count( $p_project_id, $p_global = true ) {
  * @return array Array of news articles
  */
 function news_get_rows( $p_project_id, $p_global = true ) {
-	$t_projects = current_user_get_all_accessible_subprojects( $p_project_id );
+	$t_projects = user_get_all_accessible_subprojects( auth_get_current_user_id(), $p_project_id );
 	$t_projects[] = (int)$p_project_id;
 
 	if( $p_global && ALL_PROJECTS != $p_project_id ) {
@@ -262,7 +260,7 @@ function news_get_limited_rows( $p_offset, $p_project_id = null ) {
 
 	$c_offset = (int)$p_offset;
 
-	$t_projects = current_user_get_all_accessible_subprojects( $p_project_id );
+	$t_projects = user_get_all_accessible_subprojects( auth_get_current_user_id(), $p_project_id );
 	$t_projects[] = (int)$p_project_id;
 	if( ALL_PROJECTS != $p_project_id ) {
 		$t_projects[] = ALL_PROJECTS;

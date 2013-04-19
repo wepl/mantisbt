@@ -31,7 +31,6 @@
  * @uses compress_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses custom_field_api.php
  * @uses date_api.php
  * @uses event_api.php
@@ -61,7 +60,6 @@ require_api( 'columns_api.php' );
 require_api( 'compress_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'date_api.php' );
 require_api( 'event_api.php' );
@@ -84,10 +82,7 @@ bug_ensure_exists( $f_bug_id );
 
 $tpl_bug = bug_get( $f_bug_id, true );
 
-# In case the current project is not the same project of the bug we are
-# viewing, override the current project. This ensures all config_get and other
-# per-project function calls use the project ID of this bug.
-$g_project_override = $tpl_bug->project_id;
+MantisContext::SetProject( $tpl_bug->project_id );
 
 access_ensure_bug_level( VIEWER, $f_bug_id );
 
@@ -150,7 +145,7 @@ if ( access_has_bug_level( config_get( 'view_history_threshold' ), $f_bug_id ) )
 	$tpl_history_link = '';
 }
 
-$tpl_show_reminder_link = !current_user_is_anonymous() && !bug_is_readonly( $f_bug_id ) &&
+$tpl_show_reminder_link = !user_is_anonymous( auth_get_current_user_id() ) && !bug_is_readonly( $f_bug_id ) &&
 	  access_has_bug_level( config_get( 'bug_reminder_threshold' ), $f_bug_id );
 $tpl_bug_reminder_link = 'bug_reminder_page.php?bug_id=' . $f_bug_id;
 
@@ -757,7 +752,7 @@ if ( $tpl_show_monitor_box ) {
 }
 
 # Bugnotes and "Add Note" box
-if ( 'ASC' == current_user_get_pref( 'bugnote_order' ) ) {
+if ( 'ASC' == user_pref_get_pref( auth_get_current_user_id(), 'bugnote_order' ) ) {
 	define( 'BUGNOTE_VIEW_INC_ALLOW', true );
 	include( $tpl_mantis_dir . 'bugnote_view_inc.php' );
 

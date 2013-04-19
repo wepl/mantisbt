@@ -28,7 +28,6 @@
  * @uses columns_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses print_api.php
@@ -40,7 +39,6 @@ require_api( 'authentication_api.php' );
 require_api( 'columns_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'print_api.php' );
@@ -66,7 +64,7 @@ if ( $f_copy_from ) {
 }
 
 # only admins can set global defaults.for ALL_PROJECT
-if ( $f_manage_page && $t_dst_project_id == ALL_PROJECTS && !current_user_is_administrator() ) {
+if ( $f_manage_page && $t_dst_project_id == ALL_PROJECTS && !user_is_administrator( auth_get_current_user_id() ) ) {
 	throw new MantisBT\Exception\Access\AccessDenied();
 }
 

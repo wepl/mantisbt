@@ -46,7 +46,7 @@ require_css( 'status_config.php' );
  * @throws MantisBT\Exception\UnknownException
  */
 function bug_group_action_init( $p_action ) {
-	$t_valid_actions = bug_group_action_get_commands( current_user_get_accessible_projects() );
+	$t_valid_actions = bug_group_action_get_commands( user_get_accessible_projects( auth_get_current_user_id() ) );
 	$t_action = strtoupper($p_action);
 
 	if( !isset( $t_valid_actions[$t_action] ) &&

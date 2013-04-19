@@ -46,7 +46,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses helper_api.php
  * @uses html_api.php
@@ -61,7 +60,6 @@ require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
 require_api( 'html_api.php' );
@@ -74,7 +72,7 @@ require_api( 'utility_api.php' );
 #============ Permissions ============
 auth_ensure_user_authenticated();
 
-current_user_ensure_unprotected();
+user_ensure_unprotected();
 
 # extracts the user information for the currently logged in user
 # and prefixes it with u_
@@ -188,7 +186,7 @@ if ( $t_force_pw_reset ) {
 			</div>
 			<div class="field-container">
 				<span class="display-label"><span><?php echo _( 'Project Access Level' ) ?></span></span>
-				<span class="input"><span class="field-value"><?php echo get_enum_element( 'access_levels', current_user_get_access_level() ); ?></span></span>
+				<span class="input"><span class="field-value"><?php echo get_enum_element( 'access_levels', user_get_access_level() ); ?></span></span>
 				<span class="label-style"></span>
 			</div>
 			<?php

@@ -25,7 +25,6 @@
  * @uses authentication_api.php
  * @uses columns_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses file_api.php
  * @uses form_api.php
  * @uses helper_api.php
@@ -42,7 +41,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'columns_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'file_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
@@ -117,7 +115,7 @@ $t_export_issues = implode( ', ', $t_columns );
 			}
 		}
 
-		if ( $t_manage_page && current_user_is_administrator() ) { ?>
+		if ( $t_manage_page && user_is_administrator( auth_get_current_user_id() ) ) { ?>
 			<span class="submit-button"><input <?php echo helper_get_tab_index() ?> type="submit" class="button" name="update_columns_as_global_default" value="<?php echo _( 'Update Columns as Global Default for All Projects' ) ?>" /></span><?php
 		} ?>
 		</fieldset>
@@ -136,7 +134,7 @@ $t_export_issues = implode( ', ', $t_columns );
 			</select>
 
 			<?php # Skip "Copy From" if the current project is ALL PROJECTS, the current page is management page, and the user is not administrator
-			if ( !$t_manage_page || ( $t_project_id != ALL_PROJECTS ) || current_user_is_administrator() ) { ?>
+			if ( !$t_manage_page || ( $t_project_id != ALL_PROJECTS ) || user_is_administrator( auth_get_current_user_id() ) ) { ?>
 			<input type="submit" name="copy_from" class="button" value="<?php echo _( 'Copy Columns From' ) ?>" /><?php
 			} ?>
 			<input type="submit" name="copy_to" class="button" value="<?php echo _( 'Copy Columns To' ) ?>" />

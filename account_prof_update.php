@@ -28,7 +28,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses print_api.php
@@ -40,7 +39,6 @@ require_api( 'access_api.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'print_api.php' );
@@ -54,7 +52,7 @@ form_security_validate('profile_update');
 
 auth_ensure_user_authenticated();
 
-current_user_ensure_unprotected();
+user_ensure_unprotected();
 
 $f_action = gpc_get_string('action');
 
@@ -129,7 +127,7 @@ switch ( $f_action ) {
 
 	case 'make_default':
 		$f_profile_id = gpc_get_int( 'profile_id' );
-		current_user_set_pref( 'default_profile', $f_profile_id );
+		user_pref_set_pref( auth_get_current_user_id(), 'default_profile', $f_profile_id );
 		form_security_purge('profile_update');
 		print_header_redirect( 'account_prof_menu_page.php' );
 		break;

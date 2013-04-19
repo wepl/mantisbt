@@ -641,7 +641,7 @@ function project_get_all_user_rows( $p_project_id = ALL_PROJECTS, $p_access_leve
 function project_add_user( $p_project_id, $p_user_id, $p_access_level ) {
 	if( DEFAULT_ACCESS_LEVEL == $p_access_level ) {
 		# Default access level for this user
-		$c_access_level = (int)( user_get_access_level( $p_user_id ) );
+		$c_access_level = (int)( user_get_access_level( $p_user_id, ALL_PROJECTS ) );
 	}
 
 	$t_query = "INSERT INTO {project_user_list} ( project_id, user_id, access_level ) VALUES ( %d, %d, %d)";

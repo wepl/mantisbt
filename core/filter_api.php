@@ -2080,7 +2080,7 @@ function filter_draw_selection_area2( $p_page_number, $p_for_screen = true, $p_e
 		<?php
 		$t_custom_cols = $t_filter_cols;
 
-		$t_current_user_access_level = current_user_get_access_level();
+		$t_current_user_access_level = user_get_access_level();
 		$t_accessible_custom_fields_ids = array();
 		$t_accessible_custom_fields_names = array();
 		$t_accessible_custom_fields_values = array();

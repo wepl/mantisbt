@@ -28,7 +28,6 @@
  * @uses category_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses custom_field_api.php
  * @uses date_api.php
  * @uses event_api.php
@@ -53,7 +52,6 @@ require_api( 'authentication_api.php' );
 require_api( 'category_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'custom_field_api.php' );
 require_api( 'date_api.php' );
 require_api( 'event_api.php' );
@@ -195,7 +193,7 @@ if ( access_has_global_level ( config_get( 'delete_project_threshold' ) ) ) { ?>
 		</form>
 	<?php
 
-	$t_subproject_ids = current_user_get_accessible_subprojects( $f_project_id, /* show_disabled */ true );
+	$t_subproject_ids = user_get_accessible_subprojects( auth_get_current_user_id(), $f_project_id, /* show_disabled */ true );
 	if ( array() != $t_subproject_ids ) { ?>
 	<form id="manage-project-update-subprojects-form" action="proj_update_children.php" method="post">
 		<fieldset>

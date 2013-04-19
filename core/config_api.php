@@ -70,7 +70,7 @@ $g_cache_config_project = null;
  */
 function config_get( $p_option, $p_default = null, $p_user = null, $p_project = null ) {
 	global $g_cache_config, $g_cache_config_access, $g_cache_db_table_exists, $g_cache_filled;
-	global $g_cache_config_user, $g_cache_config_project, $g_project_override;
+	global $g_cache_config_user, $g_cache_config_project;
 
 	# @@ debug @@ echo "lu o=$p_option ";
 	# bypass table lookup for certain options
@@ -79,9 +79,6 @@ function config_get( $p_option, $p_default = null, $p_user = null, $p_project = 
 	# @@ debug @@ if ($t_bypass_lookup) { echo "bp=$p_option match=$t_match_pattern <br />"; }
 
 	if( !$t_bypass_lookup ) {
-		if( $g_project_override != null && $p_project == null ) {
-			$p_project = $g_project_override;
-		}
 		# @@ debug @@ if ( ! db_is_connected() ) { echo "no db "; }
 		if( !$g_cache_db_table_exists ) {
 			$g_cache_db_table_exists = ( TRUE === db_is_connected() ) && db_table_exists( '{config}' );

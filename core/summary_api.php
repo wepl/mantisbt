@@ -28,7 +28,6 @@
  * @uses bug_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses filter_constants_inc.php
  * @uses helper_api.php
@@ -43,7 +42,6 @@ require_api( 'authentication_api.php' );
 require_api( 'bug_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'filter_constants_inc.php' );
 require_api( 'helper_api.php' );
@@ -724,7 +722,7 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 
 	if( null == $p_projects ) {
 		if( ALL_PROJECTS == $t_project_id ) {
-			$p_projects = current_user_get_accessible_projects();
+			$p_projects = user_get_accessible_projects( auth_get_current_user_id() );
 		} else {
 			$p_projects = array(
 				$t_project_id,
@@ -781,7 +779,7 @@ function summary_print_by_project( $p_projects = null, $p_level = 0, $p_cache = 
 		summary_helper_print_row( $t_name, $t_bugs_open, $t_bugs_resolved, $t_bugs_closed, $t_bugs_total );
 
 		if ( count( project_hierarchy_get_subprojects ( $t_project ) ) > 0 ) {
-			$t_subprojects = current_user_get_accessible_subprojects( $t_project );
+			$t_subprojects = user_get_accessible_subprojects( auth_get_current_user_id(), $t_project );
 
 			if( count( $t_subprojects ) > 0 ) {
 				summary_print_by_project( $t_subprojects, $p_level + 1, $p_cache );

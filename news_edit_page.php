@@ -24,7 +24,6 @@
  * @uses core.php
  * @uses access_api.php
  * @uses config_api.php
- * @uses current_user_api.php
  * @uses form_api.php
  * @uses gpc_api.php
  * @uses helper_api.php
@@ -39,7 +38,6 @@
 require_once( 'core.php' );
 require_api( 'access_api.php' );
 require_api( 'config_api.php' );
-require_api( 'current_user_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
 require_api( 'helper_api.php' );
@@ -112,7 +110,7 @@ html_page_top( _( 'Edit News' ) );
 				<span class="select">
 					<select name="project_id"><?php
 						$t_sitewide = false;
-						if ( current_user_is_administrator() ) {
+						if ( user_is_administrator( auth_get_current_user_id() ) ) {
 							$t_sitewide = true;
 						}
 						print_project_option_list( $v_project_id, $t_sitewide ); ?>

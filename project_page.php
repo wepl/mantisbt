@@ -57,8 +57,7 @@ if ( $f_project_id == ALL_PROJECTS ) {
 	exit;
 }
 
-# Override the current page to make sure we get the appropriate project-specific configuration
-$g_project_override = $f_project_id;
+MantisContext::SetProject( $f_project_id );
 
 html_page_top( project_get_field( $f_project_id, 'name' ) );
 

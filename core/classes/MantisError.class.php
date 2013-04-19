@@ -194,7 +194,7 @@ class MantisError
 		echo '<head><title>Error Page</title>';
 		echo '<style>table.width70		{ width: 70%;  border: solid 1px #000000; }</style></head><body>';
 		if( function_exists( 'helper_mantis_url' ) ) {
-			echo '<p align="center"><img src="' . helper_mantis_url( 'themes/' . config_get( 'theme' ) . '/images/logo.png' ) . '" /></p>';
+			echo '<p align="center"><img src="' . helper_mantis_url( 'themes/' . config_get_global( 'theme' ) . '/images/logo.png' ) . '" /></p>';
 		}
 		echo '<hr />';
 

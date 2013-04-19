@@ -28,7 +28,6 @@
  * @uses authentication_api.php
  * @uses config_api.php
  * @uses constant_inc.php
- * @uses current_user_api.php
  * @uses email_api.php
  * @uses form_api.php
  * @uses gpc_api.php
@@ -43,7 +42,6 @@ require_once( 'core.php' );
 require_api( 'authentication_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'email_api.php' );
 require_api( 'form_api.php' );
 require_api( 'gpc_api.php' );
@@ -57,7 +55,7 @@ form_security_validate('account_update');
 
 auth_ensure_user_authenticated();
 
-current_user_ensure_unprotected();
+user_ensure_unprotected();
 
 $f_email           	= gpc_get_string( 'email', '' );
 $f_realname        	= gpc_get_string( 'realname', '' );

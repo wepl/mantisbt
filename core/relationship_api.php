@@ -69,7 +69,6 @@
  * @uses collapse_api.php
  * @uses config_api.php
  * @uses constant_api.php
- * @uses current_user_api.php
  * @uses database_api.php
  * @uses form_api.php
  * @uses helper_api.php
@@ -85,7 +84,6 @@ require_api( 'bug_api.php' );
 require_api( 'collapse_api.php' );
 require_api( 'config_api.php' );
 require_api( 'constant_inc.php' );
-require_api( 'current_user_api.php' );
 require_api( 'database_api.php' );
 require_api( 'form_api.php' );
 require_api( 'helper_api.php' );
@@ -620,7 +618,7 @@ function relationship_get_details( $p_bug_id, $p_relationship, $p_html = false, 
 		}
 
 		# add delete link if bug not read only and user has access level
-		if( !bug_is_readonly( $p_bug_id ) && !current_user_is_anonymous() && ( $p_html_preview == false ) ) {
+		if( !bug_is_readonly( $p_bug_id ) && !user_is_anonymous( auth_get_current_user_id()  ) && ( $p_html_preview == false ) ) {
 			if( access_has_bug_level( config_get( 'update_bug_threshold' ), $p_bug_id ) ) {
 				$t_relationship_info .= ' [<a class="small" href="bug_relationship_delete.php?bug_id=' . $p_bug_id . '&amp;rel_id=' . $p_relationship->id . htmlspecialchars( form_security_param( 'bug_relationship_delete' ) ) . '">' . _( 'Delete' ) . '</a>]';
 			}

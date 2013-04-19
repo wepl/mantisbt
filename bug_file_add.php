@@ -60,11 +60,7 @@ if ( $f_bug_id == -1 && $f_file	== -1 ) {
 form_security_validate( 'bug_file_add' );
 
 $t_bug = bug_get( $f_bug_id, true );
-if( $t_bug->project_id != helper_get_current_project() ) {
-	# in case the current project is not the same project of the bug we are viewing...
-	# ... override the current project. This to avoid problems with categories and handlers lists etc.
-	$g_project_override = $t_bug->project_id;
-}
+MantisContext::SetProject( $t_bug->project_id );
 
 if ( !file_allow_bug_upload( $t_bug ) ) {
 	throw new MantisBT\Exception\Access\AccessDenied();
