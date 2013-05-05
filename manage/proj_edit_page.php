@@ -496,7 +496,7 @@ event_signal( 'EVENT_MANAGE_PROJECT_PAGE', array( $f_project_id ) );
 	foreach ( $t_users as $t_user ) {
 		$t_user_name = string_attribute( $t_user['username'] );
 		$t_sort_name = mb_strtolower( $t_user_name );
-		if ( ( isset( $t_user['realname'] ) ) && ( $t_user['realname'] > "" ) && ( access_has_project_level( config_get( 'show_user_realname_threshold', null, null, $f_project_id ), $f_project_id ) ) {
+		if ( ( isset( $t_user['realname'] ) ) && ( $t_user['realname'] > "" ) && ( access_has_project_level( config_get( 'show_user_realname_threshold', null, null, $f_project_id ), $f_project_id ) ) ) {
 			$t_user_name = string_attribute( $t_user['realname'] ) . " (" . $t_user_name . ")";
 			if ( ON == config_get( 'sort_by_last_name') ) {
 				$t_sort_name_bits = explode( ' ', mb_strtolower( $t_user_name ), 2 );
