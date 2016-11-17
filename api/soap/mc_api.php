@@ -476,7 +476,13 @@ function mci_user_get_accessible_subprojects( $p_user_id, $p_parent_project_id, 
 	return $t_result;
 }
 
-# Gets the name/id of all sub-projects that are accessible to the specified user / project.
+/**
+ * Gets the name/id of all sub-projects that are accessible to the specified user / project.
+ * @param integer $p_user_id           User id.
+ * @param integer $p_parent_project_id Parent Project id.
+ * @param string  $p_lang              Language string.
+ * @return array
+ */
 function mci_user_get_names_accessible_subprojects( $p_user_id, $p_parent_project_id ) {
 	$t_result = array();
 	foreach( user_get_accessible_subprojects( $p_user_id, $p_parent_project_id ) as $t_subproject_id ) {

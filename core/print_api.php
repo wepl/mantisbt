@@ -1954,7 +1954,9 @@ function print_bug_attachment_preview_text( array $p_attachment ) {
 		default:
 			trigger_error( ERROR_GENERIC, ERROR );
 	}
-	echo htmlspecialchars( $t_content );
+ 	/* transform AmigaCLI sequences to HTML */
+ 	$t_content = preg_replace( '/(\x9b|&#155;|\xc2\x3f)1m/', '<b>', htmlspecialchars($t_content) );
+ 	echo         preg_replace( '/(\x9b|&#155;|\xc2\x3f)22m/', '</b>', $t_content );
 	echo '</pre>';
 }
 

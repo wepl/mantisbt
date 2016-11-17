@@ -525,6 +525,8 @@ class BugData {
 		# Check if bug was pre-assigned or auto-assigned.
 		$t_status = bug_get_status_for_assign( NO_USER, $this->handler_id, $this->status);
 
+		$c_date_submitted = !is_blank( $this->date_submitted ) ? $this->date_submitted : db_now();
+
 		# Insert the rest of the data
 		db_param_push();
 		$t_query = 'INSERT INTO {bug}
