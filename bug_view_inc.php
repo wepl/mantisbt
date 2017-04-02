@@ -424,6 +424,13 @@ if( $t_show_handler || $t_show_due_date ) {
 		$t_spacer += 2;
 	}
 
+	# Project Info
+	echo '<td class="category">Project Info</td>';
+	echo '<td colspan="3">';
+	echo string_display_links(project_get_field( $t_bug->project_id, 'description' ));
+	echo '</td>';
+	$t_spacer += 4;
+
 	echo '<td colspan="', $t_spacer, '">&#160;</td>';
 	echo '</tr>';
 }
