@@ -1955,7 +1955,8 @@ function print_bug_attachment_preview_text( array $p_attachment ) {
 			trigger_error( ERROR_GENERIC, ERROR );
 	}
  	/* transform AmigaCLI sequences to HTML */
- 	$t_content = preg_replace( '/(\x9b|&#155;|\xc2\x3f)1m/', '<b>', htmlspecialchars($t_content) );
+        $t_content = htmlspecialchars($t_content, ENT_NOQUOTES, 'ISO-8859-15');
+        $t_content = preg_replace( '/(\x9b|&#155;|\xc2\x3f)1m/', '<b>', $t_content );
  	echo         preg_replace( '/(\x9b|&#155;|\xc2\x3f)22m/', '</b>', $t_content );
 	echo '</pre>';
 }
